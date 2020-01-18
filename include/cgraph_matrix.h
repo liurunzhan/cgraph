@@ -11,7 +11,7 @@ typedef struct
 {
   cgraph_size_t row, column, size;
   cgraph_type_t type;
-  cgraph_boolean_t *visited;
+  cgraph_boolean_t with_hash;
   void *data;
 }cgraph_matrix_t;
 

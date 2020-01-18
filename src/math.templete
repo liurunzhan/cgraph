@@ -1,0 +1,20 @@
+TYPE FUNCTION(NAME, gcd)(TYPE x, TYPE y)
+{
+  TYPE res;
+  while(0 != (res = MOD(x, y)))
+  {
+    x = y;
+    y = res;
+  }
+  res = y;
+  
+  return res;
+}
+
+TYPE FUNCTION(NAME, lcm)(TYPE x, TYPE y)
+{
+  TYPE res = x * y;
+  res = res / FUNCTION(NAME, gcd)(x, y);
+
+  return res;
+}

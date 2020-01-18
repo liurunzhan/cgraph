@@ -11,8 +11,9 @@ extern "C" {
 typedef struct 
 {
   cgraph_size_t len, size;
-  cgraph_object_t *header, *tail;
-  cgraph_object_t *data;
+  cgraph_pointer_t *header, *tail;
+  cgraph_boolean_t with_hash;
+  cgraph_pointer_t *data;
 }cgraph_list_t;
 
 #define TYPE_LIST

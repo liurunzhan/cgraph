@@ -84,22 +84,17 @@ cgraph_char_t *FUNCTION(NAME, name)(void)
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
   TYPE *cthis = NULL;
-  if(CGRAPH_OBJECT_T == type)
-  { cthis = (TYPE *)cgraph_calloc(size, sizeof(TYPE *)); }
-  else
+  cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
+  if((CGRAPH_OBJECT_T != type) && (NULL != cthis))
   {
-    cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
-    if(NULL != cthis)
-    {
-      if(type < CGRAPH_VECTOR_T)
-      { cthis->data = CGRAPH_OBJECTS(type)->calloc(type, size); }
-      else
-      { cthis->data = CGRAPH_OBJECTS(type)->calloc(CGRAPH_OBJECT_T, size); }
-      if(NULL != cthis->data)
-      { cthis->type = type; }
-      else
-      { cgraph_free(cthis); }
-    }
+    if(type < CGRAPH_VECTOR_T)
+    { cthis->data = CGRAPH_OBJECT(type)->calloc(type, size); }
+    else
+    { cthis->data = CGRAPH_OBJECT(type)->calloc(CGRAPH_OBJECT_T, size); }
+    if(NULL != cthis->data)
+    { cthis->type = type; }
+    else
+    { cgraph_free(cthis); }
   }
   
   return cthis;
@@ -124,7 +119,7 @@ void FUNCTION(NAME, free)(void *cthis)
   TYPE *new_this = (TYPE *)cthis;
   if(NULL != new_this)
   {
-    CGRAPH_OBJECTS(new_this->type)->free(new_this->data);
+    CGRAPH_OBJECT(new_this->type)->free(new_this->data);
     cgraph_free(new_this);
   }
 }
@@ -137,7 +132,7 @@ cgraph_size_t FUNCTION(NAME, dsize)(const void *cthis)
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *new_this = (TYPE *)cthis;
-  return CGRAPH_OBJECTS(new_this->type)->hash(new_this->data);
+  return CGRAPH_OBJECT(new_this->type)->hash(new_this->data);
 }
 
 #include "templete_off.h"

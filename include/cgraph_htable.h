@@ -10,6 +10,7 @@ extern "C" {
 typedef struct {
   cgraph_size_t len, size;
   cgraph_type_t ktype, vtype;
+  cgraph_boolean_t with_hash;
   void *key;
   void *data;
 }cgraph_htable_t;

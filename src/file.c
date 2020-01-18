@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "cgraph_memory.h"
@@ -27,7 +26,42 @@ cgraph_boolean_t cgraph_file_fclose(FILE *fp)
     clearerr(fp);
   }
 
-  return CGRAPH_TEST(fclose(fp) == 0);
+  return CGRAPH_TEST(0 == fclose(fp));
+}
+
+cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
+{
+  cgraph_boolean_t error = CGRAPH_TRUE;
+  if((NULL != buffer) && (0 == ferror(fp)))
+  {
+    char *data;
+    fpos_t fp_init;
+    fgetpos(fp, &fp_init);
+    while((NULL != (data = fgets(buffer->data, buffer->size+1, fp))) && (buffer->data[buffer->size-1] != '\0') && (buffer->data[buffer->size-1] != '\n'))
+    {
+      cgraph_string_realloc(buffer, buffer->size, 2*buffer->size, &error);
+      fsetpos(fp, &fp_init);
+      if(CGRAPH_TRUE == error)
+      { break; }
+    }
+    if((0 != feof(fp)) && (NULL != data))
+    { error = CGRAPH_FALSE; }
+    else if(0 == ferror(fp))
+    { error = CGRAPH_FALSE; }
+  }
+
+  return error;
+}
+
+cgraph_string_t *cgraph_file_getheader(FILE *fp, cgraph_string_t *buffer, cgraph_boolean_t *error)
+{
+  if((0 == ferror(fp)) && (NULL != error))
+  {
+    rewind(fp);
+    *error = cgraph_file_fgets(buffer, fp);
+  }
+
+  return buffer;
 }
 
 cgraph_size_t cgraph_file_rows(FILE *fp)
@@ -39,32 +73,13 @@ cgraph_size_t cgraph_file_rows(FILE *fp)
     rewind(fp);
     while(!feof(fp))
     {
-      if(ch=fgetc(fp) == '\n')
-        rows += 1;
+      if('\n' == (ch=fgetc(fp)))
+      { rows += 1; }
     }
     rewind(fp);
   }
 
   return rows;
-}
-
-cgraph_string_t *cgraph_file_getheader(FILE *fp, cgraph_string_t *buffer, cgraph_boolean_t *error)
-{
-  if(0 == ferror(fp))
-  {
-    rewind(fp);
-    while(NULL != fgets(buffer->data, buffer->size+1, fp) && buffer->data[buffer->size-1] != '\0' && buffer->data[buffer->size-1] != '\n')
-    {
-      buffer->data = cgraph_realloc(buffer->data, buffer->size, 2*buffer->size, sizeof(char), error);
-      if(*error == 0)
-      {
-        buffer->size *= 2;
-      }
-      rewind(fp);
-    }
-  }
-
-  return buffer;
 }
 
 cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep, cgraph_string_t *buffer)

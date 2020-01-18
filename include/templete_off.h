@@ -174,6 +174,14 @@
 #undef DIV
 #endif
 
+#ifdef INT
+#undef INT
+#endif
+
+#ifdef MOD
+#undef MOD
+#endif
+
 #ifdef EQ
 #undef EQ
 #endif

@@ -9,10 +9,11 @@ extern "C" {
 
 typedef struct {
   cgraph_type_t type;
+  cgraph_size_t hcode;
   void *data;
 }cgraph_object_t;
 
-#define CGRAPH_OBJECTS(type) (_cgraph_objects_[type])
+#define CGRAPH_OBJECT(type) (_cgraph_objects_[type])
 
 #define TYPE_OBJECT
 #include "templete.h"

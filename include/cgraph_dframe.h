@@ -10,6 +10,8 @@ extern "C" {
 typedef struct {
   cgraph_size_t row, column, size;
   cgraph_type_t type;
+  cgraph_boolean_t with_hash;
+  cgraph_boolean_t *visited;
   void **data;
 }cgraph_dframe_t;
 

@@ -2,6 +2,12 @@
 
 A C LIBRARY FOR GRAPH ANALYSIS
 
+## configuration
+
+This library supports make, cmake and xmake to configure and build this library, cross different platforms of mingw, msys2 and linux, with the tools of mingw32-make and make.
+
+Any compiler who supports ANSI C can build this library well.
+
 ## overview
 
 Where to go, what to do and how to do!

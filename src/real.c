@@ -10,11 +10,7 @@
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis, integer_number = floor(object), float_number = object - integer_number;
-  cgraph_size_t hash = isinf(object) != 0 ? 1234567891 : 0; 
-  if(isnormal(object))
-  {
-    hash = 666;
-  }
+  cgraph_size_t hash = 1234567891;
 
   return hash;
 }
