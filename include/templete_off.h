@@ -190,8 +190,24 @@
 #undef GR
 #endif
 
+#ifdef GE
+#undef GE
+#endif
+
 #ifdef LS
 #undef LS
+#endif
+
+#ifdef LE
+#undef LE
+#endif
+
+#ifdef POW
+#undef POW
+#endif
+
+#ifdef ABS
+#undef ABS
 #endif
 
 #ifdef SIN

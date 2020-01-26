@@ -62,17 +62,18 @@ typedef struct
   cgraph_integer_t __type__;
   cgraph_size_t __size__;
   cgraph_size_t __msize__;
+  cgraph_size_t __dsize__;
   cgraph_char_t *__name__;
 
 /*public:*/
   cgraph_type_t (*type)(void);
   cgraph_size_t (*size)(void);
   cgraph_size_t (*msize)(void);
+  cgraph_size_t (*dsize)(void);
   cgraph_char_t *(*name)(void);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void (*free)(void *gthis);
   void *(*copy)(const void *cthis, const cgraph_size_t size);
-  cgraph_size_t (*dsize)(const void *cthis);
   cgraph_size_t (*hash)(const void *cthis);
   void (*none)(void);
 }CGVTable;

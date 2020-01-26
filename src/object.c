@@ -38,27 +38,29 @@ CGVTable STRUCT(NAME) =
 {
 /*private:*/
 #ifndef DATA_WITH_POINTER
-  ID,             /* cgraph_integer_t __type__; */
-  sizeof(TYPE),   /* cgraph_size_t __size__;    */
-  sizeof(TYPE),   /* cgraph_size_t __msize__;   */
-  STRING(TYPE),   /* cgraph_char_t *__name__;   */
+  ID,                     /* cgraph_integer_t __type__; */
+  sizeof(TYPE),           /* cgraph_size_t __size__;    */
+  sizeof(TYPE),           /* cgraph_size_t __msize__;   */
+  sizeof(TYPE),           /* cgraph_size_t __dsize__;   */
+  STRING(TYPE),           /* cgraph_char_t *__name__;   */
 #else
-  ID,             /* cgraph_integer_t __type__; */
-  sizeof(TYPE),   /* cgraph_size_t __size__;    */
-  sizeof(TYPE *), /* cgraph_size_t __msize__;   */
-  STRING(TYPE),   /* cgraph_char_t *__name__;   */
+  ID,                     /* cgraph_integer_t __type__; */
+  sizeof(TYPE),           /* cgraph_size_t __size__;    */
+  sizeof(TYPE *),         /* cgraph_size_t __msize__;   */
+  sizeof(DATA_TYPE),      /* cgraph_size_t __dsize__;   */
+  STRING(TYPE),           /* cgraph_char_t *__name__;   */
 #endif
 
 /*public:*/
-  FUNCTION(NAME, type),    /* cgraph_integer_t (*type)(void);  */
-  FUNCTION(NAME, size),    /* cgraph_size_t (*size)(void);  */
-  FUNCTION(NAME, msize),   /* cgraph_size_t (*msize)(void);  */
-  FUNCTION(NAME, name),    /* cgraph_char_t *(*name)(void);  */
-  FUNCTION(NAME, calloc),  /* void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);  */
-  FUNCTION(NAME, free),    /* void *(*free)(void *gthis);  */
-  FUNCTION(NAME, copy),    /* void *(*copy)(const void *cthis, const cgraph_size_t size);  */
-  FUNCTION(NAME, dsize),   /* cgraph_size_t (*dsize)(const void *cthis);  */
-  FUNCTION(NAME, hash)     /* cgraph_size_t (*hash)(const void *cthis);  */
+  FUNCTION(NAME, type),   /* cgraph_integer_t (*type)(void); */
+  FUNCTION(NAME, size),   /* cgraph_size_t (*size)(void); */
+  FUNCTION(NAME, msize),  /* cgraph_size_t (*msize)(void); */
+  FUNCTION(NAME, dsize),  /* cgraph_size_t (*dsize)(void); */
+  FUNCTION(NAME, name),   /* cgraph_char_t *(*name)(void); */
+  FUNCTION(NAME, calloc), /* void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size); */
+  FUNCTION(NAME, free),   /* void *(*free)(void *gthis); */
+  FUNCTION(NAME, copy),   /* void *(*copy)(const void *cthis, const cgraph_size_t size); */
+  FUNCTION(NAME, hash)    /* cgraph_size_t (*hash)(const void *cthis); */
 };
 
 cgraph_type_t FUNCTION(NAME, type)(void)
@@ -74,6 +76,11 @@ cgraph_size_t FUNCTION(NAME, size)(void)
 cgraph_size_t FUNCTION(NAME, msize)(void)
 {
   return STRUCT(NAME).__msize__;
+}
+
+cgraph_size_t FUNCTION(NAME, dsize)(void)
+{
+  return STRUCT(NAME).__dsize__;;
 }
 
 cgraph_char_t *FUNCTION(NAME, name)(void)
@@ -122,11 +129,6 @@ void FUNCTION(NAME, free)(void *cthis)
     CGRAPH_OBJECT(new_this->type)->free(new_this->data);
     cgraph_free(new_this);
   }
-}
-
-cgraph_size_t FUNCTION(NAME, dsize)(const void *cthis)
-{
-  return 1;
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)

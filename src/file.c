@@ -37,7 +37,7 @@ cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
     char *data;
     fpos_t fp_init;
     fgetpos(fp, &fp_init);
-    while((NULL != (data = fgets(buffer->data, buffer->size+1, fp))) && (buffer->data[buffer->size-1] != '\0') && (buffer->data[buffer->size-1] != '\n'))
+    while((NULL != (data = fgets(buffer->data, buffer->size+1, fp))) && (buffer->data[buffer->size-1] != '\0') && (buffer->data[buffer->size-1] != '\n') && (buffer->data[buffer->size-1] != '\r'))
     {
       cgraph_string_realloc(buffer, buffer->size, 2*buffer->size, &error);
       fsetpos(fp, &fp_init);

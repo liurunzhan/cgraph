@@ -169,7 +169,24 @@
 
 #if defined(TYPE_OBJECT)
 
-#elif defined(TYPE_INTEGER) || defined(TYPE_BOOL) || defined(TYPE_LONG) \
+#elif defined(TYPE_BOOLEAN)
+#define ADD(a, b) ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define SUB(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define	MUL(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define DIV(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CHRAPH_TRUE : CGRAPH_FALSE)
+#define INT(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CHRAPH_TRUE : CGRAPH_FALSE)
+#define MOD(a, b) (SUB((a), INT(a, b)))
+
+#define EQ(a, b) ((a) == (b))
+#define GR(a, b) ((a) > (b))
+#define GE(a, b) ((a) >= (b))
+#define LS(a, b) ((a) < (b))
+#define LE(a, b) ((a) <= (b))
+#define POW(a, b) ((a) == CGRAPH_TRUE ? CGRAPH_TRUE : CGRAPH_FALSE)
+
+#define ABS(a) ((a))
+
+#elif defined(TYPE_INTEGER) || defined(TYPE_LONG) \
 	|| defined(TYPE_INT8) || defined(TYPE_INT16) || defined(TYPE_INT32) \
 	|| defined(TYPE_INT64)
 #define ADD(a, b) ((a) + (b))
@@ -181,9 +198,12 @@
 
 #define EQ(a, b) ((a) == (b))
 #define GR(a, b) ((a) > (b))
+#define GE(a, b) ((a) >= (b))
 #define LS(a, b) ((a) < (b))
+#define LE(a, b) ((a) <= (b))
 #define POW(a, b) pow((a), (b))
 
+#define ABS(a) ((a) > 0 ? (a) : (-(a)))
 #define SIN(a) sin((a))
 #define COS(a) cos((a))
 #define TAN(a) tan((a))
@@ -208,10 +228,13 @@
 #define MOD(a, b) (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
-#define GR(a, b) ((a) > (b))
-#define LS(a, b) ((a) < (b))
+#define GR(a, b) (((a) > (b)) && (fabs((a) - (b)) >= DATA_EPSILON))
+#define GE(a, b) (GR(a, b) || EQ(a, b))
+#define LS(a, b) (((a) < (b)) && (fabs((a) - (b)) >= DATA_EPSILON))
+#define LE(a, b) (LS(a, b) || EQ(a, b))
 #define POW(a, b) pow((a), (b))
 
+#define ABS(a) fabs((a))
 #define SIN(a) sin((a))
 #define COS(a) cos((a))
 #define TAN(a) tan((a))
@@ -231,20 +254,34 @@
 #define ADD(a, b) ({TYPE c; COMPLEX_REAL(c) = COMPLEX_REAL(a) + COMPLEX_REAL(b); COMPLEX_IMAG(c) = COMPLEX_IMAG(a) + COMPLEX_IMAG(b); c;})
 #define SUB(a, b) ({TYPE c; COMPLEX_REAL(c) = COMPLEX_REAL(a) - COMPLEX_REAL(b);COMPLEX_IMAG(c) = COMPLEX_IMAG(a) - COMPLEX_IMAG(b); c;})
 #define MUL(a, b) ({TYPE c; COMPLEX_REAL(c) = COMPLEX_REAL(a) * COMPLEX_REAL(b) - COMPLEX_IMAG(a) * COMPLEX_IMAG(b); COMPLEX_IMAG(c) = COMPLEX_REAL(a) * COMPLEX_IMAG(b) + COMPLEX_IMAG(a) * COMPLEX_REAL(b); c;})
-#define DIV(a, b, c) do{}while(0)
+#define DIV(a, b) ({TYPE c; DATA_TYPE mod = COMPLEX_MOD2(b); COMPLEX_REAL(c) = (COMPLEX_REAL(a) * COMPLEX_REAL(b) + COMPLEX_IMAG(a) * COMPLEX_IMAG(b)) / mod; COMPLEX_IMAG(c) = (COMPLEX_IMAG(a) * COMPLEX_REAL(b) - COMPLEX_REAL(a) * COMPLEX_IMAG(b)) / mod; c;})
+
 #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
-#define GR(a, b) (HGRAPH_MOD2(a) > HGRAPH_MOD2(b))
-#define LS(a, b) (HGRAPH_MOD2(a) < HGRAPH_MOD2(b))
+#define GR(a, b) (COMPLEX_MOD2(a) > COMPLEX_MOD2(b))
+#define GE(a, b) (GR(a, b) || EQ(a, b))
+#define LS(a, b) (COMPLEX_MOD2(a) < COMPLEX_MOD2(b))
+#define LE(a, b) (LS(a, b) || EQ(a, b))
+
+#define ABS(a) ({TYPE c; COMPLEX_REAL(c) = fabs(COMPLEX_REAL(a)); COMPLEX_IMAG(c) = fabs(COMPLEX_IMAG(a)); c;})
 
 #elif defined(TYPE_FRACTION)
 #define ADD(a, b) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a) * FRACTION_DEN(b) + FRACTION_DEN(a) * FRACTION_NUM(b); FRACTION_DEN(c) = FRACTION_DEN(a) * FRACTION_DEN(b); c;})
 #define SUB(a, b) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a) * FRACTION_DEN(b) - FRACTION_DEN(a) * FRACTION_NUM(b); FRACTION_DEN(c) = FRACTION_DEN(a) * FRACTION_DEN(b); c;})
 #define MUL(a, b) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a) * FRACTION_NUM(b); FRACTION_DEN(c) = FRACTION_DEN(a) * FRACTION_DEN(b); c;})
 #define DIV(a, b) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a) * FRACTION_DEN(b); FRACTION_DEN(c) = FRACTION_DEN(a) * FRACTION_NUM(b); c;})
+
 #define EQ(a, b) ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
 #define GR(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) > (FRACTION_NUM(b) * FRACTION_DEN(a)))
+#define GE(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) >= (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define LS(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) < (FRACTION_NUM(b) * FRACTION_DEN(a)))
+#define LE(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) <= (FRACTION_NUM(b) * FRACTION_DEN(a)))
+
+#define ABS(a) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a); FRACTION_DEN(c) = FRACTION_DEN(a); c;})
+
+#elif defined(TYPE_BIGINT) || defined(TYPE_BIGNUM) || defined(TYPE_STRING)
+
+#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_HTABLE) || defined(TYPE_LIST)
 
 #else
-/*#error !!! UNSUPPORTED DATA TYPE !!!*/
+#error !!! UNSUPPORTED DATA TYPE !!!
 #endif

@@ -8,8 +8,10 @@
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
-  cgraph_size_t hash = object == CGRAPH_FALSE ? 0 : (object == CGRAPH_TRUE ? 1 : 2);
-  return hash;
+  object = ((object >> 16) ^ object) * 0x45d9f3b;
+  object = ((object >> 16) ^ object) * 0x45d9f3b;
+  object = (object >> 16) ^ object;
+  return object;
 }
 
 #include "templete_off.h"

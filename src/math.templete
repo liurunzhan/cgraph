@@ -13,8 +13,5 @@ TYPE FUNCTION(NAME, gcd)(TYPE x, TYPE y)
 
 TYPE FUNCTION(NAME, lcm)(TYPE x, TYPE y)
 {
-  TYPE res = x * y;
-  res = res / FUNCTION(NAME, gcd)(x, y);
-
-  return res;
+  return x * y / FUNCTION(NAME, gcd)(x, y);
 }
