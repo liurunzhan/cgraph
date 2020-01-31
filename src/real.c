@@ -1,4 +1,3 @@
-#include <float.h>
 #include <math.h>
 #include "cgraph_real.h"
 #include "cgraph_memory.h"

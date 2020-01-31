@@ -13,6 +13,7 @@ extern "C" {
 typedef struct 
 {
   cgraph_size_t len, size;
+  cgraph_boolean_t pos;
   DATA_TYPE *data;
 }cgraph_bigint_t;
 

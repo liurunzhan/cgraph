@@ -15,22 +15,16 @@ LIBSHARE_TARGET=$(LIB)/$(LIBSHARE)
 all: $(LIBSTATIC_TARGET) $(LIBSHARE_TARGET)
 
 $(LIBSTATIC_TARGET): $(OBJECT)
-	@echo *** START the compilation of $(LIBSTATIC) ***
-	@$(AR) $(ARFLAGS) $(LIBSTATIC_TARGET) -I$(INC) $(OBJECT)
-	@echo *** END the compilation of $(LIBSTATIC) ***
+	$(AR) $(ARFLAGS) $(LIBSTATIC_TARGET) $(OBJECT)
 
 $(LIBSHARE_TARGET): $(OBJECT)
-	@echo *** START the compilation of $(LIBSHARE) ***
-	@$(CC) $(CFLAGS) $(CSFLAGS) -I$(INC) -o $(LIBSHARE_TARGET) $(SOURCE)
-	@echo *** END the compilation of $(LIBSHARE) ***
+	$(CC) $(CSFLAGS) -o $(LIBSHARE_TARGET) $(OBJECT)
 
 $(OBJECT): %.o: %.c
-	@echo *** START the compilation of $< to $@ ***
-	@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
-	@echo *** END the compilation of $< to $@ ***
+	$(CC) $(CFLAGS) -fPIC -I$(INC) -c $< -o $@
 
 clean:
-	@-$(RM) $(RMFLAGS) $(OBJECT)
+	$(RM) $(RMFLAGS) $(OBJECT)
 
 distclean:
-	@-$(RM) $(RMFLAGS) $(OBJECT)
+	$(RM) $(RMFLAGS) $(OBJECT)

@@ -75,7 +75,7 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
     {
       cthis->data = (DATA_TYPE *)cgraph_calloc(size+1, FUNCTION(NAME, dsize)());
       if(NULL != cthis->data)
-      { cthis->size = size; }
+      { cthis->size = size; cthis->len = size; }
       else 
       { cgraph_free(cthis); }
     }
@@ -124,6 +124,37 @@ void FUNCTION(NAME, free)(void *cthis)
   { cgraph_free(new_cthis->data); }
 #endif
   cgraph_free(cthis);
+}
+
+void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size)
+{
+  TYPE *new_cthis = (TYPE *)cthis, *new_data = (TYPE *)data;
+
+  if(NULL != new_cthis && NULL != new_data)
+  {
+#ifdef DATA_WITH_POINTER
+    cgraph_memcpy(new_cthis->data, new_data->data, new_data->len, FUNCTION(NAME, dsize)());
+#else
+    cgraph_memcpy(new_cthis, new_data, size, FUNCTION(NAME, dsize)());
+#endif
+  }
+  return new_cthis;
+}
+
+void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t size)
+{
+  TYPE *new_cthis = (TYPE *)cthis;
+#ifdef DATA_WITH_POINTER
+  DATA_TYPE *new_data = (DATA_TYPE *)data;
+  if(NULL != new_cthis && NULL != new_data)
+  { cgraph_memcpy(new_cthis->data, new_data, size, FUNCTION(NAME, dsize)()); }
+#else
+  TYPE *new_data = (TYPE *)data;
+  if(NULL != new_cthis && NULL != new_data)
+  { cgraph_memcpy(new_cthis, new_data, size, FUNCTION(NAME, dsize)()); }
+#endif
+
+  return new_cthis;
 }
 
 void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)

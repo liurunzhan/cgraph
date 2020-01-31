@@ -5,21 +5,79 @@
 extern "C" {
 #endif
 
+/* 
+  basic c-type definitions:
+  integer number types : char int long
+  float number types   : float double
+  c-type string type   : char
+*/
+
 #include <stddef.h>
+#include <limits.h>
+#include <float.h>
 
 typedef int cgraph_integer_t;
 typedef double cgraph_real_t;
 typedef int cgraph_boolean_t;
+typedef long cgraph_long_t;
 typedef long cgraph_size_t;
 
 typedef const char cgraph_char_t;
 typedef float cgraph_float_t;
 
+#define CGRAPH_BOOLEAN_MAX CGRAPH_TRUE
+#define CGRAPH_BOOLEAN_MIN CGRAPH_FALSE
+
+#define CGRAPH_INTEGER_MAX INT_MAX
+#define CGRAPH_INTEGER_MIN INT_MIN
+#define CGRAPH_LONG_MAX LONG_MAX
+#define CGRAPH_LONG_MIN LONG_MIN
+
+#define CGRAPH_REAL_MAX DBL_MAX
+#define CGRAPH_REAL_MIN DBL_MIN
+#define CGRAPH_FLOAT_MAX FLT_MAX
+#define CGRAPH_FLOAT_MIN FLT_MIN
+
+#if defined(__STDC__) && defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 OR HIGHER SUPPORTED! */
+
+#include <stdint.h>
+
+typedef int8_t cgraph_int8_t;
+typedef int16_t cgraph_int16_t;
+typedef int32_t cgraph_int32_t;
+typedef int64_t cgraph_int64_t;
+
+#define CGRAPH_INT8_MIN INT8_MIN
+#define CGRAPH_INT8_MAX INT8_MIN
+#define CGRAPH_INT16_MIN INT16_MIN
+#define CGRAPH_INT16_MAX INT16_MIN
+#define CGRAPH_INT32_MIN INT32_MIN
+#define CGRAPH_INT32_MAX INT32_MIN
+#define CGRAPH_INT64_MIN INT64_MIN
+#define CGRAPH_INT64_MAX INT64_MIN
+
+#else /* C89 OR C90 OR C95 */
+
 typedef char cgraph_int8_t;
 typedef short cgraph_int16_t;
 typedef int cgraph_int32_t;
+#if __WORDSIZE == 64 
 typedef long cgraph_int64_t;
-typedef long cgraph_long_t;
+#else
+__extension__
+typedef long long cgraph_int64_t;
+#endif
+
+#define CGRAPH_INT8_MIN (-128)
+#define CGRAPH_INT8_MAX (127)
+#define CGRAPH_INT16_MIN (-32768)
+#define CGRAPH_INT16_MAX (32767)
+#define CGRAPH_INT32_MIN (-2147483648)
+#define CGRAPH_INT32_MAX (2147483647)
+#define CGRAPH_INT64_MIN (-9223372036854775808L)
+#define CGRAPH_INT64_MAX (9223372036854775807L)
+
+#endif /* __STDC__ */
 
 #define CGRAPH_TRUE (1)
 #define CGRAPH_FALSE (0)

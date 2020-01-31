@@ -13,3 +13,8 @@ cgraph_boolean_t cgraph_version(cgraph_char_t **version, cgraph_integer_t *major
   sscanf(CGRAPH_VERSION, "%d.%d.%d", major, minor, subminor);
   return CGRAPH_TRUE;
 }
+
+void cgraph_version_print(void)
+{
+  fprintf(stdout, "Version of Library CGRAPH is %s\n", cgraph_version_string);
+}

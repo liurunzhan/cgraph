@@ -42,6 +42,14 @@
 #undef STRUCT
 #endif
 
+#ifdef DATA_MIN
+#undef DATA_MIN
+#endif
+
+#ifdef DATA_MAX
+#undef DATA_MAX
+#endif
+
 #ifdef DATA_WITH_POINTER
 #undef DATA_WITH_POINTER
 #endif

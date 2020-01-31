@@ -1,25 +1,20 @@
-ROOT=..
-INC=$(ROOT)/include
-LIB=$(ROOT)/lib
-
 DIR=.
+INC=$(DIR)/../include
+LIB=$(DIR)/../lib
 
 SOURCE = cgraph.c
 TARGET = cgraph
 
 .PHONY: all test clean
 
-all: 
+all:
 
-test: $(TARGET)
-
-$(TARGET):
-	@echo *** START the compilation of $< to $@ ***
-	@$(CC) $(CFLAGS) -I$(INC) -I$(LIB)/libcgraph.a -o $(TARGET) $(SOURCE)
-	@echo *** END the compilation of $< to $@ ***
+test:
+	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET) $(SOURCE) -L$(LIB) -static -l$(TARGET) -lm
+	./$(TARGET) ./elements.csv
 
 clean:
-	@-$(RM) $(RMFLAGS) $(OBJECT)
+	$(RM) $(RMFLAGS) $(TARGET)
 
 distclean:
-	@-$(RM) $(RMFLAGS) $(OBJECT)
+	$(RM) $(RMFLAGS) $(TARGET)

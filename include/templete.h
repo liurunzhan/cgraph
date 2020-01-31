@@ -24,6 +24,8 @@
 #define NAME integer
 #define OUT_FORMAT "%d"
 #define ZERO 0
+#define DATA_MIN CGRAPH_INTEGER_MAX
+#define DATA_MAX CGRAPH_INTEGER_MIN
 
 #elif defined(TYPE_REAL)
 #define TYPE cgraph_real_t
@@ -32,6 +34,8 @@
 #define OUT_FORMAT "%G"
 #define DATA_EPSILON DBL_EPSILON
 #define ZERO 0.0
+#define DATA_MAX CGRAPH_REAL_MAX
+#define DATA_MIN CGRAPH_REAL_MIN
 
 #elif defined(TYPE_BOOLEAN)
 #define TYPE cgraph_boolean_t
@@ -39,6 +43,8 @@
 #define NAME boolean
 #define OUT_FORMAT "%d"
 #define ZERO 0
+#define DATA_MAX CGRAPH_BOOLEAN_MAX
+#define DATA_MIN CGRAPH_BOOLEAN_MIN
 
 #elif defined(TYPE_FLOAT)
 #define TYPE cgraph_float_t
@@ -47,6 +53,8 @@
 #define OUT_FORMAT "%f"
 #define DATA_EPSILON FLT_EPSILON
 #define ZERO 0.0
+#define DATA_MAX CGRAPH_FLOAT_MAX
+#define DATA_MIN CGRAPH_FLOAT_MIN
 
 #elif defined(TYPE_LONG)
 #define TYPE cgraph_long_t
@@ -54,6 +62,8 @@
 #define NAME long
 #define OUT_FORMAT "%ld"
 #define ZERO 0
+#define DATA_MAX CGRAPH_LONG_MAX
+#define DATA_MIN CGRAPH_LONG_MIN
 
 #elif defined(TYPE_INT8)
 #define TYPE cgraph_int8_t
@@ -61,6 +71,8 @@
 #define NAME int8
 #define OUT_FORMAT "%d"
 #define ZERO 0
+#define DATA_MAX CGRAPH_INT8_MAX
+#define DATA_MIN CGRAPH_INT8_MIN
 
 #elif defined(TYPE_INT16)
 #define TYPE cgraph_int16_t
@@ -68,6 +80,8 @@
 #define NAME int16
 #define OUT_FORMAT "%d"
 #define ZERO 0
+#define DATA_MAX CGRAPH_INT16_MAX
+#define DATA_MIN CGRAPH_INT16_MIN
 
 #elif defined(TYPE_INT32)
 #define TYPE cgraph_int32_t
@@ -75,6 +89,8 @@
 #define NAME int32
 #define OUT_FORMAT "%d"
 #define ZERO 0
+#define DATA_MAX CGRAPH_INT32_MAX
+#define DATA_MIN CGRAPH_INT32_MIN
 
 #elif defined(TYPE_INT64)
 #define TYPE cgraph_int64_t
@@ -82,6 +98,8 @@
 #define NAME int64
 #define OUT_FORMAT "%ld"
 #define ZERO 0
+#define DATA_MAX CGRAPH_INT64_MAX
+#define DATA_MIN CGRAPH_INT64_MIN
 
 #elif defined(TYPE_COMPLEX)
 #define TYPE cgraph_complex_t
