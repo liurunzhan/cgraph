@@ -57,10 +57,12 @@ test:
 
 clean:
 	$(MAKE) -C $(SRC) clean
+	$(MAKE) -C $(TST) clean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARE)
 
 distclean:
-	$(MAKE) -C $(SRC) distclean
+	$(MAKE) -C $(SRC) clean
+	$(MAKE) -C $(TST) clean
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
 	$(RMDIR) $(RMDIRFLAGS) $(BIN)

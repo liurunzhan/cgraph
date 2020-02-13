@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_string.h"
 
 #define TYPE_BIGINT
 #include "templete.h"
@@ -18,6 +19,10 @@ typedef struct
 }cgraph_bigint_t;
 
 #include "data_templete.h"
+
+extern void *FUNCTION(NAME, abs)(void *cthis);
+extern cgraph_string_t *FUNCTION(NAME, tostr)(const void *cthis);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

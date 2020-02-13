@@ -47,6 +47,12 @@ cgraph_char_t *FUNCTION(NAME, name)(void)
   return STRUCT(NAME).__name__;
 }
 
+cgraph_size_t FUNCTION(NAME, len)(void *cthis)
+{
+  TYPE *new_cthis = (TYPE *)cthis;
+  return new_cthis->len;
+}
+
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
   TYPE *cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));

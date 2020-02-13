@@ -241,3 +241,7 @@
 #ifdef ATAN
 #undef ATAN
 #endif
+
+#ifdef EXCHANGE
+#undef EXCHANGE
+#endif

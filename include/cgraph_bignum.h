@@ -18,6 +18,9 @@ typedef struct
 
 
 #include "data_templete.h"
+
+void *FUNCTION(NAME, abs)(void *cthis);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

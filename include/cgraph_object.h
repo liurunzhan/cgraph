@@ -16,8 +16,13 @@ typedef struct {
 #define CGRAPH_OBJECT(type) (_cgraph_objects_[type])
 
 #define TYPE_OBJECT
+
 #include "templete.h"
 #include "data_templete.h"
+
+
+void *FUNCTION(NAME, data)(void *cthis);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

@@ -17,6 +17,7 @@ typedef struct
 
 #define FRACTION_NUM(x) ((x).data[0])
 #define FRACTION_DEN(x) ((x).data[1])
+#define FRACTION_VALUE(x) (1.0 * FRACTION_NUM(x) / FRACTION_DEN(x))
 
 #include "data_templete.h"
 

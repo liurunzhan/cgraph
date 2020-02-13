@@ -54,3 +54,16 @@ cgraph_char_t cgraph_math_tolower(cgraph_char_t data)
 {
   return islower(data) ? tolower(data) : MATH_ERROR;
 }
+
+cgraph_size_t cgraph_math_baseoflen(const cgraph_integer_t data, const cgraph_integer_t base)
+{
+  cgraph_size_t len = 0;
+  cgraph_integer_t new_data = data;
+  while(0 != new_data)
+  { 
+    new_data = new_data / base; 
+    len += 1;
+  }
+
+  return len;
+}

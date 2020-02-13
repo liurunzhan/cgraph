@@ -12,12 +12,28 @@ int main(int argc, char *argv[])
     FILE *fp = cgraph_file_fopen(file, "r");
     cgraph_size_t row = cgraph_file_rows(fp);
     cgraph_size_t column = cgraph_file_columns(fp, ",", buffer);
-    cgraph_object_t *abc = cgraph_object_calloc(CGRAPH_STRING_T, 1000);
+    cgraph_object_t *abc;
+    cgraph_integer_t i;
     fprintf(stdout, "row: %ld column : %ld\n", row, column);
-    fprintf(stdout, "type size : %ld type data size: %ld\n", cgraph_string_size(), cgraph_string_dsize());
     cgraph_file_fclose(fp);
     cgraph_string_free(buffer);
-    cgraph_object_free(abc);
+    for(i=CGRAPH_INTEGER_T; i<CGRAPH_FRACTION_T; i++)
+    {
+      abc = cgraph_object_calloc(i, 100);
+      cgraph_object_free(abc);
+    }
+    do
+    {
+      cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INTEGER_T, 2);
+      cgraph_integer_t data[2] = {1,1};
+      cgraph_string_t *buffer;
+      cgraph_bigint_initd(big, data, 2);
+      buffer = cgraph_bigint_tostr(big);
+      fprintf(stdout, "%s\n", buffer->data);
+      cgraph_string_free(buffer);
+      cgraph_bigint_free(big);
+    } while (0);
+    
   }
   else
   {

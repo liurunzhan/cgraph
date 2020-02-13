@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 typedef struct {
-  cgraph_size_t row, column, size;
+  cgraph_size_t row, column, len, size;
   cgraph_type_t type;
   cgraph_boolean_t with_hash;
   cgraph_boolean_t *visited;

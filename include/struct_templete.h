@@ -11,10 +11,9 @@ extern void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, 
 extern void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size);
 extern void FUNCTION(NAME, free)(void *cthis);
 
-
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
 
-extern void *FUNCTION(NAME, add)(const void *x, const void *y);
-extern void *FUNCTION(NAME, sub)(const void *x, const void *y);
-extern void *FUNCTION(NAME, mul)(const void *x, const void *y);
-extern void *FUNCTION(NAME, div)(const void *x, const void *y);
+extern void *FUNCTION(NAME, find)(void *cthis, void *data);
+extern void *FUNCTION(NAME, insert)(void *cthis, void *data);
+extern void *FUNCTION(NAME, disable)(void *cthis, void *data);
+extern void *FUNCTION(NAME, delete)(void *cthis, void *data);

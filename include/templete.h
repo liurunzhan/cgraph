@@ -109,6 +109,8 @@
 #define DATA_TYPE double
 #define DATA_EPSILON DBL_EPSILON
 #define ZERO {0.0, 0.0}
+#define DATA_MAX {CGRAPH_REAL_MAX, CGRAPH_REAL_MAX}
+#define DATA_MIN {CGRAPH_REAL_MIN, CGRAPH_REAL_MIN}
 
 #elif defined(TYPE_FRACTION)
 #define TYPE cgraph_fraction_t
@@ -117,15 +119,19 @@
 #define OUT_FORMAT "%d"
 #define DATA_TYPE int
 #define ZERO {0, 1}
+#define DATA_MAX {INT_MAX, 1}
+#define DATA_MIN {INT_MIN, 1}
 
 #elif defined(TYPE_BIGINT)
 #define TYPE cgraph_bigint_t
 #define ID CGRAPH_BIGINT_T
 #define NAME bigint
-#define OUT_FORMAT "%d"
-#define DATA_TYPE cgraph_integer_t
+#define OUT_FORMAT "%c"
+#define DATA_TYPE cgraph_int8_t
 #define DATA_WITH_POINTER
 #define ZERO 0
+#define DATA_MAX CGRAPH_INT8_MAX
+#define DATA_MIN CGRAPH_INT8_MIN
 
 #elif defined(TYPE_BIGNUM)
 #define TYPE cgraph_bignum_t
@@ -135,6 +141,8 @@
 #define DATA_TYPE char
 #define DATA_WITH_POINTER
 #define ZERO "0.0"
+#define DATA_MAX '9'
+#define DATA_MIN '0'
 
 #elif defined(TYPE_STRING)
 #define TYPE cgraph_string_t
@@ -144,6 +152,8 @@
 #define DATA_TYPE char
 #define DATA_WITH_POINTER
 #define ZERO ""
+#define DATA_MAX CHAR_MAX
+#define DATA_MIN CHAR_MIN
 
 #elif defined(TYPE_VECTOR)
 #define TYPE cgraph_vector_t
@@ -200,9 +210,25 @@
 #define GE(a, b) ((a) >= (b))
 #define LS(a, b) ((a) < (b))
 #define LE(a, b) ((a) <= (b))
-#define POW(a, b) ((a) == CGRAPH_TRUE ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define POW(a, b) (((a) == CGRAPH_TRUE) ? CGRAPH_TRUE : CGRAPH_FALSE)
 
 #define ABS(a) ((a))
+#define SIN(a) sin((a))
+#define COS(a) cos((a))
+#define TAN(a) tan((a))
+#define ASIN(a) asin((a))
+#define ACOS(a) acos((a))
+#define ATAN(a) atan2((a))
+#define SINH(a) sinh((a))
+#define COSH(a) cosh((a))
+#define TANH(a) tanh((a))
+#define LOG(a) log((a))
+#define LOG2(a) (log((a)) / log(2.0))
+#define LOG10(a) log10((a))
+#define EXP(a) exp((a))
+#define SQRT(a) sqrt((a))
+
+#define EXCHNAGE(a) 
 
 #elif defined(TYPE_INTEGER) || defined(TYPE_LONG) \
 	|| defined(TYPE_INT8) || defined(TYPE_INT16) || defined(TYPE_INT32) \
@@ -221,7 +247,7 @@
 #define LE(a, b) ((a) <= (b))
 #define POW(a, b) pow((a), (b))
 
-#define ABS(a) ((a) > 0 ? (a) : (-(a)))
+#define ABS(a) (((a) > 0) ? (a) : (-(a)))
 #define SIN(a) sin((a))
 #define COS(a) cos((a))
 #define TAN(a) tan((a))
@@ -236,6 +262,8 @@
 #define LOG10(a) log10((a))
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
+
+#define EXCHANGE(a, b) ({TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;})
 
 #elif defined(TYPE_REAL) || defined(TYPE_FLOAT)
 #define ADD(a, b) ((a) + (b))
@@ -268,6 +296,8 @@
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
 
+#define EXCHANGE(a, b) ({TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;})
+
 #elif defined(TYPE_COMPLEX)
 #define ADD(a, b) ({TYPE c; COMPLEX_REAL(c) = COMPLEX_REAL(a) + COMPLEX_REAL(b); COMPLEX_IMAG(c) = COMPLEX_IMAG(a) + COMPLEX_IMAG(b); c;})
 #define SUB(a, b) ({TYPE c; COMPLEX_REAL(c) = COMPLEX_REAL(a) - COMPLEX_REAL(b);COMPLEX_IMAG(c) = COMPLEX_IMAG(a) - COMPLEX_IMAG(b); c;})
@@ -282,6 +312,11 @@
 
 #define ABS(a) ({TYPE c; COMPLEX_REAL(c) = fabs(COMPLEX_REAL(a)); COMPLEX_IMAG(c) = fabs(COMPLEX_IMAG(a)); c;})
 
+#define EXCHANGE(a, b) do{ TYPE tmp; \
+ COMPLEX_REAL(tmp) = COMPLEX_REAL(a);   COMPLEX_IMAG(tmp) = COMPLEX_IMAG(a); \
+ COMPLEX_REAL(a)   = COMPLEX_REAL(b);   COMPLEX_IMAG(a)   = COMPLEX_IMAG(b); \
+ COMPLEX_REAL(b)   = COMPLEX_REAL(tmp); COMPLEX_IMAG(b)   = COMPLEX_IMAG(tmp); }while(0)
+
 #elif defined(TYPE_FRACTION)
 #define ADD(a, b) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a) * FRACTION_DEN(b) + FRACTION_DEN(a) * FRACTION_NUM(b); FRACTION_DEN(c) = FRACTION_DEN(a) * FRACTION_DEN(b); c;})
 #define SUB(a, b) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a) * FRACTION_DEN(b) - FRACTION_DEN(a) * FRACTION_NUM(b); FRACTION_DEN(c) = FRACTION_DEN(a) * FRACTION_DEN(b); c;})
@@ -294,11 +329,32 @@
 #define LS(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) < (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define LE(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) <= (FRACTION_NUM(b) * FRACTION_DEN(a)))
 
-#define ABS(a) ({TYPE c; FRACTION_NUM(c) = FRACTION_NUM(a); FRACTION_DEN(c) = FRACTION_DEN(a); c;})
+#define ABS(a) ({TYPE c; FRACTION_NUM(c) = ((FRACTION_NUM(a) > 0) ? FRACTION_NUM(a) : (-FRACTION_NUM(a))); FRACTION_DEN(c) = ((FRACTION_DEN(a) > 0) ? FRACTION_DEN(a) : (-FRACTION_DEN(a))); c;})
 
-#elif defined(TYPE_BIGINT) || defined(TYPE_BIGNUM) || defined(TYPE_STRING)
+#define EXCHANGE(a, b) do{ TYPE tmp; \
+ FRACTION_NUM(tmp) = FRACTION_NUM(a);   FRACTION_DEN(tmp) = FRACTION_DEN(a); \
+ FRACTION_NUM(a)   = FRACTION_NUM(b);   FRACTION_DEN(a)   = FRACTION_DEN(b); \
+ FRACTION_NUM(b)   = FRACTION_NUM(tmp); FRACTION_DEN(b)   = FRACTION_DEN(tmp); }while(0)
+
+#elif defined(TYPE_BIGINT)
+
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
+
+#elif defined(TYPE_BIGNUM)
+
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
+
+#elif  defined(TYPE_STRING)
+
+#define ABS(a) ((a))
+#define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_HTABLE) || defined(TYPE_LIST)
+
+
+#define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 
 #else
 #error !!! UNSUPPORTED DATA TYPE !!!

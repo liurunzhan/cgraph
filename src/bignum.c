@@ -15,4 +15,16 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
+void *FUNCTION(NAME, abs)(void *cthis)
+{
+  TYPE *new_cthis = (TYPE *)(cthis);
+  cgraph_size_t i = 0;
+  while((new_cthis->data[i] != ' ') && (i<new_cthis->len)) 
+  { i++; }
+  if(new_cthis->data[i] == '-')
+  { new_cthis->data[i] = '+'; }
+
+  return new_cthis;
+}
+
 #include "templete_off.h"

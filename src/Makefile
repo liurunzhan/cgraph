@@ -25,6 +25,3 @@ $(OBJECT): %.o: %.c
 
 clean:
 	$(RM) $(RMFLAGS) $(OBJECT)
-
-distclean:
-	$(RM) $(RMFLAGS) $(OBJECT)

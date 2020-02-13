@@ -21,9 +21,18 @@ typedef struct
 
 #include "data_templete.h"
 
+/*                              initial function                              */
+extern TYPE FUNCTION(NAME, initam)(const DATA_TYPE arg, const DATA_TYPE mod);
+extern TYPE FUNCTION(NAME, initri)(const DATA_TYPE real, const DATA_TYPE imag);
+
 /*                   complex number mathematical functions                    */
-extern cgraph_real_t FUNCTION(NAME, mod)(const TYPE x);
-extern cgraph_real_t FUNCTION(NAME, arg)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, mod)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, arg)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, conj)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, powr)(const TYPE x, const cgraph_real_t y);
+extern TYPE FUNCTION(NAME, powc)(const TYPE x, const TYPE y);
 
 #include "templete_off.h"
 

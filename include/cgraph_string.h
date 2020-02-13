@@ -18,6 +18,8 @@ typedef struct
 
 #include "data_templete.h"
 
+/*                         string operation function                          */
+
 /*                       string mathematical functions                        */
 
 /*                           string hash functions                            */
@@ -28,8 +30,6 @@ extern cgraph_size_t FUNCTION(NAME, elfhash)(cgraph_string_t *str);
 extern cgraph_size_t FUNCTION(NAME, bkdrhash)(cgraph_string_t *str);
 
 #include "templete_off.h"
-
-
 
 #ifdef __cplusplus
 }

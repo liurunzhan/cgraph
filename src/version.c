@@ -3,15 +3,18 @@
 
 static cgraph_char_t *cgraph_version_string = CGRAPH_VERSION;
 
-cgraph_boolean_t cgraph_version(cgraph_char_t **version, cgraph_integer_t *major, cgraph_integer_t *minor, cgraph_integer_t *subminor)
+void cgraph_version(cgraph_char_t **version, cgraph_integer_t *major, cgraph_integer_t *minor, cgraph_integer_t *subminor)
 {
-  if(NULL == *version || NULL == major || NULL == minor || NULL == subminor)
-  {
-    return CGRAPH_FALSE;
-  }
-  *version = cgraph_version_string;
-  sscanf(CGRAPH_VERSION, "%d.%d.%d", major, minor, subminor);
-  return CGRAPH_TRUE;
+  cgraph_integer_t cgraph_major, cgraph_minor, cgraph_subminor;
+  sscanf(cgraph_version_string, "%d.%d.%d", &cgraph_major, &cgraph_minor, &cgraph_subminor);
+  if(NULL != *version)
+  { *version = cgraph_version_string; }
+  if(NULL != major)
+  { *major = cgraph_major; }
+  if(NULL != minor)
+  { *minor = cgraph_minor; }
+  if(NULL != subminor)
+  { *subminor = cgraph_subminor; }
 }
 
 void cgraph_version_print(void)

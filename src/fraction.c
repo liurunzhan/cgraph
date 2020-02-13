@@ -1,3 +1,4 @@
+#include <math.h>
 #include "cgraph_fraction.h"
 #include "cgraph_memory.h"
 
@@ -33,6 +34,15 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   { hash = (hash ^ tmp[i]) * 16777619; }
 
   return hash;
+}
+
+TYPE FUNCTION(NAME, pow)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1) ? FRACTION_NUM(x) : (DATA_TYPE)pow(FRACTION_DEN(x), y);
+  FRACTION_DEN(res) = FRACTION_DEN(x) == 1 ? FRACTION_DEN(x) : (DATA_TYPE)pow(FRACTION_DEN(x), y);
+
+  return res;
 }
 
 #include "templete_off.h"

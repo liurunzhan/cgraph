@@ -61,6 +61,16 @@ cgraph_char_t *FUNCTION(NAME, name)(void)
   return STRUCT(NAME).__name__;
 }
 
+cgraph_size_t FUNCTION(NAME, len)(void *cthis)
+{
+#ifdef DATA_WITH_POINTER
+  TYPE *new_cthis = (TYPE *)cthis;
+  return new_cthis->len;
+#else
+  return 1;
+#endif
+}
+
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
 #ifndef DATA_WITH_POINTER
