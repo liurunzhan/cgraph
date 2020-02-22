@@ -136,6 +136,10 @@ typedef struct
   void (*none)(void);
 }CGVTable;
 
+/*                          operations of data types                          */
+extern CGVTable *_cgraph_objects_[];
+#define CGRAPH_OBJECT(type, opt) ((_cgraph_objects_[type])->opt)
+
 #ifdef __cplusplus
 }
 #endif

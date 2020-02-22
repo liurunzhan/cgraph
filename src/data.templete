@@ -169,46 +169,46 @@ void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t s
 
 void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)
 {
-#ifndef DATA_WITH_POINTER
-  TYPE *new_this = (TYPE *)cthis;
+  TYPE *new_cthis = (TYPE *)cthis;
   cgraph_size_t left = start, right = end;
-  TYPE key = new_this[left];
+  TYPE key = new_cthis[left];
+#ifndef DATA_WITH_POINTER
   while(left < right)
   {
-    while((left < right) && (GE(new_this[right], key)))
+    while((left < right) && (GE(new_cthis[right], key)))
     { right --; }
-    new_this[left] = new_this[right];
-    while((left < right) && (LE(new_this[left],key)))
+    new_cthis[left] = new_cthis[right];
+    while((left < right) && (LE(new_cthis[left],key)))
     { left ++; }
-    new_this[right] = new_this[left];
+    new_cthis[right] = new_cthis[left];
   }
-  new_this[left] = key;
-  FUNCTION(NAME, ascsort)(new_this, start, left-1);
-  FUNCTION(NAME, ascsort)(new_this, left+1, end);
+  new_cthis[left] = key;
 #else
 
 #endif
+  FUNCTION(NAME, ascsort)(new_cthis, start, left-1);
+  FUNCTION(NAME, ascsort)(new_cthis, left+1, end);
 }
 
 void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)
 {
-#ifndef DATA_WITH_POINTER
-  TYPE *new_this = (TYPE *)cthis;
+  TYPE *new_cthis = (TYPE *)cthis;
   cgraph_size_t left = start, right = end;
-  TYPE key = new_this[left];
+  TYPE key = new_cthis[left];
+#ifndef DATA_WITH_POINTER
   while(left < right)
   {
-    while((left < right) && (LE(new_this[right], key)))
+    while((left < right) && (LE(new_cthis[right], key)))
     { right --; }
-    new_this[left] = new_this[right];
-    while((left < right) && (GE(new_this[left], key)))
+    new_cthis[left] = new_cthis[right];
+    while((left < right) && (GE(new_cthis[left], key)))
     { left ++; }
-    new_this[right] = new_this[left];
+    new_cthis[right] = new_cthis[left];
   }
-  new_this[left] = key;
-  FUNCTION(NAME, descsort)(new_this, start, left-1);
-  FUNCTION(NAME, descsort)(new_this, left+1, end);
+  new_cthis[left] = key;
 #else
 
 #endif
+  FUNCTION(NAME, descsort)(new_cthis, start, left-1);
+  FUNCTION(NAME, descsort)(new_cthis, left+1, end);
 }

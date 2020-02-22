@@ -54,8 +54,6 @@ dkms.conf
 # Cmake or Xmake Files
 .xmake/
 build/
-tmp/
-bin/
 lib/
 
 # VSCode Files

@@ -14,15 +14,14 @@ export MKDIR = -mkdir
 export RMDIR = -rd
 export RMDIRFLAGS = /S /Q
 export LIBSTATIC = $(LIBTARGET).a
-export LIBSHARE = $(LIBTARGET).dll
+export LIBSHARED = $(LIBTARGET).dll
 
 DIR = .
 INC = $(DIR)\include
 SRC = $(DIR)\src
 TST = $(DIR)\test
 LIB = $(DIR)\lib
-BIN = $(DIR)\bin
-PATH_LIBSHARE = $(LIB)\$(LIBSHARE)
+PATH_LIBSHARED = $(LIB)\$(LIBSHARED)
 PATH_LIBSTATIC = $(LIB)\$(LIBSTATIC)
 
 else
@@ -32,25 +31,24 @@ export MKDIR = -mkdir -p
 export RMDIR = -rm
 export RMDIRFLAGS = -rf
 export LIBSTATIC = $(LIBTARGET).a
-export LIBSHARE = $(LIBTARGET).so
+export LIBSHARED = $(LIBTARGET).so
 
 DIR = .
 INC = $(DIR)/include
 SRC = $(DIR)/src
 TST = $(DIR)/test
 LIB = $(DIR)/lib
-BIN = $(DIR)/bin
-PATH_LIBSHARE = $(LIB)/$(LIBSHARE)
+PATH_LIBSHARED = $(LIB)/$(LIBSHARED)
 PATH_LIBSTATIC = $(LIB)/$(LIBSTATIC)
 
 endif
 
-.PHONY: all test clean distclean
+.PHONY: all test clean distclean help
 
 all:
 	$(MKDIR) $(LIB)
-	$(MKDIR) $(BIN)
 	$(MAKE) -C $(SRC)
+	$(MAKE) -C $(TST)
 
 test:
 	$(MAKE) -C $(TST) test
@@ -59,10 +57,20 @@ clean:
 	$(MAKE) -C $(SRC) clean
 	$(MAKE) -C $(TST) clean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
-	$(RM) $(RMFLAGS) $(PATH_LIBSHARE)
+	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 
 distclean:
-	$(MAKE) -C $(SRC) clean
-	$(MAKE) -C $(TST) clean
+	$(MAKE) -C $(SRC) distclean
+	$(MAKE) -C $(TST) distclean
+	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
+	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
-	$(RMDIR) $(RMDIRFLAGS) $(BIN)
+
+help:
+	@echo "$(MAKE) <target>"
+	@echo "<target>: "
+	@echo "                    build cgraph"
+	@echo "          test      test cgraph"
+	@echo "          clean     clean all the generated files"
+	@echo "          distclean clean all the generated files and directories"
+	@echo "          help      commands to this program"

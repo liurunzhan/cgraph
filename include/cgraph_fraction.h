@@ -22,6 +22,15 @@ typedef struct
 #include "data_templete.h"
 
 /*                      fraction mathematical functions                       */
+extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
+
+extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, pow)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, abs)(const TYPE x);
 
 #include "templete_off.h"
 

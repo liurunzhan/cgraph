@@ -2,17 +2,19 @@
 
 A C LIBRARY FOR GRAPH ANALYSIS
 
-## configuration
+## Compilation
 
-This library supports make, cmake and xmake to configure and build this library, cross different platforms of mingw, msys2 and linux, with the tools of mingw32-make and make.
+This library supports mingw32-make, make, cmake and xmake to compile this library, cross different platforms of mingw, msys, msys2, cgywin, wsl and linux.
 
-Any compiler who supports ANSI C can build this library well.
+This library also provides shell script, [compile.sh](./compile.sh) in linux, batch script [compile.bat](./compile.bat) and powershell script [compile.ps1](./compile.ps1) to directly compile this library by C compiler without make tools.
 
-## overview
+Any compiler who supports ANSI C can compile this library well, such as mingw32-gcc and gcc.
 
-Where to go, what to do and how to do!
+## Overview
 
-## data types
+Do what you want to do, and be what you want to be!
+
+## Data types
 
 | TYPE | ID | NAME | MACRO | FUNCTION |
 | :-: | :-: | :-: | :-: | :-: |
@@ -33,10 +35,14 @@ Where to go, what to do and how to do!
 | cgraph_string_t | CGRAPH_STRING_T | string | TYPE_STRING | |
 
 
-## data structures
+## Data structures
 
 | TYPE | ID | NAME | MACRO | FUNCTION |
 | :-: | :-: | :-: | :-: | :-: |
 | cgraph_vector_t | CGRAPH_VECTOR_T | vector | TYPE_VECTOR |  |
 | cgraph_matrix_t | CGRAPH_MATRIX_T | matrix | TYPE_MATRIX |  |
 | cgraph_bigmat_t | CGRAPH_BIGMAT_T | bigmat | TYPE_BIGMAT |  |
+| cgraph_list_t | CGRAPH_LIST_T | list | TYPE_LIST |  |
+| cgraph_htable_t | CGRAPH_HTABLE_T | htable | TYPE_HTABLE |  |
+| cgraph_dframe_t | CGRAPH_DFRAME_T | dframe | TYPE_DFRAME |  |
+| cgraph_graph_t | CGRAPH_GRAPH_T | dframe | TYPE_GRAPH |  |

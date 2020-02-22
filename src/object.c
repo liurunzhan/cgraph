@@ -95,9 +95,9 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   if((CGRAPH_OBJECT_T != type) && (NULL != cthis))
   {
     if(type < CGRAPH_VECTOR_T)
-    { cthis->data = CGRAPH_OBJECT(type)->calloc(type, 1); }
+    { cthis->data = CGRAPH_OBJECT(type, calloc)(type, 1); }
     else
-    { cthis->data = CGRAPH_OBJECT(type)->calloc(CGRAPH_OBJECT_T, size); }
+    { cthis->data = CGRAPH_OBJECT(type, calloc)(CGRAPH_OBJECT_T, size); }
     if(NULL != cthis->data)
     { cthis->type = type;
       fprintf(stdout, "CALLOC OBJECT TYPE : %d\n", type);
@@ -128,7 +128,7 @@ void FUNCTION(NAME, free)(void *cthis)
   TYPE *new_this = (TYPE *)cthis;
   if(NULL != new_this)
   {
-    CGRAPH_OBJECT(new_this->type)->free(new_this->data);
+    CGRAPH_OBJECT(new_this->type, free)(new_this->data);
     fprintf(stdout, "FREE OBJECT TYPE : %d\n", new_this->type);
     cgraph_free(new_this);
   }
@@ -137,7 +137,7 @@ void FUNCTION(NAME, free)(void *cthis)
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *new_this = (TYPE *)cthis;
-  return CGRAPH_OBJECT(new_this->type)->hash(new_this->data);
+  return CGRAPH_OBJECT(new_this->type, hash)(new_this->data);
 }
 
 void *FUNCTION(NAME, data)(void *cthis)

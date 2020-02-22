@@ -13,13 +13,10 @@ typedef struct {
   void *data;
 }cgraph_object_t;
 
-#define CGRAPH_OBJECT(type) (_cgraph_objects_[type])
-
 #define TYPE_OBJECT
 
 #include "templete.h"
 #include "data_templete.h"
-
 
 void *FUNCTION(NAME, data)(void *cthis);
 
