@@ -22,7 +22,10 @@ typedef int cgraph_boolean_t;
 typedef long cgraph_long_t;
 typedef long cgraph_size_t;
 
-typedef const char cgraph_char_t;
+typedef unsigned int cgraph_uinteger_t;
+typedef unsigned long cgraph_ulong_t;
+
+typedef char cgraph_char_t;
 typedef float cgraph_float_t;
 
 #define CGRAPH_BOOLEAN_MAX CGRAPH_TRUE
@@ -47,6 +50,11 @@ typedef int16_t cgraph_int16_t;
 typedef int32_t cgraph_int32_t;
 typedef int64_t cgraph_int64_t;
 
+typedef uint8_t cgraph_uint8_t;
+typedef uint16_t cgraph_uint16_t;
+typedef uint32_t cgraph_uint32_t;
+typedef uint64_t cgraph_uint64_t;
+
 #define CGRAPH_INT8_MIN INT8_MIN
 #define CGRAPH_INT8_MAX INT8_MIN
 #define CGRAPH_INT16_MIN INT16_MIN
@@ -66,6 +74,16 @@ typedef long cgraph_int64_t;
 #else
 __extension__
 typedef long long cgraph_int64_t;
+#endif
+
+typedef unsigned char cgraph_uint8_t;
+typedef unsigned short cgraph_uint16_t;
+typedef unsigned int cgraph_uint32_t;
+#if __WORDSIZE == 64 
+typedef unsigned long cgraph_uint64_t;
+#else
+__extension__
+typedef unsigned long long cgraph_uint64_t;
 #endif
 
 #define CGRAPH_INT8_MIN (-128)
@@ -105,13 +123,14 @@ typedef enum {
   CGRAPH_BIGINT_T   = 12,
   CGRAPH_BIGNUM_T   = 13,
   CGRAPH_STRING_T   = 14,
+  CGRAPH_BITSET_T   = 15,
   /* data structural objects */
-  CGRAPH_VECTOR_T   = 15,
-  CGRAPH_MATRIX_T   = 16,
-  CGRAPH_BIGMAT_T   = 17,
-  CGRAPH_DFRAME_T   = 18,
-  CGRAPH_HTABLE_T   = 19,
-  CGRAPH_LIST_T     = 20
+  CGRAPH_VECTOR_T   = 16,
+  CGRAPH_MATRIX_T   = 17,
+  CGRAPH_BIGMAT_T   = 18,
+  CGRAPH_DFRAME_T   = 19,
+  CGRAPH_HTABLE_T   = 20,
+  CGRAPH_LIST_T     = 21
 }cgraph_type_t;
 
 typedef struct

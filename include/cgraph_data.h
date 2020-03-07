@@ -19,6 +19,7 @@ extern "C" {
 #include "cgraph_bigint.h"
 #include "cgraph_bignum.h"
 #include "cgraph_string.h"
+#include "cgraph_bitset.h"
 
 #ifdef __cplusplus
 }

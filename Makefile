@@ -1,5 +1,8 @@
+# a simple Makefile to compile cgraph and generate static and shared library, 
+# which crosses the platforms of windows and linux.
+
 export CC = cc
-export CFLAGS = -ansi -pedantic -pedantic-errors -Wall
+export CFLAGS = -ansi -pedantic -pedantic-errors -Wall -fPIC -g
 export MAKE = make
 export AR = ar
 export ARFLAGS = -rcs
@@ -7,7 +10,33 @@ export CSFLAGS = -shared
 export TARGET = cgraph
 export LIBTARGET = lib$(TARGET)
 
-ifeq ($(OS), Windows_NT)
+
+ifeq ($(shell echo "windows cmd available"), "windows cmd available")
+CMD_AVAI := YES
+else
+CMD_AVAI := NO
+endif
+
+# cross platforms
+# mingw
+# msys
+# msys2
+# cgywin
+# wsl
+# linux
+# referred by http://www.imooc.com/wenda/detail/584860
+ifeq '$(findstring ;,$(PATH))' ';'
+DETECTED_OS := Windows
+else
+DETECTED_OS := $(shell uname 2>/dev/null || echo Unknown)
+DETECTED_OS := $(patsubst CYGWIN%,Cygwin,$(DETECTED_OS))
+DETECTED_OS := $(patsubst MSYS%,MSYS,$(DETECTED_OS))
+DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
+endif
+
+export MY_OS = $(DETECTED_OS)
+
+ifeq ($(CMD_AVAI), YES)
 export RM = -del
 export RMFLAGS = /S /Q /F
 export MKDIR = -mkdir
@@ -46,20 +75,25 @@ endif
 .PHONY: all test clean distclean help
 
 all:
+	@echo "compile cgraph in Platform $(MY_OS)"
 	$(MKDIR) $(LIB)
 	$(MAKE) -C $(SRC)
 	$(MAKE) -C $(TST)
 
 test:
+	@echo "test cgraph in Platform $(MY_OS)"
 	$(MAKE) -C $(TST) test
 
 clean:
+	@echo "$(shell 1+2)"
+	@echo "clean cgraph in Platform $(MY_OS)"
 	$(MAKE) -C $(SRC) clean
 	$(MAKE) -C $(TST) clean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 
 distclean:
+	@echo "distclean cgraph in Platform $(MY_OS)"
 	$(MAKE) -C $(SRC) distclean
 	$(MAKE) -C $(TST) distclean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
@@ -67,6 +101,7 @@ distclean:
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
 
 help:
+	@echo "build cgraph in Platform $(MY_OS)"
 	@echo "$(MAKE) <target>"
 	@echo "<target>: "
 	@echo "                    build cgraph"

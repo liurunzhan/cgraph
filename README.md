@@ -6,7 +6,7 @@ A C LIBRARY FOR GRAPH ANALYSIS
 
 This library supports mingw32-make, make, cmake and xmake to compile this library, cross different platforms of mingw, msys, msys2, cgywin, wsl and linux.
 
-This library also provides shell script, [compile.sh](./compile.sh) in linux, batch script [compile.bat](./compile.bat) and powershell script [compile.ps1](./compile.ps1) to directly compile this library by C compiler without make tools.
+This library also provides shell script [compile.sh](./compile.sh) and z shell script [compile.zsh](./compile.zsh) in msys, msys2, cgywin, wsl and linux, batch script [compile.bat](./compile.bat) and powershell script [compile.ps1](./compile.ps1) in mingw to directly compile this library by C compiler without make tools. All the compile scripts provide the same command-line arguments, without any argument or with the arguments of test, clean, distclean and help.
 
 Any compiler who supports ANSI C can compile this library well, such as mingw32-gcc and gcc.
 
@@ -14,7 +14,9 @@ Any compiler who supports ANSI C can compile this library well, such as mingw32-
 
 Do what you want to do, and be what you want to be!
 
-## Data types
+## Data Types
+
+### Data Type List
 
 | TYPE | ID | NAME | MACRO | FUNCTION |
 | :-: | :-: | :-: | :-: | :-: |
@@ -34,8 +36,31 @@ Do what you want to do, and be what you want to be!
 | cgraph_bignum_t | CGRAPH_BIGNUM_T | bignum | TYPE_BIGNUM | |
 | cgraph_string_t | CGRAPH_STRING_T | string | TYPE_STRING | |
 
+### cgraph_object_t
 
-## Data structures
+``` c
+typedef struct 
+{
+  cgraph_type_t type;
+  cgraph_size_t hash;
+  void *data;
+}cgraph_object_t;
+
+```
+
+### cgraph_complex_t
+
+### cgraph_fraction_t
+
+### cgraph_bigint_t
+
+### cgraph_bignum_t
+
+### cgraph_string_t
+
+## Data Structures
+
+### Data Structure List
 
 | TYPE | ID | NAME | MACRO | FUNCTION |
 | :-: | :-: | :-: | :-: | :-: |
@@ -45,4 +70,4 @@ Do what you want to do, and be what you want to be!
 | cgraph_list_t | CGRAPH_LIST_T | list | TYPE_LIST |  |
 | cgraph_htable_t | CGRAPH_HTABLE_T | htable | TYPE_HTABLE |  |
 | cgraph_dframe_t | CGRAPH_DFRAME_T | dframe | TYPE_DFRAME |  |
-| cgraph_graph_t | CGRAPH_GRAPH_T | dframe | TYPE_GRAPH |  |
+| cgraph_graph_t | CGRAPH_GRAPH_T | graph | TYPE_GRAPH |  |

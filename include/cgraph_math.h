@@ -18,6 +18,12 @@ extern cgraph_char_t cgraph_math_toupper(cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(cgraph_char_t data);
 extern cgraph_size_t cgraph_math_baseoflen(const cgraph_integer_t data, const cgraph_integer_t base);
 
+#define	CGRAPH_RANDOM_MAX	2147483647
+
+extern cgraph_integer_t cgraph_random(void);
+extern cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_integer_t max);
+extern cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t sigma);
+
 #ifdef __cplusplus
 }
 #endif

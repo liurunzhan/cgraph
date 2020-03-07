@@ -12,7 +12,7 @@ LIB=${DIR}/lib
 
 # compiler configuration
 CC=cc
-CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC"
+CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC -g"
 CSFLAGS="-shared"
 
 # build and clean directories and files

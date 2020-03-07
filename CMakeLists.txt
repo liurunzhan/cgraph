@@ -6,18 +6,17 @@ set(PROJECT "cgraph")
 set(VERSION "0.0.0")
 
 # set project configuration
-set(CXX_FLAGS -ansi -pedantic -pedantic-errors -Wall)
+set(CXX_FLAGS -ansi –pedantic -pedantic-errors -Wall -fPIC -g)
 
 set(INC "${PROJECT_SOURCE_DIR}/include")
 set(SRC "${PROJECT_SOURCE_DIR}/src")
 set(LIB "${PROJECT_SOURCE_DIR}/lib")
-set(BIN "${PROJECT_SOURCE_DIR}/bin")
 set(TST "${PROJECT_SOURCE_DIR}/test")
 
 include_directories(${INC})
 file(GLOB SRC_LIST "${PROJECT_SOURCE_DIR}/src/*.c")
 set(LIBRARY_OUTPUT_PATH ${LIB})
-set(EXECUTABLE_OUTPUT_PATH ${BIN})
+set(EXECUTABLE_OUTPUT_PATH ${TST})
 
 # create shared library of cgraph
 add_library(LIBSHARED SHARED ${SRC_LIST})

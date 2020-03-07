@@ -11,20 +11,22 @@ $TST=Join-Path $DIR "test"
 $LIB=Join-Path $DIR "lib"
 
 # compiler configuration
-# $CFLAGS=-ansi -pedantic -pedantic-errors -Wall -fPIC
-# $CSFLAGS=-shared
+$CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC -g".Split()
+$CSFLAGS="-shared".Split()
 
 # source files
 $CFILES=ls $SRC\*.c
 # target files
-$LIBSHARED=Join-Path $LIB "lib$PRO.so"
+$LIBSHARED=Join-Path $LIB "lib$PRO.dll"
 $LIBSTATIC=Join-Path $LIB "lib$PRO.a"
 # test files
 $TSTFILE=Join-Path $TST "$PRO.c"
-$TSTTARGET=Join-Path $TST $PRO
+$TSTTARGET=Join-Path $TST "$PRO.exe"
+$TSTCSV=Join-Path $TST "elements.csv"
 
 # commands to $0
 $OPT=$args
+echo "$OPT"
 
 if($OPT.Count -eq 0)
 {
@@ -33,55 +35,55 @@ if($OPT.Count -eq 0)
   {
     $obj=$file -replace "\.c", ".o"
     # echo "compile $file to $obj"
-    cc -ansi -pedantic -pedantic-errors -Wall -fPIC -I$INC -c $file -o $obj
+    & cc $CFLAGS -I./include -c $file -o $obj
   }
   echo "compile $LIBSHARED"
   cc -shared -o $LIBSHARED $SRC\*.o
   echo "compile $LIBSTATIC"
   ar -rcs $LIBSTATIC $SRC\*.o
 }
-elseif($OPT.CompareTo("test"))
+elseif($OPT[0] -ceq "test")
 {
   echo "compile $TSTFILE to $TSTTARGET"
-  & $CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm
-  echo "test $TSTTARGET with $TST/elements.csv"
-  & $TSTTARGET "$TST/elements.csv"
+  & cc $CFLAGS -I./include -o $TSTTARGET $TSTFILE -L./lib -static -lcgraph -lm
+  echo "test $TSTTARGET with $TSTCSV"
+  & $TSTTARGET $TSTCSV
 }
-elseif($OPT.CompareTo("clean"))
+elseif($OPT[0] -ceq "clean")
 {
   foreach($file in $CFILES)
   {
-    $obj=$file -replace ".c", ".o"
+    $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
-    & $RM $RMFLAGS $obj
+    rm $obj
   }
   echo "clean $LIBSHARED"
-  & $RM $RMFLAGS $LIBSHARED
+  rm $LIBSHARED
   echo "clean $LIBSTATIC"
-  & $RM $RMFLAGS $LIBSTATIC
+  rm $LIBSTATIC
   echo "clean $TSTTARGET"
-  & $RM $RMFLAGS $TSTTARGET
+  rm $TSTTARGET
 }
-elseif($OPT.CompareTo("distclean"))
+elseif($OPT[0] -ceq "distclean")
 {
   foreach($file in $CFILES)
   {
-    $obj=$file -replace ".c", ".o"
+    $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
-    & $RM $RMFLAGS $obj
+    rm $obj
   }
   echo "clean $LIBSHARED"
-  & $RM $RMFLAGS $LIBSHARED
+  rm $LIBSHARED
   echo "clean $LIBSTATIC"
-  & $RM $RMFLAGS $LIBSTATIC
+  rm $LIBSTATIC
   echo "clean $LIB"
-  & $RM $RMFLAGS $LIB
+  rmdir $LIB
   echo "clean $TSTTARGET"
-  & $RM $RMFLAGS $TSTTARGET
+  rm $TSTTARGET
 }
-elseif($OPT.CompareTo("help"))
+elseif($OPT[0] -ceq "help")
 {
-  echo " <target>"
+  echo "$TSTTARGET"
   echo "<target>: "
   echo "                    compile cgraph"
   echo "          test      test cgraph"

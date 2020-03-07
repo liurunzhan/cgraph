@@ -7,9 +7,10 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-typedef struct {
+typedef struct 
+{
   cgraph_type_t type;
-  cgraph_size_t hcode;
+  cgraph_size_t hash;
   void *data;
 }cgraph_object_t;
 

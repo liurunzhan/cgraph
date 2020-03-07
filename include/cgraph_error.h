@@ -8,6 +8,8 @@ extern "C" {
 #include <stdio.h>
 #include "cgraph_config.h"
 
+#define CGRAPH_TIME_BUFFER_SIZE 256
+
 typedef enum 
 {
   CGRAPH_ERROR_NO_ERROR,                  /* NO ERROR */
@@ -29,6 +31,7 @@ void cgraph_error(cgraph_error_t reason, const cgraph_size_t line, cgraph_char_t
 extern cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason);
 extern void cgraph_error_details_md(FILE *fout);
 extern void cgraph_error_details_csv(FILE *fout);
+extern void cgraph_error_log(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...);
 
 #ifdef __cplusplus
 }

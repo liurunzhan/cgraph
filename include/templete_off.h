@@ -42,26 +42,6 @@
 #undef STRUCT
 #endif
 
-#ifdef DATA_MIN
-#undef DATA_MIN
-#endif
-
-#ifdef DATA_MAX
-#undef DATA_MAX
-#endif
-
-#ifdef DATA_WITH_POINTER
-#undef DATA_WITH_POINTER
-#endif
-
-#ifdef DATA_TYPE
-#undef DATA_TYPE
-#endif
-
-#ifdef DATA_EPSILON
-#undef DATA_EPSILON
-#endif
-
 #ifdef TYPE_OBJECT
 #undef TYPE_OBJECT
 #endif
@@ -122,6 +102,10 @@
 #undef TYPE_STRING
 #endif
 
+#ifdef TYPE_BITSET
+#undef TYPE_BITSET
+#endif
+
 #ifdef TYPE_VECTOR
 #undef TYPE_VECTOR
 #endif
@@ -162,8 +146,40 @@
 #undef OUT_FORMAT
 #endif
 
+#ifdef DATA_TYPE
+#undef DATA_TYPE
+#endif
+
+#ifdef DATA_WITH_POINTER
+#undef DATA_WITH_POINTER
+#endif
+
 #ifdef ZERO
 #undef ZERO
+#endif
+
+#ifdef DATA_MAX
+#undef DATA_MAX
+#endif
+
+#ifdef DATA_MIN
+#undef DATA_MIN
+#endif
+
+#ifdef DATA_EPSILON
+#undef DATA_EPSILON
+#endif
+
+#ifdef DATA_BITS
+#undef DATA_BITS
+#endif
+
+#ifdef DATA_ID
+#undef DATA_ID
+#endif
+
+#ifdef DATA_ONES
+#undef DATA_ONES
 #endif
 
 #ifdef ADD

@@ -7,9 +7,16 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define BOOLEAN_AND(x, y) (((x == CGRAPH_FALSE) || (y == CGRAPH_FALSE)) ? CGRAPH_FALSE : CGRAPH_TRUE)
+#define BOOLEAN_OR(x, y) (((x == CGRAPH_TRUE) || (y == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define BOOLEAN_NOT(x) ((x == CGRAPH_TRUE) ? CGRAPH_FALSE : CGRAPH_TRUE)
+#define BOOLEAN_XOR(x, y) ((x != y) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define BOOLEAN_XNOR(x, y) ((x == y) ? CGRAPH_TRUE : CGRAPH_FALSE)
+
 #define TYPE_BOOLEAN
 #include "templete.h"
 #include "data_templete.h"
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

@@ -1,17 +1,61 @@
-TYPE FUNCTION(NAME, gcd)(TYPE x, TYPE y)
+TYPE FUNCTION(NAME, gcd)(const TYPE x, const  TYPE y)
 {
-  TYPE res;
-  while(0 != (res = MOD(x, y)))
+  TYPE res_x = x, res_y = y, res;
+  while(0 != (res = MOD(res_x, res_y)))
   {
-    x = y;
-    y = res;
+    res_x = res_y;
+    res_y = res;
   }
-  res = y;
+  res = res_y;
   
   return res;
 }
 
-TYPE FUNCTION(NAME, lcm)(TYPE x, TYPE y)
+TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y)
 {
   return x * y / FUNCTION(NAME, gcd)(x, y);
+}
+
+TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y)
+{
+  return x & y;
+}
+
+TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y)
+{
+  return x | y;
+}
+
+TYPE FUNCTION(NAME, not)(const TYPE x)
+{
+  return ~x;
+}
+
+TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y)
+{
+  return x ^ y;
+}
+
+TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
+{
+  return ~(x ^ y);
+}
+
+cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)
+{
+  TYPE res_x = x;
+  cgraph_size_t cnt = 0;
+  while(0 != res_x)
+  {
+    res_x = res_x & (res_x-1);
+    cnt ++;
+  }
+
+  return cnt;
+}
+
+TYPE FUNCTION(NAME, crc)(const TYPE data, const TYPE polynomial)
+{
+  TYPE res;
+  
 }

@@ -21,7 +21,7 @@ $(LIBSHARED_TARGET): $(OBJECT)
 	$(CC) $(CSFLAGS) -o $(LIBSHARED_TARGET) $(OBJECT)
 
 $(OBJECT): %.o: %.c
-	$(CC) $(CFLAGS) -fPIC -I$(INC) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
 
 clean:
 	$(RM) $(RMFLAGS) $(OBJECT)

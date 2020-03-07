@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdarg.h>
+#include <time.h>
 #include "cgraph_error.h"
 
 static cgraph_char_t *__cgraph_error_strings__[] = 
@@ -50,4 +52,17 @@ void cgraph_error_details_csv(FILE *fp)
     for(i=0; i<CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS; i++)
     { fprintf(fp, "%d,%s\n", i, CGRAPH_ERROR_STRING(i)); }
   }
+}
+
+void cgraph_error_log(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...)
+{
+  cgraph_char_t time_buffer[CGRAPH_TIME_BUFFER_SIZE];
+  time_t local_time;
+  va_list args;
+  time(&local_time);
+  strftime(time_buffer, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
+  va_start(args, format);
+  vsprintf(buffer, format, args);
+  va_end(args);
+  fprintf(fp, "%s: %s\n", time_buffer, buffer);
 }

@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <math.h>
 #include "cgraph_math.h"
 
 cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data)
@@ -66,4 +67,78 @@ cgraph_size_t cgraph_math_baseoflen(const cgraph_integer_t data, const cgraph_in
   }
 
   return len;
+}
+
+cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data)
+{
+  cgraph_boolean_t flag = CGRAPH_TRUE;
+  cgraph_integer_t tmp;
+  if(2 > data)
+  { flag = CGRAPH_FALSE; }
+  else if((2 == data) || (3 == data))
+  { flag = CGRAPH_TRUE; }
+  else if((1 != (tmp=(data%6))) && (5 != tmp))
+  { flag = CGRAPH_FALSE; }
+  else
+  {
+    cgraph_integer_t root = sqrt(data), i;
+    for(i=5; i<=root; i++)
+    {
+      if((0 == (data%i)) || (0 == (data%(i+2))))
+      {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+  
+  return flag;
+}
+
+static cgraph_integer_t cgraph_seed = 0;
+
+/*
+	Author  : Park,  Miller
+	Methode : X(n+1) <- (a * X(n) + b) % m
+	a = 16807 or 48271
+	m = 2147483647 (CGRAPH_RANDOM_MAX, 2^31 - 1 or 2 << 31 - 1)
+	b = 0
+	returning a 32bit integer [1, 2147483647]
+	X(0) = 1
+*/
+cgraph_integer_t cgraph_random(void)
+{
+  const cgraph_integer_t a = 48271, m = CGRAPH_RANDOM_MAX;
+  const cgraph_integer_t m_div_a = m / a, m_mod_a = m % a;
+  cgraph_integer_t hi = cgraph_seed / m_div_a, lo = cgraph_seed % m_div_a;
+  cgraph_seed = (a * lo - m_mod_a * hi);
+
+  return cgraph_seed;
+}
+
+cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_integer_t max)
+{
+  return cgraph_random() % (max-min) + min;
+}
+
+/*
+	Authors : Box and Muller
+	mu      : the average value of the normal distribution
+	sigma   : the variance of the normal distribution
+*/
+cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t sigma)
+{
+	static cgraph_real_t U, V, Z;
+	static cgraph_boolean_t phase = CGRAPH_FALSE;
+	if(!phase)
+	{
+		U = (1.0 * cgraph_random() + 1.0) / (CGRAPH_RANDOM_MAX + 2.0);
+		V = 1.0 * cgraph_random() / (CGRAPH_RANDOM_MAX + 1.0);
+		Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
+	}
+	else
+	{ Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V); }
+	phase  = CGRAPH_TRUE - phase;
+
+	return Z * sigma + mu;
 }

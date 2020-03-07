@@ -6,7 +6,7 @@ SOURCE = cgraph.c
 ifndef TARGET
 TARGET = cgraph
 endif
-ifeq ($(OS), Windows_NT)
+ifeq ($(MY_OS), Windows_NT)
 TARGET_TEST = $(TARGET).exe
 else
 TARGET_TEST = $(TARGET)

@@ -7,7 +7,17 @@
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
+  TYPE *cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
+  if(NULL != cthis)
+  {
+    cthis->data = CGRAPH_OBJECT(type, calloc)(type, size);
+    if(NULL != cthis->data)
+    { cthis->size = size; }
+    else
+    { cgraph_free(cthis); }
+  }
 
+  return cthis;
 }
 
 void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_boolean_t *error)

@@ -25,6 +25,7 @@ CGVTable *_cgraph_objects_[] =
   &STRUCT(bigint),
   &STRUCT(bignum),
   &STRUCT(string),
+  &STRUCT(bitset),
   &STRUCT(vector),
   &STRUCT(matrix),
   &STRUCT(bigmat),

@@ -26,6 +26,9 @@
 #define ZERO 0
 #define DATA_MIN CGRAPH_INTEGER_MAX
 #define DATA_MAX CGRAPH_INTEGER_MIN
+#define DATA_ID ID
+#define DATA_BITS (8*sizeof(TYPE))
+#define DATA_ONES ((cgraph_uinteger_t)(-1))
 
 #elif defined(TYPE_REAL)
 #define TYPE cgraph_real_t
@@ -36,6 +39,7 @@
 #define ZERO 0.0
 #define DATA_MAX CGRAPH_REAL_MAX
 #define DATA_MIN CGRAPH_REAL_MIN
+#define DATA_ID ID
 
 #elif defined(TYPE_BOOLEAN)
 #define TYPE cgraph_boolean_t
@@ -45,6 +49,9 @@
 #define ZERO 0
 #define DATA_MAX CGRAPH_BOOLEAN_MAX
 #define DATA_MIN CGRAPH_BOOLEAN_MIN
+#define DATA_ID ID
+#define DATA_BITS (1)
+#define DATA_ONES CGRAPH_TRUE
 
 #elif defined(TYPE_FLOAT)
 #define TYPE cgraph_float_t
@@ -55,6 +62,7 @@
 #define ZERO 0.0
 #define DATA_MAX CGRAPH_FLOAT_MAX
 #define DATA_MIN CGRAPH_FLOAT_MIN
+#define DATA_ID ID
 
 #elif defined(TYPE_LONG)
 #define TYPE cgraph_long_t
@@ -64,6 +72,9 @@
 #define ZERO 0
 #define DATA_MAX CGRAPH_LONG_MAX
 #define DATA_MIN CGRAPH_LONG_MIN
+#define DATA_ID ID
+#define DATA_BITS (8*sizeof(TYPE))
+#define DATA_ONES ((cgraph_ulong_t)(-1))
 
 #elif defined(TYPE_INT8)
 #define TYPE cgraph_int8_t
@@ -73,6 +84,9 @@
 #define ZERO 0
 #define DATA_MAX CGRAPH_INT8_MAX
 #define DATA_MIN CGRAPH_INT8_MIN
+#define DATA_ID ID
+#define DATA_BITS (8*sizeof(TYPE))
+#define DATA_ONES ((cgraph_uint8_t)(-1))
 
 #elif defined(TYPE_INT16)
 #define TYPE cgraph_int16_t
@@ -82,6 +96,9 @@
 #define ZERO 0
 #define DATA_MAX CGRAPH_INT16_MAX
 #define DATA_MIN CGRAPH_INT16_MIN
+#define DATA_ID ID
+#define DATA_BITS (8*sizeof(TYPE))
+#define DATA_ONES ((cgraph_uint16_t)(-1))
 
 #elif defined(TYPE_INT32)
 #define TYPE cgraph_int32_t
@@ -91,6 +108,9 @@
 #define ZERO 0
 #define DATA_MAX CGRAPH_INT32_MAX
 #define DATA_MIN CGRAPH_INT32_MIN
+#define DATA_ID ID
+#define DATA_BITS (8*sizeof(TYPE))
+#define DATA_ONES ((cgraph_uint32_t)(-1))
 
 #elif defined(TYPE_INT64)
 #define TYPE cgraph_int64_t
@@ -100,27 +120,34 @@
 #define ZERO 0
 #define DATA_MAX CGRAPH_INT64_MAX
 #define DATA_MIN CGRAPH_INT64_MIN
+#define DATA_ID ID
+#define DATA_BITS (8*sizeof(TYPE))
+#define DATA_ONES ((cgraph_uint64_t)(-1))
 
 #elif defined(TYPE_COMPLEX)
 #define TYPE cgraph_complex_t
 #define ID CGRAPH_COMPLEX_T
 #define NAME complex
 #define OUT_FORMAT "%g"
-#define DATA_TYPE double
+#define DATA_TYPE cgraph_real_t
 #define DATA_EPSILON DBL_EPSILON
 #define ZERO {0.0, 0.0}
 #define DATA_MAX {CGRAPH_REAL_MAX, CGRAPH_REAL_MAX}
 #define DATA_MIN {CGRAPH_REAL_MIN, CGRAPH_REAL_MIN}
+#define DATA_ID CGRAPH_REAL_T
 
 #elif defined(TYPE_FRACTION)
 #define TYPE cgraph_fraction_t
 #define ID CGRAPH_FRACTION_T
 #define NAME fraction
 #define OUT_FORMAT "%d"
-#define DATA_TYPE int
+#define DATA_TYPE cgraph_integer_t
 #define ZERO {0, 1}
 #define DATA_MAX {INT_MAX, 1}
 #define DATA_MIN {INT_MIN, 1}
+#define DATA_ID CGRAPH_INTEGER_T
+#define DATA_BITS (8*sizeof(DATA_TYPE))
+#define DATA_ONES {((cgraph_uinteger_t)(-1)), 1}
 
 #elif defined(TYPE_BIGINT)
 #define TYPE cgraph_bigint_t
@@ -132,6 +159,9 @@
 #define ZERO 0
 #define DATA_MAX CGRAPH_INT8_MAX
 #define DATA_MIN CGRAPH_INT8_MIN
+#define DATA_ID CGRAPH_INT8_T
+#define DATA_BITS (8*sizeof(DATA_TYPE))
+#define DATA_ONES ((cgraph_uint8_t)(-1))
 
 #elif defined(TYPE_BIGNUM)
 #define TYPE cgraph_bignum_t
@@ -143,17 +173,37 @@
 #define ZERO "0.0"
 #define DATA_MAX '9'
 #define DATA_MIN '0'
+#define DATA_ID CGRAPH_CHAR_T
+#define DATA_BITS (8*sizeof(DATA_TYPE))
+#define DATA_ONES ('1')
 
 #elif defined(TYPE_STRING)
 #define TYPE cgraph_string_t
 #define ID CGRAPH_STRING_T
 #define NAME string
 #define OUT_FORMAT "%s"
-#define DATA_TYPE char
+#define DATA_TYPE cgraph_char_t
 #define DATA_WITH_POINTER
 #define ZERO ""
 #define DATA_MAX CHAR_MAX
 #define DATA_MIN CHAR_MIN
+#define DATA_ID CGRAPH_CHAR_T
+#define DATA_BITS (8*sizeof(DATA_TYPE))
+#define DATA_ONES ('1')
+
+#elif defined(TYPE_BITSET)
+#define TYPE cgraph_bitset_t
+#define ID CGRAPH_BITSET_T
+#define NAME bitset
+#define OUT_FORMAT "%c"
+#define DATA_TYPE cgraph_int8_t
+#define DATA_WITH_POINTER
+#define ZERO 0
+#define DATA_MAX INT8_MAX
+#define DATA_MIN INT8_MIN
+#define DATA_ID CGRAPH_INT8_T
+#define DATA_BITS (8*sizeof(DATA_TYPE))
+#define DATA_ONES ((cgraph_uint8_t)(-1))
 
 #elif defined(TYPE_VECTOR)
 #define TYPE cgraph_vector_t
@@ -337,6 +387,9 @@
 
 #define ABS(a) ((a))
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
+
+#elif defined(TYPE_BITSET)
+
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_HTABLE) || defined(TYPE_LIST)
 

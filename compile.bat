@@ -13,7 +13,7 @@ set LIB=%DIR%lib
 
 rem compiler configuration
 set CC=cc
-set CFLAGS=-ansi -pedantic -pedantic-errors -Wall -fPIC
+set CFLAGS=-ansi -pedantic -pedantic-errors -Wall -fPIC -g
 set CSFLAGS=-shared
 
 rem build and clean directories and files

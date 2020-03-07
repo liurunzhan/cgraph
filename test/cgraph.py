@@ -1,4 +1,5 @@
+import pandas as pd
 import networkx as nx
 
-file = ""
-grpah = nx.read_edgelist(file, create_using=nx.DiGraph())
+file = "./elements.csv"
+elements = pd.read_csv()
