@@ -20,6 +20,8 @@ CGVTable *_cgraph_objects_[] =
   &STRUCT(int16),
   &STRUCT(int32),
   &STRUCT(int64),
+  NULL,
+  // &STRUCT(time),
   &STRUCT(complex),
   &STRUCT(fraction),
   &STRUCT(bigint),
@@ -112,39 +114,39 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 
 void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_boolean_t *error)
 {
-  TYPE *new_cthis = (TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
 
-  return new_cthis;
+  return object;
 }
 
 void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 {
-  TYPE *new_cthis = (TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
 
-  return new_cthis;
+  return object;
 }
 
 void FUNCTION(NAME, free)(void *cthis)
 {
-  TYPE *new_this = (TYPE *)cthis;
-  if(NULL != new_this)
+  TYPE *object = (TYPE *)cthis;
+  if(NULL != object)
   {
-    CGRAPH_OBJECT(new_this->type, free)(new_this->data);
-    fprintf(stdout, "FREE OBJECT TYPE : %d\n", new_this->type);
-    cgraph_free(new_this);
+    CGRAPH_OBJECT(object->type, free)(object->data);
+    fprintf(stdout, "FREE OBJECT TYPE : %d\n", object->type);
+    cgraph_free(object);
   }
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *new_this = (TYPE *)cthis;
-  return CGRAPH_OBJECT(new_this->type, hash)(new_this->data);
+  TYPE *object = (TYPE *)cthis;
+  return CGRAPH_OBJECT(object->type, hash)(object->data);
 }
 
 void *FUNCTION(NAME, data)(void *cthis)
 {
-  TYPE *new_cthis = (TYPE *)cthis;
-  return new_cthis->data;
+  TYPE *object = (TYPE *)cthis;
+  return object->data;
 }
 
 #include "templete_off.h"

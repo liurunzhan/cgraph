@@ -82,6 +82,10 @@
 #undef TYPE_INT64
 #endif
 
+#ifdef TYPE_TIME
+#undef TYPE_TIME
+#endif
+
 #ifdef TYPE_COMPLEX
 #undef TYPE_COMPLEX
 #endif

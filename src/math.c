@@ -97,6 +97,11 @@ cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data)
 
 static cgraph_integer_t cgraph_seed = 0;
 
+void cgraph_random_seed(cgraph_integer_t seed)
+{
+  cgraph_seed = seed;
+}
+
 /*
 	Author  : Park,  Miller
 	Methode : X(n+1) <- (a * X(n) + b) % m

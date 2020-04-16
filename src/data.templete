@@ -31,6 +31,7 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, dsize),   /* cgraph_size_t (*dsize)(void);  */
   FUNCTION(NAME, name),    /* cgraph_char_t *(*name)(void);  */
   FUNCTION(NAME, calloc),  /* void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);  */
+  FUNCTION(NAME, realloc), /* void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size); */
   FUNCTION(NAME, free),    /* void *(*free)(void *gthis);  */
   FUNCTION(NAME, copy),    /* void *(*copy)(const void *cthis, const cgraph_size_t size);  */
   FUNCTION(NAME, hash)     /* cgraph_size_t (*hash)(const void *cthis);  */
@@ -64,8 +65,8 @@ cgraph_char_t *FUNCTION(NAME, name)(void)
 cgraph_size_t FUNCTION(NAME, len)(void *cthis)
 {
 #ifdef DATA_WITH_POINTER
-  TYPE *new_cthis = (TYPE *)cthis;
-  return new_cthis->len;
+  TYPE *object = (TYPE *)cthis;
+  return object->len;
 #else
   return 1;
 #endif
@@ -98,117 +99,117 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_boolean_t *error)
 {
 #ifndef DATA_WITH_POINTER
-  TYPE *new_cthis = (TYPE *)cgraph_realloc(cthis, old_size, new_size, FUNCTION(NAME, size)(), error);
+  TYPE *object = (TYPE *)cgraph_realloc(cthis, old_size, new_size, FUNCTION(NAME, size)(), error);
 #else
-  TYPE *new_cthis = (TYPE *)cthis;
-  if(NULL != new_cthis)
+  TYPE *object = (TYPE *)cthis;
+  if(NULL != object)
   {
-    new_cthis->data = (DATA_TYPE *)cgraph_realloc(new_cthis->data, new_cthis->size, new_size,FUNCTION(NAME, dsize)(), error);
-    new_cthis->size = ((*error == CGRAPH_FALSE) ? new_size : new_cthis->size);
+    object->data = (DATA_TYPE *)cgraph_realloc(object->data, object->size, new_size,FUNCTION(NAME, dsize)(), error);
+    object->size = ((*error == CGRAPH_FALSE) ? new_size : object->size);
   }
 #endif
 
-  return new_cthis;
+  return object;
 }
 
 void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 {
-  TYPE *new_cthis = (TYPE *)FUNCTION(NAME, calloc)(ID, size);
+  TYPE *object = (TYPE *)FUNCTION(NAME, calloc)(ID, size);
 #ifndef DATA_WITH_POINTER
-  new_cthis = (TYPE *)cgraph_memcpy(new_cthis, cthis, size, FUNCTION(NAME, size)());
+  object = (TYPE *)cgraph_memcpy(object, cthis, size, FUNCTION(NAME, size)());
 #else
-  if(NULL != new_cthis)
+  if(NULL != object)
   {
-    new_cthis->data = (DATA_TYPE *)cgraph_memcpy(new_cthis->data, ((TYPE *)cthis)->data, size, FUNCTION(NAME, dsize)());
+    object->data = (DATA_TYPE *)cgraph_memcpy(object->data, ((TYPE *)cthis)->data, size, FUNCTION(NAME, dsize)());
   }
 #endif
 
-  return new_cthis;
+  return object;
 }
 
 void FUNCTION(NAME, free)(void *cthis)
 {
 #ifdef DATA_WITH_POINTER
-  TYPE *new_cthis = (TYPE *)cthis;
-  if(NULL != new_cthis)
-  { cgraph_free(new_cthis->data); }
+  TYPE *object = (TYPE *)cthis;
+  if(NULL != object)
+  { cgraph_free(object->data); }
 #endif
   cgraph_free(cthis);
 }
 
 void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size)
 {
-  TYPE *new_cthis = (TYPE *)cthis, *new_data = (TYPE *)data;
+  TYPE *object = (TYPE *)cthis, *new_data = (TYPE *)data;
 
-  if(NULL != new_cthis && NULL != new_data)
+  if(NULL != object && NULL != new_data)
   {
 #ifdef DATA_WITH_POINTER
-    cgraph_memcpy(new_cthis->data, new_data->data, new_data->len, FUNCTION(NAME, dsize)());
+    cgraph_memcpy(object->data, new_data->data, new_data->len, FUNCTION(NAME, dsize)());
 #else
-    cgraph_memcpy(new_cthis, new_data, size, FUNCTION(NAME, dsize)());
+    cgraph_memcpy(object, new_data, size, FUNCTION(NAME, dsize)());
 #endif
   }
-  return new_cthis;
+  return object;
 }
 
 void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t size)
 {
-  TYPE *new_cthis = (TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
 #ifdef DATA_WITH_POINTER
   DATA_TYPE *new_data = (DATA_TYPE *)data;
-  if(NULL != new_cthis && NULL != new_data)
-  { cgraph_memcpy(new_cthis->data, new_data, size, FUNCTION(NAME, dsize)()); }
+  if(NULL != object && NULL != new_data)
+  { cgraph_memcpy(object->data, new_data, size, FUNCTION(NAME, dsize)()); }
 #else
   TYPE *new_data = (TYPE *)data;
-  if(NULL != new_cthis && NULL != new_data)
-  { cgraph_memcpy(new_cthis, new_data, size, FUNCTION(NAME, dsize)()); }
+  if(NULL != object && NULL != new_data)
+  { cgraph_memcpy(object, new_data, size, FUNCTION(NAME, dsize)()); }
 #endif
 
-  return new_cthis;
+  return object;
 }
 
 void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)
 {
-  TYPE *new_cthis = (TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
   cgraph_size_t left = start, right = end;
-  TYPE key = new_cthis[left];
+  TYPE key = object[left];
 #ifndef DATA_WITH_POINTER
   while(left < right)
   {
-    while((left < right) && (GE(new_cthis[right], key)))
+    while((left < right) && (GE(object[right], key)))
     { right --; }
-    new_cthis[left] = new_cthis[right];
-    while((left < right) && (LE(new_cthis[left],key)))
+    object[left] = object[right];
+    while((left < right) && (LE(object[left],key)))
     { left ++; }
-    new_cthis[right] = new_cthis[left];
+    object[right] = object[left];
   }
-  new_cthis[left] = key;
+  object[left] = key;
 #else
 
 #endif
-  FUNCTION(NAME, ascsort)(new_cthis, start, left-1);
-  FUNCTION(NAME, ascsort)(new_cthis, left+1, end);
+  FUNCTION(NAME, ascsort)(object, start, left-1);
+  FUNCTION(NAME, ascsort)(object, left+1, end);
 }
 
 void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)
 {
-  TYPE *new_cthis = (TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
   cgraph_size_t left = start, right = end;
-  TYPE key = new_cthis[left];
+  TYPE key = object[left];
 #ifndef DATA_WITH_POINTER
   while(left < right)
   {
-    while((left < right) && (LE(new_cthis[right], key)))
+    while((left < right) && (LE(object[right], key)))
     { right --; }
-    new_cthis[left] = new_cthis[right];
-    while((left < right) && (GE(new_cthis[left], key)))
+    object[left] = object[right];
+    while((left < right) && (GE(object[left], key)))
     { left ++; }
-    new_cthis[right] = new_cthis[left];
+    object[right] = object[left];
   }
-  new_cthis[left] = key;
+  object[left] = key;
 #else
 
 #endif
-  FUNCTION(NAME, descsort)(new_cthis, start, left-1);
-  FUNCTION(NAME, descsort)(new_cthis, left+1, end);
+  FUNCTION(NAME, descsort)(object, start, left-1);
+  FUNCTION(NAME, descsort)(object, left+1, end);
 }

@@ -17,7 +17,8 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, dsize),   /* cgraph_size_t (*dsize)(void);  */
   FUNCTION(NAME, name),    /* cgraph_char_t *(*name)(void);  */
   FUNCTION(NAME, calloc),  /* void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);  */
-  FUNCTION(NAME, free),    /* void *(*free)(void *gthis);  */
+  FUNCTION(NAME, realloc), /* void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size); */
+  FUNCTION(NAME, free),    /* void *(*free)(void *cthis);  */
   FUNCTION(NAME, copy),    /* void *(*copy)(const void *cthis, const cgraph_size_t size);  */
   FUNCTION(NAME, hash)     /* cgraph_size_t (*hash)(const void *cthis);  */
 };

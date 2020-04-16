@@ -10,13 +10,6 @@ export CSFLAGS = -shared
 export TARGET = cgraph
 export LIBTARGET = lib$(TARGET)
 
-
-ifeq ($(shell echo "windows cmd available"), "windows cmd available")
-CMD_AVAI := YES
-else
-CMD_AVAI := NO
-endif
-
 # cross platforms
 # mingw
 # msys
@@ -35,6 +28,13 @@ DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
 endif
 
 export MY_OS = $(DETECTED_OS)
+
+# Windows cmd is available or not
+ifeq ($(shell echo "windows cmd available"), "windows cmd available")
+CMD_AVAI := YES
+else
+CMD_AVAI := NO
+endif
 
 ifeq ($(CMD_AVAI), YES)
 export RM = -del
@@ -85,7 +85,6 @@ test:
 	$(MAKE) -C $(TST) test
 
 clean:
-	@echo "$(shell 1+2)"
 	@echo "clean cgraph in Platform $(MY_OS)"
 	$(MAKE) -C $(SRC) clean
 	$(MAKE) -C $(TST) clean

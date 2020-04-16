@@ -100,6 +100,8 @@ typedef unsigned long long cgraph_uint64_t;
 #define CGRAPH_TRUE (1)
 #define CGRAPH_FALSE (0)
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
+#define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 /* 
   the boundary between data objects and data structural objects 
@@ -118,19 +120,20 @@ typedef enum {
   CGRAPH_INT16_T    =  7,
   CGRAPH_INT32_T    =  8,
   CGRAPH_INT64_T    =  9,
-  CGRAPH_COMPLEX_T  = 10,
-  CGRAPH_FRACTION_T = 11,
-  CGRAPH_BIGINT_T   = 12,
-  CGRAPH_BIGNUM_T   = 13,
-  CGRAPH_STRING_T   = 14,
-  CGRAPH_BITSET_T   = 15,
+  CGRAPH_TIME_T     = 10,
+  CGRAPH_COMPLEX_T  = 11,
+  CGRAPH_FRACTION_T = 12,
+  CGRAPH_BIGINT_T   = 13,
+  CGRAPH_BIGNUM_T   = 14,
+  CGRAPH_STRING_T   = 15,
+  CGRAPH_BITSET_T   = 16,
   /* data structural objects */
-  CGRAPH_VECTOR_T   = 16,
-  CGRAPH_MATRIX_T   = 17,
-  CGRAPH_BIGMAT_T   = 18,
-  CGRAPH_DFRAME_T   = 19,
-  CGRAPH_HTABLE_T   = 20,
-  CGRAPH_LIST_T     = 21
+  CGRAPH_VECTOR_T   = 17,
+  CGRAPH_MATRIX_T   = 18,
+  CGRAPH_BIGMAT_T   = 19,
+  CGRAPH_DFRAME_T   = 20,
+  CGRAPH_HTABLE_T   = 21,
+  CGRAPH_LIST_T     = 22
 }cgraph_type_t;
 
 typedef struct
@@ -150,6 +153,7 @@ typedef struct
   cgraph_char_t *(*name)(void);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void (*free)(void *gthis);
+  void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_boolean_t *error);
   void *(*copy)(const void *cthis, const cgraph_size_t size);
   cgraph_size_t (*hash)(const void *cthis);
   void (*none)(void);

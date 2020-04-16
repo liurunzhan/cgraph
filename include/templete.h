@@ -124,6 +124,19 @@
 #define DATA_BITS (8*sizeof(TYPE))
 #define DATA_ONES ((cgraph_uint64_t)(-1))
 
+#elif defined(TYPE_TIME)
+#define TYPE cgraph_time_t
+#define ID CGRAPH_TIME_T
+#define NAME time
+#define OUT_FORMAT "d"
+#define DATA_TYPE cgraph_int16_t
+#define ZERO {0, 0, 0, 0, 0, 0}
+#define DATA_MAX CGRAPH_INT16_MAX
+#define DATA_MIN CGRAPH_INT16_MIN
+#define DATA_ID ID
+#define DATA_BITS (8*sizeof(TYPE))
+#define DATA_ONES {1, 1, 1, 1, 1, 1}
+
 #elif defined(TYPE_COMPLEX)
 #define TYPE cgraph_complex_t
 #define ID CGRAPH_COMPLEX_T
@@ -347,6 +360,8 @@
 #define SQRT(a) sqrt((a))
 
 #define EXCHANGE(a, b) do{TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;}while(0)
+
+#elif defined(TYPE_TIME)
 
 #elif defined(TYPE_COMPLEX)
 #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))

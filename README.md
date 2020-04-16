@@ -6,7 +6,9 @@ A C LIBRARY FOR GRAPH ANALYSIS
 
 This library supports mingw32-make, make, cmake and xmake to compile this library, cross different platforms of mingw, msys, msys2, cgywin, wsl and linux.
 
-This library also provides shell script [compile.sh](./compile.sh) and z shell script [compile.zsh](./compile.zsh) in msys, msys2, cgywin, wsl and linux, batch script [compile.bat](./compile.bat) and powershell script [compile.ps1](./compile.ps1) in mingw to directly compile this library by C compiler without make tools. All the compile scripts provide the same command-line arguments, without any argument or with the arguments of test, clean, distclean and help.
+This library also provides shell script [compile.sh](./compile.sh) and z shell script [compile.zsh](./compile.zsh) in msys, msys2, cgywin, wsl and linux, batch script [compile.bat](./compile.bat) and powershell script [compile.ps1](./compile.ps1) in mingw to directly compile this library by C compiler without make tools. All the compile scripts provide the same command-line arguments, without any argument or with the arguments of test, clean, distclean and help. P.S. cshell is the worst that I ever used and I don't know its highlight until now, so cshell won't be supported in any time!
+
+What's more, this library provides perl script [compile.pl](./compile.pl), perl6 script [compile.p6](./compile.p6) and python script [compile.py](./compile.py) to compile this library. Makes and shells are good enough to do some things well, but perl, perl6 and python can do the same as well. P.S. script language is easy to use and perl6 is interesting!
 
 Any compiler who supports ANSI C can compile this library well, such as mingw32-gcc and gcc.
 
@@ -36,6 +38,13 @@ Do what you want to do, and be what you want to be!
 | cgraph_bignum_t | CGRAPH_BIGNUM_T | bignum | TYPE_BIGNUM | |
 | cgraph_string_t | CGRAPH_STRING_T | string | TYPE_STRING | |
 
+### basic types
+
+| TYPE | ID | C TYPE |
+| :-: | :-: | :-: |
+| 
+
+
 ### cgraph_object_t
 
 ``` c
@@ -45,18 +54,67 @@ typedef struct
   cgraph_size_t hash;
   void *data;
 }cgraph_object_t;
-
 ```
 
 ### cgraph_complex_t
 
+``` c
+typedef struct 
+{
+  DATA_TYPE data[2];
+}cgraph_complex_t;
+```
+
 ### cgraph_fraction_t
+
+``` c
+typedef struct 
+{
+  DATA_TYPE data[2];
+}cgraph_fraction_t;
+```
 
 ### cgraph_bigint_t
 
+``` c
+typedef struct 
+{
+  cgraph_size_t len, size;
+  cgraph_boolean_t pos;
+  DATA_TYPE *data;
+}cgraph_bigint_t;
+```
+
 ### cgraph_bignum_t
 
+``` c
+typedef struct 
+{
+  cgraph_size_t len, size, point;
+  DATA_TYPE *data;
+}cgraph_bignum_t;
+```
+
 ### cgraph_string_t
+
+``` c
+typedef struct 
+{
+  cgraph_size_t len, size;
+  DATA_TYPE *data;
+}cgraph_string_t;
+```
+
+### cgraph_bitset_t
+
+
+``` c
+typedef struct 
+{
+  cgraph_size_t len, size;
+  DATA_TYPE *data;
+}cgraph_bitset_t;
+```
 
 ## Data Structures
 
@@ -71,3 +129,4 @@ typedef struct
 | cgraph_htable_t | CGRAPH_HTABLE_T | htable | TYPE_HTABLE |  |
 | cgraph_dframe_t | CGRAPH_DFRAME_T | dframe | TYPE_DFRAME |  |
 | cgraph_graph_t | CGRAPH_GRAPH_T | graph | TYPE_GRAPH |  |
+

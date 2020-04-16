@@ -14,6 +14,7 @@ extern "C" {
 #include "cgraph_int16.h"
 #include "cgraph_int32.h"
 #include "cgraph_int64.h"
+#include "cgraph_time.h"
 #include "cgraph_complex.h"
 #include "cgraph_fraction.h"
 #include "cgraph_bigint.h"

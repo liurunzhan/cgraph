@@ -9,31 +9,35 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  
-  return 0;
+  TYPE *object = (TYPE *)cthis;
+  cgraph_size_t hash = object->pos, i;
+  for(i=0; i<object->len; i++)
+  { hash += (hash << 5) + object->data[i]; }
+
+  return hash;
 }
 
 void *FUNCTION(NAME, abs)(void *cthis)
 {
-  TYPE *new_cthis = (TYPE *)(cthis);
-  new_cthis->pos = ((new_cthis->pos == CGRAPH_FALSE) ? CGRAPH_TRUE : CGRAPH_TRUE);
+  TYPE *object = (TYPE *)(cthis);
+  object->pos = ((object->pos == CGRAPH_FALSE) ? CGRAPH_TRUE : CGRAPH_TRUE);
   
-  return new_cthis;
+  return object;
 }
 
 void *FUNCTION(NAME, add)(const void *x, const void *y)
 {
-  TYPE *a = (TYPE *)x, *b = (TYPE *)y, *res;
-  cgraph_size_t len = a->len > b->len ? a->len : b->len;
+  TYPE *new_x = (TYPE *)x, *new_y = (TYPE *)y, *res;
+  cgraph_size_t len = CGRAPH_MAX(new_x->len, new_y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)
   {
-    if(a->pos == b->pos)
+    if(new_x->pos == new_y->pos)
     {
       cgraph_size_t i;
       for(i=1; i<len; i++)
-      { res->data[res->len-i] = a->data[a->len-i] + b->data[b->len-i]; }
-      res->pos = a->pos;
+      { res->data[res->len-i] = new_x->data[new_x->len-i] + new_y->data[new_y->len-i]; }
+      res->pos = new_x->pos;
     }
   }
 
@@ -42,16 +46,16 @@ void *FUNCTION(NAME, add)(const void *x, const void *y)
 
 cgraph_string_t *FUNCTION(NAME, tostr)(const void *cthis)
 {
-  TYPE *new_cthis = (TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
   cgraph_size_t dec_len = cgraph_math_baseoflen(DATA_MAX, 10);
-  cgraph_string_t *buffer = cgraph_string_calloc(1, new_cthis->len*dec_len);
+  cgraph_string_t *buffer = cgraph_string_calloc(1, object->len*dec_len);
   if(NULL != buffer)
   {
     cgraph_size_t i, j;
     DATA_TYPE tmp;
-    for(i=new_cthis->len-1; i>=0; i--)
+    for(i=object->len-1; i>=0; i--)
     {
-      tmp = new_cthis->data[i];
+      tmp = object->data[i];
       for(j=dec_len-1; j>=0; j--)
       {
         buffer->data[i*dec_len+j] = '0' + tmp % 10;
