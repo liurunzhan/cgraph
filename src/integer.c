@@ -27,9 +27,8 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   cgraph_size_t hash = 2166136261, i;
   char *tmp = (char *)(&object);
   for(i=0; i<sizeof(TYPE); i++)
-  {
-    hash = (hash ^ tmp[i]) * 16777619;
-  }
+  { hash = (hash ^ tmp[i]) * 16777619; }
+
   return hash;
 }
 

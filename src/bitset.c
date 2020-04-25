@@ -7,8 +7,15 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  
-  return 0;
+  TYPE *object = (TYPE *)cthis;
+  cgraph_size_t i, hash = 0;
+  for(i=0; i<(object->len>>3); i++)
+  {
+    hash = (hash << 4) ^ (hash >> 28) ^ object->data[i];
+  }
+  hash = (hash << 4) ^ (hash >> 28) ^ object->data[i];
+
+  return hash;
 }
 
 void *FUNCTION(NAME, bit)(const void *cthis, const cgraph_size_t pos)

@@ -7,6 +7,7 @@ extern "C" {
 
 #include "cgraph_config.h"
 #include "cgraph_string.h"
+#include "cgraph_bignum.h"
 
 #define TYPE_BIGINT
 #include "templete.h"
@@ -22,6 +23,7 @@ typedef struct
 
 extern void *FUNCTION(NAME, abs)(void *cthis);
 extern cgraph_string_t *FUNCTION(NAME, tostr)(const void *cthis);
+extern cgraph_bignum_t *FUNCTION(NAME, tonum)(const void *cthis);
 
 #include "templete_off.h"
 

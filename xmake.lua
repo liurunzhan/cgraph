@@ -1,5 +1,5 @@
 add_includedirs("include")
-add_cflags("-ansi –pedantic -pedantic-errors -Wall -fPIC -g")
+add_cflags("-ansi", "-pedantic", "-pedantic-errors", "-Wall", "-fPIC", "-g", {force = true})
 
 target("static")
 	set_kind("static")

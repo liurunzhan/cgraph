@@ -8,8 +8,8 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis, integer_number = floor(object), float_number = object - integer_number;
-  cgraph_size_t hash = 1234567891;
+  TYPE object = *(TYPE *)cthis;
+  cgraph_size_t hash = (cgraph_size_t)(object * 1.0 / DATA_EPSILON);
 
   return hash;
 }

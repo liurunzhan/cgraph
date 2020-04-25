@@ -22,7 +22,7 @@ typedef struct {
   DATA_TYPE data[6];
 }cgraph_time_t;
 
-// #include "data_templete.h"
+/* #include "data_templete.h" */
 
 #include "templete_off.h"
 

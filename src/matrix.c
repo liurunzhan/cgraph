@@ -38,9 +38,10 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
 
 void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 {
-  TYPE *object = NULL;
+  TYPE *object = (TYPE *)cthis;
+  TYPE *copy_cthis = NULL;
 
-  return object;
+  return copy_cthis;
 }
 
 void FUNCTION(NAME, free)(void *cthis)
@@ -57,7 +58,11 @@ void FUNCTION(NAME, free)(void *cthis)
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  return 0;
+  TYPE *object = (TYPE *)cthis;
+  cgraph_size_t i, hash;
+  
+
+  return hash;
 }
 
 #include "templete_off.h"

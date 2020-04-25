@@ -72,6 +72,9 @@ void FUNCTION(NAME, free)(void *cthis)
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
+  TYPE *object = (TYPE *)cthis;
+  cgraph_size_t i, hash;
+
   return 0;
 }
 

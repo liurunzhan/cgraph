@@ -1,12 +1,12 @@
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const  TYPE y)
 {
-  TYPE res_x = x, res_y = y, res;
-  while(0 != (res = MOD(res_x, res_y)))
+  TYPE object_x = x, object_x = y, res;
+  while(0 != (res = MOD(object_x, object_x)))
   {
-    res_x = res_y;
-    res_y = res;
+    object_x = object_x;
+    object_x = res;
   }
-  res = res_y;
+  res = object_x;
   
   return res;
 }
@@ -43,11 +43,11 @@ TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
 
 cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)
 {
-  TYPE res_x = x;
+  TYPE object_x = x;
   cgraph_size_t cnt = 0;
-  while(0 != res_x)
+  while(0 != object_x)
   {
-    res_x = res_x & (res_x-1);
+    object_x = object_x & (object_x-1);
     cnt ++;
   }
 

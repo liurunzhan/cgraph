@@ -12,4 +12,10 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
+cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+{
+  TYPE object = *(TYPE *)cthis;
+  return ((CGRAPH_TRUE == object) || (CGRAPH_FALSE == object)) ? CGRAPH_TRUE : CGRAPH_FALSE;
+}
+
 #include "templete_off.h"

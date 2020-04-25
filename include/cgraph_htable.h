@@ -7,13 +7,20 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+typedef struct
+{
+  cgraph_boolean_t visited;
+  const cgraph_type_t ktype;
+  cgraph_type_t vtype;
+  const void *key;
+  void *data;
+  struct cgraph_hobject_t *next; 
+} cgraph_hobject_t;
+
 typedef struct 
 {
   cgraph_size_t len, size;
-  cgraph_type_t ktype, vtype;
-  cgraph_boolean_t with_hash;
-  void *key;
-  void *data;
+  cgraph_hobject_t *table;
 }cgraph_htable_t;
 
 #define TYPE_HTABLE

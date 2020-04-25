@@ -152,8 +152,8 @@ typedef struct
   cgraph_size_t (*dsize)(void);
   cgraph_char_t *(*name)(void);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
-  void (*free)(void *gthis);
   void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_boolean_t *error);
+  void (*free)(void *gthis);
   void *(*copy)(const void *cthis, const cgraph_size_t size);
   cgraph_size_t (*hash)(const void *cthis);
   void (*none)(void);

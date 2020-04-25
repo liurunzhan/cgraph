@@ -3,7 +3,7 @@
 
 #define TYPE_TIME
 #include "templete.h"
-// #include "data.templete"
+/* #include "data.templete" */
 
 TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep)
 {
@@ -16,9 +16,26 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
   cgraph_size_t hash1, hash2;
-  hash1 = object->data[0] << 13 + object->data[1] << 7 + object->data[2];
-  hash2 = object->data[3] << 12 + object->data[4] << 4 + object->data[5];
+  hash1 = (object->data[0] << 13) + (object->data[1] << 7) + object->data[2];
+  hash2 = (object->data[3] << 12) + (object->data[4] << 4) + object->data[5];
   return hash1 ^ hash2;
+}
+
+cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  cgraph_boolean_t flag = CGRAPH_TRUE;
+  cgraph_integer_t i;
+  for(i=0; i<6; i++)
+  {
+    if(object_x->data[i] != object_y->data[i])
+    {
+      flag = CGRAPH_FALSE;
+      break;
+    }
+  }
+
+  return flag;
 }
 
 #include "templete_off.h"
