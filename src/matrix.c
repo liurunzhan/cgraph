@@ -46,14 +46,14 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 
 void FUNCTION(NAME, free)(void *cthis)
 {
-   TYPE *object = (TYPE *)cthis;
-   cgraph_size_t i;
-   for(i=0; i<object->size; i++)
-   {
-
-   }
-   
-   cgraph_free(object);
+  TYPE *object = (TYPE *)cthis;
+  if(NULL != object)
+  {
+    cgraph_size_t i;
+    for(i=0; i<object->size; i++)
+    {  }
+    cgraph_free(object);
+  }
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)

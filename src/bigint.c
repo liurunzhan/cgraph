@@ -96,6 +96,7 @@ cgraph_string_t *FUNCTION(NAME, tostr)(const void *cthis)
     }
     for(; i<len; i++)
     { str->data[i] = object->data[i] + '0'; }
+    str->data[i] = '\0';
   }
 
   return str;

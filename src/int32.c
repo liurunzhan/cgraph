@@ -11,7 +11,10 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   object = ((object >> 16) ^ object) * 0x45d9f3b;
   object = ((object >> 16) ^ object) * 0x45d9f3b;
   object = (object >> 16) ^ object;
+  
   return object;
 }
+
+#include "integer.templete"
 
 #include "templete_off.h"

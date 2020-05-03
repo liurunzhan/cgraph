@@ -8,7 +8,10 @@
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
+  
   return ABS(object);
 }
+
+#include "integer.templete"
 
 #include "templete_off.h"

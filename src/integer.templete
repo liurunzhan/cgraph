@@ -1,9 +1,9 @@
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const  TYPE y)
 {
-  TYPE object_x = x, object_x = y, res;
+  TYPE object_x = x, object_y = y, res;
   while(0 != (res = MOD(object_x, object_x)))
   {
-    object_x = object_x;
+    object_y = object_x;
     object_x = res;
   }
   res = object_x;
@@ -39,6 +39,21 @@ TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
 {
   return ~(x ^ y);
+}
+
+cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
+{
+  return CGRAPH_TEST((0 == x));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
+{
+  return CGRAPH_TEST((DATA_MIN == x));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
+{
+  return CGRAPH_TEST((DATA_MAX == x));
 }
 
 cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)

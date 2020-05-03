@@ -10,6 +10,9 @@ extern "C" {
 #define TYPE_LONG
 #include "templete.h"
 #include "data_templete.h"
+
+#include "integer_templete.h"
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

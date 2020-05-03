@@ -19,7 +19,15 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size
       if(new_len > old_len)
       {
         object = realloc(cthis, (new_len+1)*data_size);
-        object = NULL == object ? (*error = CGRAPH_TRUE, cthis) : memset((char *)object+(old_len+1)*data_size, 0, (new_len-old_len)*data_size);
+        if(NULL != object)
+        {
+          object = memset((char *)object+(old_len+1)*data_size, 0, (new_len-old_len)*data_size);
+        }
+        else
+        {
+          *error = CGRAPH_TRUE;
+          object = cthis;
+        }
       }
     }
     else

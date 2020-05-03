@@ -21,9 +21,13 @@ typedef struct
 
 #include "data_templete.h"
 
-/*                      fraction mathematical functions                       */
+/*                                public apis                                 */
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
 
+extern cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis);
+extern cgraph_boolean_t FUNCTION(NAME, isnan)(const void *cthis);
+
+/*                               private apis                                 */
 extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y);
@@ -31,6 +35,10 @@ extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, pow)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE FUNCTION(NAME, abs)(const TYPE x);
+
+extern cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x);
 
 #include "templete_off.h"
 

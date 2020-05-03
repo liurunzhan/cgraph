@@ -32,4 +32,6 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
+#include "integer.templete"
+
 #include "templete_off.h"

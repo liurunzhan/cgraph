@@ -6,6 +6,7 @@
 #include "templete.h"
 #include "data.templete"
 
+/*                                public apis                                 */
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn Fowler，Landon Curt Noll and Phong Vo in 1991):
   begin_of_algorithm
@@ -36,6 +37,28 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
+cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+{
+  TYPE object = *(TYPE *)cthis;
+
+  return CGRAPH_TEST((0 != FRACTION_DEN(object)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isnan)(const void *cthis)
+{
+  TYPE object = *(TYPE *)cthis;
+
+  return CGRAPH_TEST((0 == FRACTION_NUM(object) && (0 == FRACTION_DEN(object))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isinf)(const void *cthis)
+{
+  TYPE object = *(TYPE *)cthis;
+
+  return CGRAPH_TEST((0 != FRACTION_NUM(object) && (0 == FRACTION_DEN(object))));
+}
+
+/*                               private apis                                 */
 TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y)
 {
   TYPE res;
@@ -88,6 +111,21 @@ TYPE FUNCTION(NAME, abs)(const TYPE x)
   FRACTION_DEN(res) = ((FRACTION_DEN(x) > 0) ? FRACTION_DEN(x) : (-FRACTION_DEN(x))); 
 
   return res;
+}
+
+cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
+{
+  return CGRAPH_TEST((FRACTION_NUM(x) == 0) && (FRACTION_DEN(x) != 0));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
+{
+  return CGRAPH_TEST(((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) < 0)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
+{
+  return CGRAPH_TEST(((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) < 0)));
 }
 
 #include "templete_off.h"

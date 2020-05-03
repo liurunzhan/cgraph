@@ -10,6 +10,10 @@ extern "C" {
 #define TYPE_INTEGER
 #include "templete.h"
 #include "data_templete.h"
+
+
+#include "integer_templete.h"
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

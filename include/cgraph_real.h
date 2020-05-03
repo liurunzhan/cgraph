@@ -10,6 +10,9 @@ extern "C" {
 #define TYPE_REAL
 #include "templete.h"
 #include "data_templete.h"
+
+#include "float_templete.h"
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

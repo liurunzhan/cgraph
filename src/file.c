@@ -6,8 +6,8 @@
 
 FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode)
 {
-  FILE *fp;
-  if(NULL == (fp = fopen(file, mode)))
+  FILE *fp = fopen(file, mode);
+  if(NULL == fp)
   {
     fprintf(stderr, "%s in style %s is opened error!\n", file, mode);
     fflush(stderr);
@@ -24,6 +24,7 @@ cgraph_boolean_t cgraph_file_fclose(FILE *fp)
     fprintf(stderr, "The file handle is error before closed!\n");
     fflush(stderr);
     clearerr(fp);
+    abort();
   }
 
   return CGRAPH_TEST(0 == fclose(fp));
@@ -31,7 +32,7 @@ cgraph_boolean_t cgraph_file_fclose(FILE *fp)
 
 cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
 {
-  cgraph_boolean_t error = CGRAPH_TRUE;
+  cgraph_boolean_t error = CGRAPH_FALSE;
   if((NULL != buffer) && (0 == ferror(fp)))
   {
     char *data;
@@ -45,15 +46,17 @@ cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
       { break; }
     }
     if((0 != feof(fp)) && (NULL != data))
-    { error = CGRAPH_FALSE; }
+    { error = CGRAPH_TRUE; }
     else if(0 == ferror(fp))
-    { error = CGRAPH_FALSE; }
+    { error = CGRAPH_TRUE; }
   }
+  else
+  { error = CGRAPH_TRUE; }
 
   return error;
 }
 
-cgraph_string_t *cgraph_file_getheader(FILE *fp, cgraph_string_t *buffer, cgraph_boolean_t *error)
+cgraph_string_t *cgraph_file_header(FILE *fp, cgraph_string_t *buffer, cgraph_boolean_t *error)
 {
   if((0 == ferror(fp)) && (NULL != error))
   {
@@ -87,7 +90,7 @@ cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep, cgraph_string_t 
   cgraph_size_t columns = 0;
   cgraph_integer_t error = 0;
   char *str = NULL;
-  buffer = cgraph_file_getheader(fp, buffer, &error);
+  buffer = cgraph_file_header(fp, buffer, &error);
   str = strtok(buffer->data, sep);
   while(NULL != str)
   {
@@ -98,9 +101,33 @@ cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep, cgraph_string_t 
   return columns;
 }
 
-void *cgraph_file_fread(void *gthis, FILE *fp, cgraph_string_t *buffer)
+cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_size_t line)
 {
-  
+  cgraph_size_t i;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if((0 == ferror(fp)) && (NULL != buffer) && (0 <= line))
+  {
+    for(i=0; i<line; i++)
+    {
+      flag = cgraph_file_fgets(buffer, fp);
+      if(CGRAPH_TRUE == flag)
+      {
+        fprintf(stderr, "read %ld line error!\n", i);
+        fflush(stderr);
+        break;
+      }
+    }
+  }
+  else
+  {
+    if(NULL == buffer)
+    { fprintf(stderr, "the string buffer is empty\n"); }
+    if(NULL == fp)
+    { fprintf(stderr, "the file pointer is empty\n"); }
+    if(line < 0)
+    { fprintf(stderr, "the line number %ld is a negative number!\n", line); }
+    fflush(stderr);
+  }
 
-  return gthis;
+  return flag;
 }
