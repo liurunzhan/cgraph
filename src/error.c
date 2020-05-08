@@ -34,35 +34,58 @@ cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason)
 
 void cgraph_error_details_md(FILE *fp)
 {
-  if(0 != feof(fp))
+  if((NULL != fp) && (0 == ferror(fp)))
   {
     cgraph_integer_t i;
     fprintf(fp, "| ERROR TYPE | ERROR DETAIL |\n| :-: | :-: |\n");
     for(i=0; i<CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS; i++)
     { fprintf(fp, "| %d | %s |\n", i, CGRAPH_ERROR_STRING(i)); }
   }
+  else
+  {
+    fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__);
+    fflush(stderr);
+  }
 }
 
 void cgraph_error_details_csv(FILE *fp)
 {
-  if(0 != feof(fp))
+  if((NULL != fp) && (0 == ferror(fp)))
   {
     cgraph_integer_t i;
     fprintf(fp, "ERROR TYPE,ERROR DETAIL\n");
     for(i=0; i<CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS; i++)
     { fprintf(fp, "%d,%s\n", i, CGRAPH_ERROR_STRING(i)); }
   }
+  else
+  {
+    fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__);
+    fflush(stderr);
+  }
 }
 
 void cgraph_error_log(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...)
 {
-  cgraph_char_t time_buffer[CGRAPH_TIME_BUFFER_SIZE];
-  time_t local_time;
-  va_list args;
-  time(&local_time);
-  strftime(time_buffer, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
-  va_start(args, format);
-  vsprintf(buffer, format, args);
-  va_end(args);
-  fprintf(fp, "%s: %s\n", time_buffer, buffer);
+  if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < len) && (NULL != format))
+  {
+    cgraph_char_t time_buffer[CGRAPH_TIME_BUFFER_SIZE];
+    time_t local_time;
+    va_list args;
+    time(&local_time);
+    strftime(time_buffer, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end(args);
+    fprintf(fp, "%s: %s\n", time_buffer, buffer);
+  }
+  else
+  {
+    if((NULL == fp) || (0 != ferror(fp)))
+    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
+    if((NULL == buffer) || (0 >= len))
+    { fprintf(stderr, "FILE %s of LINE %d : buffer is empty!\n", __FILE__, __LINE__); }
+    if(NULL == format)
+    { fprintf(stderr, "FILE %s of LINE %d : style format is empty!\n", __FILE__, __LINE__); }
+    fflush(stderr);
+  }
 }

@@ -26,13 +26,13 @@
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
-  cgraph_size_t hash = 2166136261, i;
+  cgraph_size_t hash = 2166136261UL, i;
   char *tmp = (char *)(&FRACTION_NUM(object));
   for(i=0; i<sizeof(DATA_TYPE); i++)
-  { hash = (hash ^ tmp[i]) * 16777619; }
+  { hash = (hash ^ tmp[i]) * 16777619UL; }
   tmp = (char *)(&FRACTION_DEN(object));
   for(i=0; i<sizeof(DATA_TYPE); i++)
-  { hash = (hash ^ tmp[i]) * 16777619; }
+  { hash = (hash ^ tmp[i]) * 16777619UL; }
 
   return hash;
 }

@@ -62,6 +62,16 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
   return flag;
 }
 
+cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE *cthis)
+{
+  return CGRAPH_TEST((cthis->pos == CGRAPH_TRUE));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
+{
+  return CGRAPH_TEST((cthis->pos == CGRAPH_FALSE));
+}
+
 void *FUNCTION(NAME, add)(const void *x, const void *y)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;

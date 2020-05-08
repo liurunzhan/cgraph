@@ -1,7 +1,7 @@
-#include "cgraph_htable.h"
+#include "cgraph_dict.h"
 #include "cgraph_memory.h"
 
-#define TYPE_HTABLE
+#define TYPE_DICT
 #include "templete.h"
 #include "struct.templete"
 
@@ -10,7 +10,7 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   TYPE *cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
   if(NULL != cthis)
   {
-    cthis->table = cgraph_calloc(size, sizeof(cgraph_hobject_t));
+    cthis->table = cgraph_calloc(size, sizeof(cgraph_dobject_t));
     if(NULL != cthis->table)
     { cthis->size = size; }
     else
@@ -35,8 +35,13 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 {
   TYPE *object = (TYPE *)cthis;
   TYPE *copy_cthis = NULL;
+  if(NULL != cthis)
   {
-    
+    copy_cthis = cgraph_calloc(1, sizeof(TYPE));
+    if(NULL != copy_cthis)
+    {
+      
+    }
   }
 
   return copy_cthis;

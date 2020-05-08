@@ -1,5 +1,5 @@
-#ifndef _CGRAPH_HTABLE_H_
-#define _CGRAPH_HTABLE_H_
+#ifndef _CGRAPH_DICT_H_
+#define _CGRAPH_DICT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -14,16 +14,16 @@ typedef struct
   cgraph_type_t vtype;
   const void *key;
   void *data;
-  struct cgraph_hobject_t *next; 
-} cgraph_hobject_t;
+  struct cgraph_dobject_t *next; 
+} cgraph_dobject_t;
 
 typedef struct 
 {
   cgraph_size_t len, size;
-  cgraph_hobject_t *table;
-}cgraph_htable_t;
+  cgraph_dobject_t *table;
+}cgraph_dict_t;
 
-#define TYPE_HTABLE
+#define TYPE_DICT
 #include "templete.h"
 #include "struct_templete.h"
 #include "templete_off.h"
@@ -32,4 +32,4 @@ typedef struct
 }
 #endif
 
-#endif /* _CGRAPH_HTABLE_H_ */
+#endif /* _CGRAPH_DICT_H_ */

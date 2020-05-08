@@ -242,16 +242,22 @@
 #define NAME dframe
 #define ZERO NULL
 
-#elif defined(TYPE_HTABLE)
-#define TYPE cgraph_htable_t
-#define ID CGRAPH_HTABLE_T
-#define NAME htable
+#elif defined(TYPE_DICT)
+#define TYPE cgraph_dict_t
+#define ID CGRAPH_DICT_T
+#define NAME dict
 #define ZERO NULL
 
 #elif defined(TYPE_LIST)
 #define TYPE cgraph_list_t
 #define ID CGRAPH_LIST_T
 #define NAME list
+#define ZERO NULL
+
+#elif defined(TYPE_TREE)
+#define TYPE cgraph_tree_t
+#define ID CGRAPH_TREE_T
+#define NAME tree
 #define ZERO NULL
 
 #else
@@ -406,7 +412,7 @@
 #elif defined(TYPE_BITSET)
 
 
-#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_HTABLE) || defined(TYPE_LIST)
+#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE)
 
 
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)

@@ -126,12 +126,16 @@
 #undef TYPE_DFRAME
 #endif
 
-#ifdef TYPE_HTABLE
-#undef TYPE_HTABLE
+#ifdef TYPE_DICT
+#undef TYPE_DICT
 #endif
 
 #ifdef TYPE_LIST
 #undef TYPE_LIST
+#endif
+
+#ifdef TYPE_TREE
+#undef TYPE_TREE
 #endif
 
 #ifdef TYPE

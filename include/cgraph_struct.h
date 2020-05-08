@@ -9,8 +9,9 @@ extern "C" {
 #include "cgraph_matrix.h"
 #include "cgraph_bigmat.h"
 #include "cgraph_dframe.h"
-#include "cgraph_htable.h"
+#include "cgraph_dict.h"
 #include "cgraph_list.h"
+#include "cgraph_tree.h"
 
 #ifdef __cplusplus
 }

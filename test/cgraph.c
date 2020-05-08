@@ -5,6 +5,7 @@
 int main(int argc, char *argv[])
 {
   fprintf(stdout, "start simulation\n");
+  /*
   if(argc == 2)
   {
     cgraph_string_t *buffer = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
@@ -33,13 +34,16 @@ int main(int argc, char *argv[])
       cgraph_string_free(buffer);
       cgraph_bigint_free(big);
     } while (0);
-    
   }
   else
   {
     fprintf(stdout, "%d arguments input error!\n", argc);
   }
   fprintf(stdout, "end simulation\n");
+  */
+  fprintf(stdout, "%d %o\n", 3, cgraph_integer_bits(3, 1, 3));
+  fprintf(stdout, "%d %o\n", 1, cgraph_integer_sets(1, 1, 3));
+  fprintf(stdout, "%d %d\n", 127, cgraph_integer_clrs(127, 0, 3));
 
   return 0;
 }

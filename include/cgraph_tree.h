@@ -1,5 +1,5 @@
-#ifndef _CGRAPH_LIST_H_
-#define _CGRAPH_LIST_H_
+#ifndef _CGRAPH_TREE_H_
+#define _CGRAPH_TREE_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -11,18 +11,19 @@ typedef struct
 {
   cgraph_boolean_t visited;
   const cgraph_type_t type;
-  struct cgraph_lobject_t *p1, *p2;
+  cgraph_size_t num_of_child;
+  struct cgraph_tobject_t **child;
   void *data;
-}cgraph_lobject_t;
+}cgraph_tobject_t;
 
 typedef struct 
 {
   cgraph_size_t len, size;
-  cgraph_lobject_t *header, *tail;
-  cgraph_lobject_t *root;
-}cgraph_list_t;
+  cgraph_boolean_t with_hash;
+  cgraph_tobject_t *root;
+}cgraph_tree_t;
 
-#define TYPE_LIST
+#define TYPE_TREE
 #include "templete.h"
 #include "struct_templete.h"
 #include "templete_off.h"
@@ -31,4 +32,4 @@ typedef struct
 }
 #endif
 
-#endif /* _CGRAPH_LIST_H_ */
+#endif /* _CGRAPH_TREE_H_ */

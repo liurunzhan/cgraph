@@ -32,7 +32,7 @@ CGVTable *_cgraph_objects_[] =
   &STRUCT(matrix),
   &STRUCT(bigmat),
   &STRUCT(dframe),
-  &STRUCT(htable),
+  &STRUCT(dict),
   &STRUCT(list),
   NULL
 };

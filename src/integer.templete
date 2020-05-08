@@ -1,7 +1,12 @@
-TYPE FUNCTION(NAME, gcd)(const TYPE x, const  TYPE y)
+cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+{
+  return CGRAPH_TRUE;
+}
+
+TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)
 {
   TYPE object_x = x, object_y = y, res;
-  while(0 != (res = MOD(object_x, object_x)))
+  while(0 != (res = MOD(object_x, object_y)))
   {
     object_y = object_x;
     object_x = res;
@@ -41,9 +46,49 @@ TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
   return ~(x ^ y);
 }
 
+TYPE FUNCTION(NAME, bit)(const TYPE x, const cgraph_size_t position)
+{
+  return (x >> (position % DATA_BITS)) & 1;
+}
+
+TYPE FUNCTION(NAME, set)(const TYPE x, const cgraph_size_t position)
+{
+  return x | (1 << (position % DATA_BITS));
+}
+
+TYPE FUNCTION(NAME, clr)(const TYPE x, const cgraph_size_t position)
+{
+  return x & (~(1 << (position % DATA_BITS)));
+}
+
+TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
+{
+  return (x >> (from % DATA_BITS)) & (~(DATA_ONES << ((to - from) % DATA_BITS)));
+}
+
+TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
+{
+  return x | ((~((DATA_ONES << ((to - from) % DATA_BITS)))) << (from % DATA_BITS));
+}
+
+TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
+{
+  return x & ((DATA_ONES << (to % DATA_BITS)) | (~(DATA_ONES << (from % DATA_BITS))));
+}
+
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
 {
   return CGRAPH_TEST((0 == x));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
+{
+  return CGRAPH_TEST((0 < x));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
+{
+  return CGRAPH_TEST((0 > x));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
@@ -69,9 +114,27 @@ cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)
   return cnt;
 }
 
+TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial)
+{
+  cgraph_size_t i;
+  TYPE msb = (data >> (DATA_BITS-1)) ^ 1, bit, result = 0;
+  for(i=DATA_BITS-2; i>=0; i--)
+  {
+    bit = (polynomial >> i) ^ 1;
+    if(1 == bit)
+    { result += bit ^ ((data >> i) ^ 1) ^ msb; }
+    else
+    { result += (data >> i) ^ 1; }
+    result = result << 1;
+  }
+  result += msb; 
+
+  return result;
+}
+
 TYPE FUNCTION(NAME, crc)(const TYPE data, const TYPE polynomial)
 {
-  TYPE res;
+  TYPE res = 0;
   
   return res;
 }

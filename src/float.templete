@@ -2,30 +2,40 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
 
-  return CGRAPH_TEST((object <= DATA_MAX) && (object >= -DATA_MAX));
+  return CGRAPH_TEST((object == object) && (object <= DATA_MAX) && (object >= -DATA_MAX));
 }
 
-cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE cthis)
+cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
 {
-  return CGRAPH_TEST((cthis != cthis));
+  return CGRAPH_TEST((x != x));
 }
 
-cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE cthis)
+cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
 {
-  return CGRAPH_TEST((cthis != cthis) && ((cthis > DATA_MAX) || (cthis < -DATA_MAX)));
+  return CGRAPH_TEST((x == x) && ((x > DATA_MAX) || (x < -DATA_MAX)));
 }
 
-cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE cthis)
+cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
 {
-  return CGRAPH_TEST((cthis != cthis) && ((cthis > DATA_MAX) || (cthis < -DATA_MAX)));
+  return CGRAPH_TEST((x == x) && EQ(x, 0.0));
 }
 
-cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE cthis)
+cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
 {
-  return CGRAPH_TEST((cthis != cthis) && ((cthis > DATA_MAX) || (cthis < -DATA_MAX)));
+  return CGRAPH_TEST((x == x) && GR(x, 0.0));
 }
 
-cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE cthis)
+cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
 {
-  return CGRAPH_TEST((cthis != cthis) && ((cthis > DATA_MAX) || (cthis < -DATA_MAX)));
+  return CGRAPH_TEST((x == x) && LS(x, 0.0));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
+{
+  return CGRAPH_TEST((x == x) && EQ(x, -DATA_MAX));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
+{
+  return CGRAPH_TEST((x == x) && EQ(x, DATA_MAX));
 }

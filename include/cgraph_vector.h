@@ -9,9 +9,9 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_size_t len, size;
   cgraph_type_t type;
   cgraph_boolean_t with_hash;
+  cgraph_size_t len, size;
   void *data;
 }cgraph_vector_t;
 

@@ -10,6 +10,7 @@ extern "C" {
 typedef struct 
 {
   cgraph_type_t type;
+  cgraph_boolean_t visited;
   cgraph_size_t hash;
   void *data;
 }cgraph_object_t;

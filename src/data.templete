@@ -84,7 +84,10 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
     {
       cthis->data = (DATA_TYPE *)cgraph_calloc(size+1, FUNCTION(NAME, dsize)());
       if(NULL != cthis->data)
-      { cthis->size = size; cthis->len = size; }
+      {
+        cthis->size = size;
+        cthis->len = size;
+      }
       else 
       { cgraph_free(cthis); }
     }
@@ -103,7 +106,8 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   if(NULL != object)
   {
     object->data = (DATA_TYPE *)cgraph_realloc(object->data, object->size, new_size, FUNCTION(NAME, dsize)(), error);
-    object->size = ((*error == CGRAPH_FALSE) ? new_size : object->size);
+    if(CGRAPH_FALSE == *error)
+    { object->size = new_size; }
   }
 #else
   TYPE *object = (TYPE *)cgraph_realloc(cthis, old_size, new_size, FUNCTION(NAME, size)(), error);

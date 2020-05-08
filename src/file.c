@@ -9,7 +9,7 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode)
   FILE *fp = fopen(file, mode);
   if(NULL == fp)
   {
-    fprintf(stderr, "%s in style %s is opened error!\n", file, mode);
+    fprintf(stderr, "FILE %s of LINE %d : %s in style %s is opened error!\n", __FILE__, __LINE__, file, mode);
     fflush(stderr);
     abort();
   }
@@ -19,9 +19,9 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode)
 
 cgraph_boolean_t cgraph_file_fclose(FILE *fp)
 {
-  if(0 != ferror(fp))
+  if((NULL == fp) || (0 != ferror(fp)))
   {
-    fprintf(stderr, "The file handle is error before closed!\n");
+    fprintf(stderr, "FILE %s of LINE %d : file handle is error before closed!\n", __FILE__, __LINE__);
     fflush(stderr);
     clearerr(fp);
     abort();
@@ -33,7 +33,7 @@ cgraph_boolean_t cgraph_file_fclose(FILE *fp)
 cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
 {
   cgraph_boolean_t error = CGRAPH_FALSE;
-  if((NULL != buffer) && (0 == ferror(fp)))
+  if((NULL != buffer) && (NULL != fp) && (0 == ferror(fp)))
   {
     char *data;
     fpos_t fp_init;
@@ -45,25 +45,50 @@ cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
       if(CGRAPH_TRUE == error)
       { break; }
     }
-    if((0 != feof(fp)) && (NULL != data))
-    { error = CGRAPH_TRUE; }
-    else if(0 == ferror(fp))
-    { error = CGRAPH_TRUE; }
+    if(NULL == data)
+    {
+      fprintf(stderr, "FILE %s of LINE %d : read a whole line in the file error\n", __FILE__, __LINE__);
+      fflush(stderr);
+      error = CGRAPH_TRUE;
+    }
+    if((NULL == fp) || (0 != ferror(fp)))
+    {
+      fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__);
+      fflush(stderr);
+      error = CGRAPH_TRUE;
+    }
   }
   else
-  { error = CGRAPH_TRUE; }
+  {
+    if(NULL == buffer)
+    { fprintf(stderr, "FILE %s of LINE %d : file buffer is empty!\n", __FILE__, __LINE__); }
+    if((NULL == fp) || (0 != ferror(fp)))
+    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
+    fflush(stderr);
+    error = CGRAPH_TRUE;
+  }
 
   return error;
 }
 
 cgraph_string_t *cgraph_file_header(FILE *fp, cgraph_string_t *buffer, cgraph_boolean_t *error)
 {
-  if((0 == ferror(fp)) && (NULL != error))
+  if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (NULL != error))
   {
     rewind(fp);
     *error = cgraph_file_fgets(buffer, fp);
   }
-
+  else
+  {
+    if(NULL != buffer)
+    { fprintf(stderr, "FILE %s of LINE %d : file buffer is empty!\n", __FILE__, __LINE__); }
+    if((NULL == fp) || (0 != ferror(fp)))
+    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
+    if(NULL == error)
+    { fprintf(stderr, "FILE %s of LINE %d : error flag is empty!\n", __FILE__, __LINE__); }
+    fflush(stderr);
+  }
+  
   return buffer;
 }
 
@@ -74,7 +99,7 @@ cgraph_size_t cgraph_file_rows(FILE *fp)
   {
     char ch;
     rewind(fp);
-    while(!feof(fp))
+    while(0 != feof(fp))
     {
       if('\n' == (ch=fgetc(fp)))
       { rows += 1; }
@@ -105,14 +130,14 @@ cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgrap
 {
   cgraph_size_t i;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if((0 == ferror(fp)) && (NULL != buffer) && (0 <= line))
+  if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 <= line))
   {
     for(i=0; i<line; i++)
     {
       flag = cgraph_file_fgets(buffer, fp);
       if(CGRAPH_TRUE == flag)
       {
-        fprintf(stderr, "read %ld line error!\n", i);
+        fprintf(stderr, "FILE %s of LINE %d : read %ld line error!\n", __FILE__, __LINE__, i);
         fflush(stderr);
         break;
       }
@@ -120,12 +145,12 @@ cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgrap
   }
   else
   {
+    if((NULL == fp) || (0 != ferror(fp)))
+    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
     if(NULL == buffer)
-    { fprintf(stderr, "the string buffer is empty\n"); }
-    if(NULL == fp)
-    { fprintf(stderr, "the file pointer is empty\n"); }
+    { fprintf(stderr, "FILE %s of LINE %d : file buffer is empty!\n", __FILE__, __LINE__); }
     if(line < 0)
-    { fprintf(stderr, "the line number %ld is a negative number!\n", line); }
+    { fprintf(stderr, "FILE %s of LINE %d : line number %ld is a negative number!\n", __FILE__, __LINE__, line); }
     fflush(stderr);
   }
 

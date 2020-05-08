@@ -45,58 +45,85 @@ typedef float cgraph_float_t;
 
 #include <stdint.h>
 
-typedef int8_t cgraph_int8_t;
-typedef int16_t cgraph_int16_t;
-typedef int32_t cgraph_int32_t;
-typedef int64_t cgraph_int64_t;
-
-typedef uint8_t cgraph_uint8_t;
-typedef uint16_t cgraph_uint16_t;
-typedef uint32_t cgraph_uint32_t;
-typedef uint64_t cgraph_uint64_t;
-
+/*
+  8-bit integer number
+*/
 #define CGRAPH_INT8_MIN INT8_MIN
 #define CGRAPH_INT8_MAX INT8_MIN
+
+typedef int8_t cgraph_int8_t;
+typedef uint8_t cgraph_uint8_t;
+
+/*
+  16-bit integer number
+*/
 #define CGRAPH_INT16_MIN INT16_MIN
 #define CGRAPH_INT16_MAX INT16_MIN
+
+typedef uint16_t cgraph_uint16_t;
+typedef int16_t cgraph_int16_t;
+
+/*
+  32-bit integer number
+*/
 #define CGRAPH_INT32_MIN INT32_MIN
 #define CGRAPH_INT32_MAX INT32_MIN
+
+typedef uint32_t cgraph_uint32_t;
+typedef int32_t cgraph_int32_t;
+
+/*
+  64-bit integer number
+*/
 #define CGRAPH_INT64_MIN INT64_MIN
 #define CGRAPH_INT64_MAX INT64_MIN
 
+typedef uint64_t cgraph_uint64_t;
+typedef int64_t cgraph_int64_t;
+
 #else /* C89 OR C90 OR C95 */
-
-typedef char cgraph_int8_t;
-typedef short cgraph_int16_t;
-typedef int cgraph_int32_t;
-#if __WORDSIZE == 64 
-typedef long cgraph_int64_t;
-#else
-__extension__
-typedef long long cgraph_int64_t;
-#endif
-
-typedef unsigned char cgraph_uint8_t;
-typedef unsigned short cgraph_uint16_t;
-typedef unsigned int cgraph_uint32_t;
-#if __WORDSIZE == 64 
-typedef unsigned long cgraph_uint64_t;
-#else
-__extension__
-typedef unsigned long long cgraph_uint64_t;
-#endif
 
 #define CGRAPH_INT8_MIN (-128)
 #define CGRAPH_INT8_MAX (127)
+
+typedef char cgraph_int8_t;
+typedef unsigned char cgraph_uint8_t;
+
 #define CGRAPH_INT16_MIN (-32768)
 #define CGRAPH_INT16_MAX (32767)
-#define CGRAPH_INT32_MIN (-2147483648)
-#define CGRAPH_INT32_MAX (2147483647)
+
+typedef short cgraph_int16_t;
+typedef unsigned short cgraph_uint16_t;
+
+#define CGRAPH_INT32_MIN (-2147483648L)
+#define CGRAPH_INT32_MAX (2147483647L)
+typedef int cgraph_int32_t;
+typedef unsigned int cgraph_uint32_t;
+
 #define CGRAPH_INT64_MIN CGRAPH_INT32_MIN
 #define CGRAPH_INT64_MAX CGRAPH_INT32_MAX
+typedef long cgraph_int64_t;
+typedef unsigned long cgraph_uint64_t;
+
 /*
-#define CGRAPH_INT64_MIN (-9223372036854775808L)
-#define CGRAPH_INT64_MAX (9223372036854775807L)
+
+#define CGRAPH_INT64_MIN (-9223372036854775808LL)
+#define CGRAPH_INT64_MAX (9223372036854775807LL)
+
+#if __WORDSIZE == 64
+#define CGRAPH_INT64_MIN CGRAPH_INT32_MIN
+#define CGRAPH_INT64_MAX CGRAPH_INT32_MAX
+
+typedef long cgraph_int64_t;
+typedef unsigned long cgraph_uint64_t;
+#else
+#define CGRAPH_INT64_MIN CGRAPH_INT32_MIN
+#define CGRAPH_INT64_MAX CGRAPH_INT32_MAX
+__extension__
+typedef long long cgraph_int64_t;
+__extension__
+typedef unsigned long long cgraph_uint64_t;
+#endif
 */
 
 #endif /* __STDC__ */
@@ -136,8 +163,9 @@ typedef enum {
   CGRAPH_MATRIX_T   = 18,
   CGRAPH_BIGMAT_T   = 19,
   CGRAPH_DFRAME_T   = 20,
-  CGRAPH_HTABLE_T   = 21,
-  CGRAPH_LIST_T     = 22
+  CGRAPH_DICT_T     = 21,
+  CGRAPH_LIST_T     = 22,
+  CGRAPH_TREE_T     = 23
 }cgraph_type_t;
 
 typedef struct

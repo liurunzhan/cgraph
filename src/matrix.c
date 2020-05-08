@@ -40,6 +40,15 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 {
   TYPE *object = (TYPE *)cthis;
   TYPE *copy_cthis = NULL;
+  if(NULL != object)
+  {
+    copy_cthis = cgraph_calloc(1, sizeof(TYPE));
+    if(NULL != copy_cthis)
+    {
+
+    }
+    
+  }
 
   return copy_cthis;
 }

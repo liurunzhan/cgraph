@@ -10,9 +10,12 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   TYPE *cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
   if(NULL != cthis)
   {
-    cthis->data = CGRAPH_OBJECT(type, calloc)(type, size);
+    cthis->data = cgraph_calloc(size, CGRAPH_OBJECT(type, dsize)());
     if(NULL != cthis->data)
-    { cthis->size = size; }
+    {
+      cthis->size = size;
+      cthis->type = type;
+    }
     else
     { cgraph_free(cthis); }
   }
@@ -26,8 +29,9 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   if(NULL != object && NULL != error)
   {
     *error = CGRAPH_FALSE;
-    object->data = CGRAPH_OBJECT(object->type, realloc)(object->data, object->size, new_size, error);
-    object->size = CGRAPH_TRUE != *error ? new_size : object->size;
+    object->data = cgraph_realloc(object->data, object->size, new_size, CGRAPH_OBJECT(object->type, dsize)(), error);
+    if(CGRAPH_FALSE == *error)
+    { object->size = new_size; }
   }
 
   return object;
@@ -39,19 +43,11 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
   TYPE *copy_cthis;
   if(NULL != object)
   {
-    copy_cthis = cgraph_calloc(1, sizeof(TYPE));
+    copy_cthis = FUNCTION(NAME, calloc)(object->type, object->size);
     if(NULL != copy_cthis)
     {
-      copy_cthis->data = CGRAPH_OBJECT(object->type, copy)(object->data, object->size);
-      if(NULL != copy_cthis->data)
-      {
-        copy_cthis->len = object->len;
-        copy_cthis->size = object->size;
-        copy_cthis->type = object->type;
-        copy_cthis->with_hash = object->with_hash;
-      }
-      else
-      { cgraph_free(copy_cthis); }
+      copy_cthis = cgraph_memcpy(copy_cthis, object, 1, sizeof(TYPE));
+      copy_cthis->data = cgraph_memcpy(copy_cthis->data, object->data, object->size, CGRAPH_OBJECT(object->type, dsize)());
     }
   }
 
@@ -66,21 +62,39 @@ void FUNCTION(NAME, free)(void *cthis)
    {
      CGRAPH_OBJECT(object->type, free)(object->data);
    }
-   
+   cgraph_free(object->data);
    cgraph_free(object);
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
-  cgraph_size_t i, hash;
+  cgraph_size_t i, hash = 0;
+  if(NULL != object)
+  {
+    for(i=0; i<object->len; i++)
+    {
+      hash += i * CGRAPH_OBJECT(object->type, hash)(object->data);
+    }
+  }
 
-  return 0;
+  return hash;
 }
 
 void *FUNCTION(NAME, add)(const void *x, const void *y)
 {
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  cgraph_size_t i, len = CGRAPH_MIN(object_x->len, object_y->len);
+  TYPE *res = FUNCTION(NAME, calloc)(object_x->type, len);
+  if(NULL != res)
+  {
+    for(i=0; i<res->len; i++)
+    {
 
+    }
+  }
+
+  return res;
 }
 
 #include "templete_off.h"

@@ -11,7 +11,6 @@ extern "C" {
 #include "templete.h"
 #include "data_templete.h"
 
-
 #include "integer_templete.h"
 
 #include "templete_off.h"
