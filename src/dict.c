@@ -25,7 +25,9 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   TYPE *object = (TYPE *)cthis;
   if((NULL != object) && (NULL != error))
   {
-    
+    object->table = cgraph_realloc(object->table, object->size, new_size, sizeof(cgraph_dobject_t), error);
+    if(CGRAPH_FALSE == error)
+    { object->size = new_size; }
   }
 
   return object;
@@ -37,7 +39,7 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
   TYPE *copy_cthis = NULL;
   if(NULL != cthis)
   {
-    copy_cthis = cgraph_calloc(1, sizeof(TYPE));
+    copy_cthis = FUNCTION(NAME, calloc)(1, object->size);
     if(NULL != copy_cthis)
     {
       

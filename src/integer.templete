@@ -107,9 +107,20 @@ cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)
   cgraph_size_t cnt = 0;
   while(0 != object_x)
   {
-    object_x = object_x & (object_x-1);
+    object_x = object_x & (object_x - 1);
     cnt ++;
   }
+
+  return cnt;
+}
+
+cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x)
+{
+  cgraph_size_t cnt = 0;
+  if(0 == x)
+  { cnt = 1; }
+  else
+  { cnt = FUNCTION(NAME, ones)(~x); }
 
   return cnt;
 }

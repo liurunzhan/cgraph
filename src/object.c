@@ -60,6 +60,7 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, msize),  /* cgraph_size_t (*msize)(void); */
   FUNCTION(NAME, dsize),  /* cgraph_size_t (*dsize)(void); */
   FUNCTION(NAME, name),   /* cgraph_char_t *(*name)(void); */
+  FUNCTION(NAME, hasdata), /* cgraph_boolean_t (*hasdata)(void); */
   FUNCTION(NAME, calloc), /* void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size); */
   FUNCTION(NAME, realloc), /* void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_boolean_t *error) */
   FUNCTION(NAME, free),   /* void *(*free)(void *cthis); */
@@ -90,6 +91,11 @@ cgraph_size_t FUNCTION(NAME, dsize)(void)
 cgraph_char_t *FUNCTION(NAME, name)(void)
 {
   return STRUCT(NAME).__name__;
+}
+
+cgraph_boolean_t FUNCTION(NAME, hasdata)(void)
+{
+  return CGRAPH_TRUE;
 }
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)

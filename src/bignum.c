@@ -24,7 +24,7 @@ void *FUNCTION(NAME, abs)(void *cthis)
 {
   TYPE *object = (TYPE *)(cthis);
   cgraph_size_t i = 0;
-  while((object->data[i] != ' ') && (i<object->len)) 
+  while((' ' != object->data[i]) && ('0' != object->data[i]) && (i<object->len)) 
   { i++; }
   if(object->data[i] == '-')
   { object->data[i] = '+'; }

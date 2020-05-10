@@ -100,8 +100,8 @@ typedef unsigned short cgraph_uint16_t;
 typedef int cgraph_int32_t;
 typedef unsigned int cgraph_uint32_t;
 
-#define CGRAPH_INT64_MIN CGRAPH_INT32_MIN
-#define CGRAPH_INT64_MAX CGRAPH_INT32_MAX
+#define CGRAPH_INT64_MIN CGRAPH_LONG_MIN
+#define CGRAPH_INT64_MAX CGRAPH_LONG_MAX
 typedef long cgraph_int64_t;
 typedef unsigned long cgraph_uint64_t;
 
@@ -128,8 +128,8 @@ typedef unsigned long long cgraph_uint64_t;
 
 #endif /* __STDC__ */
 
-#define CGRAPH_TRUE (1)
-#define CGRAPH_FALSE (0)
+#define CGRAPH_TRUE ((cgraph_boolean_t)1)
+#define CGRAPH_FALSE ((cgraph_boolean_t)0)
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
@@ -183,6 +183,7 @@ typedef struct
   cgraph_size_t (*msize)(void);
   cgraph_size_t (*dsize)(void);
   cgraph_char_t *(*name)(void);
+  cgraph_boolean_t (*hasdata)(void);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_boolean_t *error);
   void (*free)(void *gthis);

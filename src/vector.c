@@ -40,14 +40,16 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
 void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 {
   TYPE *object = (TYPE *)cthis;
-  TYPE *copy_cthis;
+  TYPE *copy_cthis = NULL;
+  void *copy_data = NULL;
   if(NULL != object)
   {
     copy_cthis = FUNCTION(NAME, calloc)(object->type, object->size);
     if(NULL != copy_cthis)
     {
+      copy_data = copy_cthis->data;
       copy_cthis = cgraph_memcpy(copy_cthis, object, 1, sizeof(TYPE));
-      copy_cthis->data = cgraph_memcpy(copy_cthis->data, object->data, object->size, CGRAPH_OBJECT(object->type, dsize)());
+      copy_cthis->data = cgraph_memcpy(copy_data, object->data, object->size, CGRAPH_OBJECT(object->type, dsize)());
     }
   }
 

@@ -5,6 +5,7 @@ extern cgraph_size_t FUNCTION(NAME, size)(void);
 extern cgraph_size_t FUNCTION(NAME, msize)(void);
 extern cgraph_size_t FUNCTION(NAME, dsize)(void);
 extern cgraph_char_t *FUNCTION(NAME, name)(void);
+extern cgraph_boolean_t FUNCTION(NAME, hasdata)(void);
 
 extern cgraph_size_t FUNCTION(NAME, len)(void *cthis);
 

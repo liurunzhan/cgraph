@@ -18,6 +18,7 @@ extern cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x);
 extern cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, ones)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial);
 extern TYPE FUNCTION(NAME, crc)(const TYPE data, const TYPE polynomial);

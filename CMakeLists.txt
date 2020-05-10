@@ -14,7 +14,7 @@ set(LIB "${PROJECT_SOURCE_DIR}/lib")
 set(TST "${PROJECT_SOURCE_DIR}/test")
 
 include_directories(${INC})
-file(GLOB SRC_LIST "${PROJECT_SOURCE_DIR}/src/*.c")
+file(GLOB SRC_LIST "${SRC}/*.c")
 set(LIBRARY_OUTPUT_PATH ${LIB})
 set(EXECUTABLE_OUTPUT_PATH ${TST})
 

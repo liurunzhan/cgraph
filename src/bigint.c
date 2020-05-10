@@ -41,6 +41,8 @@ cgraph_boolean_t FUNCTION(NAME, eq)(const void *x, const void *y)
       break;
     }
   }
+  if(object_x->pos != object_y->pos)
+  { flag = CGRAPH_FALSE; }
 
   return flag;
 }
