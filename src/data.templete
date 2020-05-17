@@ -72,7 +72,7 @@ cgraph_boolean_t FUNCTION(NAME, hasdata)(void)
 #endif
 }
 
-cgraph_size_t FUNCTION(NAME, len)(void *cthis)
+cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 {
 #ifdef DATA_WITH_POINTER
   TYPE *object = (TYPE *)cthis;
@@ -92,18 +92,19 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
     { cthis->size = size; }
     else
     {
-      cthis->data = (DATA_TYPE *)cgraph_calloc(size+1, FUNCTION(NAME, dsize)());
-      if(NULL != cthis->data)
+      cthis->root = (DATA_TYPE *)cgraph_calloc(size+1, FUNCTION(NAME, dsize)());
+      if(NULL != cthis->root)
       {
         cthis->size = size;
         cthis->len = size;
+        cthis->data = cthis->root;
       }
       else 
       { cgraph_free(cthis); }
     }
   }
 #else
-  TYPE *cthis = (TYPE *)cgraph_calloc(size, FUNCTION(NAME, size)());
+  TYPE *cthis = (TYPE *)cgraph_calloc(size+1, FUNCTION(NAME, size)());
 #endif
 
   return cthis;
@@ -115,7 +116,7 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   {
-    object->data = (DATA_TYPE *)cgraph_realloc(object->data, object->size, new_size, FUNCTION(NAME, dsize)(), error);
+    object->root = (DATA_TYPE *)cgraph_realloc(object->root, object->size, new_size, FUNCTION(NAME, dsize)(), error);
     if(CGRAPH_FALSE == *error)
     { object->size = new_size; }
   }
@@ -147,7 +148,7 @@ void FUNCTION(NAME, free)(void *cthis)
 #ifdef DATA_WITH_POINTER
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
-  { cgraph_free(object->data); }
+  { cgraph_free(object->root); }
 #endif
   cgraph_free(cthis);
 }
@@ -187,10 +188,11 @@ void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgrap
 {
   TYPE *object = (TYPE *)cthis;
   cgraph_size_t left = start, right = end;
-  TYPE key = object[left];
 #ifdef DATA_WITH_POINTER
+  TYPE *key = &object[left];
 
 #else
+  TYPE key = object[left];
   while(left < right)
   {
     while((left < right) && (GE(object[right], key)))

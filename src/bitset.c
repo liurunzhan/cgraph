@@ -18,6 +18,19 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
+cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if((NULL != object_x) && (NULL != object_y))
+  {
+    if((object_x->len == object_y->len) && (CGRAPH_TRUE == cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)())))
+    { flag = CGRAPH_TRUE; }
+  }
+
+  return flag;
+}
+
 void *FUNCTION(NAME, bit)(const void *cthis, const cgraph_size_t pos)
 {
   TYPE *object = (TYPE *)cthis;

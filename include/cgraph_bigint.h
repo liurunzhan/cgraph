@@ -16,14 +16,14 @@ typedef struct
 {
   cgraph_size_t len, size;
   cgraph_boolean_t pos;
-  DATA_TYPE *data;
+  DATA_TYPE *root, *data;
 }cgraph_bigint_t;
 
 #include "data_templete.h"
 
-extern void *FUNCTION(NAME, abs)(void *cthis);
-extern cgraph_string_t *FUNCTION(NAME, tostr)(const void *cthis);
-extern cgraph_bignum_t *FUNCTION(NAME, tonum)(const void *cthis);
+extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
+extern cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis);
+extern TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis);
 
 #include "templete_off.h"
 

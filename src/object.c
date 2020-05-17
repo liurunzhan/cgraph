@@ -109,7 +109,8 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
     else
     { cthis->data = CGRAPH_OBJECT(type, calloc)(CGRAPH_OBJECT_T, size); }
     if(NULL != cthis->data)
-    { cthis->type = type;
+    {
+      cthis->type = type;
       fprintf(stdout, "CALLOC OBJECT TYPE : %d\n", type);
     }
     else

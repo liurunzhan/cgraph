@@ -13,7 +13,7 @@ extern "C" {
 typedef struct 
 {
   cgraph_size_t len, size;
-  DATA_TYPE *data;
+  DATA_TYPE *root, *data;
 }cgraph_string_t;
 
 #include "data_templete.h"
@@ -23,11 +23,11 @@ typedef struct
 /*                       string mathematical functions                        */
 
 /*                           string hash functions                            */
-extern cgraph_size_t FUNCTION(NAME, jshash)(cgraph_string_t *str);
-extern cgraph_size_t FUNCTION(NAME, sdbmhash)(cgraph_string_t *str);
-extern cgraph_size_t FUNCTION(NAME, rshash)(cgraph_string_t *str);
-extern cgraph_size_t FUNCTION(NAME, elfhash)(cgraph_string_t *str);
-extern cgraph_size_t FUNCTION(NAME, bkdrhash)(cgraph_string_t *str);
+extern cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis);
 
 #include "templete_off.h"
 

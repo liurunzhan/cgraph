@@ -72,7 +72,11 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t len, co
 {
   void *result = NULL;
   if((NULL != object) && (NULL != cthis) && (0 < len) && (0 < data_size))
-  { result = memcpy(object, cthis, len*data_size); }
+  {
+    cgraph_size_t mem_len = len * data_size;
+    if(0 < mem_len)
+    { result = memcpy(object, cthis, mem_len); }
+  }
   else
   {
     if(NULL == object)
@@ -83,6 +87,24 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t len, co
     { fprintf(stderr, "FILE %s of LINE %d : length %ld is a negative number or equal to zero!\n", __FILE__, __LINE__, len); }
     if(0 >= data_size)
     { fprintf(stderr, "FILE %s of LINE %d : data size %ld is a negative number or equal to zero!\n", __FILE__, __LINE__, data_size); }
+    fflush(stderr);
+    result = object;
+  }
+  
+  return result;
+}
+
+void *cgraph_strcpy(void *object, const void *cthis)
+{
+  void *result = NULL;
+  if((NULL != object) && (NULL != cthis))
+  { result = strcpy(object, cthis); }
+  else
+  {
+    if(NULL == object)
+    { fprintf(stderr, "FILE %s of LINE %d : target pointer is empty\n", __FILE__, __LINE__); }
+    if(NULL == cthis)
+    { fprintf(stderr, "FILE %s of LINE %d : source pointer is empty;\n", __FILE__, __LINE__); }
     fflush(stderr);
     result = object;
   }
@@ -102,4 +124,50 @@ void cgraph_free(void *cthis)
     fprintf(stderr, "FILE %s of LINE %d : empty pointer is freed!\n", __FILE__, __LINE__);
     fflush(stderr);
   }
+}
+
+cgraph_boolean_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t len, const cgraph_size_t data_size)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(x == y)
+  { flag = CGRAPH_TRUE; }
+  else if((NULL != x) && (NULL != y) && (0 < len) && (0 < data_size))
+  {
+    cgraph_size_t mem_len = len * data_size;
+    if((0 < mem_len) && (0 == memcmp(x, y, mem_len)))
+    { flag = CGRAPH_TRUE; }
+  }
+  else
+  {
+    if(NULL == x)
+    { fprintf(stderr, "FILE %s of LINE %d : target pointer is empty\n", __FILE__, __LINE__); }
+    if(NULL == y)
+    { fprintf(stderr, "FILE %s of LINE %d : source pointer is empty;\n", __FILE__, __LINE__); }
+    if(0 >= len)
+    { fprintf(stderr, "FILE %s of LINE %d : length %ld is a negative number or equal to zero!\n", __FILE__, __LINE__, len); }
+    if(0 >= data_size)
+    { fprintf(stderr, "FILE %s of LINE %d : data size %ld is a negative number or equal to zero!\n", __FILE__, __LINE__, data_size); }
+    fflush(stderr);
+  }
+  
+  return flag;
+}
+
+cgraph_boolean_t cgraph_strcmp(const char *x, const char *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if((NULL != x) && (NULL != y))
+  {
+    if(0 == strcmp(x, y))
+    { flag = CGRAPH_TRUE; }
+  }
+  else
+  {
+    if(NULL == x)
+    { fprintf(stderr, "FILE %s of LINE %d : target pointer is empty\n", __FILE__, __LINE__); }
+    if(NULL == y)
+    { fprintf(stderr, "FILE %s of LINE %d : source pointer is empty;\n", __FILE__, __LINE__); }
+  }
+  
+  return flag;
 }

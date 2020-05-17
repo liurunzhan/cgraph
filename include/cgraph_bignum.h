@@ -13,13 +13,14 @@ extern "C" {
 typedef struct 
 {
   cgraph_size_t len, size, point;
-  DATA_TYPE *data;
+  DATA_TYPE *root, *data;
 }cgraph_bignum_t;
 
 
 #include "data_templete.h"
 
-void *FUNCTION(NAME, abs)(void *cthis);
+extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
 
 #include "templete_off.h"
 

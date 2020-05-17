@@ -25,7 +25,7 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
 
 void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 {
-
+  return NULL;
 }
 
 void FUNCTION(NAME, free)(void *cthis)
