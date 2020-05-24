@@ -1,8 +1,36 @@
+cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+{
+  TYPE object = *(TYPE *)cthis;
+  cgraph_size_t hash;
+  if(object != object)
+  { hash = 1234567891; }
+  else
+  { hash = (cgraph_size_t)(object * 1.0 / DATA_EPSILON); }
+
+  return hash;
+}
+
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
 
   return CGRAPH_TEST((object == object) && (object <= DATA_MAX) && (object >= -DATA_MAX));
+}
+
+cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+{
+  TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if((CGRAPH_TRUE == FUNCTION(NAME, isnan)(object_x)) && (CGRAPH_TRUE == FUNCTION(NAME,isnan)(object_y)))
+  { flag = CGRAPH_TRUE; }
+  else if((CGRAPH_TRUE == FUNCTION(NAME, ispinf)(object_x)) && (CGRAPH_TRUE == FUNCTION(NAME, ispinf)(object_y)))
+  { flag = CGRAPH_TRUE; }
+  else if((CGRAPH_TRUE == FUNCTION(NAME, isninf)(object_x)) && (CGRAPH_TRUE == FUNCTION(NAME, isninf)(object_y)))
+  { flag = CGRAPH_TRUE; }
+  else if(object_x == object_y)
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
 }
 
 cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
@@ -13,6 +41,16 @@ cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
 cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
 {
   return CGRAPH_TEST((x == x) && ((x > DATA_MAX) || (x < -DATA_MAX)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
+{
+  return CGRAPH_TEST((x == x) && (x > DATA_MAX));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
+{
+  return CGRAPH_TEST((x == x) && (x < -DATA_MAX));
 }
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)

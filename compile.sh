@@ -12,8 +12,16 @@ LIB=${DIR}/lib
 
 # compiler configuration
 CC=cc
-CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC -g"
+CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC"
 CSFLAGS="-shared"
+
+# debug or release mode
+MODE="debug"
+if [ $MODE = "debug" ]; then
+CFLAGS="${CFLAGS} -g -DDEBUG"
+elif [ $MODE = "release"]; then
+CFLAGS="${CFLAGS} -static -O2"
+fi
 
 # build and clean directories and files
 MKDIR=mkdir

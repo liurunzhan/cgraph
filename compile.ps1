@@ -11,8 +11,19 @@ $TST=Join-Path $DIR "test"
 $LIB=Join-Path $DIR "lib"
 
 # compiler configuration
-$CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC -g".Split()
+$CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC"
 $CSFLAGS="-shared".Split()
+
+$MODE="debug"
+if($MODE -ceq "debug")
+{
+  $CFLAGS="$CFLAGS -g -DDEBUG"
+}
+elseif($MODE -ceq "release")
+{
+  $CFLAGS="$CFLAGS -static -O2"
+}
+$CFLAGS=$CFLAGS.Split()
 
 # source files
 $CFILES=ls $SRC\*.c
@@ -55,14 +66,14 @@ elseif($OPT[0] -ceq "clean")
   {
     $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
-    rm $obj
+    rm -Force $obj
   }
   echo "clean $LIBSHARED"
-  rm $LIBSHARED
+  rm -Force $LIBSHARED
   echo "clean $LIBSTATIC"
-  rm $LIBSTATIC
+  rm -Force $LIBSTATIC
   echo "clean $TSTTARGET"
-  rm $TSTTARGET
+  rm -Force $TSTTARGET
 }
 elseif($OPT[0] -ceq "distclean")
 {
@@ -70,16 +81,16 @@ elseif($OPT[0] -ceq "distclean")
   {
     $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
-    rm $obj
+    rm -Force $obj
   }
   echo "clean $LIBSHARED"
-  rm $LIBSHARED
+  rm -Force $LIBSHARED
   echo "clean $LIBSTATIC"
-  rm $LIBSTATIC
+  rm -Force $LIBSTATIC
   echo "clean $LIB"
-  rmdir $LIB
+  rmdir -Force -Recurse -Path $LIB
   echo "clean $TSTTARGET"
-  rm $TSTTARGET
+  rm -Force $TSTTARGET
 }
 elseif($OPT[0] -ceq "help")
 {

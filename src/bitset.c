@@ -24,8 +24,10 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if((NULL != object_x) && (NULL != object_y))
   {
-    if((object_x->len == object_y->len) && (CGRAPH_TRUE == cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)())))
-    { flag = CGRAPH_TRUE; }
+    if(object_x->len == object_y->len)
+    {
+      flag = cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)());
+    }
   }
 
   return flag;

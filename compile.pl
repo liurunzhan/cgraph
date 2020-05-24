@@ -11,8 +11,18 @@ my $TST = "$DIR/test";
 my $LIB = "$DIR/lib";
 
 my $CC = "cc";
-my $CFLAGS = "-ansi -pedantic -pedantic-errors -Wall -fPIC -g";
+my $CFLAGS = "-ansi -pedantic -pedantic-errors -Wall -fPIC";
 my $CSFLAGS = "-shared";
+
+my $MODE = "debug";
+if ($MODE eq "debug")
+{
+  $CFLAGS = "$CFLAGS -g -DDEBUG";
+}
+elsif ($MODE eq "release")
+{
+  $CFLAGS = "$CFLAGS -static -O2";
+}
 
 # package shared library
 my $AR = "ar";

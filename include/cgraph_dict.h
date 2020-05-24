@@ -19,8 +19,8 @@ typedef struct
 
 typedef struct 
 {
-  cgraph_size_t len, size;
-  cgraph_dobject_t *table;
+  cgraph_size_t size, len;
+  cgraph_dobject_t *root, *table;
 }cgraph_dict_t;
 
 #define TYPE_DICT

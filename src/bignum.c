@@ -26,8 +26,10 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if((NULL != object_x) && (NULL != object_y))
   {
-    if((object_x->len == object_y->len) && (CGRAPH_TRUE == cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)())))
-    { flag = CGRAPH_TRUE; }
+    if(object_x->len == object_y->len)
+    {
+      flag = cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)());
+    }
   }
 
   return flag;
@@ -35,7 +37,7 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 
 TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
 {
-  if('-' == cthis->data[0])
+  if((NULL != cthis) && ('-' == cthis->data[0]))
   {
     cthis->data = &(cthis->data[1]);
     cthis->len -= 1;
@@ -68,11 +70,16 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 
 TYPE *FUNCTION(NAME, format)(TYPE *cthis)
 {
-  cgraph_size_t i= 0;
-  while((' ' == cthis->data[i]) && (i < cthis->len))
-  { i++; }
-  cthis->data = &(cthis->data[i]);
-  cthis->len -= i;
+  if(NULL != cthis)
+  {
+    DATA_TYPE *data = cthis->data;
+    while(((' ' == *data) || ('0' == *data)) && (0 < cthis->len))
+    {
+      cthis->len -= 1;
+      data++;
+    }
+    cthis->data = data;
+  }
 
   return cthis;
 }

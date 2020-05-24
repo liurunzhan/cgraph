@@ -17,9 +17,9 @@ typedef struct
 
 typedef struct 
 {
-  cgraph_size_t len, size;
+  cgraph_size_t size, len;
   cgraph_lobject_t *header, *tail;
-  cgraph_lobject_t *root;
+  cgraph_lobject_t *root, *data;
 }cgraph_list_t;
 
 #define TYPE_LIST

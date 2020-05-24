@@ -10,11 +10,13 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   TYPE *cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
   if(NULL != cthis)
   {
-    cthis->data = cgraph_calloc(size, CGRAPH_OBJECT(type, dsize)());
+    cthis->root = cgraph_calloc(size, CGRAPH_OBJECT(type, dsize)());
     if(NULL != cthis->data)
     {
       cthis->size = size;
+      cthis->len = size;
       cthis->type = type;
+      cthis->data = cthis->root;
     }
     else
     { cgraph_free(cthis); }
@@ -62,9 +64,9 @@ void FUNCTION(NAME, free)(void *cthis)
    cgraph_size_t i;
    for(i=0; i<object->size; i++)
    {
-     CGRAPH_OBJECT(object->type, free)(object->data);
+     CGRAPH_OBJECT(object->type, free)(object->root);
    }
-   cgraph_free(object->data);
+   cgraph_free(object->root);
    cgraph_free(object);
 }
 

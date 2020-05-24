@@ -17,7 +17,7 @@ endif
 all:
 
 test:
-	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET) $(SOURCE) -L$(LIB) -static -l$(TARGET) -lm
+	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET) $(SOURCE) -L$(LIB) -l$(TARGET) -lm
 	./$(TARGET_TEST) ./elements.csv
 
 clean:

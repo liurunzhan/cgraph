@@ -26,8 +26,10 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if((NULL != object_x) && (NULL != object_y))
   {
-    if((object_x->len == object_y->len) && (object_x->pos == object_y->pos) && (CGRAPH_TRUE == cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)())))
-    { flag = CGRAPH_TRUE; }
+    if((object_x->len == object_y->len) && (object_x->pos == object_y->pos))
+    {
+      flag = cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)());
+    }
   }
 
   return flag;
@@ -35,7 +37,7 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 
 TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
 {
-  if(CGRAPH_FALSE == cthis->pos)
+  if((NULL != cthis) && (CGRAPH_FALSE == cthis->pos))
   { cthis->pos = CGRAPH_TRUE; }
   
   return cthis;
@@ -45,12 +47,15 @@ cgraph_boolean_t FUNCTION(NAME, test)(const TYPE *cthis)
 {
   cgraph_boolean_t flag = CGRAPH_TRUE;
   cgraph_size_t i;
-  for(i=0; i<cthis->len; i++)
+  if(NULL != cthis)
   {
-    if((cthis->data[i] > 10) || (cthis->data[i] < 0))
+    for(i=0; i<cthis->len; i++)
     {
-      flag = CGRAPH_FALSE;
-      break;
+      if((cthis->data[i] > 10) || (cthis->data[i] < 0))
+      {
+        flag = CGRAPH_FALSE;
+        break;
+      }
     }
   }
 
@@ -86,21 +91,26 @@ void *FUNCTION(NAME, add)(const void *x, const void *y)
   return res;
 }
 
-cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis)
+cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis)
 {
-  cgraph_size_t len = cthis->pos ? cthis->len : (cthis->len+1);
-  cgraph_string_t *str = cgraph_string_calloc(1, len);
-  if(NULL != str)
+  TYPE *object = (TYPE *)cthis;
+  cgraph_char_t *str = NULL;
+  if(NULL != object)
   {
-    cgraph_size_t i = 0;
-    if(cthis->pos == CGRAPH_FALSE)
+    cgraph_size_t len = object->pos ? object->len : (object->len+1);
+    str = cgraph_calloc(len, sizeof(cgraph_char_t));
+    if(NULL != str)
     {
-      str->data[i] = '-';
-      i++;
+      cgraph_size_t i = 0;
+      if(object->pos == CGRAPH_FALSE)
+      {
+        str[i] = '-';
+        i++;
+      }
+      for(; i<len; i++)
+      { str[i] = object->data[i] + '0'; }
+      str[i] = '\0';
     }
-    for(; i<len; i++)
-    { str->data[i] = cthis->data[i] + '0'; }
-    str->data[i] = '\0';
   }
 
   return str;
@@ -127,11 +137,16 @@ TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis)
 
 TYPE *FUNCTION(NAME, format)(TYPE *cthis)
 {
-  cgraph_size_t i= 0;
-  while((0 == cthis->data[i]) && (i < cthis->len))
-  { i++; }
-  cthis->data = &(cthis->data[i]);
-  cthis->len -= i;
+  if(NULL != cthis)
+  {
+    DATA_TYPE *data = cthis->data;
+    while((0 == *data) && (0 < cthis->len))
+    {
+      cthis->len -= 1;
+      data++;
+    }
+    cthis->data = data;
+  }
 
   return cthis;
 }

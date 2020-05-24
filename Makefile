@@ -2,13 +2,20 @@
 # which crosses the platforms of windows and linux.
 
 export CC = cc
-export CFLAGS = -ansi -pedantic -pedantic-errors -Wall -fPIC -g
+export CFLAGS = -ansi -pedantic -pedantic-errors -Wall -fPIC
 export MAKE = make
 export AR = ar
 export ARFLAGS = -rcs
 export CSFLAGS = -shared
 export TARGET = cgraph
 export LIBTARGET = lib$(TARGET)
+export MODE = debug
+
+ifeq ($(MODE), debug)
+CFLAGS += -g -DDEBUG
+else ifeq ($(MODE), release)
+CFLAGS += -static -O2
+endif
 
 # cross platforms
 # mingw
@@ -18,7 +25,7 @@ export LIBTARGET = lib$(TARGET)
 # wsl
 # linux
 # referred by http://www.imooc.com/wenda/detail/584860
-ifeq '$(findstring ;,$(PATH))' ';'
+ifeq ("$(findstring ;,$(PATH))", ";")
 DETECTED_OS := Windows
 else
 DETECTED_OS := $(shell uname 2>/dev/null || echo Unknown)
@@ -31,12 +38,12 @@ export MY_OS = $(DETECTED_OS)
 
 # Windows cmd is available or not
 ifeq ($(shell echo "windows cmd available"), "windows cmd available")
-CMD_AVAI := YES
+CMD_AVAI := TRUE
 else
-CMD_AVAI := NO
+CMD_AVAI := FALSE
 endif
 
-ifeq ($(CMD_AVAI), YES)
+ifeq ($(CMD_AVAI), TRUE)
 export RM = -del
 export RMFLAGS = /S /Q /F
 export MKDIR = -mkdir

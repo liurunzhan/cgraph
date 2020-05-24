@@ -12,7 +12,7 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_size_t len, size;
+  cgraph_size_t size, len;
   DATA_TYPE *root, *data;
 }cgraph_string_t;
 
@@ -28,6 +28,7 @@ extern cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis);
+extern TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...);
 
 #include "templete_off.h"
 

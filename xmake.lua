@@ -1,6 +1,22 @@
 add_includedirs("include")
 add_cflags("-ansi", "-pedantic", "-pedantic-errors", "-Wall", "-fPIC", "-g", {force = true})
 
+if is_mode("debug") then
+	add_defines("DEBUG")
+	set_symbols("debug")
+	set_optimize("none")
+end
+
+if is_mode("release") then
+	set_symbols("hidden")
+	set_strip("all")
+	set_symbols("debug")
+end
+
+if is_mode("profile") then
+	set_symbols("debug")
+end
+
 target("static")
 	set_kind("static")
 	set_basename("cgraph")

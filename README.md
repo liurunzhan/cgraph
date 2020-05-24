@@ -4,7 +4,7 @@ A C LIBRARY FOR GRAPH ANALYSIS
 
 ## Compilation
 
-This library supports mingw32-make, make, cmake and xmake to compile this library, cross different platforms of mingw, msys, msys2, cgywin, wsl and linux.
+This library supports mingw32-make, make, cmake and xmake to compile this library with the version of debug (addtion c flags of "-g -DDEBUG") and release (addtion c flags of "-static -O2"), cross different platforms of mingw, msys, msys2, cgywin, wsl and linux.
 
 This library also provides shell script [compile.sh](./compile.sh) and z shell script [compile.zsh](./compile.zsh) in msys, msys2, cgywin, wsl and linux, batch script [compile.bat](./compile.bat) and powershell script [compile.ps1](./compile.ps1) in mingw to directly compile this library by C compiler without make tools. All the compile scripts provide the same command-line arguments, without any argument or with the arguments of test, clean, distclean and help.
 
@@ -20,7 +20,7 @@ Do what you want to do, and be what you want to be!
 
 ### Data Type List
 
-| TYPE | ID | NAME | MACRO | FUNCTION |
+| TYPE | ID | NAME | MACRO | DESCRIPTION |
 | :-: | :-: | :-: | :-: | :-: |
 | cgraph_object_t | CGRAPH_OBJECT_T | object | TYPE_OBJECT |  |
 | cgraph_integer_t | CGRAPH_INTEGER_T | integer | TYPE_INTEGER | |
@@ -37,12 +37,14 @@ Do what you want to do, and be what you want to be!
 | cgraph_bigint_t | CGRAPH_BIGINT_T | bigint | TYPE_BIGINT | |
 | cgraph_bignum_t | CGRAPH_BIGNUM_T | bignum | TYPE_BIGNUM | |
 | cgraph_string_t | CGRAPH_STRING_T | string | TYPE_STRING | |
+| cgraph_bitset_t | CGRAPH_BITSET_T | bitset | TYPE_BITSET | |
 
 ### basic types
 
 | TYPE | ID | C TYPE |
 | :-: | :-: | :-: |
-| 
+|  |  |  |  |
+
 
 
 ### cgraph_object_t
@@ -81,7 +83,7 @@ typedef struct
 {
   cgraph_size_t len, size;
   cgraph_boolean_t pos;
-  DATA_TYPE *data;
+  DATA_TYPE *root, *data;
 }cgraph_bigint_t;
 ```
 
@@ -91,7 +93,7 @@ typedef struct
 typedef struct 
 {
   cgraph_size_t len, size, point;
-  DATA_TYPE *data;
+  DATA_TYPE *root, *data;
 }cgraph_bignum_t;
 ```
 
@@ -101,7 +103,7 @@ typedef struct
 typedef struct 
 {
   cgraph_size_t len, size;
-  DATA_TYPE *data;
+  DATA_TYPE *root, *data;
 }cgraph_string_t;
 ```
 
@@ -112,7 +114,7 @@ typedef struct
 typedef struct 
 {
   cgraph_size_t len, size;
-  DATA_TYPE *data;
+  DATA_TYPE *root, *data;
 }cgraph_bitset_t;
 ```
 

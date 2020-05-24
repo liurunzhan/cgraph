@@ -76,7 +76,7 @@ cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 {
 #ifdef DATA_WITH_POINTER
   TYPE *object = (TYPE *)cthis;
-  return object->len;
+  return NULL != object ? object->len : 0;
 #else
   return 1;
 #endif
@@ -132,12 +132,12 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
   TYPE *object = (TYPE *)FUNCTION(NAME, calloc)(ID, size);
   if(NULL != object)
   {
-#ifdef DATA_WITH_POINTER
-  object = (TYPE *)cgraph_memcpy(object, cthis, 1, FUNCTION(NAME, size)());
-  object->data = (DATA_TYPE *)cgraph_memcpy(object->data, ((TYPE *)cthis)->data, size, FUNCTION(NAME, dsize)());
-#else
-  object = (TYPE *)cgraph_memcpy(object, cthis, size, FUNCTION(NAME, size)());
-#endif
+  #ifdef DATA_WITH_POINTER
+    object = (TYPE *)cgraph_memcpy(object, cthis, 1, FUNCTION(NAME, size)());
+    object->data = (DATA_TYPE *)cgraph_memcpy(object->data, ((TYPE *)cthis)->data, size, FUNCTION(NAME, dsize)());
+  #else
+    object = (TYPE *)cgraph_memcpy(object, cthis, size, FUNCTION(NAME, size)());
+  #endif
   }
 
   return object;
@@ -156,42 +156,40 @@ void FUNCTION(NAME, free)(void *cthis)
 void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size)
 {
   TYPE *object = (TYPE *)cthis, *new_data = (TYPE *)data;
-
   if(NULL != object && NULL != new_data)
   {
-#ifdef DATA_WITH_POINTER
+  #ifdef DATA_WITH_POINTER
     cgraph_memcpy(object->data, new_data->data, new_data->len, FUNCTION(NAME, dsize)());
-#else
+  #else
     cgraph_memcpy(object, new_data, size, FUNCTION(NAME, dsize)());
-#endif
+  #endif
   }
+
   return object;
 }
 
 void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t size)
 {
-  TYPE *object = (TYPE *)cthis;
 #ifdef DATA_WITH_POINTER
-  DATA_TYPE *new_data = (DATA_TYPE *)data;
-  if(NULL != object && NULL != new_data)
-  { cgraph_memcpy(object->data, new_data, size, FUNCTION(NAME, dsize)()); }
-#else
-  TYPE *new_data = (TYPE *)data;
-  if(NULL != object && NULL != new_data)
-  { cgraph_memcpy(object, new_data, size, FUNCTION(NAME, dsize)()); }
-#endif
+  TYPE *object = (TYPE *)cthis;
+  if(NULL != object)
+  { cgraph_memcpy(object->data, data, size, FUNCTION(NAME, dsize)()); }
 
   return object;
+#else
+  return cgraph_memcpy(cthis, data, size, FUNCTION(NAME, dsize)());
+#endif
 }
 
 void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)
 {
-  TYPE *object = (TYPE *)cthis;
   cgraph_size_t left = start, right = end;
 #ifdef DATA_WITH_POINTER
-  TYPE *key = &object[left];
+  TYPE **object = (TYPE **)cthis;
+  TYPE *key = object[left];
 
 #else
+  TYPE *object = (TYPE *)cthis;
   TYPE key = object[left];
   while(left < right)
   {

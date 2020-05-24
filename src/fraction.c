@@ -44,21 +44,61 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
   return CGRAPH_TEST((0 != FRACTION_DEN(object)));
 }
 
-cgraph_boolean_t FUNCTION(NAME, isnan)(const void *cthis)
+cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE object = *(TYPE *)cthis;
-
-  return CGRAPH_TEST((0 == FRACTION_NUM(object) && (0 == FRACTION_DEN(object))));
-}
-
-cgraph_boolean_t FUNCTION(NAME, isinf)(const void *cthis)
-{
-  TYPE object = *(TYPE *)cthis;
-
-  return CGRAPH_TEST((0 != FRACTION_NUM(object) && (0 == FRACTION_DEN(object))));
+  
 }
 
 /*                               private apis                                 */
+cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
+{
+  return CGRAPH_TEST((0 == FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
+{
+  return CGRAPH_TEST((0 != FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
+{
+  return CGRAPH_TEST((0 < FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
+{
+  return CGRAPH_TEST((0 > FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
+{
+  return CGRAPH_TEST((FRACTION_NUM(x) == 0) && (FRACTION_DEN(x) != 0));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
+{
+  return CGRAPH_TEST(((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) < 0)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
+{
+  return CGRAPH_TEST(((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) < 0)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
+{
+  TYPE min = DATA_MIN;
+
+  return CGRAPH_TEST(EQ(x, min));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
+{
+  TYPE max = DATA_MAX;
+
+  return CGRAPH_TEST(EQ(x, max));
+}
+
 TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y)
 {
   TYPE res;
@@ -111,21 +151,6 @@ TYPE FUNCTION(NAME, abs)(const TYPE x)
   FRACTION_DEN(res) = ((FRACTION_DEN(x) > 0) ? FRACTION_DEN(x) : (-FRACTION_DEN(x))); 
 
   return res;
-}
-
-cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
-{
-  return CGRAPH_TEST((FRACTION_NUM(x) == 0) && (FRACTION_DEN(x) != 0));
-}
-
-cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
-{
-  return CGRAPH_TEST(((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) < 0)));
-}
-
-cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
-{
-  return CGRAPH_TEST(((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) < 0)));
 }
 
 #include "templete_off.h"

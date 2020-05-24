@@ -155,9 +155,9 @@
 #define NAME fraction
 #define OUT_FORMAT "%d"
 #define DATA_TYPE cgraph_integer_t
-#define ZERO {0, 1}
+#define ZERO ((TYPE){0, 1})
 #define DATA_MAX {INT_MAX, 1}
-#define DATA_MIN {INT_MIN, 1}
+#define DATA_MIN {-1, INT_MAX}
 #define DATA_ID CGRAPH_INTEGER_T
 #define DATA_BITS (8*sizeof(DATA_TYPE))
 #define DATA_ONES {((cgraph_uinteger_t)(-1)), 1}

@@ -14,8 +14,14 @@ TST = os.path.join(DIR, "test")
 LIB = os.path.join(DIR, "lib")
 
 CC = "cc"
-CFLAGS = "-ansi -pedantic -pedantic-errors -Wall -fPIC -g"
+CFLAGS = "-ansi -pedantic -pedantic-errors -Wall -fPIC"
 CSFLAGS = "-shared"
+
+MODE = "debug"
+if MODE == "debug":
+  CFLAGS = CFLAGS + " -g -DDEBUG"
+elif MODE == "release":
+  CFLAGS = CFLAGS + " -static -O2"
 
 # package shared library
 AR = "ar"

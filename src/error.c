@@ -64,19 +64,45 @@ void cgraph_error_details_csv(FILE *fp)
   }
 }
 
-void cgraph_error_log(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...)
+static cgraph_char_t __cgraph_time_buffer__[CGRAPH_TIME_BUFFER_SIZE];
+static cgraph_char_t __cgraph_log_buffer__[CGRAPH_LOG_BUFFER_SIZE];
+
+void cgraph_error_log(FILE *fp, const cgraph_char_t *format, ...)
 {
-  if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < len) && (NULL != format))
+  if((NULL != fp) && (0 == ferror(fp)) && (NULL != format))
   {
-    cgraph_char_t time_buffer[CGRAPH_TIME_BUFFER_SIZE];
     time_t local_time;
     va_list args;
     time(&local_time);
-    strftime(time_buffer, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
+    strftime(__cgraph_time_buffer__, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
+    va_start(args, format);
+    vsprintf(__cgraph_log_buffer__, format, args);
+    va_end(args);
+    fprintf(fp, "%s: %s\n", __cgraph_time_buffer__, __cgraph_log_buffer__);
+  }
+  else
+  {
+    if((NULL == fp) || (0 != ferror(fp)))
+    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
+    if(NULL == format)
+    { fprintf(stderr, "FILE %s of LINE %d : style format is empty!\n", __FILE__, __LINE__); }
+    fflush(stderr);
+  }
+}
+
+
+void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...)
+{
+  if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < len) && (NULL != format))
+  {
+    time_t local_time;
+    va_list args;
+    time(&local_time);
+    strftime(__cgraph_time_buffer__, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
     va_start(args, format);
     vsprintf(buffer, format, args);
     va_end(args);
-    fprintf(fp, "%s: %s\n", time_buffer, buffer);
+    fprintf(fp, "%s: %s\n", __cgraph_time_buffer__, buffer);
   }
   else
   {

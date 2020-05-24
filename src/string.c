@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdarg.h>
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
 
@@ -30,15 +30,7 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if((NULL != object_x) && (NULL != object_y))
   {
-    if(cgraph_strcmp(object_x->data, object_y->data))
-    { flag = CGRAPH_TRUE; }
-  }
-  else
-  {
-   if(NULL == object_x)
-    { fprintf(stderr, "FILE %s of LINE %d : target pointer is empty\n", __FILE__, __LINE__); }
-    if(NULL == object_y)
-    { fprintf(stderr, "FILE %s of LINE %d : source pointer is empty;\n", __FILE__, __LINE__); }
+    flag = cgraph_strcmp(object_x->data, object_y->data);
   }
 
   return flag;
@@ -97,6 +89,22 @@ cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis)
   { hash = hash * 131 + cthis->data[i]; }
 
   return hash;
+}
+
+TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
+{
+  cgraph_size_t len;
+  if((NULL != cthis) && (NULL != format))
+  {
+    va_list args;
+    va_start(args, format);
+    len = vsnprintf(cthis->data, cthis->size, format, args);
+    va_end(args);
+    if(0 < len)
+    { cthis->len = len; }
+  }
+
+  return cthis;
 }
 
 #include "templete_off.h"

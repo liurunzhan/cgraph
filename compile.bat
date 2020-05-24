@@ -13,8 +13,16 @@ set LIB=%DIR%lib
 
 rem compiler configuration
 set CC=cc
-set CFLAGS=-ansi -pedantic -pedantic-errors -Wall -fPIC -g
+set CFLAGS=-ansi -pedantic -pedantic-errors -Wall -fPIC
 set CSFLAGS=-shared
+
+rem debug or release mode
+set MODE=debug
+if MODE == "debug" (
+  set CFLAGS+=" -g -DDEBUG"
+) else if MODE == "release" (
+  set CFLAGS+=" -static -O2"
+)
 
 rem build and clean directories and files
 set MKDIR=mkdir

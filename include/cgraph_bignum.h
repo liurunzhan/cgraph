@@ -12,7 +12,7 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_size_t len, size, point;
+  cgraph_size_t size, len, point;
   DATA_TYPE *root, *data;
 }cgraph_bignum_t;
 

@@ -12,7 +12,7 @@ typedef struct
   cgraph_type_t type;
   cgraph_boolean_t with_hash;
   cgraph_size_t len, size;
-  void *data;
+  void *root, *data;
 }cgraph_vector_t;
 
 #define TYPE_VECTOR
