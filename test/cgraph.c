@@ -6,6 +6,9 @@ int main(int argc, char *argv[])
 {
   cgraph_char_t buffer[100];
   cgraph_fraction_t fraction = {-1, INT_MAX};
+  cgraph_integer_t integer = 123;
+  cgraph_float_t real = 123.0, number = 0.1;
+  cgraph_size_t i = 0;
   fprintf(stdout, "start simulation\n");
   /*
   if(argc == 2)
@@ -47,11 +50,19 @@ int main(int argc, char *argv[])
   fprintf(stdout, "%d %o\n", 1, cgraph_integer_sets(1, 1, 3));
   fprintf(stdout, "%d %d\n", 127, cgraph_integer_clrs(127, 0, 3));
   fprintf(stdout, "%d %ld\n", 128, cgraph_integer_zeros(128));
+  fprintf(stdout, "%d %ld\n", integer, cgraph_integer_hash(&integer));
+  for(i = 0; i<6; i++)
+  {
+    cgraph_float_t data = real + number;
+    cgraph_float_hash(&data);
+    number = number / 10.0;
+  }
+  
   cgraph_file_fgets(NULL, NULL);
   
-  cgraph_error_log_buffer(stdout, buffer, 100, "%s %d %d", "hello", 1 , 2);
-  cgraph_error_log(stdout, "%s %d", "hello", 1);
-  cgraph_error_log(stdout, "%d", cgraph_fraction_ismin(fraction));
+  cgraph_error_log_buffer(stdout, __FILE__, __LINE__, buffer, 100, "%s %d %d", "hello", 1 , 2);
+  cgraph_error_log(stdout, __FILE__, __LINE__, "%s %d", "hello", 1);
+  cgraph_error_log(stdout, __FILE__, __LINE__, "%d", cgraph_fraction_ismin(fraction));
 
   return 0;
 }

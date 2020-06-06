@@ -12,7 +12,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   object = ((object >> 16) ^ object) * 0x45d9f3b;
   object = (object >> 16) ^ object;
   
-  return object;
+  return CGRAPH_ABS(object);
 }
 
 #include "integer.templete"

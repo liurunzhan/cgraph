@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
 #include "cgraph_error.h"
@@ -65,20 +64,28 @@ void cgraph_error_details_csv(FILE *fp)
 }
 
 static cgraph_char_t __cgraph_time_buffer__[CGRAPH_TIME_BUFFER_SIZE];
+
+cgraph_char_t *cgraph_error_time(void)
+{
+  time_t local_time;
+  time(&local_time);
+  strftime(__cgraph_time_buffer__, CGRAPH_TIME_BUFFER_SIZE, "%Y-%m-%d %X", localtime(&local_time));
+
+  return __cgraph_time_buffer__;
+}
+
 static cgraph_char_t __cgraph_log_buffer__[CGRAPH_LOG_BUFFER_SIZE];
 
-void cgraph_error_log(FILE *fp, const cgraph_char_t *format, ...)
+void cgraph_error_log(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, const cgraph_char_t *format, ...)
 {
   if((NULL != fp) && (0 == ferror(fp)) && (NULL != format))
   {
-    time_t local_time;
     va_list args;
-    time(&local_time);
-    strftime(__cgraph_time_buffer__, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
     va_start(args, format);
     vsprintf(__cgraph_log_buffer__, format, args);
     va_end(args);
-    fprintf(fp, "%s: %s\n", __cgraph_time_buffer__, __cgraph_log_buffer__);
+    cgraph_error_time();
+    fprintf(fp, "LINE %ld of FILE %s at TIME %s : %s\n", line, file, __cgraph_time_buffer__, __cgraph_log_buffer__);
   }
   else
   {
@@ -90,18 +97,15 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *format, ...)
   }
 }
 
-
-void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...)
+void cgraph_error_log_buffer(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...)
 {
   if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < len) && (NULL != format))
   {
-    time_t local_time;
     va_list args;
-    time(&local_time);
-    strftime(__cgraph_time_buffer__, CGRAPH_TIME_BUFFER_SIZE, "[%Y-%m-%d %X]", localtime(&local_time));
     va_start(args, format);
     vsprintf(buffer, format, args);
     va_end(args);
+    cgraph_error_time();
     fprintf(fp, "%s: %s\n", __cgraph_time_buffer__, buffer);
   }
   else

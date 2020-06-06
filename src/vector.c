@@ -101,4 +101,18 @@ void *FUNCTION(NAME, add)(const void *x, const void *y)
   return res;
 }
 
+void *FUNCTION(NAME, iterator2)(void *cthis, cgraph_func2_t opt)
+{
+  TYPE *object = (TYPE *)cthis, *result = FUNCTION(NAME, calloc)(object->type, object->size);
+
+  return result;
+}
+
+void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_func3_t opt)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *result = NULL;
+
+  return result;
+}
+
 #include "templete_off.h"

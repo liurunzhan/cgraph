@@ -17,7 +17,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   for(i=0; i<object->len; i++)
   { hash = hash * 31 + object->data[i]; }
 
-  return hash;
+  return CGRAPH_ABS(hash);
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
@@ -118,12 +118,12 @@ cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis)
 
 TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis)
 {
-  cgraph_size_t len = cthis->data[0] == '-' ? (cthis->len-1) : cthis->len;
+  cgraph_size_t len = '-' == cthis->data[0] ? (cthis->len-1) : cthis->len;
   TYPE *num = cgraph_bignum_calloc(1, len);
   if(NULL != num)
   {
     cgraph_size_t i = 0;
-    if('-' != cthis->data[0])
+    if('-' == cthis->data[0])
     {
       num->data[i] = '-';
       i++;

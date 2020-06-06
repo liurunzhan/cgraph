@@ -133,6 +133,7 @@ typedef unsigned long long cgraph_uint64_t;
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define CGRAPH_ABS(x) (((x) < 0) ? (-(x)) : (x))
 
 /* 
   the boundary between data objects and data structural objects 
@@ -195,6 +196,9 @@ typedef struct
 /*                          operations of data types                          */
 extern CGVTable *_cgraph_objects_[];
 #define CGRAPH_OBJECT(type, opt) ((_cgraph_objects_[type])->opt)
+
+typedef void (*cgraph_func2_t)(const void *cthis, void *result);
+typedef void (*cgraph_func3_t)(const void *x, const void *y, void *result);
 
 #ifdef __cplusplus
 }

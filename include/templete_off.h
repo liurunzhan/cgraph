@@ -178,6 +178,10 @@
 #undef DATA_EPSILON
 #endif
 
+#ifdef DATA_EPSILON_SIZE
+#undef DATA_EPSILON_SIZE
+#endif
+
 #ifdef DATA_BITS
 #undef DATA_BITS
 #endif
@@ -216,6 +220,10 @@
 
 #ifdef EQ
 #undef EQ
+#endif
+
+#ifdef NEQ
+#undef NEQ
 #endif
 
 #ifdef GR

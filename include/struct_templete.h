@@ -23,3 +23,6 @@ extern void *FUNCTION(NAME, add)(const void *x, const void *y);
 extern void *FUNCTION(NAME, sub)(const void *x, const void *y);
 extern void *FUNCTION(NAME, mul)(const void *x, const void *y);
 extern void *FUNCTION(NAME, div)(const void *x, const void *y);
+
+extern void *FUNCTION(NAME, iterator2)(void *cthis, cgraph_func2_t opt);
+extern void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_func3_t opt);

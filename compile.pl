@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 use strict;
 use warnings;
@@ -29,8 +29,15 @@ my $AR = "ar";
 my $ARFLAGS = "-rcs";
 
 # source files
+my @CFILES;
 opendir(my $fin, $SRC) or die "cannot open directory $SRC";
-my @CFILES = readdir($fin);
+foreach my $file (readdir($fin))
+{
+  if($file =~ /\.c$/)
+  {
+    push(@CFILES, $file);
+  }
+}
 closedir($fin);
 my $LIBSHARED;
 my $LIBSTATIC;
@@ -62,12 +69,9 @@ if($args[0] eq "")
   mkdir $LIB;
   foreach my $file (@CFILES)
   {
-    if($file =~ /\.c/)
-    {
-      my $obj = ($file =~ s/\.c/\.o/r);
-      print("compile $SRC/$file to $SRC/$obj\n");
-      system("$CC $CFLAGS -I$INC -c $SRC/$file -o $SRC/$obj");
-    }
+    my $obj = ($file =~ s/\.c/\.o/r);
+    print("compile $SRC/$file to $SRC/$obj\n");
+    system("$CC $CFLAGS -I$INC -c $SRC/$file -o $SRC/$obj");
   }
   print("compile $LIBSHARED\n");
   system("$CC $CSFLAGS -o $LIBSHARED $SRC/*.o");
@@ -85,12 +89,9 @@ elsif($args[0] eq "clean")
 {
   foreach my $file (@CFILES)
   {
-    if($file =~ /\.c/)
-    {
-      my $obj = ($file =~ s/\.c/\.o/r);
-      print("clean $obj\n");
-      unlink "$SRC/$obj";
-    }
+    my $obj = ($file =~ s/\.c/\.o/r);
+    print("clean $obj\n");
+    unlink "$SRC/$obj";
   }
   print("clean $LIBSTATIC\n");
   unlink "$LIBSTATIC";
@@ -103,12 +104,9 @@ elsif($args[0] eq "distclean")
 {
   foreach my $file (@CFILES)
   {
-    if($file =~ /\.c/)
-    {
-      my $obj = ($file =~ s/\.c/\.o/r);
-      print("clean $obj\n");
-      unlink "$SRC/$obj";
-    }
+    my $obj = ($file =~ s/\.c/\.o/r);
+    print("clean $obj\n");
+    unlink "$SRC/$obj";
   }
   print("clean $LIBSTATIC\n");
   unlink "$LIBSTATIC";

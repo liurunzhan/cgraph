@@ -26,15 +26,11 @@
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
-  cgraph_size_t hash = 2166136261UL, i;
-  char *tmp = (char *)(&FRACTION_NUM(object));
-  for(i=0; i<sizeof(DATA_TYPE); i++)
-  { hash = (hash ^ tmp[i]) * 16777619UL; }
-  tmp = (char *)(&FRACTION_DEN(object));
-  for(i=0; i<sizeof(DATA_TYPE); i++)
-  { hash = (hash ^ tmp[i]) * 16777619UL; }
+  cgraph_size_t hash = 2166136261UL;
+  hash = (hash ^ FRACTION_NUM(object)) * 16777619UL;
+  hash = ((hash >> 8) ^ FRACTION_DEN(object)) * 16777619UL;
 
-  return hash;
+  return CGRAPH_ABS(hash);
 }
 
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
@@ -46,7 +42,9 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  
+  TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
+
+  return EQ(object_x, object_y);
 }
 
 /*                               private apis                                 */

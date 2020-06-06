@@ -17,7 +17,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   for(i=0; i<object->len; i++)
   { hash = (hash * 31) + (object->data[i] - '0'); }
 
-  return hash;
+  return CGRAPH_ABS(hash);
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)

@@ -11,7 +11,8 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
   cgraph_size_t hash = 123;
-  return hash;
+
+  return CGRAPH_ABS(hash);
 }
 
 /* initial function */

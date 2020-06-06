@@ -3,6 +3,13 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
   return CGRAPH_TRUE;
 }
 
+cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+{
+  TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
+
+  return EQ(object_x, object_y);
+}
+
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)
 {
   TYPE object_x = x, object_y = y, res;

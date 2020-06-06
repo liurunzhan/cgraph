@@ -88,7 +88,7 @@ cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis)
   for(i=0; i<cthis->len; i++)
   { hash = hash * 131 + cthis->data[i]; }
 
-  return hash;
+  return CGRAPH_ABS(hash);
 }
 
 TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)

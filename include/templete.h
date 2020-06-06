@@ -36,6 +36,7 @@
 #define NAME real
 #define OUT_FORMAT "%G"
 #define DATA_EPSILON DBL_EPSILON
+#define DATA_EPSILON_SIZE 1e22
 #define ZERO 0.0
 #define DATA_MAX CGRAPH_REAL_MAX
 #define DATA_MIN CGRAPH_REAL_MIN
@@ -59,6 +60,7 @@
 #define NAME float
 #define OUT_FORMAT "%f"
 #define DATA_EPSILON FLT_EPSILON
+#define DATA_EPSILON_SIZE 1e6
 #define ZERO 0.0
 #define DATA_MAX CGRAPH_FLOAT_MAX
 #define DATA_MIN CGRAPH_FLOAT_MIN
@@ -274,11 +276,12 @@
 #define INT(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CHRAPH_TRUE : CGRAPH_FALSE)
 #define MOD(a, b) (SUB((a), INT(a, b)))
 
-#define EQ(a, b) ((a) == (b))
-#define GR(a, b) ((a) > (b))
-#define GE(a, b) ((a) >= (b))
-#define LS(a, b) ((a) < (b))
-#define LE(a, b) ((a) <= (b))
+#define EQ(a, b) CGRAPH_TEST((a) == (b))
+#define NEQ(a, b) CGRAPH_TEST((a) != (b))
+#define GR(a, b) CGRAPH_TEST((a) > (b))
+#define GE(a, b) CGRAPH_TEST((a) >= (b))
+#define LS(a, b) CGRAPH_TEST((a) < (b))
+#define LE(a, b) CGRAPH_TEST((a) <= (b))
 #define POW(a, b) (((a) == CGRAPH_TRUE) ? CGRAPH_TRUE : CGRAPH_FALSE)
 
 #define ABS(a) ((a))
@@ -297,7 +300,7 @@
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
 
-#define EXCHNAGE(a) 
+#define EXCHNAGE(a, b) do{TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;} while(0)
 
 #elif defined(TYPE_INTEGER) || defined(TYPE_LONG) \
 	|| defined(TYPE_INT8) || defined(TYPE_INT16) || defined(TYPE_INT32) \
@@ -316,7 +319,7 @@
 #define LE(a, b) ((a) <= (b))
 #define POW(a, b) pow((a), (b))
 
-#define ABS(a) (((a) > 0) ? (a) : (-(a)))
+#define ABS(a) CGRAPH_ABS((a))
 #define SIN(a) sin((a))
 #define COS(a) cos((a))
 #define TAN(a) tan((a))
@@ -332,7 +335,7 @@
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
 
-#define EXCHANGE(a, b) ({TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;})
+#define EXCHANGE(a, b) do{TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;} while(0)
 
 #elif defined(TYPE_REAL) || defined(TYPE_FLOAT)
 #define ADD(a, b) ((a) + (b))
@@ -342,11 +345,12 @@
 #define INT(a, b) (floor((a), (b)))
 #define MOD(a, b) (fmod((a), (b)))
 
-#define EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
-#define GR(a, b) (((a) > (b)) && (fabs((a) - (b)) >= DATA_EPSILON))
-#define GE(a, b) (GR(a, b) || EQ(a, b))
-#define LS(a, b) (((a) < (b)) && (fabs((a) - (b)) >= DATA_EPSILON))
-#define LE(a, b) (LS(a, b) || EQ(a, b))
+#define EQ(a, b) CGRAPH_TEST(fabs((a) - (b)) < DATA_EPSILON)
+#define NEQ(a, b) CGRAPH_TEST(fabs((a) - (b)) > DATA_EPSILON)
+#define GR(a, b) CGRAPH_TEST(((a) - (b)) > DATA_EPSILON)
+#define GE(a, b) CGRAPH_TEST(((a) - (b)) > (-DATA_EPSILON))
+#define LS(a, b) CGRAPH_TEST(((a) - (b)) < (-DATA_EPSILON))
+#define LE(a, b) CGRAPH_TEST(((a) - (b)) < DATA_EPSILON)
 #define POW(a, b) pow((a), (b))
 
 #define ABS(a) fabs((a))
@@ -368,6 +372,12 @@
 #define EXCHANGE(a, b) do{TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;}while(0)
 
 #elif defined(TYPE_TIME)
+
+#define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le)((a), (b))
 
 #elif defined(TYPE_COMPLEX)
 #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))

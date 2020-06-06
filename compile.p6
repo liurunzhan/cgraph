@@ -51,7 +51,7 @@ if($args[0] eq "")
   mkdir $LIB;
   foreach my $file (@CFILES)
   {
-    if($file =~ /\.c/)
+    if($file =~ /\.c$/)
     {
       my $obj = ($file =~ s/\.c/\.o/r);
       print("compile $SRC/$file to $SRC/$obj\n");

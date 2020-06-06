@@ -29,7 +29,16 @@ typedef struct {
 #define CGRAPH_MINUTE(x) ((x).data[4])
 #define CGRAPH_SECOND(x) ((x).data[5])
 
-/* #include "data_templete.h" */
+#include "data_templete.h"
+
+cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
+cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
+cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
+cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
+cgraph_boolean_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
+
+TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep);
+TYPE FUNCTION(NAME, localtime)(void);
 
 #include "templete_off.h"
 

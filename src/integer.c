@@ -29,7 +29,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   for(i=0; i<sizeof(TYPE); i++)
   { hash = (hash ^ tmp[i]) * 16777619UL; }
 
-  return hash;
+  return CGRAPH_ABS(hash);
 }
 
 #include "integer.templete"

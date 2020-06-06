@@ -1,25 +1,11 @@
 #include <string.h>
+#include <time.h>
 #include "cgraph_memory.h"
 #include "cgraph_time.h"
 
 #define TYPE_TIME
 #include "templete.h"
-/* #include "data.templete" */
-
-TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep)
-{
-  TYPE res;
-  if((NULL != cthis) && (NULL != sep))
-  {
-    char *object = cgraph_calloc(strlen(cthis), sizeof(char));
-    if(NULL != object)
-    {
-      
-    }
-  }
-
-  return res;
-}
+#include "data.templete"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
@@ -27,7 +13,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   cgraph_size_t hash1, hash2;
   hash1 = (CGRAPH_YEAR(object) << 13) + (CGRAPH_MONTH(object) << 7) + CGRAPH_DAY(object);
   hash2 = (CGRAPH_HOUR(object) << 12) + (CGRAPH_MINUTE(object) << 4) + CGRAPH_SECOND(object);
-  return hash1 ^ hash2;
+  return CGRAPH_ABS(hash1 ^ hash2);
 }
 
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
@@ -63,6 +49,118 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   }
 
   return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(
+      (CGRAPH_YEAR(x) == CGRAPH_YEAR(y)) && 
+      (CGRAPH_MONTH(x) == CGRAPH_MONTH(y)) && 
+      (CGRAPH_DAY(x) == CGRAPH_DAY(y)) && 
+      (CGRAPH_HOUR(x) == CGRAPH_HOUR(y)) && 
+      (CGRAPH_MINUTE(x) == CGRAPH_MINUTE(y)) && 
+      (CGRAPH_SECOND(x) == CGRAPH_SECOND(y))
+    )
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(
+    (CGRAPH_YEAR(x) > CGRAPH_YEAR(y)) || 
+    (CGRAPH_MONTH(x) > CGRAPH_MONTH(y)) || 
+    (CGRAPH_DAY(x) > CGRAPH_DAY(y)) || 
+    (CGRAPH_HOUR(x) > CGRAPH_HOUR(y)) || 
+    (CGRAPH_MINUTE(x) > CGRAPH_MINUTE(y)) || 
+    (CGRAPH_SECOND(x) > CGRAPH_SECOND(y))
+  )
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(
+    (CGRAPH_YEAR(x) >= CGRAPH_YEAR(y)) || 
+    (CGRAPH_MONTH(x) >= CGRAPH_MONTH(y)) || 
+    (CGRAPH_DAY(x) >= CGRAPH_DAY(y)) || 
+    (CGRAPH_HOUR(x) >= CGRAPH_HOUR(y)) || 
+    (CGRAPH_MINUTE(x) >= CGRAPH_MINUTE(y)) || 
+    (CGRAPH_SECOND(x) >= CGRAPH_SECOND(y))
+    )
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(
+    (CGRAPH_YEAR(x) < CGRAPH_YEAR(y)) || 
+    (CGRAPH_MONTH(x) < CGRAPH_MONTH(y)) || 
+    (CGRAPH_DAY(x) < CGRAPH_DAY(y)) || 
+    (CGRAPH_HOUR(x) < CGRAPH_HOUR(y)) || 
+    (CGRAPH_MINUTE(x) < CGRAPH_MINUTE(y)) || 
+    (CGRAPH_SECOND(x) < CGRAPH_SECOND(y))
+    )
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, le)(const TYPE x, const TYPE y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(
+    (CGRAPH_YEAR(x) <= CGRAPH_YEAR(y)) || 
+    (CGRAPH_MONTH(x) <= CGRAPH_MONTH(y)) || 
+    (CGRAPH_DAY(x) <= CGRAPH_DAY(y)) || 
+    (CGRAPH_HOUR(x) <= CGRAPH_HOUR(y)) || 
+    (CGRAPH_MINUTE(x) <= CGRAPH_MINUTE(y)) || 
+    (CGRAPH_SECOND(x) <= CGRAPH_SECOND(y))
+    )
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep)
+{
+  TYPE res;
+  if((NULL != cthis) && (NULL != sep))
+  {
+    char *object = cgraph_calloc(strlen(cthis), sizeof(char));
+    if(NULL != object)
+    {
+      
+    }
+  }
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, localtime)(void)
+{
+  TYPE res;
+  time_t current_time;
+  struct tm *pt;
+  time(&current_time);
+  pt = localtime(&current_time);
+  CGRAPH_YEAR(res) = pt->tm_year;
+  CGRAPH_MONTH(res) = pt->tm_mon;
+  CGRAPH_DAY(res) = pt->tm_mday;
+  CGRAPH_HOUR(res) = pt->tm_hour;
+  CGRAPH_MINUTE(res) = pt->tm_min;
+  CGRAPH_SECOND(res) = pt->tm_sec;
+
+  return res;
 }
 
 #include "templete_off.h"

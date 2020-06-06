@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include "cgraph_error.h"
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
 #include "cgraph_file.h"
@@ -11,7 +12,7 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode)
   {
   #ifdef DEBUG
     fflush(stdout);
-    fprintf(stderr, "FILE %s of LINE %d : %s in style %s is opened error!\n", __FILE__, __LINE__, file, mode);
+    cgraph_error_log(stderr, __FILE__, __LINE__, "%s in style %s is opened error", file, mode);
     fflush(stderr);
   #endif
     abort();
@@ -26,7 +27,7 @@ cgraph_boolean_t cgraph_file_fclose(FILE *fp)
   {
   #ifdef DEBUG
     fflush(stdout);
-    fprintf(stderr, "FILE %s of LINE %d : file handle is error before closed!\n", __FILE__, __LINE__);
+    cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error before closed");
     fflush(stderr);
   #endif
     clearerr(fp);
@@ -55,7 +56,7 @@ cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
     {
     #ifdef DEBUG
       fflush(stdout);
-      fprintf(stderr, "FILE %s of LINE %d : read a whole line in the file error\n", __FILE__, __LINE__);
+      cgraph_error_log(stderr, __FILE__, __LINE__, "read a whole line in the file error");
       fflush(stderr);
     #endif
       error = CGRAPH_TRUE;
@@ -64,7 +65,7 @@ cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
     {
     #ifdef DEBUG
       fflush(stdout);
-      fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__);
+      cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error");
       fflush(stderr);
     #endif
       error = CGRAPH_TRUE;
@@ -75,9 +76,9 @@ cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
   #ifdef DEBUG
     fflush(stdout);
     if(NULL == buffer)
-    { fprintf(stderr, "FILE %s of LINE %d : file buffer is empty!\n", __FILE__, __LINE__); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "file buffer is empty"); }
     if((NULL == fp) || (0 != ferror(fp)))
-    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error"); }
     fflush(stderr);
   #endif
     error = CGRAPH_TRUE;
@@ -98,11 +99,11 @@ cgraph_string_t *cgraph_file_header(FILE *fp, cgraph_string_t *buffer, cgraph_bo
   {
     fflush(stdout);
     if(NULL != buffer)
-    { fprintf(stderr, "FILE %s of LINE %d : file buffer is empty!\n", __FILE__, __LINE__); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "file buffer is empty"); }
     if((NULL == fp) || (0 != ferror(fp)))
-    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error"); }
     if(NULL == error)
-    { fprintf(stderr, "FILE %s of LINE %d : error flag is empty!\n", __FILE__, __LINE__); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "error flag is empty"); }
     fflush(stderr);
   }
 #endif
@@ -157,7 +158,7 @@ cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgrap
       {
       #ifdef DEBUG
         fflush(stdout);
-        fprintf(stderr, "FILE %s of LINE %d : read %ld line error!\n", __FILE__, __LINE__, i);
+        cgraph_error_log(stderr, __FILE__, __LINE__, "read %ld line error", i);
         fflush(stderr);
       #endif
         break;
@@ -169,11 +170,11 @@ cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgrap
   {
     fflush(stdout);
     if((NULL == fp) || (0 != ferror(fp)))
-    { fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__, __LINE__); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error"); }
     if(NULL == buffer)
-    { fprintf(stderr, "FILE %s of LINE %d : file buffer is empty!\n", __FILE__, __LINE__); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "file buffer is empty"); }
     if(line < 0)
-    { fprintf(stderr, "FILE %s of LINE %d : line number %ld is a negative number!\n", __FILE__, __LINE__, line); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "line number %ld is a negative number", line); }
     fflush(stderr);
   }
 #endif
