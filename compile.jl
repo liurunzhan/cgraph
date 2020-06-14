@@ -49,8 +49,17 @@ args = ARGS
 if 0 == length(args)
 
 elseif 1 == length(args)
+  if args[1] == "test"
 
+  elseif args[1] == "clean"
+    print(args)
+  elseif args[1] == "distclean"
 
+  elseif args[1] == "help"
+
+  else
+
+  end
 else
 
 end

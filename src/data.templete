@@ -92,12 +92,13 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
     { cthis->size = size; }
     else
     {
-      cthis->root = (DATA_TYPE *)cgraph_calloc(size+1, FUNCTION(NAME, dsize)());
-      if(NULL != cthis->root)
+      DATA_TYPE *root = (DATA_TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, dsize)());
+      if(NULL != root)
       {
         cthis->size = size;
         cthis->len = size;
-        cthis->data = cthis->root;
+        cthis->root = root;
+        cthis->data = ++root;
       }
       else 
       { cgraph_free(cthis); }

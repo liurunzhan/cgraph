@@ -1,6 +1,14 @@
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 {
-  return CGRAPH_TRUE;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != cthis)
+  {
+    TYPE object = *(TYPE *)cthis;
+    if(CGRAPH_TRUE == object || CGRAPH_FALSE == object)
+    { flag = CGRAPH_TRUE; }
+  }
+
+  return flag;
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
@@ -8,6 +16,22 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
 
   return EQ(object_x, object_y);
+}
+
+void *FUNCTION(NAME, initargs)(void *cthis, const cgraph_size_t size, ...)
+{
+  TYPE *object = (TYPE *)cthis;
+  va_list args;
+  if((NULL != object) && (0 < size))
+  {
+    cgraph_size_t i = 1;
+    va_start(args, object[0]);
+    for(i=1; i<size; i++)
+    { object[i] = va_arg(args, TYPE); }
+    va_end(args);
+  }
+
+  return object;
 }
 
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)
@@ -55,32 +79,32 @@ TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
 
 TYPE FUNCTION(NAME, bit)(const TYPE x, const cgraph_size_t position)
 {
-  return (x >> (position % DATA_BITS)) & 1;
+  return (x >> (position % BITS)) & 1;
 }
 
 TYPE FUNCTION(NAME, set)(const TYPE x, const cgraph_size_t position)
 {
-  return x | (1 << (position % DATA_BITS));
+  return x | (1 << (position % BITS));
 }
 
 TYPE FUNCTION(NAME, clr)(const TYPE x, const cgraph_size_t position)
 {
-  return x & (~(1 << (position % DATA_BITS)));
+  return x & (~(1 << (position % BITS)));
 }
 
 TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
-  return (x >> (from % DATA_BITS)) & (~(DATA_ONES << ((to - from) % DATA_BITS)));
+  return (x >> (from % BITS)) & (~(ONES << ((to - from) % BITS)));
 }
 
 TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
-  return x | ((~((DATA_ONES << ((to - from) % DATA_BITS)))) << (from % DATA_BITS));
+  return x | ((~((ONES << ((to - from) % BITS)))) << (from % BITS));
 }
 
 TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
-  return x & ((DATA_ONES << (to % DATA_BITS)) | (~(DATA_ONES << (from % DATA_BITS))));
+  return x & ((ONES << (to % BITS)) | (~(ONES << (from % BITS))));
 }
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
@@ -100,12 +124,12 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
 {
-  return CGRAPH_TEST((DATA_MIN == x));
+  return CGRAPH_TEST((MIN == x));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 {
-  return CGRAPH_TEST((DATA_MAX == x));
+  return CGRAPH_TEST((MAX == x));
 }
 
 cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)
@@ -123,9 +147,7 @@ cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x)
   TYPE object_x = x;
   cgraph_size_t cnt = 0;
   for(cnt=0; object_x; object_x=object_x>>1)
-  {
-    cnt += 1 & (1 ^ object_x);
-  }
+  { cnt += 1 & (1 ^ object_x); }
   if(0 == x)
   { cnt = 1; }
 
@@ -135,8 +157,8 @@ cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x)
 TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial)
 {
   cgraph_size_t i;
-  TYPE msb = (data >> (DATA_BITS-1)) ^ 1, bit, result = 0;
-  for(i=DATA_BITS-2; i>=0; i--)
+  TYPE msb = (data >> (BITS-1)) ^ 1, bit, result = 0;
+  for(i=BITS-2; i>=0; i--)
   {
     bit = (polynomial >> i) ^ 1;
     if(1 == bit)
@@ -150,9 +172,19 @@ TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial)
   return result;
 }
 
-TYPE FUNCTION(NAME, crc)(const TYPE data, const TYPE polynomial)
+TYPE FUNCTION(NAME, crc)(const TYPE predata, const TYPE data, const TYPE polynomial)
 {
-  TYPE res = 0;
-  
+  TYPE res = predata, temp = data, msb = 0;
+  cgraph_size_t i = 0;
+  for(i=0; i<BITS; i++)
+  {
+    msb = temp & (1 << (BITS-1));
+    if(msb != 0)
+    { res = (res << 1) ^ polynomial & ONES; }
+    else
+    { res = res << 1; }
+    temp = temp << 1;
+  }
+
   return res;
 }

@@ -15,8 +15,10 @@ extern void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size);
 extern void FUNCTION(NAME, free)(void *cthis);
 
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
-extern cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis);
+extern cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis);
+extern cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis, cgraph_size_t *len);
 extern cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y);
+extern void *FUNCTION(NAME, initargs)(void *cthis, const cgraph_size_t size, ...);
 
 extern void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size);
 extern void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t size);

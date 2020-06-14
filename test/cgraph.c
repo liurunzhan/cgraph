@@ -9,7 +9,14 @@ int main(int argc, char *argv[])
   cgraph_integer_t integer = 123;
   cgraph_float_t real = 123.0, number = 0.1;
   cgraph_size_t i = 0;
+  cgraph_bignum_t *bignum = cgraph_bignum_calloc(1, 100);
+  cgraph_string_t *string = cgraph_string_calloc(1, 100);
   fprintf(stdout, "start simulation\n");
+  fprintf(stdout, "%d %d\n", FRACTION_NUM(fraction), FRACTION_DEN(fraction));
+  cgraph_string_initd(string, "abcd", 4);
+  cgraph_bignum_initd(bignum, "123.123.123", strlen("123.123.123"));
+  fprintf(stdout, "%s %d\n", bignum->data, cgraph_bignum_test(bignum));
+  fprintf(stdout, "%s\n", string->data);
   /*
   if(argc == 2)
   {
@@ -63,6 +70,8 @@ int main(int argc, char *argv[])
   cgraph_error_log_buffer(stdout, __FILE__, __LINE__, buffer, 100, "%s %d %d", "hello", 1 , 2);
   cgraph_error_log(stdout, __FILE__, __LINE__, "%s %d", "hello", 1);
   cgraph_error_log(stdout, __FILE__, __LINE__, "%d", cgraph_fraction_ismin(fraction));
+  cgraph_string_free(string);
+  cgraph_bignum_free(bignum);
 
   return 0;
 }

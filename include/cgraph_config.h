@@ -15,6 +15,7 @@ extern "C" {
 #include <stddef.h>
 #include <limits.h>
 #include <float.h>
+#include <stdarg.h>
 
 typedef int cgraph_integer_t;
 typedef double cgraph_real_t;
@@ -38,6 +39,7 @@ typedef float cgraph_float_t;
 
 #define CGRAPH_REAL_MAX DBL_MAX
 #define CGRAPH_REAL_MIN DBL_MIN
+
 #define CGRAPH_FLOAT_MAX FLT_MAX
 #define CGRAPH_FLOAT_MIN FLT_MIN
 

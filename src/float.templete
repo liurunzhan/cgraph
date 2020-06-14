@@ -4,14 +4,16 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   cgraph_size_t hash;
   if(object != object)
   { hash = 3141592653UL; }
-  else if((DATA_MAX < object) || (DATA_MIN > object))
+  else if((MAX < object) || (MIN > object))
   { hash = 1234567891UL; }
   else
   {
     TYPE ipart = floor(object), fpart = object - ipart;
-    cgraph_size_t hash_ipart = (cgraph_size_t)(ipart), hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - DATA_EPSILON)) * DATA_EPSILON_SIZE);
+    cgraph_size_t hash_ipart = (cgraph_size_t)(ipart), hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
     hash = (hash_ipart << 4) ^ hash_fpart;
+  #ifdef DEBUG
     printf("%f %ld %ld %f %f\n", object, hash_ipart, hash_fpart, ipart, fpart);
+  #endif
   }
 
   return CGRAPH_ABS(hash);
@@ -19,9 +21,15 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != cthis)
+  {
+    TYPE object = *(TYPE *)cthis;
+    if(object == object && MAX > object && MIN < object)
+    { flag = CGRAPH_TRUE; }
+  }
 
-  return CGRAPH_TEST((object == object) && (object <= DATA_MAX) && (object >= -DATA_MAX));
+  return flag;
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
@@ -47,17 +55,17 @@ cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && ((x > DATA_MAX) || (x < -DATA_MAX)));
+  return CGRAPH_TEST((x == x) && ((x > MAX) || (x < MIN)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && (x > DATA_MAX));
+  return CGRAPH_TEST((x == x) && (x > MAX));
 }
 
 cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && (x < -DATA_MAX));
+  return CGRAPH_TEST((x == x) && (x < MIN));
 }
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
@@ -77,10 +85,10 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && EQ(x, -DATA_MAX));
+  return CGRAPH_TEST((x == x) && EQ(x, MIN));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && EQ(x, DATA_MAX));
+  return CGRAPH_TEST((x == x) && EQ(x, MAX));
 }

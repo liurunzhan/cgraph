@@ -85,14 +85,14 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
 {
-  TYPE min = DATA_MIN;
+  TYPE min = MIN;
 
   return CGRAPH_TEST(EQ(x, min));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 {
-  TYPE max = DATA_MAX;
+  TYPE max = MAX;
 
   return CGRAPH_TEST(EQ(x, max));
 }

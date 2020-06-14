@@ -1,5 +1,3 @@
-extern cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis);
-
 extern TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y);
 
@@ -21,4 +19,4 @@ extern cgraph_size_t FUNCTION(NAME, ones)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial);
-extern TYPE FUNCTION(NAME, crc)(const TYPE data, const TYPE polynomial);
+extern TYPE FUNCTION(NAME, crc)(const TYPE predata, const TYPE data, const TYPE polynomial);

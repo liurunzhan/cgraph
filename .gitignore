@@ -59,6 +59,7 @@ lib/
 # VSCode Files
 .vscode/
 .vstags
+.VSCodeCounter/
 
 # Autoconf Files
 autom4te.cache/

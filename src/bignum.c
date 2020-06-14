@@ -20,6 +20,38 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash);
 }
 
+cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+{
+  TYPE *object = (TYPE *)cthis;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != object)
+  {
+    cgraph_size_t i = 0;
+    flag = CGRAPH_TRUE;
+    if(('+' == object->data[i]) || ('-' == object->data[i]))
+    { i++; }
+    else
+    {
+      cgraph_boolean_t point_cnt = 0;
+      for(; i<object->len; i++)
+      {
+        if('0' > object->data[i] || '9' < object->data[i])
+        {
+          if('.' == object->data[i])
+          {  point_cnt++; }
+          if(1 < point_cnt)
+          {
+            flag = CGRAPH_FALSE;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  return flag;
+}
+
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
@@ -44,28 +76,6 @@ TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
   }
 
   return cthis;
-}
-
-cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
-{
-  TYPE *object = (TYPE *)cthis;
-  cgraph_boolean_t flag = CGRAPH_TRUE;
-  cgraph_size_t i = 0;
-  if(('+' == object->data[i]) || ('-' == object->data[i]))
-  { i++; }
-  else
-  {
-    for(; i<object->len; i++)
-    {
-      if(!isdigit(object->data[i]))
-      {
-        flag = CGRAPH_FALSE;
-        break;
-      }
-    }
-  }
-
-  return flag;
 }
 
 TYPE *FUNCTION(NAME, format)(TYPE *cthis)

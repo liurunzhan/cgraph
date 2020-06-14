@@ -12,6 +12,8 @@ static cgraph_char_t *__cgraph_error_strings__[] =
   "NOT A NUMBER",
   "DIVISOR EQUAL TO ZERO",
   "MATH ERROR",
+  "FILE HANDLE EMPTY",
+  "FILE HANDLE ERROR",
   NULL
 };
 

@@ -13,11 +13,64 @@
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
-  cgraph_size_t hash = object->pos, i;
-  for(i=0; i<object->len; i++)
-  { hash = hash * 31 + object->data[i]; }
+  cgraph_size_t hash = 0;
+  if(NULL != object)
+  {
+    cgraph_size_t i;
+    hash = object->pos;
+    for(i=0; i<object->len; i++)
+    { hash = hash * 31 + object->data[i]; }
+  }
 
   return CGRAPH_ABS(hash);
+}
+
+cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+{
+  TYPE *object = (TYPE *)cthis;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != object)
+  {
+    cgraph_size_t i;
+    flag = CGRAPH_TRUE;
+    for(i=0; i<object->len; i++)
+    {
+      if((object->data[i] > 10) || (object->data[i] < 0))
+      {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis, cgraph_size_t *len)
+{
+  TYPE *object = (TYPE *)cthis;
+  cgraph_char_t *str = NULL;
+  if(NULL != object && NULL != len)
+  {
+    *len = object->pos ? object->len : (object->len+1);
+    str = cgraph_calloc(*len+1, sizeof(cgraph_char_t));
+    if(NULL != str)
+    {
+      cgraph_size_t i = 0;
+      if(object->pos == CGRAPH_FALSE)
+      {
+        str[i] = '-';
+        i++;
+      }
+      for(; i<*len; i++)
+      { str[i] = object->data[i] + '0'; }
+      str[i] = '\0';
+    }
+    else
+    { *len = 0; } 
+  }
+
+  return str;
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
@@ -41,25 +94,6 @@ TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
   { cthis->pos = CGRAPH_TRUE; }
   
   return cthis;
-}
-
-cgraph_boolean_t FUNCTION(NAME, test)(const TYPE *cthis)
-{
-  cgraph_boolean_t flag = CGRAPH_TRUE;
-  cgraph_size_t i;
-  if(NULL != cthis)
-  {
-    for(i=0; i<cthis->len; i++)
-    {
-      if((cthis->data[i] > 10) || (cthis->data[i] < 0))
-      {
-        flag = CGRAPH_FALSE;
-        break;
-      }
-    }
-  }
-
-  return flag;
 }
 
 cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE *cthis)
@@ -89,31 +123,6 @@ void *FUNCTION(NAME, add)(const void *x, const void *y)
   }
 
   return res;
-}
-
-cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis)
-{
-  TYPE *object = (TYPE *)cthis;
-  cgraph_char_t *str = NULL;
-  if(NULL != object)
-  {
-    cgraph_size_t len = object->pos ? object->len : (object->len+1);
-    str = cgraph_calloc(len, sizeof(cgraph_char_t));
-    if(NULL != str)
-    {
-      cgraph_size_t i = 0;
-      if(object->pos == CGRAPH_FALSE)
-      {
-        str[i] = '-';
-        i++;
-      }
-      for(; i<len; i++)
-      { str[i] = object->data[i] + '0'; }
-      str[i] = '\0';
-    }
-  }
-
-  return str;
 }
 
 TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis)

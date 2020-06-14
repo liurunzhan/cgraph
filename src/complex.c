@@ -9,10 +9,28 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
+  TYPE object;
   cgraph_size_t hash = 123;
+  if(NULL != cthis)
+  {
+    object = *(TYPE *)cthis;
+  
+  }
 
   return CGRAPH_ABS(hash);
+}
+
+cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != cthis)
+  {
+    TYPE object = *(TYPE *)cthis;
+    if(DATA_TEST(COMPLEX_REAL(object)) && DATA_TEST(COMPLEX_IMAG(object)))
+    { flag = CGRAPH_TRUE; }
+  }
+
+  return flag;
 }
 
 /* initial function */

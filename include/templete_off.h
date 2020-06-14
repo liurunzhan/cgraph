@@ -42,6 +42,8 @@
 #undef STRUCT
 #endif
 
+/* DATA TYPE */
+
 #ifdef TYPE_OBJECT
 #undef TYPE_OBJECT
 #endif
@@ -110,6 +112,8 @@
 #undef TYPE_BITSET
 #endif
 
+/*  STRUCTURE TYPE */
+
 #ifdef TYPE_VECTOR
 #undef TYPE_VECTOR
 #endif
@@ -138,6 +142,8 @@
 #undef TYPE_TREE
 #endif
 
+/* TYPE PROPERTY */
+
 #ifdef TYPE
 #undef TYPE
 #endif
@@ -154,16 +160,66 @@
 #undef OUT_FORMAT
 #endif
 
-#ifdef DATA_TYPE
-#undef DATA_TYPE
+#ifdef ZERO
+#undef ZERO
 #endif
+
+#ifdef ONE
+#undef ONE
+#endif
+
+#ifdef ONES
+#undef ONES
+#endif
+
+#ifdef BITS
+#undef BITS
+#endif
+
+#ifdef MIN
+#undef MIN
+#endif
+
+#ifdef MAX
+#undef MAX
+#endif
+
+#ifdef EPSILON
+#undef EPSILON
+#endif
+
+#ifdef EPSILON_LEN
+#undef EPSILON_LEN
+#endif
+
+/* DATA TYPE AND PROPERTY IN DATA TYPE */
 
 #ifdef DATA_WITH_POINTER
 #undef DATA_WITH_POINTER
 #endif
 
-#ifdef ZERO
-#undef ZERO
+#ifdef DATA_TYPE
+#undef DATA_TYPE
+#endif
+
+#ifdef DATA_ID
+#undef DATA_ID
+#endif
+
+#ifdef DATA_ZERO
+#undef DATA_ZERO
+#endif
+
+#ifdef DATA_ONE
+#undef DATA_ONE
+#endif
+
+#ifdef DATA_ONES
+#undef DATA_ONES
+#endif
+
+#ifdef DATA_BITS
+#undef DATA_BITS
 #endif
 
 #ifdef DATA_MAX
@@ -178,20 +234,12 @@
 #undef DATA_EPSILON
 #endif
 
-#ifdef DATA_EPSILON_SIZE
-#undef DATA_EPSILON_SIZE
+#ifdef DATA_EPSILON_LEN
+#undef DATA_EPSILON_LEN
 #endif
 
-#ifdef DATA_BITS
-#undef DATA_BITS
-#endif
-
-#ifdef DATA_ID
-#undef DATA_ID
-#endif
-
-#ifdef DATA_ONES
-#undef DATA_ONES
+#ifdef DATA_TEST
+#undef DATA_TEST
 #endif
 
 #ifdef ADD
