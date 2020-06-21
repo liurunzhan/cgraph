@@ -8,7 +8,7 @@ TST = "#{DIR}/test"
 LIB = "#{DIR}/lib"
 
 CC = "cc"
-cflags = "-ansi -pedantic -pedantic-errors -Wall -fPIC"
+cflags = "-pedantic -Wall -fpic -std=c89"
 CSFLAGS = "-shared"
 
 MODE = "debug"

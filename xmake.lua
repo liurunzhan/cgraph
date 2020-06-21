@@ -1,16 +1,18 @@
 add_includedirs("include")
-add_cflags("-ansi", "-pedantic", "-pedantic-errors", "-Wall", "-fPIC", "-g", {force = true})
+add_cflags("-pedantic", "-Wall", "-fpic", "-std=c89", {force = true})
 
 if is_mode("debug") then
 	add_defines("DEBUG")
 	set_symbols("debug")
 	set_optimize("none")
+	add_cflags("-g")
 end
 
 if is_mode("release") then
 	set_symbols("hidden")
 	set_strip("all")
 	set_symbols("debug")
+	add_cflags("-static -O2")
 end
 
 if is_mode("profile") then

@@ -11,7 +11,7 @@ $TST=Join-Path $DIR "test"
 $LIB=Join-Path $DIR "lib"
 
 # compiler configuration
-$CFLAGS="-ansi -pedantic -pedantic-errors -Wall -fPIC"
+$CFLAGS="-pedantic -Wall -fpic -std=c89"
 $CSFLAGS="-shared".Split()
 
 $MODE="debug"

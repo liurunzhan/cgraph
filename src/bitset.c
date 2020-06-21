@@ -85,12 +85,16 @@ void *FUNCTION(NAME, bits)(const void *cthis, const cgraph_size_t min, const cgr
 
 void *FUNCTION(NAME, sets)(void *cthis, const cgraph_size_t min, const cgraph_size_t max)
 {
+  TYPE *object = (TYPE *)cthis;
 
+  return object;
 }
 
 void *FUNCTION(NAME, clrs)(void *cthis, const cgraph_size_t min, const cgraph_size_t max)
 {
+  TYPE *object = (TYPE *)cthis;
 
+  return object;
 }
 
 #include "templete_off.h"

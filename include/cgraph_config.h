@@ -23,9 +23,6 @@ typedef int cgraph_boolean_t;
 typedef long cgraph_long_t;
 typedef long cgraph_size_t;
 
-typedef unsigned int cgraph_uinteger_t;
-typedef unsigned long cgraph_ulong_t;
-
 typedef char cgraph_char_t;
 typedef float cgraph_float_t;
 
@@ -39,9 +36,13 @@ typedef float cgraph_float_t;
 
 #define CGRAPH_REAL_MAX DBL_MAX
 #define CGRAPH_REAL_MIN DBL_MIN
+#define CGRAPH_REAL_EPSILON DBL_EPSILON
+#define CGRAPH_REAL_EPSILON_LEN DBL_DIG
 
 #define CGRAPH_FLOAT_MAX FLT_MAX
 #define CGRAPH_FLOAT_MIN FLT_MIN
+#define CGRAPH_FLOAT_EPSILON FLT_EPSILON
+#define CGRAPH_FLOAT_EPSILON_LEN FLT_DIG
 
 #if defined(__STDC__) && defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 OR HIGHER SUPPORTED! */
 
@@ -54,7 +55,6 @@ typedef float cgraph_float_t;
 #define CGRAPH_INT8_MAX INT8_MIN
 
 typedef int8_t cgraph_int8_t;
-typedef uint8_t cgraph_uint8_t;
 
 /*
   16-bit integer number
@@ -62,7 +62,6 @@ typedef uint8_t cgraph_uint8_t;
 #define CGRAPH_INT16_MIN INT16_MIN
 #define CGRAPH_INT16_MAX INT16_MIN
 
-typedef uint16_t cgraph_uint16_t;
 typedef int16_t cgraph_int16_t;
 
 /*
@@ -71,7 +70,6 @@ typedef int16_t cgraph_int16_t;
 #define CGRAPH_INT32_MIN INT32_MIN
 #define CGRAPH_INT32_MAX INT32_MIN
 
-typedef uint32_t cgraph_uint32_t;
 typedef int32_t cgraph_int32_t;
 
 /*
@@ -80,7 +78,6 @@ typedef int32_t cgraph_int32_t;
 #define CGRAPH_INT64_MIN INT64_MIN
 #define CGRAPH_INT64_MAX INT64_MIN
 
-typedef uint64_t cgraph_uint64_t;
 typedef int64_t cgraph_int64_t;
 
 #else /* C89 OR C90 OR C95 */
@@ -89,23 +86,19 @@ typedef int64_t cgraph_int64_t;
 #define CGRAPH_INT8_MAX (127)
 
 typedef char cgraph_int8_t;
-typedef unsigned char cgraph_uint8_t;
 
 #define CGRAPH_INT16_MIN (-32768)
 #define CGRAPH_INT16_MAX (32767)
 
 typedef short cgraph_int16_t;
-typedef unsigned short cgraph_uint16_t;
 
 #define CGRAPH_INT32_MIN (-2147483648L)
 #define CGRAPH_INT32_MAX (2147483647L)
 typedef int cgraph_int32_t;
-typedef unsigned int cgraph_uint32_t;
 
 #define CGRAPH_INT64_MIN CGRAPH_LONG_MIN
 #define CGRAPH_INT64_MAX CGRAPH_LONG_MAX
 typedef long cgraph_int64_t;
-typedef unsigned long cgraph_uint64_t;
 
 /*
 

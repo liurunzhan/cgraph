@@ -6,7 +6,7 @@ set(PROJECT "cgraph")
 set(VERSION "0.0.0")
 
 # set project configuration
-set(CXX_FLAGS -ansi –pedantic -pedantic-errors -Wall -fPIC)
+set(CXX_FLAGS -pedantic -Wall -fpic -std=c89)
 set(CXX_FLAGS_DEBUG "${CXX_FLAGS} -g -DDEBUG")
 set(CXX_FLAGS_RELEASE "${CXX_FLAGS} -static -O2")
 SET(CMAKE_BUILD_TYPE "Release")

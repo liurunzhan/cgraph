@@ -13,7 +13,7 @@ set LIB=%DIR%lib
 
 rem compiler configuration
 set CC=cc
-set CFLAGS=-ansi -pedantic -pedantic-errors -Wall -fPIC
+set CFLAGS=-pedantic -Wall -fpic -std=c89
 set CSFLAGS=-shared
 
 rem debug or release mode

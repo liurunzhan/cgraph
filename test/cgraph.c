@@ -53,9 +53,9 @@ int main(int argc, char *argv[])
   }
   fprintf(stdout, "end simulation\n");
   */
-  fprintf(stdout, "%d %o\n", 3, cgraph_integer_bits(3, 1, 3));
-  fprintf(stdout, "%d %o\n", 1, cgraph_integer_sets(1, 1, 3));
-  fprintf(stdout, "%d %d\n", 127, cgraph_integer_clrs(127, 0, 3));
+  fprintf(stdout, "%d %x\n", 3, cgraph_integer_bits(3, 1, 3));
+  fprintf(stdout, "%d %x\n", 0, cgraph_integer_sets(0, 1, 3));
+  fprintf(stdout, "%d %x\n", 127, cgraph_integer_clrs(127, 0, 3));
   fprintf(stdout, "%d %ld\n", 128, cgraph_integer_zeros(128));
   fprintf(stdout, "%d %ld\n", integer, cgraph_integer_hash(&integer));
   for(i = 0; i<6; i++)

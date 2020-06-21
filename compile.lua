@@ -10,7 +10,7 @@ TST = path.join(DIR, "test")
 LIB = path.join(DIR, "lib")
 
 CC = "cc"
-CFLAGS = "-ansi -pedantic -pedantic-errors -Wall -fPIC"
+CFLAGS = "-pedantic -Wall -fpic -std=c89"
 CSFLAGS = "-shared"
 
 MODE = "debug"

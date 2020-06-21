@@ -11,7 +11,7 @@ my $TST = "$DIR/test";
 my $LIB = "$DIR/lib";
 
 my $CC = "cc";
-my $CFLAGS = "-ansi -pedantic -pedantic-errors -Wall -fPIC";
+my $CFLAGS = "-pedantic -Wall -fpic -std=c89";
 my $CSFLAGS = "-shared";
 
 my $MODE = "debug";

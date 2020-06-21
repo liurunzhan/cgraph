@@ -8,7 +8,7 @@ TST = joinpath(DIR, "test")
 LIB = joinpath(DIR, "lib")
 
 CC = "cc"
-CFLAGS = "-ansi -pedantic -pedantic-errors -Wall -fPIC"
+CFLAGS = "-pedantic -Wall -fpic -std=c89"
 CSFLAGS = "-shared"
 
 MODE = "debug"
