@@ -37,11 +37,11 @@ extern TYPE FUNCTION(NAME, muli2)(const TYPE x);
 extern TYPE FUNCTION(NAME, muli3)(const TYPE x);
 extern TYPE FUNCTION(NAME, muli4)(const TYPE x);
 
-extern TYPE FUNCTION(NAME, addr)(const TYPE x, const cgraph_real_t y);
-extern TYPE FUNCTION(NAME, subr)(const TYPE x, const cgraph_real_t y);
-extern TYPE FUNCTION(NAME, mulr)(const TYPE x, const cgraph_real_t y);
-extern TYPE FUNCTION(NAME, divr)(const TYPE x, const cgraph_real_t y);
-extern TYPE FUNCTION(NAME, powr)(const TYPE x, const cgraph_real_t y);
+extern TYPE FUNCTION(NAME, addr)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subr)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mulr)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE FUNCTION(NAME, addc)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, subc)(const TYPE x, const TYPE y);

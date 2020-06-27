@@ -18,6 +18,11 @@ typedef struct
 #define TYPE_VECTOR
 #include "templete.h"
 #include "struct_templete.h"
+
+
+
+extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_integer_t data);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

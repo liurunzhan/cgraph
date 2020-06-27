@@ -19,6 +19,9 @@ extern cgraph_char_t cgraph_math_toupper(cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(cgraph_char_t data);
 extern cgraph_size_t cgraph_math_baseoflen(const cgraph_integer_t data, const cgraph_integer_t base);
 
+extern cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data);
+extern cgraph_size_t cgraph_math_primes(cgraph_integer_t *primes, cgraph_integer_t *isprime, const cgraph_integer_t data);
+
 #define	CGRAPH_RANDOM_MAX	2147483647
 
 extern cgraph_integer_t cgraph_random(void);

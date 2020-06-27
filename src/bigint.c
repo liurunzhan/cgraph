@@ -106,7 +106,64 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
   return CGRAPH_TEST((cthis->pos == CGRAPH_FALSE));
 }
 
-void *FUNCTION(NAME, add)(const void *x, const void *y)
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
+  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
+  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  if(NULL != res)
+  {
+    if(object_x->pos == object_y->pos)
+    {
+      cgraph_size_t i;
+      for(i=1; i<len; i++)
+      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
+      res->pos = object_x->pos;
+    }
+  }
+
+  return res;
+}
+
+TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
+  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
+  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  if(NULL != res)
+  {
+    if(object_x->pos == object_y->pos)
+    {
+      cgraph_size_t i;
+      for(i=1; i<len; i++)
+      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
+      res->pos = object_x->pos;
+    }
+  }
+
+  return res;
+}
+
+TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
+  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
+  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  if(NULL != res)
+  {
+    if(object_x->pos == object_y->pos)
+    {
+      cgraph_size_t i;
+      for(i=1; i<len; i++)
+      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
+      res->pos = object_x->pos;
+    }
+  }
+
+  return res;
+}
+
+TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
   cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);

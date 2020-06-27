@@ -85,20 +85,20 @@ typedef int64_t cgraph_int64_t;
 #define CGRAPH_INT8_MIN (-128)
 #define CGRAPH_INT8_MAX (127)
 
-typedef char cgraph_int8_t;
+typedef signed char cgraph_int8_t;
 
 #define CGRAPH_INT16_MIN (-32768)
 #define CGRAPH_INT16_MAX (32767)
 
-typedef short cgraph_int16_t;
+typedef signed short cgraph_int16_t;
 
 #define CGRAPH_INT32_MIN (-2147483648L)
 #define CGRAPH_INT32_MAX (2147483647L)
-typedef int cgraph_int32_t;
+typedef signed int cgraph_int32_t;
 
 #define CGRAPH_INT64_MIN CGRAPH_LONG_MIN
 #define CGRAPH_INT64_MAX CGRAPH_LONG_MAX
-typedef long cgraph_int64_t;
+typedef signed long cgraph_int64_t;
 
 /*
 

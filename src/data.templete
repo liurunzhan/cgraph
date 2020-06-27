@@ -229,3 +229,71 @@ void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgra
   FUNCTION(NAME, descsort)(object, start, left-1);
   FUNCTION(NAME, descsort)(object, left+1, end);
 }
+
+void *FUNCTION(NAME, adds)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifndef DATA_WITH_POINTER
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
+#else
+  TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#endif
+  if(NULL != object_x && NULL != object_y && NULL != object_z)
+  {
+    cgraph_size_t i;
+    for(i=0; i<len; i++)
+    { object_z[i] = ADD(object_x[i], object_y[i]); }
+  }
+
+  return object_z;
+}
+
+void *FUNCTION(NAME, subs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifndef DATA_WITH_POINTER
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
+#else
+  TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#endif
+  if(NULL != object_x && NULL != object_y && NULL != object_z)
+  {
+    cgraph_size_t i;
+    for(i=0; i<len; i++)
+    { object_z[i] = SUB(object_x[i], object_y[i]); }
+  }
+
+  return object_z;
+}
+
+void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifndef DATA_WITH_POINTER
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
+#else
+  TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#endif
+  if(NULL != object_x && NULL != object_y && NULL != object_z)
+  {
+    cgraph_size_t i;
+    for(i=0; i<len; i++)
+    { object_z[i] = MUL(object_x[i], object_y[i]); }
+  }
+
+  return object_z;
+}
+
+void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifndef DATA_WITH_POINTER
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
+#else
+  TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#endif
+  if(NULL != object_x && NULL != object_y && NULL != object_z)
+  {
+    cgraph_size_t i;
+    for(i=0; i<len; i++)
+    { object_z[i] = DIV(object_x[i], object_y[i]); }
+  }
+
+  return object_z;
+}

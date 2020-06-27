@@ -143,7 +143,7 @@ TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
-TYPE FUNCTION(NAME, powr)(const TYPE x, const cgraph_real_t y)
+TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y)
 {
   DATA_TYPE mod = pow(FUNCTION(NAME, mod)(x), y), arg = FUNCTION(NAME, arg)(x) * y;
   TYPE res;

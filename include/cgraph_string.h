@@ -30,6 +30,11 @@ extern cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...);
 
+extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

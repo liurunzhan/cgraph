@@ -184,6 +184,14 @@
 #undef MAX
 #endif
 
+#ifdef MSB
+#undef MSB
+#endif
+
+#ifdef LSB
+#undef LSB
+#endif
+
 #ifdef EPSILON
 #undef EPSILON
 #endif
@@ -228,6 +236,14 @@
 
 #ifdef DATA_MIN
 #undef DATA_MIN
+#endif
+
+#ifdef DATA_MSB
+#undef DATA_MSB
+#endif
+
+#ifdef DATA_LSB
+#undef DATA_LSB
 #endif
 
 #ifdef DATA_EPSILON

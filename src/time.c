@@ -163,4 +163,44 @@ TYPE FUNCTION(NAME, localtime)(void)
   return res;
 }
 
+TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y)
+{
+
+}
+
+TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y)
+{
+  
+}
+
+TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y)
+{
+  
+}
+
+TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y)
+{
+  
+}
+
+TYPE FUNCTION(NAME, addt)(const TYPE x, const TYPE y)
+{
+
+}
+
+TYPE FUNCTION(NAME, subt)(const TYPE x, const TYPE y)
+{
+  
+}
+
+TYPE FUNCTION(NAME, mult)(const TYPE x, const TYPE y)
+{
+  
+}
+
+TYPE FUNCTION(NAME, divt)(const TYPE x, const TYPE y)
+{
+  
+}
+
 #include "templete_off.h"

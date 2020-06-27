@@ -132,6 +132,33 @@ cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data)
   return flag;
 }
 
+cgraph_size_t cgraph_math_primes(cgraph_integer_t *primes, cgraph_integer_t *isprime, const cgraph_integer_t data)
+{
+  cgraph_size_t counter = 0;
+  if((NULL != primes) && (NULL != isprime) && (data > 1))
+  {
+    cgraph_size_t i, j;
+    for(i=0; i<data; i++)
+    {
+      primes[i] = 0;
+      isprime[i] = CGRAPH_TRUE;
+    }
+    for(i=2; i<data; i++)
+    {
+      if(isprime[i] == CGRAPH_TRUE)
+      { primes[counter++] = i; }
+      for(j=0; j<counter && i*primes[j]<data ; j++)
+      {
+        isprime[i*primes[j]] = CGRAPH_FALSE;
+        if (i % primes[j] == 0)
+        { break; }
+      }
+    }
+  }
+
+  return counter;
+}
+
 static cgraph_integer_t cgraph_seed = 0;
 
 void cgraph_random_seed(cgraph_integer_t seed)

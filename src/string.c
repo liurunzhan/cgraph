@@ -107,4 +107,25 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
   return cthis;
 }
 
+
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
+{
+
+}
+
+TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
+TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
+TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
 #include "templete_off.h"

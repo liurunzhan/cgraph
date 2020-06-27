@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "cgraph.h"
 
+void printf_char(char data)
+{
+  printf("debug %x %x\n", data, data);
+}
+
 int main(int argc, char *argv[])
 {
   cgraph_char_t buffer[100];
@@ -9,14 +14,20 @@ int main(int argc, char *argv[])
   cgraph_integer_t integer = 123;
   cgraph_float_t real = 123.0, number = 0.1;
   cgraph_size_t i = 0;
+  cgraph_int8_t pre = 0xFF, data = 0x00, poly = 0x7F;
   cgraph_bignum_t *bignum = cgraph_bignum_calloc(1, 100);
   cgraph_string_t *string = cgraph_string_calloc(1, 100);
+  cgraph_integer_t primes[100000];
+  cgraph_integer_t numbers[100000];
   fprintf(stdout, "start simulation\n");
   fprintf(stdout, "%d %d\n", FRACTION_NUM(fraction), FRACTION_DEN(fraction));
   cgraph_string_initd(string, "abcd", 4);
   cgraph_bignum_initd(bignum, "123.123.123", strlen("123.123.123"));
   fprintf(stdout, "%s %d\n", bignum->data, cgraph_bignum_test(bignum));
   fprintf(stdout, "%s\n", string->data);
+  printf_char(pre);
+  fprintf(stdout, "%d\n", cgraph_int8_ones(pre));
+  cgraph_math_primes(primes, numbers, 10000);
   /*
   if(argc == 2)
   {
@@ -58,6 +69,7 @@ int main(int argc, char *argv[])
   fprintf(stdout, "%d %x\n", 127, cgraph_integer_clrs(127, 0, 3));
   fprintf(stdout, "%d %ld\n", 128, cgraph_integer_zeros(128));
   fprintf(stdout, "%d %ld\n", integer, cgraph_integer_hash(&integer));
+  fprintf(stdout, "crc8 : %02x\n",  cgraph_int8_crc(pre, data, poly));
   for(i = 0; i<6; i++)
   {
     cgraph_float_t data = real + number;

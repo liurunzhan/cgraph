@@ -21,6 +21,10 @@ typedef struct
 
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y);
 
 #include "templete_off.h"
 

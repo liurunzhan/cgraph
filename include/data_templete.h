@@ -25,3 +25,8 @@ extern void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_s
 
 extern void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end);
 extern void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end);
+
+extern void *FUNCTION(NAME, adds)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, subs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cgraph_size_t len);

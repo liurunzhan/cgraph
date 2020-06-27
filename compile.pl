@@ -43,7 +43,7 @@ my $LIBSHARED;
 my $LIBSTATIC;
 my $TSTFILE;
 my $TSTTARGET;
-if($^O eq "MSWin32")
+if ($^O eq "MSWin32")
 {
   # target files
   $LIBSHARED = "$LIB/lib$PRO.dll";
@@ -64,7 +64,7 @@ else
 
 my @args = @ARGV;
 
-if($args[0] eq "")
+if ($args[0] eq "")
 {
   mkdir $LIB;
   foreach my $file (@CFILES)
@@ -78,14 +78,14 @@ if($args[0] eq "")
   print("compile $LIBSTATIC\n");
   system("$AR $ARFLAGS $LIBSTATIC $SRC/*.o");
 }
-elsif($args[0] eq "test")
+elsif ($args[0] eq "test")
 {
   print("compile $TSTFILE to $TSTTARGET\n");
   system("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
-  print("test $TSTTARGET with ${TST}/elements.csv\n");
+  print("test $TSTTARGET with $TST/elements.csv\n");
   system("$TSTTARGET $TST/elements.csv");
 }
-elsif($args[0] eq "clean")
+elsif ($args[0] eq "clean")
 {
   foreach my $file (@CFILES)
   {
@@ -100,7 +100,7 @@ elsif($args[0] eq "clean")
   print("clean $TSTTARGET\n");
   unlink "$TSTTARGET";
 }
-elsif($args[0] eq "distclean")
+elsif ($args[0] eq "distclean")
 {
   foreach my $file (@CFILES)
   {
@@ -117,7 +117,7 @@ elsif($args[0] eq "distclean")
   print("clean $TSTTARGET\n");
   unlink "$TSTTARGET";
 }
-elsif($args[0] eq "help")
+elsif ($args[0] eq "help")
 {
   print("$0 <target>\n");
   print("<target>: \n");

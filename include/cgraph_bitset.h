@@ -27,6 +27,11 @@ extern void *FUNCTION(NAME, sets)(void *cthis, const cgraph_size_t min, const cg
 extern void *FUNCTION(NAME, clr)(void *cthis, const cgraph_size_t pos);
 extern void *FUNCTION(NAME, clrs)(void *cthis, const cgraph_size_t min, const cgraph_size_t max);
 
+extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

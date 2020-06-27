@@ -57,6 +57,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INTEGER_MIN
 #define MAX CGRAPH_INTEGER_MAX
+#define MSB (ONE << (BITS-1))
+#define LSB (ONE)
 
 #elif defined(TYPE_REAL)
 #define TYPE cgraph_real_t
@@ -83,6 +85,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define BITS CGRAPH_TRUE
 #define MIN CGRAPH_FALSE
 #define MAX CGRAPH_TRUE
+#define MSB (ONE)
+#define LSB (ONE)
 
 #elif defined(TYPE_FLOAT)
 #define TYPE cgraph_float_t
@@ -109,6 +113,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_LONG_MIN
 #define MAX CGRAPH_LONG_MAX
+#define MSB (ONE << (BITS-1))
+#define LSB (ONE)
 
 #elif defined(TYPE_INT8)
 #define TYPE cgraph_int8_t
@@ -121,6 +127,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT8_MIN
 #define MAX CGRAPH_INT8_MAX
+#define MSB (ONE << (BITS-1))
+#define LSB (ONE)
 
 #elif defined(TYPE_INT16)
 #define TYPE cgraph_int16_t
@@ -133,6 +141,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT16_MIN
 #define MAX CGRAPH_INT16_MAX
+#define MSB (ONE << (BITS-1))
+#define LSB (ONE)
 
 #elif defined(TYPE_INT32)
 #define TYPE cgraph_int32_t
@@ -145,6 +155,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT32_MIN
 #define MAX CGRAPH_INT32_MAX
+#define MSB (ONE << (BITS-1))
+#define LSB (ONE)
 
 #elif defined(TYPE_INT64)
 #define TYPE cgraph_int64_t
@@ -157,6 +169,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT64_MIN
 #define MAX CGRAPH_INT64_MAX
+#define MSB (ONE << (BITS-1))
+#define LSB (ONE)
 
 #elif defined(TYPE_TIME)
 #define TYPE cgraph_time_t
@@ -177,6 +191,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DATA_BITS (8*sizeof(DATA_TYPE))
 #define DATA_MIN CGRAPH_INT16_MIN
 #define DATA_MAX CGRAPH_INT16_MAX
+#define DATA_MSB (DATA_ONE << (DATA_BITS-1))
+#define DATA_LSB (DATA_ONE)
 
 #elif defined(TYPE_COMPLEX)
 #define TYPE cgraph_complex_t
@@ -221,12 +237,14 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DATA_BITS (8*sizeof(DATA_TYPE))
 #define DATA_MIN CGRAPH_INTEGER_MIN
 #define DATA_MAX CGRAPH_INTEGER_MAX
+#define DATA_MSB (DATA_ONE << (DATA_BITS-1))
+#define DATA_LSB (DATA_ONE)
 
 #elif defined(TYPE_BIGINT)
 #define TYPE cgraph_bigint_t
 #define ID CGRAPH_BIGINT_T
 #define NAME bigint
-#define OUT_FORMAT "%c"
+#define OUT_FORMAT "%d"
 #define ZERO 0
 #define ONE 1
 #define ONES 1
@@ -238,9 +256,11 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DATA_ZERO 0
 #define DATA_ONE 1
 #define DATA_ONES 1
-#define DATA_BITS (8*sizeof(DATA_TYPE))
+#define DATA_BITS 4
 #define DATA_MIN 0
 #define DATA_MAX 9
+#define DATA_MSB (DATA_ONE << (DATA_BITS-1))
+#define DATA_LSB (DATA_ONE)
 
 #elif defined(TYPE_BIGNUM)
 #define TYPE cgraph_bignum_t
@@ -357,8 +377,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ADD(a, b) ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define SUB(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define	MUL(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define DIV(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CHRAPH_TRUE : CGRAPH_FALSE)
-#define INT(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CHRAPH_TRUE : CGRAPH_FALSE)
+#define DIV(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define INT(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define MOD(a, b) (SUB((a), INT(a, b)))
 
 #define EQ(a, b) CGRAPH_TEST((a) == (b))
@@ -468,8 +488,18 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))
 #define LE(a, b) FUNCTION(NAME, le)((a), (b))
 
+#define ADD(a, b) FUNCTION(NAME, addt)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, subt)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mult)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, divt)((a), (b))
+
 #elif defined(TYPE_COMPLEX)
 #define DATA_TEST(a) (((a) == (a)) && (DATA_MIN < (a)) && (DATA_MAX > (a)))
+
+#define ADD(a, b) FUNCTION(NAME, addc)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, subc)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mulc)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, divc)((a), (b))
 
 #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
 #define GR(a, b) (COMPLEX_MOD2(a) > COMPLEX_MOD2(b))
@@ -485,6 +515,11 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))
 
+#define ADD(a, b) FUNCTION(NAME, addf)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, subf)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mulf)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, divf)((a), (b))
+
 #define EQ(a, b) ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
 #define GR(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) > (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define GE(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) >= (FRACTION_NUM(b) * FRACTION_DEN(a)))
@@ -498,21 +533,40 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif defined(TYPE_BIGINT)
 
+#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 
 #elif defined(TYPE_BIGNUM)
+
+#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 
 #elif  defined(TYPE_STRING)
 
+#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+
 #define ABS(a) ((a))
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 
 #elif defined(TYPE_BITSET)
 
+#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE)
 

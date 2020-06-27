@@ -94,7 +94,7 @@ void *FUNCTION(NAME, add)(const void *x, const void *y)
   {
     for(i=0; i<res->len; i++)
     {
-
+      
     }
   }
 
@@ -113,6 +113,20 @@ void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_func3_t opt
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *result = NULL;
 
   return result;
+}
+
+cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_integer_t data)
+{
+  cgraph_vector_t *primes = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, data);
+  cgraph_vector_t *isprime = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, data);
+  if(NULL != isprime)
+  {
+    if(NULL != primes)
+    { primes->len = cgraph_math_primes(primes->data, isprime->data, data); }
+    cgraph_vector_free(isprime);
+  }
+
+  return primes;
 }
 
 #include "templete_off.h"

@@ -36,15 +36,19 @@ void *FUNCTION(NAME, initargs)(void *cthis, const cgraph_size_t size, ...)
 
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)
 {
-  TYPE object_x = x, object_y = y, res;
-  while(0 != (res = MOD(object_x, object_y)))
+  TYPE object_x = x, object_y = y, temp;
+  while(object_x != object_y)
   {
-    object_y = object_x;
-    object_x = res;
+    if(object_x < object_y)
+    {
+      temp = object_x;
+      object_x = object_y;
+      object_y = temp;
+    }
+    object_x -= object_y;
   }
-  res = object_x;
   
-  return res;
+  return object_x;
 }
 
 TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y)
@@ -99,7 +103,6 @@ TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_s
 
 TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
-  printf("debug : %x %x %x %x\n", ONES, ((to - from) % BITS), ONES << ((to - from) % BITS), ~(ONES << ((to - from) % BITS)));
   return x | ((~((ONES << ((to - from) % BITS)))) << (from % BITS));
 }
 
@@ -179,7 +182,7 @@ TYPE FUNCTION(NAME, crc)(const TYPE predata, const TYPE data, const TYPE polynom
   cgraph_size_t i = 0;
   for(i=0; i<BITS; i++)
   {
-    msb = (res ^ temp) & (1 << (BITS-1));
+    msb = (res ^ temp) & MSB;
     if(msb != 0)
     { res = (res << 1) ^ ONES & polynomial; }
     else
