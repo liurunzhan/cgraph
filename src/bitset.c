@@ -117,4 +117,29 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
   
 }
 
+cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
+cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
+cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
+cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
+cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
+{
+  
+}
+
 #include "templete_off.h"

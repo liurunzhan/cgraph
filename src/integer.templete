@@ -1,10 +1,11 @@
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 {
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if(NULL != cthis)
+  TYPE *object = (TYPE *)cthis;
+  if(NULL != object)
   {
-    TYPE object = *(TYPE *)cthis;
-    if(CGRAPH_TRUE == object || CGRAPH_FALSE == object)
+    TYPE tmp = *object;
+    if(CGRAPH_TRUE == tmp || CGRAPH_FALSE == tmp)
     { flag = CGRAPH_TRUE; }
   }
 
@@ -13,25 +14,33 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != object_x && NULL != object_y)
+  {
+    if(EQ(object_x, object_y))
+    { flag = CGRAPH_TRUE; }
+  }
+  else if(NULL == object_x && NULL == object_y)
+  { flag = CGRAPH_TRUE; }
 
-  return EQ(object_x, object_y);
+  return flag;
 }
 
-void *FUNCTION(NAME, initargs)(void *cthis, const cgraph_size_t size, ...)
+TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)
 {
-  TYPE *object = (TYPE *)cthis;
   va_list args;
-  if((NULL != object) && (0 < size))
+  if((NULL != cthis) && (0 < size))
   {
     cgraph_size_t i = 1;
-    va_start(args, object[0]);
+    va_start(args, first);
+    cthis[0] = first;
     for(i=1; i<size; i++)
-    { object[i] = va_arg(args, TYPE); }
+    { cthis[i] = va_arg(args, TYPE); }
     va_end(args);
   }
 
-  return object;
+  return cthis;
 }
 
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)

@@ -23,13 +23,17 @@
 */
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
-  cgraph_size_t hash = 2166136261UL, i;
-  char *tmp = (char *)(&object);
-  for(i=0; i<sizeof(TYPE); i++)
-  { hash = (hash ^ tmp[i]) * 16777619UL; }
+  TYPE *object = (TYPE *)cthis;
+  cgraph_size_t hash = 2166136261UL;
+  if(NULL != object)
+  {
+    char *tmp = (char *)(object);
+    cgraph_size_t i;
+    for(i=0; i<sizeof(TYPE); i++)
+    { hash = (hash ^ tmp[i]) * 16777619UL; }
+  }
 
-  return CGRAPH_ABS(hash);
+  return hash;
 }
 
 #include "integer.templete"

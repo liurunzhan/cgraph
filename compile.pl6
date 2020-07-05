@@ -61,8 +61,7 @@ else
 }
 
 my @args = @*ARGS;
-
-if (@args[0] eq "")
+if (@args.elems eq 0)
 {
   mkdir $LIB;
   for @CFILES -> $file

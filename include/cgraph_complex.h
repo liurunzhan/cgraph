@@ -32,16 +32,22 @@ extern DATA_TYPE FUNCTION(NAME, arg)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, conj)(const TYPE x);
 
-extern TYPE FUNCTION(NAME, muli)(const TYPE x);
-extern TYPE FUNCTION(NAME, muli2)(const TYPE x);
-extern TYPE FUNCTION(NAME, muli3)(const TYPE x);
-extern TYPE FUNCTION(NAME, muli4)(const TYPE x);
+extern TYPE FUNCTION(NAME, mulI1)(const TYPE x);
+extern TYPE FUNCTION(NAME, mulI2)(const TYPE x);
+extern TYPE FUNCTION(NAME, mulI3)(const TYPE x);
+extern TYPE FUNCTION(NAME, mulI4)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, addr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, mulr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE FUNCTION(NAME, addc)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, subc)(const TYPE x, const TYPE y);
@@ -60,6 +66,14 @@ extern TYPE FUNCTION(NAME, log2)(const TYPE x);
 extern TYPE FUNCTION(NAME, log10)(const TYPE x);
 extern TYPE FUNCTION(NAME, exp)(const TYPE x);
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
+
+extern cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x);
+extern cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x);
 
 #include "templete_off.h"
 

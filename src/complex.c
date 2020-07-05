@@ -9,12 +9,11 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object;
-  cgraph_size_t hash = 123;
-  if(NULL != cthis)
+  TYPE *object = (TYPE *)cthis;
+  cgraph_size_t hash = 142857UL;
+  if(NULL != object)
   {
-    object = *(TYPE *)cthis;
-  
+    TYPE temp = *object;
   }
 
   return CGRAPH_ABS(hash);
@@ -22,13 +21,30 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 {
+  TYPE *object = (TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if(NULL != cthis)
+  if(NULL != object)
   {
-    TYPE object = *(TYPE *)cthis;
-    if(DATA_TEST(COMPLEX_REAL(object)) && DATA_TEST(COMPLEX_IMAG(object)))
+    TYPE tmp = *object;
+    if(DATA_TEST(COMPLEX_REAL(tmp)) && DATA_TEST(COMPLEX_IMAG(tmp)))
     { flag = CGRAPH_TRUE; }
   }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != object_x && NULL != object_y)
+  {
+    TYPE tmp_x = *object_x, tmp_y = *object_y;
+    if(EQ(tmp_x, tmp_y))
+    { flag = CGRAPH_TRUE; }
+  }
+  else if(NULL == object_x && NULL == object_y)
+  { flag = CGRAPH_TRUE; }
 
   return flag;
 }
@@ -72,7 +88,7 @@ TYPE FUNCTION(NAME, conj)(const TYPE x)
   return res;
 }
 
-TYPE FUNCTION(NAME, muli)(const TYPE x)
+TYPE FUNCTION(NAME, mulI1)(const TYPE x)
 {
   TYPE res; 
   COMPLEX_REAL(res) = -COMPLEX_IMAG(x);
@@ -81,7 +97,7 @@ TYPE FUNCTION(NAME, muli)(const TYPE x)
   return res;
 }
 
-TYPE FUNCTION(NAME, muli2)(const TYPE x)
+TYPE FUNCTION(NAME, mulI2)(const TYPE x)
 {
   TYPE res;
   COMPLEX_REAL(res) = -COMPLEX_REAL(x);
@@ -90,7 +106,7 @@ TYPE FUNCTION(NAME, muli2)(const TYPE x)
   return res;
 }
 
-TYPE FUNCTION(NAME, muli3)(const TYPE x)
+TYPE FUNCTION(NAME, mulI3)(const TYPE x)
 {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_IMAG(x);
@@ -98,7 +114,7 @@ TYPE FUNCTION(NAME, muli3)(const TYPE x)
 
   return res;
 }
-TYPE FUNCTION(NAME, muli4)(const TYPE x)
+TYPE FUNCTION(NAME, mulI4)(const TYPE x)
 {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_REAL(x);
@@ -153,6 +169,52 @@ TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
+TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) + y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) - y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  COMPLEX_REAL(res) = - 1.0 * COMPLEX_IMAG(x) * y;
+  COMPLEX_IMAG(res) = COMPLEX_REAL(x) * y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_IMAG(x) / y;
+  COMPLEX_IMAG(res) = -1.0 * COMPLEX_REAL(x) / y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res = FUNCTION(NAME, log)(x);
+  res = FUNCTION(NAME, muli)(res, y);
+
+  return FUNCTION(NAME, exp)(res);
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, addc)(const TYPE x, const TYPE y)
 {
   TYPE res; 
@@ -203,7 +265,7 @@ TYPE FUNCTION(NAME, powc)(const TYPE x, const TYPE y)
   TYPE res = FUNCTION(NAME, log)(x);
   res = FUNCTION(NAME, mulc)(y, res);
 
-  return FUNCTION(NAME, exp)(res); 
+  return FUNCTION(NAME, exp)(res);
 }
 
 TYPE FUNCTION(NAME, opp)(const TYPE x)
@@ -226,7 +288,7 @@ TYPE FUNCTION(NAME, abs)(const TYPE x)
 
 TYPE FUNCTION(NAME, sin)(const TYPE x)
 {
-  TYPE ix = FUNCTION(NAME, muli)(x), _ix = FUNCTION(NAME, muli3)(x);
+  TYPE ix = FUNCTION(NAME, mulI1)(x), _ix = FUNCTION(NAME, mulI3)(x);
   TYPE expix = FUNCTION(NAME, exp)(ix), exp_ix = FUNCTION(NAME, exp)(_ix);
   TYPE res;
   COMPLEX_REAL(res) = 0.5 * (COMPLEX_IMAG(expix) - COMPLEX_IMAG(exp_ix));
@@ -237,7 +299,7 @@ TYPE FUNCTION(NAME, sin)(const TYPE x)
 
 TYPE FUNCTION(NAME, cos)(const TYPE x)
 {
-  TYPE ix = FUNCTION(NAME, muli)(x), _ix = FUNCTION(NAME, muli3)(x);
+  TYPE ix = FUNCTION(NAME, mulI1)(x), _ix = FUNCTION(NAME, mulI3)(x);
   TYPE expix = FUNCTION(NAME, exp)(ix), exp_ix = FUNCTION(NAME, exp)(_ix);
   TYPE res;
   COMPLEX_REAL(res) = 0.5 * (COMPLEX_REAL(expix) + COMPLEX_REAL(exp_ix));
@@ -256,7 +318,7 @@ TYPE FUNCTION(NAME, tan)(const TYPE x)
 
 TYPE FUNCTION(NAME, sinh)(const TYPE x)
 {
-  TYPE expx = FUNCTION(NAME, exp)(x), _x = FUNCTION(NAME, muli2)(x), exp_x = FUNCTION(NAME, exp)(_x);
+  TYPE expx = FUNCTION(NAME, exp)(x), _x = FUNCTION(NAME, mulI2)(x), exp_x = FUNCTION(NAME, exp)(_x);
   TYPE res;
   COMPLEX_REAL(res) = 0.5 * (COMPLEX_REAL(expx) - COMPLEX_REAL(exp_x));
   COMPLEX_IMAG(res) = 0.5 * (COMPLEX_IMAG(expx) - COMPLEX_IMAG(exp_x));
@@ -266,7 +328,7 @@ TYPE FUNCTION(NAME, sinh)(const TYPE x)
 
 TYPE FUNCTION(NAME, cosh)(const TYPE x)
 {
-  TYPE expx = FUNCTION(NAME, exp)(x), _x = FUNCTION(NAME, muli2)(x), exp_x = FUNCTION(NAME, exp)(_x);
+  TYPE expx = FUNCTION(NAME, exp)(x), _x = FUNCTION(NAME, mulI2)(x), exp_x = FUNCTION(NAME, exp)(_x);
   TYPE res;
   COMPLEX_REAL(res) = 0.5 * (COMPLEX_REAL(expx) + COMPLEX_REAL(exp_x));
   COMPLEX_IMAG(res) = 0.5 * (COMPLEX_IMAG(expx) + COMPLEX_IMAG(exp_x));
@@ -329,6 +391,47 @@ TYPE FUNCTION(NAME, sqrt)(const TYPE x)
   COMPLEX_IMAG(res) = mod * sin(arg);
 
   return res;
+}
+
+cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
+{
+  return CGRAPH_TEST((COMPLEX_REAL(x) != COMPLEX_REAL(x)) || (COMPLEX_IMAG(x) != COMPLEX_IMAG(x)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
+{
+  return CGRAPH_TEST(((COMPLEX_REAL(x) == COMPLEX_REAL(x)) && ((DATA_MAX < COMPLEX_REAL(x)) || (DATA_MIN > COMPLEX_REAL(x)))) || ((COMPLEX_IMAG(x) == COMPLEX_IMAG(x)) && ((DATA_MAX < COMPLEX_IMAG(x)) || (DATA_MIN > COMPLEX_IMAG(x)))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
+{
+  return CGRAPH_TEST(((COMPLEX_REAL(x) == COMPLEX_REAL(x)) && (DATA_MAX < COMPLEX_REAL(x))) || ((COMPLEX_IMAG(x) == COMPLEX_IMAG(x)) && (DATA_MAX < COMPLEX_IMAG(x))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
+{
+  return CGRAPH_TEST(((COMPLEX_REAL(x) == COMPLEX_REAL(x)) && (DATA_MIN > COMPLEX_REAL(x))) || ((COMPLEX_IMAG(x) == COMPLEX_IMAG(x)) && (DATA_MIN > COMPLEX_IMAG(x))));
+}
+
+cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
+{
+  TYPE zero = {0.0, 0.0};
+
+  return CGRAPH_TEST((EQ(x, zero)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
+{
+  TYPE max = MAX;
+
+  return CGRAPH_TEST((EQ(x, max)));
+}
+
+cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
+{
+  TYPE min = MIN;
+
+  return CGRAPH_TEST((EQ(x, min)));
 }
 
 #include "templete_off.h"

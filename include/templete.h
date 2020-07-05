@@ -381,12 +381,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define INT(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define MOD(a, b) (SUB((a), INT(a, b)))
 
-#define EQ(a, b) CGRAPH_TEST((a) == (b))
-#define NEQ(a, b) CGRAPH_TEST((a) != (b))
-#define GR(a, b) CGRAPH_TEST((a) > (b))
-#define GE(a, b) CGRAPH_TEST((a) >= (b))
-#define LS(a, b) CGRAPH_TEST((a) < (b))
-#define LE(a, b) CGRAPH_TEST((a) <= (b))
+#define EQ(a, b) ((a) == (b))
+#define NEQ(a, b) ((a) != (b))
+#define GR(a, b) ((a) > (b))
+#define GE(a, b) ((a) >= (b))
+#define LS(a, b) ((a) < (b))
+#define LE(a, b) ((a) <= (b))
 #define POW(a, b) (((a) == CGRAPH_TRUE) ? CGRAPH_TRUE : CGRAPH_FALSE)
 
 #define ABS(a) ((a))
@@ -420,6 +420,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MOD(a, b) ((a) % (b))
 
 #define EQ(a, b) ((a) == (b))
+#define NEQ(a, b) ((a) != (b))
 #define GR(a, b) ((a) > (b))
 #define GE(a, b) ((a) >= (b))
 #define LS(a, b) ((a) < (b))
@@ -454,12 +455,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define INT(a, b) (floor((a), (b)))
 #define MOD(a, b) (fmod((a), (b)))
 
-#define EQ(a, b) CGRAPH_TEST(fabs((a) - (b)) < EPSILON)
-#define NEQ(a, b) CGRAPH_TEST(fabs((a) - (b)) > EPSILON)
-#define GR(a, b) CGRAPH_TEST(((a) - (b)) > EPSILON)
-#define GE(a, b) CGRAPH_TEST(((a) - (b)) > (-EPSILON))
-#define LS(a, b) CGRAPH_TEST(((a) - (b)) < (-EPSILON))
-#define LE(a, b) CGRAPH_TEST(((a) - (b)) < EPSILON)
+#define EQ(a, b) (fabs((a) - (b)) < EPSILON)
+#define NEQ(a, b) (fabs((a) - (b)) > EPSILON)
+#define GR(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (((a) - (b)) > (-EPSILON))
+#define LS(a, b) (((a) - (b)) < (-EPSILON))
+#define LE(a, b) (((a) - (b)) < EPSILON)
 #define POW(a, b) pow((a), (b))
 
 #define ABS(a) fabs((a))
@@ -502,10 +503,11 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b) FUNCTION(NAME, divc)((a), (b))
 
 #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
-#define GR(a, b) (COMPLEX_MOD2(a) > COMPLEX_MOD2(b))
-#define GE(a, b) (GR(a, b) || EQ(a, b))
-#define LS(a, b) (COMPLEX_MOD2(a) < COMPLEX_MOD2(b))
-#define LE(a, b) (LS(a, b) || EQ(a, b))
+#define NEQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) || (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
+#define GR(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > DATA_EPSILON)
+#define GE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > (-DATA_EPSILON))
+#define LS(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < (-DATA_EPSILON))
+#define LE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < DATA_EPSILON)
 
 #define EXCHANGE(a, b) do{ TYPE tmp; \
  COMPLEX_REAL(tmp) = COMPLEX_REAL(a);   COMPLEX_IMAG(tmp) = COMPLEX_IMAG(a); \
@@ -521,6 +523,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b) FUNCTION(NAME, divf)((a), (b))
 
 #define EQ(a, b) ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
+#define NEQ(a, b) ((FRACTION_NUM(a) != FRACTION_NUM(b)) || (FRACTION_DEN(a) != FRACTION_DEN(b)))
 #define GR(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) > (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define GE(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) >= (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define LS(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) < (FRACTION_NUM(b) * FRACTION_DEN(a)))
@@ -538,6 +541,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
 #define DIV(a, b) FUNCTION(NAME, div)((a), (b))
 
+#define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le)((a), (b))
+
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 
@@ -547,6 +556,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
 #define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
 #define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+
+#define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le)((a), (b))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
@@ -558,6 +573,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
 #define DIV(a, b) FUNCTION(NAME, div)((a), (b))
 
+#define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le)((a), (b))
+
 #define ABS(a) ((a))
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 
@@ -567,6 +588,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
 #define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
 #define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+
+#define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le)((a), (b))
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE)
 

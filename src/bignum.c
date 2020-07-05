@@ -115,4 +115,170 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
   
 }
 
+cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->len == y->len && x->point == y->point)
+    {
+      if(x->data[0] == y->data[0])
+      {
+        cgraph_size_t i;
+        for(i=x->point-1; i>=0; i--)
+        {
+          if(x->data[i] != y->data[i])
+          { break; }
+        }
+        if(i < 0)
+        {
+          for(i=x->point; i<x->len; i++)
+          {
+            if(x->data[i] != y->data[i])
+            { break; }
+          }
+          if(i >= x->len)
+          { flag = CGRAPH_TRUE; }
+        }
+      }
+    }
+  }
+  else if(NULL == x && NULL == y)
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->data[0] == y->data[0])
+    {
+      cgraph_size_t i, j;
+      for(i=x->point-1, j=y->point-1; i>=0 && j >= 0; i--, j--)
+      {
+        if(x->data[i] <= y->data[j])
+        { break; }
+      }
+      if(i < 0)
+      {
+        for(i=x->point, j=y->point; i<x->len && j<y->len; i++, j++)
+        {
+          if(x->data[i] <= y->data[j])
+          { break; }
+        }
+        if(i >= x->len )
+        { flag = CGRAPH_TRUE; }
+      }
+    }
+    else if('-' == y->data[0])
+    { flag = CGRAPH_TRUE; }
+  }
+  else if(NULL != x && NULL == y)
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->data[0] == y->data[0])
+    {
+      cgraph_size_t i, j;
+      for(i=x->point-1, j=y->point-1; i>=0 && j >= 0; i--, j--)
+      {
+        if(x->data[i] < y->data[j])
+        { break; }
+      }
+      if(i < 0)
+      {
+        for(i=x->point, j=y->point; i<x->len && j<y->len; i++, j++)
+        {
+          if(x->data[i] < y->data[j])
+          { break; }
+        }
+        if(i >= x->len )
+        { flag = CGRAPH_TRUE; }
+      }
+    }
+    else if('-' == y->data[0])
+    { flag = CGRAPH_TRUE; }
+  }
+  else if(NULL != x && NULL == y)
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->data[0] == y->data[0])
+    {
+      cgraph_size_t i, j;
+      for(i=x->point-1, j=y->point-1; i>=0 && j >= 0; i--, j--)
+      {
+        if(x->data[i] <= y->data[j])
+        { break; }
+      }
+      if(i < 0)
+      {
+        for(i=x->point, j=y->point; i<x->len && j<y->len; i++, j++)
+        {
+          if(x->data[i] <= y->data[j])
+          { break; }
+        }
+        if(i >= x->len )
+        { flag = CGRAPH_TRUE; }
+      }
+    }
+    else if('-' == y->data[0])
+    { flag = CGRAPH_TRUE; }
+  }
+  else if(NULL != x && NULL == y)
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->data[0] == y->data[0])
+    {
+      cgraph_size_t i, j;
+      for(i=x->point-1, j=y->point-1; i>=0 && j >= 0; i--, j--)
+      {
+        if(x->data[i] <= y->data[j])
+        { break; }
+      }
+      if(i < 0)
+      {
+        for(i=x->point, j=y->point; i<x->len && j<y->len; i++, j++)
+        {
+          if(x->data[i] <= y->data[j])
+          { break; }
+        }
+        if(i >= x->len )
+        { flag = CGRAPH_TRUE; }
+      }
+    }
+    else if('-' == y->data[0])
+    { flag = CGRAPH_TRUE; }
+  }
+  else if(NULL != x && NULL == y)
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
 #include "templete_off.h"

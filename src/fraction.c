@@ -25,26 +25,46 @@
 */
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
   cgraph_size_t hash = 2166136261UL;
-  hash = (hash ^ FRACTION_NUM(object)) * 16777619UL;
-  hash = ((hash >> 8) ^ FRACTION_DEN(object)) * 16777619UL;
+  if(NULL != object)
+  {
+    TYPE tmp = *object;
+    hash = (hash ^ FRACTION_NUM(tmp)) * 16777619UL;
+    hash = ((hash >> 8) ^ FRACTION_DEN(tmp)) * 16777619UL;
+  }
 
   return CGRAPH_ABS(hash);
 }
 
 cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
+  TYPE *object = (TYPE *)cthis;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != object)
+  {
+    TYPE tmp = *object;
+    if(0 != FRACTION_DEN(tmp))
+    { flag = CGRAPH_TRUE; }
+  }
 
-  return CGRAPH_TEST((0 != FRACTION_DEN(object)));
+  return flag;
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != object_x && NULL != object_y)
+  {
+    TYPE tmp_x = *object_x, tmp_y = *object_y;
+    if(EQ(tmp_x, tmp_y))
+    { flag = CGRAPH_TRUE; }
+  }
+  else if(NULL == object_x && NULL == object_y)
+  { flag = CGRAPH_TRUE; }
 
-  return EQ(object_x, object_y);
+  return flag;
 }
 
 /*                               private apis                                 */
@@ -97,7 +117,7 @@ cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
   return CGRAPH_TEST(EQ(x, max));
 }
 
-TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) + FRACTION_DEN(x) * y;
@@ -106,7 +126,7 @@ TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
-TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) - FRACTION_DEN(x) * y;
@@ -115,7 +135,7 @@ TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
-TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, muln)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) * y;
@@ -124,7 +144,7 @@ TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
-TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, divn)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res; 
   FRACTION_NUM(res) = FRACTION_NUM(x);
@@ -133,7 +153,52 @@ TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
-TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, pown)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1) ? FRACTION_NUM(x) : (DATA_TYPE)pow(FRACTION_DEN(x), y);
+  FRACTION_DEN(res) = FRACTION_DEN(x) == 1 ? FRACTION_DEN(x) : (DATA_TYPE)pow(FRACTION_DEN(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addd)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  FRACTION_NUM(res) = FRACTION_NUM(x) * y + FRACTION_DEN(x);
+  FRACTION_DEN(res) = FRACTION_DEN(x) * y; 
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subd)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  FRACTION_NUM(res) = FRACTION_NUM(x) * y - FRACTION_DEN(x);
+  FRACTION_DEN(res) = FRACTION_DEN(x) * y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  FRACTION_NUM(res) = FRACTION_NUM(x);
+  FRACTION_DEN(res) = FRACTION_DEN(x) * y; 
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res; 
+  FRACTION_NUM(res) = FRACTION_NUM(x) * y;
+  FRACTION_DEN(res) = FRACTION_DEN(x);
+  
+  return res;
+}
+
+TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1) ? FRACTION_NUM(x) : (DATA_TYPE)pow(FRACTION_DEN(x), y);

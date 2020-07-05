@@ -52,7 +52,7 @@ if 0 == length(args)
   mkpath("$LIB")
   for file in CFILES
     obj = replace(file, r".c$"=>".o")
-    println("compile $SRC/$file to $SRC/$obj")
+    println("compile ", joinpath(SRC, file), " to ", joinpath(SRC, obj))
     run(`$CC $CFLAGS -I$INC -c $SRC/$file -o $SRC/$obj`)
   end
   println("compile $LIBSHARED")
@@ -68,8 +68,8 @@ elseif 1 == length(args)
   elseif args[1] == "clean"
     for file in CFILES
       obj = replace(file, r".c$"=>".o")
-      println("clean $SRC/$obj")
-      rm("$SRC/$obj", force=true)
+      println("clean ", joinpath(SRC, obj))
+      rm(joinpath(SRC, obj), force=true)
     end
     println("clean $LIBSTATIC")
     rm("$LIBSTATIC", force=true)

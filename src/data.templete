@@ -294,6 +294,36 @@ void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cg
     for(i=0; i<len; i++)
     { object_z[i] = DIV(object_x[i], object_y[i]); }
   }
-
   return object_z;
+}
+
+cgraph_size_t FUNCTION(NAME, cnts)(const void *x, const void *y, const cgraph_size_t len)
+{
+  cgraph_size_t cnt = 0;
+#ifndef DATA_WITH_POINTER
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  if(NULL != object_x && NULL != object_y)
+  {
+    cgraph_size_t i;
+    TYPE tmp = *object_y;
+    for(i=0; i<len; i++)
+    {
+      if(EQ(object_x[i], tmp))
+      { cnt += 1; }
+    }
+  }
+#else
+  TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y;
+  if(NULL == object_x && NULL == object_y)
+  {
+    cgraph_size_t i;
+    for(i=0; i<len; i++)
+    {
+      if(EQ(object_x[i], object_y))
+      { cnt += 1; }
+    }
+  }
+#endif
+
+  return cnt;
 }

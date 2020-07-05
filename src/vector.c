@@ -1,3 +1,4 @@
+#include "cgraph_math.h"
 #include "cgraph_memory.h"
 #include "cgraph_vector.h"
 
@@ -103,7 +104,12 @@ void *FUNCTION(NAME, add)(const void *x, const void *y)
 
 void *FUNCTION(NAME, iterator2)(void *cthis, cgraph_func2_t opt)
 {
-  TYPE *object = (TYPE *)cthis, *result = FUNCTION(NAME, calloc)(object->type, object->size);
+  TYPE *object = (TYPE *)cthis, *result = NULL;
+  if(NULL != object)
+  {
+    result = FUNCTION(NAME, calloc)(object->type, object->size);
+    opt(object, result);
+  }
 
   return result;
 }
@@ -111,6 +117,14 @@ void *FUNCTION(NAME, iterator2)(void *cthis, cgraph_func2_t opt)
 void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_func3_t opt)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *result = NULL;
+  if(NULL != object_x && NULL != object_y)
+  {
+    if(object_x->len == object_y->len && object_x->type == object_y->type)
+    {
+      result = FUNCTION(NAME, calloc)(object_x->type, object_x->len);
+      opt(object_x, object_y, result);
+    }
+  }
 
   return result;
 }

@@ -76,21 +76,13 @@ cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis, cgraph_size_t *len)
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
-  cgraph_boolean_t flag = CGRAPH_FALSE;
-  if((NULL != object_x) && (NULL != object_y))
-  {
-    if((object_x->len == object_y->len) && (object_x->pos == object_y->pos))
-    {
-      flag = cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)());
-    }
-  }
 
-  return flag;
+  return EQ(object_x, object_y);
 }
 
 TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
 {
-  if((NULL != cthis) && (CGRAPH_FALSE == cthis->pos))
+  if(NULL != cthis)
   { cthis->pos = CGRAPH_TRUE; }
   
   return cthis;
@@ -180,6 +172,163 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
   }
 
   return res;
+}
+
+cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->len == y->len && x->pos == y->pos)
+    {
+      cgraph_size_t i;
+      for(i=x->len-1; i>=0; i--)
+      {
+        if(x->data[i] != y->data[i])
+        { break; }
+      }
+      if(i < 0)
+      { flag = CGRAPH_TRUE; }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->pos == y->pos)
+    {
+      cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+      if(CGRAPH_TRUE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] <= y->data[i])
+          { break; }
+        }
+      }
+      else if(CGRAPH_FALSE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] >= y->data[i])
+          { break; }
+        }
+      }
+      if(i < 0)
+      { flag = CGRAPH_TRUE; }
+    }
+    else if(CGRAPH_TRUE == x->pos && CGRAPH_FALSE == y->pos)
+    { flag = CGRAPH_TRUE; }
+  }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->pos == y->pos)
+    {
+      cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+      if(CGRAPH_TRUE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] < y->data[i])
+          { break; }
+        }
+      }
+      else if(CGRAPH_FALSE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] > y->data[i])
+          { break; }
+        }
+      }
+      if(i < 0)
+      { flag = CGRAPH_TRUE; }
+    }
+    else if(CGRAPH_TRUE == x->pos && CGRAPH_FALSE == y->pos)
+    { flag = CGRAPH_TRUE; }
+  }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->pos == y->pos)
+    {
+      cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+      if(CGRAPH_TRUE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] >= y->data[i])
+          { break; }
+        }
+      }
+      else if(CGRAPH_FALSE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] <= y->data[i])
+          { break; }
+        }
+      }
+      if(i < 0)
+      { flag = CGRAPH_TRUE; }
+    }
+    else if(CGRAPH_FALSE == x->pos && CGRAPH_TRUE == y->pos)
+    { flag = CGRAPH_TRUE; }
+  }
+
+  return flag;
+}
+
+cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->pos == y->pos)
+    {
+      cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+      if(CGRAPH_TRUE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] > y->data[i])
+          { break; }
+        }
+      }
+      else if(CGRAPH_FALSE == x->pos)
+      {
+        for(i=len-1; i>=0; i--)
+        {
+          if(x->data[i] < y->data[i])
+          { break; }
+        }
+      }
+      if(i < 0)
+      { flag = CGRAPH_TRUE; }
+    }
+    else if(CGRAPH_FALSE == x->pos && CGRAPH_TRUE == y->pos)
+    { flag = CGRAPH_TRUE; }
+  }
+
+  return flag;
 }
 
 TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis)

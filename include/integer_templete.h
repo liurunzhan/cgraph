@@ -1,3 +1,8 @@
+extern cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis);
+extern cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y);
+
+extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...);
+
 extern TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y);
 

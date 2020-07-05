@@ -11,9 +11,6 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
     TYPE ipart = floor(object), fpart = object - ipart;
     cgraph_size_t hash_ipart = (cgraph_size_t)(ipart), hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
     hash = (hash_ipart << 4) ^ hash_fpart;
-  #ifdef DEBUG
-    printf("%f %ld %ld %f %f\n", object, hash_ipart, hash_fpart, ipart, fpart);
-  #endif
   }
 
   return CGRAPH_ABS(hash);
@@ -70,25 +67,25 @@ cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && EQ(x, 0.0));
+  return CGRAPH_TEST(EQ(x, 0.0));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && GR(x, 0.0));
+  return CGRAPH_TEST(GR(x, 0.0));
 }
 
 cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && LS(x, 0.0));
+  return CGRAPH_TEST(LS(x, 0.0));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && EQ(x, MIN));
+  return CGRAPH_TEST(EQ(x, MIN));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 {
-  return CGRAPH_TEST((x == x) && EQ(x, MAX));
+  return CGRAPH_TEST(EQ(x, MAX));
 }

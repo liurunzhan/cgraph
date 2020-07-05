@@ -2,13 +2,14 @@
 
 use strict;
 use warnings;
+use File::Spec;
 
 my $PRO = "cgraph";
 my $DIR = ".";
-my $SRC = "$DIR/src";
-my $INC = "$DIR/include";
-my $TST = "$DIR/test";
-my $LIB = "$DIR/lib";
+my $SRC = File::Spec->catdir($DIR, "src");
+my $INC = File::Spec->catdir($DIR, "include");
+my $TST = File::Spec->catdir($DIR, "test");
+my $LIB = File::Spec->catdir($DIR, "lib");
 
 my $CC = "cc";
 my $CFLAGS = "-pedantic -Wall -fpic -std=c89";
@@ -46,44 +47,43 @@ my $TSTTARGET;
 if ($^O eq "MSWin32")
 {
   # target files
-  $LIBSHARED = "$LIB/lib$PRO.dll";
-  $LIBSTATIC = "$LIB/lib$PRO.a";
+  $LIBSHARED = File::Spec->catfile($LIB, "lib$PRO.dll");
+  $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.a");
   # test files
-  $TSTFILE = "$TST/$PRO.c";
-  $TSTTARGET = "$TST/$PRO.exe";
+  $TSTFILE = File::Spec->catfile($TST, "$PRO.c");
+  $TSTTARGET = File::Spec->catfile($TST, "$PRO.exe");
 }
 else
 {
   # target files
-  $LIBSHARED = "$LIB/lib$PRO.so";
-  $LIBSTATIC = "$LIB/lib$PRO.a";
+  $LIBSHARED = File::Spec->catfile($LIB, "lib$PRO.so");
+  $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.a");
   # test files
-  $TSTFILE = "$TST/$PRO.c";
-  $TSTTARGET = "$TST/$PRO";
+  $TSTFILE = File::Spec->catfile($TST, "$PRO.c");
+  $TSTTARGET = File::Spec->catfile($TST, "$PRO");
 }
 
 my @args = @ARGV;
-
-if ($args[0] eq "")
+if ($#args == -1)
 {
   mkdir $LIB;
   foreach my $file (@CFILES)
   {
     my $obj = ($file =~ s/\.c/\.o/r);
-    print("compile $SRC/$file to $SRC/$obj\n");
-    system("$CC $CFLAGS -I$INC -c $SRC/$file -o $SRC/$obj");
+    printf("compile %s to %s\n", File::Spec->catfile($SRC, $file), File::Spec->catfile($SRC, $obj));
+    system(sprintf("$CC $CFLAGS -I$INC -c %s -o %s", File::Spec->catfile($SRC, $file), File::Spec->catfile($SRC, $obj)));
   }
   print("compile $LIBSHARED\n");
-  system("$CC $CSFLAGS -o $LIBSHARED $SRC/*.o");
+  system(sprintf("$CC $CSFLAGS -o $LIBSHARED %s/*.o", $SRC));
   print("compile $LIBSTATIC\n");
-  system("$AR $ARFLAGS $LIBSTATIC $SRC/*.o");
+  system(sprintf("$AR $ARFLAGS $LIBSTATIC %s/*.o", $SRC));
 }
 elsif ($args[0] eq "test")
 {
   print("compile $TSTFILE to $TSTTARGET\n");
   system("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
-  print("test $TSTTARGET with $TST/elements.csv\n");
-  system("$TSTTARGET $TST/elements.csv");
+  printf("test $TSTTARGET with %s\n", File::Spec->catfile($TST, "elements.csv"));
+  system(sprintf("$TSTTARGET %s", File::Spec->catfile($TST, "elements.csv")));
 }
 elsif ($args[0] eq "clean")
 {
@@ -91,14 +91,14 @@ elsif ($args[0] eq "clean")
   {
     my $obj = ($file =~ s/\.c/\.o/r);
     print("clean $obj\n");
-    unlink "$SRC/$obj";
+    unlink File::Spec->catfile($SRC, $obj);
   }
   print("clean $LIBSTATIC\n");
-  unlink "$LIBSTATIC";
+  unlink $LIBSTATIC;
   print("clean $LIBSHARED\n");
-  unlink "$LIBSHARED";
+  unlink $LIBSHARED;
   print("clean $TSTTARGET\n");
-  unlink "$TSTTARGET";
+  unlink $TSTTARGET;
 }
 elsif ($args[0] eq "distclean")
 {
@@ -106,16 +106,16 @@ elsif ($args[0] eq "distclean")
   {
     my $obj = ($file =~ s/\.c/\.o/r);
     print("clean $obj\n");
-    unlink "$SRC/$obj";
+    unlink File::Spec->catfile($SRC, $obj);
   }
   print("clean $LIBSTATIC\n");
-  unlink "$LIBSTATIC";
+  unlink $LIBSTATIC;
   print("clean $LIBSHARED\n");
-  unlink "$LIBSHARED";
+  unlink $LIBSHARED;
   print("clean $LIB\n");
   rmdir $LIB;
   print("clean $TSTTARGET\n");
-  unlink "$TSTTARGET";
+  unlink $TSTTARGET;
 }
 elsif ($args[0] eq "help")
 {

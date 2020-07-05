@@ -2,22 +2,23 @@ add_includedirs("include")
 add_cflags("-pedantic", "-Wall", "-fpic", "-std=c89", {force = true})
 
 if is_mode("debug") then
-	add_defines("DEBUG")
-	set_symbols("debug")
-	set_optimize("none")
-	add_cflags("-g")
+	-- add_defines("DEBUG")
+	-- set_symbols("debug")
+	-- set_optimize("none")
+	add_cflags("-g", "-DDEBUG", {force = true})
 end
 
 if is_mode("release") then
-	set_symbols("hidden")
-	set_strip("all")
-	set_symbols("debug")
-	add_cflags("-static -O2")
+	print("release mode")
+	-- set_symbols("hidden")
+	-- set_strip("all")
+	-- set_symbols("debug")
+	add_cflags("-static", "-O2", {force = true})
 end
 
-if is_mode("profile") then
-	set_symbols("debug")
-end
+-- if is_mode("profile") then
+-- 	set_symbols("debug")
+-- end
 
 target("static")
 	set_kind("static")

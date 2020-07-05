@@ -27,8 +27,7 @@ elif MODE == "release":
 AR = "ar"
 ARFLAGS = "-rcs"
 
-plat = platform.system()
-if plat == "Windows":
+if platform.system() == "Windows":
   # target files
   LIBSHARED = os.path.join(LIB, "lib%s.dll" % PRO)
   LIBSTATIC = os.path.join(LIB, "lib%s.a" % PRO)
