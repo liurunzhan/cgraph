@@ -59,6 +59,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MAX CGRAPH_INTEGER_MAX
 #define MSB (ONE << (BITS-1))
 #define LSB (ONE)
+#define EPSILON (0xFFFFFFFF)
+#define EPSILON_LEN BITS
 
 #elif defined(TYPE_REAL)
 #define TYPE cgraph_real_t
@@ -82,11 +84,13 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ZERO CGRAPH_FALSE
 #define ONE CGRAPH_TRUE
 #define ONES CGRAPH_TRUE
-#define BITS CGRAPH_TRUE
+#define BITS 1
 #define MIN CGRAPH_FALSE
 #define MAX CGRAPH_TRUE
 #define MSB (ONE)
 #define LSB (ONE)
+#define EPSILON (0x1)
+#define EPSILON_LEN BITS
 
 #elif defined(TYPE_FLOAT)
 #define TYPE cgraph_float_t
@@ -115,6 +119,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MAX CGRAPH_LONG_MAX
 #define MSB (ONE << (BITS-1))
 #define LSB (ONE)
+#define EPSILON CGRAPH_LONG_EPSILON
+#define EPSILON_LEN CGRAPH_LONG_EPSILON_LEN
 
 #elif defined(TYPE_INT8)
 #define TYPE cgraph_int8_t
@@ -129,6 +135,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MAX CGRAPH_INT8_MAX
 #define MSB (ONE << (BITS-1))
 #define LSB (ONE)
+#define EPSILON (0xFF)
+#define EPSILON_LEN BITS
 
 #elif defined(TYPE_INT16)
 #define TYPE cgraph_int16_t
@@ -143,6 +151,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MAX CGRAPH_INT16_MAX
 #define MSB (ONE << (BITS-1))
 #define LSB (ONE)
+#define EPSILON (0xFFFF)
+#define EPSILON_LEN BITS
 
 #elif defined(TYPE_INT32)
 #define TYPE cgraph_int32_t
@@ -157,6 +167,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MAX CGRAPH_INT32_MAX
 #define MSB (ONE << (BITS-1))
 #define LSB (ONE)
+#define EPSILON (0xFFFFFFFF)
+#define EPSILON_LEN BITS
 
 #elif defined(TYPE_INT64)
 #define TYPE cgraph_int64_t
@@ -171,6 +183,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MAX CGRAPH_INT64_MAX
 #define MSB (ONE << (BITS-1))
 #define LSB (ONE)
+#define EPSILON (0xFFFFFFFFFFFFFFFF)
+#define EPSILON_LEN BITS
 
 #elif defined(TYPE_TIME)
 #define TYPE cgraph_time_t

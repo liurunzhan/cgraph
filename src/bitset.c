@@ -43,58 +43,53 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
   return flag;
 }
 
-void *FUNCTION(NAME, bit)(const void *cthis, const cgraph_size_t pos)
+TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t pos)
 {
-  TYPE *object = (TYPE *)cthis;
   TYPE *res = FUNCTION(NAME, calloc)(DATA_ID, 1);
   if(NULL != res)
   {
-    res->data[0] = BITSET_GET_BIT(object, pos);
+    res->data[0] = BITSET_GET_BIT(cthis, pos);
     res->len = 1;
   }
 
   return res;
 }
 
-void *FUNCTION(NAME, set)(void *cthis, const cgraph_size_t pos)
+TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t pos)
 {
-  TYPE *object = (TYPE *)cthis;
   cgraph_size_t i = pos / DATA_BITS, j = pos % DATA_BITS;
-  DATA_TYPE tmp = object->data[i], left_bits = ((tmp >> (j+1)) << (j+1)), right_bits = ((j == 0) ? 0 : (tmp ^ (~((DATA_ONES >> j) << j))));
-  object->data[i] = left_bits + right_bits + 1 << j;
+  DATA_TYPE tmp = cthis->data[i], left_bits = ((tmp >> (j+1)) << (j+1)), right_bits = ((j == 0) ? 0 : (tmp ^ (~((DATA_ONES >> j) << j))));
+  cthis->data[i] = left_bits + right_bits + 1 << j;
 
-  return object;
+  return cthis;
 }
 
-void *FUNCTION(NAME, clr)(void *cthis, const cgraph_size_t pos)
+TYPE *FUNCTION(NAME, clr)(TYPE *cthis, const cgraph_size_t pos)
 {
-  TYPE *object = (TYPE *)cthis;
   cgraph_size_t i = pos / DATA_BITS, j = pos % DATA_BITS;
-  DATA_TYPE tmp = object->data[i], left_bits = ((tmp >> (j+1)) << (j+1)), right_bits = ((j == 0) ? 0 : (tmp ^ (~((DATA_ONES >> j) << j))));
-  object->data[i] = left_bits + right_bits;
+  DATA_TYPE tmp = cthis->data[i], left_bits = ((tmp >> (j+1)) << (j+1)), right_bits = ((j == 0) ? 0 : (tmp ^ (~((DATA_ONES >> j) << j))));
+  cthis->data[i] = left_bits + right_bits;
   
-  return object;
+  return cthis;
 }
 
-void *FUNCTION(NAME, bits)(const void *cthis, const cgraph_size_t min, const cgraph_size_t max)
+TYPE *FUNCTION(NAME, bits)(const TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max)
 {
-  TYPE *object = (TYPE *)cthis, *res = NULL;
+  TYPE *res = NULL;
 
   return res;
 }
 
-void *FUNCTION(NAME, sets)(void *cthis, const cgraph_size_t min, const cgraph_size_t max)
+TYPE *FUNCTION(NAME, sets)(TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max)
 {
-  TYPE *object = (TYPE *)cthis;
 
-  return object;
+  return cthis;
 }
 
-void *FUNCTION(NAME, clrs)(void *cthis, const cgraph_size_t min, const cgraph_size_t max)
+TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max)
 {
-  TYPE *object = (TYPE *)cthis;
 
-  return object;
+  return cthis;
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)

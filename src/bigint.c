@@ -46,28 +46,25 @@ cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
   return flag;
 }
 
-cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis, cgraph_size_t *len)
+cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  cgraph_char_t *str = NULL;
-  if(NULL != object && NULL != len)
+  cgraph_string_t *str = NULL;
+  if(NULL != cthis)
   {
-    *len = object->pos ? object->len : (object->len+1);
-    str = cgraph_calloc(*len+1, sizeof(cgraph_char_t));
+    cgraph_size_t len = cthis->pos ? cthis->len : (cthis->len+1);
+    str = cgraph_string_calloc(1, len+1);
     if(NULL != str)
     {
       cgraph_size_t i = 0;
-      if(object->pos == CGRAPH_FALSE)
+      if(cthis->pos == CGRAPH_FALSE)
       {
-        str[i] = '-';
+        str->data[i] = '-';
         i++;
       }
-      for(; i<*len; i++)
-      { str[i] = object->data[i] + '0'; }
-      str[i] = '\0';
+      for(; i<len; i++)
+      { str->data[i] = cthis->data[i] + '0'; }
+      str->data[i] = '\0';
     }
-    else
-    { *len = 0; } 
   }
 
   return str;
@@ -334,17 +331,17 @@ cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
 TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis)
 {
   cgraph_size_t len = '-' == cthis->data[0] ? (cthis->len-1) : cthis->len;
-  TYPE *num = cgraph_bignum_calloc(1, len);
+  TYPE *num = FUNCTION(NAME, calloc)(1, len);
   if(NULL != num)
   {
     cgraph_size_t i = 0;
     if('-' == cthis->data[0])
     {
-      num->data[i] = '-';
+      num->pos = CGRAPH_FALSE;
       i++;
     }
     for(; i<len; i++)
-    { num->data[i] = cthis->data[i]; }
+    { num->data[i] = cthis->data[i] - '0'; }
   }
 
   return num;

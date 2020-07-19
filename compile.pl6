@@ -4,10 +4,10 @@ use v6;
 
 my $PRO = "cgraph";
 my $DIR = ".";
-my $SRC = "$DIR/src";
-my $INC = "$DIR/include";
-my $TST = "$DIR/test";
-my $LIB = "$DIR/lib";
+my $SRC = $DIR.IO.add("src");
+my $INC = $DIR.IO.add("include");
+my $TST = $DIR.IO.add("test");
+my $LIB = $DIR.IO.add("lib");
 
 my $CC = "cc";
 my $CFLAGS = "-pedantic -Wall -fpic -std=c89";
@@ -44,20 +44,20 @@ my $TSTTARGET;
 if (VM.osname eq "MSWin32")
 {
   # target files
-  $LIBSHARED = "$LIB/lib$PRO.dll";
-  $LIBSTATIC = "$LIB/lib$PRO.a";
+  $LIBSHARED = $LIB.IO.add("lib$PRO.dll");
+  $LIBSTATIC = $LIB.IO.add("lib$PRO.a");
   # test files
-  $TSTFILE = "$TST/$PRO.c";
-  $TSTTARGET = "$TST/$PRO.exe";
+  $TSTFILE = $TST.IO.add("$PRO.c");
+  $TSTTARGET = $TST.IO.add("$PRO.exe");
 }
 else
 {
   # target files
-  $LIBSHARED = "$LIB/lib$PRO.so";
-  $LIBSTATIC = "$LIB/lib$PRO.a";
+  $LIBSHARED = $LIB.IO.add("lib$PRO.so");
+  $LIBSTATIC = $LIB.IO.add("lib$PRO.a");
   # test files
-  $TSTFILE = "$TST/$PRO.c";
-  $TSTTARGET = "$TST/$PRO";
+  $TSTFILE = $TST.IO.add("$PRO.c");
+  $TSTTARGET = $TST.IO.add("$PRO");
 }
 
 my @args = @*ARGS;
@@ -68,19 +68,19 @@ if (@args.elems eq 0)
   {
     my $obj = S/\.c$/\.o/ given $file;
     say("compile $file to $obj");
-    run("$CC $CFLAGS -I$INC -c $file -o $obj");
+    shell("$CC $CFLAGS -I$INC -c $file -o $obj");
   }
   say("compile $LIBSHARED");
-  run("$CC $CSFLAGS -o $LIBSHARED $SRC/*.o");
+  shell("$CC $CSFLAGS -o $LIBSHARED $SRC/*.o");
   say("compile $LIBSTATIC");
-  run("$AR $ARFLAGS $LIBSTATIC $SRC/*.o");
+  shell("$AR $ARFLAGS $LIBSTATIC $SRC/*.o");
 }
 elsif (@args[0] eq "test")
 {
   say("compile $TSTFILE to $TSTTARGET");
-  run("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
-  say("test $TSTTARGET with $TST/elements.csv");
-  run("$TSTTARGET $TST/elements.csv");
+  shell("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
+  say("test $TSTTARGET with $TST.IO.add("elements.csv")");
+  shell("$TSTTARGET $TST.IO.add("elements.csv")");
 }
 elsif (@args[0] eq "clean")
 {

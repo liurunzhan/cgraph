@@ -4,7 +4,7 @@
 
 void printf_char(char data)
 {
-  printf("debug %x %x\n", data, data);
+  printf("debug %x %x\n", 0xFF & data, 0xFF & data);
 }
 
 int main(int argc, char *argv[])

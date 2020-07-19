@@ -34,9 +34,9 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE
   {
     cgraph_size_t i = 1;
     va_start(args, first);
-    cthis[0] = first;
+    cthis[0] = (TYPE)first;
     for(i=1; i<size; i++)
-    { cthis[i] = va_arg(args, TYPE); }
+    { cthis[i] = (TYPE)va_arg(args, TYPE); }
     va_end(args);
   }
 
@@ -187,11 +187,13 @@ TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial)
 
 TYPE FUNCTION(NAME, crc)(const TYPE predata, const TYPE data, const TYPE polynomial)
 {
-  TYPE res = predata, temp = data, msb = 0;
+  TYPE res = (predata & EPSILON), temp = (predata & data), msb = 0;
   cgraph_size_t i = 0;
   for(i=0; i<BITS; i++)
   {
+    printf("%x %x %x\n", EPSILON, res, temp);
     msb = (res ^ temp) & MSB;
+    printf("%x %x %x %x %x\n", MSB, (res ^ temp), msb, res, temp);
     if(msb != 0)
     { res = (res << 1) ^ ONES & polynomial; }
     else

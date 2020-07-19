@@ -50,21 +50,26 @@ end
 args = ARGS
 if 0 == length(args)
   mkpath("$LIB")
+  OFILES = []
   for file in CFILES
     obj = replace(file, r".c$"=>".o")
-    println("compile ", joinpath(SRC, file), " to ", joinpath(SRC, obj))
-    run(`$CC $CFLAGS -I$INC -c $SRC/$file -o $SRC/$obj`)
+    src_path = joinpath(SRC, file)
+    obj_path = joinpath(SRC, obj)
+    push!(OFILES, obj_path)
+    println("compile $src_path to $obj_path")
+    run(`$CC $CFLAGS -I$INC -c $src_path -o $obj_path`)
   end
   println("compile $LIBSHARED")
-  run(`$CC $CSFLAGS -o $LIBSHARED $SRC/*.o`)
+  run(`$CC $CSFLAGS -o $LIBSHARED $OFILES`)
   println("compile $LIBSTATIC");
-  run(`$AR $ARFLAGS $LIBSTATIC $SRC/*.o`)
+  run(`$AR $ARFLAGS $LIBSTATIC $OFILES`)
 elseif 1 == length(args)
   if args[1] == "test"
     println("compile $TSTFILE to $TSTTARGET")
     run(`$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm`)
-    println("test $TSTTARGET with $TST/elements.csv")
-    run(`$TSTTARGET $TST/elements.csv`)
+    tst_path = joinpath(TST, "elements.csv")
+    println("test $TSTTARGET with $tst_path")
+    run(`$TSTTARGET $tst_path`)
   elseif args[1] == "clean"
     for file in CFILES
       obj = replace(file, r".c$"=>".o")
@@ -80,8 +85,8 @@ elseif 1 == length(args)
   elseif args[1] == "distclean"
     for file in CFILES
       obj = replace(file, r".c$"=>".o")
-      println("clean $SRC/$obj")
-      rm("$SRC/$obj", force=true)
+      println("clean ", joinpath(SRC, obj))
+      rm(joinpath(SRC, obj), force=true)
     end
     println("clean $LIBSTATIC")
     rm("$LIBSTATIC", force=true)

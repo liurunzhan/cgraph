@@ -34,6 +34,14 @@ typedef float cgraph_float_t;
 #define CGRAPH_LONG_MAX LONG_MAX
 #define CGRAPH_LONG_MIN LONG_MIN
 
+#if __WORDSIZE == 64
+#define CGRAPH_LONG_EPSILON (0xFFFFFFFFFFFFFFFF)
+#define CGRAPH_LONG_EPSILON_LEN (64)
+#else
+#define CGRAPH_LONG_EPSILON (0xFFFFFFFF)
+#define CGRAPH_LONG_EPSILON_LEN (32)
+#endif
+
 #define CGRAPH_REAL_MAX DBL_MAX
 #define CGRAPH_REAL_MIN DBL_MIN
 #define CGRAPH_REAL_EPSILON DBL_EPSILON
@@ -96,30 +104,36 @@ typedef signed short cgraph_int16_t;
 #define CGRAPH_INT32_MAX (2147483647L)
 typedef signed int cgraph_int32_t;
 
+/*
 #define CGRAPH_INT64_MIN CGRAPH_LONG_MIN
 #define CGRAPH_INT64_MAX CGRAPH_LONG_MAX
 typedef signed long cgraph_int64_t;
 
-/*
+#define CGRAPH_INT64_MIN (-9223372036854775808LL)
+#define CGRAPH_INT64_MAX (9223372036854775807LL)
+*/
+
+#if __WORDSIZE == 64
 
 #define CGRAPH_INT64_MIN (-9223372036854775808LL)
 #define CGRAPH_INT64_MAX (9223372036854775807LL)
+#define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
+#define CGRAPH_INT64_EPS_LEN (64)
 
-#if __WORDSIZE == 64
-#define CGRAPH_INT64_MIN CGRAPH_INT32_MIN
-#define CGRAPH_INT64_MAX CGRAPH_INT32_MAX
+typedef signed long cgraph_int64_t;
 
-typedef long cgraph_int64_t;
-typedef unsigned long cgraph_uint64_t;
 #else
-#define CGRAPH_INT64_MIN CGRAPH_INT32_MIN
-#define CGRAPH_INT64_MAX CGRAPH_INT32_MAX
+
+#define CGRAPH_INT64_MIN (-9223372036854775808LL)
+#define CGRAPH_INT64_MAX (9223372036854775807LL)
+#define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
+#define CGRAPH_INT64_EPS_LEN (64)
+
 __extension__
-typedef long long cgraph_int64_t;
-__extension__
-typedef unsigned long long cgraph_uint64_t;
+typedef signed long long cgraph_int64_t;
+
 #endif
-*/
+
 
 #endif /* __STDC__ */
 

@@ -20,12 +20,12 @@ typedef struct
 
 #include "data_templete.h"
 
-extern void *FUNCTION(NAME, bit)(const void *cthis, const cgraph_size_t pos);
-extern void *FUNCTION(NAME, set)(void *cthis, const cgraph_size_t pos);
-extern void *FUNCTION(NAME, bits)(const void *cthis, const cgraph_size_t min, const cgraph_size_t max);
-extern void *FUNCTION(NAME, sets)(void *cthis, const cgraph_size_t min, const cgraph_size_t max);
-extern void *FUNCTION(NAME, clr)(void *cthis, const cgraph_size_t pos);
-extern void *FUNCTION(NAME, clrs)(void *cthis, const cgraph_size_t min, const cgraph_size_t max);
+extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t pos);
+extern TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t pos);
+extern TYPE *FUNCTION(NAME, bits)(const TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max);
+extern TYPE *FUNCTION(NAME, sets)(TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max);
+extern TYPE *FUNCTION(NAME, clr)(TYPE *cthis, const cgraph_size_t pos);
+extern TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max);
 
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y);
 extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y);

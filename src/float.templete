@@ -45,6 +45,22 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
+TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)
+{
+  va_list args;
+  if((NULL != cthis) && (0 < size))
+  {
+    cgraph_size_t i = 1;
+    va_start(args, first);
+    cthis[0] = (TYPE)first;
+    for(i=1; i<size; i++)
+    { cthis[i] = (TYPE)va_arg(args, TYPE); }
+    va_end(args);
+  }
+
+  return cthis;
+}
+
 cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
 {
   return CGRAPH_TEST((x != x));
