@@ -16,7 +16,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash1 ^ hash2);
 }
 
-cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_TRUE;
@@ -165,42 +165,58 @@ TYPE FUNCTION(NAME, localtime)(void)
 
 TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y)
 {
-
+  TYPE res;
+  
+  return res;
 }
 
 TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y)
 {
-  
+  TYPE res;
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y)
 {
-  
+  TYPE res;
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y)
 {
-  
+  TYPE res;
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, addt)(const TYPE x, const TYPE y)
 {
+  TYPE res;
 
+  return res;
 }
 
 TYPE FUNCTION(NAME, subt)(const TYPE x, const TYPE y)
 {
-  
+  TYPE res;
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, mult)(const TYPE x, const TYPE y)
 {
-  
+  TYPE res;
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, divt)(const TYPE x, const TYPE y)
 {
-  
+  TYPE res;
+
+  return res;
 }
 
 #include "templete_off.h"

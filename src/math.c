@@ -2,6 +2,24 @@
 #include <math.h>
 #include "cgraph_math.h"
 
+cgraph_integer_t cgraph_math_crc(const cgraph_integer_t predata, const cgraph_integer_t data, const cgraph_integer_t polynomial)
+{
+  cgraph_integer_t res = predata, temp = (data & res), poly = polynomial, ones = 0xFFFFFFFF, msb = 0;
+  cgraph_size_t i = 0, bits = 32;
+  printf("%x %x %x\n", res, temp, poly);
+  for(i=0; i<bits; i++)
+  {
+    msb = ((res ^ temp) >> (bits-1) & 0x01);
+    if(msb == 0x01)
+    { res = ((res << 1) ^ ones & poly); }
+    else
+    { res = (res << 1); }
+    temp = (temp << 1);
+  }
+
+  return res;
+}
+
 cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_boolean_t *error)
 {
   cgraph_integer_t res = 0;
@@ -210,4 +228,24 @@ cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t s
 	phase  = CGRAPH_TRUE - phase;
 
 	return Z * sigma + mu;
+}
+
+cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t len)
+{
+  cgraph_integer_t res = 1;
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { res = res << 1; }
+
+  return res;
+}
+
+cgraph_integer_t cgraph_math_bin2gray(const cgraph_integer_t data)
+{
+  return (data ^ (data >> 1));
+}
+
+cgraph_integer_t cgraph_math_gray2bin(const cgraph_integer_t data)
+{
+  return (data ^ (data << 1));
 }

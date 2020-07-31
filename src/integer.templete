@@ -1,4 +1,4 @@
-cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
   cgraph_boolean_t flag = CGRAPH_FALSE;
   TYPE *object = (TYPE *)cthis;
@@ -187,18 +187,19 @@ TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial)
 
 TYPE FUNCTION(NAME, crc)(const TYPE predata, const TYPE data, const TYPE polynomial)
 {
-  TYPE res = (predata & EPSILON), temp = (predata & data), msb = 0;
+  TYPE res = ((TYPE)(predata) & EPSILON), temp = ((TYPE)(data & res) & EPSILON), poly = ((TYPE)(polynomial) & EPSILON), msb = 0;
   cgraph_size_t i = 0;
   for(i=0; i<BITS; i++)
   {
-    printf("%x %x %x\n", EPSILON, res, temp);
-    msb = (res ^ temp) & MSB;
-    printf("%x %x %x %x %x\n", MSB, (res ^ temp), msb, res, temp);
-    if(msb != 0)
-    { res = (res << 1) ^ ONES & polynomial; }
+  #ifdef DEBUG
+    printf("msb : %x res : %x temp : %x\n", msb, res, temp);
+  #endif
+    msb = (TYPE)(((res ^ temp) >> (BITS-1)) & 0x01);
+    if(msb == 0x01)
+    { res = (TYPE)((res << 1) ^ ONES & poly); }
     else
-    { res = res << 1; }
-    temp = temp << 1;
+    { res = (TYPE)(res << 1); }
+    temp = (TYPE)(temp << 1);
   }
 
   return res;

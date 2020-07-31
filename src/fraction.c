@@ -37,7 +37,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash);
 }
 
-cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_FALSE;

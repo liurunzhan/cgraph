@@ -8,18 +8,20 @@ This library supports mingw32-make, make, cmake and xmake to compile this librar
 
 This library also provides shell script [compile.sh](./compile.sh), z shell script [compile.zsh](./compile.zsh) and fish script [compile.fish](./compile.fish) in msys, msys2, cgywin, wsl and linux, batch script [compile.bat](./compile.bat) and powershell script [compile.ps1](./compile.ps1) in mingw to directly compile this library by C compiler without make tools. All the compile scripts provide the same command-line arguments, without any argument or with the arguments of test, clean, distclean and help.
 
-What's more, this library provides perl script [compile.pl](./compile.pl), perl6 script [compile.p6](./compile.p6), ruby script [compile.rb](./compile.rb), python script [compile.py](./compile.py), lua script [compile.lua](./compile.lua) r script [compile.r](./compile.r) and julia script [compile.jl](./compile.jl) to compile this library. Makes and shells are good enough to do some things well, but the script languages can do the same as well, which may be much easier to cross different platforms as well.
+What's more, this library provides perl script [compile.pl](./compile.pl), perl6 script [compile.p6](./compile.p6), ruby script [compile.rb](./compile.rb), python script [compile.py](./compile.py), lua script [compile.lua](./compile.lua) r script [compile.r](./compile.r) and julia script [compile.jl](./compile.jl) to compile this library. Makes and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
 
-Any compiler who supports ANSI C can compile this library well, such as mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc and clang.
+Any compiler who supports ANSI C can compile this library well, such as mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc and clang. If you want to cross compilers, use flag "-pedantic -Wall -std=c89".
 
-| tool | flags | |
+| tool | optional flags 1 | optional flags 2 |
 | :-: | :-: | :-: |
-| mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc | -pedantic -Wall -fpic -std=c89 | -anis -pedantic -pedantic-errors -Wall -fpic |
-| clang |  -pedantic -Wall -std=c89 | |
+| mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc | -pedantic -Wall -fpic -std=c89 | -pedantic -pedantic-errors -Wall -fpic -ansi |
+| clang |  -pedantic -Wall -std=c89 | -pedantic -Wall -ansi |
 
 ## Overview
 
 Do what you want to do, and be what you want to be!
+
+I am used to using process-oriented programming thinking and languages to solve problems, like C, but now I want to use pointer and structural variables in C to realize some features in object-oriented programming, and macro in C to realize the features in generic programming and interface-oriented programming.
 
 ## Data Types
 
@@ -46,9 +48,19 @@ Do what you want to do, and be what you want to be!
 
 ### basic types
 
+All basic data types in this library are the package of C-type data types, which makes it easy to cross 32-bit and 64-bit platforms.
+
 | TYPE | ID | C TYPE |
 | :-: | :-: | :-: |
-|  |  |  |  |
+| cgraph_integer_t | CGRAPH_INTEGER_T | int |
+| cgraph_real_t | CGRAPH_REAL_T | double |
+| cgraph_boolean_t | CGRAPH_BOOLEAN_T | int |
+| cgraph_float_t | CGRAPH_FLOAT_T | float |
+| cgraph_long_t | CGRAPH_LONG_T | long |
+| cgraph_int8_t | CGRAPH_INT8_T | int8 |
+| cgraph_int16_t | CGRAPH_INT16_T | int16 |
+| cgraph_int32_t | CGRAPH_INT32_T | int32 |
+| cgraph_int64_t | CGRAPH_INT64_T | int64 |
 
 
 

@@ -12,7 +12,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
-cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if(NULL != cthis)

@@ -12,6 +12,7 @@ extern "C" {
 #define MATH_CONST_E   (2.71828182845904523536)
 #define MATH_CONST_PHI (0.61803398874989484820)
 
+extern cgraph_integer_t cgraph_math_crc(const cgraph_integer_t predata, const cgraph_integer_t data, const cgraph_integer_t polynomial);
 extern cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_boolean_t *error);
 extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_integer_t data, cgraph_boolean_t *error);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_integer_t data, cgraph_boolean_t *error);
@@ -27,6 +28,10 @@ extern cgraph_size_t cgraph_math_primes(cgraph_integer_t *primes, cgraph_integer
 extern cgraph_integer_t cgraph_random(void);
 extern cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_integer_t max);
 extern cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t sigma);
+
+extern cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t len);
+extern cgraph_integer_t cgraph_math_bin2gray(const cgraph_integer_t data);
+extern cgraph_integer_t cgraph_math_gray2bin(const cgraph_integer_t data);
 
 #ifdef __cplusplus
 }

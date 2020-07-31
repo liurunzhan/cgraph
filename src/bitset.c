@@ -33,7 +33,7 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis)
+cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
   cgraph_boolean_t flag = CGRAPH_FALSE;
   TYPE *object = (TYPE *)cthis;

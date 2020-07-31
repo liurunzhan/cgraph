@@ -23,7 +23,6 @@ typedef struct
 
 /*                                public apis                                 */
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
-extern cgraph_boolean_t FUNCTION(NAME, test)(const void *cthis);
 extern cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y);
 
 /*                               private apis                                 */

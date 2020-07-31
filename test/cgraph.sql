@@ -10,3 +10,5 @@ create table elements (
   xs float,
   xy float
 );
+
+load data infile "./elements.csv" into table elements fields termianted by "," lines terminated by "\r\n";

@@ -89,13 +89,73 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 void *FUNCTION(NAME, add)(const void *x, const void *y)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
-  cgraph_size_t i, len = CGRAPH_MIN(object_x->len, object_y->len);
-  TYPE *res = FUNCTION(NAME, calloc)(object_x->type, len);
-  if(NULL != res)
+  TYPE *res = NULL;
+  if(object_x->type == object_y->type)
   {
-    for(i=0; i<res->len; i++)
+    cgraph_size_t i, len = CGRAPH_MIN(object_x->len, object_y->len);
+    if(NULL != (res = FUNCTION(NAME, calloc)(object_x->type, len)))
     {
-      
+      for(i=0; i<res->len; i++)
+      {
+        
+      }
+    }
+  }
+
+  return res;
+}
+
+void *FUNCTION(NAME, sub)(const void *x, const void *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *res = NULL;
+  if(object_x->type == object_y->type)
+  {
+    cgraph_size_t i, len = CGRAPH_MIN(object_x->len, object_y->len);
+    if(NULL != (res = FUNCTION(NAME, calloc)(object_x->type, len)))
+    {
+      for(i=0; i<res->len; i++)
+      {
+        
+      }
+    }
+  }
+
+  return res;
+}
+
+void *FUNCTION(NAME, mul)(const void *x, const void *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *res = NULL;
+  if(object_x->type == object_y->type)
+  {
+    cgraph_size_t i, len = CGRAPH_MIN(object_x->len, object_y->len);
+    if(NULL != (res = FUNCTION(NAME, calloc)(object_x->type, len)))
+    {
+      for(i=0; i<res->len; i++)
+      {
+        
+      }
+    }
+  }
+
+  return res;
+}
+
+void *FUNCTION(NAME, div)(const void *x, const void *y)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *res = NULL;
+  if(object_x->type == object_y->type)
+  {
+    cgraph_size_t i, len = CGRAPH_MIN(object_x->len, object_y->len);
+    if(NULL != (res = FUNCTION(NAME, calloc)(object_x->type, len)))
+    {
+      for(i=0; i<res->len; i++)
+      {
+        
+      }
     }
   }
 
