@@ -12,7 +12,7 @@ typedef struct
   cgraph_type_t type;
   cgraph_boolean_t with_hash;
   cgraph_size_t row, column, len, size;
-  void **data;
+  void *data;
 }cgraph_bigmat_t;
 
 #define TYPE_BIGMAT

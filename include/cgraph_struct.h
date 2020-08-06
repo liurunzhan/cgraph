@@ -12,6 +12,7 @@ extern "C" {
 #include "cgraph_dict.h"
 #include "cgraph_list.h"
 #include "cgraph_tree.h"
+#include "cgraph_graph.h"
 
 #ifdef __cplusplus
 }
