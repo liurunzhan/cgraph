@@ -12,8 +12,7 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_size_t size, len;
-  DATA_TYPE *root, *data;
+  CGRAPH_DATA_BASE
 }cgraph_string_t;
 
 #include "data_templete.h"

@@ -2,6 +2,7 @@ extern CGVTable STRUCT(NAME);
 
 extern cgraph_type_t FUNCTION(NAME, type)(void);
 extern cgraph_size_t FUNCTION(NAME, size)(void);
+extern cgraph_size_t FUNCTION(NAME, psize)(void);
 extern cgraph_size_t FUNCTION(NAME, msize)(void);
 extern cgraph_size_t FUNCTION(NAME, dsize)(void);
 extern cgraph_char_t *FUNCTION(NAME, name)(void);
@@ -30,4 +31,4 @@ extern void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, c
 extern void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
 extern cgraph_size_t FUNCTION(NAME, cnts)(const void *x, const void *y, const cgraph_size_t len);
 
-extern cgraph_boolean_t FUNCTION(NAME, test)(void);
+extern void FUNCTION(NAME, test)(void);

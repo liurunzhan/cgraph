@@ -1,33 +1,33 @@
-#ifdef COMBINE1x
-#undef COMBINE1x
+#ifdef CONCAT1V
+#undef CONCAT1V
 #endif
 
-#ifdef COMBINE1
-#undef COMBINE1
+#ifdef CONCAT1
+#undef CONCAT1
 #endif
 
-#ifdef COMBINE2x
-#undef COMBINE2x
+#ifdef CONCAT2V
+#undef CONCAT2V
 #endif
 
-#ifdef COMBINE2
-#undef COMBINE2
+#ifdef CONCAT2
+#undef CONCAT2
 #endif
 
-#ifdef COMBINE3x
-#undef COMBINE3x
+#ifdef CONCAT3V
+#undef CONCAT3V
 #endif
 
-#ifdef COMBINE3
-#undef COMBINE3
+#ifdef CONCAT3
+#undef CONCAT3
 #endif
 
-#ifdef COMBINE4x
-#undef COMBINE4x
+#ifdef CONCAT4V
+#undef CONCAT4V
 #endif
 
-#ifdef COMBINE4
-#undef COMBINE4
+#ifdef CONCAT4
+#undef CONCAT4
 #endif
 
 #ifdef STRING
@@ -256,6 +256,15 @@
 
 #ifdef DATA_TEST
 #undef DATA_TEST
+#endif
+
+/* DATA AND STRUCTURE INIT */
+#ifdef CGRAPH_DATA_BASE
+#undef CGRAPH_DATA_BASE
+#endif
+
+#ifdef CGRAPH_STRUCTURE_BASE
+#undef CGRAPH_STRUCTURE_BASE
 #endif
 
 #ifdef ADD

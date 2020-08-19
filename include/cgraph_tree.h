@@ -7,6 +7,9 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define TYPE_TREE
+#include "templete.h"
+
 typedef struct 
 {
   cgraph_boolean_t visited;

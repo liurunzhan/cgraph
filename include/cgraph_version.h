@@ -9,8 +9,12 @@ extern "C" {
 
 #define CGRAPH_VERSION "0.0.0"
 
-void cgraph_version(cgraph_char_t **version, cgraph_integer_t *major, cgraph_integer_t *minor, cgraph_integer_t *subminor);
-void cgraph_version_print(void);
+extern void cgraph_version(const cgraph_char_t **version, cgraph_integer_t *major, cgraph_integer_t *minor, cgraph_integer_t *subminor);
+extern void cgraph_version_print(void);
+extern void cgraph_version_fprintf(void *fp);
+
+/* test function in DEBUG mode and do not use in RELEASE mode */
+extern void cgraph_version_test(void);
 
 #ifdef __cplusplus
 }

@@ -137,8 +137,8 @@ typedef signed long long cgraph_int64_t;
 
 #endif /* __STDC__ */
 
-#define CGRAPH_TRUE ((cgraph_boolean_t)1)
-#define CGRAPH_FALSE ((cgraph_boolean_t)0)
+#define CGRAPH_TRUE (1)
+#define CGRAPH_FALSE (0)
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
@@ -149,6 +149,7 @@ typedef signed long long cgraph_int64_t;
   if type is greater than CGRAPH_NODE_T, this object is a data object;
   otherwise, this object is a data structural object.
 */
+  
 typedef enum {
   /* data objects */
   CGRAPH_OBJECT_T   =  0,
@@ -183,6 +184,7 @@ typedef struct
 /*private:*/
   cgraph_integer_t __type__;
   cgraph_size_t __size__;
+  cgraph_size_t __psize__;
   cgraph_size_t __msize__;
   cgraph_size_t __dsize__;
   cgraph_char_t *__name__;
@@ -190,6 +192,7 @@ typedef struct
 /*public:*/
   cgraph_type_t (*type)(void);
   cgraph_size_t (*size)(void);
+  cgraph_size_t (*psize)(void);
   cgraph_size_t (*msize)(void);
   cgraph_size_t (*dsize)(void);
   cgraph_char_t *(*name)(void);

@@ -243,4 +243,13 @@ cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
+void FUNCTION(NAME, test)(void)
+{
+#ifdef DEBUG
+  TYPE *string = FUNCTION(NAME, calloc)(ID, 10000);
+
+  FUNCTION(NAME, free)(string);
+#endif
+}
+
 #include "templete_off.h"

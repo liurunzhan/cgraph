@@ -78,4 +78,11 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
+void FUNCTION(TYPE, test)(void)
+{
+#ifdef DEBUG
+
+#endif
+}
+
 #include "templete_off.h"

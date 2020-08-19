@@ -12,8 +12,8 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_size_t size, len, point;
-  DATA_TYPE *root, *data;
+  CGRAPH_DATA_BASE
+  cgraph_size_t point;
 }cgraph_bignum_t;
 
 

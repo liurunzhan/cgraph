@@ -14,9 +14,8 @@ extern "C" {
 
 typedef struct 
 {
+  CGRAPH_DATA_BASE
   cgraph_boolean_t pos;
-  cgraph_size_t size, len;
-  DATA_TYPE *root, *data;
 }cgraph_bigint_t;
 
 #include "data_templete.h"

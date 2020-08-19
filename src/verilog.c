@@ -144,3 +144,13 @@ void cgraph_verilog_edgedet(FILE *fp)
     fprintf(fp, "endmodule\n");
   }
 }
+
+void cgraph_verilog_test(void)
+{
+#ifdef DEBUG
+  cgraph_verilog_clkgen(stdout, 2);
+  cgraph_verilog_sync(stdout, 2);
+  cgraph_verilog_simple(stdout, 2);
+  cgraph_verilog_edgedet(stdout);
+#endif
+}

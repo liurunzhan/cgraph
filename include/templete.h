@@ -1,15 +1,15 @@
-#define COMBINE1x(a) # a
-#define COMBINE1(a) COMBINE1x(a)
-#define COMBINE2x(a,b) a ## _ ## b 
-#define COMBINE2(a,b) COMBINE2x(a,b)
-#define COMBINE3x(a,b,c) a ## _ ## b ## _ ## c
-#define COMBINE3(a,b,c) COMBINE3x(a,b,c)
-#define COMBINE4x(a,b,c,d) a ## _ ## b ## _ ## c ## _ ## d
-#define COMBINE4(a,b,c,d) COMBINE4x(a,b,c,d)
+#define CONCAT1V(a) # a
+#define CONCAT1(a) CONCAT1V(a)
+#define CONCAT2V(a,b) a ## _ ## b 
+#define CONCAT2(a,b) CONCAT2V(a,b)
+#define CONCAT3V(a,b,c) a ## _ ## b ## _ ## c
+#define CONCAT3(a,b,c) CONCAT3V(a,b,c)
+#define CONCAT4V(a,b,c,d) a ## _ ## b ## _ ## c ## _ ## d
+#define CONCAT4(a,b,c,d) CONCAT4V(a,b,c,d)
 
-#define STRING(a) COMBINE1(a)
-#define FUNCTION(a, b) COMBINE3(cgraph, a, b)
-#define STRUCT(a) COMBINE3(_cgraph, a, struct_)
+#define STRING(a) CONCAT1(a)
+#define FUNCTION(a, b) CONCAT3(cgraph, a, b)
+#define STRUCT(a) CONCAT3(_cgraph, a, struct_)
 
 /*
 DATA AND STRUCTURE TYPE TEMPLETE : 
@@ -342,46 +342,61 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_VECTOR_T
 #define NAME vector
 #define ZERO NULL
+#define DATA_TYPE void
 
 #elif defined(TYPE_MATRIX)
 #define TYPE cgraph_matrix_t
 #define ID CGRAPH_MATRIX_T
 #define NAME matrix
 #define ZERO NULL
+#define DATA_TYPE void
 
 #elif defined(TYPE_BIGMAT)
 #define TYPE cgraph_bigmat_t
 #define ID CGRAPH_BIGMAT_T
 #define NAME bigmat
 #define ZERO NULL
+#define DATA_TYPE void
 
 #elif defined(TYPE_DFRAME)
 #define TYPE cgraph_dframe_t
 #define ID CGRAPH_DFRAME_T
 #define NAME dframe
 #define ZERO NULL
+#define DATA_TYPE void
 
 #elif defined(TYPE_DICT)
 #define TYPE cgraph_dict_t
 #define ID CGRAPH_DICT_T
 #define NAME dict
 #define ZERO NULL
+#define DATA_TYPE void
 
 #elif defined(TYPE_LIST)
 #define TYPE cgraph_list_t
 #define ID CGRAPH_LIST_T
 #define NAME list
 #define ZERO NULL
+#define DATA_TYPE void
 
 #elif defined(TYPE_TREE)
 #define TYPE cgraph_tree_t
 #define ID CGRAPH_TREE_T
 #define NAME tree
 #define ZERO NULL
+#define DATA_TYPE void
 
 #else
 #error !!! UNSUPPORTED DATA TYPE !!!
 #endif
+
+#define CGRAPH_DATA_BASE \
+  cgraph_size_t size, len; \
+	DATA_TYPE *root, *data;
+
+#define CGRAPH_STRUCTURE_BASE \
+  CGRAPH_DATA_BASE \
+	cgraph_type_t type;
 
 #if defined(TYPE_OBJECT)
 

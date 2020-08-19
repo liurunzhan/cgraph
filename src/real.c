@@ -8,4 +8,11 @@
 
 #include "float.templete"
 
+void FUNCTION(TYPE, test)(void)
+{
+#ifdef DEBUG
+
+#endif
+}
+
 #include "templete_off.h"

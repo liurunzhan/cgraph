@@ -7,6 +7,9 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define TYPE_OBJECT
+#include "templete.h"
+
 typedef struct 
 {
   cgraph_type_t type;

@@ -219,4 +219,11 @@ TYPE FUNCTION(NAME, divt)(const TYPE x, const TYPE y)
   return res;
 }
 
+void FUNCTION(NAME, test)(void)
+{
+#ifdef DEBUG
+
+#endif
+}
+
 #include "templete_off.h"

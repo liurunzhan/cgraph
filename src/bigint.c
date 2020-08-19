@@ -363,4 +363,11 @@ TYPE *FUNCTION(NAME, format)(TYPE *cthis)
   return cthis;
 }
 
+void FUNCTION(TYPE, test)(void)
+{
+#ifdef DEBUG
+
+#endif
+}
+
 #include "templete_off.h"

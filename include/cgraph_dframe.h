@@ -7,13 +7,15 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define TYPE_DFRAME
+#include "templete.h"
+
 typedef struct 
 {
-  cgraph_size_t row, column, size, len;
-  cgraph_type_t type;
+  CGRAPH_STRUCTURE_BASE
+  cgraph_size_t row, column;
   cgraph_boolean_t with_hash;
   cgraph_boolean_t *visited;
-  void **data;
 }cgraph_dframe_t;
 
 #define TYPE_DFRAME

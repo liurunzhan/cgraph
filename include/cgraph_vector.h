@@ -7,12 +7,12 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define TYPE_VECTOR
+#include "templete.h"
+
 typedef struct 
 {
-  cgraph_type_t type;
-  cgraph_boolean_t with_hash;
-  cgraph_size_t len, size;
-  void *root, *data;
+  CGRAPH_STRUCTURE_BASE
 }cgraph_vector_t;
 
 #define TYPE_VECTOR

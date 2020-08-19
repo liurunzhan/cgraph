@@ -12,8 +12,7 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_size_t size, len;
-  DATA_TYPE *root, *data;
+  CGRAPH_DATA_BASE
 }cgraph_bitset_t;
 
 #define BITSET_GET_BIT(cthis, pos) (((cthis->data[pos / DATA_BITS]) >> (pos % DATA_BITS)) ^ 1)

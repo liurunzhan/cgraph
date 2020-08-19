@@ -7,12 +7,13 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define TYPE_MATRIX
+#include "templete.h"
 typedef struct 
 {
-  cgraph_type_t type;
+  CGRAPH_STRUCTURE_BASE
   cgraph_boolean_t with_hash;
-  cgraph_size_t row, column, size, len;
-  void *root, *data;
+  cgraph_size_t row, column;
 }cgraph_matrix_t;
 
 #define TYPE_MATRIX

@@ -203,4 +203,11 @@ cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_integer_t data)
   return primes;
 }
 
+void FUNCTION(NAME, test)(void)
+{
+#ifdef DEBUG
+
+#endif
+}
+
 #include "templete_off.h"
