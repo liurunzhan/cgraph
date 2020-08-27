@@ -12,10 +12,10 @@ extern "C" {
 
 typedef struct 
 {
-  CGRAPH_STRUCTURE_BASE
   cgraph_size_t row, column;
   cgraph_boolean_t with_hash;
   cgraph_boolean_t *visited;
+  CGRAPH_STRUCTURE_BASE
 }cgraph_dframe_t;
 
 #define TYPE_DFRAME

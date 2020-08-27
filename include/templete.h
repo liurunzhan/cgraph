@@ -390,13 +390,20 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #error !!! UNSUPPORTED DATA TYPE !!!
 #endif
 
+#if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
 #define CGRAPH_DATA_BASE \
   cgraph_size_t size, len; \
-	DATA_TYPE *root, *data;
+	DATA_TYPE *data, root[];
+#else
+#define CGRAPH_DATA_BASE \
+  cgraph_size_t size, len; \
+	DATA_TYPE *data, *root;
+#endif
 
 #define CGRAPH_STRUCTURE_BASE \
-  CGRAPH_DATA_BASE \
-	cgraph_type_t type;
+	cgraph_type_t type; \
+  cgraph_size_t size, len; \
+	DATA_TYPE *data, *root;
 
 #if defined(TYPE_OBJECT)
 

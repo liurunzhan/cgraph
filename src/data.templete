@@ -81,12 +81,26 @@ cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
 #ifdef DATA_WITH_POINTER
-  TYPE *cthis =  (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
-  if(NULL != cthis)
+  TYPE *cthis =  NULL;
+  if(CGRAPH_OBJECT_T == type)
   {
-    if(type == CGRAPH_OBJECT_T)
+    cthis = (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
+    if(NULL != cthis)
     { cthis->size = size; }
-    else
+  }
+  else
+  {
+  #if defined(__STDC__) && __STDC__ >= 199901L
+    cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, size)() + (size+2)*FUNCTION(NAME, dsize)(), 1);
+    if(NULL != cthis)
+    {
+      cthis->size = size;
+      cthis->len = size;
+      cthis->data = &(cthis->root[1]);
+    }
+  #else
+    cthis = (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
+    if(NULL != cthis)
     {
       DATA_TYPE *root = (DATA_TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, dsize)());
       if(NULL != root)
@@ -99,9 +113,10 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
       else 
       { cgraph_free(cthis); }
     }
+  #endif
   }
 #else
-  TYPE *cthis = (TYPE *)cgraph_calloc(size+1, FUNCTION(NAME, size)());
+  TYPE *cthis = (TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, size)());
 #endif
 
   return cthis;
@@ -113,9 +128,15 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   {
+  #if defined(__STDC__) && (__STDC__ >= 199901L)
+    object = (TYPE *)cgraph_realloc(object, FUNCTION(NAME, size)() + (object->size+2)*FUNCTION(NAME, dsize)(), FUNCTION(NAME, size)() + (new_size+2)*FUNCTION(NAME, dsize)(), 1, error);
+    if(CGRAPH_FALSE == *error)
+    { object->size = new_size; }
+  #else
     object->root = (DATA_TYPE *)cgraph_realloc(object->root, object->size, new_size, FUNCTION(NAME, dsize)(), error);
     if(CGRAPH_FALSE == *error)
     { object->size = new_size; }
+  #endif
   }
 #else
   TYPE *object = (TYPE *)cgraph_realloc(cthis, old_size, new_size, FUNCTION(NAME, size)(), error);
@@ -143,9 +164,11 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 void FUNCTION(NAME, free)(void *cthis)
 {
 #ifdef DATA_WITH_POINTER
+#if !defined(__STDC__) || (__STDC__ < 199901L)
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   { cgraph_free(object->root); }
+#endif
 #endif
   cgraph_free(cthis);
 }

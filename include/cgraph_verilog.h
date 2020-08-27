@@ -11,8 +11,12 @@ extern "C" {
 
 extern void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len);
 extern void cgraph_verilog_sync(FILE *fp, const cgraph_size_t len);
+extern void cgraph_verilog_filter(FILE *fp, const cgraph_size_t len);
 extern void cgraph_verilog_simple(FILE *fp, const cgraph_size_t len);
 extern void cgraph_verilog_edgedet(FILE *fp);
+extern void cgraph_verilog_fifo(FILE *fp, const cgraph_size_t vlen, const cgraph_size_t len);
+extern void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len);
+extern void cgraph_verilog_crc(FILE *fp, const cgraph_size_t len);
 
 /* test function in DEBUG mode and do not use in RELEASE mode */
 extern void cgraph_verilog_test(void);
