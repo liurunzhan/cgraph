@@ -45,6 +45,19 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
+void *FUNCTION(NAME, ints)(const void *x, const void *y, void *z, const cgraph_size_t len)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  cgraph_int64_t *object_z = (cgraph_int64_t *)z;
+  if(NULL != object_x && NULL != object_y && NULL != object_z)
+  {
+    cgraph_size_t i;
+    for(i=0; i<len; i++)
+    { object_z[i] = INT(object_x[i], object_y[i]); }
+  }
+  return object_z;
+}
+
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)
 {
   va_list args;

@@ -29,6 +29,7 @@ extern void *FUNCTION(NAME, adds)(const void *x, const void *y, const void *z, c
 extern void *FUNCTION(NAME, subs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
 extern void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, const cgraph_size_t len);
 extern void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_size_t len);
 extern cgraph_size_t FUNCTION(NAME, cnts)(const void *x, const void *y, const cgraph_size_t len);
 
 extern void FUNCTION(NAME, test)(void);

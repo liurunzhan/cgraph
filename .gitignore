@@ -64,3 +64,8 @@ lib/
 # Autoconf Files
 autom4te.cache/
 configure*
+
+# Doc/Markdown Files
+doc/*.dot
+doc/*.png
+doc/*.pdf

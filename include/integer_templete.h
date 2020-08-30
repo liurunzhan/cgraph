@@ -1,3 +1,6 @@
+
+extern void *FUNCTION(NAME, divrs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+
 extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...);
 
 extern TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y);

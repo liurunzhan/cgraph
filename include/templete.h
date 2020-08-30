@@ -441,7 +441,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
 
-#define EXCHNAGE(a, b) do{TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;} while(0)
+#define EXCHNAGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;} while(0)
 
 #elif defined(TYPE_INTEGER) || defined(TYPE_LONG) \
 	|| defined(TYPE_INT8) || defined(TYPE_INT16) || defined(TYPE_INT32) \
@@ -479,7 +479,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
 
-#define EXCHANGE(a, b) do{TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;} while(0)
+#define EXCHANGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;} while(0)
 
 #elif defined(TYPE_REAL) || defined(TYPE_FLOAT)
 #define DATA_TEST(a) (((a) == (a)) && (DATA_MIN < (a)) && (DATA_MAX > (a)))
@@ -488,7 +488,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define SUB(a, b) ((a) - (b))
 #define MUL(a, b) ((a) * (b))
 #define DIV(a, b) ((a) / (b))
-#define INT(a, b) (floor((a), (b)))
+#define INT(a, b) (floor(DIV((a), (b))))
 #define MOD(a, b) (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
@@ -515,7 +515,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
 
-#define EXCHANGE(a, b) do{TYPE tmp; tmp = (a); (a) = (b); (b) = tmp;}while(0)
+#define EXCHANGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;}while(0)
 
 #elif defined(TYPE_TIME)
 

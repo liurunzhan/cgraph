@@ -15,7 +15,5 @@ foreach my $file (@files)
 {
   my $path = File::Spec->catfile($include, $file);
   if((-f $path) && ($file !~ /^\./))
-  {
-    print($path);
-  }
+  {  print($path); }
 }

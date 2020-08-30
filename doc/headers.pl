@@ -7,6 +7,9 @@ use File::Spec;
 my $root = "..";
 my $include = File::Spec->catfile($root, "include");
 
+my $base = "headers";
+my $file = "$base.dot";
+
 opendir (my $din, $include) or die "$include cannot be read!";
 my @files = readdir($din);
 closedir($din);
@@ -19,7 +22,7 @@ foreach my $file (@files)
   if((-f $path) && ($file !~ /^\./))
   {
     if(!exists($headers{$file}))
-    { $headers{$file} = ""; }
+    { $headers{$file} = (); }
     open my $fin, "<", $path or die "$path cannot be read";
     while(<$fin>)
     {
@@ -27,12 +30,21 @@ foreach my $file (@files)
       $_ =~ s/\r$//g;
       $_ =~ s/^(\s+)//g;
       if($_ =~ /^#include(\s+)"(\S+)"/)
-      { $headers{$file} = $headers{$file} . "$2,"; }
+      {  push(@{$headers{$file}}, "$2"); }
       elsif($_ =~ /^#include(\s+)\<(\S+)\>/)
-      { $headers{$file} = $headers{$file} . "$2,"; }
+      {  push(@{$headers{$file}}, "$2"); }
     }
     close($fin);
-    $headers{$file} =~ s/,$//g;
-    print("$file,$headers{$file}\n");
   }
 }
+
+open my $fout, ">", $file or die "$file is written wrong!";
+print $fout "digraph ", ucfirst($base), " {\n";
+foreach my $file (sort{$a cmp $b} keys %headers)
+{
+  my $value = $headers{$file};
+  for(my $i=0; $i<$#{$value}; $i++)
+  { print $fout "\"$file\" -> \"$$value[$i]\"\n"; }
+}
+print $fout "}\n";
+close($fout);

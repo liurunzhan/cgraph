@@ -136,3 +136,8 @@ typedef struct
 | cgraph_dframe_t | CGRAPH_DFRAME_T | dframe | TYPE_DFRAME |  |
 | cgraph_graph_t | CGRAPH_GRAPH_T | graph | TYPE_GRAPH |  |
 
+## Header Independence
+
+![avatar](./headers.png)
+
+![avatar](./sources.png)

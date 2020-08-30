@@ -90,7 +90,7 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   }
   else
   {
-  #if defined(__STDC__) && __STDC__ >= 199901L
+  #if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
     cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, size)() + (size+2)*FUNCTION(NAME, dsize)(), 1);
     if(NULL != cthis)
     {
@@ -128,7 +128,7 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   {
-  #if defined(__STDC__) && (__STDC__ >= 199901L)
+  #if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
     object = (TYPE *)cgraph_realloc(object, FUNCTION(NAME, size)() + (object->size+2)*FUNCTION(NAME, dsize)(), FUNCTION(NAME, size)() + (new_size+2)*FUNCTION(NAME, dsize)(), 1, error);
     if(CGRAPH_FALSE == *error)
     { object->size = new_size; }
@@ -164,7 +164,7 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 void FUNCTION(NAME, free)(void *cthis)
 {
 #ifdef DATA_WITH_POINTER
-#if !defined(__STDC__) || (__STDC__ < 199901L)
+#if !defined(__STDC__) || (__STDC_VERSION__ < 199901L)
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   { cgraph_free(object->root); }
@@ -314,6 +314,30 @@ void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cg
     { object_z[i] = DIV(object_x[i], object_y[i]); }
   }
   return object_z;
+}
+
+cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_size_t len)
+{
+#ifndef DATA_WITH_POINTER
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+#else
+  TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y;
+#endif
+  cgraph_boolean_t res = CGRAPH_TRUE;
+  if(NULL != object_x && NULL != object_y)
+  {
+    cgraph_size_t i;
+    for(i=0; i<len; i++)
+    {
+      if(CGRAPH_FALSE == EQ(object_x[i], object_y[i]) )
+      { 
+        res = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return res;
 }
 
 cgraph_size_t FUNCTION(NAME, cnts)(const void *x, const void *y, const cgraph_size_t len)
