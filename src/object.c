@@ -94,18 +94,19 @@ cgraph_boolean_t FUNCTION(NAME, hasdata)(void)
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
-  TYPE *cthis = NULL;
-  cthis = (TYPE *)cgraph_calloc(size, sizeof(TYPE));
+  TYPE *cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
   if((CGRAPH_OBJECT_T != type) && (NULL != cthis))
   {
     if(type < CGRAPH_VECTOR_T)
-    { cthis->data = CGRAPH_OBJECT(type, calloc)(type, 1); }
+    { cthis->data = CGRAPH_OBJECT(type, calloc)(type, size); }
     else
     { cthis->data = CGRAPH_OBJECT(type, calloc)(CGRAPH_OBJECT_T, size); }
     if(NULL != cthis->data)
     {
       cthis->type = type;
+      #ifdef DEBUG
       fprintf(stdout, "CALLOC OBJECT TYPE : %d\n", type);
+      #endif
     }
     else
     { cgraph_free(cthis); }

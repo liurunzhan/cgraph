@@ -69,3 +69,5 @@ configure*
 doc/*.dot
 doc/*.png
 doc/*.pdf
+
+# compile scripts

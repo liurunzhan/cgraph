@@ -97,22 +97,22 @@ TYPE *FUNCTION(NAME, format)(TYPE *cthis)
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
 {
-
+  return NULL;
 }
 
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
 {
-  
+  return NULL;
 }
 
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
 {
-  
+  return NULL;
 }
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
 {
-  
+  return NULL;
 }
 
 cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)

@@ -10,12 +10,14 @@ This library also provides shell script [compile.sh](./compile.sh), z shell scri
 
 What's more, this library provides perl script [compile.pl](./compile.pl), perl6 script [compile.p6](./compile.p6), ruby script [compile.rb](./compile.rb), python script [compile.py](./compile.py), lua script [compile.lua](./compile.lua) r script [compile.r](./compile.r) and julia script [compile.jl](./compile.jl) to compile this library. Makes and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
 
-Any compiler who supports C89/ANSI C can compile this library well, such as mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc and clang. Their flags are lised as bellow. If you want to cross compilers, use flag "-pedantic -Wall -std=c89" or "-pedantic -Wall -ansi" instead.
+In addtion, this library provides some other language scripts based on jvm, such as java script [compile.java](./compile.java) in openjdk11, scala script [compile.scala](./compile.scala), kotlin script [compile.kts](./compile.kts), clojure script [compile.clj](./compile.clj) and groovy script [compile.groovy](./compile.groovy).
+
+Any compiler who supports STANDARD C89/ANSI C/C99/C11 can compile this library well, such as mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc and clang. Their flags are lised as bellow. If you want to cross compilers, use flag "-pedantic -Wall -std=c89/c99/c11" or "-pedantic -Wall -ansi" instead.
 
 | tool | optional flags 1 | optional flags 2 |
 | :-: | :-: | :-: |
 | mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc | -pedantic -Wall -fpic -std=c89/c99 | -pedantic -pedantic-errors -Wall -fpic -ansi |
-| clang |  -pedantic -Wall -std=c89/c99 | -pedantic -Wall -ansi |
+| clang |  -pedantic -Wall -std=c89/c99/C11 | -pedantic -Wall -ansi |
 
 ## Overview
 

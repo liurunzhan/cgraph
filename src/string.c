@@ -128,6 +128,16 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
   
 }
 
+TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
+{
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, format)(TYPE *cthis)
+{
+  return cthis;
+}
+
 cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
 {
   cgraph_boolean_t flag = CGRAPH_FALSE;

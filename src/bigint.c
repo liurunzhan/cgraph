@@ -97,7 +97,7 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
   cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)
@@ -116,7 +116,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
 
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
   cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)
@@ -135,7 +135,7 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
 
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
   cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)

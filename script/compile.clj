@@ -1,11 +1,13 @@
 #!/usr/bin/env lein-exec
 
+(import '(java.io File))
+
 (def PRO "cgraph")
 (def DIR ".")
-(def INC (str DIR "/" "include"))
-(def SRC (str DIR "/" "src"))
-(def TST (str DIR "/" "test"))
-(def LIB (str DIR "/" "lib"))
+(def INC (str DIR File/separator "include"))
+(def SRC (str DIR File/separator "src"))
+(def TST (str DIR File/separator "test"))
+(def LIB (str DIR File/separator "lib"))
 
 (def CC "cc")
 (def CFLAGS "-pedantic -Wall -fpic -std=c89")
@@ -16,3 +18,4 @@
 
 (def AR "ar")
 (def ARFLAGS "-rcs")
+

@@ -2,6 +2,7 @@
 exec scala "$0" "$@"
 !#
 
+import scala.reflect.io.File
 import scala.reflect.io.Directory
 
 object Compile {
@@ -11,10 +12,10 @@ object Compile {
 
     // directory tree
     val DIR : String = "."
-    val INC : String = "$DIR/include"
-    val SRC : String = "$DIR/src"
-    val TST : String = "$DIR/test"
-    val LIB : String = "$DIR/lib"
+    val INC : String = DIR + File.separator + "include"
+    val SRC : String = DIR + File.separator + "src"
+    val TST : String = DIR + File.separator + "test"
+    val LIB : String = DIR + File.separator + "lib"
 
     val CC : String = "cc"
     var CFLAGS : String = "-pedantic -Wall -fpic -std=c89"

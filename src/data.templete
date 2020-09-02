@@ -81,40 +81,30 @@ cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
 #ifdef DATA_WITH_POINTER
-  TYPE *cthis =  NULL;
-  if(CGRAPH_OBJECT_T == type)
+#if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
+  TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, size)() + (size+2)*FUNCTION(NAME, dsize)(), 1);
+  if(NULL != cthis)
   {
-    cthis = (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
-    if(NULL != cthis)
-    { cthis->size = size; }
+    cthis->size = size;
+    cthis->len = size;
+    cthis->data = &(cthis->root[1]);
   }
-  else
+#else
+  TYPE *cthis = (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
+  if(NULL != cthis)
   {
-  #if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
-    cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, size)() + (size+2)*FUNCTION(NAME, dsize)(), 1);
-    if(NULL != cthis)
+    DATA_TYPE *root = (DATA_TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, dsize)());
+    if(NULL != root)
     {
       cthis->size = size;
       cthis->len = size;
-      cthis->data = &(cthis->root[1]);
+      cthis->root = root;
+      cthis->data = ++root;
     }
-  #else
-    cthis = (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
-    if(NULL != cthis)
-    {
-      DATA_TYPE *root = (DATA_TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, dsize)());
-      if(NULL != root)
-      {
-        cthis->size = size;
-        cthis->len = size;
-        cthis->root = root;
-        cthis->data = ++root;
-      }
-      else 
-      { cgraph_free(cthis); }
-    }
-  #endif
+    else 
+    { cgraph_free(cthis); }
   }
+#endif
 #else
   TYPE *cthis = (TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, size)());
 #endif
@@ -207,10 +197,10 @@ void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgrap
 #ifdef DATA_WITH_POINTER
   TYPE **object = (TYPE **)cthis;
   TYPE *key = object[left];
-
 #else
   TYPE *object = (TYPE *)cthis;
   TYPE key = object[left];
+#endif
   while(left < right)
   {
     while((left < right) && (GE(object[right], key)))
@@ -221,19 +211,20 @@ void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgrap
     object[right] = object[left];
   }
   object[left] = key;
-#endif
   FUNCTION(NAME, ascsort)(object, start, left-1);
   FUNCTION(NAME, ascsort)(object, left+1, end);
 }
 
 void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)
 {
-  TYPE *object = (TYPE *)cthis;
   cgraph_size_t left = start, right = end;
-  TYPE key = object[left];
 #ifdef DATA_WITH_POINTER
-
+  TYPE **object = (TYPE **)cthis;
+  TYPE *key = object[left];
 #else
+  TYPE *object = (TYPE *)cthis;
+  TYPE key = object[left];
+#endif
   while(left < right)
   {
     while((left < right) && (LE(object[right], key)))
@@ -244,17 +235,16 @@ void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgra
     object[right] = object[left];
   }
   object[left] = key;
-#endif
   FUNCTION(NAME, descsort)(object, start, left-1);
   FUNCTION(NAME, descsort)(object, left+1, end);
 }
 
 void *FUNCTION(NAME, adds)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
-#ifndef DATA_WITH_POINTER
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
-#else
+#ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
   if(NULL != object_x && NULL != object_y && NULL != object_z)
   {
@@ -268,10 +258,10 @@ void *FUNCTION(NAME, adds)(const void *x, const void *y, const void *z, const cg
 
 void *FUNCTION(NAME, subs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
-#ifndef DATA_WITH_POINTER
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
-#else
+#ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
   if(NULL != object_x && NULL != object_y && NULL != object_z)
   {
@@ -285,10 +275,10 @@ void *FUNCTION(NAME, subs)(const void *x, const void *y, const void *z, const cg
 
 void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
-#ifndef DATA_WITH_POINTER
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
-#else
+#ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
   if(NULL != object_x && NULL != object_y && NULL != object_z)
   {
@@ -302,10 +292,10 @@ void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, const cg
 
 void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
-#ifndef DATA_WITH_POINTER
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
-#else
+#ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
   if(NULL != object_x && NULL != object_y && NULL != object_z)
   {
@@ -318,10 +308,10 @@ void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cg
 
 cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_size_t len)
 {
-#ifndef DATA_WITH_POINTER
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
-#else
+#ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y;
+#else
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
 #endif
   cgraph_boolean_t res = CGRAPH_TRUE;
   if(NULL != object_x && NULL != object_y)
@@ -342,31 +332,25 @@ cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_
 
 cgraph_size_t FUNCTION(NAME, cnts)(const void *x, const void *y, const cgraph_size_t len)
 {
-  cgraph_size_t cnt = 0;
-#ifndef DATA_WITH_POINTER
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
-  if(NULL != object_x && NULL != object_y)
-  {
-    cgraph_size_t i;
-    TYPE tmp = *object_y;
-    for(i=0; i<len; i++)
-    {
-      if(EQ(object_x[i], tmp))
-      { cnt += 1; }
-    }
-  }
-#else
+#ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y;
+#else
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+#endif
+  cgraph_size_t cnt = 0;
   if(NULL == object_x && NULL == object_y)
   {
     cgraph_size_t i;
     for(i=0; i<len; i++)
     {
+    #ifdef DATA_WITH_POINTER
       if(EQ(object_x[i], object_y))
+    #else
+      if(EQ(object_x[i], *object_y))
+    #endif
       { cnt += 1; }
     }
   }
-#endif
 
   return cnt;
 }
