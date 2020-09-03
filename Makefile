@@ -1,103 +1,91 @@
-ROOT=.
-SCR=$(ROOT)/script
-TOOL=make
-TOOLS=make cmake xmake sh zsh fish cmd powershell perl perl6 ruby python lua r julia java scala kotlin clojure groovy
+ROOT= .
+SCR= $(ROOT)/script
+TOOLS= make cmake xmake \
+			 sh zsh fish cmd powershell \
+	     perl perl6 ruby python lua r julia \
+	     java scala kotlin clojure groovy
 
-$(TOOLS) test clean distclean help:
-	@cp $(SCR)/$(SCRIPT) .
+TOOL= make
+CMD=
+COMPILE= make -f
+SCRIPT= compile.mk
+
+$(TOOLS):
+	-rm -f compile.* xmake.lua CMakeLists.txt
+	-cp $(SCR)/$(SCRIPT) .
+	$(COMPILE) $(SCRIPT) $(CMD)
+	-rm compile.* xmake.lua CMakeLists.txt
 	
-.PHONY: all $(TOOLS) test clean distclean help
+.PHONY: all test clean distclean help $(TOOLS)
 
-all: $(TOOL)
+all: CMD=
 
-test:
-CMD := test
+test: CMD= test
 
-clean:
-CMD := clean
+clean: CMD= clean
 
-distclean:
-CMD := distclean
+distclean: CMD= distclean
 
-help:
-CMD := help
+help: CMD= help
 
-make: 
-SCRIPT := compile.mk
-COMPILE :=	make -f
+make: SCRIPT= compile.mk
+make: COMPILE=	make -f
+make: TOOL= make
 
-cmake: 
-SCRIPT := CMakeLists.txt
-COMPILE := cmake
+cmake: SCRIPT= CMakeLists.txt
+cmake: COMPILE= -mkdir build; cd build; rm -f CMakeCache.txt; cmake .. ; make
+cmake: TOOL= cmake
 
-xmake:
-SCRIPT := xmake.lua
-COMPILE := xmake
+xmake: SCRIPT= xmake.lua
+xmake: COMPILE= xmake
 
-sh:
-SCRIPT := compile.sh
-COMPILE := sh
+sh: SCRIPT= compile.sh
+sh: COMPILE= sh
 
-zsh:
-SCRIPT := compile.zsh
-COMPILE := zsh
+zsh: SCRIPT= compile.zsh
+zsh: COMPILE= zsh
 
-fish:
-SCRIPT := compile.fish
-COMPILE := fish
+fish: SCRIPT= compile.fish
+fish: COMPILE= fish
 
-cmd:
-SCRIPT := compile.bat
-COMPILE := cmd
+cmd: SCRIPT= compile.bat
+cmd: COMPILE= cmd
 
-powershell:
-SCRIPT := compile.ps1
-COMPILE := powershell
+powershell: SCRIPT= compile.ps1
+powershell: COMPILE= powershell
 
-perl:
-SCRIPT := compile.pl
-COMPILE := perl
+perl: SCRIPT= compile.pl
+perl: COMPILE= perl
 
-perl6:
-SCRIPT := compile.pl6
-COMPILE := perl6
+perl6: SCRIPT= compile.pl6
+perl6: COMPILE= perl6
 
-ruby:
-SCRIPT := compile.rb
-COMPILE := ruby
+ruby: SCRIPT= compile.rb
+ruby: COMPILE= ruby
 
-python:
-SCRIPT := compile.py
-COMPILE := python
+python: SCRIPT= compile.py
+python: COMPILE= python
 
-lua:
-SCRIPT := compile.lua
-COMPILE := lua
+lua: SCRIPT= compile.lua
+lua: COMPILE= lua
 
-r:
-SCRIPT := compile.r
-COMPILE := Rscript
+r: SCRIPT= compile.r
+r: COMPILE= Rscript
 
-julia:
-SCRIPT := compile.jl
-COMPILE := julia
+julia: SCRIPT= compile.jl
+julia: COMPILE= julia
 
-java:
-SCRIPT := compile.java
-COMPILE := java --source 11
+java: SCRIPT= compile.java
+java: COMPILE= java --source 11
 
-scala:
-SCRIPT := compile.scala
-COMPILE := scala
+scala: SCRIPT= compile.scala
+scala: COMPILE= scala
 
-kotlin:
-SCRIPT := compile.kts
-COMPILE := kotlin
+kotlin: SCRIPT= compile.kts
+kotlin: COMPILE= kotlin
 
-clojure:
-SCRIPT := compile.clj
-COMPILE := lein-exec
+clojure: SCRIPT= compile.clj
+clojure: COMPILE= lein-exec
 
-groovy:
-SCRIPT := compile.groovy
-COMPILE := groovy
+groovy: SCRIPT= compile.groovy
+groovy: COMPILE= groovy
