@@ -45,45 +45,45 @@ endif
 
 ifeq ($(CMD_AVAI), TRUE)
 export RM = -del
-export RMFLAGS = /S /Q /F
+export RMFLAGS = /Q /F
 export MKDIR = -mkdir
+export MKDIRFLAGS = 
 export RMDIR = -rd
-export RMDIRFLAGS = /S /Q
+export RMDIRFLAGS = /Q
+export CP = -copy
+export CPFLAGS = /Y
 export LIBSTATIC = $(LIBTARGET).a
 export LIBSHARED = $(LIBTARGET).dll
-
-DIR = .
-INC = $(DIR)\include
-SRC = $(DIR)\src
-TST = $(DIR)\test
-LIB = $(DIR)\lib
-PATH_LIBSHARED = $(LIB)\$(LIBSHARED)
-PATH_LIBSTATIC = $(LIB)\$(LIBSTATIC)
+export SEPARATOR = \\
 
 else
 export RM = -rm
 export RMFLAGS = -f
-export MKDIR = -mkdir -p
+export MKDIR = -mkdir
+export MKDIRFLAGS = -p
 export RMDIR = -rm
 export RMDIRFLAGS = -rf
+export CP = -cp
+export CPFLAGS =
 export LIBSTATIC = $(LIBTARGET).a
 export LIBSHARED = $(LIBTARGET).so
-
-DIR = .
-INC = $(DIR)/include
-SRC = $(DIR)/src
-TST = $(DIR)/test
-LIB = $(DIR)/lib
-PATH_LIBSHARED = $(LIB)/$(LIBSHARED)
-PATH_LIBSTATIC = $(LIB)/$(LIBSTATIC)
+export SEPARATOR = /
 
 endif
+
+DIR = .
+INC = $(DIR)$(SEPARATOR)include
+SRC = $(DIR)$(SEPARATOR)src
+TST = $(DIR)$(SEPARATOR)test
+LIB = $(DIR)$(SEPARATOR)lib
+PATH_LIBSHARED = $(LIB)$(SEPARATOR)$(LIBSHARED)
+PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
 
 .PHONY: all test clean distclean help
 
 all:
 	@echo "compile cgraph in Platform $(MY_OS)"
-	$(MKDIR) $(LIB)
+	$(MKDIR) $(MKDIRFLAGS) $(LIB)
 	$(MAKE) -C $(SRC)
 	$(MAKE) -C $(TST)
 

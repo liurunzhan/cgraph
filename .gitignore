@@ -55,6 +55,7 @@ dkms.conf
 .xmake/
 build/
 lib/
+test/cgraph
 
 # VSCode Files
 .vscode/

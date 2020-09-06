@@ -1,6 +1,6 @@
 DIR=.
-INC=$(DIR)/../include
-LIB=$(DIR)/../lib
+INC=$(DIR)$(SEPARATOR)..$(SEPARATOR)include
+LIB=$(DIR)$(SEPARATOR)..$(SEPARATOR)lib
 
 SOURCE = cgraph.c
 ifndef TARGET
@@ -18,7 +18,7 @@ all:
 
 test:
 	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET) $(SOURCE) -L$(LIB) -l$(TARGET) -lm
-	./$(TARGET_TEST) ./elements.csv
+	.$(SEPARATOR)$(TARGET_TEST) .$(SEPARATOR)elements.csv
 
 clean:
 	$(RM) $(RMFLAGS) $(TARGET_TEST)

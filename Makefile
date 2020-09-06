@@ -10,11 +10,63 @@ CMD=
 COMPILE= make -f
 SCRIPT= compile.mk
 
+# cross platforms
+# mingw
+# msys
+# msys2
+# cgywin
+# wsl
+# linux
+# referred by http://www.imooc.com/wenda/detail/584860
+ifeq ("$(findstring ;,$(PATH))", ";")
+DETECTED_OS := Windows
+else
+DETECTED_OS := $(shell uname 2>/dev/null || echo Unknown)
+DETECTED_OS := $(patsubst CYGWIN%,Cygwin,$(DETECTED_OS))
+DETECTED_OS := $(patsubst MSYS%,MSYS,$(DETECTED_OS))
+DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
+endif
+
+export MY_OS = $(DETECTED_OS)
+
+# Windows cmd is available or not
+ifeq ($(shell echo "windows cmd available"), "windows cmd available")
+CMD_AVAI := TRUE
+else
+CMD_AVAI := FALSE
+endif
+
+ifeq ($(CMD_AVAI), TRUE)
+export RM = -del
+export RMFLAGS = /Q /F
+export MKDIR = -mkdir
+export MKDIRFLAGS = 
+export RMDIR = -rd
+export RMDIRFLAGS = /Q
+export CP = -copy
+export CPFLAGS = /Y
+
+else
+export RM = -rm
+export RMFLAGS = -f
+export MKDIR = -mkdir
+export MKDIRFLAGS = -p
+export RMDIR = -rm
+export RMDIRFLAGS = -rf
+export CP = -cp
+export CPFLAGS =
+
+endif
+
 $(TOOLS):
-	-rm -f compile.* xmake.lua CMakeLists.txt
-	-cp $(SCR)/$(SCRIPT) .
+	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
+ifeq ($(CMD_AVAI), TRUE)
+	$(CP) $(CPFLAGS) .\script\$(SCRIPT) .
+else
+	$(CP) $(CPFLAGS) ./script/$(SCRIPT) .
+endif
 	$(COMPILE) $(SCRIPT) $(CMD)
-	-rm compile.* xmake.lua CMakeLists.txt
+	$(RM) $(RMFLAGS) $(SCRIPT)
 	
 .PHONY: all test clean distclean help $(TOOLS)
 

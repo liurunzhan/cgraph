@@ -8,6 +8,7 @@
 (def SRC (str DIR File/separator "src"))
 (def TST (str DIR File/separator "test"))
 (def LIB (str DIR File/separator "lib"))
+(println LIB)
 
 (def CC "cc")
 (def CFLAGS "-pedantic -Wall -fpic -std=c89")
@@ -19,3 +20,5 @@
 (def AR "ar")
 (def ARFLAGS "-rcs")
 
+(def FILES (file-seq (clojure.java.io/file SRC)))
+(def CFILES (filter FILES #(.isFile %)))
