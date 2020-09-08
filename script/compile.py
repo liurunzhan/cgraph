@@ -19,14 +19,18 @@ CSFLAGS = "-shared"
 
 MODE = "debug"
 if MODE == "debug":
-  CFLAGS = CFLAGS + " -g -DDEBUG"
+  CFLAGS += " -g -DDEBUG"
 elif MODE == "release":
-  CFLAGS = CFLAGS + " -static -O2"
+  CFLAGS += " -static -O2"
 
 # package shared library
 AR = "ar"
 ARFLAGS = "-rcs"
 
+LIBSHARED = None
+LIBSTATIC = None
+TSTFILE = None
+TSTTARGET = None
 if platform.system() == "Windows":
   # target files
   LIBSHARED = os.path.join(LIB, "lib%s.dll" % PRO)
@@ -45,22 +49,22 @@ else:
 CFILES = []
 for file in os.listdir(SRC):
   if os.path.splitext(file)[1] == ".c":
-    CFILES.append(file)
+    CFILES.append(os.path.join(SRC, file))
 
 args = sys.argv
 if len(args) == 1 :
   if not pathlib.Path(LIB).exists():
     os.mkdir(LIB)
+  OFILES = []
   for file in CFILES:
-    obj = os.path.splitext(file)[0] + ".o"
-    file_path = os.path.join(SRC, file)
-    obj_path = os.path.join(SRC, obj)
-    print("compile %s to %s" % (file_path, obj_path))
-    os.system("%s %s -I%s -c %s -o %s" % (CC, CFLAGS, INC, file_path, obj_path))
+    obj = file.replace(".c", ".o")
+    print("compile %s to %s" % (file, obj))
+    os.system("%s %s -I%s -c %s -o %s" % (CC, CFLAGS, INC, file, obj))
+    OFILES.append(obj)
   print("compile %s" % LIBSHARED)
-  os.system("%s %s -o %s %s/*.o" % (CC, CSFLAGS, LIBSHARED, SRC))
+  os.system("%s %s -o %s %s" % (CC, CSFLAGS, LIBSHARED, " ".join(OFILES)))
   print("compile %s" % LIBSTATIC)
-  os.system("%s %s %s %s/*.o" % (AR, ARFLAGS, LIBSTATIC, SRC))
+  os.system("%s %s %s %s" % (AR, ARFLAGS, LIBSTATIC, " ".join(OFILES)))
 elif args[1] == "test":
   print("compile %s to %s" % (os.path.join(TST, TSTFILE), os.path.join(TST, TSTTARGET)))
   os.system("%s %s -I%s -o %s %s -L%s -static -l%s -lm" % (CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
@@ -68,40 +72,36 @@ elif args[1] == "test":
   os.system("%s %s" % (TSTTARGET, os.path.join(TST, "elements.csv")))
 elif args[1] == "clean":
   for file in CFILES:
-    obj = os.path.splitext(file)[0] + ".o"
-    file_path = os.path.join(SRC, file)
-    obj_path = os.path.join(SRC, obj)
-    print("clean %s" % obj_path)
-    if pathlib.Path(obj_path).exists():
-      os.remove(obj_path)
-  print("clean %s" % LIBSTATIC)
+    obj = file.replace(".c", ".o")
+    if pathlib.Path(obj).exists():
+      print("clean %s" % obj)
+      os.remove(obj)
   if pathlib.Path(LIBSTATIC).exists():
+    print("clean %s" % LIBSTATIC)
     os.remove(LIBSTATIC)
-  print("clean %s" % LIBSHARED)
   if pathlib.Path(LIBSHARED).exists():
+    print("clean %s" % LIBSHARED)
     os.remove(LIBSHARED)
-  print("clean %s" % TSTTARGET)
   if pathlib.Path(TSTTARGET).exists():
+    print("clean %s" % TSTTARGET)
     os.remove(TSTTARGET)
 elif args[1] == "distclean":
   for file in CFILES:
-    obj = os.path.splitext(file)[0] + ".o"
-    file_path = os.path.join(SRC, file)
-    obj_path = os.path.join(SRC, obj)
-    print("clean %s" % obj_path)
-    if pathlib.Path(obj_path).exists():
-      os.remove(obj_path)
-  print("clean %s" % LIBSTATIC)
+    obj = file.replace(".c", ".o")
+    if pathlib.Path(obj).exists():
+      print("clean %s" % obj)
+      os.remove(obj)
   if pathlib.Path(LIBSTATIC).exists():
+    print("clean %s" % LIBSTATIC)
     os.remove(LIBSTATIC)
-  print("clean %s" % LIBSHARED)
   if pathlib.Path(LIBSHARED).exists():
+    print("clean %s" % LIBSHARED)
     os.remove(LIBSHARED)
-  print("clean %s" % LIB)
   if pathlib.Path(LIB).exists():
+    print("clean %s" % LIB)
     shutil.rmtree(LIB)
-  print("clean %s" % TSTTARGET)
   if pathlib.Path(TSTTARGET).exists():
+    print("clean %s" % TSTTARGET)
     os.remove(TSTTARGET)
 elif args[1] == "help":
   print("%s <target>" % args[0])

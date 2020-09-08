@@ -2,13 +2,16 @@ ROOT= .
 SCR= $(ROOT)/script
 TOOLS= make cmake xmake \
 			 sh zsh fish cmd powershell \
+			 tcc \
 	     perl perl6 ruby python lua r julia \
 	     java scala kotlin clojure groovy
 
-TOOL= make
+MAKE= make
+
+TOOL=
 CMD=
-COMPILE= make -f
-SCRIPT= compile.mk
+COMPILE=
+SCRIPT=
 
 # cross platforms
 # mingw
@@ -45,6 +48,7 @@ export RMDIR = -rd
 export RMDIRFLAGS = /Q
 export CP = -copy
 export CPFLAGS = /Y
+export SEPARATOR = \\
 
 else
 export RM = -rm
@@ -55,16 +59,13 @@ export RMDIR = -rm
 export RMDIRFLAGS = -rf
 export CP = -cp
 export CPFLAGS =
+export SEPARATOR = /
 
 endif
 
 $(TOOLS):
 	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
-ifeq ($(CMD_AVAI), TRUE)
-	$(CP) $(CPFLAGS) .\script\$(SCRIPT) .
-else
-	$(CP) $(CPFLAGS) ./script/$(SCRIPT) .
-endif
+	$(CP) $(CPFLAGS) .$(SEPARATOR)script$(SEPARATOR)$(SCRIPT) .
 	$(COMPILE) $(SCRIPT) $(CMD)
 	$(RM) $(RMFLAGS) $(SCRIPT)
 	

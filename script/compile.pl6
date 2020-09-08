@@ -64,16 +64,18 @@ my @args = @*ARGS;
 if (@args.elems eq 0)
 {
   mkdir $LIB;
+  my @OFILES;
   for @CFILES -> $file
   {
     my $obj = S/\.c$/\.o/ given $file;
     say("compile $file to $obj");
     shell("$CC $CFLAGS -I$INC -c $file -o $obj");
+    @OFILES.push($obj);
   }
   say("compile $LIBSHARED");
-  shell("$CC $CSFLAGS -o $LIBSHARED $SRC/*.o");
+  shell("$CC $CSFLAGS -o $LIBSHARED " ~ join " ", @OFILES);
   say("compile $LIBSTATIC");
-  shell("$AR $ARFLAGS $LIBSTATIC $SRC/*.o");
+  shell("$AR $ARFLAGS $LIBSTATIC " ~ join " ", @OFILES);
 }
 elsif (@args[0] eq "test")
 {

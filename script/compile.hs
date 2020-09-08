@@ -1,2 +1,2 @@
-#!/usr/bin/stack
+#!/usr/bin/env runhaskell
 

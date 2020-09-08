@@ -38,21 +38,25 @@ if(.Platform$OS.type == "windows") {
   TSTTARGET <- file.path(TST, PRO, fsep=.Platform$file.sep)
 }
 
-CFILES <- list.files(SRC, pattern=".c$")
+CFILES <- lapply(list.files(SRC, pattern=".c$"), function(x) { file.path(SRC, x, fsep=.Platform$file.sep)})
 
 args <- commandArgs(trailingOnly = TRUE)
 script_name <- unlist(strsplit(commandArgs()[4], split="="))[2]
-if (length(args) == 0) {
-  dir.create(LIB)
+if(length(args) == 0) {
+  if(!file.exists(LIB)) {
+    dir.create(LIB)
+  }
+  OFILES <- character()
   for(file in CFILES) {
     obj <- gsub(".c$", ".o", file)
-    print(sprintf("compile %s to %s", file.path(SRC, file, fsep=.Platform$file.sep), file.path(SRC, obj, fsep=.Platform$file.sep)))
-    system(sprintf("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file.path(SRC, file, fsep=.Platform$file.sep), file.path(SRC, obj, fsep=.Platform$file.sep)))
+    print(sprintf("compile %s to %s", file, obj))
+    system(sprintf("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj))
+    OFILES <- append(OFILES, obj, after=length(OFILES))
   }
   print(sprintf("compile %s", LIBSHARED))
-  system(sprintf("%s %s -o %s %s/*.o", CC, CSFLAGS, LIBSHARED, SRC))
+  system(sprintf("%s %s -o %s %s", CC, CSFLAGS, LIBSHARED, paste(OFILES, collapse=" ")))
   print(sprintf("compile %s", LIBSTATIC))
-  system(sprintf("%s %s %s %s/*.o", AR, ARFLAGS, LIBSTATIC, SRC))
+  system(sprintf("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, paste(OFILES, collapse=" ")))
 } else if (args[1] == "test") {
   print(sprintf("compile %s to %s", TSTFILE, TSTTARGET))
   system(sprintf("%s %s -I%s -o %s %s -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))

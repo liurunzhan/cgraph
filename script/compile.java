@@ -123,12 +123,12 @@ public class Compile {
       System.out.println(String.format("clean %s", LIBSHARED));
       File libshared = new File(LIBSHARED);
       libshared.delete();
-      System.out.println(String.format("clean %s", TSTTARGET));
-      File tsttarget = new File(TSTTARGET);
-      tsttarget.delete();
       System.out.println(String.format("clean %s", LIB));
       File lib = new File(LIB);
       lib.delete();
+      System.out.println(String.format("clean %s", TSTTARGET));
+      File tsttarget = new File(TSTTARGET);
+      tsttarget.delete();
     } else if (args[0].equals("help")) {
       System.out.println(SCRIPT_NAME +" <target>");
       System.out.println("<target>: ");

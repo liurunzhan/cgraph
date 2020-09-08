@@ -330,24 +330,20 @@ cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_
   return res;
 }
 
-cgraph_size_t FUNCTION(NAME, cnts)(const void *x, const void *y, const cgraph_size_t len)
+cgraph_size_t FUNCTION(NAME, cnt)(const void *x, const void *y, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y;
 #else
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *object_x = (TYPE *)x, object_y = *(TYPE *)y;
 #endif
   cgraph_size_t cnt = 0;
-  if(NULL == object_x && NULL == object_y)
+  if(NULL != object_x && NULL != (TYPE *)y)
   {
     cgraph_size_t i;
     for(i=0; i<len; i++)
     {
-    #ifdef DATA_WITH_POINTER
       if(EQ(object_x[i], object_y))
-    #else
-      if(EQ(object_x[i], *object_y))
-    #endif
       { cnt += 1; }
     }
   }

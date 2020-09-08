@@ -30,7 +30,7 @@ my $AR = "ar";
 my $ARFLAGS = "-rcs";
 
 # source files
-my @CFILES;
+my @CFILES = ();
 opendir(my $fin, $SRC) or die "cannot open directory $SRC";
 foreach my $file (readdir($fin))
 {
@@ -67,16 +67,18 @@ my @args = @ARGV;
 if ($#args == -1)
 {
   mkdir $LIB;
+  my @OFILES = ();
   foreach my $file (@CFILES)
   {
     my $obj = ($file =~ s/\.c/\.o/r);
     printf("compile %s to %s\n", File::Spec->catfile($SRC, $file), File::Spec->catfile($SRC, $obj));
     system(sprintf("$CC $CFLAGS -I$INC -c %s -o %s", File::Spec->catfile($SRC, $file), File::Spec->catfile($SRC, $obj)));
+    push(@OFILES, $obj);
   }
   print("compile $LIBSHARED\n");
-  system(sprintf("$CC $CSFLAGS -o $LIBSHARED %s/*.o", $SRC));
+  system(sprintf("$CC $CSFLAGS -o $LIBSHARED %s", $SRC, join(" ", @OFILES)));
   print("compile $LIBSTATIC\n");
-  system(sprintf("$AR $ARFLAGS $LIBSTATIC %s/*.o", $SRC));
+  system(sprintf("$AR $ARFLAGS $LIBSTATIC %s", $SRC, join(" ", @OFILES)));
 }
 elsif ($args[0] eq "test")
 {

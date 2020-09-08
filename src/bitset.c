@@ -9,11 +9,8 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
   cgraph_size_t i, hash = 0;
-  for(i=0; i<(object->len>>3); i++)
-  {
-    hash = (hash << 4) ^ (hash >> 28) ^ object->data[i];
-  }
-  hash = (hash << 4) ^ (hash >> 28) ^ object->data[i];
+  for(i=0; i<object->len; i++)
+  { hash = (hash << 4) ^ (hash >> 28) ^ object->data[i]; }
 
   return CGRAPH_ABS(hash);
 }

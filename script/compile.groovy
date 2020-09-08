@@ -52,7 +52,9 @@ def SCRIPT_NAME = new File(getClass().protectionDomain.codeSource.location.path)
 def args = this.args
 if (args.size() == 0) {
   def lib = new File(LIB)
-  lib.mkdir()
+  if (!lib.exists()) {
+    lib.mkdir()
+  }
   def OFILES = []
   for (file in CFILES) {
     def obj = file.getPath().replace(".c", ".o")
@@ -61,12 +63,49 @@ if (args.size() == 0) {
     cmd.execute()
     OFILES.add(obj)
   }
+  def cmd = sprintf("%s %s -o %s %s", CC, CSFLAGS, LIBSHARED, OFILES.join(" "))
+  println(sprintf("compile %s", LIBSHARED))
+  cmd.execute()
+  cmd = sprintf("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, OFILES.join(" "))
+  println(sprintf("compile %s", LIBSTATIC))
+  cmd.execute()
 } else if (args[0] == "test") {
-
+  def cmd = sprintf("%s %s -I%s -o %s %s -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO)
+  println(sprintf("compile %s to %s", TSTFILE, TSTTARGET))
+  cmd.execute()
 } else if (args[0] == "clean") {
-
+  for (file in CFILES) {
+    def obj = new File(file.getPath().replace(".c", ".o"))
+    println(sprintf("clean %s", obj))
+    obj.delete()
+  }
+  println(sprintf("clean %s", LIBSTATIC))
+  def libstatic = new File(LIBSTATIC)
+  libstatic.delete()
+  println(sprintf("clean %s", LIBSHARED))
+  def libshared = new File(LIBSHARED)
+  libshared.delete()
+  println(sprintf("clean %s", TSTTARGET))
+  def tsttarget = new File(TSTTARGET)
+  tsttarget.delete()
 } else if (args[0] == "distclean") {
-
+  for (file in CFILES) {
+    def obj = new File(file.getPath().replace(".c", ".o"))
+    println(sprintf("clean %s", obj))
+    obj.delete()
+  }
+  println(sprintf("clean %s", LIBSTATIC))
+  def libstatic = new File(LIBSTATIC)
+  libstatic.delete()
+  println(sprintf("clean %s", LIBSHARED))
+  def libshared = new File(LIBSHARED)
+  libshared.delete()
+  println(sprintf("clean %s", LIB))
+  def lib = new File(LIB)
+  lib.delete()
+  println(sprintf("clean %s", TSTTARGET))
+  def tsttarget = new File(TSTTARGET)
+  tsttarget.delete()
 } else if (args[0] == "help") {
   println("${SCRIPT_NAME} <target>")
   println("<target>: ")
