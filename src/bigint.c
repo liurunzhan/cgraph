@@ -95,9 +95,9 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
   return CGRAPH_TEST((cthis->pos == CGRAPH_FALSE));
 }
 
-TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, const TYPE *z)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
+  if()
   cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)

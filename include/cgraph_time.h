@@ -11,23 +11,38 @@ extern "C" {
 #include "templete.h"
 
 /*
-  data[0] : year
-  data[1] : month
-  data[2] : day
-  data[3] : hour
-  data[4] : minute
-  data[5] : second
 */ 
 typedef struct {
-  DATA_TYPE data[6];
+  DATA_TYPE flag:1;
+  DATA_TYPE type:1;
+  union {
+    struct time_type0_t {
+      DATA_TYPE week:3;   /* maximum is 7      */
+      DATA_TYPE days:9;   /* maximum is 366    */
+      DATA_TYPE year:24;  /* maximum is 2^24-1 */
+      DATA_TYPE month:4;  /* maximum is 12     */
+      DATA_TYPE day:5;    /* maximum is 31     */
+      DATA_TYPE hour:5;   /* maximum is 24     */
+      DATA_TYPE minute:6; /* maximum is 60     */
+      DATA_TYPE second:6; /* maximum is 60     */
+    } type0;
+    struct time_type1_t {
+      DATA_TYPE time:62;
+    } type1;
+  } data;
 }cgraph_time_t;
 
-#define CGRAPH_YEAR(x) ((x).data[0])
-#define CGRAPH_MONTH(x) ((x).data[1])
-#define CGRAPH_DAY(x) ((x).data[2])
-#define CGRAPH_HOUR(x) ((x).data[3])
-#define CGRAPH_MINUTE(x) ((x).data[4])
-#define CGRAPH_SECOND(x) ((x).data[5])
+#define CGRAPH_TIME_TYPE(x) ((x).type)
+#define CGRAPH_TIME(x)      ((x).data.type1.time)
+#define CGRAPH_YEAR(x)      ((x).data.type0.year)
+#define CGRAPH_MONTH(x)     ((x).data.type0.month)
+#define CGRAPH_DAY(x)       ((x).data.type0.day)
+#define CGRAPH_HOUR(x)      ((x).data.type0.hour)
+#define CGRAPH_MINUTE(x)    ((x).data.type0.minute)
+#define CGRAPH_SECOND(x)    ((x).data.type0.second)
+#define CGRAPH_WEEK(x)      ((x).data.type0.week)
+#define CGRAPH_DAYS(x)      ((x).data.type0.days)
+
 
 #include "data_templete.h"
 

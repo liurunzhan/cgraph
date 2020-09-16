@@ -1,15 +1,18 @@
 #!/usr/bin/lua
 
-require('path')
+require("package")
 require('string')
 require('os')
+require('lfs')
+
+SEPARATOR = string.sub(package.config, 0, 1)
 
 PRO = "cgraph"
 DIR = "."
-SRC = path.join(DIR, "src")
-INC = path.join(DIR, "include")
-TST = path.join(DIR, "test")
-LIB = path.join(DIR, "lib")
+SRC = DIR .. SEPARATOR .. "src"
+INC = DIR .. SEPARATOR .. "include"
+TST = DIR .. SEPARATOR .. "test"
+LIB = DIR .. SEPARATOR .. "lib"
 
 CC = "cc"
 CFLAGS = "-pedantic -Wall -fpic -std=c89"
@@ -29,7 +32,7 @@ ARFLAGS = "-rcs"
 CFILES = {}
 for file in lfs.dir(SRC) do
   if string(file, ".c$") then
-    CFILES.append(file)
+    CFILES.append(SRC .. SEPARATOR .. file)
   end
 end
 
@@ -38,10 +41,8 @@ if 0 == length(args) then
   mkpath("$LIB")
   for file in CFILES do
     obj = string.gsub(file, ".c$", ".o")
-    src_path = path.join(SRC, file)
-    obj_path = path.join(SRC, obj)
-    print("compile $src_path to $obj_path")
-    os.execute("$CC $CFLAGS -I$INC -c $src_path -o $obj_path")
+    print("compile $file to $obj")
+    os.execute("$CC $CFLAGS -I$INC -c $file -o $obj")
   end
   print("compile $LIBSHARED")
   os.execute("$CC $CSFLAGS -o $LIBSHARED $SRC/*.o")
@@ -57,10 +58,8 @@ elseif 1 == length(args) then
   elseif args[1] == "clean" then
     for file in CFILES do
       obj = string.gsub(file, ".c$", ".o")
-      src_path = path.join(SRC, file)
-      obj_path = path.join(SRC, obj)
-      print("clean ", path.join(SRC, obj))
-      os.remove(path.join(SRC, obj))
+      print("clean ", SRC .. SEPARATOR .. obj)
+      os.remove(SRC .. SEPARATOR .. obj)
     end
     print("clean $LIBSTATIC")
     os.remove("$LIBSTATIC")
@@ -71,10 +70,8 @@ elseif 1 == length(args) then
   elseif args[1] == "distclean" then
     for file in CFILES do
       obj = string.gsub(file, ".c$", ".o")
-      src_path = path.join(SRC, file)
-      obj_path = path.join(SRC, obj)
-      print("clean $SRC/$obj")
-      os.remove("$SRC/$obj")
+      print("clean $obj")
+      os.remove("$obj")
     end
     print("clean $LIBSTATIC")
     os.remove("$LIBSTATIC")

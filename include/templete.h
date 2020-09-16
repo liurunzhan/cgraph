@@ -190,21 +190,21 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define TYPE cgraph_time_t
 #define ID CGRAPH_TIME_T
 #define NAME time
-#define OUT_FORMAT "d"
-#define ZERO {0, 0, 0, 0, 0, 0}
-#define ONE {0, 0, 0, 0, 0, 1}
-#define ONES {1, 1, 1, 1, 1, 1}
+#define OUT_FORMAT "ld"
+#define ZERO 0
+#define ONE 1
+#define ONES (1 << 26 | 1 << 22 |  1 << 17 || 1 << 12 | 1 << 6 | 1)
 #define BITS (8*sizeof(TYPE))
-#define MIN {CGRAPH_INT16_MIN, 12, 31, 59, 59, 59}
-#define MAX {CGRAPH_INT16_MAX, 1, 1, 0, 0, 0}
-#define DATA_TYPE cgraph_int16_t
-#define DATA_ID CGRAPH_INT16_T
+#define MIN 0
+#define MAX 1
+#define DATA_TYPE cgraph_int64_t
+#define DATA_ID CGRAPH_INT64_T
 #define DATA_ZERO 0
 #define DATA_ONE 1
 #define DATA_ONES 1
-#define DATA_BITS (8*sizeof(DATA_TYPE))
-#define DATA_MIN CGRAPH_INT16_MIN
-#define DATA_MAX CGRAPH_INT16_MAX
+#define DATA_BITS (8*sizeof(DATA_TYPE) - 2)
+#define DATA_MIN (CGRAPH_INT64_MIN >> 1)
+#define DATA_MAX (CGRAPH_INT64_MAX >> 1)
 #define DATA_MSB (DATA_ONE << (DATA_BITS-1))
 #define DATA_LSB (DATA_ONE)
 
@@ -410,12 +410,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #elif defined(TYPE_BOOLEAN)
 #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
 
-#define ADD(a, b) ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define SUB(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define	MUL(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define DIV(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define INT(a, b) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define MOD(a, b) (SUB((a), INT(a, b)))
+#define ADD(a, b, c) ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define SUB(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define	MUL(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define DIV(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define INT(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define MOD(a, b, c) (SUB((a), INT(a, b)))
 
 #define EQ(a, b) ((a) == (b))
 #define NEQ(a, b) ((a) != (b))
@@ -448,12 +448,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 	|| defined(TYPE_INT64)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
 
-#define ADD(a, b) ((a) + (b))
-#define SUB(a, b) ((a) - (b))
-#define MUL(a, b) ((a) * (b))
-#define DIV(a, b) ((a) / (b))
-#define INT(a, b) ((a) / (b))
-#define MOD(a, b) ((a) % (b))
+#define ADD(a, b, c) ((a) + (b))
+#define SUB(a, b, c) ((a) - (b))
+#define MUL(a, b, c) ((a) * (b))
+#define DIV(a, b, c) ((a) / (b))
+#define INT(a, b, c) ((a) / (b))
+#define MOD(a, b, c) ((a) % (b))
 
 #define EQ(a, b) ((a) == (b))
 #define NEQ(a, b) ((a) != (b))
@@ -484,12 +484,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #elif defined(TYPE_REAL) || defined(TYPE_FLOAT)
 #define DATA_TEST(a) (((a) == (a)) && (DATA_MIN < (a)) && (DATA_MAX > (a)))
 
-#define ADD(a, b) ((a) + (b))
-#define SUB(a, b) ((a) - (b))
-#define MUL(a, b) ((a) * (b))
-#define DIV(a, b) ((a) / (b))
-#define INT(a, b) (floor(DIV((a), (b))))
-#define MOD(a, b) (fmod((a), (b)))
+#define ADD(a, b, c) ((a) + (b))
+#define SUB(a, b, c) ((a) - (b))
+#define MUL(a, b, c) ((a) * (b))
+#define DIV(a, b, c) ((a) / (b))
+#define INT(a, b, c) (floor(DIV((a), (b))))
+#define MOD(a, b, c) (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
 #define NEQ(a, b) (fabs((a) - (b)) > EPSILON)
@@ -525,18 +525,18 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))
 #define LE(a, b) FUNCTION(NAME, le)((a), (b))
 
-#define ADD(a, b) FUNCTION(NAME, addt)((a), (b))
-#define SUB(a, b) FUNCTION(NAME, subt)((a), (b))
-#define MUL(a, b) FUNCTION(NAME, mult)((a), (b))
-#define DIV(a, b) FUNCTION(NAME, divt)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, addt)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, subt)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mult)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, divt)((a), (b))
 
 #elif defined(TYPE_COMPLEX)
 #define DATA_TEST(a) (((a) == (a)) && (DATA_MIN < (a)) && (DATA_MAX > (a)))
 
-#define ADD(a, b) FUNCTION(NAME, addc)((a), (b))
-#define SUB(a, b) FUNCTION(NAME, subc)((a), (b))
-#define MUL(a, b) FUNCTION(NAME, mulc)((a), (b))
-#define DIV(a, b) FUNCTION(NAME, divc)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, addc)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, subc)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mulc)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, divc)((a), (b))
 
 #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
 #define NEQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) || (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
@@ -553,10 +553,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))
 
-#define ADD(a, b) FUNCTION(NAME, addf)((a), (b))
-#define SUB(a, b) FUNCTION(NAME, subf)((a), (b))
-#define MUL(a, b) FUNCTION(NAME, mulf)((a), (b))
-#define DIV(a, b) FUNCTION(NAME, divf)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, addf)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, subf)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mulf)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, divf)((a), (b))
 
 #define EQ(a, b) ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
 #define NEQ(a, b) ((FRACTION_NUM(a) != FRACTION_NUM(b)) || (FRACTION_DEN(a) != FRACTION_DEN(b)))
@@ -572,10 +572,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif defined(TYPE_BIGINT)
 
-#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
@@ -588,10 +588,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif defined(TYPE_BIGNUM)
 
-#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
@@ -604,10 +604,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif  defined(TYPE_STRING)
 
-#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))

@@ -2,7 +2,7 @@
 exec scala "$0" "$@"
 !#
 
-import scala.reflect.io.File
+import java.io.File
 import scala.reflect.io.Directory
 
 object Compile {
@@ -33,5 +33,7 @@ object Compile {
 
     val AR : String = "ar"
     val ARFLAGS : String = "-rcs"
+
+    val FILES : Array[File] = (new File(SRC)).listFiles().filter(_.isFile).filter(_.toString.endsWith(".c"))
   }
 }
