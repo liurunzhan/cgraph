@@ -18,14 +18,14 @@ typedef struct
   CGRAPH_DATA_BASE
 }cgraph_bigint_t;
 
-#include "data_templete.h"
+#include "data_base.ht"
 
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis);
-extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y);
-extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y);
-extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y);
-extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 extern cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
 extern cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y);
 extern cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);

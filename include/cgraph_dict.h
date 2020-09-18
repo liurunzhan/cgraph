@@ -28,7 +28,7 @@ typedef struct
 
 #define TYPE_DICT
 #include "templete.h"
-#include "struct_templete.h"
+#include "struct_base.ht"
 #include "templete_off.h"
 
 #ifdef __cplusplus

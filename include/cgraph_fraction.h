@@ -19,7 +19,7 @@ typedef struct
 #define FRACTION_DEN(x) ((x).data[1])
 #define FRACTION_VALUE(x) (1.0 * FRACTION_NUM(x) / FRACTION_DEN(x))
 
-#include "data_templete.h"
+#include "data_base.ht"
 
 /*                                public apis                                 */
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);

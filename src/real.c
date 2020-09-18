@@ -4,9 +4,8 @@
 
 #define TYPE_REAL
 #include "templete.h"
-#include "data.templete"
 
-#include "float.templete"
+#include "float_base.ct"
 
 void FUNCTION(TYPE, test)(void)
 {

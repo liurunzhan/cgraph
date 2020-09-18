@@ -5,7 +5,7 @@
 
 #define TYPE_COMPLEX
 #include "templete.h"
-#include "data.templete"
+#include "data_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
@@ -415,7 +415,7 @@ cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
 {
-  TYPE zero = {0.0, 0.0};
+  TYPE zero = ZERO;
 
   return CGRAPH_TEST((EQ(x, zero)));
 }

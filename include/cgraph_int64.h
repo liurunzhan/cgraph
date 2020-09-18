@@ -9,9 +9,8 @@ extern "C" {
 
 #define TYPE_INT64
 #include "templete.h"
-#include "data_templete.h"
 
-#include "integer_templete.h"
+#include "integer_base.ht"
 
 #include "templete_off.h"
 

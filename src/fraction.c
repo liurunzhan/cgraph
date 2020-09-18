@@ -4,7 +4,7 @@
 
 #define TYPE_FRACTION
 #include "templete.h"
-#include "data.templete"
+#include "data_base.ct"
 
 /*                                public apis                                 */
 /*

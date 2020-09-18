@@ -3,7 +3,7 @@
 
 #define TYPE_INTEGER
 #include "templete.h"
-#include "data.templete"
+#include "integer_base.ct"
 
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn Fowler，Landon Curt Noll and Phong Vo in 1991):
@@ -35,7 +35,5 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 
   return hash;
 }
-
-#include "integer.templete"
 
 #include "templete_off.h"

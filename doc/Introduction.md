@@ -28,6 +28,7 @@
 | cgraph_int64_t | CGRAPH_INT64_T | int64 | TYPE_INT64 | |
 | cgraph_complex_t | CGRAPH_COMPLEX_T | complex | TYPE_COMPLEX | |
 | cgraph_fraction_t | CGRAPH_FRACTION_T | fraction | TYPE_FRACTION | |
+| cgraph_time_t | CGRAPH_TIME_T | time | TYPE_TIME | |
 | cgraph_bigint_t | CGRAPH_BIGINT_T | bigint | TYPE_BIGINT | |
 | cgraph_bignum_t | CGRAPH_BIGNUM_T | bignum | TYPE_BIGNUM | |
 | cgraph_string_t | CGRAPH_STRING_T | string | TYPE_STRING | |
@@ -50,13 +51,13 @@ All basic data types in this library are the package of C-type data types, which
 | cgraph_int64_t | CGRAPH_INT64_T | int64 |
 
 
-
 ### cgraph_object_t
 
 ``` c
 typedef struct 
 {
   cgraph_type_t type;
+  cgraph_boolean_t visited;
   cgraph_size_t hash;
   void *data;
 }cgraph_object_t;
@@ -78,6 +79,34 @@ typedef struct
 {
   DATA_TYPE data[2];
 }cgraph_fraction_t;
+```
+
+### cgraph_time_t
+
+``` c
+typedef struct
+{
+  DATA_TYPE flag:1;
+  DATA_TYPE type:1;
+  union 
+  {
+    struct time_type0_t 
+    {
+      DATA_TYPE week:3;
+      DATA_TYPE days:9;
+      DATA_TYPE year:24;
+      DATA_TYPE month:4;
+      DATA_TYPE day:5;
+      DATA_TYPE hour:5;
+      DATA_TYPE minute:6;
+      DATA_TYPE second:6;
+    }type0;
+    struct time_type1_t 
+    {
+      DATA_TYPE time:62;
+    }type1;
+  }data;
+}cgraph_time_t;
 ```
 
 ### cgraph_bigint_t

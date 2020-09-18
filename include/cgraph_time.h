@@ -12,11 +12,14 @@ extern "C" {
 
 /*
 */ 
-typedef struct {
+typedef struct
+{
   DATA_TYPE flag:1;
   DATA_TYPE type:1;
-  union {
-    struct time_type0_t {
+  union 
+  {
+    struct time_type0_t 
+    {
       DATA_TYPE week:3;   /* maximum is 7      */
       DATA_TYPE days:9;   /* maximum is 366    */
       DATA_TYPE year:24;  /* maximum is 2^24-1 */
@@ -25,15 +28,17 @@ typedef struct {
       DATA_TYPE hour:5;   /* maximum is 24     */
       DATA_TYPE minute:6; /* maximum is 60     */
       DATA_TYPE second:6; /* maximum is 60     */
-    } type0;
-    struct time_type1_t {
-      DATA_TYPE time:62;
-    } type1;
-  } data;
+    }type0;
+    struct time_type1_t
+    {
+      DATA_TYPE time1:30;
+      DATA_TYPE time0:32;
+    }type1;
+  }data;
 }cgraph_time_t;
 
 #define CGRAPH_TIME_TYPE(x) ((x).type)
-#define CGRAPH_TIME(x)      ((x).data.type1.time)
+#define CGRAPH_TIME(x)      (((cgraph_int64_t)(x).data.type1.time1) << 32 | (cgraph_int64_t)(x).data.type1.time0)
 #define CGRAPH_YEAR(x)      ((x).data.type0.year)
 #define CGRAPH_MONTH(x)     ((x).data.type0.month)
 #define CGRAPH_DAY(x)       ((x).data.type0.day)
@@ -44,7 +49,7 @@ typedef struct {
 #define CGRAPH_DAYS(x)      ((x).data.type0.days)
 
 
-#include "data_templete.h"
+#include "data_base.ht"
 
 extern cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);

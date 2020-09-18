@@ -1,3 +1,5 @@
+#include "data_base.ct"
+
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
@@ -53,7 +55,7 @@ void *FUNCTION(NAME, ints)(const void *x, const void *y, void *z, const cgraph_s
   {
     cgraph_size_t i;
     for(i=0; i<len; i++)
-    { object_z[i] = INT(object_x[i], object_y[i]); }
+    { object_z[i] = INT(object_x[i], object_y[i], object_z[i]); }
   }
   return object_z;
 }

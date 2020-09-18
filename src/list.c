@@ -3,7 +3,7 @@
 
 #define TYPE_LIST
 #include "templete.h"
-#include "struct.templete"
+#include "struct_base.ct"
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {

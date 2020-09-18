@@ -4,7 +4,7 @@
 
 #define TYPE_STRING
 #include "templete.h"
-#include "data.templete"
+#include "data_base.ct"
 
 /* 
   times 33 hash algorithm proposed by Daniel J. Bernstein  
@@ -108,22 +108,22 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
 }
 
 
-TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
 
 }
 
-TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
-{
-  
-}
-
-TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   
 }
 
-TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
+{
+  
+}
+
+TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   
 }

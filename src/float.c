@@ -4,8 +4,7 @@
 
 #define TYPE_FLOAT
 #include "templete.h"
-#include "data.templete"
 
-#include "float.templete"
+#include "float_base.ct"
 
 #include "templete_off.h"

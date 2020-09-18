@@ -3,7 +3,7 @@
 
 #define TYPE_BITSET
 #include "templete.h"
-#include "data.templete"
+#include "data_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
@@ -89,22 +89,22 @@ TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min, const cgraph_si
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
 
 }
 
-TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
-{
-  
-}
-
-TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   
 }
 
-TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
+{
+  
+}
+
+TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   
 }

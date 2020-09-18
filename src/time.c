@@ -5,7 +5,7 @@
 
 #define TYPE_TIME
 #include "templete.h"
-#include "data.templete"
+#include "data_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {

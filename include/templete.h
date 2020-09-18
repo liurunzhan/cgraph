@@ -190,21 +190,21 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define TYPE cgraph_time_t
 #define ID CGRAPH_TIME_T
 #define NAME time
-#define OUT_FORMAT "ld"
+#define OUT_FORMAT "d"
 #define ZERO 0
 #define ONE 1
-#define ONES (1 << 26 | 1 << 22 |  1 << 17 || 1 << 12 | 1 << 6 | 1)
+#define ONES { 1 << 26 | 1 << 22 |  1 << 17 || 1 << 12 | 1 << 6 | 1}
 #define BITS (8*sizeof(TYPE))
 #define MIN 0
 #define MAX 1
-#define DATA_TYPE cgraph_int64_t
-#define DATA_ID CGRAPH_INT64_T
+#define DATA_TYPE cgraph_int32_t
+#define DATA_ID CGRAPH_INT32_T
 #define DATA_ZERO 0
 #define DATA_ONE 1
 #define DATA_ONES 1
 #define DATA_BITS (8*sizeof(DATA_TYPE) - 2)
-#define DATA_MIN (CGRAPH_INT64_MIN >> 1)
-#define DATA_MAX (CGRAPH_INT64_MAX >> 1)
+#define DATA_MIN (CGRAPH_INT32_MIN >> 1)
+#define DATA_MAX (CGRAPH_INT32_MAX >> 1)
 #define DATA_MSB (DATA_ONE << (DATA_BITS-1))
 #define DATA_LSB (DATA_ONE)
 
@@ -213,12 +213,12 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_COMPLEX_T
 #define NAME complex
 #define OUT_FORMAT "%g"
-#define ZERO {0.0, 0.0}
-#define ONE {0.0, 1.0}
-#define ONES {1.0, 1.0}
+#define ZERO {{0.0, 0.0}}
+#define ONE {{0.0, 1.0}}
+#define ONES {{1.0, 1.0}}
 #define BITS (CGRAPH_REAL_EPSILON_LEN*2)
-#define MIN {CGRAPH_REAL_MIN, CGRAPH_REAL_MIN}
-#define MAX {CGRAPH_REAL_MAX, CGRAPH_REAL_MAX}
+#define MIN {{CGRAPH_REAL_MIN, CGRAPH_REAL_MIN}}
+#define MAX {{CGRAPH_REAL_MAX, CGRAPH_REAL_MAX}}
 #define DATA_TYPE cgraph_real_t
 #define DATA_ID CGRAPH_REAL_T
 #define DATA_ZERO 0.0
@@ -235,13 +235,13 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_FRACTION_T
 #define NAME fraction
 #define OUT_FORMAT "%d"
-#define ZERO {0, 1}
-#define ONE {1, 1}
-#define ONES {CGRAPH_INTEGER_MIN, 1}
+#define ZERO {{0, 1}}
+#define ONE {{1, 1}}
+#define ONES {{CGRAPH_INTEGER_MIN, 1}}
 #define BITS (8*sizeof(TYPE))
-#define MIN {CGRAPH_INTEGER_MIN, 1}
-#define MAX {CGRAPH_INTEGER_MAX, 1}
-#define EPSILON {1, CGRAPH_INTEGER_MAX}
+#define MIN {{CGRAPH_INTEGER_MIN, 1}}
+#define MAX {{CGRAPH_INTEGER_MAX, 1}}
+#define EPSILON {{1, CGRAPH_INTEGER_MAX}}
 #define EPSILON_LEN (8*sizeof(TYPE))
 #define DATA_TYPE cgraph_integer_t
 #define DATA_ID CGRAPH_INTEGER_T
@@ -488,7 +488,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define SUB(a, b, c) ((a) - (b))
 #define MUL(a, b, c) ((a) * (b))
 #define DIV(a, b, c) ((a) / (b))
-#define INT(a, b, c) (floor(DIV((a), (b))))
+#define INT(a, b, c) (floor(DIV((a), (b), (0))))
 #define MOD(a, b, c) (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
@@ -572,10 +572,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif defined(TYPE_BIGINT)
 
-#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b), (c))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
@@ -588,10 +588,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif defined(TYPE_BIGNUM)
 
-#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b), (c))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
@@ -604,10 +604,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif  defined(TYPE_STRING)
 
-#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b), (c))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
@@ -620,10 +620,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #elif defined(TYPE_BITSET)
 
-#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b), (c))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))

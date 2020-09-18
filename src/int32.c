@@ -3,7 +3,7 @@
 
 #define TYPE_INT32
 #include "templete.h"
-#include "data.templete"
+#include "integer_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
@@ -15,11 +15,8 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
     hash = ((hash >> 16) ^ hash) * 0x45d9f3b;
     hash = (hash >> 16) ^ hash;
   }
-
   
   return hash;
 }
-
-#include "integer.templete"
 
 #include "templete_off.h"

@@ -17,7 +17,7 @@ typedef struct
 
 #define BITSET_GET_BIT(cthis, pos) (((cthis->data[pos / DATA_BITS]) >> (pos % DATA_BITS)) ^ 1)
 
-#include "data_templete.h"
+#include "data_base.ht"
 
 extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t pos);
 extern TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t pos);
@@ -26,10 +26,10 @@ extern TYPE *FUNCTION(NAME, sets)(TYPE *cthis, const cgraph_size_t min, const cg
 extern TYPE *FUNCTION(NAME, clr)(TYPE *cthis, const cgraph_size_t pos);
 extern TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max);
 
-extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y);
-extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y);
-extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y);
-extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y);
+extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 
 #include "templete_off.h"
 

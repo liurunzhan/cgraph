@@ -4,7 +4,7 @@
 
 #define TYPE_BIGINT
 #include "templete.h"
-#include "data.templete"
+#include "data_base.ct"
 
 /*
   BKDR Hash Algorithm
@@ -95,45 +95,25 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
   return CGRAPH_TEST((cthis->pos == CGRAPH_FALSE));
 }
 
-TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, const TYPE *z)
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  if()
-  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
-  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
+  TYPE *res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)
   {
-    if(object_x->pos == object_y->pos)
+    if(x->pos == y->pos)
     {
       cgraph_size_t i;
       for(i=1; i<len; i++)
-      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
-      res->pos = object_x->pos;
+      { res->data[res->len-i] = x->data[x->len-i] + y->data[y->len-i]; }
+      res->pos = x->pos;
     }
   }
 
   return res;
 }
 
-TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
-{
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
-  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
-  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
-  if(NULL != res)
-  {
-    if(object_x->pos == object_y->pos)
-    {
-      cgraph_size_t i;
-      for(i=1; i<len; i++)
-      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
-      res->pos = object_x->pos;
-    }
-  }
-
-  return res;
-}
-
-TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
   cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
@@ -152,7 +132,26 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
   return res;
 }
 
-TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
+{
+  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
+  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
+  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  if(NULL != res)
+  {
+    if(object_x->pos == object_y->pos)
+    {
+      cgraph_size_t i;
+      for(i=1; i<len; i++)
+      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
+      res->pos = object_x->pos;
+    }
+  }
+
+  return res;
+}
+
+TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
   cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);

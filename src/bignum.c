@@ -4,7 +4,7 @@
 
 #define TYPE_BIGNUM
 #include "templete.h"
-#include "data.templete"
+#include "data_base.ct"
 
 /*
   BKDR Hash Algorithm
@@ -95,22 +95,22 @@ TYPE *FUNCTION(NAME, format)(TYPE *cthis)
 }
 
 
-TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   return NULL;
 }
 
-TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   return NULL;
 }
 
-TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   return NULL;
 }
 
-TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y)
+TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   return NULL;
 }

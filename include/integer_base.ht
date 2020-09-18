@@ -1,3 +1,4 @@
+#include "data_base.ht"
 
 extern void *FUNCTION(NAME, divrs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
 

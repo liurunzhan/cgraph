@@ -35,5 +35,21 @@ object Compile {
     val ARFLAGS : String = "-rcs"
 
     val FILES : Array[File] = (new File(SRC)).listFiles().filter(_.isFile).filter(_.toString.endsWith(".c"))
+
+    val SCRIPT_NAME = (new File(getClass()).protectionDomain.codeSource.location.path).name
+    if (args.length == 0) {
+
+    } else if (args[0] == "test") {
+
+    } else if (args[0] == "clean") {
+
+    } else if (args[0] == "distclean") {
+
+    } else if (args[0] == "help") {
+
+    } else {
+      println("${args[0]} is an unsupported command")
+      println("use \"${SCRIPT_NAME} help\" to know all supported commands")
+    }
   }
 }

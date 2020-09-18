@@ -3,7 +3,7 @@
 
 #define TYPE_INT8
 #include "templete.h"
-#include "data.templete"
+#include "integer_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
@@ -14,7 +14,5 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   
   return hash;
 }
-
-#include "integer.templete"
 
 #include "templete_off.h"

@@ -9,10 +9,8 @@ extern "C" {
 
 #define TYPE_INTEGER
 #include "templete.h"
-#include "data_templete.h"
 
-
-#include "integer_templete.h"
+#include "integer_base.ht"
 
 #include "templete_off.h"
 
