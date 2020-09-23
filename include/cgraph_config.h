@@ -34,12 +34,14 @@ typedef float cgraph_float_t;
 #define CGRAPH_LONG_MAX LONG_MAX
 #define CGRAPH_LONG_MIN LONG_MIN
 
-#if __WORDSIZE == 64
+#if __WORDSIZE == 64 || defined(_WIN64)
 #define CGRAPH_LONG_EPSILON (0xFFFFFFFFFFFFFFFF)
 #define CGRAPH_LONG_EPSILON_LEN (64)
-#else
+#elif __WORDSIZE == 32 || defined(_WIN32)
 #define CGRAPH_LONG_EPSILON (0xFFFFFFFF)
 #define CGRAPH_LONG_EPSILON_LEN (32)
+#else
+#error only 64-bit and 32-bit system are supported!!
 #endif
 
 #define CGRAPH_REAL_MAX DBL_MAX
@@ -52,89 +54,64 @@ typedef float cgraph_float_t;
 #define CGRAPH_FLOAT_EPSILON FLT_EPSILON
 #define CGRAPH_FLOAT_EPSILON_LEN FLT_DIG
 
-#if defined(__STDC__) && defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 OR HIGHER SUPPORTED! */
+#if defined(__STDC__)
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 OR HIGHER SUPPORTED! */
 
 #include <stdint.h>
-
-/*
-  8-bit integer number
-*/
+/* 8-bit integer number */
 #define CGRAPH_INT8_MIN INT8_MIN
 #define CGRAPH_INT8_MAX INT8_MIN
-
 typedef int8_t cgraph_int8_t;
-
-/*
-  16-bit integer number
-*/
+/* 16-bit integer number */
 #define CGRAPH_INT16_MIN INT16_MIN
 #define CGRAPH_INT16_MAX INT16_MIN
-
 typedef int16_t cgraph_int16_t;
-
-/*
-  32-bit integer number
-*/
+/* 32-bit integer number */
 #define CGRAPH_INT32_MIN INT32_MIN
 #define CGRAPH_INT32_MAX INT32_MIN
-
 typedef int32_t cgraph_int32_t;
-
-/*
-  64-bit integer number
-*/
+/* 64-bit integer number */
 #define CGRAPH_INT64_MIN INT64_MIN
 #define CGRAPH_INT64_MAX INT64_MIN
-
 typedef int64_t cgraph_int64_t;
 
 #else /* C89 OR C90 OR C95 */
 
+/* 8-bit integer number */
 #define CGRAPH_INT8_MIN (-128)
 #define CGRAPH_INT8_MAX (127)
-
 typedef signed char cgraph_int8_t;
-
+/* 16-bit integer number */
 #define CGRAPH_INT16_MIN (-32768)
 #define CGRAPH_INT16_MAX (32767)
-
 typedef signed short cgraph_int16_t;
-
+/* 32-bit integer number */
 #define CGRAPH_INT32_MIN (-2147483648L)
 #define CGRAPH_INT32_MAX (2147483647L)
 typedef signed int cgraph_int32_t;
-
-/*
-#define CGRAPH_INT64_MIN CGRAPH_LONG_MIN
-#define CGRAPH_INT64_MAX CGRAPH_LONG_MAX
-typedef signed long cgraph_int64_t;
-
-#define CGRAPH_INT64_MIN (-9223372036854775808LL)
-#define CGRAPH_INT64_MAX (9223372036854775807LL)
-*/
-
-#if __WORDSIZE == 64
-
+/* 64-bit integer number */
+#if __WORDSIZE == 64 || defined(_WIN64)
 #define CGRAPH_INT64_MIN (-9223372036854775808LL)
 #define CGRAPH_INT64_MAX (9223372036854775807LL)
 #define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
 #define CGRAPH_INT64_EPS_LEN (64)
-
 typedef signed long cgraph_int64_t;
-
-#else
-
+#elif __WORDSIZE == 32 || defined(_WIN32)
 #define CGRAPH_INT64_MIN (-9223372036854775808LL)
 #define CGRAPH_INT64_MAX (9223372036854775807LL)
 #define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
 #define CGRAPH_INT64_EPS_LEN (64)
-
 __extension__
 typedef signed long long cgraph_int64_t;
+#else
+#error only 32-bit and 64-bit system are supported!!
+#endif /* __WORDSIZE */
 
-#endif
+#endif /* __STDC_VERSION__ */
 
-
+#else
+#error only standard c is suppoted!
 #endif /* __STDC__ */
 
 #define CGRAPH_TRUE (1)

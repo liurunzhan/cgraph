@@ -50,7 +50,7 @@ TSTTARGET=$TST/$PRO
 if (( $# == 0 )) {
   $MKDIR $LIB
   for file ($CFILES) {
-    obj=`echo $file | sed "s/\.c/\.o/g"`
+    obj=`echo $file | sed "s/\.c$/\.o/g"`
     echo "compile $file to $obj"
     $CC $CFLAGS -I$INC -c $file -o $obj
   }
@@ -65,7 +65,7 @@ if (( $# == 0 )) {
   $TSTTARGET $TST/elements.csv
 } elif [[ $1 == "clean" ]] {
   for file ($CFILES) {
-    obj=`echo $file | sed "s/\.c/\.o/g"`
+    obj=`echo $file | sed "s/\.c$/\.o/g"`
     echo "clean $obj"
     $RM $RMFLAGS $obj
   }
@@ -77,7 +77,7 @@ if (( $# == 0 )) {
   $RM $RMFLAGS $TSTTARGET
 } elif [[ $1 == "distclean" ]] {
   for file ($CFILES) {
-    obj=`echo $file | sed "s/\.c/\.o/g"`
+    obj=`echo $file | sed "s/\.c$/\.o/g"`
     echo "clean $obj"
     $RM $RMFLAGS $obj
   }

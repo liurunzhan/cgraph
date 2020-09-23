@@ -67,7 +67,6 @@ $(TOOLS) test:
 	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
 	$(CP) $(CPFLAGS) .$(SEPARATOR)script$(SEPARATOR)$(SCRIPT) .
 	$(COMPILE) $(SCRIPT) $(CMD)
-	$(RM) $(RMFLAGS) $(SCRIPT)
 	
 .PHONY: all test clean distclean help $(TOOLS)
 
@@ -82,15 +81,15 @@ distclean: CMD= distclean
 help: CMD= help
 
 make: SCRIPT= compile.mk
-make: COMPILE=	make -f
+make: COMPILE= $(MAKE) -f
 make: TOOL= make
 
 cmake: SCRIPT= CMakeLists.txt
-cmake: COMPILE= -mkdir build; cd build; rm -f CMakeCache.txt; cmake .. ; make
+cmake: COMPILE= -mkdir build; cd build; rm -f *; cmake .. ; $(MAKE)
 cmake: TOOL= cmake
 
 xmake: SCRIPT= xmake.lua
-xmake: COMPILE= xmake
+xmake: COMPILE= xmake -F 
 
 sh: SCRIPT= compile.sh
 sh: COMPILE= sh

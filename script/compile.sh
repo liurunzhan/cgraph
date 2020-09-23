@@ -50,7 +50,7 @@ OPT=$1
 if [ -z $1 ]; then
   ${MKDIR} ${LIB} 
   for file in ${CFILES}; do
-    obj=`echo ${file} | sed "s/\.c/\.o/g"`
+    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     echo "compile ${file} to ${obj}"
     ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}
   done
@@ -65,7 +65,7 @@ elif [ $1 = "test" ]; then
   ${TSTTARGET} ${TST}/elements.csv
 elif [ $1 = "clean" ]; then
   for file in ${CFILES}; do
-    obj=`echo ${file} | sed "s/\.c/\.o/g"`
+    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
   done
@@ -77,7 +77,7 @@ elif [ $1 = "clean" ]; then
   ${RM} ${RMFLAGS} ${TSTTARGET}
 elif [ $1 = "distclean" ]; then
   for file in ${CFILES}; do
-    obj=`echo ${file} | sed "s/\.c/\.o/g"`
+    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
   done

@@ -40,7 +40,7 @@ end
 
 $CFILES = []
 Dir.foreach($SRC) do |file|
-  if File.extname(file) =~ /.c/
+  if File.extname(file) =~ /.c$/
     $CFILES << File.join($SRC, file)
   end
 end

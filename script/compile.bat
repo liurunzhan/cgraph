@@ -27,9 +27,9 @@ if MODE == "debug" (
 rem build and clean directories and files
 set MKDIR=mkdir
 set RM=del
-set RMFLAGS=/S /Q /F
+set RMFLAGS=/Q /F
 set RMDIR=rd
-set RMDIRFLAGS=/S /Q
+set RMDIRFLAGS=/Q
 
 rem package shared library
 set AR=ar

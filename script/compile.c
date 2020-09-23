@@ -26,11 +26,18 @@ int main(int argc, char *argv[])
   }
   else if(strcmp("help", argv[1]))
   {
-    fprintf(stdout, "");
+   fprintf(stdout, "%s    <target>\n", argv[0]);
+   fprintf(stdout, "<target>: \n");
+   fprintf(stdout, "                    compile cgraph\n");
+   fprintf(stdout, "          test      test cgraph\n");
+   fprintf(stdout, "          clean     clean all the generated files\n");
+   fprintf(stdout, "          distclean clean all the generated files and directories\n");
+   fprintf(stdout, "          help      commands to this program\n");
   }
   else
   {
-    
+    fprintf(stdout, "%s is an unsupported command\n", argv[1]);
+    fprintf(stdout, "use \"%s help\" to know all supported commands\n", argv[0]);
   }
   
 

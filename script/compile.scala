@@ -22,12 +22,9 @@ object Compile {
     val CSFLAGS : String = "-shared"
 
     val MODE : String = "debug"
-    if (MODE.equals("debug"))
-    {
+    if (MODE.equals("debug")) {
       CFLAGS += " -g -DDEBUG"
-    }
-    else if (MODE.equals("release"))
-    {
+    } else if (MODE.equals("release")) {
       CFLAGS += " -static -O2"
     }
 

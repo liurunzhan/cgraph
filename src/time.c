@@ -18,9 +18,17 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
   TYPE object = *(TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_TRUE;
-  if((0 > CGRAPH_MONTH(object)) || (12 < CGRAPH_MONTH(object)))
+  if(0 == CGRAPH_YEAR(object))
+  { flag = CGRAPH_FALSE; }
+  else if((0 > CGRAPH_MONTH(object)) || (12 < CGRAPH_MONTH(object)))
   { flag = CGRAPH_FALSE; }
   else if((0 > CGRAPH_DAY(object)) || (31 < CGRAPH_DAY(object)))
+  { flag = CGRAPH_FALSE; }
+  else if((0 > CGRAPH_HOUR(object)) || (24 < CGRAPH_HOUR(object)))
+  { flag = CGRAPH_FALSE; }
+  else if((0 > CGRAPH_MINUTE(object)) || (60 < CGRAPH_MINUTE(object)))
+  { flag = CGRAPH_FALSE; }
+  else if((0 > CGRAPH_SECOND(object)) || (60 < CGRAPH_SECOND(object)))
   { flag = CGRAPH_FALSE; }
 
   return flag;
@@ -103,6 +111,7 @@ TYPE FUNCTION(NAME, localtime)(void)
   struct tm *pt;
   time(&current_time);
   pt = localtime(&current_time);
+  CGRAPH_TIME_TYPE(res) = CGRAPH_TIME_ZERO;
   CGRAPH_YEAR(res) = pt->tm_year + 1900;
   CGRAPH_MONTH(res) = pt->tm_mon;
   CGRAPH_DAY(res) = pt->tm_mday;
