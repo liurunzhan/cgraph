@@ -5,8 +5,8 @@ import groovy.io.FileType;
 
 def PRO = "cgraph"
 def DIR = "."
-def SRC = DIR + File.separator + "src"
 def INC = DIR + File.separator + "include"
+def SRC = DIR + File.separator + "src"
 def TST = DIR + File.separator + "test"
 def LIB = DIR + File.separator + "lib"
 

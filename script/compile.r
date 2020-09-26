@@ -2,8 +2,8 @@
 
 PRO <- "cgraph"
 DIR <- "."
-SRC <- file.path(DIR, "src", fsep=.Platform$file.sep)
 INC <- file.path(DIR, "include", fsep=.Platform$file.sep)
+SRC <- file.path(DIR, "src", fsep=.Platform$file.sep)
 TST <- file.path(DIR, "test", fsep=.Platform$file.sep)
 LIB <- file.path(DIR, "lib", fsep=.Platform$file.sep)
 

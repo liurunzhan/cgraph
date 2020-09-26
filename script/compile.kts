@@ -5,8 +5,8 @@ import java.io.File;
 fun main(args: Array<String>) {
   val PRO = "cgraph"
   val DIR = "."
-  val SRC = DIR + File.separator + "src"
   val INC = DIR + File.separator + "include"
+  val SRC = DIR + File.separator + "src"
   val TST = DIR + File.separator + "test"
   val LIB = DIR + File.separator + "lib"
   
@@ -28,7 +28,6 @@ fun main(args: Array<String>) {
   val CFILES : MutableList<String> = mutableListOf()
   FILES.maxDepth(1).filter{it.isFile}.filter{it.extension == "c"}.forEach{CFILES.add(SRC + File.separator + it.name)}
   
-  print(CFILES)
   val SCRIPT_NAME = (new File(getClass()).protectionDomain.codeSource.location.path).name
   if (args.length == 0) {
 

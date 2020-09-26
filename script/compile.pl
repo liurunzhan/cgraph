@@ -6,8 +6,8 @@ use File::Spec;
 
 my $PRO = "cgraph";
 my $DIR = ".";
-my $SRC = File::Spec->catdir($DIR, "src");
 my $INC = File::Spec->catdir($DIR, "include");
+my $SRC = File::Spec->catdir($DIR, "src");
 my $TST = File::Spec->catdir($DIR, "test");
 my $LIB = File::Spec->catdir($DIR, "lib");
 

@@ -8,8 +8,8 @@ import shutil
 
 PRO = "cgraph"
 DIR = "."
-SRC = os.path.join(DIR, "src")
 INC = os.path.join(DIR, "include")
+SRC = os.path.join(DIR, "src")
 TST = os.path.join(DIR, "test")
 LIB = os.path.join(DIR, "lib")
 

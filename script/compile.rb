@@ -2,8 +2,8 @@
 
 $PRO = "cgraph"
 $DIR = "."
-$SRC = File.join($DIR, "src")
 $INC = File.join($DIR, "include")
+$SRC = File.join($DIR, "src")
 $TST = File.join($DIR, "test")
 $LIB = File.join($DIR, "lib")
 

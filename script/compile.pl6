@@ -4,8 +4,8 @@ use v6;
 
 my $PRO = "cgraph";
 my $DIR = ".";
-my $SRC = $DIR.IO.add("src");
 my $INC = $DIR.IO.add("include");
+my $SRC = $DIR.IO.add("src");
 my $TST = $DIR.IO.add("test");
 my $LIB = $DIR.IO.add("lib");
 

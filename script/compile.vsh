@@ -3,8 +3,8 @@
 fn main() {
   PRO := "cgraph"
   DIR := "."
-  SRC := File::Spec->catdir($DIR, "src")
   INC := File::Spec->catdir($DIR, "include")
+  SRC := File::Spec->catdir($DIR, "src")
   TST := File::Spec->catdir($DIR, "test")
   LIB := File::Spec->catdir($DIR, "lib")
 

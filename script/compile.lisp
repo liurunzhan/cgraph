@@ -2,8 +2,8 @@
 
 (setq PRO "cgraph")
 (setq DIR (pathname-directory "."))
-(setq SRC (merge-pathnames "src" DIR))
 (setq INC (merge-pathnames "include" DIR))
+(setq SRC (merge-pathnames "src" DIR))
 (setq TST (merge-pathnames "test" DIR))
 (setq LIB (merge-pathnames "lib" DIR))
 

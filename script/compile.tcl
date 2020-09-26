@@ -2,8 +2,8 @@
 
 set PRO "cgraph"
 set DIR "."
-set SRC [file join ${DIR} "src"]
 set INC [file join ${DIR} "include"]
+set SRC [file join ${DIR} "src"]
 set TST [file join ${DIR} "test"]
 set LIB [file join ${DIR} "lib"]
 

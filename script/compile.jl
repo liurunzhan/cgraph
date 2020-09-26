@@ -2,8 +2,8 @@
 
 PRO = "cgraph"
 DIR = "."
-SRC = joinpath(DIR, "src")
 INC = joinpath(DIR, "include")
+SRC = joinpath(DIR, "src")
 TST = joinpath(DIR, "test")
 LIB = joinpath(DIR, "lib")
 
@@ -48,7 +48,7 @@ for file in readdir(SRC)
 end
 
 args = ARGS
-if 0 == length(args)
+if length(args) == 0
   mkpath("$LIB")
   OFILES = []
   for file in CFILES

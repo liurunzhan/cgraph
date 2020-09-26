@@ -3,12 +3,15 @@
 #include <stdio.h>
 #include <string.h>
 
+#define STRING_MAX 100
+
 int main(int argc, char *argv[])
 {
   char *PRO = "cgraph";
   char *DIR = ".";
+  char INC[100], SRC[STRING_MAX], TST[STRING_MAX], LIB[STRING_MAX];
   
-  if(1 == argc)
+  if(argc == 1)
   {
 
   }
@@ -26,13 +29,13 @@ int main(int argc, char *argv[])
   }
   else if(strcmp("help", argv[1]))
   {
-   fprintf(stdout, "%s    <target>\n", argv[0]);
-   fprintf(stdout, "<target>: \n");
-   fprintf(stdout, "                    compile cgraph\n");
-   fprintf(stdout, "          test      test cgraph\n");
-   fprintf(stdout, "          clean     clean all the generated files\n");
-   fprintf(stdout, "          distclean clean all the generated files and directories\n");
-   fprintf(stdout, "          help      commands to this program\n");
+    fprintf(stdout, "%s    <target>\n", argv[0]);
+    fprintf(stdout, "<target>: \n");
+    fprintf(stdout, "                    compile cgraph\n");
+    fprintf(stdout, "          test      test cgraph\n");
+    fprintf(stdout, "          clean     clean all the generated files\n");
+    fprintf(stdout, "          distclean clean all the generated files and directories\n");
+    fprintf(stdout, "          help      commands to this program\n");
   }
   else
   {
@@ -40,6 +43,5 @@ int main(int argc, char *argv[])
     fprintf(stdout, "use \"%s help\" to know all supported commands\n", argv[0]);
   }
   
-
   return 0;
 }

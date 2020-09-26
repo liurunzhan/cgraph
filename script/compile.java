@@ -9,8 +9,8 @@ public class Compile {
   public static void main(String[] args) {
     String PRO = new String("cgraph");
     String DIR = new String(".");
-    String SRC = new String(DIR + File.separator + "src");
     String INC = new String(DIR + File.separator + "include");
+    String SRC = new String(DIR + File.separator + "src");
     String TST = new String(DIR + File.separator + "test");
     String LIB = new String(DIR + File.separator + "lib");
 

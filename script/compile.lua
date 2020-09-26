@@ -9,8 +9,8 @@ SEPARATOR = string.sub(package.config, 0, 1)
 
 PRO = "cgraph"
 DIR = "."
-SRC = DIR .. SEPARATOR .. "src"
 INC = DIR .. SEPARATOR .. "include"
+SRC = DIR .. SEPARATOR .. "src"
 TST = DIR .. SEPARATOR .. "test"
 LIB = DIR .. SEPARATOR .. "lib"
 
@@ -37,7 +37,7 @@ for file in lfs.dir(SRC) do
 end
 
 args = ARGS
-if 0 == length(args) then
+if length(args) == 0 then
   mkpath("$LIB")
   for file in CFILES do
     obj = string.gsub(file, ".c$", ".o")
