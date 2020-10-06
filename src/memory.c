@@ -35,9 +35,7 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size
       {
         object = realloc(cthis, (new_len+1)*data_size);
         if(NULL != object)
-        {
-          object = memset((char *)object+(old_len*data_size), 0, (new_len-old_len+1)*data_size);
-        }
+        { object = memset((char *)object+(old_len*data_size), 0, (new_len-old_len+1)*data_size); }
         else
         {
         #ifdef DEBUG
@@ -72,7 +70,8 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size
     { cgraph_error_log(stderr, __FILE__, __LINE__, "object pointer is empty"); }
     fflush(stderr);
   #endif
-    *error = CGRAPH_TRUE;
+    if(NULL != error)
+    { *error = CGRAPH_TRUE; }
   }
 
   return object;

@@ -31,6 +31,13 @@ extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 
+extern cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
+extern cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y);
+extern cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y);
+extern cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
+extern cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
+extern cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

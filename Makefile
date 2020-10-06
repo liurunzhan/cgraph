@@ -30,6 +30,18 @@ DETECTED_OS := $(patsubst MSYS%,MSYS,$(DETECTED_OS))
 DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
 endif
 
+ifeq ($(DETECTED_OS), "Windows")
+CMAKE_FLAGS= "NMake Makefiles"
+else ifeq ($(DETECTED_OS), "CYGWIN")
+CMAKE_FLAGS= "Unix Makefiles"
+else ifeq ($(DETECTED_OS), "MSYS")
+CMAKE_FLAGS= "MSYS Makefiles"
+else ifeq ($(DETECTED_OS), "MINGW")
+CMAKE_FLAGS= "MinGW Makefiles"
+else
+CMAKE_FLAGS= "Unix Makefiles"
+endif
+
 export MY_OS = $(DETECTED_OS)
 
 # Windows cmd is available or not
@@ -40,26 +52,28 @@ CMD_AVAI := FALSE
 endif
 
 ifeq ($(CMD_AVAI), TRUE)
-export RM = -del
+export RM = del
 export RMFLAGS = /Q /F
-export MKDIR = -mkdir
+export MKDIR = mkdir
 export MKDIRFLAGS = 
-export RMDIR = -rd
+export RMDIR = rd
 export RMDIRFLAGS = /Q
-export CP = -copy
+export CP = copy
 export CPFLAGS = /Y
 export SEPARATOR = \\
+export SPLIT = &
 
 else
-export RM = -rm
+export RM = rm
 export RMFLAGS = -f
-export MKDIR = -mkdir
+export MKDIR = mkdir
 export MKDIRFLAGS = -p
-export RMDIR = -rm
+export RMDIR = rm
 export RMDIRFLAGS = -rf
-export CP = -cp
+export CP = cp
 export CPFLAGS =
 export SEPARATOR = /
+export SPLIT = ;
 
 endif
 
@@ -85,11 +99,11 @@ make: COMPILE= $(MAKE) -f
 make: TOOL= make
 
 cmake: SCRIPT= CMakeLists.txt
-cmake: COMPILE= -mkdir build; cd build; rm -f *; cmake .. ; $(MAKE)
+cmake: COMPILE= $(MKDIR) $(MKDIRFLAGS) build; cd build; $(RM) $(RMFLAGS) *; cmake .. -G $(CMAKE_FLAGS); $(MAKE)
 cmake: TOOL= cmake
 
 xmake: SCRIPT= xmake.lua
-xmake: COMPILE= xmake -F 
+xmake: COMPILE= xmake -F
 
 sh: SCRIPT= compile.sh
 sh: COMPILE= sh

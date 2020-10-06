@@ -2,16 +2,7 @@
 
 cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  {
-    TYPE tmp = *object;
-    if(CGRAPH_TRUE == tmp || CGRAPH_FALSE == tmp)
-    { flag = CGRAPH_TRUE; }
-  }
-
-  return flag;
+  return NULL == cthis ? CGRAPH_FALSE : CGRAPH_TRUE;
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)

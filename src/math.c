@@ -6,7 +6,6 @@ cgraph_integer_t cgraph_math_crc(const cgraph_integer_t predata, const cgraph_in
 {
   cgraph_integer_t res = predata, temp = (data & res), poly = polynomial, ones = 0xFFFFFFFF, msb = 0;
   cgraph_size_t i = 0, bits = 32;
-  printf("%x %x %x\n", res, temp, poly);
   for(i=0; i<bits; i++)
   {
     msb = ((res ^ temp) >> (bits-1) & 0x01);
@@ -230,11 +229,16 @@ cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t s
 	return Z * sigma + mu;
 }
 
-cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t len)
+cgraph_real_t cgraph_math_lognx(const cgraph_real_t n, const cgraph_real_t x)
+{
+  return log(x) / log(n);
+}
+
+cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t n)
 {
   cgraph_integer_t res = 1;
   cgraph_size_t i;
-  for(i=0; i<len; i++)
+  for(i=0; i<n; i++)
   { res = res << 1; }
 
   return res;

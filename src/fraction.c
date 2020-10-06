@@ -68,6 +68,33 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 }
 
 /*                               private apis                                 */
+TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den)
+{
+  TYPE res;
+  FRACTION_NUM(res) = num;
+  FRACTION_DEN(res) = den;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initwn)(const DATA_TYPE num)
+{
+  TYPE res;
+  FRACTION_NUM(res) = num;
+  FRACTION_DEN(res) = 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den)
+{
+  TYPE res;
+  FRACTION_NUM(res) = 1;
+  FRACTION_DEN(res) = den;
+
+  return res;
+}
+
 cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
 {
   return CGRAPH_TEST((0 == FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));

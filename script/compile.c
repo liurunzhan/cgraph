@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
   char *DIR = ".";
   char INC[100], SRC[STRING_MAX], TST[STRING_MAX], LIB[STRING_MAX];
   
+
+
   if(argc == 1)
   {
 

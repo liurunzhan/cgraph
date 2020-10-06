@@ -25,7 +25,11 @@ typedef struct
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
 extern cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y);
 
-/*                               private apis                                 */
+/*                             initial functions                              */
+extern TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den);
+extern TYPE FUNCTION(NAME, initwn)(const DATA_TYPE num);
+extern TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den);
+
 extern cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x);
 extern cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x);
 extern cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x);

@@ -390,7 +390,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #error !!! UNSUPPORTED DATA TYPE !!!
 #endif
 
-#if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
+#if defined(__STDC__) 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #define CGRAPH_DATA_BASE \
   cgraph_size_t size, len; \
 	DATA_TYPE *data, root[];
@@ -398,12 +399,14 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define CGRAPH_DATA_BASE \
   cgraph_size_t size, len; \
 	DATA_TYPE *data, *root;
-#endif
+#endif /* __STDC_VERSION__ */
+#else
+#error only standard c is suppoted!
+#endif /* __STDC__ */
 
 #define CGRAPH_STRUCTURE_BASE \
 	cgraph_type_t type; \
-  cgraph_size_t size, len; \
-	DATA_TYPE *data, *root;
+	CGRAPH_DATA_BASE
 
 #if defined(TYPE_OBJECT)
 
@@ -418,13 +421,13 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MOD(a, b, c) (SUB((a), INT(a, b)))
 
 #define EQ(a, b) ((a) == (b))
-#define NEQ(a, b) ((a) != (b))
+#define NE(a, b) ((a) != (b))
 #define GR(a, b) ((a) > (b))
 #define GE(a, b) ((a) >= (b))
 #define LS(a, b) ((a) < (b))
 #define LE(a, b) ((a) <= (b))
-#define POW(a, b) (((a) == CGRAPH_TRUE) ? CGRAPH_TRUE : CGRAPH_FALSE)
 
+#define POW(a, b) (((a) == CGRAPH_TRUE) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define ABS(a) ((a))
 #define SIN(a) sin((a))
 #define COS(a) cos((a))
@@ -456,13 +459,13 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MOD(a, b, c) ((a) % (b))
 
 #define EQ(a, b) ((a) == (b))
-#define NEQ(a, b) ((a) != (b))
+#define NE(a, b) ((a) != (b))
 #define GR(a, b) ((a) > (b))
 #define GE(a, b) ((a) >= (b))
 #define LS(a, b) ((a) < (b))
 #define LE(a, b) ((a) <= (b))
-#define POW(a, b) pow((a), (b))
 
+#define POW(a, b) pow((a), (b))
 #define ABS(a) CGRAPH_ABS((a))
 #define SIN(a) sin((a))
 #define COS(a) cos((a))
@@ -492,13 +495,13 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define MOD(a, b, c) (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
-#define NEQ(a, b) (fabs((a) - (b)) > EPSILON)
+#define NE(a, b) (fabs((a) - (b)) > EPSILON)
 #define GR(a, b) (((a) - (b)) > EPSILON)
 #define GE(a, b) (((a) - (b)) > (-EPSILON))
 #define LS(a, b) (((a) - (b)) < (-EPSILON))
 #define LE(a, b) (((a) - (b)) < EPSILON)
-#define POW(a, b) pow((a), (b))
 
+#define POW(a, b) pow((a), (b))
 #define ABS(a) fabs((a))
 #define SIN(a) sin((a))
 #define COS(a) cos((a))
@@ -520,6 +523,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #elif defined(TYPE_TIME)
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
 #define GE(a, b) FUNCTION(NAME, ge)((a), (b))
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))
@@ -539,7 +543,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b, c) FUNCTION(NAME, divc)((a), (b))
 
 #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
-#define NEQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) || (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
+#define NE(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) || (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
 #define GR(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > DATA_EPSILON)
 #define GE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > (-DATA_EPSILON))
 #define LS(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < (-DATA_EPSILON))
@@ -559,7 +563,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b, c) FUNCTION(NAME, divf)((a), (b))
 
 #define EQ(a, b) ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
-#define NEQ(a, b) ((FRACTION_NUM(a) != FRACTION_NUM(b)) || (FRACTION_DEN(a) != FRACTION_DEN(b)))
+#define NE(a, b) ((FRACTION_NUM(a) != FRACTION_NUM(b)) || (FRACTION_DEN(a) != FRACTION_DEN(b)))
 #define GR(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) > (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define GE(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) >= (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define LS(a, b) ((FRACTION_NUM(a) * FRACTION_DEN(b)) < (FRACTION_NUM(b) * FRACTION_DEN(a)))
@@ -578,6 +582,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
 #define GE(a, b) FUNCTION(NAME, ge)((a), (b))
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))
@@ -594,6 +599,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
 #define GE(a, b) FUNCTION(NAME, ge)((a), (b))
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))
@@ -610,6 +616,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
 #define GE(a, b) FUNCTION(NAME, ge)((a), (b))
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))
@@ -626,6 +633,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne)((a), (b))
 #define GR(a, b) FUNCTION(NAME, gr)((a), (b))
 #define GE(a, b) FUNCTION(NAME, ge)((a), (b))
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))

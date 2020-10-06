@@ -12,11 +12,10 @@ extern "C" {
 #include "cgraph_struct.h"
 
 
-#include "cgraph_verilog.h"
-
 #include "cgraph_error.h"
 #include "cgraph_math.h"
 #include "cgraph_file.h"
+#include "cgraph_verilog.h"
 #include "cgraph_version.h"
 
 #ifdef __cplusplus

@@ -13,8 +13,8 @@ extern "C" {
 /*
 */
 
-#define CGRAPH_TIME_ZERO  (0)
-#define CGRAPH_TIME_ONE   (-1)
+#define CGRAPH_TIME_TYPE0  (0)
+#define CGRAPH_TIME_TYPE1 (-1)
 
 typedef struct
 {
@@ -40,30 +40,32 @@ typedef struct
   }data;
 }cgraph_time_t;
 
-#define CGRAPH_TIME_TYPE(x)    ((x).type)
-#define CGRAPH_TIME_ISTYPE0(x) ((x).type == 0)
-#define CGRAPH_TIME_ISTYPE1(x) ((x).type != 0)
+#define TIME_TYPE(x)    ((x).type)
+#define TIME_ISTYPE0(x) ((x).type == 0)
+#define TIME_ISTYPE1(x) ((x).type != 0)
 
+#define TIME_TYPE1(x) ((x).data.type1)
+#define TIME1(x)      (TIME_TYPE1(x).time1)
+#define TIME0(x)      (TIME_TYPE1(x).time0)
+#define TIME_VALUE(x) (((cgraph_int64_t)TIME1(x)) << 31 | (cgraph_int64_t)TIME0(x))
 
-#define CGRAPH_TIME_TYPE1(x) ((x).data.type1)
-#define CGRAPH_TIME1(x)      (CGRAPH_TIME_TYPE1(x).time1)
-#define CGRAPH_TIME0(x)      (CGRAPH_TIME_TYPE1(x).time0)
-#define CGRAPH_TIME(x)       (((cgraph_int64_t)CGRAPH_TIME1(x)) << 31 | (cgraph_int64_t)CGRAPH_TIME0(x))
-
-#define CGRAPH_TIME_TYPE0(x) ((x).data.type0)
-#define CGRAPH_YEAR(x)       (CGRAPH_TIME_TYPE0(x).year)
-#define CGRAPH_MONTH(x)      (CGRAPH_TIME_TYPE0(x).month)
-#define CGRAPH_DAY(x)        (CGRAPH_TIME_TYPE0(x).day)
-#define CGRAPH_HOUR(x)       (CGRAPH_TIME_TYPE0(x).hour)
-#define CGRAPH_MINUTE(x)     (CGRAPH_TIME_TYPE0(x).minute)
-#define CGRAPH_SECOND(x)     (CGRAPH_TIME_TYPE0(x).second)
-#define CGRAPH_WEEK(x)       (CGRAPH_TIME_TYPE0(x).week)
-#define CGRAPH_DAYS(x)       (CGRAPH_TIME_TYPE0(x).days)
+#define TIME_TYPE0(x)  ((x).data.type0)
+#define TIME_YEAR(x)   (TIME_TYPE0(x).year)
+#define TIME_MONTH(x)  (TIME_TYPE0(x).month)
+#define TIME_DAY(x)    (TIME_TYPE0(x).day)
+#define TIME_HOUR(x)   (TIME_TYPE0(x).hour)
+#define TIME_MINUTE(x) (TIME_TYPE0(x).minute)
+#define TIME_SECOND(x) (TIME_TYPE0(x).second)
+#define TIME_WEEK(x)   (TIME_TYPE0(x).week)
+#define TIME_DAYS(x)   (TIME_TYPE0(x).days)
 
 
 #include "data_base.ht"
 
+extern TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month, const DATA_TYPE day, const DATA_TYPE hour, const DATA_TYPE minute, const DATA_TYPE second);
+
 extern cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
+extern cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);

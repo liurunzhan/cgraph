@@ -55,9 +55,7 @@ typedef float cgraph_float_t;
 #define CGRAPH_FLOAT_EPSILON_LEN FLT_DIG
 
 #if defined(__STDC__)
-
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 OR HIGHER SUPPORTED! */
-
 #include <stdint.h>
 /* 8-bit integer number */
 #define CGRAPH_INT8_MIN INT8_MIN
@@ -75,9 +73,7 @@ typedef int32_t cgraph_int32_t;
 #define CGRAPH_INT64_MIN INT64_MIN
 #define CGRAPH_INT64_MAX INT64_MIN
 typedef int64_t cgraph_int64_t;
-
 #else /* C89 OR C90 OR C95 */
-
 /* 8-bit integer number */
 #define CGRAPH_INT8_MIN (-128)
 #define CGRAPH_INT8_MAX (127)
@@ -107,9 +103,7 @@ typedef signed long long cgraph_int64_t;
 #else
 #error only 32-bit and 64-bit system are supported!!
 #endif /* __WORDSIZE */
-
 #endif /* __STDC_VERSION__ */
-
 #else
 #error only standard c is suppoted!
 #endif /* __STDC__ */

@@ -25,12 +25,17 @@ extern void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_s
 extern void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end);
 extern void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end);
 
-extern void *FUNCTION(NAME, adds)(const void *x, const void *y, const void *z, const cgraph_size_t len);
-extern void *FUNCTION(NAME, subs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
-extern void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, const cgraph_size_t len);
-extern void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
-extern cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_size_t len);
-extern cgraph_size_t FUNCTION(NAME, cnt)(const void *x, const void *y, const cgraph_size_t len);
+extern void *FUNCTION(NAME, adds2x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, subs2x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, muls2x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, divs2x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern cgraph_boolean_t FUNCTION(NAME, eqs2x)(const void *x, const void *y, const cgraph_size_t len);
+extern void *FUNCTION(NAME, adds1x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, subs1x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, muls1x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void *FUNCTION(NAME, divs1x)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern cgraph_boolean_t FUNCTION(NAME, eqs1x)(const void *x, const void *y, const cgraph_size_t len);
+extern cgraph_size_t FUNCTION(NAME, cnt1x)(const void *x, const void *y, const cgraph_size_t len);
 extern void *FUNCTION(NAME, sum)(const void *x, const void *res, const cgraph_size_t len);
 
 extern void FUNCTION(NAME, test)(void);

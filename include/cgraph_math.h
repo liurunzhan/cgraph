@@ -7,10 +7,13 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define MATH_ERROR (-1)
-#define MATH_CONST_PI  (3.14159265358979323846)
-#define MATH_CONST_E   (2.71828182845904523536)
-#define MATH_CONST_PHI (0.61803398874989484820)
+/*                 const numbers defined and used in this library             */
+#define MATH_ERROR       (-1)
+#define MATH_CONST_PI    (3.14159265358979323846) /* pi            */
+#define MATH_CONST_E     (2.71828182845904523536) /* e             */
+#define MATH_CONST_PHI   (0.61803398874989484820) /* (sqrt(5)-1)/2 */
+#define MATH_CONST_LOG2  (0.69314718055994530942) /* ln2           */
+#define MATH_CONST_LOG10 (2.30258509299404568402) /* ln10          */
 
 extern cgraph_integer_t cgraph_math_crc(const cgraph_integer_t predata, const cgraph_integer_t data, const cgraph_integer_t polynomial);
 extern cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_boolean_t *error);
@@ -29,7 +32,8 @@ extern cgraph_integer_t cgraph_random(void);
 extern cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_integer_t max);
 extern cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t sigma);
 
-extern cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t len);
+extern cgraph_real_t cgraph_math_lognx(const cgraph_real_t n, const cgraph_real_t x);
+extern cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t n);
 extern cgraph_integer_t cgraph_math_bin2gray(const cgraph_integer_t data);
 extern cgraph_integer_t cgraph_math_gray2bin(const cgraph_integer_t data);
 

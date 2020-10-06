@@ -71,8 +71,7 @@ cgraph_boolean_t FUNCTION(NAME, hasdata)(void)
 cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 {
 #ifdef DATA_WITH_POINTER
-  TYPE *object = (TYPE *)cthis;
-  return NULL != object ? object->len : 0;
+  return NULL != cthis ? ((TYPE *)cthis)->len : 0;
 #else
   return 1;
 #endif
@@ -81,30 +80,34 @@ cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
 #ifdef DATA_WITH_POINTER
-#if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
-  TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, size)() + (size+2)*FUNCTION(NAME, dsize)(), 1);
-  if(NULL != cthis)
-  {
-    cthis->size = size;
-    cthis->len = size;
-    cthis->data = &(cthis->root[1]);
-  }
-#else
-  TYPE *cthis = (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
-  if(NULL != cthis)
-  {
-    DATA_TYPE *root = (DATA_TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, dsize)());
-    if(NULL != root)
-    {
-      cthis->size = size;
-      cthis->len = size;
-      cthis->root = root;
-      cthis->data = ++root;
-    }
-    else 
-    { cgraph_free(cthis); }
-  }
-#endif
+  #if defined(__STDC__) 
+    #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+      TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, size)() + (size+2)*FUNCTION(NAME, dsize)(), 1);
+      if(NULL != cthis)
+      {
+        cthis->size = size;
+        cthis->len = size;
+        cthis->data = &(cthis->root[1]);
+      }
+    #else
+      TYPE *cthis = (TYPE *)cgraph_calloc(1, FUNCTION(NAME, size)());
+      if(NULL != cthis)
+      {
+        DATA_TYPE *root = (DATA_TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, dsize)());
+        if(NULL != root)
+        {
+          cthis->size = size;
+          cthis->len = size;
+          cthis->root = root;
+          cthis->data = ++root;
+        }
+        else 
+        { cgraph_free(cthis); }
+      }
+    #endif /* __STDC_VERSION__ */
+  #else
+    #error only standard c is suppoted!
+  #endif /* __STDC__ */
 #else
   TYPE *cthis = (TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, size)());
 #endif
@@ -118,15 +121,22 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   {
-  #if defined(__STDC__) && (__STDC_VERSION__ >= 199901L)
-    object = (TYPE *)cgraph_realloc(object, FUNCTION(NAME, size)() + (object->size+2)*FUNCTION(NAME, dsize)(), FUNCTION(NAME, size)() + (new_size+2)*FUNCTION(NAME, dsize)(), 1, error);
-    if(CGRAPH_FALSE == *error)
-    { object->size = new_size; }
+  #if defined(__STDC__)
+    #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+      object = (TYPE *)cgraph_realloc(object, FUNCTION(NAME, size)() + (object->size+2)*FUNCTION(NAME, dsize)(), FUNCTION(NAME, size)() + (new_size+2)*FUNCTION(NAME, dsize)(), 1, error);
+      if(CGRAPH_FALSE == *error)
+      {
+        object->size = new_size;
+        object->root = &object->data[1];
+      }
+    #else
+      object->root = (DATA_TYPE *)cgraph_realloc(object->root, object->size, new_size, FUNCTION(NAME, dsize)(), error);
+      if(CGRAPH_FALSE == *error)
+      { object->size = new_size; }
+    #endif /* __STDC_VERSION__ */
   #else
-    object->root = (DATA_TYPE *)cgraph_realloc(object->root, object->size, new_size, FUNCTION(NAME, dsize)(), error);
-    if(CGRAPH_FALSE == *error)
-    { object->size = new_size; }
-  #endif
+    #error only standard c is suppoted!
+  #endif /* __STDC__ */
   }
 #else
   TYPE *object = (TYPE *)cgraph_realloc(cthis, old_size, new_size, FUNCTION(NAME, size)(), error);
@@ -154,11 +164,14 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 void FUNCTION(NAME, free)(void *cthis)
 {
 #ifdef DATA_WITH_POINTER
-#if !defined(__STDC__) || (__STDC_VERSION__ < 199901L)
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { cgraph_free(object->root); }
-#endif
+  #if defined(__STDC__)
+    #if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
+      if(NULL != cthis)
+      { cgraph_free(((TYPE *)cthis)->root); }
+    #endif /* __STDC_VERSION__ */
+  #else
+    #error only standard c is suppoted!
+  #endif /* __STDC__ */
 #endif
   cgraph_free(cthis);
 }
@@ -166,14 +179,12 @@ void FUNCTION(NAME, free)(void *cthis)
 void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size)
 {
   TYPE *object = (TYPE *)cthis, *new_data = (TYPE *)data;
-  if(NULL != object && NULL != new_data)
-  {
-  #ifdef DATA_WITH_POINTER
-    cgraph_memcpy(object->data, new_data->data, new_data->len, FUNCTION(NAME, dsize)());
-  #else
-    cgraph_memcpy(object, new_data, size, FUNCTION(NAME, dsize)());
-  #endif
-  }
+#ifdef DATA_WITH_POINTER
+  if((NULL != object) && (NULL != new_data))
+  { cgraph_memcpy(object->data, new_data->data, new_data->len, FUNCTION(NAME, dsize)()); }
+#else
+  cgraph_memcpy(object, new_data, size, FUNCTION(NAME, dsize)());
+#endif
 
   return object;
 }
@@ -239,74 +250,64 @@ void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgra
   FUNCTION(NAME, descsort)(object, left+1, end);
 }
 
-void *FUNCTION(NAME, adds)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+/*              functions with two vectors of the same data types             */
+void *FUNCTION(NAME, adds2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
 #else
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
-  if(NULL != object_x && NULL != object_y && NULL != object_z)
-  {
-    cgraph_size_t i;
-    for(i=0; i<len; i++)
-    { object_z[i] = ADD(object_x[i], object_y[i], object_z[i]); }
-  }
-
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = ADD(object_x[i], object_y[i], object_z[i]); }
+  
   return object_z;
 }
 
-void *FUNCTION(NAME, subs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+void *FUNCTION(NAME, sub2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
 #else
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
-  if(NULL != object_x && NULL != object_y && NULL != object_z)
-  {
-    cgraph_size_t i;
-    for(i=0; i<len; i++)
-    { object_z[i] = SUB(object_x[i], object_y[i], object_z[i]); }
-  }
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = SUB(object_x[i], object_y[i], object_z[i]); }
 
   return object_z;
 }
 
-void *FUNCTION(NAME, muls)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+void *FUNCTION(NAME, muls2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
 #else
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
-  if(NULL != object_x && NULL != object_y && NULL != object_z)
-  {
-    cgraph_size_t i;
-    for(i=0; i<len; i++)
-    { object_z[i] = MUL(object_x[i], object_y[i], object_z[i]); }
-  }
-
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = MUL(object_x[i], object_y[i], object_z[i]); }
+  
   return object_z;
 }
 
-void *FUNCTION(NAME, divs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+void *FUNCTION(NAME, divs2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
 #else
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *object_z = (TYPE *)z;
 #endif
-  if(NULL != object_x && NULL != object_y && NULL != object_z)
-  {
-    cgraph_size_t i;
-    for(i=0; i<len; i++)
-    { object_z[i] = DIV(object_x[i], object_y[i], object_z[i]); }
-  }
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = DIV(object_x[i], object_y[i], object_z[i]); }
+  
   return object_z;
 }
 
-cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_size_t len)
+cgraph_boolean_t FUNCTION(NAME, eqs2x)(const void *x, const void *y, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y;
@@ -314,23 +315,98 @@ cgraph_boolean_t FUNCTION(NAME, eqs)(const void *x, const void *y, const cgraph_
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
 #endif
   cgraph_boolean_t res = CGRAPH_TRUE;
-  if(NULL != object_x && NULL != object_y)
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
   {
-    cgraph_size_t i;
-    for(i=0; i<len; i++)
-    {
-      if(CGRAPH_FALSE == EQ(object_x[i], object_y[i]) )
-      { 
-        res = CGRAPH_FALSE;
-        break;
-      }
+    if(NE(object_x[i], object_y[i]) )
+    { 
+      res = CGRAPH_FALSE;
+      break;
     }
   }
-
+  
   return res;
 }
 
-cgraph_size_t FUNCTION(NAME, cnt)(const void *x, const void *y, const cgraph_size_t len)
+/*        functions with a vector and an object of the same data types        */
+void *FUNCTION(NAME, adds1x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifdef DATA_WITH_POINTER
+  TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, object_y = *(TYPE *)y, *object_z = (TYPE *)z;
+#endif
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = ADD(object_x[i], object_y, object_z[i]); }
+
+  return object_z;
+}
+
+void *FUNCTION(NAME, subs1x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifdef DATA_WITH_POINTER
+  TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, object_y = *(TYPE *)y, *object_z = (TYPE *)z;
+#endif
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = SUB(object_x[i], object_y, object_z[i]); }
+
+  return object_z;
+}
+
+void *FUNCTION(NAME, muls1x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifdef DATA_WITH_POINTER
+  TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, object_y = *(TYPE *)y, *object_z = (TYPE *)z;
+#endif
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = MUL(object_x[i], object_y, object_z[i]); }
+
+  return object_z;
+}
+
+void *FUNCTION(NAME, divs1x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+{
+#ifdef DATA_WITH_POINTER
+  TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y, **object_z = (TYPE **)z;
+#else
+  TYPE *object_x = (TYPE *)x, object_y = *(TYPE *)y, *object_z = (TYPE *)z;
+#endif
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { object_z[i] = DIV(object_x[i], object_y, object_z[i]); }
+  
+  return object_z;
+}
+
+cgraph_boolean_t FUNCTION(NAME, eqs1x)(const void *x, const void *y, const cgraph_size_t len)
+{
+#ifdef DATA_WITH_POINTER
+  TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y;
+#else
+  TYPE *object_x = (TYPE *)x, object_y = *(TYPE *)y;
+#endif
+  cgraph_boolean_t res = CGRAPH_TRUE;
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  {
+    if(NE(object_x[i], object_y))
+    { 
+      res = CGRAPH_FALSE;
+      break;
+    }
+  }
+  
+  return res;
+}
+
+cgraph_size_t FUNCTION(NAME, cnt1x)(const void *x, const void *y, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, *object_y = (TYPE *)y;

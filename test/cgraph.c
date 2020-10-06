@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
   printf_char(pre);
   fprintf(stdout, "%x\n", cgraph_int8_ones(pre));
   cgraph_math_primes(primes, numbers, 10000);
+  */
   /*
   if(argc == 2)
   {

@@ -96,6 +96,13 @@ public class Compile {
       } catch (Exception e) {
         System.out.println(String.format("compile %s to %s error!", TSTFILE, TSTTARGET));
       }
+      try {
+        String cmd = String.format("%s %s", TSTTARGET, TST + File.separator + "elements.csv");
+        System.out.println(String.format("test %s with %s", TSTTARGET, TST + File.separator + "elements.csv"));
+        Process program = Runtime.getRuntime().exec(cmd);
+      } catch (Exception e) {
+        System.out.println(String.format("test %s with %s error!", TSTTARGET, TST + File.separator + "elements.csv"));
+      }
     } else if (args[0].equals("clean")) {
       for(File file : CFILES) {
         File obj = new File(file.getPath().replace(".c", ".o"));

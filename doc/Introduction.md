@@ -12,7 +12,7 @@
 
 ## Data Types
 
-### Data Type List
+### Data Type Overview
 
 | TYPE | ID | NAME | MACRO | DESCRIPTION |
 | :-: | :-: | :-: | :-: | :-: |
@@ -153,7 +153,7 @@ typedef struct
 
 ## Data Structures
 
-### Data Structure List
+### Data Structure Overview
 
 | TYPE | ID | NAME | MACRO | FUNCTION |
 | :-: | :-: | :-: | :-: | :-: |

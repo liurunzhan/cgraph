@@ -23,8 +23,12 @@ typedef struct
 #include "data_base.ht"
 
 /*                              initial function                              */
-extern TYPE FUNCTION(NAME, initma)(const DATA_TYPE mod, const DATA_TYPE arg);
-extern TYPE FUNCTION(NAME, initri)(const DATA_TYPE real, const DATA_TYPE imag);
+extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mod, const DATA_TYPE arg);
+extern TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mod);
+extern TYPE FUNCTION(NAME, initwa)(const DATA_TYPE arg);
+extern TYPE FUNCTION(NAME, initwri)(const DATA_TYPE real, const DATA_TYPE imag);
+extern TYPE FUNCTION(NAME, initwr)(const DATA_TYPE real);
+extern TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag);
 
 /*                   complex number mathematical functions                    */
 extern DATA_TYPE FUNCTION(NAME, mod)(const TYPE x);

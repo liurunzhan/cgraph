@@ -295,8 +295,8 @@
 #undef EQ
 #endif
 
-#ifdef NEQ
-#undef NEQ
+#ifdef NE
+#undef NE
 #endif
 
 #ifdef GR

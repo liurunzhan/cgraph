@@ -161,6 +161,29 @@ cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
+cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
+{
+  cgraph_boolean_t flag = CGRAPH_FALSE;
+  if(NULL != x && NULL != y)
+  {
+    if(x->len == y->len)
+    {
+      cgraph_size_t i;
+      for(i=0; i<x->len; i++)
+      {
+        if(x->data[i] == y->data[i])
+        { break; }
+      }
+      if(i >= x->len)
+      { flag = CGRAPH_TRUE; }
+    }
+  }
+  else if(NULL == x && NULL == y)
+  { flag = CGRAPH_TRUE; }
+
+  return flag;
+}
+
 cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
 {
   cgraph_boolean_t flag = CGRAPH_FALSE;

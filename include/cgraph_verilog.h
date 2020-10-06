@@ -5,8 +5,7 @@
 extern "C" {
 #endif
 
-/* To commemorate my two years to work in Integrated Circuit. */
-
+/*       to commemorate my two years to work in Integrated Circuit Field      */
 #include "cgraph_config.h"
 
 extern void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len);
