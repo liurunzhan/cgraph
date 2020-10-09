@@ -62,7 +62,6 @@ export CP = copy
 export CPFLAGS = /Y
 export SEPARATOR = \\
 export SPLIT = &
-
 else
 export RM = rm
 export RMFLAGS = -f
@@ -74,7 +73,6 @@ export CP = cp
 export CPFLAGS =
 export SEPARATOR = /
 export SPLIT = ;
-
 endif
 
 $(TOOLS) test:

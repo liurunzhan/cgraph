@@ -21,8 +21,7 @@ public class Compile {
     String MODE = new String("debug");
     if (MODE.equals("debug")) {
       CFLAGS.append(" -g -DDEBUG");
-    }
-    else if (MODE.equals("release")) {
+    } else if (MODE.equals("release")) {
       CFLAGS.append(" -static -O2");
     }
 

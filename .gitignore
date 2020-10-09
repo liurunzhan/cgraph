@@ -72,6 +72,8 @@ doc/*.png
 doc/*.pdf
 
 # compile scripts
-/compile.*
+script/compile
+script/compile.exe
+/compile*
 /xmake.lua
 /CMakeLists.txt

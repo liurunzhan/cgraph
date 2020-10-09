@@ -17,13 +17,13 @@ extern "C" {
 #include <float.h>
 #include <stdarg.h>
 
-typedef int cgraph_integer_t;
+typedef signed int cgraph_integer_t;
 typedef double cgraph_real_t;
-typedef int cgraph_boolean_t;
-typedef long cgraph_long_t;
-typedef long cgraph_size_t;
+typedef signed int cgraph_boolean_t;
+typedef signed long cgraph_long_t;
+typedef signed long cgraph_size_t;
 
-typedef char cgraph_char_t;
+typedef unsigned char cgraph_char_t;
 typedef float cgraph_float_t;
 
 #define CGRAPH_BOOLEAN_MAX CGRAPH_TRUE

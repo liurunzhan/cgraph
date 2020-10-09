@@ -19,6 +19,8 @@ cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep, cgraph_string_t 
 
 cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_size_t line);
 
+void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep);
+
 #ifdef __cplusplus
 }
 #endif

@@ -181,3 +181,24 @@ cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgrap
 
   return flag;
 }
+
+const static char *windows = "windows";
+const static char *linux = "linux";
+const static char *unix = "unix";
+
+const static char *slash = "/";
+const static char *backslash = "\\";
+
+void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep)
+{
+#if defined(_WIN32) || defined(_WIN64)
+  *os = windows;
+  *sep = backslash;
+#elif defined(__linux__)
+  *os = linux;
+  *sep = slash;
+#elif defined(__unix__)
+  *os = unix;
+  *sep = slash;
+#endif
+}

@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#define STRING_MAX 100
+#define STRING_MAX 2048
 
 int main(int argc, char *argv[])
 {
   char *PRO = "cgraph";
   char *DIR = ".";
-  char INC[100], SRC[STRING_MAX], TST[STRING_MAX], LIB[STRING_MAX];
+  char INC[STRING_MAX], SRC[STRING_MAX], TST[STRING_MAX], LIB[STRING_MAX];
   
 
 

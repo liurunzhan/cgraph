@@ -55,7 +55,6 @@ export CPFLAGS = /Y
 export LIBSTATIC = $(LIBTARGET).a
 export LIBSHARED = $(LIBTARGET).dll
 export SEPARATOR = \\
-
 else
 export RM = -rm
 export RMFLAGS = -f
@@ -68,7 +67,6 @@ export CPFLAGS =
 export LIBSTATIC = $(LIBTARGET).a
 export LIBSHARED = $(LIBTARGET).so
 export SEPARATOR = /
-
 endif
 
 DIR = .
