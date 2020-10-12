@@ -4,7 +4,7 @@
 
 #define TYPE_BIGINT
 #include "templete.h"
-#include "data_base.ct"
+#include "data_base.tc"
 
 /*
   BKDR Hash Algorithm
@@ -87,12 +87,12 @@ TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE *cthis)
 {
-  return CGRAPH_TEST((cthis->pos == CGRAPH_TRUE));
+  return cthis->pos;
 }
 
 cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 {
-  return CGRAPH_TEST((cthis->pos == CGRAPH_FALSE));
+  return CGRAPH_TEST((!cthis->pos));
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)

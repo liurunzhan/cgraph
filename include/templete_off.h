@@ -258,6 +258,30 @@
 #undef DATA_TEST
 #endif
 
+#ifdef DATA_ISNAN
+#undef DATA_ISNAN
+#endif
+
+#ifdef DATA_ISPINF
+#undef DATA_ISPINF
+#endif
+
+#ifdef DATA_ISNINF
+#undef DATA_ISNINF
+#endif
+
+#ifdef DATA_ISINF
+#undef DATA_ISINF
+#endif
+
+#ifdef DATA_ISPOS
+#undef DATA_ISPOS
+#endif
+
+#ifdef DATA_ISNEG
+#undef DATA_ISNEG
+#endif
+
 /* DATA AND STRUCTURE INIT */
 #ifdef CGRAPH_DATA_BASE
 #undef CGRAPH_DATA_BASE

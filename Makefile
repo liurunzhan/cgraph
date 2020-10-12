@@ -1,9 +1,9 @@
 ROOT= .
 SCR= $(ROOT)/script
-TOOLS= make cmake xmake \
-			 sh zsh fish cmd powershell \
-			 tcc \
-	     perl perl6 ruby python lua r julia \
+TOOLS= make cmake xmake\
+			 sh zsh fish tsh vsh cmd powershell \
+			 tcc go rust haskell zig \
+	     perl perl6 ruby python lua r julia lisp typescript \
 	     java scala kotlin clojure groovy
 
 MAKE= make
@@ -27,7 +27,7 @@ else
 DETECTED_OS := $(shell uname 2>/dev/null || echo Unknown)
 DETECTED_OS := $(patsubst CYGWIN%,Cygwin,$(DETECTED_OS))
 DETECTED_OS := $(patsubst MSYS%,MSYS,$(DETECTED_OS))
-DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
+# DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
 endif
 
 ifeq ($(DETECTED_OS), "Windows")
@@ -55,7 +55,7 @@ ifeq ($(CMD_AVAI), TRUE)
 export RM = del
 export RMFLAGS = /Q /F
 export MKDIR = mkdir
-export MKDIRFLAGS = 
+export MKDIRFLAGS =
 export RMDIR = rd
 export RMDIRFLAGS = /Q
 export CP = copy

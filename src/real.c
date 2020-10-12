@@ -5,7 +5,7 @@
 #define TYPE_REAL
 #include "templete.h"
 
-#include "float_base.ct"
+#include "float_base.tc"
 
 void FUNCTION(TYPE, test)(void)
 {

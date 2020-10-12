@@ -17,19 +17,29 @@ pub fn main() void {
 
   const MODE = "debug"
   if (MODE == "debug") {
-    CLFLAGS += " -g -DDEBUG"
+    CLFLAGS += " -g -DDEBUG";
   } else if (MODE == "release") {
-    CFLAGS += " -static -O2"
+    CFLAGS += " -static -O2";
   }
 
   // package shared library
-  ar := "ar"
-  arflags := "-rcs"
+  AR = "ar";
+  ARFLAGS = "-rcs";
 
   if (builtin.os.tag == "windows") {
-
+    // target files
+    const libshared = std.fs.path.join(lib, "lib{}.dll", .{pro});
+    const libstatic = std.fs.path.join(lib, "lib{}.a", .{pro});
+    // test files
+    const tstfile = std.fs.path.join(tst, "{}.c", .{pro});
+    const tsttarget = std.fs.path.join(tst, "{}.exe", .{pro});
   } else {
-
+    // target files
+    const libshared = std.fs.path.join(lib, "lib{}.so", .{pro});
+    const libstatic = std.fs.path.join(lib, "lib{}.a", .{pro});
+    // test files
+    const tstfile = std.fs.path.join(tst, "{}.c", .{pro});
+    const tsttarget = std.fs.path.join(tst, "{}", .{pro});
   }
 
 

@@ -5,6 +5,6 @@
 #define TYPE_FLOAT
 #include "templete.h"
 
-#include "float_base.ct"
+#include "float_base.tc"
 
 #include "templete_off.h"

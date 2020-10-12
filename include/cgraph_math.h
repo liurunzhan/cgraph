@@ -32,8 +32,10 @@ extern cgraph_integer_t cgraph_random(void);
 extern cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_integer_t max);
 extern cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t sigma);
 
-extern cgraph_real_t cgraph_math_lognx(const cgraph_real_t n, const cgraph_real_t x);
+extern cgraph_real_t cgraph_math_logn(const cgraph_real_t n, const cgraph_real_t x);
 extern cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t n);
+extern cgraph_integer_t cgraph_math_log2(const cgraph_integer_t n);
+extern cgraph_integer_t cgraph_math_mod2(const cgraph_integer_t n);
 extern cgraph_integer_t cgraph_math_bin2gray(const cgraph_integer_t data);
 extern cgraph_integer_t cgraph_math_gray2bin(const cgraph_integer_t data);
 

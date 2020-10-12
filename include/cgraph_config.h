@@ -23,7 +23,7 @@ typedef signed int cgraph_boolean_t;
 typedef signed long cgraph_long_t;
 typedef signed long cgraph_size_t;
 
-typedef unsigned char cgraph_char_t;
+typedef char cgraph_char_t;
 typedef float cgraph_float_t;
 
 #define CGRAPH_BOOLEAN_MAX CGRAPH_TRUE
@@ -180,8 +180,8 @@ typedef struct
 extern CGVTable *_cgraph_objects_[];
 #define CGRAPH_OBJECT(type, opt) ((_cgraph_objects_[type])->opt)
 
-typedef void (*cgraph_func2_t)(const void *cthis, void *result);
-typedef void (*cgraph_func3_t)(const void *x, const void *y, void *result);
+typedef void (*cgraph_func2_t)(const void *cthis, void *res);
+typedef void (*cgraph_func3_t)(const void *x, const void *y, void *res);
 
 #ifdef __cplusplus
 }

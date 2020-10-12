@@ -1,4 +1,4 @@
-#include "data_base.ct"
+#include "data_base.tc"
 
 cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {

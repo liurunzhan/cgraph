@@ -22,6 +22,13 @@ end
 $AR = "ar"
 $ARFLAGS = "-rcs"
 
+$CFILES = []
+Dir.foreach($SRC) do |file|
+  if File.extname(file) =~ /\.c$/
+    $CFILES << File.join($SRC, file)
+  end
+end
+
 if RbConfig::CONFIG["host_os"] == "mswin" || RbConfig::CONFIG["host_os"] == "mingw"
   # target files
   $LIBSHARED = File.join($LIB, "lib#{$PRO}.dll")
@@ -38,13 +45,6 @@ else
   $TSTTARGET = File.join($TST, $PRO)
 end
 
-$CFILES = []
-Dir.foreach($SRC) do |file|
-  if File.extname(file) =~ /.c$/
-    $CFILES << File.join($SRC, file)
-  end
-end
-
 $args = ARGV
 if $args.size == 0
   if not File.directory?($LIB)
@@ -52,7 +52,7 @@ if $args.size == 0
   end
   $OFILES = []
   for $file in $CFILES do
-    $obj = $file.sub(".c", ".o")
+    $obj = $file.sub("\.c", ".o")
     puts("compile #{$file} to #{$obj}")
     system("#{$CC} #{$CFLAGS} -I#{$INC} -c #{$file} -o #{$obj}")
     $OFILES << $obj
@@ -68,7 +68,7 @@ elsif $args[0] == "test"
   system("#{$TSTTARGET} #{File.join($TST, "elements.csv")}")
 elsif $args[0] == "clean"
   for $file in $CFILES do
-    $obj = $file.sub(".c", ".o")
+    $obj = $file.sub("\.c", ".o")
     if File::exist?($obj)
       puts("clean #{$obj}")
       File::delete($obj)
@@ -88,7 +88,7 @@ elsif $args[0] == "clean"
   end
 elsif $args[0] == "distclean"
   for $file in $CFILES do
-    $obj = $file.sub(".c", ".o")
+    $obj = $file.sub("\.c", ".o")
     if File::exist?($obj)
       puts("clean #{$obj}")
       File::delete($obj)

@@ -22,6 +22,8 @@ if(MODE == "debug") {
 AR <- "ar"
 ARFLAGS <- "-rcs"
 
+CFILES <- lapply(list.files(SRC, pattern="\\.c$"), function(x) { file.path(SRC, x, fsep=.Platform$file.sep)})
+
 if(.Platform$OS.type == "windows") {
   # target files
   LIBSHARED <- file.path(LIB, paste("lib", PRO, ".dll", sep=""), fsep=.Platform$file.sep)
@@ -38,8 +40,6 @@ if(.Platform$OS.type == "windows") {
   TSTTARGET <- file.path(TST, PRO, fsep=.Platform$file.sep)
 }
 
-CFILES <- lapply(list.files(SRC, pattern=".c$"), function(x) { file.path(SRC, x, fsep=.Platform$file.sep)})
-
 args <- commandArgs(trailingOnly = TRUE)
 script_name <- unlist(strsplit(commandArgs()[4], split="="))[2]
 if(length(args) == 0) {
@@ -48,7 +48,7 @@ if(length(args) == 0) {
   }
   OFILES <- character()
   for(file in CFILES) {
-    obj <- gsub(".c$", ".o", file)
+    obj <- gsub("\\.c$", ".o", file)
     print(sprintf("compile %s to %s", file, obj))
     system(sprintf("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj))
     OFILES <- append(OFILES, obj, after=length(OFILES))
@@ -64,7 +64,7 @@ if(length(args) == 0) {
   system(sprintf("%s %s", TSTTARGET, file.path(TST, "elements.csv", fsep=.Platform$file.sep)))
 } else if (args[1] == "clean") {
   for(file in CFILES) {
-    obj <- gsub(".c$", ".o", file)
+    obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
     unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
   }
@@ -76,7 +76,7 @@ if(length(args) == 0) {
   unlink(TSTTARGET, force=TRUE)
 } else if (args[1] == "distclean") {
   for(file in CFILES) {
-    obj <- gsub(".c$", ".o", file)
+    obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
     unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
   }

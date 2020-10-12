@@ -36,7 +36,7 @@ foreach my $file (readdir($fin))
 {
   if($file =~ /\.c$/)
   {
-    push(@CFILES, $file);
+    push(@CFILES, File::Spec->catfile($SRC, $file));
   }
 }
 closedir($fin);
@@ -70,15 +70,15 @@ if ($#args == -1)
   my @OFILES = ();
   foreach my $file (@CFILES)
   {
-    my $obj = ($file =~ s/\.c/\.o/r);
-    printf("compile %s to %s\n", File::Spec->catfile($SRC, $file), File::Spec->catfile($SRC, $obj));
-    system(sprintf("$CC $CFLAGS -I$INC -c %s -o %s", File::Spec->catfile($SRC, $file), File::Spec->catfile($SRC, $obj)));
+    my $obj = ($file =~ s/\.c$/\.o/r);
+    printf("compile %s to %s\n", $file, $obj);
+    system(sprintf("$CC $CFLAGS -I$INC -c %s -o %s", $file, $obj));
     push(@OFILES, $obj);
   }
   print("compile $LIBSHARED\n");
-  system(sprintf("$CC $CSFLAGS -o $LIBSHARED %s", $SRC, join(" ", @OFILES)));
+  system(sprintf("$CC $CSFLAGS -o $LIBSHARED %s", join(" ", @OFILES)));
   print("compile $LIBSTATIC\n");
-  system(sprintf("$AR $ARFLAGS $LIBSTATIC %s", $SRC, join(" ", @OFILES)));
+  system(sprintf("$AR $ARFLAGS $LIBSTATIC %s", join(" ", @OFILES)));
 }
 elsif ($args[0] eq "test")
 {
@@ -91,9 +91,9 @@ elsif ($args[0] eq "clean")
 {
   foreach my $file (@CFILES)
   {
-    my $obj = ($file =~ s/\.c/\.o/r);
+    my $obj = ($file =~ s/\.c$/\.o/r);
     print("clean $obj\n");
-    unlink File::Spec->catfile($SRC, $obj);
+    unlink $obj;
   }
   print("clean $LIBSTATIC\n");
   unlink $LIBSTATIC;
@@ -106,9 +106,9 @@ elsif ($args[0] eq "distclean")
 {
   foreach my $file (@CFILES)
   {
-    my $obj = ($file =~ s/\.c/\.o/r);
+    my $obj = ($file =~ s/\.c$/\.o/r);
     print("clean $obj\n");
-    unlink File::Spec->catfile($SRC, $obj);
+    unlink $obj;
   }
   print("clean $LIBSTATIC\n");
   unlink $LIBSTATIC;

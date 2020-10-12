@@ -15,7 +15,7 @@ typedef struct
   CGRAPH_DATA_BASE
 }cgraph_bitset_t;
 
-#define BITSET_GET_BIT(cthis, pos) (((cthis->data[pos / DATA_BITS]) >> (pos % DATA_BITS)) ^ 1)
+#define BITSET_GET_BIT(cthis, pos) (((cthis->data[pos / DATA_BITS]) >> (pos % DATA_BITS)) ^ 0x1)
 
 #include "data_base.ht"
 

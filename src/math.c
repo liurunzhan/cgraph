@@ -229,19 +229,31 @@ cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t s
 	return Z * sigma + mu;
 }
 
-cgraph_real_t cgraph_math_lognx(const cgraph_real_t n, const cgraph_real_t x)
+cgraph_real_t cgraph_math_logn(const cgraph_real_t n, const cgraph_real_t x)
 {
   return log(x) / log(n);
 }
 
 cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t n)
 {
-  cgraph_integer_t res = 1;
-  cgraph_size_t i;
-  for(i=0; i<n; i++)
-  { res = res << 1; }
+  return (1 << n);
+}
+
+cgraph_integer_t cgraph_math_log2(const cgraph_integer_t x)
+{
+  cgraph_integer_t res = 0, num = x;
+  while(num>1)
+  {
+    num = num >> 1;
+    res ++;
+  }
 
   return res;
+}
+
+cgraph_integer_t cgraph_math_mod2(const cgraph_integer_t x)
+{
+  return (x & 0x01);
 }
 
 cgraph_integer_t cgraph_math_bin2gray(const cgraph_integer_t data)

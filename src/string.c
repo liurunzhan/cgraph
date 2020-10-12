@@ -4,7 +4,7 @@
 
 #define TYPE_STRING
 #include "templete.h"
-#include "data_base.ct"
+#include "data_base.tc"
 
 /* 
   times 33 hash algorithm proposed by Daniel J. Bernstein  

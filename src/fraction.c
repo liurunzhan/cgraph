@@ -4,7 +4,7 @@
 
 #define TYPE_FRACTION
 #include "templete.h"
-#include "data_base.ct"
+#include "data_base.tc"
 
 /*                                public apis                                 */
 /*
@@ -97,51 +97,51 @@ TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den)
 
 cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
 {
-  return CGRAPH_TEST((0 == FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+  return CGRAPH_TEST((!FRACTION_NUM(x)) && (!FRACTION_DEN(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
 {
-  return CGRAPH_TEST((0 != FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+  return CGRAPH_TEST(FRACTION_NUM(x) && (!FRACTION_DEN(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
 {
-  return CGRAPH_TEST((0 < FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+  return CGRAPH_TEST((0 < FRACTION_NUM(x)) && (!FRACTION_DEN(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
 {
-  return CGRAPH_TEST((0 > FRACTION_NUM(x) && (0 == FRACTION_DEN(x))));
+  return CGRAPH_TEST((0 > FRACTION_NUM(x)) && (!FRACTION_DEN(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
 {
-  return CGRAPH_TEST((FRACTION_NUM(x) == 0) && (FRACTION_DEN(x) != 0));
+  return CGRAPH_TEST((!FRACTION_NUM(x)) && FRACTION_DEN(x));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
 {
-  return CGRAPH_TEST(((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) < 0)));
+  return CGRAPH_TEST(FRACTION_NUM(x) * FRACTION_DEN(x) > 0);
 }
 
 cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
 {
-  return CGRAPH_TEST(((FRACTION_NUM(x) < 0) && (FRACTION_DEN(x) > 0)) || ((FRACTION_NUM(x) > 0) && (FRACTION_DEN(x) < 0)));
+  return CGRAPH_TEST(FRACTION_NUM(x) * FRACTION_DEN(x) < 0);
 }
+
+static const TYPE cgraph_fraction_min = MIN;
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
 {
-  TYPE min = MIN;
-
-  return CGRAPH_TEST(EQ(x, min));
+  return CGRAPH_TEST(EQ(x, cgraph_fraction_min));
 }
+
+static const TYPE cgraph_fraction_max = MAX;
 
 cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 {
-  TYPE max = MAX;
-
-  return CGRAPH_TEST(EQ(x, max));
+  return CGRAPH_TEST(EQ(x, cgraph_fraction_max));
 }
 
 TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y)

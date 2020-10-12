@@ -182,23 +182,31 @@ cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgrap
   return flag;
 }
 
-const static char *windows = "windows";
-const static char *linux = "linux";
-const static char *unix = "unix";
+const static cgraph_char_t *windows = "windows";
+const static cgraph_char_t *linux = "linux";
+const static cgraph_char_t *unix = "unix";
 
-const static char *slash = "/";
-const static char *backslash = "\\";
+const static cgraph_char_t *slash = "/";
+const static cgraph_char_t *backslash = "\\";
 
-void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep)
+const static union cgraph_endian_t 
+{
+  cgraph_int32_t num;
+  cgraph_int8_t byte[4];
+} cgraph_file_endian = {1};
+
+void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_boolean_t *isbigendian)
 {
 #if defined(_WIN32) || defined(_WIN64)
-  *os = windows;
-  *sep = backslash;
+  *os = (cgraph_char_t *)windows;
+  *sep = (cgraph_char_t *)backslash;
 #elif defined(__linux__)
-  *os = linux;
-  *sep = slash;
+  *os = (cgraph_char_t *)linux;
+  *sep = (cgraph_char_t *)slash;
 #elif defined(__unix__)
-  *os = unix;
-  *sep = slash;
+  *os = (cgraph_char_t *)unix;
+  *sep = (cgraph_char_t *)slash;
 #endif
+  if(NULL != isbigendian)
+  { *isbigendian = (cgraph_file_endian.byte[0] ? CGRAPH_FALSE : CGRAPH_TRUE); }
 }

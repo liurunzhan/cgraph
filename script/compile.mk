@@ -47,7 +47,7 @@ ifeq ($(CMD_AVAI), TRUE)
 export RM = -del
 export RMFLAGS = /Q /F
 export MKDIR = -mkdir
-export MKDIRFLAGS = 
+export MKDIRFLAGS =
 export RMDIR = -rd
 export RMDIRFLAGS = /Q
 export CP = -copy

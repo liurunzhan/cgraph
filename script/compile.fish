@@ -18,9 +18,9 @@ set CSFLAGS "-shared"
 # debug or release mode
 set MODE "debug"
 if $MODE = "debug"
-set CFLAGS "${CFLAGS} -g -DDEBUG"
+  set CFLAGS "${CFLAGS} -g -DDEBUG"
 else if $MODE = "release"
-set CFLAGS "${CFLAGS} -static -O2"
+  set CFLAGS "${CFLAGS} -static -O2"
 end
 
 # build and clean directories and files

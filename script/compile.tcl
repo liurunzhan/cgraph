@@ -25,6 +25,6 @@ set ARFLAGS "-rcs"
 set CFILES [glob ${SRC}/*.c]
 puts $CFILES
 for { set i 0 } { $i < [llength $CFILES] } { incr i } {
-  set OBJ [string map {.c$} $CFILES($i)]
+  set OBJ [string map {\.c$} $CFILES($i)]
   puts "$CFILES($i)"
 }

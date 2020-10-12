@@ -6,7 +6,7 @@
 
 #define TYPE_COMPLEX
 #include "templete.h"
-#include "data_base.ct"
+#include "data_base.tc"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
@@ -284,43 +284,43 @@ TYPE FUNCTION(NAME, sqrt)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
 {
-  return CGRAPH_TEST((COMPLEX_REAL(x) != COMPLEX_REAL(x)) || (COMPLEX_IMAG(x) != COMPLEX_IMAG(x)));
+  return CGRAPH_TEST(DATA_ISNAN(COMPLEX_REAL(x)) || DATA_ISNAN(COMPLEX_IMAG(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
 {
-  return CGRAPH_TEST(((COMPLEX_REAL(x) == COMPLEX_REAL(x)) && ((DATA_MAX < COMPLEX_REAL(x)) || (DATA_MIN > COMPLEX_REAL(x)))) || ((COMPLEX_IMAG(x) == COMPLEX_IMAG(x)) && ((DATA_MAX < COMPLEX_IMAG(x)) || (DATA_MIN > COMPLEX_IMAG(x)))));
+  return CGRAPH_TEST(DATA_ISINF(COMPLEX_REAL(x)) || DATA_ISINF(COMPLEX_IMAG(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
 {
-  return CGRAPH_TEST(((COMPLEX_REAL(x) == COMPLEX_REAL(x)) && (DATA_MAX < COMPLEX_REAL(x))) || ((COMPLEX_IMAG(x) == COMPLEX_IMAG(x)) && (DATA_MAX < COMPLEX_IMAG(x))));
+  return CGRAPH_TEST((DATA_MAX < COMPLEX_REAL(x)) || (DATA_MAX < COMPLEX_IMAG(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
 {
-  return CGRAPH_TEST(((COMPLEX_REAL(x) == COMPLEX_REAL(x)) && (DATA_MIN > COMPLEX_REAL(x))) || ((COMPLEX_IMAG(x) == COMPLEX_IMAG(x)) && (DATA_MIN > COMPLEX_IMAG(x))));
+  return CGRAPH_TEST((DATA_MIN > COMPLEX_REAL(x)) || (DATA_MIN > COMPLEX_IMAG(x)));
 }
+
+static const TYPE cgraph_complex_zero = ZERO;
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
 {
-  TYPE zero = ZERO;
-
-  return CGRAPH_TEST((EQ(x, zero)));
+  return EQ(x, cgraph_complex_zero);
 }
+
+static const TYPE cgraph_complex_max = MAX;
 
 cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 {
-  TYPE max = MAX;
-
-  return CGRAPH_TEST((EQ(x, max)));
+  return EQ(x, cgraph_complex_max);
 }
+
+static const TYPE cgraph_complex_min = MIN;
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
 {
-  TYPE min = MIN;
-
-  return CGRAPH_TEST((EQ(x, min)));
+  return EQ(x, cgraph_complex_min);
 }
 
 /*  functions of complex numbers with one complex number and one data types   */
