@@ -17,7 +17,7 @@ typedef struct
 }cgraph_bignum_t;
 
 
-#include "data_base.ht"
+#include "data_base.th"
 
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);

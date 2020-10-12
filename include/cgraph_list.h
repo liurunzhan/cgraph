@@ -27,7 +27,7 @@ typedef struct
 
 #define TYPE_LIST
 #include "templete.h"
-#include "struct_base.ht"
+#include "struct_base.th"
 #include "templete_off.h"
 
 #ifdef __cplusplus

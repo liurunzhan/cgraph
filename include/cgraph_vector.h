@@ -17,7 +17,7 @@ typedef struct
 
 #define TYPE_VECTOR
 #include "templete.h"
-#include "struct_base.ht"
+#include "struct_base.th"
 
 
 

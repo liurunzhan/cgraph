@@ -10,7 +10,7 @@ extern "C" {
 #define TYPE_INT16
 #include "templete.h"
 
-#include "integer_base.ht"
+#include "integer_base.th"
 
 #include "templete_off.h"
 

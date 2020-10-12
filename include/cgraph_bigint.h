@@ -18,7 +18,7 @@ typedef struct
   CGRAPH_DATA_BASE
 }cgraph_bigint_t;
 
-#include "data_base.ht"
+#include "data_base.th"
 
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, tonum)(const cgraph_string_t *cthis);

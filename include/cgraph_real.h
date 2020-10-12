@@ -10,7 +10,7 @@ extern "C" {
 #define TYPE_REAL
 #include "templete.h"
 
-#include "float_base.ht"
+#include "float_base.th"
 
 #include "templete_off.h"
 
