@@ -16,9 +16,7 @@ typedef struct
   CGRAPH_STRUCTURE_BASE
 }cgraph_matrix_t;
 
-#define TYPE_MATRIX
-#include "templete.h"
-#include "struct_base.th"
+#include "struct_base.ht"
 #include "templete_off.h"
 
 #ifdef __cplusplus

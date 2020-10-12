@@ -1,4 +1,4 @@
-#include "data_base.th"
+#include "data_base.ht"
 
 extern void *FUNCTION(NAME, ints)(const void *x, const void *y, void *z, const cgraph_size_t len);
 

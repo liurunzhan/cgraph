@@ -3,7 +3,7 @@
 
 #define TYPE_INTEGER
 #include "templete.h"
-#include "integer_base.tc"
+#include "integer_base.ct"
 
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn Fowler，Landon Curt Noll and Phong Vo in 1991):

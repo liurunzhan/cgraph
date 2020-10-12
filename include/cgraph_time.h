@@ -60,7 +60,7 @@ typedef struct
 #define TIME_DAYS(x)   (TIME_TYPE0(x).days)
 
 
-#include "data_base.th"
+#include "data_base.ht"
 
 extern TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month, const DATA_TYPE day, const DATA_TYPE hour, const DATA_TYPE minute, const DATA_TYPE second);
 

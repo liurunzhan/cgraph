@@ -20,7 +20,7 @@ typedef struct
 #define COMPLEX_MOD2(x) (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
 
 
-#include "data_base.th"
+#include "data_base.ht"
 
 /*                              initial function                              */
 extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mod, const DATA_TYPE arg);

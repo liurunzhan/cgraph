@@ -15,7 +15,7 @@ extern "C" {
 
 #define TYPE_BOOLEAN
 #include "templete.h"
-#include "data_base.th"
+#include "data_base.ht"
 
 #include "templete_off.h"
 

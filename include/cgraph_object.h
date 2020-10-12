@@ -21,7 +21,7 @@ typedef struct
 #define TYPE_OBJECT
 
 #include "templete.h"
-#include "data_base.th"
+#include "data_base.ht"
 
 void *FUNCTION(NAME, data)(void *cthis);
 

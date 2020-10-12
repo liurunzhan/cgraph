@@ -17,7 +17,7 @@ typedef struct
 
 #define BITSET_GET_BIT(cthis, pos) (((cthis->data[pos / DATA_BITS]) >> (pos % DATA_BITS)) ^ 0x1)
 
-#include "data_base.th"
+#include "data_base.ht"
 
 extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t pos);
 extern TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t pos);

@@ -16,9 +16,7 @@ typedef struct
   CGRAPH_STRUCTURE_BASE
 }cgraph_bigmat_t;
 
-#define TYPE_BIGMAT
-#include "templete.h"
-#include "struct_base.th"
+#include "struct_base.ht"
 #include "templete_off.h"
 
 #ifdef __cplusplus

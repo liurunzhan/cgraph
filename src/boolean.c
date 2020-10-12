@@ -3,7 +3,7 @@
 
 #define TYPE_BOOLEAN
 #include "templete.h"
-#include "data_base.tc"
+#include "data_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {

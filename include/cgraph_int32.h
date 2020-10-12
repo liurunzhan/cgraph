@@ -10,7 +10,7 @@ extern "C" {
 #define TYPE_INT32
 #include "templete.h"
 
-#include "integer_base.th"
+#include "integer_base.ht"
 
 #include "templete_off.h"
 

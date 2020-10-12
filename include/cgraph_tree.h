@@ -26,9 +26,7 @@ typedef struct
   cgraph_tobject_t *root;
 }cgraph_tree_t;
 
-#define TYPE_TREE
-#include "templete.h"
-#include "struct_base.th"
+#include "struct_base.ht"
 #include "templete_off.h"
 
 #ifdef __cplusplus

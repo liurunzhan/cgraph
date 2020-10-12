@@ -25,9 +25,7 @@ typedef struct
   cgraph_lobject_t *root, *data;
 }cgraph_list_t;
 
-#define TYPE_LIST
-#include "templete.h"
-#include "struct_base.th"
+#include "struct_base.ht"
 #include "templete_off.h"
 
 #ifdef __cplusplus

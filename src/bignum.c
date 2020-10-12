@@ -4,7 +4,7 @@
 
 #define TYPE_BIGNUM
 #include "templete.h"
-#include "data_base.tc"
+#include "data_base.ct"
 
 /*
   BKDR Hash Algorithm

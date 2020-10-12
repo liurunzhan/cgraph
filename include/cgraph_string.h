@@ -15,7 +15,7 @@ typedef struct
   CGRAPH_DATA_BASE
 }cgraph_string_t;
 
-#include "data_base.th"
+#include "data_base.ht"
 
 /*                         string operation function                          */
 

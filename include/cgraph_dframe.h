@@ -18,9 +18,7 @@ typedef struct
   CGRAPH_STRUCTURE_BASE
 }cgraph_dframe_t;
 
-#define TYPE_DFRAME
-#include "templete.h"
-#include "struct_base.th"
+#include "struct_base.ht"
 #include "templete_off.h"
 
 #ifdef __cplusplus

@@ -4,7 +4,7 @@
 
 #define TYPE_VECTOR
 #include "templete.h"
-#include "struct_base.tc"
+#include "struct_base.ct"
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {

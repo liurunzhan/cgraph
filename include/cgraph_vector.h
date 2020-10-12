@@ -15,11 +15,7 @@ typedef struct
   CGRAPH_STRUCTURE_BASE
 }cgraph_vector_t;
 
-#define TYPE_VECTOR
-#include "templete.h"
-#include "struct_base.th"
-
-
+#include "struct_base.ht"
 
 extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_integer_t data);
 

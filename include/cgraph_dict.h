@@ -26,9 +26,7 @@ typedef struct
   cgraph_dobject_t *root, *table;
 }cgraph_dict_t;
 
-#define TYPE_DICT
-#include "templete.h"
-#include "struct_base.th"
+#include "struct_base.ht"
 #include "templete_off.h"
 
 #ifdef __cplusplus
