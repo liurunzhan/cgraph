@@ -13,8 +13,6 @@ extern "C" {
 typedef struct 
 {
   cgraph_size_t row, column;
-  cgraph_boolean_t with_hash;
-  cgraph_boolean_t *visited;
   CGRAPH_STRUCTURE_BASE
 }cgraph_dframe_t;
 

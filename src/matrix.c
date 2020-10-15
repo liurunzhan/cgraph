@@ -14,7 +14,7 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
     if(NULL != cthis->data)
     {
       cthis->size = size; 
-      cthis->type = type;
+      CGRAPH_DTYPE_TYPE(cthis) = type;
     }
     else
     { cgraph_free(cthis); }
@@ -29,7 +29,7 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   if(NULL != object && NULL != error)
   {
     *error = CGRAPH_FALSE;
-    object->data = cgraph_realloc(object->data, object->size, new_size, CGRAPH_OBJECT(object->type, dsize)(), error);
+    object->data = cgraph_realloc(object->data, object->size, new_size, CGRAPH_OBJECT(CGRAPH_DTYPE_TYPE(object), dsize)(), error);
     if(CGRAPH_FALSE == *error)
     { object->size = new_size; }
   }
@@ -44,12 +44,11 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
   void *copy_data = NULL;
   if(NULL != object)
   {
-    copy_cthis = FUNCTION(NAME, calloc)(object->type, object->size);
-    if(NULL != copy_cthis)
+    if(NULL != (copy_cthis = FUNCTION(NAME, calloc)(CGRAPH_DTYPE_TYPE(object), object->size)))
     {
       copy_data = copy_cthis->data;
       copy_cthis = cgraph_memcpy(copy_cthis, object, 1, sizeof(TYPE));
-      copy_cthis->data = cgraph_memcpy(copy_data, object->data, object->size, CGRAPH_OBJECT(object->type, dsize)());
+      copy_cthis->data = cgraph_memcpy(copy_data, object->data, object->size, CGRAPH_OBJECT(CGRAPH_DTYPE_TYPE(object), dsize)());
     }
   }
 

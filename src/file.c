@@ -208,5 +208,5 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_boolean_t *i
   *sep = (cgraph_char_t *)slash;
 #endif
   if(NULL != isbigendian)
-  { *isbigendian = (cgraph_file_endian.byte[0] ? CGRAPH_FALSE : CGRAPH_TRUE); }
+  { *isbigendian = (cgraph_file_endian.byte[3] ? CGRAPH_FALSE : CGRAPH_TRUE); }
 }

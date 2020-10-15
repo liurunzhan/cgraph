@@ -15,7 +15,7 @@ extern "C" {
 #define MATH_CONST_LOG2  (0.69314718055994530942) /* ln2           */
 #define MATH_CONST_LOG10 (2.30258509299404568402) /* ln10          */
 
-extern cgraph_integer_t cgraph_math_crc(const cgraph_integer_t predata, const cgraph_integer_t data, const cgraph_integer_t polynomial);
+extern cgraph_uinteger_t cgraph_math_crc(const cgraph_uinteger_t predata, const cgraph_uinteger_t data, const cgraph_uinteger_t poly);
 extern cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_boolean_t *error);
 extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_integer_t data, cgraph_boolean_t *error);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_integer_t data, cgraph_boolean_t *error);

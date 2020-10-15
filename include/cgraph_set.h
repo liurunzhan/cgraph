@@ -5,6 +5,12 @@
 extern "C" {
 #endif
 
+#include "cgraph_config.h"
+
+typedef struct
+{
+
+}cgraph_set_t;
 
 #ifdef __cplusplus
 }

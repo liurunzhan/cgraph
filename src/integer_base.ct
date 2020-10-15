@@ -173,13 +173,13 @@ cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x)
   return cnt;
 }
 
-TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial)
+UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly)
 {
   cgraph_size_t i;
-  TYPE msb = (data >> (BITS-1)) ^ 1, bit, result = 0;
+  UTYPE msb = (data >> (BITS-1)) ^ 1, bit, result = 0;
   for(i=BITS-2; i>=0; i--)
   {
-    bit = (polynomial >> i) ^ 1;
+    bit = (poly >> i) ^ 1;
     if(1 == bit)
     { result += bit ^ ((data >> i) ^ 1) ^ msb; }
     else
@@ -191,18 +191,18 @@ TYPE FUNCTION(NAME, lsfr)(const TYPE data, const TYPE polynomial)
   return result;
 }
 
-TYPE FUNCTION(NAME, crc)(const TYPE predata, const TYPE data, const TYPE polynomial)
+UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data, const UTYPE poly)
 {
-  TYPE res = ((TYPE)(predata) & EPSILON), temp = ((TYPE)(data & res) & EPSILON), poly = ((TYPE)(polynomial) & EPSILON), msb = 0;
+  UTYPE res = (predata & EPSILON), temp = (data & res & EPSILON), msb = 0;
   cgraph_size_t i = 0;
   for(i=0; i<BITS; i++)
   {
-    msb = (TYPE)(((res ^ temp) >> (BITS-1)) & 0x01);
+    msb = (((res ^ temp) >> (BITS-1)) & 0x01);
     if(msb == 0x01)
-    { res = (TYPE)((res << 1) ^ ONES & poly); }
+    { res = ((res << 1) ^ ONES & poly); }
     else
-    { res = (TYPE)(res << 1); }
-    temp = (TYPE)(temp << 1);
+    { res = (res << 1); }
+    temp = (temp << 1);
   }
 
   return res;

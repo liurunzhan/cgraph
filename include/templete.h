@@ -18,6 +18,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID
 #define NAME
 #define OUT_FORMAT
+#define UTYPE
 #define ZERO
 #define ONE
 #define ONES
@@ -29,6 +30,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #define DATA_TYPE
 #define DATA_ID
+#define DATA_UTYPE
 #define DATA_ZERO
 #define DATA_ONE
 #define DATA_ONES
@@ -51,6 +53,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_INTEGER_T
 #define NAME integer
 #define OUT_FORMAT "%d"
+#define UTYPE cgraph_uinteger_t
 #define ZERO 0
 #define ONE 1
 #define ONES CGRAPH_INTEGER_MIN
@@ -81,6 +84,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_BOOLEAN_T
 #define NAME boolean
 #define OUT_FORMAT "%d"
+#define UTYPE cgraph_boolean_t
 #define ZERO CGRAPH_FALSE
 #define ONE CGRAPH_TRUE
 #define ONES CGRAPH_TRUE
@@ -111,6 +115,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_LONG_T
 #define NAME long
 #define OUT_FORMAT "%ld"
+#define UTYPE cgraph_ulong_t
 #define ZERO 0
 #define ONE 1
 #define ONES CGRAPH_LONG_MIN
@@ -127,6 +132,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_INT8_T
 #define NAME int8
 #define OUT_FORMAT "%d"
+#define UTYPE cgraph_uint8_t
 #define ZERO 0
 #define ONE 1
 #define ONES CGRAPH_INT8_MIN
@@ -143,6 +149,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_INT16_T
 #define NAME int16
 #define OUT_FORMAT "%d"
+#define UTYPE cgraph_uint16_t
 #define ZERO 0
 #define ONE 1
 #define ONES CGRAPH_INT16_MIN
@@ -159,6 +166,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_INT32_T
 #define NAME int32
 #define OUT_FORMAT "%d"
+#define UTYPE cgraph_uint32_t
 #define ZERO 0
 #define ONE 1
 #define ONES CGRAPH_INT32_MIN
@@ -175,6 +183,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_INT64_T
 #define NAME int64
 #define OUT_FORMAT "%ld"
+#define UTYPE cgraph_uint64_t
 #define ZERO 0
 #define ONE 1
 #define ONES CGRAPH_INT64_MIN
@@ -405,7 +414,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #endif /* __STDC__ */
 
 #define CGRAPH_STRUCTURE_BASE \
-	cgraph_type_t type; \
+	cgraph_element_t element; \
 	CGRAPH_DATA_BASE
 
 #if defined(TYPE_OBJECT)

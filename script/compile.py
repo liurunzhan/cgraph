@@ -73,35 +73,35 @@ elif args[1] == "test":
 elif args[1] == "clean":
   for file in CFILES:
     obj = file.replace(".c", ".o")
+    print("clean %s" % obj)
     if pathlib.Path(obj).exists():
-      print("clean %s" % obj)
       os.remove(obj)
+  print("clean %s" % LIBSTATIC)
   if pathlib.Path(LIBSTATIC).exists():
-    print("clean %s" % LIBSTATIC)
     os.remove(LIBSTATIC)
+  print("clean %s" % LIBSHARED)
   if pathlib.Path(LIBSHARED).exists():
-    print("clean %s" % LIBSHARED)
     os.remove(LIBSHARED)
+  print("clean %s" % TSTTARGET)
   if pathlib.Path(TSTTARGET).exists():
-    print("clean %s" % TSTTARGET)
     os.remove(TSTTARGET)
 elif args[1] == "distclean":
   for file in CFILES:
     obj = file.replace(".c", ".o")
+    print("clean %s" % obj)
     if pathlib.Path(obj).exists():
-      print("clean %s" % obj)
       os.remove(obj)
+  print("clean %s" % LIBSTATIC)
   if pathlib.Path(LIBSTATIC).exists():
-    print("clean %s" % LIBSTATIC)
     os.remove(LIBSTATIC)
+  print("clean %s" % LIBSHARED)
   if pathlib.Path(LIBSHARED).exists():
-    print("clean %s" % LIBSHARED)
     os.remove(LIBSHARED)
+  print("clean %s" % LIB)
   if pathlib.Path(LIB).exists():
-    print("clean %s" % LIB)
     shutil.rmtree(LIB)
+  print("clean %s" % TSTTARGET)
   if pathlib.Path(TSTTARGET).exists():
-    print("clean %s" % TSTTARGET)
     os.remove(TSTTARGET)
 elif args[1] == "help":
   print("%s <target>" % args[0])

@@ -2,9 +2,9 @@
 #include <math.h>
 #include "cgraph_math.h"
 
-cgraph_integer_t cgraph_math_crc(const cgraph_integer_t predata, const cgraph_integer_t data, const cgraph_integer_t polynomial)
+cgraph_uinteger_t cgraph_math_crc(const cgraph_uinteger_t predata, const cgraph_uinteger_t data, const cgraph_uinteger_t poly)
 {
-  cgraph_integer_t res = predata, temp = (data & res), poly = polynomial, ones = 0xFFFFFFFF, msb = 0;
+  cgraph_uinteger_t res = predata, temp = (data & res), ones = 0xFFFFFFFF, msb = 0;
   cgraph_size_t i = 0, bits = 32;
   for(i=0; i<bits; i++)
   {

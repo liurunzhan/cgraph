@@ -70,6 +70,8 @@ configure*
 doc/*.dot
 doc/*.png
 doc/*.pdf
+doc/html/
+doc/latex/
 
 # compile scripts
 script/compile

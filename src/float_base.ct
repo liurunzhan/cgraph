@@ -2,17 +2,22 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
-  cgraph_size_t hash;
-  if(object != object)
-  { hash = 3141592653UL; }
-  else if((MAX < object) || (MIN > object))
-  { hash = 1234567891UL; }
-  else
+  cgraph_size_t hash = 0;
+  if(NULL != cthis)
   {
-    TYPE ipart = floor(object), fpart = object - ipart;
-    cgraph_size_t hash_ipart = (cgraph_size_t)(ipart), hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
-    hash = (hash_ipart << 4) ^ hash_fpart;
+    TYPE object = *(TYPE *)cthis;
+    if(DATA_ISNAN(object))
+    { hash = CGRAPH_FLOAT_NAN_HASH; }
+    else if(DATA_ISPINF(object))
+    { hash = CGRAPH_FLOAT_PINF_HASH; }
+    else if(DATA_ISNINF(object))
+    { hash = CGRAPH_FLOAT_NINF_HASH; }
+    else
+    {
+      TYPE ipart = floor(object), fpart = object - ipart;
+      cgraph_size_t hash_ipart = (cgraph_size_t)(ipart), hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
+      hash = (hash_ipart << 4) ^ hash_fpart;
+    }
   }
 
   return CGRAPH_ABS(hash);
@@ -24,7 +29,7 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
   if(NULL != cthis)
   {
     TYPE object = *(TYPE *)cthis;
-    if(object == object && MAX > object && MIN < object)
+    if(DATA_TEST(object))
     { flag = CGRAPH_TRUE; }
   }
 

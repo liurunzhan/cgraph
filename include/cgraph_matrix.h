@@ -11,7 +11,6 @@ extern "C" {
 #include "templete.h"
 typedef struct 
 {  
-  cgraph_boolean_t with_hash;
   cgraph_size_t row, column;
   CGRAPH_STRUCTURE_BASE
 }cgraph_matrix_t;

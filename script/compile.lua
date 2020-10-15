@@ -3,6 +3,7 @@
 require("package")
 require('string')
 require('os')
+require('table')
 require('lfs')
 
 SEPARATOR = string.sub(package.config, 0, 1)
@@ -31,56 +32,59 @@ ARFLAGS = "-rcs"
 
 CFILES = {}
 for file in lfs.dir(SRC) do
-  if string(file, ".c$") then
+  if string.match(file, ".c$") then
     CFILES.append(SRC .. SEPARATOR .. file)
   end
 end
 
+
+
 args = ARGS
 if length(args) == 0 then
-  mkpath("$LIB")
+  lfs.mkdir(LIB)
+  OFILES = {}
   for file in CFILES do
     obj = string.gsub(file, ".c$", ".o")
-    print("compile $file to $obj")
-    os.execute("$CC $CFLAGS -I$INC -c $file -o $obj")
+    OFILES.append(obj)
+    print(string.format("compile file to %s", obj))
+    os.execute(string.format("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj))
   end
-  print("compile $LIBSHARED")
-  os.execute("$CC $CSFLAGS -o $LIBSHARED $SRC/*.o")
-  print("compile $LIBSTATIC");
-  os.execute("$AR $ARFLAGS $LIBSTATIC $SRC/*.o")
+  print(string.format("compile %s", LIBSHARED))
+  os.execute(string.format("%s %s -o %s %s", CC, CSFLAGS, LIBSHARED, table.concat(OFILES, " ")))
+  print(string.format("compile %s", LIBSTATIC))
+  os.execute(string.format("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, table.concat(OFILES, " ")))
 elseif 1 == length(args) then
   if args[1] == "test" then
-  print("compile $TSTFILE to $TSTTARGET")
-    os.execute("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm")
-    tst_path = path.join(TST, "elements.csv")
-    print("test $TSTTARGET with $tst_path")
-    os.execute("$TSTTARGET $tst_path")
+    print(string.format("compile %s to %s", TSTFILE, TSTTARGET))
+    os.execute(string.format("%s %s -I%s -o %s $ -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
+    print(string.format("test %s with %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
+    os.execute(string.format("%s %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
   elseif args[1] == "clean" then
     for file in CFILES do
       obj = string.gsub(file, ".c$", ".o")
-      print("clean ", SRC .. SEPARATOR .. obj)
-      os.remove(SRC .. SEPARATOR .. obj)
+      print(string.format("clean %s", obj))
+      os.remove(obj)
     end
-    print("clean $LIBSTATIC")
-    os.remove("$LIBSTATIC")
-    print("clean $LIBSHARED")
-    os.remove("$LIBSHARED")
-    print("clean $TSTTARGET")
-    os.remove("$TSTTARGET")
+    print(string.format("clean %s", LIBSTATIC))
+    os.remove(LIBSTATIC)
+    print(string.format("clean %s", LIBSHARED))
+    os.remove(LIBSHARED)
+    print(string.format("clean %s", TSTTARGET))
+    os.remove(TSTTARGET)
   elseif args[1] == "distclean" then
     for file in CFILES do
       obj = string.gsub(file, ".c$", ".o")
-      print("clean $obj")
-      os.remove("$obj")
+      print(string.format("clean %s", obj))
+      os.remove(obj)
     end
-    print("clean $LIBSTATIC")
-    os.remove("$LIBSTATIC")
-    print("clean $LIBSHARED")
-    os.remove("$LIBSHARED")
-    print("clean $LIB")
-    os.remove("$LIB")
-    print("clean $TSTTARGET")
-    os.remove("$TSTTARGET")
+    print(string.format("clean %s", LIBSTATIC))
+    os.remove(LIBSTATIC)
+    print(string.format("clean %s", LIBSHARED))
+    os.remove(LIBSHARED)
+    print(string.format("clean %s", LIB))
+    os.remove(LIB)
+    print(string.format("clean %s", TSTTARGET))
+    os.remove(TSTTARGET)
   elseif args[1] == "help" then
     print(PROGRAM_FILE, "    <target>")
     print("<target>: ")

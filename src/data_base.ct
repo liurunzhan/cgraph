@@ -11,7 +11,7 @@ CGVTable STRUCT(NAME) =
 {
 /*private:*/
 #ifndef DATA_WITH_POINTER
-  ID,                /* cgraph_integer_t __type__; */
+  ID,                /* cgraph_utype_t __type__;   */
   sizeof(TYPE),      /* cgraph_size_t __size__;    */
   sizeof(TYPE *),    /* cgraph_size_t __dsize__;   */
   sizeof(TYPE),      /* cgraph_size_t __msize__;   */

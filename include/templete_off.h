@@ -152,6 +152,10 @@
 #undef ID
 #endif
 
+#ifdef UTYPE
+#undef UTYPE
+#endif
+
 #ifdef NAME
 #undef NAME
 #endif
@@ -212,6 +216,10 @@
 
 #ifdef DATA_ID
 #undef DATA_ID
+#endif
+
+#ifdef DATA_UTYPE
+#undef DATA_UTYPE
 #endif
 
 #ifdef DATA_ZERO
