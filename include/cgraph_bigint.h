@@ -14,7 +14,7 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_boolean_t pos;
+  cgraph_boolean_t postive;
   CGRAPH_DATA_BASE
 }cgraph_bigint_t;
 

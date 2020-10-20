@@ -15,12 +15,14 @@ typedef struct
   CGRAPH_DATA_BASE
 }cgraph_bitset_t;
 
-#define BITSET_GET_BIT(cthis, pos) (((cthis->data[pos / DATA_BITS]) >> (pos % DATA_BITS)) ^ 0x1)
+#define BITSET_BYTE_POSTION(postion) ((postion) / DATA_BITS)
+#define BITSET_BIT_POSTION(postion) ((postion) % DATA_BITS)
+#define BITSET_GET_BIT(cthis, postion) ((((cthis)->data[BITSET_BYTE_POSTION(postion)]) >> BITSET_BIT_POSTION(postion)) ^ 0x1)
 
 #include "data_base.ht"
 
-extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t pos);
-extern TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t pos);
+extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t postion);
+extern TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t postion);
 extern TYPE *FUNCTION(NAME, bits)(const TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max);
 extern TYPE *FUNCTION(NAME, sets)(TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max);
 extern TYPE *FUNCTION(NAME, clr)(TYPE *cthis, const cgraph_size_t pos);

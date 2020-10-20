@@ -251,7 +251,7 @@ void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgra
 }
 
 /*              functions with two vectors of the same data types             */
-void *FUNCTION(NAME, adds2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+void *FUNCTION(NAME, adds2x)(const void *x, const void *y, void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
@@ -265,7 +265,7 @@ void *FUNCTION(NAME, adds2x)(const void *x, const void *y, const void *z, const 
   return object_z;
 }
 
-void *FUNCTION(NAME, sub2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+void *FUNCTION(NAME, sub2x)(const void *x, const void *y, void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
@@ -279,7 +279,7 @@ void *FUNCTION(NAME, sub2x)(const void *x, const void *y, const void *z, const c
   return object_z;
 }
 
-void *FUNCTION(NAME, muls2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+void *FUNCTION(NAME, muls2x)(const void *x, const void *y, void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;
@@ -293,7 +293,7 @@ void *FUNCTION(NAME, muls2x)(const void *x, const void *y, const void *z, const 
   return object_z;
 }
 
-void *FUNCTION(NAME, divs2x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+void *FUNCTION(NAME, divs2x)(const void *x, const void *y, void *z, const cgraph_size_t len)
 {
 #ifdef DATA_WITH_POINTER
   TYPE **object_x = (TYPE **)x, **object_y = (TYPE **)y, **object_z = (TYPE **)z;

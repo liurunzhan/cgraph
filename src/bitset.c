@@ -40,21 +40,21 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
   return flag;
 }
 
-TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t pos)
+TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t postion)
 {
   TYPE *res = FUNCTION(NAME, calloc)(DATA_ID, 1);
   if(NULL != res)
   {
-    res->data[0] = BITSET_GET_BIT(cthis, pos);
+    res->data[0] = BITSET_GET_BIT(cthis, postion);
     res->len = 1;
   }
 
   return res;
 }
 
-TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t pos)
+TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t postion)
 {
-  cgraph_size_t i = pos / DATA_BITS, j = pos % DATA_BITS;
+  cgraph_size_t i = BITSET_BYTE_POSTION(postion), j = BITSET_BIT_POSTION(postion);
   DATA_TYPE tmp = cthis->data[i], left_bits = ((tmp >> (j+1)) << (j+1)), right_bits = ((j == 0) ? 0 : (tmp ^ (~((DATA_ONES >> j) << j))));
   cthis->data[i] = left_bits + right_bits + (1 << j);
 

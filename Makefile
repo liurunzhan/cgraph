@@ -80,7 +80,7 @@ $(TOOLS) test:
 	$(CP) $(CPFLAGS) .$(SEPARATOR)script$(SEPARATOR)$(SCRIPT) .
 	$(COMPILE) $(SCRIPT) $(CMD)
 	
-.PHONY: all test clean distclean help $(TOOLS)
+.PHONY: all test clean distclean doc help $(TOOLS)
 
 all: CMD=
 
@@ -89,6 +89,9 @@ test: CMD= test
 clean: CMD= clean
 
 distclean: CMD= distclean
+
+doc:
+	doxygen
 
 help: CMD= help
 

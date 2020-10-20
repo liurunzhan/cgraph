@@ -1,5 +1,5 @@
-#ifndef _CGRAPH_SET_H_
-#define _CGRAPH_SET_H_
+#ifndef _CGRAPH_STACK_H_
+#define _CGRAPH_STACK_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -11,10 +11,10 @@ typedef struct
 {
   
   CGRAPH_STRUCTURE_BASE
-}cgraph_set_t;
+}cgraph_stack_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_SET_H_ */
+#endif /* _CGRAPH_STACK_H_ */

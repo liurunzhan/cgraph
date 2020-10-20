@@ -18,7 +18,7 @@ extern "C" {
 
 typedef struct
 {
-  DATA_TYPE type:1;
+  DATA_UTYPE type:1;
   union 
   {
     struct time_type0_t 

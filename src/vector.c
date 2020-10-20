@@ -160,7 +160,7 @@ void *FUNCTION(NAME, div)(const void *x, const void *y)
   return res;
 }
 
-void *FUNCTION(NAME, iterator2)(void *cthis, cgraph_func2_t opt)
+void *FUNCTION(NAME, iterator2)(void *cthis, cgraph_pfunc2_t opt)
 {
   TYPE *object = (TYPE *)cthis, *result = NULL;
   if(NULL != object)
@@ -172,7 +172,7 @@ void *FUNCTION(NAME, iterator2)(void *cthis, cgraph_func2_t opt)
   return result;
 }
 
-void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_func3_t opt)
+void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_pfunc3_t opt)
 {
   TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *result = NULL;
   if(NULL != object_x && NULL != object_y)

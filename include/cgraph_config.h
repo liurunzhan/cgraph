@@ -85,16 +85,22 @@ typedef uint64_t cgraph_uint64_t;
 #define CGRAPH_INT8_MIN (-128)
 #define CGRAPH_INT8_MAX (127)
 typedef signed char cgraph_int8_t;
+#define CGRAPH_UINT8_MIN (0)
+#define CGRAPH_UINT8_MAX (255)
 typedef unsigned char cgraph_uint8_t;
 /* 16-bit integer number */
 #define CGRAPH_INT16_MIN (-32768)
 #define CGRAPH_INT16_MAX (32767)
 typedef signed short cgraph_int16_t;
+#define CGRAPH_UINT16_MIN (0)
+#define CGRAPH_UINT16_MAX (65535)
 typedef unsigned short cgraph_uint16_t;
 /* 32-bit integer number */
 #define CGRAPH_INT32_MIN (-2147483648L)
 #define CGRAPH_INT32_MAX (2147483647L)
 typedef signed int cgraph_int32_t;
+#define CGRAPH_UINT32_MIN (0L)
+#define CGRAPH_UINT32_MAX (4294967295L)
 typedef unsigned int cgraph_uint32_t;
 /* 64-bit integer number */
 #if __WORDSIZE == 64 || defined(_WIN64)
@@ -103,6 +109,8 @@ typedef unsigned int cgraph_uint32_t;
 #define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
 #define CGRAPH_INT64_EPS_LEN (64)
 typedef signed long cgraph_int64_t;
+#define CGRAPH_UINT64_MIN (0LL)
+#define CGRAPH_UINT64_MAX (1844674407370955161LL)
 typedef unsigned long cgraph_uint64_t;
 #elif __WORDSIZE == 32 || defined(_WIN32)
 #define CGRAPH_INT64_MIN (-9223372036854775808LL)
@@ -111,6 +119,8 @@ typedef unsigned long cgraph_uint64_t;
 #define CGRAPH_INT64_EPS_LEN (64)
 __extension__
 typedef signed long long cgraph_int64_t;
+#define CGRAPH_UINT64_MIN (0LL)
+#define CGRAPH_UINT64_MAX (1844674407370955161LL)
 __extension__
 typedef unsigned long long cgraph_uint64_t;
 #else
@@ -148,6 +158,7 @@ typedef enum
   CGRAPH_FLOAT_T     =  4,
   CGRAPH_LONG_T      =  5,
   CGRAPH_INT8_T      =  6,
+  CGRAPH_UINT8_T     =  6,
   CGRAPH_INT16_T     =  7,
   CGRAPH_INT32_T     =  8,
   CGRAPH_INT64_T     =  9,
@@ -171,10 +182,11 @@ typedef enum
 
 typedef struct
 {
-  /* key  data type */
+  /* key data type */
   cgraph_uinteger_t ktype     : 6;
   cgraph_uinteger_t kvisited  : 1;
   cgraph_uinteger_t khashed   : 1;
+  /* value data type */
   cgraph_uinteger_t vtype     : 6;
   cgraph_uinteger_t vvisited  : 1;
   cgraph_uinteger_t vhashed   : 1;
@@ -184,8 +196,10 @@ typedef struct
   cgraph_uinteger_t gdirected : 1;
   cgraph_uinteger_t gweighted : 1;
   cgraph_uinteger_t ghyper    : 1;
+  cgraph_uinteger_t gmultiple : 1;
   cgraph_uinteger_t gdynamic  : 1;
   cgraph_uinteger_t gkeyisid  : 1;
+  cgraph_uinteger_t gstruct   : 2;
 }cgraph_element_t;
 
 #define CGRAPH_DTYPE_KTYPE(a)    ((a)->element.ktype)
@@ -199,6 +213,14 @@ typedef struct
 #define CGRAPH_DTYPE_TYPE(a)    CGRAPH_DTYPE_KTYPE(a)
 #define CGRAPH_DTYPE_VISITED(a) CGRAPH_DTYPE_KVISITED(a)
 #define CGRAPH_DTYPE_HASHED(a)  CGRAPH_DTYPE_KHASHED(a)
+
+#define CGRAPH_GTYPE_DIRECTED(a)  ((a)->element.gdirected)
+#define CGRAPH_GTYPE_WEIGHTED(a)  ((a)->element.gweighted)
+#define CGRAPH_GTYPE_GHYPER(a)    ((a)->element.ghyper)
+#define CGRAPH_GTYPE_GMULTIPLE(a) ((a)->element.gmultiple)
+#define CGRAPH_GTYPE_GDYNAMIC(a)  ((a)->element.gdynamic)
+#define CGRAPH_GTYPE_GKEYISID(a)  ((a)->element.gkeyisid)
+#define CGRAPH_GTYPE_GSTRUCT(a)   ((a)->element.gstruct)
 
 typedef struct
 {
@@ -223,6 +245,10 @@ typedef struct
   void (*free)(void *gthis);
   void *(*copy)(const void *cthis, const cgraph_size_t size);
   cgraph_size_t (*hash)(const void *cthis);
+  void (*add)(const void *x, const void *y, void *z);
+  void (*sub)(const void *x, const void *y, void *z);
+  void (*mul)(const void *x, const void *y, void *z);
+  void (*div)(const void *x, const void *y, void *z);
   void (*none)(void);
 }CGVTable;
 
@@ -230,8 +256,8 @@ typedef struct
 extern CGVTable *_cgraph_objects_[];
 #define CGRAPH_OBJECT(type, opt) ((_cgraph_objects_[type])->opt)
 
-typedef void (*cgraph_func2_t)(const void *cthis, void *res);
-typedef void (*cgraph_func3_t)(const void *x, const void *y, void *res);
+typedef void *(*cgraph_pfunc2_t)(const void *cthis, void *res);
+typedef void *(*cgraph_pfunc3_t)(const void *x, const void *y, void *res);
 
 #ifdef __cplusplus
 }

@@ -12,8 +12,7 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_boolean_t visited;
-  const cgraph_type_t type;
+  cgraph_element_t element;
   struct cgraph_lobject_t *p1, *p2;
   void *data;
 }cgraph_lobject_t;

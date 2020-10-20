@@ -54,8 +54,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME integer
 #define OUT_FORMAT "%d"
 #define UTYPE cgraph_uinteger_t
-#define ZERO 0
-#define ONE 1
+#define ZERO (0)
+#define ONE (1)
 #define ONES CGRAPH_INTEGER_MIN
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INTEGER_MIN
@@ -70,9 +70,9 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_REAL_T
 #define NAME real
 #define OUT_FORMAT "%g"
-#define ZERO 0.0
-#define ONE 1.0
-#define ONES 1.0
+#define ZERO (0.0)
+#define ONE (1.0)
+#define ONES (1.0)
 #define BITS CGRAPH_REAL_EPSILON_LEN
 #define MIN CGRAPH_REAL_MIN
 #define MAX CGRAPH_REAL_MAX
@@ -88,7 +88,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ZERO CGRAPH_FALSE
 #define ONE CGRAPH_TRUE
 #define ONES CGRAPH_TRUE
-#define BITS 1
+#define BITS (1)
 #define MIN CGRAPH_FALSE
 #define MAX CGRAPH_TRUE
 #define MSB (ONE)
@@ -101,9 +101,9 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ID CGRAPH_FLOAT_T
 #define NAME float
 #define OUT_FORMAT "%f"
-#define ZERO 0.0
-#define ONE 1.0
-#define ONES 1.0
+#define ZERO (0.0)
+#define ONE (1.0)
+#define ONES (1.0)
 #define BITS CGRAPH_FLOAT_EPSILON_LEN
 #define MIN CGRAPH_FLOAT_MIN
 #define MAX CGRAPH_FLOAT_MAX
@@ -116,8 +116,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME long
 #define OUT_FORMAT "%ld"
 #define UTYPE cgraph_ulong_t
-#define ZERO 0
-#define ONE 1
+#define ZERO (0L)
+#define ONE (1L)
 #define ONES CGRAPH_LONG_MIN
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_LONG_MIN
@@ -133,8 +133,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME int8
 #define OUT_FORMAT "%d"
 #define UTYPE cgraph_uint8_t
-#define ZERO 0
-#define ONE 1
+#define ZERO (0)
+#define ONE (1)
 #define ONES CGRAPH_INT8_MIN
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT8_MIN
@@ -150,8 +150,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME int16
 #define OUT_FORMAT "%d"
 #define UTYPE cgraph_uint16_t
-#define ZERO 0
-#define ONE 1
+#define ZERO (0)
+#define ONE (1)
 #define ONES CGRAPH_INT16_MIN
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT16_MIN
@@ -167,8 +167,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME int32
 #define OUT_FORMAT "%d"
 #define UTYPE cgraph_uint32_t
-#define ZERO 0
-#define ONE 1
+#define ZERO (0)
+#define ONE (1)
 #define ONES CGRAPH_INT32_MIN
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT32_MIN
@@ -182,10 +182,10 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define TYPE cgraph_int64_t
 #define ID CGRAPH_INT64_T
 #define NAME int64
-#define OUT_FORMAT "%ld"
+#define OUT_FORMAT "%lld"
 #define UTYPE cgraph_uint64_t
-#define ZERO 0
-#define ONE 1
+#define ZERO (0LL)
+#define ONE (1LL)
 #define ONES CGRAPH_INT64_MIN
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_INT64_MIN
@@ -199,19 +199,20 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define TYPE cgraph_time_t
 #define ID CGRAPH_TIME_T
 #define NAME time
-#define OUT_FORMAT "d"
-#define ZERO 0
-#define ONE 1
-#define ONES { 1 << 26 | 1 << 22 |  1 << 17 || 1 << 12 | 1 << 6 | 1}
-#define BITS (8*sizeof(TYPE))
-#define MIN 0
-#define MAX 1
+#define OUT_FORMAT "%d"
+#define ZERO (0)
+#define ONE (1)
+#define ONES {{ 1 << 26 | 1 << 22 |  1 << 17 || 1 << 12 | 1 << 6 | 1}}
+#define BITS (8*sizeof(TYPE)-1)
+#define MIN (0)
+#define MAX (1)
 #define DATA_TYPE cgraph_int32_t
 #define DATA_ID CGRAPH_INT32_T
-#define DATA_ZERO 0
-#define DATA_ONE 1
-#define DATA_ONES 1
-#define DATA_BITS (8*sizeof(DATA_TYPE) - 2)
+#define DATA_UTYPE cgraph_uint32_t
+#define DATA_ZERO (0)
+#define DATA_ONE (1)
+#define DATA_ONES (1)
+#define DATA_BITS (8*sizeof(DATA_TYPE))
 #define DATA_MIN (CGRAPH_INT32_MIN >> 1)
 #define DATA_MAX (CGRAPH_INT32_MAX >> 1)
 #define DATA_MSB (DATA_ONE << (DATA_BITS-1))
@@ -267,52 +268,53 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define TYPE cgraph_bigint_t
 #define ID CGRAPH_BIGINT_T
 #define NAME bigint
-#define OUT_FORMAT "%d"
-#define ZERO 0
-#define ONE 1
-#define ONES 1
-#define MIN 0
-#define MAX 9
+#define OUT_FORMAT "%u"
+#define ZERO (0)
+#define ONE (1)
+#define ONES (1)
+#define MIN (0)
+#define MAX (9)
 #define DATA_WITH_POINTER
-#define DATA_TYPE cgraph_int8_t
-#define DATA_ID CGRAPH_INT8_T
-#define DATA_ZERO 0
-#define DATA_ONE 1
-#define DATA_ONES 1
-#define DATA_BITS 4
-#define DATA_MIN 0
-#define DATA_MAX 9
-#define DATA_MSB (DATA_ONE << (DATA_BITS-1))
-#define DATA_LSB (DATA_ONE)
+#define DATA_TYPE cgraph_uint8_t
+#define DATA_ID CGRAPH_UINT8_T
+#define DATA_UTYPE cgraph_uint8_t
+#define DATA_ZERO (0)
+#define DATA_ONE (1)
+#define DATA_ONES (1)
+#define DATA_BITS (4)
+#define DATA_MIN (0)
+#define DATA_MAX (9)
+#define DATA_MSB (1)
+#define DATA_LSB (1)
 
 #elif defined(TYPE_BIGNUM)
 #define TYPE cgraph_bignum_t
 #define ID CGRAPH_BIGNUM_T
 #define NAME bignum
 #define OUT_FORMAT "%s"
-#define ZERO "0.0"
-#define ONE "1.0"
-#define ONES '1'
+#define ZERO ("0.0")
+#define ONE ("1.0")
+#define ONES ("1")
 #define BITS (8*sizeof(TYPE))
-#define MIN '0'
-#define MAX '9'
+#define MIN ("-inf")
+#define MAX ("+inf")
 #define DATA_WITH_POINTER
 #define DATA_TYPE cgraph_char_t
 #define DATA_ID CGRAPH_CHAR_T
 #define DATA_BITS (8*sizeof(DATA_TYPE))
-#define DATA_ZERO '0'
-#define DATA_ONE '1'
-#define DATA_ONES '1'
-#define DATA_MIN '0'
-#define DATA_MAX '9'
+#define DATA_ZERO ('0')
+#define DATA_ONE ('1')
+#define DATA_ONES ('1')
+#define DATA_MIN ('0')
+#define DATA_MAX ('9')
 
 #elif defined(TYPE_STRING)
 #define TYPE cgraph_string_t
 #define ID CGRAPH_STRING_T
 #define NAME string
 #define OUT_FORMAT "%s"
-#define ZERO 0
-#define ONE 1
+#define ZERO (0)
+#define ONE (1)
 #define ONES CGRAPH_CHAR_MIN
 #define BITS (8*sizeof(TYPE))
 #define MIN CGRAPH_CHAR_MIN
@@ -323,28 +325,29 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DATA_MIN CGRAPH_CHAR_MIN
 #define DATA_MAX CGRAPH_CHAR_MAX
 #define DATA_BITS (8*sizeof(DATA_TYPE))
-#define DATA_ONES '1'
+#define DATA_ONES ('1')
 
 #elif defined(TYPE_BITSET)
 #define TYPE cgraph_bitset_t
 #define ID CGRAPH_BITSET_T
 #define NAME bitset
 #define OUT_FORMAT "%x"
-#define ZERO 0
-#define ONE 1
-#define ONES 1
+#define ZERO (0)
+#define ONE (1)
+#define ONES (1)
 #define BITS CGRAPH_INT8_MIN
-#define MIN  0
+#define MIN  (0)
 #define MAX CGRAPH_INT8_MIN
 #define DATA_WITH_POINTER
-#define DATA_TYPE cgraph_int8_t
-#define DATA_ID CGRAPH_INT8_T
+#define DATA_TYPE cgraph_uint8_t
+#define DATA_UTYPE cgraph_uint8_t
+#define DATA_ID CGRAPH_UINT8_T
 #define DATA_ZERO 0
 #define DATA_ONE 1
-#define DATA_ONES CGRAPH_INT8_MIN
+#define DATA_ONES CGRAPH_UINT8_MAX
 #define DATA_BITS (8*sizeof(DATA_TYPE))
-#define DATA_MIN CGRAPH_INT8_MIN
-#define DATA_MAX CGRAPH_INT8_MAX
+#define DATA_MIN CGRAPH_UINT8_MIN
+#define DATA_MAX CGRAPH_UINT8_MAX
 
 #elif defined(TYPE_VECTOR)
 #define TYPE cgraph_vector_t

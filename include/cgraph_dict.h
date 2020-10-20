@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_object.h"
 
 #define TYPE_DICT
 #include "templete.h"
@@ -13,7 +14,7 @@ extern "C" {
 typedef struct
 {
   cgraph_element_t element;
-  const void *key;
+  const cgraph_object_t *key;
   void *data;
   struct cgraph_dobject_t *next; 
 } cgraph_dobject_t;
