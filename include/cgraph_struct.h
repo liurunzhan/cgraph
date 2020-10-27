@@ -27,12 +27,12 @@ extern "C" {
 
 /*
   structure with node pointers:
-  --> line
+  --> queue
   --> stack
   --> list
   --> tree
 */
-#include "cgraph_line.h"
+#include "cgraph_queue.h"
 #include "cgraph_stack.h"
 #include "cgraph_list.h"
 #include "cgraph_tree.h"

@@ -1,38 +1,12 @@
-#include "cgraph_object.h"
+#include "cgraph_sobject.h"
 #include "cgraph_memory.h"
 #include "cgraph_error.h"
 
 #include "cgraph_data.h"
 #include "cgraph_struct.h"
 
-#define TYPE_OBJECT
+#define TYPE_SOBJECT
 #include "templete.h"
-
-CGVTable *_cgraph_objects_[] = 
-{
-  &STRUCT(object),
-  &STRUCT(integer),
-  &STRUCT(real),
-  &STRUCT(boolean),
-  &STRUCT(float),
-  &STRUCT(long),
-  &STRUCT(int8),
-  &STRUCT(int16),
-  &STRUCT(int32),
-  &STRUCT(int64),
-  NULL,
-  /* &STRUCT(time), */
-  &STRUCT(complex),
-  &STRUCT(fraction),
-  &STRUCT(bigint),
-  &STRUCT(bignum),
-  &STRUCT(string),
-  &STRUCT(bitset),
-  &STRUCT(vector),
-  &STRUCT(matrix),
-  &STRUCT(bigmat),
-  NULL
-};
 
 CGVTable STRUCT(NAME) = 
 {

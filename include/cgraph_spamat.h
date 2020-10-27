@@ -7,7 +7,7 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define TYPE_BIGMAT
+#define TYPE_SPAMAT
 #include "templete.h"
 
 typedef struct 

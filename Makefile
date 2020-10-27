@@ -75,7 +75,7 @@ export SEPARATOR = /
 export SPLIT = ;
 endif
 
-$(TOOLS) test:
+$(TOOLS):
 	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
 	$(CP) $(CPFLAGS) .$(SEPARATOR)script$(SEPARATOR)$(SCRIPT) .
 	$(COMPILE) $(SCRIPT) $(CMD)

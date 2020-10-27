@@ -14,7 +14,7 @@ extern "C" {
 typedef struct
 {
   cgraph_element_t element;
-  const cgraph_object_t *key;
+  const void *key;
   void *data;
   struct cgraph_dobject_t *next; 
 } cgraph_dobject_t;

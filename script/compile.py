@@ -2,9 +2,15 @@
 
 import os
 import sys
-import pathlib
 import platform
 import shutil
+
+try:
+  import pathlib
+except ImportError:
+  from pip._internal import main
+  main(["install", "pathlib"])
+  import pathlib
 
 PRO = "cgraph"
 DIR = "."

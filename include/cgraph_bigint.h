@@ -1,3 +1,12 @@
+/**
+* @file  cgraph_bigint.h  
+* @brief  
+* @author       Liurunzhan
+* @date     2015-5-24 
+* @version  0.0.0 
+* @copyright Vincent                                                    
+*/
+
 #ifndef _CGRAPH_BIGINT_H_
 #define _CGRAPH_BIGINT_H_
 

@@ -7,11 +7,16 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define TYPE_SET
+#include "templete.h"
+
 typedef struct
 {
   
   CGRAPH_STRUCTURE_BASE
 }cgraph_set_t;
+
+#include "templete_off.h"
 
 #ifdef __cplusplus
 }

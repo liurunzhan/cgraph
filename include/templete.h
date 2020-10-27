@@ -47,6 +47,23 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME object
 #define OUT_FORMAT "ld"
 #define ZERO NULL
+#define DATA_TYPE void
+
+#elif defined(TYPE_POBJECT)
+#define TYPE cgraph_pobject_t
+#define ID CGRAPH_POBJECT_T
+#define NAME pobject
+#define OUT_FORMAT "ld"
+#define ZERO NULL
+#define DATA_TYPE void
+
+#elif defined(TYPE_SOBJECT)
+#define TYPE cgraph_sobject_t
+#define ID CGRAPH_SOBJECT_T
+#define NAME sobject
+#define OUT_FORMAT "ld"
+#define ZERO NULL
+#define DATA_TYPE void
 
 #elif defined(TYPE_INTEGER)
 #define TYPE cgraph_integer_t
@@ -398,9 +415,35 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ZERO NULL
 #define DATA_TYPE void
 
+#elif defined(TYPE_SET)
+#define TYPE cgraph_set_t
+#define ID CGRAPH_SET_T
+#define NAME tree
+#define ZERO NULL
+#define DATA_TYPE void
+
+#elif defined(TYPE_QUEUE)
+#define TYPE cgraph_queue_t
+#define ID CGRAPH_QUEUE_T
+#define NAME tree
+#define ZERO NULL
+#define DATA_TYPE void
+
+#elif defined(TYPE_STACK)
+#define TYPE cgraph_stack_t
+#define ID CGRAPH_STACK_T
+#define NAME tree
+#define ZERO NULL
+#define DATA_TYPE void
+
 #else
 #error !!! UNSUPPORTED DATA TYPE !!!
 #endif
+
+#define CGRAPH_OBJECT_BASE \
+	cgraph_type_t type; \
+  cgraph_size_t hash; \
+  DATA_TYPE *data;
 
 #if defined(__STDC__) 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
@@ -420,7 +463,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 	cgraph_element_t element; \
 	CGRAPH_DATA_BASE
 
-#if defined(TYPE_OBJECT)
+#if defined(TYPE_OBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
 
 #elif defined(TYPE_BOOLEAN)
 #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
@@ -691,7 +734,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define LS(a, b) FUNCTION(NAME, ls)((a), (b))
 #define LE(a, b) FUNCTION(NAME, le)((a), (b))
 
-#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE)
+#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) || defined(TYPE_STACK)
 
 
 #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)

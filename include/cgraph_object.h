@@ -5,6 +5,10 @@
 extern "C" {
 #endif
 
+#if defined(_CGRAPH_POBJECT_H_) || defined(_CGRAPH_SOBJECT_H_)
+#error "\"cgraph_object.h\" can not be included together with \"cgraph_pobject.h\" or \"cgraph_sobject,h\""
+#endif
+
 #include "cgraph_config.h"
 
 #define TYPE_OBJECT
@@ -12,17 +16,12 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_type_t type;
-  cgraph_size_t hash;
-  void *data;
+  CGRAPH_OBJECT_BASE
 }cgraph_object_t;
 
-#define TYPE_OBJECT
-
-#include "templete.h"
 #include "data_base.ht"
 
-void *FUNCTION(NAME, data)(void *cthis);
+extern void *FUNCTION(NAME, data)(void *cthis);
 
 #include "templete_off.h"
 

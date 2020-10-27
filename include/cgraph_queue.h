@@ -1,5 +1,5 @@
-#ifndef _CGRAPH_STACK_H_
-#define _CGRAPH_STACK_H_
+#ifndef _CGRAPH_QUEUE_H_
+#define _CGRAPH_QUEUE_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -7,14 +7,13 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define TYPE_STACK
 #include "templete.h"
 
 typedef struct
 {
   
   CGRAPH_STRUCTURE_BASE
-}cgraph_stack_t;
+}cgraph_queue_t;
 
 #include "templete_off.h"
 
@@ -22,4 +21,4 @@ typedef struct
 }
 #endif
 
-#endif /* _CGRAPH_STACK_H_ */
+#endif /* _CGRAPH_QUEUE_H_ */

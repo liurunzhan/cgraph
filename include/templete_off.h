@@ -48,6 +48,14 @@
 #undef TYPE_OBJECT
 #endif
 
+#ifdef TYPE_POBJECT
+#undef TYPE_POBJECT
+#endif
+
+#ifdef TYPE_SOBJECT
+#undef TYPE_SOBJECT
+#endif
+
 #ifdef TYPE_INTEGER
 #undef TYPE_INTEGER
 #endif
@@ -140,6 +148,18 @@
 
 #ifdef TYPE_TREE
 #undef TYPE_TREE
+#endif
+
+#ifdef TYPE_SET
+#undef TYPE_SET
+#endif
+
+#ifdef TYPE_DICT
+#undef TYPE_DICT
+#endif
+
+#ifdef TYPE_QUEUE
+#undef TYPE_QUEUE
 #endif
 
 /* TYPE PROPERTY */
