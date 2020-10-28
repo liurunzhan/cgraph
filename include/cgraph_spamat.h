@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_sobject.h"
 
 #define TYPE_SPAMAT
 #include "templete.h"

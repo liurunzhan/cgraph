@@ -7,6 +7,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_object.h"
+
 #define TYPE_BIGMAT
 #include "templete.h"
 

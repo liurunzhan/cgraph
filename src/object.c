@@ -21,7 +21,7 @@ CGVTable *_cgraph_objects_[] =
   &STRUCT(int32),
   &STRUCT(int64),
   NULL,
-  /* &STRUCT(time), */
+  /* &STRUCT(time),
   &STRUCT(complex),
   &STRUCT(fraction),
   &STRUCT(bigint),
@@ -30,7 +30,7 @@ CGVTable *_cgraph_objects_[] =
   &STRUCT(bitset),
   &STRUCT(vector),
   &STRUCT(matrix),
-  &STRUCT(bigmat),
+  &STRUCT(bigmat), */
   NULL
 };
 

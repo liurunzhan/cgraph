@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-#if defined(_CGRAPH_POBJECT_H_) || defined(_CGRAPH_SOBJECT_H_)
-#error "\"cgraph_object.h\" can not be included together with \"cgraph_pobject.h\" or \"cgraph_sobject,h\""
+#if !defined(_CGRAPH_STRUCT_H_) && (defined(_CGRAPH_POBJECT_H_) || defined(_CGRAPH_SOBJECT_H_))
+#error <cgraph_object.h> can not be included in the same file together with <cgraph_pobject.h> or <cgraph_sobject.h> except in <cgraph_struct.h>
 #endif
 
 #include "cgraph_config.h"

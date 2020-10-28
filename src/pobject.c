@@ -1,11 +1,10 @@
-#include "cgraph_sobject.h"
+#include "cgraph_pobject.h"
 #include "cgraph_memory.h"
 #include "cgraph_error.h"
 
 #include "cgraph_data.h"
-#include "cgraph_struct.h"
 
-#define TYPE_SOBJECT
+#define TYPE_POBJECT
 #include "templete.h"
 
 CGVTable STRUCT(NAME) = 

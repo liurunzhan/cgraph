@@ -228,8 +228,8 @@ TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y)
 TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
-  FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1) ? FRACTION_NUM(x) : (DATA_TYPE)pow(FRACTION_DEN(x), y);
-  FRACTION_DEN(res) = FRACTION_DEN(x) == 1 ? FRACTION_DEN(x) : (DATA_TYPE)pow(FRACTION_DEN(x), y);
+  FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1) ? FRACTION_NUM(x) : (DATA_TYPE)pow(FRACTION_DEN(x), 1.0/y);
+  FRACTION_DEN(res) = FRACTION_DEN(x) == 1 ? FRACTION_DEN(x) : (DATA_TYPE)pow(FRACTION_DEN(x), 1.0/y);
 
   return res;
 }
@@ -273,6 +273,8 @@ TYPE FUNCTION(NAME, divf)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, powf)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1) ? FRACTION_NUM(x) : (DATA_TYPE)pow(FRACTION_DEN(x), FRACTION_VALUE(y));
+  FRACTION_DEN(res) = FRACTION_DEN(x) == 1 ? FRACTION_DEN(x) : (DATA_TYPE)pow(FRACTION_DEN(x), FRACTION_VALUE(y));
 
   return res;
 }
@@ -280,8 +282,8 @@ TYPE FUNCTION(NAME, powf)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, abs)(const TYPE x)
 {
   TYPE res;
-  FRACTION_NUM(res) = ((FRACTION_NUM(x) > 0) ? FRACTION_NUM(x) : (-FRACTION_NUM(x)));
-  FRACTION_DEN(res) = ((FRACTION_DEN(x) > 0) ? FRACTION_DEN(x) : (-FRACTION_DEN(x))); 
+  FRACTION_NUM(res) = CGRAPH_ABS(FRACTION_NUM(x));
+  FRACTION_DEN(res) = CGRAPH_ABS(FRACTION_DEN(x)); 
 
   return res;
 }

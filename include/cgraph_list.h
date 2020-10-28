@@ -6,22 +6,16 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_pobject.h"
 
 #define TYPE_LIST
 #include "templete.h"
 
 typedef struct 
 {
-  cgraph_element_t element;
-  struct cgraph_lobject_t *p1, *p2;
-  void *data;
-}cgraph_lobject_t;
-
-typedef struct 
-{
   cgraph_size_t size, len;
-  cgraph_lobject_t *header, *tail;
-  cgraph_lobject_t *root, *data;
+  cgraph_pobject_t *header, *tail;
+  cgraph_pobject_t *root, *data;
 }cgraph_list_t;
 
 #include "struct_base.ht"

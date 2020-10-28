@@ -7,6 +7,7 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#define TYPE_QUEUE
 #include "templete.h"
 
 typedef struct
