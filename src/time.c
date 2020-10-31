@@ -124,12 +124,10 @@ TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month, co
   return res;
 }
 
-TYPE FUNCTION(NAME, initwt01)(const DATA_TYPE time0, const DATA_TYPE time1)
+TYPE FUNCTION(NAME, initt)(const DATA_TYPE time)
 {
   TYPE res;
-  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
-  TIME0(res) = time0;
-  TIME1(res) = time1;
+  TIME_VALUE(res) = time;
   
   return res;
 }

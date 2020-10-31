@@ -5,11 +5,12 @@ rem project
 set PRO=cgraph
 
 rem directory tree
-set DIR=%~dp0
-set INC=%DIR%include
-set SRC=%DIR%src
-set TST=%DIR%test
-set LIB=%DIR%lib
+rem set DIR=%~dp0
+set DIR=.
+set INC=%DIR%\include
+set SRC=%DIR%\src
+set TST=%DIR%\test
+set LIB=%DIR%\lib
 
 rem compiler configuration
 set CC=cc

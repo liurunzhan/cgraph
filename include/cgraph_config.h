@@ -117,11 +117,15 @@ typedef unsigned long cgraph_uint64_t;
 #define CGRAPH_INT64_MAX (9223372036854775807LL)
 #define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
 #define CGRAPH_INT64_EPS_LEN (64)
+#ifdef __GNUC__
 __extension__
+#endif
 typedef signed long long cgraph_int64_t;
 #define CGRAPH_UINT64_MIN (0LL)
 #define CGRAPH_UINT64_MAX (1844674407370955161LL)
+#ifdef __GNUC__
 __extension__
+#endif
 typedef unsigned long long cgraph_uint64_t;
 #else
 #error only 32-bit and 64-bit system are supported!!
@@ -194,7 +198,7 @@ typedef struct
   cgraph_uinteger_t vvisited  : 1;
   cgraph_uinteger_t vhashed   : 1;
   /* unused space for extertions */
-  cgraph_uinteger_t unused    : 8;
+  cgraph_uinteger_t           : 8;
   /* graph type */
   cgraph_uinteger_t gdirected : 1;
   cgraph_uinteger_t gweighted : 1;

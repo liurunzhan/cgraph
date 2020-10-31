@@ -65,6 +65,7 @@ test/cgraph
 # Autoconf Files
 autom4te.cache/
 configure*
+!Configure.pl
 
 # Doc/Markdown Files
 doc/*.dot

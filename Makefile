@@ -15,6 +15,7 @@ all: CMD=
 test: CMD= test
 
 clean: CMD= clean
+clean: all
 
 distclean: CMD= distclean
 
@@ -27,4 +28,4 @@ cloc:
 help: CMD= help
 
 make:
-	$(MAKE) -f Makefile.sub TOOL=make
+	$(MAKE) -f Makefile.sub make TOOL=make CMD=$(CMD)

@@ -1,3 +1,4 @@
+ALL= all
 TOOL=
 CMD=
 COMPILE=
@@ -32,7 +33,7 @@ else
 CMAKE_FLAGS= "Unix Makefiles"
 endif
 
-export MY_OS = $(DETECTED_OS)
+MY_OS = $(DETECTED_OS)
 
 # Windows cmd is available or not
 ifeq ($(shell echo "windows cmd available"), "windows cmd available")
@@ -42,40 +43,44 @@ CMD_AVAI := FALSE
 endif
 
 ifeq ($(CMD_AVAI), TRUE)
-RM = del
-RMFLAGS = /Q /F
-MKDIR = mkdir
-MKDIRFLAGS =
-RMDIR = rd
-RMDIRFLAGS = /Q
-CP = copy
-CPFLAGS = /Y
-SEPARATOR = \\
-SPLIT = &
+RM= del
+RMFLAGS= /Q /F
+MKDIR= mkdir
+MKDIRFLAGS=
+RMDIR= rd
+RMDIRFLAGS= /Q
+CP= copy
+CPFLAGS= /Y
+SEPARATOR= \\
+SPLIT= &
 else
-RM = rm
-RMFLAGS = -f
-MKDIR = mkdir
-MKDIRFLAGS = -p
-RMDIR = rm
-RMDIRFLAGS = -rf
-CP = cp
-CPFLAGS =
-SEPARATOR = /
-SPLIT = ;
+RM= rm
+RMFLAGS= -f
+MKDIR= mkdir
+MKDIRFLAGS= -p
+RMDIR= rm
+RMDIRFLAGS= -rf
+CP= cp
+CPFLAGS=
+SEPARATOR= /
+SPLIT= ;
 endif
 
-SCRDIR = .$(SEPARATOR)script$(SEPARATOR)
+SCRDIR= .$(SEPARATOR)script$(SEPARATOR)
+
+ifeq ($(MAKELEVEL), 0)
+$(ALL):
+	echo "Makefile.sub can not be directly made!"
+	exit "$$?"
+endif
+
+.PHONY: all $(TOOLS)
 
 ifeq ($(TOOL), cmake)
 $(ALL):
 	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
 	$(CP) $(CPFLAGS) $(SCRDIR)$(SCRIPT) .
-	$(MKDIR) $(MKDIRFLAGS) build
-	cd build
-	$(RMDIR) $(RMDIRFLAGS) *
-	cmake .. -G $(CMAKE_FLAGS)
-	$(MAKE)
+	$(COMPILE) $(CMD)
 	cd ..
 else
 $(ALL):
@@ -87,9 +92,10 @@ endif
 make: SCRIPT= compile.mk
 make: COMPILE= $(MAKE) -f
 make: TOOL= make
+make: all
 
 cmake: SCRIPT= CMakeLists.txt
-cmake: COMPILE= $(MKDIR) $(MKDIRFLAGS) build; cd build; $(RMDIR) $(RMDIRFLAGS) *; cmake .. -G $(CMAKE_FLAGS); $(MAKE)
+cmake: COMPILE= $(RMDIR) $(RMDIRFLAGS) build; $(MKDIR) $(MKDIRFLAGS) build; cd build; cmake .. -G $(CMAKE_FLAGS); $(MAKE)
 cmake: TOOL= cmake
 
 xmake: SCRIPT= xmake.lua

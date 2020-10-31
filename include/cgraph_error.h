@@ -26,8 +26,12 @@ typedef enum
   CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS   /* MAXIMUM VALUE OF ERRORS, NO USED */
 }cgraph_error_t;
 
+#if defined(DEBUG)
 #define cgraph_error_print(reason) \
   cgraph_error((reason), (__LINE__), (__FILE__))
+#else
+#define cgraph_error_print(reason) ((void)0)
+#endif
 
 void cgraph_error(cgraph_error_t reason, const cgraph_size_t line, cgraph_char_t *file);
 

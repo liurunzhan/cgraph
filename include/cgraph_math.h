@@ -9,19 +9,31 @@ extern "C" {
 
 /*                 const numbers defined and used in this library             */
 #define MATH_ERROR       (-1)                     /* MATH ERROR    */
-#if defined(_MATH_H_)
-#define MATH_CONST_PI    (M_PI)                   /* pi            */
-#define MATH_CONST_E     (M_E)                    /* e             */
-#define MATH_CONST_PHI   (0.61803398874989484820) /* (sqrt(5)-1)/2 */
-#define MATH_CONST_LOG2  (M_LN2)                  /* ln2           */
-#define MATH_CONST_LOG10 (M_LN10)                 /* ln10          */
+#if defined(M_PI)
+#define MATH_CONST_PI    (M_PI)
 #else
-#define MATH_CONST_PI    (3.14159265358979323846) /* pi            */
-#define MATH_CONST_E     (2.71828182845904523536) /* e             */
-#define MATH_CONST_PHI   (0.61803398874989484820) /* (sqrt(5)-1)/2 */
-#define MATH_CONST_LOG2  (0.69314718055994530942) /* ln2           */
-#define MATH_CONST_LOG10 (2.30258509299404568402) /* ln10          */
+#define MATH_CONST_PI    (3.14159265358979323846)
+#endif /* MATH_CONST_PI */
+
+#if defined(M_E)
+#define MATH_CONST_E     (M_E)
+#else
+#define MATH_CONST_E     (2.71828182845904523536)
 #endif
+
+#define MATH_CONST_PHI   (0.61803398874989484820) /* (sqrt(5)-1)/2 */
+
+#if defined(M_LN2)
+#define MATH_CONST_LOG2  (M_LN2)
+#else
+#define MATH_CONST_LOG2  (0.69314718055994530942)
+#endif /* MATH_CONST_LOG2 */
+
+#if defined(M_LN10)
+#define MATH_CONST_LOG10 (M_LN10)
+#else
+#define MATH_CONST_LOG10 (2.30258509299404568402)
+#endif /* MATH_CONST_LOG10 */
 
 extern cgraph_uinteger_t cgraph_math_crc(const cgraph_uinteger_t predata, const cgraph_uinteger_t data, const cgraph_uinteger_t poly);
 extern cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_boolean_t *error);

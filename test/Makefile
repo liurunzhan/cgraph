@@ -1,15 +1,15 @@
-DIR=.
-INC=$(DIR)$(SEPARATOR)..$(SEPARATOR)include
-LIB=$(DIR)$(SEPARATOR)..$(SEPARATOR)lib
+DIR= .
+INC= $(DIR)$(SEPARATOR)..$(SEPARATOR)include
+LIB= $(DIR)$(SEPARATOR)..$(SEPARATOR)lib
 
-SOURCE = cgraph.c
+SOURCE= cgraph.c
 ifndef TARGET
-TARGET = cgraph
+TARGET= cgraph
 endif
 ifeq ($(MY_OS), Windows)
-TARGET_TEST = $(TARGET).exe
+TARGET_TEST= $(TARGET).exe
 else
-TARGET_TEST = $(TARGET)
+TARGET_TEST= $(TARGET)
 endif
 
 .PHONY: all test clean
