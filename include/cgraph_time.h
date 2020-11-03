@@ -17,7 +17,8 @@ extern "C" {
 #define CGRAPH_TIME_TYPE1 (-1)
 
 #if defined(__STDC__)
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) /* C99 OR HIGHER 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) 
+/* C99 OR HIGHER */ 
 typedef struct
 {
   DATA_UTYPE type:1;
@@ -42,6 +43,7 @@ typedef struct
 #define TIME_TYPE1(x) ((x))
 
 #else
+/* C89 OR C90 */
 typedef struct
 {
   DATA_UTYPE type:1;
@@ -53,7 +55,7 @@ typedef struct
     }type0;
     struct time_type1_t 
     {
-      DATA_TYPE weeks:4;   /* maximum is 7      */
+      DATA_TYPE weeks:4;  /* maximum is 7      */
       DATA_TYPE days:10;  /* maximum is 366    */
       DATA_TYPE year:18;  /* maximum is 2^17-1 */
       DATA_TYPE month:5;  /* maximum is 12     */

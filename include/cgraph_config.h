@@ -259,9 +259,8 @@ typedef struct
   void (*none)(void);
 }CGVTable;
 
-/*                          operations of data types                          */
-extern CGVTable *_cgraph_objects_[];
-#define CGRAPH_OBJECT(type, opt) ((_cgraph_objects_[type])->opt)
+#define _CGRAPH_OBJECTS_NAME(NAME) (_cgraph_ ## NAME ## s_)
+#define CGRAPH_OBJECTS_NAME(NAME) _CGRAPH_OBJECTS_NAME(NAME)
 
 typedef void *(*cgraph_pfunc2_t)(const void *cthis, void *res);
 typedef void *(*cgraph_pfunc3_t)(const void *x, const void *y, void *res);

@@ -1,5 +1,6 @@
-#include "cgraph_matrix.h"
 #include "cgraph_memory.h"
+#include "cgraph_object.h"
+#include "cgraph_matrix.h"
 
 #define TYPE_MATRIX
 #include "templete.h"

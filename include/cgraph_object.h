@@ -11,6 +11,9 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+extern CGVTable *CGRAPH_OBJECTS_NAME(object)[];
+#define CGRAPH_OBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(object)[type])->opt)
+
 #define TYPE_OBJECT
 #include "templete.h"
 

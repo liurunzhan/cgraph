@@ -34,12 +34,26 @@ while($i <= $#args)
   if($args[$i] eq "--plat")
   {
     $i += 1;
-
+    if(exists($plats{$args[$i]}))
+    { $plat = $args[$i]; }
+    elsif($args[$i] eq "--help")
+    {
+      exit(0);
+    }
+    else
+    { print("set platform as default one, none!\n"); }
   }
   elsif($args[$i] eq "--cc")
   {
     $i += 1;
-    
+    if(exists($ccs{$args[$i]}))
+    { $cc = $args[$i]; }
+    elsif($args[$i] eq "--help")
+    {
+      exit(0);
+    }
+    else
+    { print("set c compiler as default one, cc!\n"); }
   }
   if($args[$i] eq "--std")
   {
@@ -50,7 +64,12 @@ while($i <= $#args)
     { $std = $args[$i]; }
     elsif($args[$i] eq "--help")
     {
-
+      print("argument --std supports:\n");
+      foreach my $key (sort{$stdcs{$a} <=> $stdcs{$b}} keys %stdcs)
+      { print("$key\n"); }
+      foreach my $key (sort{$gnucs{$a} <=> $gnucs{$b}} keys %gnucs)
+      { print("$key\n"); }
+      exit(0);
     }
     else
     { print("set C standard as default one, c89!\n"); }
@@ -62,7 +81,8 @@ while($i <= $#args)
     { $mode = $args[$i]; }
     elsif($args[$i] eq "--help")
     {
-
+      print("argument --mode supports:\ndebug\nrelease\n");
+      exit(0);
     }
     else
     { print("set compilation mode as default one, debug!\n"); }
@@ -70,6 +90,8 @@ while($i <= $#args)
   elsif($args[$i] eq "--help")
   {
     $i += 1;
+
+    exit(0);
   }
   else
   {
@@ -90,9 +112,10 @@ sub get_scripts
     while(<$fin>)
     {
       $_ =~ s/\r?\n//g;
-      if($_ =~ /^script/)
+      if($_ =~ /^SCRIPT/)
       { }
-      elsif($_ =~ /^/)
+      elsif($_ =~ /^TOOL/)
+      { }
     }
     close($fin);
   }

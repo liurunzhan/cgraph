@@ -47,6 +47,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME object
 #define OUT_FORMAT "ld"
 #define ZERO NULL
+#define DATA_WITH_POINTER
 #define DATA_TYPE void
 
 #elif defined(TYPE_POBJECT)
@@ -55,6 +56,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME pobject
 #define OUT_FORMAT "ld"
 #define ZERO NULL
+#define DATA_WITH_POINTER
 #define DATA_TYPE void
 
 #elif defined(TYPE_SOBJECT)
@@ -63,6 +65,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define NAME sobject
 #define OUT_FORMAT "ld"
 #define ZERO NULL
+#define DATA_WITH_POINTER
 #define DATA_TYPE void
 
 #elif defined(TYPE_INTEGER)
