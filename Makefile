@@ -23,7 +23,7 @@ doc:
 	doxygen
 
 cloc:
-	cloc include src test script
+	cloc include src script
 
 help: CMD= help
 

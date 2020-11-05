@@ -11,7 +11,7 @@ CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] =
   &STRUCT(int32),
   &STRUCT(int64),
   NULL,
-  /* &STRUCT(time),
+  &STRUCT(time),
   &STRUCT(complex),
   &STRUCT(fraction),
   &STRUCT(bigint),
@@ -20,7 +20,7 @@ CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] =
   &STRUCT(bitset),
   &STRUCT(vector),
   &STRUCT(matrix),
-  &STRUCT(bigmat), */
+  &STRUCT(bigmat),
   NULL
 };
 
@@ -86,9 +86,9 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   if((CGRAPH_OBJECT_T != type) && (NULL != cthis))
   {
     if(type < CGRAPH_VECTOR_T)
-    { cthis->data = CGRAPH_OBJECT(type, calloc)(type, size); }
+    { cthis->data = OBJECT(type, calloc)(type, size); }
     else
-    { cthis->data = CGRAPH_OBJECT(type, calloc)(CGRAPH_OBJECT_T, size); }
+    { cthis->data = OBJECT(type, calloc)(CGRAPH_OBJECT_T, size); }
     if(NULL != cthis->data)
     {
       cthis->type = type;
@@ -122,7 +122,7 @@ void FUNCTION(NAME, free)(void *cthis)
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   {
-    CGRAPH_OBJECT(object->type, free)(object->data);
+    OBJECT(object->type, free)(object->data);
     fprintf(stdout, "FREE OBJECT TYPE : %d\n", object->type);
     cgraph_free(object);
   }
@@ -131,7 +131,7 @@ void FUNCTION(NAME, free)(void *cthis)
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
-  return CGRAPH_OBJECT(object->type, hash)(object->data);
+  return OBJECT(object->type, hash)(object->data);
 }
 
 void *FUNCTION(NAME, data)(void *cthis)

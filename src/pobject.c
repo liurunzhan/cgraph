@@ -1,8 +1,8 @@
-#include "cgraph_pobject.h"
+#include "cgraph_data.h"
+#include "cgraph_struct.h"
 #include "cgraph_memory.h"
 #include "cgraph_error.h"
-
-#include "cgraph_data.h"
+#include "cgraph_pobject.h"
 
 #define TYPE_POBJECT
 #include "templete.h"

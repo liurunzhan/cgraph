@@ -1,0 +1,13 @@
+ninja_required_version = 1.0
+
+CC = cc
+CFLAGS = 
+
+
+rule link_cgraph
+
+build cgraph: 
+
+build all: 
+
+default all

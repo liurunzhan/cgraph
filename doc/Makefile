@@ -1,4 +1,4 @@
-PERL=perl
+PERL= perl
 
 .PHONY: all clean
 
@@ -9,6 +9,7 @@ all:
 	dot headers.dot -Tpng -o headers.png
 	dot sources.dot -Tpng -o sources.png
 	pandoc Introduction.md -o Introduction.pdf
+
 
 clean:
 	rm -rf *.dot *.png *.pdf

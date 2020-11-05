@@ -5,14 +5,14 @@
 extern "C" {
 #endif
 
-#if !defined(_CGRAPH_STRUCT_H_) && (defined(_CGRAPH_OBJECT_H_) || defined(_CGRAPH_SOBJECT_H_))
-#error <cgraph_pobject.h> can not be included in the same file together with <cgraph_object.h> or <cgraph_sobject.h> except in <cgraph_struct.h>
+#if !(defined(_CGRAPH_H_) || defined(_CGRAPH_STRUCT_H_)) && (defined(_CGRAPH_OBJECT_H_) || defined(_CGRAPH_HOBJECT_H_) || defined(_CGRAPH_SOBJECT_H_))
+#error <cgraph_pobject.h> can not be included in the same file together with <cgraph_object.h>, <cgraph_hobject.h> or <cgraph_sobject.h> except in <cgraph.h> and <cgraph_struct.h>
 #endif
 
 #include "cgraph_config.h"
 
 extern CGVTable *CGRAPH_OBJECTS_NAME(pobject)[];
-#define CGRAPH_OBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(pobject)[type])->opt)
+#define CGRAPH_POBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(pobject)[type])->opt)
 
 #define TYPE_POBJECT
 #include "templete.h"

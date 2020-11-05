@@ -1,5 +1,6 @@
-#include "cgraph_dict.h"
+#include "cgraph_hobject.h"
 #include "cgraph_memory.h"
+#include "cgraph_dict.h"
 
 #define TYPE_DICT
 #include "templete.h"
@@ -10,8 +11,8 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   TYPE *cthis = (TYPE *)cgraph_calloc(1, sizeof(TYPE));
   if(NULL != cthis)
   {
-    cthis->table = cgraph_calloc(size, sizeof(cgraph_dobject_t));
-    if(NULL != cthis->table)
+    cthis->data = cgraph_calloc(size, sizeof(cgraph_hobject_t));
+    if(NULL != cthis->data)
     { cthis->size = size; }
     else
     { cgraph_free(cthis); }
@@ -25,7 +26,7 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
   TYPE *object = (TYPE *)cthis;
   if((NULL != object) && (NULL != error))
   {
-    object->table = cgraph_realloc(object->table, object->size, new_size, sizeof(cgraph_dobject_t), error);
+    object->data = cgraph_realloc(object->data, object->size, new_size, sizeof(cgraph_hobject_t), error);
     if(CGRAPH_FALSE == error)
     { object->size = new_size; }
   }

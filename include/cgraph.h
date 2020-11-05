@@ -26,6 +26,10 @@ extern "C" {
 #include "cgraph_config.h"
 
 #include "cgraph_object.h"
+#include "cgraph_hobject.h"
+#include "cgraph_pobject.h"
+#include "cgraph_sobject.h"
+
 #include "cgraph_data.h"
 #include "cgraph_struct.h"
 

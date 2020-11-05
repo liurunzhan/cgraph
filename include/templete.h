@@ -1,3 +1,7 @@
+#if defined(TYPE)
+#error <templete.h> and <templete_off.h> are included error!
+#endif
+
 #define CONCAT1V(a) # a
 #define CONCAT1(a) CONCAT1V(a)
 #define CONCAT2V(a,b) a ## _ ## b 
@@ -50,6 +54,19 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DATA_WITH_POINTER
 #define DATA_TYPE void
 
+#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
+
+#elif defined(TYPE_HOBJECT)
+#define TYPE cgraph_hobject_t
+#define ID CGRAPH_HOBJECT_T
+#define NAME hobject
+#define OUT_FORMAT "ld"
+#define ZERO NULL
+#define DATA_WITH_POINTER
+#define DATA_TYPE void
+
+#define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
+
 #elif defined(TYPE_POBJECT)
 #define TYPE cgraph_pobject_t
 #define ID CGRAPH_POBJECT_T
@@ -59,6 +76,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define DATA_WITH_POINTER
 #define DATA_TYPE void
 
+#define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
+
 #elif defined(TYPE_SOBJECT)
 #define TYPE cgraph_sobject_t
 #define ID CGRAPH_SOBJECT_T
@@ -67,6 +86,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ZERO NULL
 #define DATA_WITH_POINTER
 #define DATA_TYPE void
+
+#define OBJECT(type, opt) CGRAPH_SOBJECT(type, opt)
 
 #elif defined(TYPE_INTEGER)
 #define TYPE cgraph_integer_t
@@ -466,7 +487,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 	cgraph_element_t element; \
 	CGRAPH_DATA_BASE
 
-#if defined(TYPE_OBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
+#if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
 
 #elif defined(TYPE_BOOLEAN)
 #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))

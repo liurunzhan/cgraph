@@ -2,9 +2,9 @@
 #include "cgraph_struct.h"
 #include "cgraph_memory.h"
 #include "cgraph_error.h"
-#include "cgraph_sobject.h"
+#include "cgraph_hobject.h"
 
-#define TYPE_SOBJECT
+#define TYPE_HOBJECT
 #include "templete.h"
 
 #include "object_base.ct"

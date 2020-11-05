@@ -29,6 +29,8 @@ typedef float cgraph_float_t;
 typedef unsigned int cgraph_uinteger_t;
 typedef unsigned long cgraph_ulong_t;
 
+typedef void * cgraph_stl_t;
+
 #define CGRAPH_BOOLEAN_MAX CGRAPH_TRUE
 #define CGRAPH_BOOLEAN_MIN CGRAPH_FALSE
 
@@ -156,6 +158,7 @@ typedef unsigned long long cgraph_uint64_t;
 typedef enum
 { 
   CGRAPH_OBJECT_T    =  0,
+  CGRAPH_HOBJECT_T   =  0,
   CGRAPH_POBJECT_T   =  0,
   CGRAPH_SOBJECT_T   =  0,
   CGRAPH_INTEGER_T   =  1,

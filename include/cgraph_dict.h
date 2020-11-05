@@ -6,23 +6,14 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include "cgraph_object.h"
 
 #define TYPE_DICT
 #include "templete.h"
 
-typedef struct
-{
-  cgraph_element_t element;
-  const void *key;
-  void *data;
-  struct cgraph_dobject_t *next; 
-} cgraph_dobject_t;
-
 typedef struct 
 {
   cgraph_size_t size, len;
-  cgraph_dobject_t *root, *table;
+  DATA_TYPE *root, *data;
 }cgraph_dict_t;
 
 #include "struct_base.ht"

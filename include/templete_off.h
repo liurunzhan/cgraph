@@ -48,6 +48,10 @@
 #undef TYPE_OBJECT
 #endif
 
+#ifdef TYPE_HOBJECT
+#undef TYPE_HOBJECT
+#endif
+
 #ifdef TYPE_POBJECT
 #undef TYPE_POBJECT
 #endif
@@ -308,6 +312,11 @@
 
 #ifdef DATA_ISNEG
 #undef DATA_ISNEG
+#endif
+
+/* objects */
+#ifdef OBJECT
+#undef OBJECT
 #endif
 
 /* DATA AND STRUCTURE INIT */
