@@ -1,6 +1,6 @@
 ROOT= .
 SCR= $(ROOT)/script
-TOOLS= make cmake xmake\
+export TOOLS= make cmake xmake\
 			 sh zsh fish tsh vsh cmd powershell \
 			 tcc go rust haskell zig \
 	     perl perl6 ruby python lua r julia lisp typescript \
@@ -15,9 +15,10 @@ all: CMD=
 test: CMD= test
 
 clean: CMD= clean
-clean: all
 
 distclean: CMD= distclean
+
+test: CMD= test
 
 doc:
 	doxygen
@@ -27,5 +28,5 @@ cloc:
 
 help: CMD= help
 
-make:
-	$(MAKE) -f Makefile.sub make TOOL=make CMD=$(CMD)
+$(TOOLS):
+	$(MAKE) -f Makefile.sub $@ TOOL=$@ CMD=$(CMD)

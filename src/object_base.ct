@@ -39,7 +39,7 @@ CGVTable STRUCT(NAME) =
   sizeof(TYPE),           /* cgraph_size_t __size__;    */
   sizeof(TYPE *),         /* cgraph_size_t __psize__;   */
   sizeof(TYPE *),         /* cgraph_size_t __msize__;   */
-  sizeof(DATA_TYPE),      /* cgraph_size_t __dsize__;   */
+  sizeof(cgraph_size_t),  /* cgraph_size_t __dsize__;   */
   STRING(TYPE),           /* cgraph_char_t *__name__;   */
 #endif
 
@@ -91,7 +91,7 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
     { cthis->data = OBJECT(type, calloc)(CGRAPH_OBJECT_T, size); }
     if(NULL != cthis->data)
     {
-      cthis->type = type;
+      CGRAPH_DTYPE_KTYPE(cthis) = type;
       #ifdef DEBUG
       fprintf(stdout, "CALLOC OBJECT TYPE : %d\n", type);
       #endif
@@ -122,8 +122,8 @@ void FUNCTION(NAME, free)(void *cthis)
   TYPE *object = (TYPE *)cthis;
   if(NULL != object)
   {
-    OBJECT(object->type, free)(object->data);
-    fprintf(stdout, "FREE OBJECT TYPE : %d\n", object->type);
+    OBJECT(CGRAPH_DTYPE_KTYPE(object), free)(object->data);
+    fprintf(stdout, "FREE OBJECT TYPE : %d\n", CGRAPH_DTYPE_KTYPE(object));
     cgraph_free(object);
   }
 }
@@ -131,11 +131,40 @@ void FUNCTION(NAME, free)(void *cthis)
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
-  return OBJECT(object->type, hash)(object->data);
+  return OBJECT(CGRAPH_DTYPE_KTYPE(object), hash)(object->data);
 }
 
 void *FUNCTION(NAME, data)(void *cthis)
 {
   TYPE *object = (TYPE *)cthis;
   return object->data;
+}
+
+void *FUNCTION(NAME, accessible)(void *cthis)
+{
+  TYPE *object = (TYPE *)cthis;
+  CGRAPH_DTYPE_ACCESSIABLE(object) = CGRAPH_TRUE;
+
+  return object;
+}
+
+void *FUNCTION(NAME, unaccessible)(void *cthis)
+{
+  TYPE *object = (TYPE *)cthis;
+  CGRAPH_DTYPE_ACCESSIABLE(object) = CGRAPH_FALSE;
+  return object;
+}
+
+void *FUNCTION(NAME, hashed)(void *cthis)
+{
+  TYPE *object = (TYPE *)cthis;
+  CGRAPH_DTYPE_HASHED(object) = CGRAPH_TRUE;
+  return object;
+}
+
+void *FUNCTION(NAME, unhashed)(void *cthis)
+{
+  TYPE *object = (TYPE *)cthis;
+  CGRAPH_DTYPE_HASHED(object) = CGRAPH_FALSE;
+  return object;
 }

@@ -1,0 +1,7 @@
+#include "data_base.ht"
+
+extern void *FUNCTION(NAME, data)(void *cthis);
+extern void *FUNCTION(NAME, accessible)(void *cthis);
+extern void *FUNCTION(NAME, unaccessible)(void *cthis);
+extern void *FUNCTION(NAME, hashed)(void *cthis);
+extern void *FUNCTION(NAME, unhashed)(void *cthis);

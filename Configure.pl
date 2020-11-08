@@ -122,3 +122,9 @@ sub get_scripts
 
   return \%scripts;
 }
+
+sub replace_arguments
+{
+  my ($script, $plat, $cc, $std, $mode) = @_;
+  
+}

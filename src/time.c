@@ -37,6 +37,7 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
   TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
+
   return FUNCTION(NAME, eq)(object_x, object_y);
 }
 
@@ -127,7 +128,7 @@ TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month, co
 TYPE FUNCTION(NAME, initt)(const DATA_TYPE time)
 {
   TYPE res;
-  TIME_VALUE(res) = time;
+  TIME_TYPE0(res).time0 = time;
   
   return res;
 }

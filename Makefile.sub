@@ -89,10 +89,12 @@ $(ALL):
 	$(COMPILE) $(SCRIPT) $(CMD)
 endif
 
+$(TOOL): $(ALL)
+	
+
 make: SCRIPT= compile.mk
 make: COMPILE= $(MAKE) -f
 make: TOOL= make
-make: all
 
 cmake: SCRIPT= CMakeLists.txt
 cmake: COMPILE= $(RMDIR) $(RMDIRFLAGS) build; $(MKDIR) $(MKDIRFLAGS) build; cd build; cmake .. -G $(CMAKE_FLAGS); $(MAKE)

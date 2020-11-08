@@ -193,36 +193,36 @@ typedef enum
 typedef struct
 {
   /* key data type */
-  cgraph_uinteger_t ktype     : 6;
-  cgraph_uinteger_t kvisited  : 1;
-  cgraph_uinteger_t khashed   : 1;
+  cgraph_uinteger_t ktype       : 6;
+  cgraph_uinteger_t kaccessible : 1;
+  cgraph_uinteger_t khashed     : 1;
   /* value data type */
-  cgraph_uinteger_t vtype     : 6;
-  cgraph_uinteger_t vvisited  : 1;
-  cgraph_uinteger_t vhashed   : 1;
+  cgraph_uinteger_t vtype       : 6;
+  cgraph_uinteger_t vaccessible : 1;
+  cgraph_uinteger_t vhashed     : 1;
   /* unused space for extertions */
-  cgraph_uinteger_t           : 8;
+  cgraph_uinteger_t             : 8;
   /* graph type */
-  cgraph_uinteger_t gdirected : 1;
-  cgraph_uinteger_t gweighted : 1;
-  cgraph_uinteger_t ghyper    : 1;
-  cgraph_uinteger_t gmultiple : 1;
-  cgraph_uinteger_t gdynamic  : 1;
-  cgraph_uinteger_t gkeyisid  : 1;
-  cgraph_uinteger_t gstruct   : 2;
+  cgraph_uinteger_t gdirected   : 1;
+  cgraph_uinteger_t gweighted   : 1;
+  cgraph_uinteger_t ghyper      : 1;
+  cgraph_uinteger_t gmultiple   : 1;
+  cgraph_uinteger_t gdynamic    : 1;
+  cgraph_uinteger_t gkeyisid    : 1;
+  cgraph_uinteger_t gstruct     : 2;
 }cgraph_element_t;
 
-#define CGRAPH_DTYPE_KTYPE(a)    ((a)->element.ktype)
-#define CGRAPH_DTYPE_KVISITED(a) ((a)->element.kvisited)
-#define CGRAPH_DTYPE_KHASHED(a)  ((a)->element.khashed)
+#define CGRAPH_DTYPE_KTYPE(a)        ((a)->element.ktype)
+#define CGRAPH_DTYPE_KACCESSIABLE(a) ((a)->element.kaccessible)
+#define CGRAPH_DTYPE_KHASHED(a)      ((a)->element.khashed)
 
-#define CGRAPH_DTYPE_VTYPE(a)    ((a)->element.vtype)
-#define CGRAPH_DTYPE_VVISITED(a) ((a)->element.vvisited)
-#define CGRAPH_DTYPE_VHASHED(a)  ((a)->element.vhashed)
+#define CGRAPH_DTYPE_VTYPE(a)        ((a)->element.vtype)
+#define CGRAPH_DTYPE_VACCESSIABLE(a) ((a)->element.vaccessible)
+#define CGRAPH_DTYPE_VHASHED(a)      ((a)->element.vhashed)
 
-#define CGRAPH_DTYPE_TYPE(a)    CGRAPH_DTYPE_KTYPE(a)
-#define CGRAPH_DTYPE_VISITED(a) CGRAPH_DTYPE_KVISITED(a)
-#define CGRAPH_DTYPE_HASHED(a)  CGRAPH_DTYPE_KHASHED(a)
+#define CGRAPH_DTYPE_TYPE(a)         CGRAPH_DTYPE_KTYPE(a)
+#define CGRAPH_DTYPE_ACCESSIABLE(a)  CGRAPH_DTYPE_KACCESSIABLE(a)
+#define CGRAPH_DTYPE_HASHED(a)       CGRAPH_DTYPE_KHASHED(a)
 
 #define CGRAPH_GTYPE_DIRECTED(a)  ((a)->element.gdirected)
 #define CGRAPH_GTYPE_WEIGHTED(a)  ((a)->element.gweighted)

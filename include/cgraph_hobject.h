@@ -25,9 +25,17 @@ typedef struct
   CGRAPH_OBJECT_BASE
 }cgraph_hobject_t;
 
-#include "data_base.ht"
+#include "object_base.ht"
 
-extern void *FUNCTION(NAME, data)(void *cthis);
+extern void *FUNCTION(NAME, kaccessible)(void *cthis);
+extern void *FUNCTION(NAME, kunaccessible)(void *cthis);
+extern void *FUNCTION(NAME, khashed)(void *cthis);
+extern void *FUNCTION(NAME, kunhashed)(void *cthis);
+
+extern void *FUNCTION(NAME, vaccessible)(void *cthis);
+extern void *FUNCTION(NAME, vunaccessible)(void *cthis);
+extern void *FUNCTION(NAME, vhashed)(void *cthis);
+extern void *FUNCTION(NAME, vunhashed)(void *cthis);
 
 #include "templete_off.h"
 

@@ -19,7 +19,7 @@ extern cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep, cgraph_st
 
 extern cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_size_t line);
 
-extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_boolean_t *isbigendian);
+extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_char_t **end, cgraph_boolean_t *isbigendian);
 
 #ifdef __cplusplus
 }

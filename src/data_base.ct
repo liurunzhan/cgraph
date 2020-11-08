@@ -79,8 +79,8 @@ cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
-#ifdef DATA_WITH_POINTER
-  #if defined(__STDC__) 
+#ifdef __STDC__ 
+  #ifdef DATA_WITH_POINTER
     #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
       TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, size)() + (size+2)*FUNCTION(NAME, dsize)(), 1);
       if(NULL != cthis)
@@ -106,22 +106,22 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
       }
     #endif /* __STDC_VERSION__ */
   #else
-    #error only standard c is suppoted!
-  #endif /* __STDC__ */
+    TYPE *cthis = (TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, size)());
+  #endif
 #else
-  TYPE *cthis = (TYPE *)cgraph_calloc(size+2, FUNCTION(NAME, size)());
-#endif
+  #error only standard c is suppoted!
+#endif /* __STDC__ */
 
   return cthis;
 }
 
 void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_boolean_t *error)
 {
-#ifdef DATA_WITH_POINTER
+#ifdef __STDC__
+  #ifdef DATA_WITH_POINTER
   TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  {
-  #if defined(__STDC__)
+    if(NULL != object)
+    {
     #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
       object = (TYPE *)cgraph_realloc(object, FUNCTION(NAME, size)() + (object->size+2)*FUNCTION(NAME, dsize)(), FUNCTION(NAME, size)() + (new_size+2)*FUNCTION(NAME, dsize)(), 1, error);
       if(CGRAPH_FALSE == *error)
@@ -134,13 +134,13 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_size_t old_size, cgraph_
       if(CGRAPH_FALSE == *error)
       { object->size = new_size; }
     #endif /* __STDC_VERSION__ */
-  #else
-    #error only standard c is suppoted!
-  #endif /* __STDC__ */
   }
+  #else
+    TYPE *object = (TYPE *)cgraph_realloc(cthis, old_size, new_size, FUNCTION(NAME, size)(), error);
+  #endif
 #else
-  TYPE *object = (TYPE *)cgraph_realloc(cthis, old_size, new_size, FUNCTION(NAME, size)(), error);
-#endif
+  #error only standard c is suppoted!
+#endif /* __STDC__ */
 
   return object;
 }
@@ -163,17 +163,17 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 
 void FUNCTION(NAME, free)(void *cthis)
 {
-#ifdef DATA_WITH_POINTER
-  #if defined(__STDC__)
+#ifdef __STDC__
+  #ifdef DATA_WITH_POINTER
     #if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
       if(NULL != cthis)
       { cgraph_free(((TYPE *)cthis)->root); }
     #endif /* __STDC_VERSION__ */
-  #else
-    #error only standard c is suppoted!
-  #endif /* __STDC__ */
-#endif
-  cgraph_free(cthis);
+  #endif
+    cgraph_free(cthis);
+#else
+  #error only standard c is suppoted!
+#endif /* __STDC__ */
 }
 
 void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size)
@@ -191,15 +191,15 @@ void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t si
 
 void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t size)
 {
+  void *res = cthis;
 #ifdef DATA_WITH_POINTER
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { cgraph_memcpy(object->data, data, size, FUNCTION(NAME, dsize)()); }
-
-  return object;
+  if(NULL != cthis)
+  { res = cgraph_memcpy(((TYPE *)cthis)->data, data, size, FUNCTION(NAME, dsize)()); }
 #else
-  return cgraph_memcpy(cthis, data, size, FUNCTION(NAME, dsize)());
+  res = cgraph_memcpy(cthis, data, size, FUNCTION(NAME, dsize)());
 #endif
+
+  return res;
 }
 
 void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end)

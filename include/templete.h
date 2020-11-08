@@ -1,5 +1,5 @@
 #if defined(TYPE)
-#error <templete.h> and <templete_off.h> are included error!
+#error before <templete.h> is included, no other <templete.h> is included without <templete_off.h>
 #endif
 
 #define CONCAT1V(a) # a
@@ -240,22 +240,22 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define TYPE cgraph_time_t
 #define ID CGRAPH_TIME_T
 #define NAME time
-#define OUT_FORMAT "%ld"
+#define OUT_FORMAT "%d"
 #define ZERO (0)
 #define ONE (1)
 #define ONES {{ 1 << 26 | 1 << 22 |  1 << 17 || 1 << 12 | 1 << 6 | 1}}
 #define BITS (8*sizeof(TYPE)-1)
 #define MIN (0)
 #define MAX (1)
-#define DATA_TYPE cgraph_int64_t
-#define DATA_ID CGRAPH_INT64_T
-#define DATA_UTYPE cgraph_uint64_t
+#define DATA_TYPE cgraph_int32_t
+#define DATA_ID CGRAPH_INT32_T
+#define DATA_UTYPE cgraph_uint32_t
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
 #define DATA_ONES (1)
 #define DATA_BITS (8*sizeof(DATA_TYPE))
-#define DATA_MIN (CGRAPH_INT64_MIN >> 1)
-#define DATA_MAX (CGRAPH_INT64_MAX >> 1)
+#define DATA_MIN (CGRAPH_INT32_MIN >> 1)
+#define DATA_MAX (CGRAPH_INT32_MAX >> 1)
 #define DATA_MSB (DATA_ONE << (DATA_BITS-1))
 #define DATA_LSB (DATA_ONE)
 
@@ -376,9 +376,9 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define ZERO (0)
 #define ONE (1)
 #define ONES (1)
-#define BITS CGRAPH_INT8_MIN
+#define BITS CGRAPH_UINT8_MIN
 #define MIN  (0)
-#define MAX CGRAPH_INT8_MIN
+#define MAX CGRAPH_UINT8_MIN
 #define DATA_WITH_POINTER
 #define DATA_TYPE cgraph_uint8_t
 #define DATA_UTYPE cgraph_uint8_t
@@ -465,7 +465,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #endif
 
 #define CGRAPH_OBJECT_BASE \
-	cgraph_type_t type; \
+	cgraph_element_t element; \
   cgraph_size_t hash; \
   DATA_TYPE *data;
 

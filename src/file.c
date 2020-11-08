@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include "cgraph_platform.h"
 #include "cgraph_error.h"
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
@@ -182,12 +183,10 @@ cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgrap
   return flag;
 }
 
-const static cgraph_char_t *windows = "windows";
-const static cgraph_char_t *linux = "linux";
-const static cgraph_char_t *unix = "unix";
 
-const static cgraph_char_t *slash = "/";
-const static cgraph_char_t *backslash = "\\";
+static const cgraph_char_t *_platform = PLAT_MODE;
+static const cgraph_char_t *_path_split = PLAT_PSPLIT;
+static const cgraph_char_t *_file_end = PLAT_FEND;
 
 const static union cgraph_endian_t 
 {
@@ -195,18 +194,11 @@ const static union cgraph_endian_t
   cgraph_int8_t byte[4];
 } cgraph_file_endian = {1};
 
-void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_boolean_t *isbigendian)
+void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_char_t **end, cgraph_boolean_t *isbigendian)
 {
-#if defined(_WIN32) || defined(_WIN64)
-  *os = (cgraph_char_t *)windows;
-  *sep = (cgraph_char_t *)backslash;
-#elif defined(__linux__)
-  *os = (cgraph_char_t *)linux;
-  *sep = (cgraph_char_t *)slash;
-#elif defined(__unix__)
-  *os = (cgraph_char_t *)unix;
-  *sep = (cgraph_char_t *)slash;
-#endif
+  *os = (cgraph_char_t *)_platform;
+  *sep = (cgraph_char_t *)_path_split;
+  *end = (cgraph_char_t *)_file_end;
   if(NULL != isbigendian)
   { *isbigendian = (cgraph_file_endian.byte[3] ? CGRAPH_FALSE : CGRAPH_TRUE); }
 }

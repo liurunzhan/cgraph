@@ -24,7 +24,11 @@ typedef struct
   DATA_UTYPE type:1;
   union 
   {
-    DATA_TYPE time:63;
+    struct
+    {
+      DATA_TYPE time0:31;
+      DATA_TYPE time1:32;
+    };
     struct 
     {
       DATA_TYPE week:4;   /* maximum is 7      */
@@ -51,7 +55,8 @@ typedef struct
   {
     struct time_type0_t
     {
-      DATA_TYPE time:63;
+      DATA_TYPE time1:31;
+      DATA_TYPE time0:32;
     }type0;
     struct time_type1_t 
     {
@@ -79,7 +84,7 @@ typedef struct
 #define TIME_ISTYPE0(x) ((x).type == 0)
 #define TIME_ISTYPE1(x) ((x).type != 0)
 
-#define TIME_VALUE(x)  (TIME_TYPE0(x).time)
+#define TIME_VALUE(x)  ((TIME_TYPE0(x).time1 << 31) + TIME_TYPE0(x).time0)
 #define TIME_YEAR(x)   (TIME_TYPE1(x).year)
 #define TIME_MONTH(x)  (TIME_TYPE1(x).month)
 #define TIME_DAY(x)    (TIME_TYPE1(x).day)

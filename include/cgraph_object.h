@@ -22,9 +22,7 @@ typedef struct
   CGRAPH_OBJECT_BASE
 }cgraph_object_t;
 
-#include "data_base.ht"
-
-extern void *FUNCTION(NAME, data)(void *cthis);
+#include "object_base.ht"
 
 #include "templete_off.h"
 
