@@ -37,8 +37,6 @@ for file in lfs.dir(SRC) do
   end
 end
 
-
-
 args = ARGS
 if length(args) == 0 then
   lfs.mkdir(LIB)

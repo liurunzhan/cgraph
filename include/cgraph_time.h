@@ -14,7 +14,7 @@ extern "C" {
 */
 
 #define CGRAPH_TIME_TYPE0  (0)
-#define CGRAPH_TIME_TYPE1 (-1)
+#define CGRAPH_TIME_TYPE1 (1)
 
 #if defined(__STDC__)
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) 
@@ -84,7 +84,9 @@ typedef struct
 #define TIME_ISTYPE0(x) ((x).type == 0)
 #define TIME_ISTYPE1(x) ((x).type != 0)
 
-#define TIME_VALUE(x)  ((TIME_TYPE0(x).time1 << 31) + TIME_TYPE0(x).time0)
+#define TIME_VALUE0(x) (TIME_TYPE0(x).time0)
+#define TIME_VALUE1(x) (TIME_TYPE0(x).time1)
+#define TIME_VALUE(x)  ((TIME_VALUE1(x) << 31) + TIME_VALUE0(x))
 #define TIME_YEAR(x)   (TIME_TYPE1(x).year)
 #define TIME_MONTH(x)  (TIME_TYPE1(x).month)
 #define TIME_DAY(x)    (TIME_TYPE1(x).day)
@@ -96,8 +98,6 @@ typedef struct
 
 #include "data_base.ht"
 
-extern TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month, const DATA_TYPE day, const DATA_TYPE hour, const DATA_TYPE minute, const DATA_TYPE second);
-
 extern cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
@@ -105,19 +105,29 @@ extern cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
 extern cgraph_boolean_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
 
-extern TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y);
-extern TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y);
-extern TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y);
-extern TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, sub0i)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mul0i)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, div0i)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE FUNCTION(NAME, addt)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, subt)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, mult)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, divt)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, add0t)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, sub0t)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mul0t)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, div0t)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mul1i)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, div1i)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, add1t)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, sub1t)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mul1t)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, div1t)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep);
 extern TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month, const DATA_TYPE day, const DATA_TYPE hour, const DATA_TYPE minute, const DATA_TYPE second);
-extern TYPE FUNCTION(NAME, initt)(const DATA_TYPE time);
+extern TYPE FUNCTION(NAME, initt0t1)(const DATA_TYPE time0, const DATA_TYPE time1);
 extern TYPE FUNCTION(NAME, localtime)(void);
 
 #include "templete_off.h"

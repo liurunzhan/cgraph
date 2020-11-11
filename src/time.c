@@ -125,10 +125,12 @@ TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month, co
   return res;
 }
 
-TYPE FUNCTION(NAME, initt)(const DATA_TYPE time)
+TYPE FUNCTION(NAME, initt0t1)(const DATA_TYPE time0, const DATA_TYPE time1)
 {
   TYPE res;
-  TIME_TYPE0(res).time0 = time;
+  TIME_TYPE(res)   = CGRAPH_TIME_TYPE1;
+  TIME_VALUE0(res) = time0;
+  TIME_VALUE1(res) = time1;
   
   return res;
 }
@@ -153,56 +155,121 @@ TYPE FUNCTION(NAME, localtime)(void)
   return res;
 }
 
-TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  TIME_TYPE(res)   = CGRAPH_TIME_TYPE0;
+  TIME_VALUE1(res) = TIME_VALUE1(x);
+  TIME_VALUE0(res) = TIME_VALUE0(x) + y;
+  
+  return res;
+}
+
+TYPE FUNCTION(NAME, sub0i)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  TIME_TYPE(res)   = CGRAPH_TIME_TYPE0;
+  TIME_VALUE1(res) = TIME_VALUE1(x);
+  TIME_VALUE0(res) = TIME_VALUE0(x) - y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mul0i)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res;
+  TIME_TYPE(res)  = CGRAPH_TIME_TYPE0;
+  TIME_VALUE1(res) = TIME_VALUE1(x) * y;
+  TIME_VALUE0(res) = TIME_VALUE0(x) * y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, div0i)(const TYPE x, const DATA_TYPE y)
+{
+  TYPE res = x;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, add0t)(const TYPE x, const TYPE y)
+{
+  TYPE res;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, sub0t)(const TYPE x, const TYPE y)
+{
+  TYPE res;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mul0t)(const TYPE x, const TYPE y)
+{
+  TYPE res;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, div0t)(const TYPE x, const TYPE y)
+{
+  TYPE res;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   
   return res;
 }
 
-TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, mul1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y)
+TYPE FUNCTION(NAME, div1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, addt)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, add1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, subt)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, sub1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, mult)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, mul1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, divt)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, div1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
 

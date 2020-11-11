@@ -1,7 +1,8 @@
 ninja_required_version = 1.0
 
 CC = cc
-CFLAGS = 
+CFLAGS = "-pedantic -Wall -fpic -std=c89"
+CSFLAGS = "-shared"
 
 
 rule link_cgraph

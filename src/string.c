@@ -1,4 +1,4 @@
-#include <stdarg.h>
+#include <stdio.h>
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
 
@@ -98,7 +98,15 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
   {
     va_list args;
     va_start(args, format);
-    len = vsnprintf(cthis->data, cthis->size, format, args);
+  #ifdef __STDC__
+    #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+      len = vsnprintf(cthis->data, cthis->size, format, args);
+    #else
+      len = vsprintf(cthis->data, format, args);
+    #endif
+  #else
+    #error only standard c is supported
+  #endif
     va_end(args);
     if(0 < len)
     { cthis->len = len; }
