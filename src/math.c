@@ -136,7 +136,7 @@ cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data)
   else
   {
     cgraph_integer_t root = sqrt(data), i;
-    for(i=5; i<=root; i++)
+    for(i=5; i<=root; i+=6)
     {
       if((0 == (data%i)) || (0 == (data%(i+2))))
       {

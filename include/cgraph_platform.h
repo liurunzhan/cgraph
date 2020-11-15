@@ -71,7 +71,10 @@ extern "C" {
 #elif defined(__BIG_ENDIAN__)
   #define PLAT_ENDIAN 1
 #else
-  #warning no endian type is defined
+  #define PLAT_ENDIAN 2
+  #if defined(__GNUC__)
+    #warning no endian type is defined!
+  #endif
 #endif
 
 #ifdef __cplusplus

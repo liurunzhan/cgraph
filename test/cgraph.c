@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
   cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */
+  cgraph_string_test();
   cgraph_version_test();
   cgraph_verilog_test();
 

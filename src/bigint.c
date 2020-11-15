@@ -1,6 +1,6 @@
-#include "cgraph_bigint.h"
 #include "cgraph_memory.h"
 #include "cgraph_math.h"
+#include "cgraph_bigint.h"
 
 #define TYPE_BIGINT
 #include "templete.h"
@@ -12,14 +12,14 @@
 */
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 0;
-  if(NULL != object)
+  if(NULL != _cthis)
   {
     cgraph_size_t i;
-    hash = object->postive;
-    for(i=0; i<object->len; i++)
-    { hash = hash * 31 + object->data[i]; }
+    hash = _cthis->postive;
+    for(i=0; i<_cthis->len; i++)
+    { hash = hash * 31 + _cthis->data[i]; }
   }
 
   return CGRAPH_ABS(hash);
@@ -27,15 +27,15 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if(NULL != object)
+  if(NULL != _cthis)
   {
     cgraph_size_t i;
     flag = CGRAPH_TRUE;
-    for(i=0; i<object->len; i++)
+    for(i=0; i<_cthis->len; i++)
     {
-      if((object->data[i] > 10) || (object->data[i] < 0))
+      if((_cthis->data[i] > 10) || (_cthis->data[i] < 0))
       {
         flag = CGRAPH_FALSE;
         break;
@@ -72,9 +72,9 @@ cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
 
-  return EQ(object_x, object_y);
+  return EQ(_x, _y);
 }
 
 TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
@@ -115,17 +115,17 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
-  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *res = NULL;
+  cgraph_size_t len = CGRAPH_MAX(_x->len, _y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)
   {
-    if(object_x->postive == object_y->postive)
+    if(_x->postive == _y->postive)
     {
       cgraph_size_t i;
       for(i=1; i<len; i++)
-      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
-      res->postive = object_x->postive;
+      { res->data[res->len-i] = _x->data[_x->len-i] + _y->data[_y->len-i]; }
+      res->postive = _x->postive;
     }
   }
 
@@ -134,17 +134,17 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res = NULL;
-  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *res = NULL;
+  cgraph_size_t len = CGRAPH_MAX(_x->len, _y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)
   {
-    if(object_x->postive == object_y->postive)
+    if(_x->postive == _y->postive)
     {
       cgraph_size_t i;
       for(i=1; i<len; i++)
-      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
-      res->postive = object_x->postive;
+      { res->data[res->len-i] = _x->data[_x->len-i] + _y->data[_y->len-i]; }
+      res->postive = _x->postive;
     }
   }
 
@@ -153,17 +153,17 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y, *res;
-  cgraph_size_t len = CGRAPH_MAX(object_x->len, object_y->len);
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *res;
+  cgraph_size_t len = CGRAPH_MAX(_x->len, _y->len);
   res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
   if(NULL != res)
   {
-    if(object_x->postive == object_y->postive)
+    if(_x->postive == _y->postive)
     {
       cgraph_size_t i;
       for(i=1; i<len; i++)
-      { res->data[res->len-i] = object_x->data[object_x->len-i] + object_y->data[object_y->len-i]; }
-      res->postive = object_x->postive;
+      { res->data[res->len-i] = _x->data[_x->len-i] + _y->data[_y->len-i]; }
+      res->postive = _x->postive;
     }
   }
 

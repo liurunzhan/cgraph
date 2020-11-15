@@ -10,13 +10,25 @@ extern "C" {
 
 typedef struct 
 {
-  union 
-  {
-    cgraph_string_t *names;
-    cgraph_size_t id;
-  }key;
-  cgraph_size_t addr;
   struct cgraph_keyval_t *next;
+  cgraph_size_t addr;
+#ifdef __STDC__
+  #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+    union
+    {
+      cgraph_string_t *name;
+      cgraph_size_t id;
+    };
+  #else
+    union 
+    {
+      cgraph_string_t *names;
+      cgraph_size_t id;
+    }key;
+  #endif
+#else
+  #error only standard c is suppoted!
+#endif
 }cgraph_keyval_t;
 
 typedef struct 

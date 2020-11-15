@@ -12,75 +12,75 @@
 /* key data of hobject */
 void *FUNCTION(NAME, kaccessible)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_KACCESSIABLE(object) = CGRAPH_TRUE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_TRUE; }
 
-  return object;
+  return _cthis;
 }
 
 void *FUNCTION(NAME, kunaccessible)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_KACCESSIABLE(object) = CGRAPH_FALSE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_FALSE; }
   
-  return object;
+  return _cthis;
 }
 
 void *FUNCTION(NAME, khashed)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_KHASHED(object) = CGRAPH_TRUE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_TRUE; }
 
-  return object;
+  return _cthis;
 }
 
 void *FUNCTION(NAME, kunhashed)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_KHASHED(object) = CGRAPH_FALSE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE; }
 
-  return object;
+  return _cthis;
 }
 
 /* value data of hobject */
 void *FUNCTION(NAME, vaccessible)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_VACCESSIABLE(object) = CGRAPH_TRUE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_VACCESSIABLE(_cthis) = CGRAPH_TRUE; }
 
-  return object;
+  return _cthis;
 }
 
 void *FUNCTION(NAME, vunaccessible)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_VACCESSIABLE(object) = CGRAPH_FALSE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_VACCESSIABLE(_cthis) = CGRAPH_FALSE; }
 
-  return object;
+  return _cthis;
 }
 
 void *FUNCTION(NAME, vhashed)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_VHASHED(object) = CGRAPH_TRUE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_VHASHED(_cthis) = CGRAPH_TRUE; }
 
-  return object;
+  return _cthis;
 }
 
 void *FUNCTION(NAME, vunhashed)(void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
-  { CGRAPH_DTYPE_VHASHED(object) = CGRAPH_FALSE; }
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  { CGRAPH_DTYPE_VHASHED(_cthis) = CGRAPH_FALSE; }
 
-  return object;
+  return _cthis;
 }
 
 void FUNCTION(TYPE, test)(void)

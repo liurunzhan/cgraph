@@ -13,9 +13,9 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   cgraph_size_t hash = 142857UL;
   if(NULL != cthis)
   {
-    TYPE object = *(TYPE *)cthis;
-    hash = hash * COMPLEX_REAL(object);
-    hash = hash * COMPLEX_IMAG(object);
+    TYPE _cthis = *(TYPE *)cthis;
+    hash = hash * COMPLEX_REAL(_cthis);
+    hash = hash * COMPLEX_IMAG(_cthis);
   }
 
   return CGRAPH_ABS(hash);
@@ -26,8 +26,8 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if(NULL != cthis)
   {
-    TYPE object = *(TYPE *)cthis;
-    if(DATA_TEST(COMPLEX_REAL(object)) && DATA_TEST(COMPLEX_IMAG(object)))
+    TYPE _cthis = *(TYPE *)cthis;
+    if(DATA_TEST(COMPLEX_REAL(_cthis)) && DATA_TEST(COMPLEX_IMAG(_cthis)))
     { flag = CGRAPH_TRUE; }
   }
 
@@ -39,8 +39,8 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if(NULL != x && NULL != y)
   {
-    TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
-    if(EQ(object_x, object_y))
+    TYPE _x = *(TYPE *)x, _y = *(TYPE *)y;
+    if(EQ(_x, _y))
     { flag = CGRAPH_TRUE; }
   }
   else if(NULL == x && NULL == y)
@@ -294,33 +294,33 @@ cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
 
 cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
 {
-  return CGRAPH_TEST((DATA_MAX < COMPLEX_REAL(x)) || (DATA_MAX < COMPLEX_IMAG(x)));
+  return CGRAPH_TEST(DATA_ISPINF(COMPLEX_REAL(x)) || DATA_ISPINF(COMPLEX_IMAG(x)));
 }
 
 cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
 {
-  return CGRAPH_TEST((DATA_MIN > COMPLEX_REAL(x)) || (DATA_MIN > COMPLEX_IMAG(x)));
+  return CGRAPH_TEST(DATA_ISNINF(COMPLEX_REAL(x)) || DATA_ISPINF(COMPLEX_IMAG(x)));
 }
 
-static const TYPE cgraph_complex_zero = ZERO;
+static const TYPE _cgraph_complex_zero = ZERO;
 
 cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
 {
-  return EQ(x, cgraph_complex_zero);
+  return EQ(x, _cgraph_complex_zero);
 }
 
-static const TYPE cgraph_complex_max = MAX;
+static const TYPE _cgraph_complex_max = MAX;
 
 cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 {
-  return EQ(x, cgraph_complex_max);
+  return EQ(x, _cgraph_complex_max);
 }
 
-static const TYPE cgraph_complex_min = MIN;
+static const TYPE _cgraph_complex_min = MIN;
 
 cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
 {
-  return EQ(x, cgraph_complex_min);
+  return EQ(x, _cgraph_complex_min);
 }
 
 /*  functions of complex numbers with one complex number and one data types   */

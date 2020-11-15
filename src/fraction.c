@@ -1,6 +1,6 @@
 #include <math.h>
-#include "cgraph_fraction.h"
 #include "cgraph_memory.h"
+#include "cgraph_fraction.h"
 
 #define TYPE_FRACTION
 #include "templete.h"
@@ -25,11 +25,11 @@
 */
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 2166136261UL;
-  if(NULL != object)
+  if(NULL != _cthis)
   {
-    TYPE tmp = *object;
+    TYPE tmp = *_cthis;
     hash = (hash ^ FRACTION_NUM(tmp)) * 16777619UL;
     hash = ((hash >> 8) ^ FRACTION_DEN(tmp)) * 16777619UL;
   }
@@ -39,11 +39,11 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if(NULL != object)
+  if(NULL != _cthis)
   {
-    TYPE tmp = *object;
+    TYPE tmp = *_cthis;
     if(0 != FRACTION_DEN(tmp))
     { flag = CGRAPH_TRUE; }
   }
@@ -53,15 +53,15 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if(NULL != object_x && NULL != object_y)
+  if(NULL != _x && NULL != _y)
   {
-    TYPE tmp_x = *object_x, tmp_y = *object_y;
+    TYPE tmp_x = *_x, tmp_y = *_y;
     if(EQ(tmp_x, tmp_y))
     { flag = CGRAPH_TRUE; }
   }
-  else if(NULL == object_x && NULL == object_y)
+  else if(NULL == _x && NULL == _y)
   { flag = CGRAPH_TRUE; }
 
   return flag;

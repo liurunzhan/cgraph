@@ -1,5 +1,5 @@
-#include "cgraph_boolean.h"
 #include "cgraph_memory.h"
+#include "cgraph_boolean.h"
 
 #define TYPE_BOOLEAN
 #include "templete.h"
@@ -7,8 +7,8 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
-  cgraph_size_t hash = object == CGRAPH_FALSE ? 0 : (object == CGRAPH_TRUE ? 1 : 2);
+  TYPE _cthis = *(TYPE *)cthis;
+  cgraph_size_t hash = _cthis == CGRAPH_FALSE ? 0 : (_cthis == CGRAPH_TRUE ? 1 : 2);
   return hash;
 }
 
@@ -17,8 +17,8 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if(NULL != cthis)
   {
-    TYPE object = *(TYPE *)cthis;
-    if(CGRAPH_TRUE == object || CGRAPH_FALSE == object)
+    TYPE _cthis = *(TYPE *)cthis;
+    if(CGRAPH_TRUE == _cthis || CGRAPH_FALSE == _cthis)
     { flag = CGRAPH_TRUE; }
   }
 
@@ -37,40 +37,40 @@ cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis, cgraph_size_t *len)
   cgraph_char_t *str = NULL;
   if(NULL != cthis && NULL != len)
   {
-    TYPE object = *(TYPE *)cthis;
-    cgraph_char_t *object_str;
-    cgraph_size_t object_size, object_len;
-    if(CGRAPH_TRUE == object)
+    TYPE _cthis = *(TYPE *)cthis;
+    cgraph_char_t *_str;
+    cgraph_size_t _size, _len;
+    if(CGRAPH_TRUE == _cthis)
     {
-      object_str = (cgraph_char_t *)__cgraph_true__;
-      object_size = __cgraph_true_size__;
-      object_len = __cgraph_true_len__;
+      _str = (cgraph_char_t *)__cgraph_true__;
+      _size = __cgraph_true_size__;
+      _len = __cgraph_true_len__;
     }
-    else if(CGRAPH_FALSE == object)
+    else if(CGRAPH_FALSE == _cthis)
     {
-      object_str = (cgraph_char_t *)__cgraph_false__;
-      object_size = __cgraph_false_size__;
-      object_len = __cgraph_false_len__;
+      _str = (cgraph_char_t *)__cgraph_false__;
+      _size = __cgraph_false_size__;
+      _len = __cgraph_false_len__;
     }
     else
     {
-      object_str = NULL;
-      object_size = 0;
-      object_len = 0;
+      _str = NULL;
+      _size = 0;
+      _len = 0;
     }
-    if(NULL != object_str)
+    if(NULL != _str)
     {
-      str = cgraph_calloc(object_size, sizeof(cgraph_char_t));
+      str = cgraph_calloc(_size, sizeof(cgraph_char_t));
       if(NULL != str)
       {
-        cgraph_strcpy(str, object_str);
-        *len = object_len;
+        cgraph_strcpy(str, _str);
+        *len = _len;
       }
       else
       { *len = 0; }
     }
     else
-    {  *len = object_len; }
+    {  *len = _len; }
   }
 
   return str;

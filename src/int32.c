@@ -1,5 +1,5 @@
-#include "cgraph_int32.h"
 #include "cgraph_memory.h"
+#include "cgraph_int32.h"
 
 #define TYPE_INT32
 #include "templete.h"
@@ -7,11 +7,11 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 0;
-  if(NULL != object)
+  if(NULL != _cthis)
   {
-    hash = ((*object >> 16) ^ *object) * 0x45d9f3b;
+    hash = ((*_cthis >> 16) ^ *_cthis) * 0x45d9f3b;
     hash = ((hash >> 16) ^ hash) * 0x45d9f3b;
     hash = (hash >> 16) ^ hash;
   }

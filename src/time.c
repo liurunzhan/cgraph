@@ -9,26 +9,26 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
-  cgraph_size_t hash = (TIME_YEAR(object) << 13) + (TIME_MONTH(object) << 7) + TIME_DAY(object);
+  TYPE _cthis = *(TYPE *)cthis;
+  cgraph_size_t hash = (TIME_YEAR(_cthis) << 13) + (TIME_MONTH(_cthis) << 7) + TIME_DAY(_cthis);
   return CGRAPH_ABS(hash);
 }
 
 cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
-  TYPE object = *(TYPE *)cthis;
+  TYPE _cthis = *(TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_TRUE;
-  if(0 == TIME_YEAR(object))
+  if(0 == TIME_YEAR(_cthis))
   { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_MONTH(object)) || (12 < TIME_MONTH(object)))
+  else if((0 > TIME_MONTH(_cthis)) || (12 < TIME_MONTH(_cthis)))
   { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_DAY(object)) || (31 < TIME_DAY(object)))
+  else if((0 > TIME_DAY(_cthis)) || (31 < TIME_DAY(_cthis)))
   { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_HOUR(object)) || (24 < TIME_HOUR(object)))
+  else if((0 > TIME_HOUR(_cthis)) || (24 < TIME_HOUR(_cthis)))
   { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_MINUTE(object)) || (60 < TIME_MINUTE(object)))
+  else if((0 > TIME_MINUTE(_cthis)) || (60 < TIME_MINUTE(_cthis)))
   { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_SECOND(object)) || (60 < TIME_SECOND(object)))
+  else if((0 > TIME_SECOND(_cthis)) || (60 < TIME_SECOND(_cthis)))
   { flag = CGRAPH_FALSE; }
 
   return flag;
@@ -95,16 +95,17 @@ cgraph_boolean_t FUNCTION(NAME, le)(const TYPE x, const TYPE y)
   return flag;
 }
 
-TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep)
+TYPE FUNCTION(NAME, initc)(const cgraph_char_t *cthis, const cgraph_char_t *sep)
 {
   TYPE res;
   if((NULL != cthis) && (NULL != sep))
   {
-    char *object = cgraph_calloc(strlen(cthis), sizeof(char));
-    if(NULL != object)
+    char *buffer = cgraph_calloc(strlen(cthis), sizeof(cgraph_char_t));
+    if(NULL != buffer)
     {
-
-      cgraph_free(object);
+      buffer = cgraph_strcpy(buffer, cthis);
+      
+      cgraph_free(buffer);
     }
   }
 

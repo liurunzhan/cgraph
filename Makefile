@@ -24,7 +24,7 @@ doc:
 	doxygen
 
 cloc:
-	cloc include src script
+	cloc include src script --force-lang=C,ct --force-lang="C/C++ Header",ht
 
 help: CMD= help
 

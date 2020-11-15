@@ -13,9 +13,8 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_size_t size, len;
   cgraph_pobject_t *header, *tail;
-  cgraph_pobject_t *root, *data;
+  CGRAPH_STRUCTURE_BASE
 }cgraph_list_t;
 
 #include "struct_base.ht"

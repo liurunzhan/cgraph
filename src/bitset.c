@@ -1,5 +1,5 @@
-#include "cgraph_bitset.h"
 #include "cgraph_memory.h"
+#include "cgraph_bitset.h"
 
 #define TYPE_BITSET
 #include "templete.h"
@@ -7,23 +7,23 @@
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t i, hash = 0;
-  for(i=0; i<object->len; i++)
-  { hash = (hash << 4) ^ (hash >> 28) ^ object->data[i]; }
+  for(i=0; i<_cthis->len; i++)
+  { hash = (hash << 4) ^ (hash >> 28) ^ _cthis->data[i]; }
 
   return CGRAPH_ABS(hash);
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if((NULL != object_x) && (NULL != object_y))
+  if((NULL != _x) && (NULL != _y))
   {
-    if(object_x->len == object_y->len)
+    if(_x->len == _y->len)
     {
-      flag = cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)());
+      flag = cgraph_memcmp(_x->data, _y->data, _x->len, FUNCTION(NAME, dsize)());
     }
   }
 
@@ -33,8 +33,8 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  TYPE *object = (TYPE *)cthis;
-  if(NULL != object)
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
   { flag = CGRAPH_TRUE; }
 
   return flag;

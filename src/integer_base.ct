@@ -7,14 +7,14 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if(NULL != object_x && NULL != object_y)
+  if(NULL != _x && NULL != _y)
   {
-    if(EQ(object_x, object_y))
+    if(EQ(_x, _y))
     { flag = CGRAPH_TRUE; }
   }
-  else if(NULL == object_x && NULL == object_y)
+  else if(NULL == _x && NULL == _y)
   { flag = CGRAPH_TRUE; }
 
   return flag;
@@ -22,13 +22,13 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 
 void *FUNCTION(NAME, divrs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_real_t *object_z = (cgraph_real_t *)z;
-  if(NULL != object_x && NULL != object_y && NULL != object_z)
+  if(NULL != _x && NULL != _y && NULL != object_z)
   {
     cgraph_size_t i;
     for(i=0; i<len; i++)
-    { object_z[i] = 1.0 * object_x[i] / object_y[i]; }
+    { object_z[i] = 1.0 * _x[i] / _y[i]; }
   }
   return object_z;
 }
@@ -51,19 +51,19 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE
 
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)
 {
-  TYPE object_x = x, object_y = y, temp;
-  while(object_x != object_y)
+  TYPE _x = x, _y = y, temp;
+  while(_x != _y)
   {
-    if(object_x < object_y)
+    if(_x < _y)
     {
-      temp = object_x;
-      object_x = object_y;
-      object_y = temp;
+      temp = _x;
+      _x = _y;
+      _y = temp;
     }
-    object_x -= object_y;
+    _x -= _y;
   }
   
-  return object_x;
+  return _x;
 }
 
 TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y)
@@ -153,20 +153,20 @@ cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
 
 cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)
 {
-  TYPE object_x = x;
+  TYPE _x = x;
   cgraph_size_t cnt = 0;
-  for(cnt=0; object_x; cnt++)
-  { object_x &= object_x-1; }
+  for(cnt=0; _x; cnt++)
+  { _x &= _x-1; }
 
   return cnt;
 }
 
 cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x)
 {
-  TYPE object_x = x;
+  TYPE _x = x;
   cgraph_size_t cnt = 0;
-  for(cnt=0; object_x; object_x=object_x>>1)
-  { cnt += 1 & (1 ^ object_x); }
+  for(cnt=0; _x; _x=_x>>1)
+  { cnt += 1 & (1 ^ _x); }
   if(0 == x)
   { cnt = 1; }
 

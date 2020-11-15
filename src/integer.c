@@ -1,5 +1,5 @@
-#include "cgraph_integer.h"
 #include "cgraph_memory.h"
+#include "cgraph_integer.h"
 
 #define TYPE_INTEGER
 #include "templete.h"
@@ -23,11 +23,11 @@
 */
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 2166136261UL;
-  if(NULL != object)
+  if(NULL != _cthis)
   {
-    char *tmp = (char *)(object);
+    char *tmp = (char *)(_cthis);
     cgraph_size_t i;
     for(i=0; i<sizeof(TYPE); i++)
     { hash = (hash ^ tmp[i]) * 16777619UL; }

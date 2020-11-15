@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
 
@@ -16,21 +17,21 @@
 */
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 0, i;
-  for(i=0; i<object->len; i++)
-  { hash += (hash << 5) + object->data[i]; }
+  for(i=0; i<_cthis->len; i++)
+  { hash += (hash << 5) + _cthis->data[i]; }
   
   return hash;
 }
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if((NULL != object_x) && (NULL != object_y))
+  if((NULL != _x) && (NULL != _y))
   {
-    flag = cgraph_strcmp(object_x->data, object_y->data);
+    flag = cgraph_strcmp(_x->data, _y->data);
   }
 
   return flag;
@@ -288,6 +289,10 @@ void FUNCTION(NAME, test)(void)
 {
 #ifdef DEBUG
   TYPE *string = FUNCTION(NAME, calloc)(ID, 10000);
+  char *str = "hello world!";
+  fprintf(stdout, "test %s\n", STRING(NAME));
+  FUNCTION(NAME, initd)(string, str, strlen(str)+1);
+  fprintf(stdout, "%s\n", string->data);
 
   FUNCTION(NAME, free)(string);
 #endif

@@ -1,6 +1,6 @@
 #include <ctype.h>
-#include "cgraph_bignum.h"
 #include "cgraph_memory.h"
+#include "cgraph_bignum.h"
 
 #define TYPE_BIGNUM
 #include "templete.h"
@@ -12,32 +12,32 @@
 */
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 0, i;
-  for(i=0; i<object->len; i++)
-  { hash = (hash * 31) + (object->data[i] - '0'); }
+  for(i=0; i<_cthis->len; i++)
+  { hash = (hash * 31) + (_cthis->data[i] - '0'); }
 
   return CGRAPH_ABS(hash);
 }
 
 cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 {
-  TYPE *object = (TYPE *)cthis;
+  TYPE *_cthis = (TYPE *)cthis;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if(NULL != object)
+  if(NULL != _cthis)
   {
     cgraph_size_t i = 0;
     flag = CGRAPH_TRUE;
-    if(('+' == object->data[i]) || ('-' == object->data[i]))
+    if(('+' == _cthis->data[i]) || ('-' == _cthis->data[i]))
     { i++; }
     else
     {
       cgraph_boolean_t point_cnt = 0;
-      for(; i<object->len; i++)
+      for(; i<_cthis->len; i++)
       {
-        if('0' > object->data[i] || '9' < object->data[i])
+        if('0' > _cthis->data[i] || '9' < _cthis->data[i])
         {
-          if('.' == object->data[i])
+          if('.' == _cthis->data[i])
           {  point_cnt++; }
           if(1 < point_cnt)
           {
@@ -54,13 +54,13 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if((NULL != object_x) && (NULL != object_y))
+  if((NULL != _x) && (NULL != _y))
   {
-    if(object_x->len == object_y->len)
+    if(_x->len == _y->len)
     {
-      flag = cgraph_memcmp(object_x->data, object_y->data, object_x->len, FUNCTION(NAME, dsize)());
+      flag = cgraph_memcmp(_x->data, _y->data, _x->len, FUNCTION(NAME, dsize)());
     }
   }
 

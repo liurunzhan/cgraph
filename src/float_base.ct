@@ -5,16 +5,16 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   cgraph_size_t hash = 0;
   if(NULL != cthis)
   {
-    TYPE object = *(TYPE *)cthis;
-    if(DATA_ISNAN(object))
+    TYPE _cthis = *(TYPE *)cthis;
+    if(DATA_ISNAN(_cthis))
     { hash = CGRAPH_FLOAT_NAN_HASH; }
-    else if(DATA_ISPINF(object))
+    else if(DATA_ISPINF(_cthis))
     { hash = CGRAPH_FLOAT_PINF_HASH; }
-    else if(DATA_ISNINF(object))
+    else if(DATA_ISNINF(_cthis))
     { hash = CGRAPH_FLOAT_NINF_HASH; }
     else
     {
-      TYPE ipart = floor(object), fpart = object - ipart;
+      TYPE ipart = floor(_cthis), fpart = _cthis - ipart;
       cgraph_size_t hash_ipart = (cgraph_size_t)(ipart), hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
       hash = (hash_ipart << 4) ^ hash_fpart;
     }
@@ -28,8 +28,8 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
   cgraph_boolean_t flag = CGRAPH_FALSE;
   if(NULL != cthis)
   {
-    TYPE object = *(TYPE *)cthis;
-    if(DATA_TEST(object))
+    TYPE _cthis = *(TYPE *)cthis;
+    if(DATA_TEST(_cthis))
     { flag = CGRAPH_TRUE; }
   }
 
@@ -38,15 +38,15 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
 
 cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
+  TYPE _x = *(TYPE *)x, _y = *(TYPE *)y;
   cgraph_boolean_t flag = CGRAPH_FALSE;
-  if((CGRAPH_TRUE == FUNCTION(NAME, isnan)(object_x)) && (CGRAPH_TRUE == FUNCTION(NAME,isnan)(object_y)))
+  if((CGRAPH_TRUE == FUNCTION(NAME, isnan)(_x)) && (CGRAPH_TRUE == FUNCTION(NAME,isnan)(_y)))
   { flag = CGRAPH_TRUE; }
-  else if((CGRAPH_TRUE == FUNCTION(NAME, ispinf)(object_x)) && (CGRAPH_TRUE == FUNCTION(NAME, ispinf)(object_y)))
+  else if((CGRAPH_TRUE == FUNCTION(NAME, ispinf)(_x)) && (CGRAPH_TRUE == FUNCTION(NAME, ispinf)(_y)))
   { flag = CGRAPH_TRUE; }
-  else if((CGRAPH_TRUE == FUNCTION(NAME, isninf)(object_x)) && (CGRAPH_TRUE == FUNCTION(NAME, isninf)(object_y)))
+  else if((CGRAPH_TRUE == FUNCTION(NAME, isninf)(_x)) && (CGRAPH_TRUE == FUNCTION(NAME, isninf)(_y)))
   { flag = CGRAPH_TRUE; }
-  else if(EQ(object_x, object_y))
+  else if(EQ(_x, _y))
   { flag = CGRAPH_TRUE; }
 
   return flag;
@@ -54,15 +54,15 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 
 void *FUNCTION(NAME, ints)(const void *x, const void *y, void *z, const cgraph_size_t len)
 {
-  TYPE *object_x = (TYPE *)x, *object_y = (TYPE *)y;
-  cgraph_int64_t *object_z = (cgraph_int64_t *)z;
-  if(NULL != object_x && NULL != object_y && NULL != object_z)
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
+  cgraph_int64_t *_z = (cgraph_int64_t *)z;
+  if(NULL != _x && NULL != _y && NULL != _z)
   {
     cgraph_size_t i;
     for(i=0; i<len; i++)
-    { object_z[i] = INT(object_x[i], object_y[i], object_z[i]); }
+    { _z[i] = INT(_x[i], _y[i], _z[i]); }
   }
-  return object_z;
+  return _z;
 }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)
