@@ -19,6 +19,8 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, dsize),   /* cgraph_size_t (*dsize)(void); */
   FUNCTION(NAME, name),    /* cgraph_char_t *(*name)(void); */
   FUNCTION(NAME, hasdata), /* cgraph_boolean_t (*hasdata)(void); */
+  FUNCTION(NAME, len),     /* cgraph_size_t (*len)(void *cthis); */
+  FUNCTION(NAME, asize),   /* cgraph_size_t (*len)(void *cthis); */
   FUNCTION(NAME, calloc),  /* void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);  */
   FUNCTION(NAME, realloc), /* void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size); */
   FUNCTION(NAME, free),    /* void *(*free)(void *cthis);  */
@@ -47,28 +49,21 @@ cgraph_char_t *FUNCTION(NAME, name)(void)
 cgraph_boolean_t FUNCTION(NAME, hasdata)(void)
 { return CGRAPH_TRUE; }
 
-cgraph_size_t FUNCTION(NAME, len)(void *cthis)
-{ return ((TYPE *)cthis)->len; }
+cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
+{ return NULL != cthis ? ((TYPE *)cthis)->len : 0; }
 
-cgraph_size_t FUNCTION(NAME, ssize)(void *cthis)
-{ return ((TYPE *)cthis)->size; }
+cgraph_size_t FUNCTION(NAME, asize)(const void *cthis)
+{ return NULL != cthis ? ((TYPE *)cthis)->size : 0; }
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
-  TYPE *cthis = (TYPE *)cgraph_calloc(sizeof(TYPE) + (size+CGRAPH_MEMORY_FREED_SIZE)*OBJECT(type, dsize)(), 1);
+  TYPE *cthis = (TYPE *)cgraph_calloc(sizeof(TYPE) + (size+CGRAPH_MEMORY_FREED_SIZE)*OBJECT(type, msize)(), 1);
   if(NULL != cthis)
   {
+    CGRAPH_DTYPE_TYPE(cthis) = type;
     cthis->size = size;
-  #ifdef __STDC__ 
-    #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-      cthis->data = (DATA_TYPE *)&(cthis->root[1]);
-    #else
-      cthis->root = (DATA_TYPE *)(((cgraph_addr8_t *)cthis) + FUNCTION(NAME, size)());
-      cthis->data = (DATA_TYPE *)(((cgraph_addr8_t *)cthis->root) + FUNCTION(NAME, dsize)());
-    #endif /* __STDC_VERSION__ */
-  #else
-    #error only standard c is suppoted!
-  #endif /* __STDC__ */
+    cthis->root = (DATA_TYPE *)(((cgraph_addr8_t *)cthis) + FUNCTION(NAME, size)());
+    cthis->data = (DATA_TYPE *)(((cgraph_addr8_t *)(cthis->root)) + OBJECT(type, msize)());
   }
 
   return cthis;
@@ -77,22 +72,20 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_boolean_t *error)
 {
   TYPE *_cthis = (TYPE *)cthis;
-  cgraph_type_t _type = ((NULL != _cthis) ?  0 : type);
-  cgraph_size_t _size = ((NULL != _cthis) ? (FUNCTION(NAME, size)() + (_cthis->size+CGRAPH_MEMORY_FREED_SIZE)*OBJECT(_type, dsize)()): 0);
+  cgraph_type_t _type = type;
+  cgraph_size_t _size = 0;
+  if(NULL != _cthis)
+  {
+    _type = CGRAPH_DTYPE_TYPE(_cthis);
+    _size = (FUNCTION(NAME, size)() + (_cthis->size+CGRAPH_MEMORY_FREED_SIZE)*OBJECT(_type, msize)());
+  }
   _cthis = (TYPE *)cgraph_realloc(_cthis, _size, FUNCTION(NAME, size)() + (new_size+CGRAPH_MEMORY_FREED_SIZE)*FUNCTION(NAME, msize)(), 1, error);
   if((NULL != error) && (CGRAPH_FALSE == *error))
   {
+    CGRAPH_DTYPE_TYPE(_cthis) = _type;
     _cthis->size = new_size;
-  #ifdef __STDC__
-    #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-      _cthis->data = (DATA_TYPE *)&(_cthis->root[1]);
-    #else
-      _cthis->root = (DATA_TYPE *)(((cgraph_addr8_t *)_cthis) + FUNCTION(NAME, size)());
-      _cthis->data = (DATA_TYPE *)(((cgraph_addr8_t *)_cthis->root) + FUNCTION(NAME, dsize)());
-    #endif /* __STDC_VERSION__ */
-  #else
-    #error only standard c is suppoted!
-  #endif
+    _cthis->root = (DATA_TYPE *)(((cgraph_addr8_t *)_cthis) + FUNCTION(NAME, size)());
+    _cthis->data = (DATA_TYPE *)(((cgraph_addr8_t *)_cthis->root) + FUNCTION(NAME, dsize)());
   }
 
   return _cthis;
@@ -110,7 +103,7 @@ void FUNCTION(NAME, free)(void *cthis)
   TYPE *_cthis = (TYPE *)cthis;
   if(NULL != _cthis)
   {
-
+    
   }
 }
 

@@ -505,12 +505,9 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #endif
 
 /* property inheritance of object types  */
-#define _CGRAPH_OBJECT_BASE \
-  cgraph_element_t element; \
-  cgraph_size_t hash;
-
 #define CGRAPH_OBJECT_BASE \
-	_CGRAPH_OBJECT_BASE \
+  cgraph_element_t element; \
+  cgraph_size_t hash; \
   DATA_TYPE *data;
 
 /* property inheritance of data and structure types */
@@ -534,7 +531,9 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #define CGRAPH_STRUCTURE_BASE \
 	cgraph_element_t element; \
-	CGRAPH_DATA_BASE
+  cgraph_size_t msize; \
+  _CGRAPH_BASE \
+  DATA_TYPE *root;
 
 #if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
 

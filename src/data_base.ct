@@ -11,16 +11,16 @@ CGVTable STRUCT(NAME) =
 {
 /*private:*/
 #ifndef DATA_WITH_POINTER
-  ID,                /* cgraph_utype_t __type__;   */
+  ID,                /* cgraph_type_t __type__;    */
   sizeof(TYPE),      /* cgraph_size_t __size__;    */
   sizeof(TYPE *),    /* cgraph_size_t __psize__;   */
   sizeof(TYPE),      /* cgraph_size_t __msize__;   */
   sizeof(TYPE),      /* cgraph_size_t __dsize__;   */
   STRING(TYPE),      /* cgraph_char_t *__name__;   */
 #else
-  ID,                /* cgraph_integer_t __type__; */
+  ID,                /* cgraph_type_t __type__;    */
   sizeof(TYPE),      /* cgraph_size_t __size__;    */
-  sizeof(TYPE *),    /* cgraph_size_t __dsize__;   */
+  sizeof(TYPE *),    /* cgraph_size_t __psize__;   */
   sizeof(TYPE *),    /* cgraph_size_t __msize__;   */
   sizeof(DATA_TYPE), /* cgraph_size_t __dsize__;   */
   STRING(TYPE),      /* cgraph_char_t *__name__;   */
@@ -34,6 +34,8 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, dsize),   /* cgraph_size_t (*dsize)(void); */
   FUNCTION(NAME, name),    /* cgraph_char_t *(*name)(void); */
   FUNCTION(NAME, hasdata), /* cgraph_boolean_t (*hasdata)(void); */
+  FUNCTION(NAME, len),     /* cgraph_size_t (*len)(void *cthis); */
+  FUNCTION(NAME, asize),   /* cgraph_size_t (*len)(void *cthis); */
   FUNCTION(NAME, calloc),  /* void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);  */
   FUNCTION(NAME, realloc), /* void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size); */
   FUNCTION(NAME, free),    /* void *(*free)(void *cthis);  */
@@ -77,6 +79,15 @@ cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 #endif
 }
 
+cgraph_size_t FUNCTION(NAME, asize)(const void *cthis)
+{
+#ifdef DATA_WITH_POINTER
+  return NULL != cthis ? ((TYPE *)cthis)->size : 0;
+#else
+  return 1;
+#endif
+}
+
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
 #ifdef DATA_WITH_POINTER
@@ -106,8 +117,8 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgrap
 {
 #ifdef DATA_WITH_POINTER
   TYPE *_cthis = (TYPE *)cthis;
-  cgraph_size_t size = ((NULL != _cthis) ? (FUNCTION(NAME, size)() + (_cthis->size+CGRAPH_MEMORY_FREED_SIZE)*FUNCTION(NAME, dsize)()) : 0);
-  _cthis = (TYPE *)cgraph_realloc(_cthis, size, FUNCTION(NAME, size)() + (new_size+CGRAPH_MEMORY_FREED_SIZE)*FUNCTION(NAME, dsize)(), 1, error);
+  cgraph_size_t _size = ((NULL != _cthis) ? (FUNCTION(NAME, size)() + (_cthis->size+CGRAPH_MEMORY_FREED_SIZE)*FUNCTION(NAME, dsize)()) : 0);
+  _cthis = (TYPE *)cgraph_realloc(_cthis, _size, FUNCTION(NAME, size)() + (new_size+CGRAPH_MEMORY_FREED_SIZE)*FUNCTION(NAME, dsize)(), 1, error);
   if((NULL != error) && (CGRAPH_FALSE == *error))
   {
     _cthis->size = new_size;

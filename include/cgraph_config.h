@@ -39,6 +39,9 @@ typedef void * cgraph_stl_t;
 #define CGRAPH_LONG_MAX LONG_MAX
 #define CGRAPH_LONG_MIN LONG_MIN
 
+#define CGRAPH_SIZE_MAX LONG_MAX
+#define CGRAPH_LONG_MIN LONG_MIN
+
 #if __WORDSIZE == 64 || defined(_WIN64)
   #define CGRAPH_LONG_EPSILON (0xFFFFFFFFFFFFFFFF)
   #define CGRAPH_LONG_EPSILON_LEN (64)
@@ -240,7 +243,7 @@ typedef struct
 
 typedef struct
 {
-/*private:*/
+/* private: */
   cgraph_type_t __type__;
   cgraph_size_t __size__;
   cgraph_size_t __psize__;
@@ -248,7 +251,7 @@ typedef struct
   cgraph_size_t __dsize__;
   cgraph_char_t *__name__;
 
-/*public:*/
+/* public: */
   cgraph_type_t (*type)(void);
   cgraph_size_t (*size)(void);
   cgraph_size_t (*psize)(void);
@@ -256,6 +259,8 @@ typedef struct
   cgraph_size_t (*dsize)(void);
   cgraph_char_t *(*name)(void);
   cgraph_boolean_t (*hasdata)(void);
+  cgraph_size_t (*len)(const void *cthis);
+  cgraph_size_t (*asize)(const void* cthis);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_boolean_t *error);
   void (*free)(void *gthis);

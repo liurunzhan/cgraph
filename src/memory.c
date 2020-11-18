@@ -29,19 +29,24 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size
   if(NULL != error)
   {
     *error = CGRAPH_FALSE;
-    if((0 < data_size) && (0 <= old_len) && (new_len > old_len))
+    if((0 < data_size) && (0 <= old_len))
     {
-      _cthis = realloc(cthis, new_len*data_size);
-      if(NULL != _cthis)
-      { _cthis = memset((cgraph_addr8_t *)_cthis+(old_len*data_size), 0, (new_len-old_len)*data_size); }
-      else
+      /* memory lazy release */
+      if(new_len > old_len)
       {
-      #ifdef DEBUG
-        fflush(stdout);
-        cgraph_error_log(stderr, __FILE__, __LINE__, "memory is re-allocated error, and the pointer is kept to the old one");
-        fflush(stderr);
-      #endif
-        *error = CGRAPH_TRUE;
+        _cthis = realloc(cthis, new_len*data_size);
+        if(NULL != _cthis)
+        { _cthis = memset((cgraph_addr8_t *)_cthis+(old_len*data_size), 0, (new_len-old_len)*data_size); }
+        else
+        {
+        #ifdef DEBUG
+          fflush(stdout);
+          cgraph_error_log(stderr, __FILE__, __LINE__, "memory is re-allocated error, and the pointer is kept to the old one");
+          fflush(stderr);
+        #endif
+          _cthis = cthis;
+          *error = CGRAPH_TRUE;
+        }
       }
     }
     else
