@@ -11,7 +11,7 @@ fn main() {
   lib := os.join_path(dir, "lib")
 
   cc := "cc"
-  mut cflags := "-pedantic -Wall -fpic -std=c89"
+  mut cflags := "-pedantic -Wall -fPIC -std=c89"
   csflags := "-shared"
 
   mode := "debug"

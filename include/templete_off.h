@@ -60,20 +60,20 @@
   #undef TYPE_SOBJECT
 #endif
 
-#ifdef TYPE_INTEGER
-  #undef TYPE_INTEGER
+#ifdef TYPE_INT
+  #undef TYPE_INT
 #endif
 
-#ifdef TYPE_REAL
-  #undef TYPE_REAL
+#ifdef TYPE_FLOAT64
+  #undef TYPE_FLOAT64
 #endif
 
-#ifdef TYPE_BOOLEAN
-  #undef TYPE_BOOLEAN
+#ifdef TYPE_BOOL
+  #undef TYPE_BOOL
 #endif
 
-#ifdef TYPE_FLOAT
-  #undef TYPE_FLOAT
+#ifdef TYPE_FLOAT32
+  #undef TYPE_FLOAT32
 #endif
 
 #ifdef TYPE_LONG
@@ -230,8 +230,8 @@
 
 /* DATA TYPE AND PROPERTY IN DATA TYPE */
 
-#ifdef DATA_WITH_POINTER
-  #undef DATA_WITH_POINTER
+#ifdef CGRAPH_WITH_DATA
+  #undef CGRAPH_WITH_DATA
 #endif
 
 #ifdef DATA_TYPE

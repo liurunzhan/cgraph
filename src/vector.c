@@ -110,10 +110,10 @@ void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_pfunc3_t op
   return _z;
 }
 
-cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_integer_t data)
+cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data)
 {
-  cgraph_vector_t *primes = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, data);
-  cgraph_vector_t *isprime = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, data);
+  cgraph_vector_t *primes = FUNCTION(NAME, calloc)(CGRAPH_INT_T, data);
+  cgraph_vector_t *isprime = FUNCTION(NAME, calloc)(CGRAPH_INT_T, data);
   if(NULL != isprime)
   {
     if(NULL != primes)

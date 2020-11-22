@@ -10,7 +10,7 @@
 (def LIB (str DIR File/separator "lib"))
 
 (def CC "cc")
-(def CFLAGS "-pedantic -Wall -fpic -std=c89")
+(def CFLAGS "-pedantic -Wall -fPIC -std=c89")
 (def CSFLAGS "-shared")
 
 (def MODE "debug")

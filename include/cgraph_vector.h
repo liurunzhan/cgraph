@@ -13,11 +13,12 @@ extern "C" {
 typedef struct 
 {
   CGRAPH_STRUCTURE_BASE
+  CGRAPH_STRUCTURE_ROOT
 }cgraph_vector_t;
 
 #include "struct_base.ht"
 
-extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_integer_t data);
+extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data);
 
 #include "templete_off.h"
 

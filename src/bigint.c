@@ -25,10 +25,10 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash);
 }
 
-cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
 {
   TYPE *_cthis = (TYPE *)cthis;
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != _cthis)
   {
     cgraph_size_t i;
@@ -70,7 +70,7 @@ cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis)
   return str;
 }
 
-cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
 
@@ -85,12 +85,12 @@ TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
   return cthis;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE *cthis)
+cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE *cthis)
 {
   return cthis->postive;
 }
 
-cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
+cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 {
   return CGRAPH_TEST((!cthis->postive));
 }
@@ -98,7 +98,7 @@ cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
-  TYPE *res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  TYPE *res = FUNCTION(NAME, calloc)(CGRAPH_INT_T, len+1);
   if(NULL != res)
   {
     if(x->postive == y->postive)
@@ -117,7 +117,7 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *res = NULL;
   cgraph_size_t len = CGRAPH_MAX(_x->len, _y->len);
-  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  res = FUNCTION(NAME, calloc)(CGRAPH_INT_T, len+1);
   if(NULL != res)
   {
     if(_x->postive == _y->postive)
@@ -136,7 +136,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *res = NULL;
   cgraph_size_t len = CGRAPH_MAX(_x->len, _y->len);
-  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  res = FUNCTION(NAME, calloc)(CGRAPH_INT_T, len+1);
   if(NULL != res)
   {
     if(_x->postive == _y->postive)
@@ -155,7 +155,7 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *res;
   cgraph_size_t len = CGRAPH_MAX(_x->len, _y->len);
-  res = FUNCTION(NAME, calloc)(CGRAPH_INTEGER_T, len+1);
+  res = FUNCTION(NAME, calloc)(CGRAPH_INT_T, len+1);
   if(NULL != res)
   {
     if(_x->postive == _y->postive)
@@ -170,9 +170,9 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
   return res;
 }
 
-cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != x) && (NULL != y))
   {
     if((x->len == y->len) && (x->postive == y->postive))
@@ -191,9 +191,9 @@ cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != x) && (NULL != y))
   {
     if((x->len == y->len) && (x->postive == y->postive))
@@ -212,9 +212,9 @@ cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != x) && (NULL != y))
   {
     if(x->postive == y->postive)
@@ -246,9 +246,9 @@ cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != x) && (NULL != y))
   {
     if(x->postive == y->postive)
@@ -280,9 +280,9 @@ cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != x) && (NULL != y))
   {
     if(x->postive == y->postive)
@@ -314,9 +314,9 @@ cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != x) && (NULL != y))
   {
     if(x->postive == y->postive)

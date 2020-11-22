@@ -1,7 +1,7 @@
 #include "cgraph_memory.h"
-#include "cgraph_boolean.h"
+#include "cgraph_bool.h"
 
-#define TYPE_BOOLEAN
+#define TYPE_BOOL
 #include "templete.h"
 #include "data_base.ct"
 
@@ -12,9 +12,9 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
-cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != cthis)
   {
     TYPE _cthis = *(TYPE *)cthis;

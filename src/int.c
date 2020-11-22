@@ -1,9 +1,9 @@
 #include "cgraph_memory.h"
-#include "cgraph_integer.h"
+#include "cgraph_int.h"
 
-#define TYPE_INTEGER
+#define TYPE_INT
 #include "templete.h"
-#include "integer_base.ct"
+#include "int_base.ct"
 
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn Fowler，Landon Curt Noll and Phong Vo in 1991):

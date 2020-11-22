@@ -22,7 +22,7 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode)
   return fp;
 }
 
-cgraph_boolean_t cgraph_file_fclose(FILE *fp)
+cgraph_bool_t cgraph_file_fclose(FILE *fp)
 {
   if((NULL == fp) || (0 != ferror(fp)))
   {
@@ -38,9 +38,9 @@ cgraph_boolean_t cgraph_file_fclose(FILE *fp)
   return CGRAPH_TEST(0 == fclose(fp));
 }
 
-cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
+cgraph_bool_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
 {
-  cgraph_boolean_t error = CGRAPH_FALSE;
+  cgraph_bool_t error = CGRAPH_FALSE;
   if((NULL != buffer) && (NULL != fp) && (0 == ferror(fp)))
   {
     char *data;
@@ -88,7 +88,7 @@ cgraph_boolean_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
   return error;
 }
 
-cgraph_string_t *cgraph_file_header(FILE *fp, cgraph_string_t *buffer, cgraph_boolean_t *error)
+cgraph_string_t *cgraph_file_header(FILE *fp, cgraph_string_t *buffer, cgraph_bool_t *error)
 {
   if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (NULL != error))
   {
@@ -133,7 +133,7 @@ cgraph_size_t cgraph_file_rows(FILE *fp)
 cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep, cgraph_string_t *buffer)
 {
   cgraph_size_t columns = 0;
-  cgraph_integer_t error = 0;
+  cgraph_int_t error = 0;
   char *str = NULL;
   buffer = cgraph_file_header(fp, buffer, &error);
   str = strtok(buffer->data, sep);
@@ -146,10 +146,10 @@ cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep, cgraph_string_t 
   return columns;
 }
 
-cgraph_boolean_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_size_t line)
+cgraph_bool_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_size_t line)
 {
   cgraph_size_t i;
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 <= line))
   {
     for(i=0; i<line; i++)
@@ -194,7 +194,7 @@ const static union cgraph_endian_t
   cgraph_int8_t byte[4];
 } cgraph_file_endian = {1};
 
-void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_char_t **end, cgraph_boolean_t *isbigendian)
+void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_char_t **end, cgraph_bool_t *isbigendian)
 {
   *os = (cgraph_char_t *)_platform;
   *sep = (cgraph_char_t *)_path_split;

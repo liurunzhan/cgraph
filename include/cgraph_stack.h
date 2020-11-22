@@ -12,8 +12,8 @@ extern "C" {
 
 typedef struct
 {
-  
   CGRAPH_STRUCTURE_BASE
+  CGRAPH_STRUCTURE_ROOT
 }cgraph_stack_t;
 
 #include "templete_off.h"

@@ -21,6 +21,7 @@ distclean: CMD= distclean
 test: CMD= test
 
 doc:
+	doxygen -u
 	doxygen
 
 cloc:

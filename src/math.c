@@ -2,9 +2,9 @@
 #include <math.h>
 #include "cgraph_math.h"
 
-cgraph_uinteger_t cgraph_math_crc(const cgraph_uinteger_t predata, const cgraph_uinteger_t data, const cgraph_uinteger_t poly)
+cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata, const cgraph_uint_t data, const cgraph_uint_t poly)
 {
-  cgraph_uinteger_t res = predata, temp = (data & res), ones = 0xFFFFFFFF, msb = 0;
+  cgraph_uint_t res = predata, temp = (data & res), ones = 0xFFFFFFFF, msb = 0;
   cgraph_size_t i = 0, bits = 32;
   for(i=0; i<bits; i++)
   {
@@ -19,9 +19,9 @@ cgraph_uinteger_t cgraph_math_crc(const cgraph_uinteger_t predata, const cgraph_
   return res;
 }
 
-cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_boolean_t *error)
+cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error)
 {
-  cgraph_integer_t res = 0;
+  cgraph_int_t res = 0;
   if(NULL != error)
   {
     *error = CGRAPH_FALSE; 
@@ -62,7 +62,7 @@ static const cgraph_char_t __dec2hex_upper__[16] =
   '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' 
 };
 
-cgraph_char_t cgraph_math_dec2uhex(const cgraph_integer_t data, cgraph_boolean_t *error)
+cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data, cgraph_bool_t *error)
 {
   cgraph_char_t ch = 0;
   if(NULL != error)
@@ -84,7 +84,7 @@ static const cgraph_char_t __dec2hex_lower__[16] =
   '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' 
 };
 
-cgraph_char_t cgraph_math_dec2lhex(const cgraph_integer_t data, cgraph_boolean_t *error)
+cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data, cgraph_bool_t *error)
 {
   cgraph_char_t ch = 0;
   if(NULL != error)
@@ -110,10 +110,10 @@ cgraph_char_t cgraph_math_tolower(cgraph_char_t data)
   return islower(data) ? tolower(data) : MATH_ERROR;
 }
 
-cgraph_size_t cgraph_math_baseoflen(const cgraph_integer_t data, const cgraph_integer_t base)
+cgraph_size_t cgraph_math_baseoflen(const cgraph_int_t data, const cgraph_int_t base)
 {
   cgraph_size_t len = 0;
-  cgraph_integer_t new_data = data;
+  cgraph_int_t new_data = data;
   while(0 != new_data)
   { 
     new_data = new_data / base; 
@@ -123,10 +123,10 @@ cgraph_size_t cgraph_math_baseoflen(const cgraph_integer_t data, const cgraph_in
   return len;
 }
 
-cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data)
+cgraph_bool_t cgraph_math_prime(const cgraph_int_t data)
 {
-  cgraph_boolean_t flag = CGRAPH_TRUE;
-  cgraph_integer_t tmp;
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_int_t tmp;
   if(2 > data)
   { flag = CGRAPH_FALSE; }
   else if((2 == data) || (3 == data))
@@ -135,7 +135,7 @@ cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data)
   { flag = CGRAPH_FALSE; }
   else
   {
-    cgraph_integer_t root = sqrt(data), i;
+    cgraph_int_t root = sqrt(data), i;
     for(i=5; i<=root; i+=6)
     {
       if((0 == (data%i)) || (0 == (data%(i+2))))
@@ -149,7 +149,7 @@ cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data)
   return flag;
 }
 
-cgraph_size_t cgraph_math_primes(cgraph_integer_t *primes, cgraph_integer_t *isprime, const cgraph_integer_t data)
+cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime, const cgraph_int_t data)
 {
   cgraph_size_t counter = 0;
   if((NULL != primes) && (NULL != isprime) && (data > 1))
@@ -176,9 +176,9 @@ cgraph_size_t cgraph_math_primes(cgraph_integer_t *primes, cgraph_integer_t *isp
   return counter;
 }
 
-static cgraph_integer_t cgraph_seed = 0;
+static cgraph_int_t cgraph_seed = 0;
 
-void cgraph_random_seed(cgraph_integer_t seed)
+void cgraph_random_seed(cgraph_int_t seed)
 {
   cgraph_seed = seed;
 }
@@ -192,17 +192,17 @@ void cgraph_random_seed(cgraph_integer_t seed)
 	returning a 32bit integer [1, 2147483647]
 	X(0) = 1
 */
-cgraph_integer_t cgraph_random(void)
+cgraph_int_t cgraph_random(void)
 {
-  const cgraph_integer_t a = 48271, m = CGRAPH_RANDOM_MAX;
-  const cgraph_integer_t m_div_a = m / a, m_mod_a = m % a;
-  cgraph_integer_t hi = cgraph_seed / m_div_a, lo = cgraph_seed % m_div_a;
+  const cgraph_int_t a = 48271, m = CGRAPH_RANDOM_MAX;
+  const cgraph_int_t m_div_a = m / a, m_mod_a = m % a;
+  cgraph_int_t hi = cgraph_seed / m_div_a, lo = cgraph_seed % m_div_a;
   cgraph_seed = (a * lo - m_mod_a * hi);
 
   return cgraph_seed;
 }
 
-cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_integer_t max)
+cgraph_int_t cgraph_random_uniform(const cgraph_int_t min, const cgraph_int_t max)
 {
   return cgraph_random() % (max-min) + min;
 }
@@ -212,10 +212,10 @@ cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_
 	mu      : the average value of the normal distribution
 	sigma   : the variance of the normal distribution
 */
-cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t sigma)
+cgraph_float64_t cgraph_random_normal(const cgraph_float64_t mu, const cgraph_float64_t sigma)
 {
-	static cgraph_real_t U, V, Z;
-	static cgraph_boolean_t phase = CGRAPH_FALSE;
+	static cgraph_float64_t U, V, Z;
+	static cgraph_bool_t phase = CGRAPH_FALSE;
 	if(!phase)
 	{
 		U = (1.0 * cgraph_random() + 1.0) / (CGRAPH_RANDOM_MAX + 2.0);
@@ -229,19 +229,19 @@ cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t s
 	return Z * sigma + mu;
 }
 
-cgraph_real_t cgraph_math_logn(const cgraph_real_t n, const cgraph_real_t x)
+cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n, const cgraph_float64_t x)
 {
   return log(x) / log(n);
 }
 
-cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t n)
+cgraph_int_t cgraph_math_pow2(const cgraph_int_t n)
 {
   return (1 << n);
 }
 
-cgraph_integer_t cgraph_math_log2(const cgraph_integer_t x)
+cgraph_int_t cgraph_math_log2(const cgraph_int_t x)
 {
-  cgraph_integer_t res = 0, num = x;
+  cgraph_int_t res = 0, num = x;
   while(num>1)
   {
     num = num >> 1;
@@ -251,17 +251,17 @@ cgraph_integer_t cgraph_math_log2(const cgraph_integer_t x)
   return res;
 }
 
-cgraph_integer_t cgraph_math_mod2(const cgraph_integer_t x)
+cgraph_int_t cgraph_math_mod2(const cgraph_int_t x)
 {
   return (x & 0x01);
 }
 
-cgraph_integer_t cgraph_math_bin2gray(const cgraph_integer_t data)
+cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data)
 {
   return (data ^ (data >> 1));
 }
 
-cgraph_integer_t cgraph_math_gray2bin(const cgraph_integer_t data)
+cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data)
 {
   return (data ^ (data << 1));
 }

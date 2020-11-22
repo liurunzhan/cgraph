@@ -8,7 +8,7 @@
 (setq LIB (merge-pathnames "lib" DIR))
 
 (setq CC "cc")
-(setq CFLAGS "-pedantic -Wall -fpic -std=c89")
+(setq CFLAGS "-pedantic -Wall -fPIC -std=c89")
 (setq CSFLAGS "-shared")
 
 (setq MODE "debug")

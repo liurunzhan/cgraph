@@ -10,7 +10,7 @@ let TST : string = DIR + path.sep + "test";
 let LIB : string = DIR + path.sep + "lib";
 
 let CC : string = "cc";
-let CFLAGS : string = "-pedantic -Wall -fpic -std=c89";
+let CFLAGS : string = "-pedantic -Wall -fPIC -std=c89";
 let CSFLAGS : string = "-shared";
 
 let MODE : string = "debug";

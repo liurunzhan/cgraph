@@ -98,12 +98,12 @@ typedef struct
 
 #include "data_base.ht"
 
-extern cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
-extern cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y);
-extern cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
-extern cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
-extern cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
-extern cgraph_boolean_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, sub0i)(const TYPE x, const DATA_TYPE y);

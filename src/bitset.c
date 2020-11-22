@@ -5,6 +5,10 @@
 #include "templete.h"
 #include "data_base.ct"
 
+static const cgraph_int8_t cgraph_int8_bits[8] = {
+  0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80
+};
+
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
 {
   TYPE *_cthis = (TYPE *)cthis;
@@ -15,10 +19,10 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash);
 }
 
-cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != _x) && (NULL != _y))
   {
     if(_x->len == _y->len)
@@ -30,9 +34,9 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   TYPE *_cthis = (TYPE *)cthis;
   if(NULL != _cthis)
   { flag = CGRAPH_TRUE; }
@@ -113,44 +117,44 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
   return z;
 }
 
-cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
+cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
   return flag;
 }

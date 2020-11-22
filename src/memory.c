@@ -23,7 +23,7 @@ void *cgraph_calloc(const cgraph_size_t len, const cgraph_size_t data_size)
   return cthis;
 }
 
-void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size_t new_len, const cgraph_size_t data_size, cgraph_boolean_t *error)
+void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size_t new_len, const cgraph_size_t data_size, cgraph_bool_t *error)
 {
   void *_cthis = cthis;
   if(NULL != error)
@@ -151,9 +151,9 @@ void cgraph_free(void *cthis)
 #endif
 }
 
-cgraph_boolean_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t len, const cgraph_size_t data_size)
+cgraph_bool_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t len, const cgraph_size_t data_size)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(x == y)
   { flag = CGRAPH_TRUE; }
   else if((NULL != x) && (NULL != y) && (0 < len) && (0 < data_size))
@@ -181,9 +181,9 @@ cgraph_boolean_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t
   return flag;
 }
 
-cgraph_boolean_t cgraph_strcmp(const char *x, const char *y)
+cgraph_bool_t cgraph_strcmp(const char *x, const char *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if((NULL != x) && (NULL != y))
   {
     if(0 == strcmp(x, y))

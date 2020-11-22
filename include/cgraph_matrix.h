@@ -10,9 +10,10 @@ extern "C" {
 #define TYPE_MATRIX
 #include "templete.h"
 typedef struct 
-{  
-  cgraph_size_t row, column;
+{
   CGRAPH_STRUCTURE_BASE
+  cgraph_size_t row, column;
+  CGRAPH_STRUCTURE_ROOT
 }cgraph_matrix_t;
 
 #include "struct_base.ht"

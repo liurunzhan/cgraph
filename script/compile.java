@@ -15,7 +15,7 @@ public class Compile {
     String LIB = new String(DIR + File.separator + "lib");
 
     String CC = new String("cc");
-    StringBuffer CFLAGS = new StringBuffer("-pedantic -Wall -fpic -std=c89");
+    StringBuffer CFLAGS = new StringBuffer("-pedantic -Wall -fPIC -std=c89");
     String CSFLAGS = new String("-shared");
 
     String MODE = new String("debug");

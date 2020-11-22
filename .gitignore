@@ -68,6 +68,7 @@ configure*
 !Configure.pl
 
 # Doc/Markdown Files
+Doxyfile.bak
 doc/*.dot
 doc/*.png
 doc/*.pdf

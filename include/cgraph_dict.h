@@ -13,6 +13,7 @@ extern "C" {
 typedef struct 
 {
   CGRAPH_STRUCTURE_BASE
+  CGRAPH_STRUCTURE_ROOT
 }cgraph_dict_t;
 
 #include "struct_base.ht"

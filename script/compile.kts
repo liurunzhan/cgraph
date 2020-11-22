@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
   val LIB = DIR + File.separator + "lib"
   
   val CC = "cc"
-  var CFLAGS = "-pedantic -Wall -fpic -std=c89"
+  var CFLAGS = "-pedantic -Wall -fPIC -std=c89"
   val CSFLAGS = "-shared"
   
   val MODE = "debug"

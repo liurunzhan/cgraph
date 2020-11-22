@@ -13,7 +13,7 @@ pub fn main() void {
   const LIB = std.fs.path.join(DIR, "lib");
 
   const CC = "cc";
-  var CFLAGS = "-pedantic -Wall -fpic -std=c89";
+  var CFLAGS = "-pedantic -Wall -fPIC -std=c89";
   const CSFLAGS = "-shared";
 
   const MODE = "debug"

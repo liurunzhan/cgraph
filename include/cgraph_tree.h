@@ -21,7 +21,7 @@ typedef struct
 typedef struct 
 {
   cgraph_size_t len, size;
-  cgraph_boolean_t with_hash;
+  cgraph_bool_t with_hash;
   cgraph_tobject_t *root;
 }cgraph_tree_t;
 

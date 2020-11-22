@@ -12,7 +12,7 @@ set LIB ${DIR}/lib
 
 # compiler configuration
 set CC cc
-set CFLAGS "-pedantic -Wall -fpic -std=c89"
+set CFLAGS "-pedantic -Wall -fPIC -std=c89"
 set CSFLAGS "-shared"
 
 # debug or release mode

@@ -8,7 +8,7 @@ TST <- file.path(DIR, "test", fsep=.Platform$file.sep)
 LIB <- file.path(DIR, "lib", fsep=.Platform$file.sep)
 
 CC <- "cc"
-CFLAGS <- "-pedantic -Wall -fpic -std=c89"
+CFLAGS <- "-pedantic -Wall -fPIC -std=c89"
 CSFLAGS <- "-shared"
 
 MODE <- "debug"

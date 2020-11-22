@@ -12,14 +12,14 @@ int main(int argc, char *argv[])
   /*
   cgraph_char_t buffer[100];
   cgraph_fraction_t fraction = {-1, INT_MAX};
-  cgraph_integer_t integer = 123;
-  cgraph_float_t real = 123.0, number = 0.1;
+  cgraph_int_t integer = 123;
+  cgraph_float32_t real = 123.0, number = 0.1;
   cgraph_size_t i = 0;
   cgraph_int8_t pre = 0xFF, data = 0x00, poly = 0x07;
   cgraph_bignum_t *bignum = cgraph_bignum_calloc(1, 100);
   cgraph_string_t *string = cgraph_string_calloc(1, 100);
-  cgraph_integer_t primes[100000];
-  cgraph_integer_t numbers[100000];
+  cgraph_int_t primes[100000];
+  cgraph_int_t numbers[100000];
   fprintf(stdout, "start simulation\n");
   fprintf(stdout, "%d %d\n", FRACTION_NUM(fraction), FRACTION_DEN(fraction));
   cgraph_string_initd(string, "abcd", 4);
@@ -39,19 +39,19 @@ int main(int argc, char *argv[])
     cgraph_size_t row = cgraph_file_rows(fp);
     cgraph_size_t column = cgraph_file_columns(fp, ",", buffer);
     cgraph_object_t *abc;
-    cgraph_integer_t i;
+    cgraph_int_t i;
     fprintf(stdout, "row: %ld column : %ld\n", row, column);
     cgraph_file_fclose(fp);
     cgraph_string_free(buffer);
-    for(i=CGRAPH_INTEGER_T; i<CGRAPH_FRACTION_T; i++)
+    for(i=CGRAPH_INT_T; i<CGRAPH_FRACTION_T; i++)
     {
       abc = cgraph_object_calloc(i, 100);
       cgraph_object_free(abc);
     }
     do
     {
-      cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INTEGER_T, 2);
-      cgraph_integer_t data[2] = {1,1};
+      cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INT_T, 2);
+      cgraph_int_t data[2] = {1,1};
       cgraph_string_t *buffer;
       cgraph_bigint_initd(big, data, 2);
       buffer = cgraph_bigint_tostr(big);
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
   fprintf(stdout, "crc32 : %02x\n",  cgraph_math_crc(pre, data, poly));
   for(i = 0; i<6; i++)
   {
-    cgraph_float_t data = real + number;
+    cgraph_float32_t data = real + number;
     cgraph_float_hash(&data);
     number = number / 10.0;
   }

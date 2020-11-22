@@ -51,8 +51,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define NAME object
   #define OUT_FORMAT "ld"
   #define ZERO NULL
-  #define DATA_WITH_POINTER
-  #define DATA_TYPE void
+  #define CGRAPH_WITH_DATA
+  #define DATA_TYPE cgraph_stl_t
 
   #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
   
@@ -62,8 +62,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define NAME hobject
   #define OUT_FORMAT "ld"
   #define ZERO NULL
-  #define DATA_WITH_POINTER
-  #define DATA_TYPE void
+  #define CGRAPH_WITH_DATA
+  #define DATA_TYPE cgraph_stl_t
   
   #define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
   
@@ -73,8 +73,8 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define NAME pobject
   #define OUT_FORMAT "ld"
   #define ZERO NULL
-  #define DATA_WITH_POINTER
-  #define DATA_TYPE void
+  #define CGRAPH_WITH_DATA
+  #define DATA_TYPE cgraph_stl_t
   
   #define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
 
@@ -84,48 +84,17 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define NAME sobject
   #define OUT_FORMAT "ld"
   #define ZERO NULL
-  #define DATA_WITH_POINTER
-  #define DATA_TYPE void
+  #define CGRAPH_WITH_DATA
+  #define DATA_TYPE cgraph_stl_t
   
   #define OBJECT(type, opt) CGRAPH_SOBJECT(type, opt)
   
-#elif defined(TYPE_INTEGER)
-  #define TYPE cgraph_integer_t
-  #define ID CGRAPH_INTEGER_T
-  #define NAME integer
+#elif defined(TYPE_BOOL)
+  #define TYPE cgraph_bool_t
+  #define ID CGRAPH_BOOL_T
+  #define NAME bool
   #define OUT_FORMAT "%d"
-  #define UTYPE cgraph_uinteger_t
-  #define ZERO (0)
-  #define ONE (1)
-  #define ONES CGRAPH_INTEGER_MIN
-  #define BITS (8*sizeof(TYPE))
-  #define MIN CGRAPH_INTEGER_MIN
-  #define MAX CGRAPH_INTEGER_MAX
-  #define MSB (ONE << (BITS-1))
-  #define LSB (ONE)
-  #define EPSILON (0xFFFFFFFF)
-  #define EPSILON_LEN BITS
-  
-#elif defined(TYPE_REAL)
-  #define TYPE cgraph_real_t
-  #define ID CGRAPH_REAL_T
-  #define NAME real
-  #define OUT_FORMAT "%g"
-  #define ZERO (0.0)
-  #define ONE (1.0)
-  #define ONES (1.0)
-  #define BITS CGRAPH_REAL_EPSILON_LEN
-  #define MIN CGRAPH_REAL_MIN
-  #define MAX CGRAPH_REAL_MAX
-  #define EPSILON CGRAPH_REAL_EPSILON
-  #define EPSILON_LEN CGRAPH_REAL_EPSILON_LEN
-  
-#elif defined(TYPE_BOOLEAN)
-  #define TYPE cgraph_boolean_t
-  #define ID CGRAPH_BOOLEAN_T
-  #define NAME boolean
-  #define OUT_FORMAT "%d"
-  #define UTYPE cgraph_boolean_t
+  #define UTYPE cgraph_bool_t
   #define ZERO CGRAPH_FALSE
   #define ONE CGRAPH_TRUE
   #define ONES CGRAPH_TRUE
@@ -136,21 +105,24 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define LSB (ONE)
   #define EPSILON (0x1)
   #define EPSILON_LEN BITS
-  
-#elif defined(TYPE_FLOAT)
-  #define TYPE cgraph_float_t
-  #define ID CGRAPH_FLOAT_T
-  #define NAME float
-  #define OUT_FORMAT "%f"
-  #define ZERO (0.0)
-  #define ONE (1.0)
-  #define ONES (1.0)
-  #define BITS CGRAPH_FLOAT_EPSILON_LEN
-  #define MIN CGRAPH_FLOAT_MIN
-  #define MAX CGRAPH_FLOAT_MAX
-  #define EPSILON CGRAPH_FLOAT_EPSILON
-  #define EPSILON_LEN CGRAPH_FLOAT_EPSILON_LEN
-  
+
+#elif defined(TYPE_INT)
+  #define TYPE cgraph_int_t
+  #define ID CGRAPH_INT_T
+  #define NAME int
+  #define OUT_FORMAT "%d"
+  #define UTYPE cgraph_uint_t
+  #define ZERO (0)
+  #define ONE (1)
+  #define ONES CGRAPH_INT_MIN
+  #define BITS (8*sizeof(TYPE))
+  #define MIN CGRAPH_INT_MIN
+  #define MAX CGRAPH_INT_MAX
+  #define MSB (ONE << (BITS-1))
+  #define LSB (ONE)
+  #define EPSILON (0xFFFFFFFF)
+  #define EPSILON_LEN BITS
+
 #elif defined(TYPE_LONG)
   #define TYPE cgraph_long_t
   #define ID CGRAPH_LONG_T
@@ -165,7 +137,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define MAX CGRAPH_LONG_MAX
   #define MSB (ONE << (BITS-1))
   #define LSB (ONE)
-  #define EPSILON CGRAPH_LONG_EPSILON
+  #define EPSILON CGRAPH_LONG_EPS
   #define EPSILON_LEN CGRAPH_LONG_EPSILON_LEN
   
 #elif defined(TYPE_INT8)
@@ -235,7 +207,35 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define LSB (ONE)
   #define EPSILON (0xFFFFFFFFFFFFFFFF)
   #define EPSILON_LEN BITS
-  
+
+#elif defined(TYPE_FLOAT32)
+  #define TYPE cgraph_float32_t
+  #define ID CGRAPH_FLOAT32_T
+  #define NAME float32
+  #define OUT_FORMAT "%f"
+  #define ZERO (0.0)
+  #define ONE (1.0)
+  #define ONES (1.0)
+  #define BITS CGRAPH_FLOAT32_BIT
+  #define MIN CGRAPH_FLOAT32_MIN
+  #define MAX CGRAPH_FLOAT32_MAX
+  #define EPSILON CGRAPH_FLOAT32_EPS
+  #define EPSILON_LEN CGRAPH_FLOAT32_BIT
+
+#elif defined(TYPE_FLOAT64)
+  #define TYPE cgraph_float64_t
+  #define ID CGRAPH_FLOAT64_T
+  #define NAME float64
+  #define OUT_FORMAT "%g"
+  #define ZERO (0.0)
+  #define ONE (1.0)
+  #define ONES (1.0)
+  #define BITS CGRAPH_FLOAT64_BIT
+  #define MIN CGRAPH_FLOAT64_MIN
+  #define MAX CGRAPH_FLOAT64_MAX
+  #define EPSILON CGRAPH_FLOAT64_EPS
+  #define EPSILON_LEN CGRAPH_FLOAT64_BIT
+
 #elif defined(TYPE_TIME)
   #define TYPE cgraph_time_t
   #define ID CGRAPH_TIME_T
@@ -267,19 +267,19 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ZERO {{0.0, 0.0}}
   #define ONE {{0.0, 1.0}}
   #define ONES {{1.0, 1.0}}
-  #define BITS (CGRAPH_REAL_EPSILON_LEN*2)
-  #define MIN {{CGRAPH_REAL_MIN, CGRAPH_REAL_MIN}}
-  #define MAX {{CGRAPH_REAL_MAX, CGRAPH_REAL_MAX}}
-  #define DATA_TYPE cgraph_real_t
-  #define DATA_ID CGRAPH_REAL_T
+  #define BITS (CGRAPH_FLOAT64_BIT*2)
+  #define MIN {{CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN}}
+  #define MAX {{CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX}}
+  #define DATA_TYPE cgraph_float64_t
+  #define DATA_ID CGRAPH_FLOAT64_T
   #define DATA_ZERO 0.0
   #define DATA_ONE 1.0
   #define DATA_ONES 1.0
-  #define DATA_BITS CGRAPH_REAL_EPSILON_LEN
-  #define DATA_MIN CGRAPH_REAL_MIN
-  #define DATA_MAX CGRAPH_REAL_MAX
-  #define DATA_EPSILON CGRAPH_REAL_EPSILON
-  #define DATA_EPSILON_LEN CGRAPH_REAL_EPSILON_LEN
+  #define DATA_BITS CGRAPH_FLOAT64_BIT
+  #define DATA_MIN CGRAPH_FLOAT64_MIN
+  #define DATA_MAX CGRAPH_FLOAT64_MAX
+  #define DATA_EPSILON CGRAPH_FLOAT64_EPS
+  #define DATA_EPSILON_LEN CGRAPH_FLOAT64_BIT
   
 #elif defined(TYPE_FRACTION)
   #define TYPE cgraph_fraction_t
@@ -288,20 +288,20 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define OUT_FORMAT "%d"
   #define ZERO {{0, 1}}
   #define ONE {{1, 1}}
-  #define ONES {{CGRAPH_INTEGER_MIN, 1}}
+  #define ONES {{CGRAPH_INT_MIN, 1}}
   #define BITS (8*sizeof(TYPE))
-  #define MIN {{CGRAPH_INTEGER_MIN, 1}}
-  #define MAX {{CGRAPH_INTEGER_MAX, 1}}
-  #define EPSILON {{1, CGRAPH_INTEGER_MAX}}
+  #define MIN {{CGRAPH_INT_MIN, 1}}
+  #define MAX {{CGRAPH_INT_MAX, 1}}
+  #define EPSILON {{1, CGRAPH_INT_MAX}}
   #define EPSILON_LEN (8*sizeof(TYPE))
-  #define DATA_TYPE cgraph_integer_t
-  #define DATA_ID CGRAPH_INTEGER_T
+  #define DATA_TYPE cgraph_int_t
+  #define DATA_ID CGRAPH_INT_T
   #define DATA_ZERO 0
   #define DATA_ONE 1
-  #define DATA_ONES CGRAPH_INTEGER_MIN
+  #define DATA_ONES CGRAPH_INT_MIN
   #define DATA_BITS (8*sizeof(DATA_TYPE))
-  #define DATA_MIN CGRAPH_INTEGER_MIN
-  #define DATA_MAX CGRAPH_INTEGER_MAX
+  #define DATA_MIN CGRAPH_INT_MIN
+  #define DATA_MAX CGRAPH_INT_MAX
   #define DATA_MSB (DATA_ONE << (DATA_BITS-1))
   #define DATA_LSB (DATA_ONE)
   
@@ -315,7 +315,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ONES (1)
   #define MIN (0)
   #define MAX (9)
-  #define DATA_WITH_POINTER
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_uint8_t
   #define DATA_ID CGRAPH_UINT8_T
   #define DATA_UTYPE cgraph_uint8_t
@@ -339,7 +339,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define BITS (8*sizeof(TYPE))
   #define MIN ("-inf")
   #define MAX ("+inf")
-  #define DATA_WITH_POINTER
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_char_t
   #define DATA_ID CGRAPH_CHAR_T
   #define DATA_BITS (8*sizeof(DATA_TYPE))
@@ -360,7 +360,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define BITS (8*sizeof(TYPE))
   #define MIN CGRAPH_CHAR_MIN
   #define MAX CGRAPH_CHAR_MAX
-  #define DATA_WITH_POINTER
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_char_t
   #define DATA_ID CGRAPH_CHAR_T
   #define DATA_MIN CGRAPH_CHAR_MIN
@@ -379,7 +379,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define BITS CGRAPH_UINT8_MIN
   #define MIN  (0)
   #define MAX CGRAPH_UINT8_MIN
-  #define DATA_WITH_POINTER
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_uint8_t
   #define DATA_UTYPE cgraph_uint8_t
   #define DATA_ID CGRAPH_UINT8_T
@@ -508,36 +508,31 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define CGRAPH_OBJECT_BASE \
   cgraph_element_t element; \
   cgraph_size_t hash; \
-  DATA_TYPE *data;
 
 /* property inheritance of data and structure types */
-#define _CGRAPH_BASE \
+#define CGRAPH_DATA_BASE \
   cgraph_size_t size, len; \
-  DATA_TYPE *data;
 
-#if defined(__STDC__) 
-	#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-		#define CGRAPH_DATA_BASE \
-      _CGRAPH_BASE \
-			DATA_TYPE root[];
-	#else
-		#define CGRAPH_DATA_BASE \
-  		_CGRAPH_BASE \
-			DATA_TYPE *root;
-	#endif /* __STDC_VERSION__ */
+#if (CGRAPH_STDC_VERSION >= 199901L)
+	#define CGRAPH_DATA_ROOT \
+  DATA_TYPE *data; \
+  DATA_TYPE root[];
 #else
-	#error only standard c is suppoted!
-#endif /* __STDC__ */
+  #define CGRAPH_DATA_ROOT \
+  DATA_TYPE *data, *root;
+#endif /* __STDC_VERSION__ */
 
 #define CGRAPH_STRUCTURE_BASE \
-	cgraph_element_t element; \
+  CGRAPH_DATA_BASE \
   cgraph_size_t msize; \
-  _CGRAPH_BASE \
-  DATA_TYPE *root;
+	cgraph_element_t element; \
+
+#define CGRAPH_STRUCTURE_ROOT \
+  DATA_TYPE *data, *root;
 
 #if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
 
-#elif defined(TYPE_BOOLEAN)
+#elif defined(TYPE_BOOL)
   #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
   
   #define ADD(a, b, c) ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
@@ -573,7 +568,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   
   #define EXCHNAGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;} while(0)
   
-#elif defined(TYPE_INTEGER) || defined(TYPE_LONG) || defined(TYPE_INT8) || defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
+#elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) || defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
   #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
   
   #define ADD(a, b, c) ((a) + (b))
@@ -609,7 +604,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   
   #define EXCHANGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;} while(0)
   
-#elif defined(TYPE_REAL) || defined(TYPE_FLOAT)
+#elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64)
   #if defined(__STDC__) 
  	  #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) && defined(_MATH_H_)
  	    #define DATA_TEST(a) isnormal((a))

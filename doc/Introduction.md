@@ -17,10 +17,10 @@
 | TYPE | ID | NAME | MACRO | DESCRIPTION |
 | :-: | :-: | :-: | :-: | :-: |
 | cgraph_object_t | CGRAPH_OBJECT_T | object | TYPE_OBJECT |  |
-| cgraph_integer_t | CGRAPH_INTEGER_T | integer | TYPE_INTEGER | |
-| cgraph_real_t | CGRAPH_REAL_T | real | TYPE_REAL | |
-| cgraph_boolean_t | CGRAPH_BOOLEAN_T | boolean | TYPE_REAL |
-| cgraph_float_t | CGRAPH_FLOAT_T | float | TYPE_FLOAT | |
+| cgraph_int_t | CGRAPH_INT_T | integer | TYPE_INT | |
+| cgraph_float64_t | CGRAPH_FLOAT64_T | real | TYPE_FLOAT64 | |
+| cgraph_bool_t | CGRAPH_BOOL_T | boolean | TYPE_FLOAT64 |
+| cgraph_float32_t | CGRAPH_FLOAT32_T | float | TYPE_FLOAT32 | |
 | cgraph_long_t | CGRAPH_LONG_T | long | TYPE_LONG | |
 | cgraph_int8_t | CGRAPH_INT8_T | int8 | TYPE_INT8 | |
 | cgraph_int16_t | CGRAPH_INT16_T | int16 | TYPE_INT16 | |
@@ -40,10 +40,10 @@ All basic data types in this library are the package of C-type data types, which
 
 | TYPE | ID | C TYPE |
 | :-: | :-: | :-: |
-| cgraph_integer_t | CGRAPH_INTEGER_T | int |
-| cgraph_real_t | CGRAPH_REAL_T | double |
-| cgraph_boolean_t | CGRAPH_BOOLEAN_T | int |
-| cgraph_float_t | CGRAPH_FLOAT_T | float |
+| cgraph_int_t | CGRAPH_INT_T | int |
+| cgraph_float64_t | CGRAPH_FLOAT64_T | double |
+| cgraph_bool_t | CGRAPH_BOOL_T | int |
+| cgraph_float32_t | CGRAPH_FLOAT32_T | float |
 | cgraph_long_t | CGRAPH_LONG_T | long |
 | cgraph_int8_t | CGRAPH_INT8_T | int8 |
 | cgraph_int16_t | CGRAPH_INT16_T | int16 |
@@ -57,7 +57,7 @@ All basic data types in this library are the package of C-type data types, which
 typedef struct 
 {
   cgraph_type_t type;
-  cgraph_boolean_t visited;
+  cgraph_bool_t visited;
   cgraph_size_t hash;
   void *data;
 }cgraph_object_t;
@@ -115,7 +115,7 @@ typedef struct
 typedef struct 
 {
   cgraph_size_t len, size;
-  cgraph_boolean_t pos;
+  cgraph_bool_t pos;
   DATA_TYPE *root, *data;
 }cgraph_bigint_t;
 ```

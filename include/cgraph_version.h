@@ -9,7 +9,7 @@ extern "C" {
 
 #define CGRAPH_VERSION "0.0.0"
 
-extern void cgraph_version(const cgraph_char_t **version, cgraph_integer_t *major, cgraph_integer_t *minor, cgraph_integer_t *subminor);
+extern void cgraph_version(const cgraph_char_t **version, cgraph_int_t *major, cgraph_int_t *minor, cgraph_int_t *subminor);
 extern void cgraph_version_print(void);
 extern void cgraph_version_fprintf(void *fp);
 

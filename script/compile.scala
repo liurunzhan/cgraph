@@ -18,7 +18,7 @@ object Compile {
     val LIB : String = DIR + File.separator + "lib"
 
     val CC : String = "cc"
-    var CFLAGS : String = "-pedantic -Wall -fpic -std=c89"
+    var CFLAGS : String = "-pedantic -Wall -fPIC -std=c89"
     val CSFLAGS : String = "-shared"
 
     val MODE : String = "debug"

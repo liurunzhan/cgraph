@@ -18,7 +18,7 @@ func main() {
 	var LIB string = path.Join(PRO, "lib")
 
   var CC string = "cc"
-  var CFLAGS string = "-pedantic -Wall -fpic -std=c89"
+  var CFLAGS string = "-pedantic -Wall -fPIC -std=c89"
   var CSFLAGS string = "-shared"
 
   var MODE string = "debug"

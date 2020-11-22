@@ -19,8 +19,9 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(pobject)[];
 
 typedef struct 
 {
-  struct cgraph_pobject_t *s1, *s2;
   CGRAPH_OBJECT_BASE
+  struct cgraph_pobject_t *s1, *s2;
+  DATA_TYPE data;
 }cgraph_pobject_t;
 
 #include "object_base.ht"

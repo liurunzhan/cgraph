@@ -35,29 +35,29 @@ extern "C" {
 #define MATH_CONST_LOG10 (2.30258509299404568402)
 #endif /* MATH_CONST_LOG10 */
 
-extern cgraph_uinteger_t cgraph_math_crc(const cgraph_uinteger_t predata, const cgraph_uinteger_t data, const cgraph_uinteger_t poly);
-extern cgraph_integer_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_boolean_t *error);
-extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_integer_t data, cgraph_boolean_t *error);
-extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_integer_t data, cgraph_boolean_t *error);
+extern cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata, const cgraph_uint_t data, const cgraph_uint_t poly);
+extern cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error);
+extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data, cgraph_bool_t *error);
+extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data, cgraph_bool_t *error);
 extern cgraph_char_t cgraph_math_toupper(cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(cgraph_char_t data);
-extern cgraph_size_t cgraph_math_baseoflen(const cgraph_integer_t data, const cgraph_integer_t base);
+extern cgraph_size_t cgraph_math_baseoflen(const cgraph_int_t data, const cgraph_int_t base);
 
-extern cgraph_boolean_t cgraph_math_prime(const cgraph_integer_t data);
-extern cgraph_size_t cgraph_math_primes(cgraph_integer_t *primes, cgraph_integer_t *isprime, const cgraph_integer_t data);
+extern cgraph_bool_t cgraph_math_prime(const cgraph_int_t data);
+extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime, const cgraph_int_t data);
 
 #define	CGRAPH_RANDOM_MAX	2147483647
 
-extern cgraph_integer_t cgraph_random(void);
-extern cgraph_integer_t cgraph_random_uniform(const cgraph_integer_t min, const cgraph_integer_t max);
-extern cgraph_real_t cgraph_random_normal(const cgraph_real_t mu, const cgraph_real_t sigma);
+extern cgraph_int_t cgraph_random(void);
+extern cgraph_int_t cgraph_random_uniform(const cgraph_int_t min, const cgraph_int_t max);
+extern cgraph_float64_t cgraph_random_normal(const cgraph_float64_t mu, const cgraph_float64_t sigma);
 
-extern cgraph_real_t cgraph_math_logn(const cgraph_real_t n, const cgraph_real_t x);
-extern cgraph_integer_t cgraph_math_pow2(const cgraph_integer_t n);
-extern cgraph_integer_t cgraph_math_log2(const cgraph_integer_t n);
-extern cgraph_integer_t cgraph_math_mod2(const cgraph_integer_t n);
-extern cgraph_integer_t cgraph_math_bin2gray(const cgraph_integer_t data);
-extern cgraph_integer_t cgraph_math_gray2bin(const cgraph_integer_t data);
+extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n, const cgraph_float64_t x);
+extern cgraph_int_t cgraph_math_pow2(const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_log2(const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_mod2(const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data);
+extern cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data);
 
 #ifdef __cplusplus
 }

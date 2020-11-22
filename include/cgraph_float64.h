@@ -1,5 +1,5 @@
-#ifndef _CGRAPH_FLOAT_H_
-#define _CGRAPH_FLOAT_H_
+#ifndef _CGRAPH_FLOAT64_H_
+#define _CGRAPH_FLOAT64_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -7,7 +7,7 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define TYPE_FLOAT
+#define TYPE_FLOAT64
 #include "templete.h"
 
 #include "float_base.ht"
@@ -18,4 +18,4 @@ extern "C" {
 }
 #endif
 
-#endif /* _CGRAPH_FLOAT_H_ */
+#endif /* _CGRAPH_FLOAT64_H_ */

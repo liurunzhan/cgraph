@@ -23,8 +23,9 @@ extern "C" {
 
 typedef struct 
 {
-  cgraph_boolean_t postive;
   CGRAPH_DATA_BASE
+  cgraph_bool_t postive;
+  CGRAPH_DATA_ROOT
 }cgraph_bigint_t;
 
 #include "data_base.ht"
@@ -36,12 +37,12 @@ extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 
-extern cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
-extern cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y);
-extern cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y);
-extern cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
-extern cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
-extern cgraph_boolean_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 extern cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis);
 
 #include "templete_off.h"

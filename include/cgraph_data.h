@@ -5,10 +5,10 @@
 extern "C" {
 #endif
 
-#include "cgraph_integer.h"
-#include "cgraph_real.h"
-#include "cgraph_boolean.h"
-#include "cgraph_float.h"
+#include "cgraph_int.h"
+#include "cgraph_float64.h"
+#include "cgraph_bool.h"
+#include "cgraph_float32.h"
 #include "cgraph_long.h"
 #include "cgraph_int8.h"
 #include "cgraph_int16.h"

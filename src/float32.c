@@ -1,17 +1,10 @@
 #include <math.h>
 #include "cgraph_memory.h"
-#include "cgraph_real.h"
+#include "cgraph_float32.h"
 
-#define TYPE_REAL
+#define TYPE_FLOAT32
 #include "templete.h"
 
 #include "float_base.ct"
-
-void FUNCTION(TYPE, test)(void)
-{
-#ifdef DEBUG
-
-#endif
-}
 
 #include "templete_off.h"

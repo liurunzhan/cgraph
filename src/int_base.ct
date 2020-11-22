@@ -1,14 +1,14 @@
 #include "data_base.ct"
 
-cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
 {
   return NULL == cthis ? CGRAPH_FALSE : CGRAPH_TRUE;
 }
 
-cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != _x && NULL != _y)
   {
     if(EQ(_x, _y))
@@ -23,7 +23,7 @@ cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
 void *FUNCTION(NAME, divrs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  cgraph_real_t *object_z = (cgraph_real_t *)z;
+  cgraph_float64_t *object_z = (cgraph_float64_t *)z;
   if(NULL != _x && NULL != _y && NULL != object_z)
   {
     cgraph_size_t i;
@@ -126,27 +126,27 @@ TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_s
   return x & ((ONES << (to % BITS)) | (~(ONES << (from % BITS))));
 }
 
-cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
 {
   return CGRAPH_TEST((0 == x));
 }
 
-cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x)
 {
   return CGRAPH_TEST((0 < x));
 }
 
-cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x)
 {
   return CGRAPH_TEST((0 > x));
 }
 
-cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
 {
   return CGRAPH_TEST((MIN == x));
 }
 
-cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
 {
   return CGRAPH_TEST((MAX == x));
 }

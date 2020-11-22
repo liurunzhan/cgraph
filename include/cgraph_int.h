@@ -1,5 +1,5 @@
-#ifndef _CGRAPH_REAL_H_
-#define _CGRAPH_REAL_H_
+#ifndef _CGRAPH_INTEGER_H_
+#define _CGRAPH_INTEGER_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -7,10 +7,10 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define TYPE_REAL
+#define TYPE_INT
 #include "templete.h"
 
-#include "float_base.ht"
+#include "int_base.ht"
 
 #include "templete_off.h"
 
@@ -18,4 +18,4 @@ extern "C" {
 }
 #endif
 
-#endif /* _CGRAPH_REAL_H_ */
+#endif /* _CGRAPH_INTEGER_H_ */

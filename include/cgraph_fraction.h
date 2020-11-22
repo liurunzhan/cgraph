@@ -23,22 +23,22 @@ typedef struct
 
 /*                                public apis                                 */
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
-extern cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y);
+extern cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y);
 
 /*                             initial functions                              */
 extern TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den);
 extern TYPE FUNCTION(NAME, initwn)(const DATA_TYPE num);
 extern TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den);
 
-extern cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, ispos)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, isneg)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y);
@@ -60,13 +60,13 @@ extern TYPE FUNCTION(NAME, powf)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, abs)(const TYPE x);
 
-extern cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x);
-extern cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 
 #include "templete_off.h"
 

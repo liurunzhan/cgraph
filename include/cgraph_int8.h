@@ -10,7 +10,7 @@ extern "C" {
 #define TYPE_INT8
 #include "templete.h"
 
-#include "integer_base.ht"
+#include "int_base.ht"
 
 #include "templete_off.h"
 

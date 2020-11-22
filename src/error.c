@@ -37,7 +37,7 @@ void cgraph_error_details_md(FILE *fp)
 {
   if((NULL != fp) && (0 == ferror(fp)))
   {
-    cgraph_integer_t i;
+    cgraph_int_t i;
     fprintf(fp, "| ERROR TYPE | ERROR DETAIL |\n| :-: | :-: |\n");
     for(i=0; i<CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS; i++)
     { fprintf(fp, "| %d | %s |\n", i, CGRAPH_ERROR_STRING(i)); }
@@ -53,7 +53,7 @@ void cgraph_error_details_csv(FILE *fp)
 {
   if((NULL != fp) && (0 == ferror(fp)))
   {
-    cgraph_integer_t i;
+    cgraph_int_t i;
     fprintf(fp, "ERROR TYPE,ERROR DETAIL\n");
     for(i=0; i<CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS; i++)
     { fprintf(fp, "%d,%s\n", i, CGRAPH_ERROR_STRING(i)); }

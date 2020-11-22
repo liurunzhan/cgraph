@@ -14,10 +14,10 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash);
 }
 
-cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
 {
   TYPE _cthis = *(TYPE *)cthis;
-  cgraph_boolean_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_TRUE;
   if(0 == TIME_YEAR(_cthis))
   { flag = CGRAPH_FALSE; }
   else if((0 > TIME_MONTH(_cthis)) || (12 < TIME_MONTH(_cthis)))
@@ -34,61 +34,61 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
   TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
 
   return FUNCTION(NAME, eq)(object_x, object_y);
 }
 
-cgraph_boolean_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)
+cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(TIME_VALUE(x) == TIME_VALUE(y))
   { flag = CGRAPH_TRUE; }
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y)
+cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(TIME_VALUE(x) != TIME_VALUE(y))
   { flag = CGRAPH_TRUE; }
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y)
+cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(TIME_VALUE(x) > TIME_VALUE(y))
   { flag = CGRAPH_TRUE; }
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y)
+cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(TIME_VALUE(x) >= TIME_VALUE(y))
   { flag = CGRAPH_TRUE; }
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y)
+cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(TIME_VALUE(x) < TIME_VALUE(y))
   { flag = CGRAPH_TRUE; }
 
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, le)(const TYPE x, const TYPE y)
+cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(TIME_VALUE(x) <= TIME_VALUE(y))
   { flag = CGRAPH_TRUE; }
 

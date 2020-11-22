@@ -21,9 +21,9 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash);
 }
 
-cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != cthis)
   {
     TYPE _cthis = *(TYPE *)cthis;
@@ -34,9 +34,9 @@ cgraph_boolean_t FUNCTION(NAME, check)(const void *cthis)
   return flag;
 }
 
-cgraph_boolean_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
 {
-  cgraph_boolean_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != x && NULL != y)
   {
     TYPE _x = *(TYPE *)x, _y = *(TYPE *)y;
@@ -282,43 +282,43 @@ TYPE FUNCTION(NAME, sqrt)(const TYPE x)
   return res;
 }
 
-cgraph_boolean_t FUNCTION(NAME, isnan)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x)
 {
   return CGRAPH_TEST(DATA_ISNAN(COMPLEX_REAL(x)) || DATA_ISNAN(COMPLEX_IMAG(x)));
 }
 
-cgraph_boolean_t FUNCTION(NAME, isinf)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x)
 {
   return CGRAPH_TEST(DATA_ISINF(COMPLEX_REAL(x)) || DATA_ISINF(COMPLEX_IMAG(x)));
 }
 
-cgraph_boolean_t FUNCTION(NAME, ispinf)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x)
 {
   return CGRAPH_TEST(DATA_ISPINF(COMPLEX_REAL(x)) || DATA_ISPINF(COMPLEX_IMAG(x)));
 }
 
-cgraph_boolean_t FUNCTION(NAME, isninf)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x)
 {
   return CGRAPH_TEST(DATA_ISNINF(COMPLEX_REAL(x)) || DATA_ISPINF(COMPLEX_IMAG(x)));
 }
 
 static const TYPE _cgraph_complex_zero = ZERO;
 
-cgraph_boolean_t FUNCTION(NAME, iszero)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
 {
   return EQ(x, _cgraph_complex_zero);
 }
 
 static const TYPE _cgraph_complex_max = MAX;
 
-cgraph_boolean_t FUNCTION(NAME, ismax)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
 {
   return EQ(x, _cgraph_complex_max);
 }
 
 static const TYPE _cgraph_complex_min = MIN;
 
-cgraph_boolean_t FUNCTION(NAME, ismin)(const TYPE x)
+cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
 {
   return EQ(x, _cgraph_complex_min);
 }
