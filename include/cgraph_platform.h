@@ -5,76 +5,63 @@
 extern "C" {
 #endif
 
-
-#ifdef PLAT_MODE 
-  #undef PLAT_MODE
-#endif
-
-#ifdef PLAT_PSPLIT
-  #undef PLAT_PSPLIT
-#endif
-
-#ifdef PLAT_FEND
-  #undef PLAT_FEND
-#endif
-
-#ifdef PLAT_BITS
-  #undef PLAT_BITS
-#endif
-
-#ifdef PLAT_ENDIAN
-  #undef PLAT_ENDIAN
-#endif
-
 /* supported platform types */
 #if (defined(_WIN32) || defined(_WIN64))
   #if defined(__CYGWIN__)
-    #define PLAT_MODE "cygwin/msys/msys2"
-    #define PLAT_PSPLIT "/"
-    #define PLAT_FEND "\n"
+    #define CGRAPH_PLAT_MODE "cygwin/msys/msys2"
+    #define CGRAPH_PLAT_PSPLIT "/"
+    #define CGRAPH_PLAT_FEND "\n"
   #else
-    #define PLAT_MODE "windows"
-    #define PLAT_PSPLIT "\\"
-    #define PLAT_FEND "\r\n"
+    #define CGRAPH_PLAT_MODE "windows"
+    #define CGRAPH_PLAT_PSPLIT "\\"
+    #define CGRAPH_PLAT_FEND "\r\n"
   #endif
 #elif defined(__APPLE__)
-  #define PLAT_MODE "macos"
-  #define PLAT_PSPLIT "/"
-  #define PLAT_FEND "\r"
+  #define CGRAPH_PLAT_MODE "macos"
+  #define CGRAPH_PLAT_PSPLIT "/"
+  #define CGRAPH_PLAT_FEND "\r"
 #elif defined(__linux__)
-  #define PLAT_MODE "linux"
-  #define PLAT_PSPLIT "/"
-  #define PLAT_FEND "\n"
+  #define CGRAPH_PLAT_MODE "linux"
+  #define CGRAPH_PLAT_PSPLIT "/"
+  #define CGRAPH_PLAT_FEND "\n"
 #elif defined(__unix__)
-  #define PLAT_MODE "unix"
-  #define PLAT_PSPLIT "/"
-  #define PLAT_FEND "\n"
+  #define CGRAPH_PLAT_MODE "unix"
+  #define CGRAPH_PLAT_PSPLIT "/"
+  #define CGRAPH_PLAT_FEND "\n"
 #else
  #error unsupported platforms!!
 #endif
 
-/* supported cpu bits */
-#if defined(_WIN64)
-  #define PLAT_BITS 64
-#elif defined(_WIN32)
-  #define PLAT_BITS 32
-#elif defined(_M_IX86) || defined(__i386__)
-  #define PLAT_BITS 32
-#elif defined(_M_X64) || defined(__x86_64__)
-  #define PLAT_BITS 64
+#if defined(__LITTLE_ENDIAN__)
+  #define CGRAPH_PLAT_ENDIAN 0
+#elif defined(__BIG_ENDIAN__)
+  #define CGRAPH_PLAT_ENDIAN 1
 #else
-  #error only supported 32-bit or 64-bit cpu
+  #define CGRAPH_PLAT_ENDIAN 2
 #endif
 
-#if defined(__LITTLE_ENDIAN__)
-  #define PLAT_ENDIAN 0
-#elif defined(__BIG_ENDIAN__)
-  #define PLAT_ENDIAN 1
+#if defined(__GNUC__)
+  #define CGRAPH_INLINE _inline
+#elif defined(__STDC__)
+  #define CGRAPH_INLINE inline
+#endif
+
+#if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) || defined(__x86_64__)
+  #define CGRAPH_WORDSIZE 64
+#elif (__WORDSIZE == 32) || defined(_WIN32) || defined(_M_IX86) || defined(__i386__)
+  #define CGRAPH_WORDSIZE 32
 #else
-  #define PLAT_ENDIAN 2
-  #if defined(__GNUC__)
-    #warning no endian type is defined!
+  #error only 32-bit and 64-bit system are supported!!
+#endif
+
+#if defined(__STDC__)
+  #if defined(__STDC_VERSION__)
+    #define CGRAPH_STDC_VERSION __STDC_VERSION__
+  #else
+    #define CGRAPH_STDC_VERSION 1989L
   #endif
+#else
+  #error only standard c is suppoted!!
 #endif
 
 #ifdef __cplusplus

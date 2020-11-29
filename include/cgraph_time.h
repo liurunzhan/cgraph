@@ -16,9 +16,7 @@ extern "C" {
 #define CGRAPH_TIME_TYPE0  (0)
 #define CGRAPH_TIME_TYPE1 (1)
 
-#if defined(__STDC__)
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) 
-/* C99 OR HIGHER */ 
+#if (CGRAPH_STDC_VERSION >= 199901L) /* C99 OR HIGHER */ 
 typedef struct
 {
   DATA_UTYPE type:1;
@@ -75,10 +73,7 @@ typedef struct
 #define TIME_TYPE0(x)  ((x).data.type0)
 #define TIME_TYPE1(x) ((x).data.type1)
 
-#endif /* __STDC_VERSION__ */
-#else
-#error only standard c is suppoted!
-#endif /* __STDC__ */
+#endif /* CGRAPH_STDC_VERSION */
 
 #define TIME_TYPE(x)    ((x).type)
 #define TIME_ISTYPE0(x) ((x).type == 0)

@@ -69,11 +69,13 @@ configure*
 
 # Doc/Markdown Files
 Doxyfile.bak
-doc/*.dot
-doc/*.png
-doc/*.pdf
-doc/html/
-doc/latex/
+doc/
+!doc/build-gtk-doc.sh
+!doc/data.pl
+!doc/headers.pl
+!doc/sources.pl
+!doc/Makefile
+!doc/Introduction.md
 
 # compile scripts
 script/compile

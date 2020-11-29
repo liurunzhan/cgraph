@@ -21,27 +21,7 @@ extern "C" {
  * c-type string type   : char *
 */
 
-#ifndef CGRAPH_WORDSIZE
-  #if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) || defined(__x86_64__)
-    #define CGRAPH_WORDSIZE 64
-  #elif (__WORDSIZE == 32) || defined(_WIN32) || defined(_M_IX86) || defined(__i386__)
-    #define CGRAPH_WORDSIZE 32
-  #else
-    #error only 32-bit and 64-bit system are supported!!
-  #endif
-#endif
-
-#ifndef CGRAPH_STDC_VERSION
-  #if defined(__STDC__)
-    #if defined(__STDC_VERSION__)
-      #define CGRAPH_STDC_VERSION __STDC_VERSION__
-    #else
-      #define CGRAPH_STDC_VERSION 1989L
-    #endif
-  #else
-    #error only standard c is suppoted!!
-  #endif
-#endif
+#include "cgraph_platform.h"
 
 #include <stddef.h>
 #include <limits.h>
@@ -268,7 +248,7 @@ typedef signed long     cgraph_size_t;
       #error unsupported C compiler in 32-bit system
     #endif
   #endif /* CGRAPH_WORDSIZE */
-#endif /* __STDC_VERSION__ */
+#endif /* CGRAPH_STDC_VERSION */
 
 /** 
  * @typedef cgraph_float32_t
@@ -427,6 +407,7 @@ typedef struct
   cgraph_size_t (*len)(const void *cthis);
   cgraph_size_t (*asize)(const void* cthis);
   cgraph_size_t (*csize)(const cgraph_type_t type, const cgraph_size_t size);
+  void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_bool_t *error);
   void (*free)(void *gthis);

@@ -12,22 +12,18 @@ typedef struct
 {
   struct cgraph_keyval_t *next;
   cgraph_size_t addr;
-#ifdef __STDC__
-  #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-    union
-    {
-      cgraph_string_t *name;
-      cgraph_size_t id;
-    };
-  #else
-    union 
-    {
-      cgraph_string_t *names;
-      cgraph_size_t id;
-    }key;
-  #endif
+#if (CGRAPH_STDC_VERSION >= 199901L)
+  union
+  {
+    cgraph_string_t *name;
+    cgraph_size_t id;
+  };
 #else
-  #error only standard c is suppoted!
+  union 
+  {
+    cgraph_string_t *names;
+    cgraph_size_t id;
+  }key;
 #endif
 }cgraph_keyval_t;
 

@@ -99,14 +99,10 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
   {
     va_list args;
     va_start(args, format);
-  #ifdef __STDC__
-    #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-      len = vsnprintf(cthis->data, cthis->size, format, args);
-    #else
-      len = vsprintf(cthis->data, format, args);
-    #endif
+  #if (CGRAPH_STDC_VERSION >= 199901L)
+    len = vsnprintf(cthis->data, cthis->size, format, args);
   #else
-    #error only standard c is supported
+    len = vsprintf(cthis->data, format, args);
   #endif
     va_end(args);
     if(0 < len)

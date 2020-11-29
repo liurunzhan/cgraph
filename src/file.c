@@ -184,9 +184,9 @@ cgraph_bool_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_s
 }
 
 
-static const cgraph_char_t *_platform = PLAT_MODE;
-static const cgraph_char_t *_path_split = PLAT_PSPLIT;
-static const cgraph_char_t *_file_end = PLAT_FEND;
+static const cgraph_char_t *_platform = CGRAPH_PLAT_MODE;
+static const cgraph_char_t *_path_split = CGRAPH_PLAT_PSPLIT;
+static const cgraph_char_t *_file_end = CGRAPH_PLAT_FEND;
 
 const static union cgraph_endian_t 
 {

@@ -21,7 +21,8 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, hasdata), /**< cgraph_bool_t (*hasdata)(void);               */
   FUNCTION(NAME, len),     /**< cgraph_size_t (*len)(const void *cthis);      */
   FUNCTION(NAME, asize),   /**< cgraph_size_t (*asize)(const void *cthis);    */
-  FUNCTION(NAME, csize),   /**< cgraph_size_t (*csize)(const cgraph_type_t type, const cgraph_size_t size）;                                           */
+  FUNCTION(NAME, csize),   /**< cgraph_size_t (*csize)(const cgraph_type_t type, const cgraph_size_t size);                                            */
+  FUNCTION(NAME, update),  /**< void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size);                              */
   FUNCTION(NAME, calloc),  /**< void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);                                                        */
   FUNCTION(NAME, realloc), /**< void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size);                      */
   FUNCTION(NAME, free),    /**< void (*free)(void *cthis);                    */
@@ -29,35 +30,40 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, hash)     /**< cgraph_size_t (*hash)(const void *cthis);     */
 };
 
-cgraph_type_t FUNCTION(NAME, type)(void)
+CGRAPH_INLINE cgraph_type_t FUNCTION(NAME, type)(void)
 { return STRUCT(NAME)._type; }
 
-cgraph_char_t *FUNCTION(NAME, name)(void)
+CGRAPH_INLINE cgraph_char_t *FUNCTION(NAME, name)(void)
 { return STRUCT(NAME)._name; }
 
-cgraph_size_t FUNCTION(NAME, size)(void)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(void)
 { return STRUCT(NAME)._size; }
 
-cgraph_size_t FUNCTION(NAME, psize)(void)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, psize)(void)
 { return STRUCT(NAME)._psize; }
 
-cgraph_size_t FUNCTION(NAME, msize)(void)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(void)
 { return STRUCT(NAME)._msize; }
 
-cgraph_size_t FUNCTION(NAME, dsize)(void)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, dsize)(void)
 { return STRUCT(NAME)._dsize; }
 
-cgraph_bool_t FUNCTION(NAME, hasdata)(void)
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, hasdata)(void)
 { return CGRAPH_TRUE; }
 
-cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 { return NULL != cthis ? ((TYPE *)cthis)->len : 0; }
 
-cgraph_size_t FUNCTION(NAME, asize)(const void *cthis)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, asize)(const void *cthis)
 { return NULL != cthis ? ((TYPE *)cthis)->size : 0; }
 
-cgraph_size_t FUNCTION(NAME, csize)(const cgraph_type_t type, const cgraph_size_t size)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, csize)(const cgraph_type_t type, const cgraph_size_t size)
 { return sizeof(TYPE) + size * sizeof(DATA_TYPE *); }
+
+CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)
+{
+  return cthis;
+}
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {

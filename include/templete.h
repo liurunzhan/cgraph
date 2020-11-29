@@ -520,7 +520,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #else
   #define CGRAPH_DATA_ROOT \
   DATA_TYPE *data, *root;
-#endif /* __STDC_VERSION__ */
+#endif /* CGRAPH_STDC_VERSION */
 
 #define CGRAPH_STRUCTURE_BASE \
   CGRAPH_DATA_BASE \
@@ -605,27 +605,23 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EXCHANGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;} while(0)
   
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64)
-  #if defined(__STDC__) 
- 	  #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) && defined(_MATH_H_)
- 	    #define DATA_TEST(a) isnormal((a))
- 	    #define DATA_ISNAN(a) isnan((a))
- 	    #define DATA_ISPINF(a) (isinf((a)) > 0)
- 	    #define DATA_ISNINF(a) (isinf((a)) < 0)
- 	    #define DATA_ISINF(a) isinf((a))
- 	    #define DATA_ISPOS(a) signbit((a))
- 	    #define DATA_ISNEG(a) (!signbit((a)))
- 	  #else
- 	    #define DATA_TEST(a) ((MIN < (a)) && (MAX > (a)))
- 	    #define DATA_ISNAN(a) ((a) != (a))
- 	    #define DATA_ISPINF(a) (MAX < (a))
- 	    #define DATA_ISNINF(a) (MIN > (a))
- 	    #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
- 	    #define DATA_ISPOS(a) GR((a), 0.0)
- 	    #define DATA_ISNEG(a) LS((a), 0.0)
- 	  #endif /* __STDC_VERSION__ */
+  #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
+    #define DATA_TEST(a) isnormal((a))
+    #define DATA_ISNAN(a) isnan((a))
+    #define DATA_ISPINF(a) (isinf((a)) > 0)
+    #define DATA_ISNINF(a) (isinf((a)) < 0)
+    #define DATA_ISINF(a) isinf((a))
+    #define DATA_ISPOS(a) signbit((a))
+    #define DATA_ISNEG(a) (!signbit((a)))
   #else
-    #error only standard c is suppoted!
-  #endif /* __STDC__ */
+    #define DATA_TEST(a) ((MIN < (a)) && (MAX > (a)))
+    #define DATA_ISNAN(a) ((a) != (a))
+    #define DATA_ISPINF(a) (MAX < (a))
+    #define DATA_ISNINF(a) (MIN > (a))
+    #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
+    #define DATA_ISPOS(a) GR((a), 0.0)
+    #define DATA_ISNEG(a) LS((a), 0.0)
+  #endif /* CGRAPH_STDC_VERSION */
   
   #define ADD(a, b, c) ((a) + (b))
   #define SUB(a, b, c) ((a) - (b))
@@ -675,27 +671,23 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define DIV(a, b, c) FUNCTION(NAME, div1t)((a), (b))
   
 #elif defined(TYPE_COMPLEX)
-  #if defined(__STDC__) 
-    #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) && defined(_MATH_H_)
-      #define DATA_TEST(a) isnormal((a))
-      #define DATA_ISNAN(a) isnan((a))
-      #define DATA_ISPINF(a) (isinf((a)) > 0)
-      #define DATA_ISNINF(a) (isinf((a)) < 0)
-      #define DATA_ISINF(a) isinf((a))
-      #define DATA_ISPOS(a) signbit((a))
-      #define DATA_ISNEG(a) (!signbit((a)))
-    #else
-      #define DATA_TEST(a) ((DATA_MIN < (a)) && (DATA_MAX > (a)))
-      #define DATA_ISNAN(a) ((a) != (a))
-      #define DATA_ISPINF(a) (DATA_MAX < (a))
-      #define DATA_ISNINF(a) (DATA_MIN > (a))
-      #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
-      #define DATA_ISPOS(a) GR((a), 0.0)
-      #define DATA_ISNEG(a) LS((a), 0.0)
-    #endif /* __STDC_VERSION__ */
+  #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
+    #define DATA_TEST(a) isnormal((a))
+    #define DATA_ISNAN(a) isnan((a))
+    #define DATA_ISPINF(a) (isinf((a)) > 0)
+    #define DATA_ISNINF(a) (isinf((a)) < 0)
+    #define DATA_ISINF(a) isinf((a))
+    #define DATA_ISPOS(a) signbit((a))
+    #define DATA_ISNEG(a) (!signbit((a)))
   #else
-    #error only standard c is suppoted!
-  #endif /* __STDC__ */
+    #define DATA_TEST(a) ((DATA_MIN < (a)) && (DATA_MAX > (a)))
+    #define DATA_ISNAN(a) ((a) != (a))
+    #define DATA_ISPINF(a) (DATA_MAX < (a))
+    #define DATA_ISNINF(a) (DATA_MIN > (a))
+    #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
+    #define DATA_ISPOS(a) GR((a), 0.0)
+    #define DATA_ISNEG(a) LS((a), 0.0)
+  #endif /* CGRAPH_STDC_VERSION */
   
   #define ADD(a, b, c) FUNCTION(NAME, addc)((a), (b))
   #define SUB(a, b, c) FUNCTION(NAME, subc)((a), (b))
