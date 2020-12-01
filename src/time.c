@@ -100,7 +100,7 @@ TYPE FUNCTION(NAME, initc)(const cgraph_char_t *cthis, const cgraph_char_t *sep)
   TYPE res;
   if((NULL != cthis) && (NULL != sep))
   {
-    char *buffer = cgraph_calloc(strlen(cthis), sizeof(cgraph_char_t));
+    char *buffer = cgraph_calloc(strlen(cthis));
     if(NULL != buffer)
     {
       buffer = cgraph_strcpy(buffer, cthis);

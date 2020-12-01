@@ -60,7 +60,7 @@ cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis, cgraph_size_t *len)
     }
     if(NULL != _str)
     {
-      str = cgraph_calloc(_size, sizeof(cgraph_char_t));
+      str = cgraph_calloc(_size);
       if(NULL != str)
       {
         cgraph_strcpy(str, _str);

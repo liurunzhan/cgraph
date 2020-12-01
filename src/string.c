@@ -287,6 +287,8 @@ void FUNCTION(NAME, test)(void)
   TYPE *string = FUNCTION(NAME, calloc)(ID, 10000);
   char *str = "hello world!";
   fprintf(stdout, "test %s\n", STRING(NAME));
+  if(NULL != string)
+  { printf("hello!\n"); }
   FUNCTION(NAME, initd)(string, str, strlen(str)+1);
   fprintf(stdout, "%s\n", string->data);
 

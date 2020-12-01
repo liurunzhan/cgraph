@@ -34,13 +34,13 @@ extern "C" {
  * @def CGRAPH_CHAR_MAX CHAR_MAX
  * @def CGRAPH_CHAR_MIN CHAR_MIN
  * @def CGRAPH_CHAR_EPS (0xFF)
- * @def CGRAPH_CHAR_BIT CHAR_BIT
+ * @def CGRAPH_CHAR_BIT (8)
  */
 typedef char            cgraph_char_t;
 #define CGRAPH_CHAR_MAX CHAR_MAX
 #define CGRAPH_CHAR_MIN CHAR_MIN
 #define CGRAPH_CHAR_EPS (0xFF)
-#define CGRAPH_CHAR_BIT CHAR_BIT
+#define CGRAPH_CHAR_BIT (8)
 
 /** 
  * @typedef cgraph_bool_t
@@ -64,14 +64,14 @@ typedef signed int      cgraph_bool_t;
  * @def CGRAPH_INT_MAX INT_MAX
  * @def CGRAPH_INT_MIN INT_MIN
  * @def CGRAPH_INT_EPS (0xFFFFFFFF)
- * @def CGRAPH_INT_BIT WORD_BIT
+ * @def CGRAPH_INT_BIT (32)
  */
 typedef signed int      cgraph_int_t;
 typedef unsigned int    cgraph_uint_t;
 #define CGRAPH_INT_MAX  INT_MAX
 #define CGRAPH_INT_MIN  INT_MIN
 #define CGRAPH_INT_EPS  (0xFFFFFFFF)
-#define CGRAPH_INT_BIT  WORD_BIT
+#define CGRAPH_INT_BIT  (32)
 
 /** 
  * @typedef cgraph_uint_t
@@ -79,12 +79,12 @@ typedef unsigned int    cgraph_uint_t;
  * @def CGRAPH_UINT_MAX UINT_MAX
  * @def CGRAPH_UINT_MIN UINT_MIN
  * @def CGRAPH_UINT_EPS (0xFFFFFFFF)
- * @def CGRAPH_UINT_BIT WORD_BIT
+ * @def CGRAPH_UINT_BIT (32)
  */
 #define CGRAPH_UINT_MAX  UINT_MAX
 #define CGRAPH_UINT_MIN  UINT_MIN
 #define CGRAPH_UINT_EPS  (0xFFFFFFFF)
-#define CGRAPH_UINT_BIT  WORD_BIT
+#define CGRAPH_UINT_BIT  (32)
 
 /** 
  * @typedef cgraph_long_t 
@@ -133,15 +133,11 @@ typedef unsigned long   cgraph_ulong_t;
  * @def CGRAPH_SIZE_BIT (32)/(64)
  */
 typedef signed long     cgraph_size_t;
-#define CGRAPH_SIZE_MAX LONG_MAX
-#define CGRAPH_SIZE_MIN LONG_MIN
-#if CGRAPH_WORDSIZE == 64
-  #define CGRAPH_SIZE_EPS (64)
-  #define CGRAPH_SIZE_BIT (0xFFFFFFFFFFFFFFFF)
-#elif CGRAPH_WORDSIZE == 32
-  #define CGRAPH_SIZE_EPS (32)
-  #define CGRAPH_SIZE_BIT (0xFFFFFFFF)
-#endif
+#define CGRAPH_SIZE_MAX CGRAPH_LONG_MAX
+#define CGRAPH_SIZE_MIN CGRAPH_LONG_MIN
+#define CGRAPH_SIZE_EPS CGRAPH_LONG_EPS
+#define CGRAPH_SIZE_BIT CGRAPH_LONG_BIT
+
 
 #if (CGRAPH_STDC_VERSION >= 199901L) /**< C99 OR HIGHER SUPPORTED! */
   #include <stdint.h>

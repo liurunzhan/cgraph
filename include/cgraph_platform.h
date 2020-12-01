@@ -40,12 +40,6 @@ extern "C" {
   #define CGRAPH_PLAT_ENDIAN 2
 #endif
 
-#if defined(__GNUC__)
-  #define CGRAPH_INLINE _inline
-#elif defined(__STDC__)
-  #define CGRAPH_INLINE inline
-#endif
-
 #if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) || defined(__x86_64__)
   #define CGRAPH_WORDSIZE 64
 #elif (__WORDSIZE == 32) || defined(_WIN32) || defined(_M_IX86) || defined(__i386__)
@@ -62,6 +56,12 @@ extern "C" {
   #endif
 #else
   #error only standard c is suppoted!!
+#endif
+
+#if CGRAPH_STDC_VERSION >= 199901L
+  #define CGRAPH_INLINE inline
+#else
+  #define CGRAPH_INLINE
 #endif
 
 #ifdef __cplusplus

@@ -67,7 +67,7 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
-  TYPE *cthis = (TYPE *)cgraph_calloc(sizeof(TYPE) + (size+CGRAPH_MEMORY_FREED_SIZE)*OBJECT(type, msize)(), 1);
+  TYPE *cthis = (TYPE *)cgraph_calloc(sizeof(TYPE) + (size+CGRAPH_MEMORY_FREED_SIZE)*OBJECT(type, msize)());
   if(NULL != cthis)
   {
     CGRAPH_DTYPE_TYPE(cthis) = type;
@@ -89,7 +89,7 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgrap
     _type = CGRAPH_DTYPE_TYPE(_cthis);
     _size = (FUNCTION(NAME, size)() + (_cthis->size+CGRAPH_MEMORY_FREED_SIZE)*OBJECT(_type, msize)());
   }
-  _cthis = (TYPE *)cgraph_realloc(_cthis, _size, FUNCTION(NAME, size)() + (new_size+CGRAPH_MEMORY_FREED_SIZE)*FUNCTION(NAME, msize)(), 1, error);
+  _cthis = (TYPE *)cgraph_realloc(_cthis, _size, FUNCTION(NAME, size)() + (new_size+CGRAPH_MEMORY_FREED_SIZE)*FUNCTION(NAME, msize)(), error);
   if((NULL != error) && (CGRAPH_FALSE == *error))
   {
     CGRAPH_DTYPE_TYPE(_cthis) = _type;

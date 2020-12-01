@@ -3,19 +3,17 @@
 #include "cgraph_error.h"
 #include "cgraph_memory.h"
 
-void *cgraph_calloc(const cgraph_size_t len, const cgraph_size_t data_size)
+void *cgraph_calloc(const cgraph_size_t size)
 {
   void *cthis = NULL;
-  if((0 < len) && (0 < data_size))
-  { cthis = calloc(len, data_size); }
+  if(0 < size)
+  { cthis = calloc(size, 1); }
 #ifdef DEBUG
   else
   {
     fflush(stdout);
-    if(0 >= len)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "memory length %ld is a negative number or equal to zero", len); }
-    if(0 >= data_size)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "data size %ld is a negative number or equal to zero", data_size); }
+    if(0 >= size)
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "memory size %ld is a negative number or equal to zero", size); }
     fflush(stderr);
   }
 #endif
@@ -23,43 +21,28 @@ void *cgraph_calloc(const cgraph_size_t len, const cgraph_size_t data_size)
   return cthis;
 }
 
-void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size_t new_len, const cgraph_size_t data_size, cgraph_bool_t *error)
+void *cgraph_realloc(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_bool_t *error)
 {
   void *_cthis = cthis;
   if(NULL != error)
   {
     *error = CGRAPH_FALSE;
-    if((0 < data_size) && (0 <= old_len))
+    /** memory lazy release */
+    if(new_size > old_size)
     {
-      /* memory lazy release */
-      if(new_len > old_len)
+      _cthis = realloc(cthis, new_size);
+      if(NULL != _cthis)
+      { _cthis = memset((cgraph_addr8_t *)_cthis+old_size, 0, (new_size-old_size)); }
+      else
       {
-        _cthis = realloc(cthis, new_len*data_size);
-        if(NULL != _cthis)
-        { _cthis = memset((cgraph_addr8_t *)_cthis+(old_len*data_size), 0, (new_len-old_len)*data_size); }
-        else
-        {
-        #ifdef DEBUG
-          fflush(stdout);
-          cgraph_error_log(stderr, __FILE__, __LINE__, "memory is re-allocated error, and the pointer is kept to the old one");
-          fflush(stderr);
-        #endif
-          _cthis = cthis;
-          *error = CGRAPH_TRUE;
-        }
+      #ifdef DEBUG
+        fflush(stdout);
+        cgraph_error_log(stderr, __FILE__, __LINE__, "memory is re-allocated error, and the pointer is kept to the old one");
+        fflush(stderr);
+      #endif
+        _cthis = cthis;
+        *error = CGRAPH_TRUE;
       }
-    }
-    else
-    {
-    #ifdef DEBUG
-      fflush(stdout);
-      if(0 >= old_len)
-      { cgraph_error_log(stderr, __FILE__, __LINE__, "old length %ld is a negative number or equal to zero", old_len); }
-      if(0 >= data_size)
-      { cgraph_error_log(stderr, __FILE__, __LINE__, "data size %ld is a negative number or equal to zero", data_size); }
-      fflush(stderr);
-    #endif
-      *error = CGRAPH_TRUE;
     }
   }
 #ifdef DEBUG
@@ -74,23 +57,11 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_len, const cgraph_size
   return _cthis;
 }
 
-void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t len, const cgraph_size_t data_size)
+void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size)
 {
   void *_object = object;
-  if((NULL != object) && (NULL != cthis) && (object != cthis) && (0 < len) && (0 < data_size))
-  {
-    cgraph_size_t mem_len = len * data_size;
-    if(0 < mem_len)
-    { _object = memcpy(object, cthis, mem_len); }
-  #ifdef DEBUG
-    else
-    {
-      fflush(stdout);
-      cgraph_error_log(stderr, __FILE__, __LINE__, "copy %ldx%ld memory error", len, data_size);
-      fflush(stderr);
-    }
-  #endif
-  }
+  if((NULL != object) && (NULL != cthis) && (object != cthis) && (0 < size))
+  { _object = memcpy(object, cthis, size); }
 #ifdef DEBUG
   else
   {
@@ -101,10 +72,8 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t len, co
     { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is empty"); }
     if(object == cthis)
     { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is equal to target pointer"); }
-    if(0 >= len)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "length %ld is a negative number or equal to zero", len); }
-    if(0 >= data_size)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "data size %ld is a negative number or equal to zero", data_size); }
+    if(0 >= size)
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "memory size %ld is a negative number or equal to zero", size); }
     fflush(stderr);
   }
 #endif
@@ -151,15 +120,14 @@ void cgraph_free(void *cthis)
 #endif
 }
 
-cgraph_bool_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t len, const cgraph_size_t data_size)
+cgraph_bool_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t size)
 {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if(x == y)
   { flag = CGRAPH_TRUE; }
-  else if((NULL != x) && (NULL != y) && (0 < len) && (0 < data_size))
+  else if((NULL != x) && (NULL != y) && (0 < size))
   {
-    cgraph_size_t mem_len = len * data_size;
-    if((0 < mem_len) && (0 == memcmp(x, y, mem_len)))
+    if(0 == memcmp(x, y, size))
     { flag = CGRAPH_TRUE; }
   }
 #ifdef DEBUG
@@ -170,10 +138,8 @@ cgraph_bool_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t le
     { cgraph_error_log(stderr, __FILE__, __LINE__, "target pointer is empty"); }
     if(NULL == y)
     { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is empty"); }
-    if(0 >= len)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "length %ld is a negative number or equal to zero", len); }
-    if(0 >= data_size)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "data size %ld is a negative number or equal to zero", data_size); }
+    if(0 >= size)
+    { cgraph_error_log(stderr, __FILE__, __LINE__, "length %ld is a negative number or equal to zero", size); }
     fflush(stderr);
   }
 #endif
