@@ -90,6 +90,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define OBJECT(type, opt) CGRAPH_SOBJECT(type, opt)
   
 #elif defined(TYPE_BOOL)
+  #define ARG cgraph_long_t
   #define TYPE cgraph_bool_t
   #define ID CGRAPH_BOOL_T
   #define NAME bool
@@ -107,6 +108,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_BOOL_BIT
 
 #elif defined(TYPE_INT)
+  #define ARG cgraph_long_t
   #define TYPE cgraph_int_t
   #define ID CGRAPH_INT_T
   #define NAME int
@@ -124,6 +126,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_INT_BIT
 
 #elif defined(TYPE_LONG)
+  #define ARG cgraph_long_t
   #define TYPE cgraph_long_t
   #define ID CGRAPH_LONG_T
   #define NAME long
@@ -141,6 +144,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_LONG_BIT
   
 #elif defined(TYPE_INT8)
+  #define ARG cgraph_long_t
   #define TYPE cgraph_int8_t
   #define ID CGRAPH_INT8_T
   #define NAME int8
@@ -158,6 +162,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_INT8_BIT
   
 #elif defined(TYPE_INT16)
+  #define ARG cgraph_long_t
   #define TYPE cgraph_int16_t
   #define ID CGRAPH_INT16_T
   #define NAME int16
@@ -175,6 +180,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_INT16_BIT
   
 #elif defined(TYPE_INT32)
+  #define ARG cgraph_long_t
   #define TYPE cgraph_int32_t
   #define ID CGRAPH_INT32_T
   #define NAME int32
@@ -192,6 +198,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_INT32_BIT
   
 #elif defined(TYPE_INT64)
+  #define ARG cgraph_long_t
   #define TYPE cgraph_int64_t
   #define ID CGRAPH_INT64_T
   #define NAME int64
@@ -209,6 +216,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_INT64_BIT
 
 #elif defined(TYPE_FLOAT32)
+  #define ARG cgraph_float64_t
   #define TYPE cgraph_float32_t
   #define ID CGRAPH_FLOAT32_T
   #define NAME float32
@@ -223,6 +231,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EPSILON_LEN CGRAPH_FLOAT32_BIT
 
 #elif defined(TYPE_FLOAT64)
+  #define ARG cgraph_float64_t
   #define TYPE cgraph_float64_t
   #define ID CGRAPH_FLOAT64_T
   #define NAME float64

@@ -168,6 +168,10 @@
 
 /* TYPE PROPERTY */
 
+#ifdef ARG
+  #undef ARG
+#endif
+
 #ifdef TYPE
   #undef TYPE
 #endif

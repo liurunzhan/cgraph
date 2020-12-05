@@ -1,14 +1,15 @@
-ROOT=..
-INC=$(ROOT)$(SEPARATOR)include
-LIB=$(ROOT)$(SEPARATOR)lib
+ROOT = ..
+INC = $(ROOT)$(SEPARATOR)include
+LIB = $(ROOT)$(SEPARATOR)lib
 
-DIR=.
+DIR = .
 
-SOURCE=$(wildcard *.c)
-OBJECT=$(SOURCE:.c=.o)
+SOURCE = $(wildcard *.c)
+OBJECT = $(SOURCE:.c=.o)
+DEPEND = $(SOURCE:.c=.d)
 
-LIBSTATIC_TARGET=$(LIB)$(SEPARATOR)$(LIBSTATIC)
-LIBSHARED_TARGET=$(LIB)$(SEPARATOR)$(LIBSHARED)
+LIBSTATIC_TARGET = $(LIB)$(SEPARATOR)$(LIBSTATIC)
+LIBSHARED_TARGET = $(LIB)$(SEPARATOR)$(LIBSHARED)
 
 .PHONY: all clean distclean
 
@@ -20,11 +21,13 @@ $(LIBSTATIC_TARGET): $(OBJECT)
 $(LIBSHARED_TARGET): $(OBJECT)
 	$(CC) $(CSFLAGS) -o $(LIBSHARED_TARGET) $(OBJECT)
 
-$(OBJECT): %.o: %.c
-	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@ -MD -MF $*.d
+
+-include $(DEPEND)
 
 clean:
-	$(RM) $(RMFLAGS) $(OBJECT)
+	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND)
 
 distclean:
-	$(RM) $(RMFLAGS) $(OBJECT)
+	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND)

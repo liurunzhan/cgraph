@@ -42,7 +42,7 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE
     va_start(args, first);
     cthis[0] = (TYPE)first;
     for(i=1; i<size; i++)
-    { cthis[i] = (TYPE)va_arg(args, TYPE); }
+    { cthis[i] = (TYPE)va_arg(args, ARG); }
     va_end(args);
   }
 
@@ -71,82 +71,82 @@ TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y)
   return x * y / FUNCTION(NAME, gcd)(x, y);
 }
 
-TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y)
+CGRAPH_INLINE TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y)
 {
   return x & y;
 }
 
-TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y)
+CGRAPH_INLINE TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y)
 {
   return x | y;
 }
 
-TYPE FUNCTION(NAME, not)(const TYPE x)
+CGRAPH_INLINE TYPE FUNCTION(NAME, not)(const TYPE x)
 {
   return ~x;
 }
 
-TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y)
+CGRAPH_INLINE TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y)
 {
   return x ^ y;
 }
 
-TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
+CGRAPH_INLINE TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
 {
   return ~(x ^ y);
 }
 
-TYPE FUNCTION(NAME, bit)(const TYPE x, const cgraph_size_t position)
+CGRAPH_INLINE TYPE FUNCTION(NAME, bit)(const TYPE x, const cgraph_size_t position)
 {
   return (x >> (position % BITS)) & 1;
 }
 
-TYPE FUNCTION(NAME, set)(const TYPE x, const cgraph_size_t position)
+CGRAPH_INLINE TYPE FUNCTION(NAME, set)(const TYPE x, const cgraph_size_t position)
 {
   return x | (1 << (position % BITS));
 }
 
-TYPE FUNCTION(NAME, clr)(const TYPE x, const cgraph_size_t position)
+CGRAPH_INLINE TYPE FUNCTION(NAME, clr)(const TYPE x, const cgraph_size_t position)
 {
   return x & (~(1 << (position % BITS)));
 }
 
-TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
+CGRAPH_INLINE TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
   return (x >> (from % BITS)) & (~(ONES << ((to - from) % BITS)));
 }
 
-TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
+CGRAPH_INLINE TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
   return x | ((~((ONES << ((to - from) % BITS)))) << (from % BITS));
 }
 
-TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
+CGRAPH_INLINE TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
   return x & ((ONES << (to % BITS)) | (~(ONES << (from % BITS))));
 }
 
-cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
 {
   return CGRAPH_TEST((0 == x));
 }
 
-cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x)
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x)
 {
   return CGRAPH_TEST((0 < x));
 }
 
-cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x)
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x)
 {
   return CGRAPH_TEST((0 > x));
 }
 
-cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
 {
   return CGRAPH_TEST((MIN == x));
 }
 
-cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
 {
   return CGRAPH_TEST((MAX == x));
 }
@@ -199,7 +199,7 @@ UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data, const UTYPE pol
   {
     msb = (((res ^ temp) >> (BITS-1)) & 0x01);
     if(msb == 0x01)
-    { res = ((res << 1) ^ ONES & poly); }
+    { res = (((res << 1) ^ ONES) & poly); }
     else
     { res = (res << 1); }
     temp = (temp << 1);

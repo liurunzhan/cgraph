@@ -1,15 +1,15 @@
 # a simple Makefile to compile cgraph and generate static and shared library, 
 # which crosses the platforms of windows and linux.
 
-export CC= cc
-export CFLAGS= -pedantic -Wall -fPIC -std=c89
-export MAKE= make
-export AR= ar
-export ARFLAGS= -rcs
-export CSFLAGS= -shared
-export TARGET= cgraph
-export LIBTARGET= lib$(TARGET)
-export MODE= debug
+export CC = gcc
+export CFLAGS = -pedantic -Wall -std=c89
+export MAKE = make
+export AR = ar
+export ARFLAGS = -rcs
+export CSFLAGS = -shared
+export TARGET = cgraph
+export LIBTARGET = lib$(TARGET)
+export MODE = debug
 
 ifeq ($(MODE), debug)
 CFLAGS += -g -DDEBUG
@@ -26,15 +26,19 @@ endif
 # linux
 # referred by http://www.imooc.com/wenda/detail/584860
 ifeq ("$(findstring ;,$(PATH))", ";")
-DETECTED_OS := Windows
+OS := Windows
 else
-DETECTED_OS := $(shell uname 2>/dev/null || echo Unknown)
-DETECTED_OS := $(patsubst CYGWIN%,Cygwin,$(DETECTED_OS))
-DETECTED_OS := $(patsubst MSYS%,MSYS,$(DETECTED_OS))
-DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
+OS := $(shell uname 2>/dev/null || echo Unknown)
+OS := $(patsubst CYGWIN%,Cygwin,$(OS))
+OS := $(patsubst MSYS%,MSYS,$(OS))
+OS := $(patsubst MINGW%,MSYS,$(OS))
 endif
 
-export MY_OS = $(DETECTED_OS)
+export MY_OS = $(OS)
+
+ifneq ($(CC)_$(OS), clang_Windows)
+CFLAGS += -fPIC
+endif
 
 # Windows cmd is available or not
 ifeq ($(shell echo "windows cmd available"), "windows cmd available")
@@ -44,38 +48,38 @@ CMD_AVAI := FALSE
 endif
 
 ifeq ($(CMD_AVAI), TRUE)
-export RM= -del
-export RMFLAGS= /Q /F
-export MKDIR= -mkdir
-export MKDIRFLAGS=
-export RMDIR= -rd
-export RMDIRFLAGS= /Q
-export CP= -copy
-export CPFLAGS= /Y
-export LIBSTATIC= $(LIBTARGET).a
-export LIBSHARED= $(LIBTARGET).dll
-export SEPARATOR= \\
+export RM = -del
+export RMFLAGS = /Q /F
+export MKDIR = -mkdir
+export MKDIRFLAGS =
+export RMDIR = -rd
+export RMDIRFLAGS = /Q
+export CP = -copy
+export CPFLAGS = /Y
+export LIBSTATIC = $(LIBTARGET).a
+export LIBSHARED = $(LIBTARGET).dll
+export SEPARATOR = \\
 else
-export RM= -rm
-export RMFLAGS= -f
-export MKDIR= -mkdir
-export MKDIRFLAGS= -p
-export RMDIR= -rm
-export RMDIRFLAGS= -rf
-export CP= -cp
-export CPFLAGS=
-export LIBSTATIC= $(LIBTARGET).a
-export LIBSHARED= $(LIBTARGET).so
-export SEPARATOR= /
+export RM = -rm
+export RMFLAGS = -f
+export MKDIR = -mkdir
+export MKDIRFLAGS = -p
+export RMDIR = -rm
+export RMDIRFLAGS = -rf
+export CP = -cp
+export CPFLAGS =
+export LIBSTATIC = $(LIBTARGET).a
+export LIBSHARED = $(LIBTARGET).so
+export SEPARATOR = /
 endif
 
-DIR= .
-INC= $(DIR)$(SEPARATOR)include
-SRC= $(DIR)$(SEPARATOR)src
-TST= $(DIR)$(SEPARATOR)test
-LIB= $(DIR)$(SEPARATOR)lib
-PATH_LIBSHARED= $(LIB)$(SEPARATOR)$(LIBSHARED)
-PATH_LIBSTATIC= $(LIB)$(SEPARATOR)$(LIBSTATIC)
+DIR = .
+INC = $(DIR)$(SEPARATOR)include
+SRC = $(DIR)$(SEPARATOR)src
+TST = $(DIR)$(SEPARATOR)test
+LIB = $(DIR)$(SEPARATOR)lib
+PATH_LIBSHARED = $(LIB)$(SEPARATOR)$(LIBSHARED)
+PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
 
 .PHONY: all test clean distclean help
 

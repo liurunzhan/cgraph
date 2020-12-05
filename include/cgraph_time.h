@@ -29,7 +29,7 @@ typedef struct
     };
     struct 
     {
-      DATA_TYPE week:4;   /* maximum is 7      */
+      DATA_TYPE weeks:4;  /* maximum is 7      */
       DATA_TYPE days:10;  /* maximum is 366    */
       DATA_TYPE year:18;  /* maximum is 2^17-1 */
       DATA_TYPE month:5;  /* maximum is 12     */

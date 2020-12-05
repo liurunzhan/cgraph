@@ -5,7 +5,7 @@
 #include "templete.h"
 #include "data_base.ct"
 
-static const cgraph_int8_t cgraph_int8_bits[8] = {
+static const cgraph_uint8_t cgraph_uint8_bits[8] = {
   0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80
 };
 

@@ -143,44 +143,44 @@ typedef signed long     cgraph_size_t;
   #include <stdint.h>
   /**< 8-bit integer number */
   #define CGRAPH_INT8_MIN INT8_MIN
-  #define CGRAPH_INT8_MAX INT8_MIN
+  #define CGRAPH_INT8_MAX INT8_MAX
   #define CGRAPH_INT8_EPS (0xFF)
   #define CGRAPH_INT8_BIT (8)
   #define CGRAPH_UINT8_MIN UINT8_MIN
-  #define CGRAPH_UINT8_MAX UINT8_MIN
+  #define CGRAPH_UINT8_MAX UINT8_MAX
   #define CGRAPH_UINT8_EPS (0xFF)
   #define CGRAPH_UINT8_BIT (8)
   typedef int8_t cgraph_int8_t;
   typedef uint8_t cgraph_uint8_t;
   /**< 16-bit integer number */
   #define CGRAPH_INT16_MIN INT16_MIN
-  #define CGRAPH_INT16_MAX INT16_MIN
+  #define CGRAPH_INT16_MAX INT16_MAX
   #define CGRAPH_INT16_EPS (0xFFFF)
   #define CGRAPH_INT16_BIT (16)
   #define CGRAPH_UINT16_MIN UINT16_MIN
-  #define CGRAPH_UINT16_MAX UINT16_MIN
+  #define CGRAPH_UINT16_MAX UINT16_MAX
   #define CGRAPH_INT16_EPS (0xFFFF)
   #define CGRAPH_INT16_BIT (16)
   typedef int16_t cgraph_int16_t;
   typedef uint16_t cgraph_uint16_t;
   /**< 32-bit integer number */
   #define CGRAPH_INT32_MIN INT32_MIN
-  #define CGRAPH_INT32_MAX INT32_MIN
+  #define CGRAPH_INT32_MAX INT32_MAX
   #define CGRAPH_INT32_EPS (0xFFFFFFFF)
   #define CGRAPH_INT32_BIT (32)
   #define CGRAPH_UINT32_MIN UINT32_MIN
-  #define CGRAPH_UINT32_MAX UINT32_MIN
+  #define CGRAPH_UINT32_MAX UINT32_MAX
   #define CGRAPH_UINT32_EPS (0xFFFFFFFF)
   #define CGRAPH_UINT32_BIT (32)
   typedef int32_t cgraph_int32_t;
   typedef uint32_t cgraph_uint32_t;
   /**< 64-bit integer number */
   #define CGRAPH_INT64_MIN INT64_MIN
-  #define CGRAPH_INT64_MAX INT64_MIN
+  #define CGRAPH_INT64_MAX INT64_MAX
   #define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
   #define CGRAPH_INT64_BIT (64)
   #define CGRAPH_UINT64_MIN UINT64_MIN
-  #define CGRAPH_UINT64_MAX UINT64_MIN
+  #define CGRAPH_UINT64_MAX UINT64_MAX
   #define CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFF)
   #define CGRAPH_UINT64_BIT (64)
   typedef int64_t cgraph_int64_t;

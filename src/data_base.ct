@@ -119,9 +119,8 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
   TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, csize)(type, size));
-  cthis = FUNCTION(NAME, update)(cthis, type, size);
 
-  return cthis;
+  return FUNCTION(NAME, update)(cthis, type, size);
 }
 
 void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error)
@@ -150,6 +149,7 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
     res = (TYPE *)cgraph_memcpy(res, _cthis, FUNCTION(NAME, csize)(ID, _size));
     res = FUNCTION(NAME, update)(res, ID, _size);
   #else
+    res = FUNCTION(NAME, calloc)(ID, size);
     res = (TYPE *)cgraph_memcpy(res, _cthis, FUNCTION(NAME, csize)(ID, size));
   #endif
   }

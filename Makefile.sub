@@ -1,8 +1,8 @@
-ALL= all
-TOOL=
-CMD=
-COMPILE=
-SCRIPT=
+ALL = all
+TOOL =
+CMD =
+COMPILE =
+SCRIPT =
 
 # cross platforms
 # mingw
@@ -13,27 +13,27 @@ SCRIPT=
 # linux
 # referred by http://www.imooc.com/wenda/detail/584860
 ifeq ("$(findstring ;,$(PATH))", ";")
-DETECTED_OS := Windows
+OS := Windows
 else
-DETECTED_OS := $(shell uname 2>/dev/null || echo Unknown)
-DETECTED_OS := $(patsubst CYGWIN%,Cygwin,$(DETECTED_OS))
-DETECTED_OS := $(patsubst MSYS%,MSYS,$(DETECTED_OS))
-# DETECTED_OS := $(patsubst MINGW%,MSYS,$(DETECTED_OS))
+OS := $(shell uname 2>/dev/null || echo Unknown)
+OS := $(patsubst CYGWIN%,Cygwin,$(OS))
+OS := $(patsubst MSYS%,MSYS,$(OS))
+OS := $(patsubst MINGW%,MSYS,$(OS))
 endif
 
-ifeq ($(DETECTED_OS), "Windows")
-CMAKE_FLAGS= "NMake Makefiles"
-else ifeq ($(DETECTED_OS), "CYGWIN")
-CMAKE_FLAGS= "Unix Makefiles"
-else ifeq ($(DETECTED_OS), "MSYS")
-CMAKE_FLAGS= "MSYS Makefiles"
-else ifeq ($(DETECTED_OS), "MINGW")
-CMAKE_FLAGS= "MinGW Makefiles"
+ifeq ($(OS), "Windows")
+CMAKE_FLAGS = "NMake Makefiles"
+else ifeq ($(OS), "CYGWIN")
+CMAKE_FLAGS = "Unix Makefiles"
+else ifeq ($(OS), "MSYS")
+CMAKE_FLAGS = "MSYS Makefiles"
+else ifeq ($(OS), "MINGW")
+CMAKE_FLAGS = "MinGW Makefiles"
 else
-CMAKE_FLAGS= "Unix Makefiles"
+CMAKE_FLAGS = "Unix Makefiles"
 endif
 
-MY_OS = $(DETECTED_OS)
+MY_OS = $(OS)
 
 # Windows cmd is available or not
 ifeq ($(shell echo "windows cmd available"), "windows cmd available")
@@ -43,30 +43,30 @@ CMD_AVAI := FALSE
 endif
 
 ifeq ($(CMD_AVAI), TRUE)
-RM= del
-RMFLAGS= /Q /F
-MKDIR= mkdir
-MKDIRFLAGS=
-RMDIR= rd
-RMDIRFLAGS= /Q
-CP= copy
-CPFLAGS= /Y
-SEPARATOR= \\
-SPLIT= &
+RM = del
+RMFLAGS = /Q /F
+MKDIR = mkdir
+MKDIRFLAGS =
+RMDIR = rd
+RMDIRFLAGS = /Q
+CP = copy
+CPFLAGS = /Y
+SEPARATOR = \\
+SPLIT = &
 else
-RM= rm
-RMFLAGS= -f
-MKDIR= mkdir
-MKDIRFLAGS= -p
-RMDIR= rm
-RMDIRFLAGS= -rf
-CP= cp
-CPFLAGS=
-SEPARATOR= /
-SPLIT= ;
+RM = rm
+RMFLAGS = -f
+MKDIR = mkdir
+MKDIRFLAGS = -p
+RMDIR = rm
+RMDIRFLAGS = -rf
+CP = cp
+CPFLAGS =
+SEPARATOR = /
+SPLIT = ;
 endif
 
-SCRDIR= .$(SEPARATOR)script$(SEPARATOR)
+SCRDIR = .$(SEPARATOR)script$(SEPARATOR)
 
 ifeq ($(MAKELEVEL), 0)
 $(ALL):
@@ -92,64 +92,64 @@ endif
 $(TOOL): $(ALL)
 	
 
-make: SCRIPT= compile.mk
-make: COMPILE= $(MAKE) -f
-make: TOOL= make
+make: SCRIPT = compile.mk
+make: COMPILE = $(MAKE) -f
+make: TOOL = make
 
-cmake: SCRIPT= CMakeLists.txt
-cmake: COMPILE= $(RMDIR) $(RMDIRFLAGS) build; $(MKDIR) $(MKDIRFLAGS) build; cd build; cmake .. -G $(CMAKE_FLAGS); $(MAKE)
-cmake: TOOL= cmake
+cmake: SCRIPT = CMakeLists.txt
+cmake: COMPILE = $(RMDIR) $(RMDIRFLAGS) build; $(MKDIR) $(MKDIRFLAGS) build; cd build; cmake .. -G $(CMAKE_FLAGS); $(MAKE)
+cmake: TOOL = cmake
 
-xmake: SCRIPT= xmake.lua
-xmake: COMPILE= xmake -F
+xmake: SCRIPT = xmake.lua
+xmake: COMPILE = xmake -F
 
-sh: SCRIPT= compile.sh
-sh: COMPILE= sh
+sh: SCRIPT = compile.sh
+sh: COMPILE = sh
 
-zsh: SCRIPT= compile.zsh
-zsh: COMPILE= zsh
+zsh: SCRIPT = compile.zsh
+zsh: COMPILE = zsh
 
-fish: SCRIPT= compile.fish
-fish: COMPILE= fish
+fish: SCRIPT = compile.fish
+fish: COMPILE = fish
 
-cmd: SCRIPT= compile.bat
-cmd: COMPILE= cmd
+cmd: SCRIPT = compile.bat
+cmd: COMPILE = cmd
 
-powershell: SCRIPT= compile.ps1
-powershell: COMPILE= powershell
+powershell: SCRIPT = compile.ps1
+powershell: COMPILE = powershell
 
-perl: SCRIPT= compile.pl
-perl: COMPILE= perl
+perl: SCRIPT = compile.pl
+perl: COMPILE = perl
 
-perl6: SCRIPT= compile.pl6
-perl6: COMPILE= perl6
+perl6: SCRIPT = compile.pl6
+perl6: COMPILE = perl6
 
-ruby: SCRIPT= compile.rb
-ruby: COMPILE= ruby
+ruby: SCRIPT = compile.rb
+ruby: COMPILE = ruby
 
-python: SCRIPT= compile.py
-python: COMPILE= python
+python: SCRIPT = compile.py
+python: COMPILE = python
 
-lua: SCRIPT= compile.lua
-lua: COMPILE= lua
+lua: SCRIPT = compile.lua
+lua: COMPILE = lua
 
-r: SCRIPT= compile.r
-r: COMPILE= Rscript
+r: SCRIPT = compile.r
+r: COMPILE = Rscript
 
-julia: SCRIPT= compile.jl
-julia: COMPILE= julia
+julia: SCRIPT = compile.jl
+julia: COMPILE = julia
 
-java: SCRIPT= compile.java
-java: COMPILE= java --source 11
+java: SCRIPT = compile.java
+java: COMPILE = java --source 11
 
-scala: SCRIPT= compile.scala
-scala: COMPILE= scala
+scala: SCRIPT = compile.scala
+scala: COMPILE = scala
 
-kotlin: SCRIPT= compile.kts
-kotlin: COMPILE= kotlin
+kotlin: SCRIPT = compile.kts
+kotlin: COMPILE = kotlin
 
-clojure: SCRIPT= compile.clj
-clojure: COMPILE= lein-exec
+clojure: SCRIPT = compile.clj
+clojure: COMPILE = lein-exec
 
-groovy: SCRIPT= compile.groovy
-groovy: COMPILE= groovy
+groovy: SCRIPT = compile.groovy
+groovy: COMPILE = groovy

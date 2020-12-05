@@ -1,24 +1,25 @@
-ROOT= .
-SCR= $(ROOT)/script
-export TOOLS= make cmake xmake\
+ROOT = .
+export TOOLS = make cmake xmake\
 			 sh zsh fish tsh vsh cmd powershell \
 			 tcc go rust haskell zig \
 	     perl perl6 ruby python lua r julia lisp typescript \
 	     java scala kotlin clojure groovy
 
-MAKE= make
+MAKE = make
 
 .PHONY: all test clean distclean doc cloc help $(TOOLS)
 
-all: CMD=
+all: CMD =
 
-test: CMD= test
+test: CMD = test
 
-clean: CMD= clean
+clean: CMD = clean
 
-distclean: CMD= distclean
+distclean: CMD = distclean
 
-test: CMD= test
+test: CMD = test
+
+help: CMD= help
 
 doc:
 	doxygen -u
@@ -26,8 +27,6 @@ doc:
 
 cloc:
 	cloc include src script --force-lang=C,ct --force-lang="C/C++ Header",ht
-
-help: CMD= help
 
 $(TOOLS):
 	$(MAKE) -f Makefile.sub $@ TOOL=$@ CMD=$(CMD)
