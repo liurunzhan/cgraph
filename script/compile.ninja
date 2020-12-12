@@ -5,9 +5,22 @@ CFLAGS = "-pedantic -Wall -fPIC -std=c89"
 CSFLAGS = "-shared"
 
 
-rule link_cgraph
+
+rule compile
+  command = $CC $CFLAGS $CSFLAGS -c $in -o $out -MD -MF $out.d
+  description = compile $in to $out
+  depfile = $out.d
+
+rule link_static
+  command = 
+  description = 
+
+rule link_shared
+  command = 
+  description = 
 
 build cgraph: 
+
 
 build all: 
 

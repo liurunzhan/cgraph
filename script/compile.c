@@ -1,4 +1,4 @@
-#!/usr/local/bin/tcc -run
+#!/usr/bin/tcc -run
 
 #include <stdio.h>
 #include <string.h>
@@ -10,8 +10,20 @@ int main(int argc, char *argv[])
   char *PRO = "cgraph";
   char *DIR = ".";
   char INC[STRING_MAX], SRC[STRING_MAX], TST[STRING_MAX], LIB[STRING_MAX];
+  char CFLAGS[STRING_MAX];
   
+  char *CC = "cc";
+  char *CSFLAGS = "-shared";
 
+  char *mode = "debug";
+  strcpy(CFLAGS, "-pedantic -Wall -fPIC -std=c89");
+  if (mode == "debug")
+  { strcat(CFLAGS, " -g -DDEBUG"); }
+  else if (mode == "release")
+  { strcat(CFLAGS, " -static -O2"); }
+  
+  char *AR = "ar";
+  char *ARFLAGS = "-rcs";
 
   if(argc == 1)
   {

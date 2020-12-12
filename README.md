@@ -16,8 +16,8 @@ Any compiler who supports STANDARD C89/ANSI C/C99 can compile this library well,
 
 | tool | optional flags 1 | optional flags 2 |
 | :-: | :-: | :-: |
-| mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc | -pedantic -Wall -fPIC -std=c89/c99 | -pedantic -pedantic-errors -Wall -fPIC -ansi |
-| clang |  -pedantic -Wall -std=c89/c99 | -pedantic -Wall -ansi |
+| mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc | -pedantic -Wall -fPIC -std=c89/c99/c11 | -pedantic -pedantic-errors -Wall -fPIC -ansi |
+| clang |  -pedantic -Wall -std=c89/c99/c11 | -pedantic -Wall -ansi |
 
 ## Overview
 

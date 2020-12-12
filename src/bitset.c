@@ -27,7 +27,7 @@ cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
   {
     if(_x->len == _y->len)
     {
-      flag = cgraph_memcmp(_x->data, _y->data, _x->len*FUNCTION(NAME, dsize)());
+      flag = cgraph_memcmp(_x->data, _y->data, _x->len*FUNCTION(NAME, datsize)());
     }
   }
 

@@ -516,7 +516,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 /* property inheritance of object types  */
 #define CGRAPH_OBJECT_BASE \
   cgraph_element_t element; \
-  cgraph_size_t hash; \
+  cgraph_size_t hash;
 
 /* property inheritance of data and structure types */
 #define CGRAPH_DATA_BASE \
@@ -524,8 +524,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #if (CGRAPH_STDC_VERSION >= 199901L)
 	#define CGRAPH_DATA_ROOT \
-  DATA_TYPE *data; \
-  DATA_TYPE root[];
+  DATA_TYPE *data, root[];
 #else
   #define CGRAPH_DATA_ROOT \
   DATA_TYPE *data, *root;
@@ -575,7 +574,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EXP(a) exp((a))
   #define SQRT(a) sqrt((a))
   
-  #define EXCHNAGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;} while(0)
+  #define EXCHNAGE(a, b) do{ TYPE tmp = (a); (a) = (b); (b) = tmp; } while(0)
   
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) || defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
   #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
@@ -611,7 +610,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EXP(a) exp((a))
   #define SQRT(a) sqrt((a))
   
-  #define EXCHANGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;} while(0)
+  #define EXCHANGE(a, b) do{ TYPE tmp = (a); (a) = (b); (b) = tmp; } while(0)
   
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64)
   #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -663,7 +662,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define EXP(a) exp((a))
   #define SQRT(a) sqrt((a))
   
-  #define EXCHANGE(a, b) do{TYPE tmp = (a); (a) = (b); (b) = tmp;}while(0)
+  #define EXCHANGE(a, b) do{ TYPE tmp = (a); (a) = (b); (b) = tmp; }while(0)
   
 #elif defined(TYPE_TIME)
   

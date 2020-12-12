@@ -3,7 +3,7 @@
  * @author liurunzhan (liurunzhan@sina.com)
  * @brief common definitions in cgraph
  * @version 0.0.0
- * @date 2020-11-18
+ * @date 2020-12-12
  * @copyright Copyright (c) 2020
  */
 #ifndef _CGRAPH_CONFIG_H_
@@ -132,7 +132,7 @@ typedef unsigned long   cgraph_ulong_t;
  * @def CGRAPH_SIZE_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
  * @def CGRAPH_SIZE_BIT (32)/(64)
  */
-typedef signed long     cgraph_size_t;
+typedef cgraph_long_t   cgraph_size_t;
 #define CGRAPH_SIZE_MAX CGRAPH_LONG_MAX
 #define CGRAPH_SIZE_MIN CGRAPH_LONG_MIN
 #define CGRAPH_SIZE_EPS CGRAPH_LONG_EPS
@@ -232,17 +232,8 @@ typedef signed long     cgraph_size_t;
     typedef signed long cgraph_int64_t;
     typedef unsigned long cgraph_uint64_t;
   #elif CGRAPH_WORDSIZE == 32
-    #if defined(__GNUC__) || defined(__clang__)
-      __extension__
-      typedef signed long long cgraph_int64_t;
-      __extension__
-      typedef unsigned long long cgraph_uint64_t;
-    #elif defined(_MSC_VER)
-      typedef signed __int64 cgraph_int64_t;
-      typedef unsigned __int64 cgraph_uint64_t;
-    #else
-      #error unsupported C compiler in 32-bit system
-    #endif
+    typedef __CGRAPH_INT64 cgraph_int64_t;
+    typedef __CGRAPH_UINT64 cgraph_uint64_t;
   #endif /* CGRAPH_WORDSIZE */
 #endif /* CGRAPH_STDC_VERSION */
 
@@ -343,66 +334,66 @@ typedef enum
 typedef struct
 {
   /* key data type */
-  cgraph_uint_t ktype       : 6;
-  cgraph_uint_t kaccessible : 1;
-  cgraph_uint_t khashed     : 1;
+  cgraph_uint_t k_type       : 6;
+  cgraph_uint_t k_accessible : 1;
+  cgraph_uint_t k_hashed     : 1;
   /* value data type */
-  cgraph_uint_t vtype       : 6;
-  cgraph_uint_t vaccessible : 1;
-  cgraph_uint_t vhashed     : 1;
+  cgraph_uint_t v_type       : 6;
+  cgraph_uint_t v_accessible : 1;
+  cgraph_uint_t v_hashed     : 1;
   /* unused space for extertions */
-  cgraph_uint_t             : 8;
+  cgraph_uint_t              : 8;
   /* graph type */
-  cgraph_uint_t gdirected   : 1;
-  cgraph_uint_t gweighted   : 1;
-  cgraph_uint_t ghyper      : 1;
-  cgraph_uint_t gmultiple   : 1;
-  cgraph_uint_t gdynamic    : 1;
-  cgraph_uint_t gkeyisid    : 1;
-  cgraph_uint_t gstruct     : 2;
+  cgraph_uint_t g_directed   : 1;
+  cgraph_uint_t g_weighted   : 1;
+  cgraph_uint_t g_hyper      : 1;
+  cgraph_uint_t g_multiple   : 1;
+  cgraph_uint_t g_dynamic    : 1;
+  cgraph_uint_t g_keyisid    : 1;
+  cgraph_uint_t g_struct     : 2;
 }cgraph_element_t;
 
-#define CGRAPH_DTYPE_KTYPE(a)        ((a)->element.ktype)
-#define CGRAPH_DTYPE_KACCESSIABLE(a) ((a)->element.kaccessible)
-#define CGRAPH_DTYPE_KHASHED(a)      ((a)->element.khashed)
+#define CGRAPH_DTYPE_KTYPE(a)        ((a)->element.k_type)
+#define CGRAPH_DTYPE_KACCESSIABLE(a) ((a)->element.k_accessible)
+#define CGRAPH_DTYPE_KHASHED(a)      ((a)->element.k_hashed)
 
-#define CGRAPH_DTYPE_VTYPE(a)        ((a)->element.vtype)
-#define CGRAPH_DTYPE_VACCESSIABLE(a) ((a)->element.vaccessible)
-#define CGRAPH_DTYPE_VHASHED(a)      ((a)->element.vhashed)
+#define CGRAPH_DTYPE_VTYPE(a)        ((a)->element.v_type)
+#define CGRAPH_DTYPE_VACCESSIABLE(a) ((a)->element.v_accessible)
+#define CGRAPH_DTYPE_VHASHED(a)      ((a)->element.v_hashed)
 
 #define CGRAPH_DTYPE_TYPE(a)         CGRAPH_DTYPE_KTYPE(a)
 #define CGRAPH_DTYPE_ACCESSIABLE(a)  CGRAPH_DTYPE_KACCESSIABLE(a)
 #define CGRAPH_DTYPE_HASHED(a)       CGRAPH_DTYPE_KHASHED(a)
 
-#define CGRAPH_GTYPE_DIRECTED(a)  ((a)->element.gdirected)
-#define CGRAPH_GTYPE_WEIGHTED(a)  ((a)->element.gweighted)
-#define CGRAPH_GTYPE_GHYPER(a)    ((a)->element.ghyper)
-#define CGRAPH_GTYPE_GMULTIPLE(a) ((a)->element.gmultiple)
-#define CGRAPH_GTYPE_GDYNAMIC(a)  ((a)->element.gdynamic)
-#define CGRAPH_GTYPE_GKEYISID(a)  ((a)->element.gkeyisid)
-#define CGRAPH_GTYPE_GSTRUCT(a)   ((a)->element.gstruct)
+#define CGRAPH_GTYPE_DIRECTED(a)  ((a)->element.g_directed)
+#define CGRAPH_GTYPE_WEIGHTED(a)  ((a)->element.g_weighted)
+#define CGRAPH_GTYPE_GHYPER(a)    ((a)->element.g_hyper)
+#define CGRAPH_GTYPE_GMULTIPLE(a) ((a)->element.g_multiple)
+#define CGRAPH_GTYPE_GDYNAMIC(a)  ((a)->element.g_dynamic)
+#define CGRAPH_GTYPE_GKEYISID(a)  ((a)->element.g_keyisid)
+#define CGRAPH_GTYPE_GSTRUCT(a)   ((a)->element.g_struct)
 
 typedef struct
 {
 /**< private: */
-  cgraph_type_t _type;  /**< type id   */
-  cgraph_char_t *_name; /**< type name */
-  cgraph_size_t _size;  /**< type size */
-  cgraph_size_t _psize; /**< pointer size of type */
-  cgraph_size_t _msize; /**< memory size of type used in structure types */
-  cgraph_size_t _dsize; /**< data size of type */
+  cgraph_type_t t_id;      /**< type id   */
+  cgraph_char_t *t_name;   /**< type name */
+  cgraph_size_t t_size;    /**< type size */
+  cgraph_size_t t_ptrsize; /**< pointer size of type */
+  cgraph_size_t t_memsize; /**< memory size of type used in structure types */
+  cgraph_size_t d_size;    /**< data size of type */
 
 /**< public: */
-  cgraph_type_t (*type)(void);
-  cgraph_char_t *(*name)(void);
-  cgraph_size_t (*size)(void);
-  cgraph_size_t (*psize)(void);
-  cgraph_size_t (*msize)(void);
-  cgraph_size_t (*dsize)(void);
+  cgraph_type_t (*tid)(void);
+  cgraph_char_t *(*tname)(void);
+  cgraph_size_t (*tsize)(void);
+  cgraph_size_t (*tptrsize)(void);
+  cgraph_size_t (*tmemsize)(void);
+  cgraph_size_t (*datsize)(void);
   cgraph_bool_t (*hasdata)(void);
   cgraph_size_t (*len)(const void *cthis);
-  cgraph_size_t (*asize)(const void* cthis);
-  cgraph_size_t (*csize)(const cgraph_type_t type, const cgraph_size_t size);
+  cgraph_size_t (*size)(const void* cthis);
+  cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_bool_t *error);

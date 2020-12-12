@@ -1,0 +1,22 @@
+extern CGVTable STRUCT(NAME);
+
+extern cgraph_type_t FUNCTION(NAME, tid)(void);
+extern cgraph_char_t *FUNCTION(NAME, tname)(void);
+extern cgraph_size_t FUNCTION(NAME, tsize)(void);
+extern cgraph_size_t FUNCTION(NAME, tptrsize)(void);
+extern cgraph_size_t FUNCTION(NAME, tmemsize)(void);
+extern cgraph_size_t FUNCTION(NAME, datsize)(void);
+extern cgraph_bool_t FUNCTION(NAME, hasdata)(void);
+
+extern cgraph_size_t FUNCTION(NAME, len)(const void *cthis);
+extern cgraph_size_t FUNCTION(NAME, size)(const void *cthis);
+extern cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size);
+extern void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size);
+
+extern void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size);
+extern void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error);
+extern void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size);
+extern void FUNCTION(NAME, free)(void *cthis);
+
+extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
+extern cgraph_bool_t FUNCTION(NAME, check)(const void *cthis);

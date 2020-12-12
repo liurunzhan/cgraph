@@ -1,0 +1,69 @@
+/*******************************************************************************
+This is a data templete file defined in GRAPH library.
+        | MACRO |      DESCRIPTION      |
+        |  :-:  |          :-:          |
+        | NAME  |       type name       |
+        | TYPE  |        type           |
+        | DTYPE | data type with pointer|
+*******************************************************************************/
+
+CGVTable STRUCT(NAME) = 
+{
+/**< private: */
+  ID,                /**< cgraph_type_t t_id;                                 */
+  STRING(TYPE),      /**< cgraph_char_t *t_name;                              */
+  sizeof(TYPE),      /**< cgraph_size_t t_size;                               */
+  sizeof(TYPE *),    /**< cgraph_size_t t_ptrsize;                            */
+#ifdef CGRAPH_WITH_DATA
+  sizeof(TYPE *),    /**< cgraph_size_t t_memsize;                            */
+  sizeof(DATA_TYPE), /**< cgraph_size_t d_size;                               */
+#else
+  sizeof(TYPE),      /**< cgraph_size_t t_memsize;                            */
+  sizeof(TYPE),      /**< cgraph_size_t d_size;                               */
+#endif
+
+/**< public: */
+  FUNCTION(NAME, tid),       /**< cgraph_int_t (*tid)(void);                  */
+  FUNCTION(NAME, tname),     /**< cgraph_char_t *(*tname)(void);              */
+  FUNCTION(NAME, tsize),     /**< cgraph_size_t (*tsize)(void);               */
+  FUNCTION(NAME, tptrsize),  /**< cgraph_size_t (*tptrsize)(void);            */
+  FUNCTION(NAME, tmemsize),  /**< cgraph_size_t (*tmemsize)(void);            */
+  FUNCTION(NAME, datsize),   /**< cgraph_size_t (*datsize)(void);             */
+  FUNCTION(NAME, hasdata),   /**< cgraph_bool_t (*hasdata)(void);             */
+  FUNCTION(NAME, len),       /**< cgraph_size_t (*len)(const void *cthis);    */
+  FUNCTION(NAME, size),      /**< cgraph_size_t (*size)(const void *cthis);   */
+  FUNCTION(NAME, msize),     /**< cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);                                            */
+  FUNCTION(NAME, update),    /**< void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)                               */
+  FUNCTION(NAME, calloc),    /**< void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);                                                  */
+  FUNCTION(NAME, realloc),   /**< void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size);                      */
+  FUNCTION(NAME, free),      /**< void (*free)(void *cthis);                  */
+  FUNCTION(NAME, copy),      /**< void *(*copy)(const void *cthis, const cgraph_size_t size);                                                        */
+  FUNCTION(NAME, hash)       /**< cgraph_size_t (*hash)(const void *cthis);   */
+};
+
+CGRAPH_INLINE cgraph_type_t FUNCTION(NAME, tid)(void)
+{ return STRUCT(NAME).t_id; }
+
+CGRAPH_INLINE cgraph_char_t *FUNCTION(NAME, tname)(void)
+{ return STRUCT(NAME).t_name; }
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tsize)(void)
+{ return STRUCT(NAME).t_size; }
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tptrsize)(void)
+{ return STRUCT(NAME).t_ptrsize; }
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tmemsize)(void)
+{ return STRUCT(NAME).t_memsize; }
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, datsize)(void)
+{ return STRUCT(NAME).d_size; }
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, hasdata)(void)
+{
+#ifdef CGRAPH_WITH_DATA
+  return CGRAPH_TRUE;
+#else
+  return CGRAPH_FALSE;
+#endif
+}

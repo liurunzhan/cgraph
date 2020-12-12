@@ -80,6 +80,7 @@ doc/
 # compile scripts
 script/compile
 script/compile.exe
+script/compile.hi
 /compile*
 /xmake.lua
 /CMakeLists.txt

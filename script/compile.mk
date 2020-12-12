@@ -1,7 +1,7 @@
 # a simple Makefile to compile cgraph and generate static and shared library, 
 # which crosses the platforms of windows and linux.
 
-export CC = gcc
+export CC = cc
 export CFLAGS = -pedantic -Wall -std=c89
 export MAKE = make
 export AR = ar

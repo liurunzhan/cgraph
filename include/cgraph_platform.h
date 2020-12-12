@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-/* supported platform types */
+/* Self-defined features in different platforms */
 #if (defined(_WIN32) || defined(_WIN64))
   #if defined(__CYGWIN__)
     #define CGRAPH_PLAT_MODE "cygwin/msys/msys2"
@@ -32,6 +32,7 @@ extern "C" {
  #error unsupported platforms!!
 #endif
 
+/* Self-defined features in different structures */
 #if defined(__LITTLE_ENDIAN__)
   #define CGRAPH_PLAT_ENDIAN 0
 #elif defined(__BIG_ENDIAN__)
@@ -40,14 +41,15 @@ extern "C" {
   #define CGRAPH_PLAT_ENDIAN 2
 #endif
 
-#if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) || defined(__x86_64__)
+#if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) || defined(__x86_64__) || defined(__x86_64)
   #define CGRAPH_WORDSIZE 64
-#elif (__WORDSIZE == 32) || defined(_WIN32) || defined(_M_IX86) || defined(__i386__)
+#elif (__WORDSIZE == 32) || defined(_WIN32) || defined(_M_IX86) || defined(__i386__) || defined(__i486__)
   #define CGRAPH_WORDSIZE 32
 #else
   #error only 32-bit and 64-bit system are supported!!
 #endif
 
+/* C standard */
 #if defined(__STDC__)
   #if defined(__STDC_VERSION__)
     #define CGRAPH_STDC_VERSION __STDC_VERSION__
@@ -58,10 +60,23 @@ extern "C" {
   #error only standard c is suppoted!!
 #endif
 
+/* Self-defined features in different compilers */
 #if CGRAPH_STDC_VERSION >= 199901L
   #define CGRAPH_INLINE inline
+  #define __CGRAPH_INT64 signed long long
+  #define __CGRAPH_UINT64 unsigned long long
 #else
-  #define CGRAPH_INLINE
+  #if defined(__GNUC__) || defined(__clang__)
+    #define CGRAPH_INLINE __inline
+    #define __CGRAPH_INT64 __extension__ signed long long
+    #define __CGRAPH_UINT64 __extension__ unsigned long long
+  #elif defined(_MSC_VER)
+    #define CGRAPH_INLINE _inline
+    #define __CGRAPH_INT64 signed __int64
+    #define __CGRAPH_UINT64 unsigned __int64
+  #else
+    #error unsupported C compiler in 32-bit system
+  #endif
 #endif
 
 #ifdef __cplusplus
