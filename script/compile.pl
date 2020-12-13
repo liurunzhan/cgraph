@@ -12,7 +12,7 @@ my $TST = File::Spec->catdir($DIR, "test");
 my $LIB = File::Spec->catdir($DIR, "lib");
 
 my $CC = "cc";
-my $CFLAGS = "-pedantic -Wall -fPIC -std=c89";
+my $CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
 my $CSFLAGS = "-shared";
 
 my $MODE = "debug";

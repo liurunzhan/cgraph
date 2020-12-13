@@ -1,4 +1,4 @@
-#!/usr/local/bin/v run
+#!/usr/bin/v run
 
 import os
 
@@ -11,8 +11,13 @@ fn main() {
   lib := os.join_path(dir, "lib")
 
   cc := "cc"
-  mut cflags := "-pedantic -Wall -fPIC -std=c89"
+  mut cflags := "-std=c89 -Wall -pedantic"
   csflags := "-shared"
+
+  if cc != "tcc" {
+    CFLAGS += " -pedantic-errors"
+  }
+  CFLAGS += " -fPIC"
 
   mode := "debug"
   if mode == "debug" {

@@ -11,7 +11,7 @@ def TST = DIR + File.separator + "test"
 def LIB = DIR + File.separator + "lib"
 
 def CC = "cc"
-def CFLAGS = "-pedantic -Wall -fPIC -std=c89"
+def CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
 def CSFLAGS = "-shared"
 
 def MODE = "debug"

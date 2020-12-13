@@ -12,8 +12,12 @@ LIB=${DIR}/lib
 
 # compiler configuration
 CC=cc
-CFLAGS=(-pedantic -Wall -fPIC -std=c89)
+CFLAGS=(-std=c89 -Wall -pedantic -fPIC)
 CSFLAGS=(-shared)
+
+if [[ ${CC} != "tcc" ]] {
+  CFLAGS+=(-pedantic-errors)
+}
 
 # debug or release mode
 MODE="debug"
@@ -43,9 +47,6 @@ LIBSTATIC=$LIB/lib$PRO.a
 # test files
 TSTFILE=$TST/$PRO.c
 TSTTARGET=$TST/$PRO
-
-# commands to $0
-# OPT=$1
 
 if (( $# == 0 )) {
   $MKDIR $LIB

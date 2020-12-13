@@ -2,7 +2,6 @@
 # which crosses the platforms of windows and linux.
 
 export CC = cc
-
 export CFLAGS = -std=c89 -Wall -pedantic
 export MAKE = make
 export AR = ar

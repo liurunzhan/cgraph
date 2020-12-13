@@ -15,7 +15,7 @@ public class Compile {
     String LIB = new String(DIR + File.separator + "lib");
 
     String CC = new String("cc");
-    StringBuffer CFLAGS = new StringBuffer("-pedantic -Wall -fPIC -std=c89");
+    StringBuffer CFLAGS = new StringBuffer("-std=c89 -Wall -pedantic -fPIC");
     String CSFLAGS = new String("-shared");
 
     String MODE = new String("debug");
@@ -28,14 +28,6 @@ public class Compile {
     // package shared library
     String AR = new String("ar");
     String ARFLAGS = new String("-rcs");
-
-    List<File> CFILES = new ArrayList<File>();
-    File[] FILES = new File(SRC).listFiles();
-    for(File file : FILES) {
-      if(file.isFile() && file.getName().endsWith(".c")) {
-        CFILES.add(file);
-      }
-    }
     
     String OS = System.getProperty("os.name");
     String LIBSHARED, LIBSTATIC, TSTFILE, TSTTARGET;
@@ -53,6 +45,14 @@ public class Compile {
       // test files
       TSTFILE = new String(TST + File.separator + PRO + ".c");
       TSTTARGET = new String(TST + File.separator + PRO);
+    }
+    
+    List<File> CFILES = new ArrayList<File>();
+    File[] FILES = new File(SRC).listFiles();
+    for(File file : FILES) {
+      if(file.isFile() && file.getName().endsWith(".c")) {
+        CFILES.add(file);
+      }
     }
 
     String SCRIPT_NAME = Thread.currentThread().getStackTrace()[1].getFileName();

@@ -6,10 +6,11 @@ set(PROJECT "cgraph")
 set(VERSION "0.0.0")
 
 # set project configuration
-set(CXX_FLAGS -pedantic -Wall -fPIC -std=c89)
-set(CXX_FLAGS_DEBUG "${CXX_FLAGS} -g -DDEBUG")
-set(CXX_FLAGS_RELEASE "${CXX_FLAGS} -static -O2")
-SET(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_C_COMPILER "cc")
+set(CMAKE_C_FLAGS -std=c89 -Wall -pedantic -fPIC)
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g -DDEBUG")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -static -O2")
+set(CMAKE_BUILD_TYPE "Release")
 
 set(INC "${PROJECT_SOURCE_DIR}/include")
 set(SRC "${PROJECT_SOURCE_DIR}/src")
@@ -33,6 +34,6 @@ set_target_properties(LIBSTATIC PROPERTIES OUTPUT_NAME ${PROJECT})
 set_target_properties(LIBSTATIC PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 
 # create binary file of cgraph to test
-add_executable(${PROJECT} ${TST}/cgraph.c)
+add_executable(${PROJECT} "${TST}/cgraph.c")
 target_link_libraries(${PROJECT} LIBSTATIC)
 target_link_libraries(${PROJECT} m)

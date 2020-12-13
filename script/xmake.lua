@@ -1,5 +1,5 @@
 add_includedirs("include")
-add_cflags("-pedantic", "-Wall", "-fPIC", "-std=c89", {force = true})
+add_cflags("-std=c89", "-Wall", "-pedantic", "-fPIC",  {force = true})
 
 if is_mode("debug") then
 	-- add_defines("DEBUG")

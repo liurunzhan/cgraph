@@ -8,7 +8,7 @@ $TST = File.join($DIR, "test")
 $LIB = File.join($DIR, "lib")
 
 $CC = "cc"
-$CFLAGS = "-pedantic -Wall -fPIC -std=c89"
+$CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
 $CSFLAGS = "-shared"
 
 $MODE = "debug"

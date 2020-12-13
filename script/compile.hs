@@ -13,7 +13,7 @@ main = do
   let lib = joinPath [dir, "lib"]
 
   let cc = "cc"
-  let _cflags = "-pedantic -Wall -fPIC -std=c89"
+  let _cflags = "-std=c89 -Wall -pedantic -fPIC"
   let csflags = "-shared"
 
   let mode = "debug"

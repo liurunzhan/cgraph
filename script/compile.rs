@@ -10,6 +10,21 @@ fn main() {
   let TST = "test"；
   let LIB = "lib";
 
+  let CC = "cc";
+  let CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
+  let CSFLAGS = "-shared";
+  
+  let MODE = "debug";
+  if MODE == "debug" {
+    CFLAGS += " -g -DDEBUG";
+  } else if MODE == "release" {
+    CFLAGS += " -static -O2";
+  }
+  
+  # package shared library
+  let AR = "ar";
+  let ARFLAGS = "-rcs";
+
   let args: Vec<_> = env::args().collect();
   if args.len() == 0 {
 

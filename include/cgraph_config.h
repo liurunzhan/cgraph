@@ -99,7 +99,7 @@ typedef unsigned long   cgraph_ulong_t;
 #define CGRAPH_LONG_MAX LONG_MAX
 #define CGRAPH_LONG_MIN LONG_MIN
 #if CGRAPH_WORDSIZE == 64
-  #define CGRAPH_LONG_EPS (0xFFFFFFFFFFFFFFFF)
+  #define CGRAPH_LONG_EPS __CGRAPH_INT64_EPS
   #define CGRAPH_LONG_BIT (64)
 #elif CGRAPH_WORDSIZE == 32
   #define CGRAPH_LONG_EPS (0xFFFFFFFF)
@@ -117,7 +117,7 @@ typedef unsigned long   cgraph_ulong_t;
 #define CGRAPH_ULONG_MAX ULONG_MAX
 #define CGRAPH_ULONG_MIN ULONG_MIN
 #if CGRAPH_WORDSIZE == 64
-  #define CGRAPH_ULONG_EPS (0xFFFFFFFFFFFFFFFF)
+  #define CGRAPH_ULONG_EPS __CGRAPH_UINT64_EPS
   #define CGRAPH_ULONG_BIT (64)
 #elif CGRAPH_WORDSIZE == 32
   #define CGRAPH_ULONG_EPS (0xFFFFFFFF)
@@ -177,11 +177,11 @@ typedef cgraph_long_t   cgraph_size_t;
   /**< 64-bit integer number */
   #define CGRAPH_INT64_MIN INT64_MIN
   #define CGRAPH_INT64_MAX INT64_MAX
-  #define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
+  #define CGRAPH_INT64_EPS __CGRAPH_INT64_EPS
   #define CGRAPH_INT64_BIT (64)
   #define CGRAPH_UINT64_MIN UINT64_MIN
   #define CGRAPH_UINT64_MAX UINT64_MAX
-  #define CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFF)
+  #define CGRAPH_UINT64_EPS __CGRAPH_UINT64_EPS
   #define CGRAPH_UINT64_BIT (64)
   typedef int64_t cgraph_int64_t;
   typedef uint64_t cgraph_uint64_t;
@@ -220,13 +220,13 @@ typedef cgraph_long_t   cgraph_size_t;
   typedef signed int cgraph_int32_t;
   typedef unsigned int cgraph_uint32_t;
   /**< 64-bit integer number */
-  #define CGRAPH_INT64_MIN (-9223372036854775808LL)
-  #define CGRAPH_INT64_MAX (9223372036854775807LL)
-  #define CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFF)
+  #define CGRAPH_INT64_MIN 
+  #define CGRAPH_INT64_MAX 
+  #define CGRAPH_INT64_EPS __CGRAPH_INT64_EPS
   #define CGRAPH_INT64_BIT (64)
-  #define CGRAPH_UINT64_MIN (0LL)
-  #define CGRAPH_UINT64_MAX (1844674407370955161ULL)
-  #define CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFF)
+  #define CGRAPH_UINT64_MIN 
+  #define CGRAPH_UINT64_MAX 
+  #define CGRAPH_UINT64_EPS __CGRAPH_UINT64_EPS
   #define CGRAPH_UINT64_BIT (64)
   #if CGRAPH_WORDSIZE == 64
     typedef signed long cgraph_int64_t;

@@ -160,8 +160,8 @@ TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   TIME_TYPE(res)   = CGRAPH_TIME_TYPE0;
-  TIME_VALUE1(res) = TIME_VALUE1(x);
   TIME_VALUE0(res) = TIME_VALUE0(x) + y;
+  TIME_VALUE1(res) = TIME_VALUE1(x);
   
   return res;
 }
@@ -170,8 +170,8 @@ TYPE FUNCTION(NAME, sub0i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   TIME_TYPE(res)   = CGRAPH_TIME_TYPE0;
-  TIME_VALUE1(res) = TIME_VALUE1(x);
   TIME_VALUE0(res) = TIME_VALUE0(x) - y;
+  TIME_VALUE1(res) = TIME_VALUE1(x);
 
   return res;
 }
@@ -180,15 +180,18 @@ TYPE FUNCTION(NAME, mul0i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
   TIME_TYPE(res)  = CGRAPH_TIME_TYPE0;
-  TIME_VALUE1(res) = TIME_VALUE1(x) * y;
   TIME_VALUE0(res) = TIME_VALUE0(x) * y;
+  TIME_VALUE1(res) = TIME_VALUE1(x) * y;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, div0i)(const TYPE x, const DATA_TYPE y)
 {
-  TYPE res = x;
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = TIME_VALUE0(x) / y;
+  TIME_VALUE1(res) = TIME_VALUE1(x) / y;
 
   return res;
 }
@@ -196,6 +199,9 @@ TYPE FUNCTION(NAME, div0i)(const TYPE x, const DATA_TYPE y)
 TYPE FUNCTION(NAME, add0t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = TIME_VALUE0(x) + TIME_VALUE0(y);
+  TIME_VALUE1(res) = TIME_VALUE1(x) + TIME_VALUE1(y);
 
   return res;
 }
@@ -203,6 +209,9 @@ TYPE FUNCTION(NAME, add0t)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, sub0t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = TIME_VALUE0(x) - TIME_VALUE0(y);
+  TIME_VALUE1(res) = TIME_VALUE1(x) - TIME_VALUE1(y);
 
   return res;
 }
@@ -210,6 +219,9 @@ TYPE FUNCTION(NAME, sub0t)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, mul0t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = TIME_VALUE0(x) * TIME_VALUE0(y);
+  TIME_VALUE1(res) = TIME_VALUE1(x) * TIME_VALUE1(y);
 
   return res;
 }
@@ -217,6 +229,9 @@ TYPE FUNCTION(NAME, mul0t)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, div0t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = TIME_VALUE0(x) / TIME_VALUE0(y);
+  TIME_VALUE1(res) = TIME_VALUE1(x) / TIME_VALUE1(y);
 
   return res;
 }
@@ -224,6 +239,7 @@ TYPE FUNCTION(NAME, div0t)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
   
   return res;
 }
@@ -231,6 +247,7 @@ TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y)
 TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
 }
@@ -238,6 +255,7 @@ TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y)
 TYPE FUNCTION(NAME, mul1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
 }
@@ -245,6 +263,7 @@ TYPE FUNCTION(NAME, mul1i)(const TYPE x, const DATA_TYPE y)
 TYPE FUNCTION(NAME, div1i)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
 }
@@ -252,6 +271,7 @@ TYPE FUNCTION(NAME, div1i)(const TYPE x, const DATA_TYPE y)
 TYPE FUNCTION(NAME, add1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
 }
@@ -259,6 +279,7 @@ TYPE FUNCTION(NAME, add1t)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, sub1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
 }
@@ -266,6 +287,7 @@ TYPE FUNCTION(NAME, sub1t)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, mul1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
 }
@@ -273,6 +295,7 @@ TYPE FUNCTION(NAME, mul1t)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, div1t)(const TYPE x, const TYPE y)
 {
   TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
 }
@@ -280,7 +303,7 @@ TYPE FUNCTION(NAME, div1t)(const TYPE x, const TYPE y)
 void FUNCTION(NAME, test)(void)
 {
 #ifdef DEBUG
-
+  
 #endif
 }
 

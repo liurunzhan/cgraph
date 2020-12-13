@@ -12,8 +12,13 @@ LIB=${DIR}/lib
 
 # compiler configuration
 CC=cc
-CFLAGS="-pedantic -Wall -fPIC -std=c89"
+CFLAGS="-std=c89 -Wall -pedantic"
 CSFLAGS="-shared"
+
+if [ $CC != "tcc" ]; then
+  CFLAGS="${CFLAGS} -pedantic-errors"
+fi
+CFLAGS="${CFLAGS} -fPIC"
 
 # debug or release mode
 MODE="debug"

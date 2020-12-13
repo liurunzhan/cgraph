@@ -10,7 +10,7 @@ my $TST = $DIR.IO.add("test");
 my $LIB = $DIR.IO.add("lib");
 
 my $CC = "cc";
-my $CFLAGS = "-pedantic -Wall -fPIC -std=c89";
+my $CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
 my $CSFLAGS = "-shared";
 
 my $MODE = "debug";

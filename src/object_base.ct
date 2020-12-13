@@ -58,7 +58,11 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const void *cthis)
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size)
 {
-  return ID == type ? sizeof(TYPE) : sizeof(TYPE) + OBJECT(type, msize)(type, size);
+  cgraph_size_t _size = FUNCTION(NAME, tsize)();
+  if(ID != type)
+  { _size += OBJECT(type, msize)(type, size); }
+  
+  return _size;
 }
 
 CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)
@@ -67,7 +71,7 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
   if(NULL != _cthis)
   {
     CGRAPH_DTYPE_TYPE(_cthis) = type;
-    _cthis->data = (((cgraph_addr8_t *)_cthis) + sizeof(TYPE));
+    _cthis->data = (((cgraph_addr8_t *)_cthis) + FUNCTION(NAME, tsize)());
     OBJECT(type, update)(_cthis->data, type, size);
   }
 
@@ -76,11 +80,9 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
-  cgraph_size_t _size = OBJECT(type, msize)(type, size);
-  TYPE *cthis = cgraph_calloc(_size);
-  FUNCTION(NAME, update)(cthis, type, size);
-
-  return cthis;
+  TYPE *cthis = cgraph_calloc(FUNCTION(NAME, msize)(type, size));
+  
+  return FUNCTION(NAME, update)(cthis, type, size);
 }
 
 void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error)
@@ -91,18 +93,11 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgrap
   if(NULL != _cthis)
   {
     _type = CGRAPH_DTYPE_TYPE(_cthis);
-    _size = OBJECT(_type, len)(_cthis->data);
+    _size = FUNCTION(NAME, msize)(_type, OBJECT(_type, size)(_cthis->data));
   }
-  else
-  { _cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, tmemsize)()); }
-  if((CGRAPH_OBJECT_T != _type) && (NULL != _cthis))
-  {
-    _cthis->data = OBJECT(_type, realloc)(_cthis->data, ID, _size, new_size, error);
-    if((NULL != error) && (CGRAPH_FALSE == *error))
-    { CGRAPH_DTYPE_TYPE(_cthis) = _type; }
-    else if(NULL == _cthis->data)
-    { cgraph_free(_cthis); }
-  }
+  _cthis = (TYPE *)cgraph_realloc(_cthis, _size, FUNCTION(NAME, msize)(_type, new_size), error);
+  if((NULL != error) && (CGRAPH_FALSE == *error))
+  { _cthis = FUNCTION(NAME, update)(_cthis, _type, new_size); }
 
   return _cthis;
 }

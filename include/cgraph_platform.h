@@ -6,16 +6,14 @@ extern "C" {
 #endif
 
 /* Self-defined features in different platforms */
-#if (defined(_WIN32) || defined(_WIN64))
-  #if defined(__CYGWIN__)
-    #define CGRAPH_PLAT_MODE "cygwin/msys/msys2"
-    #define CGRAPH_PLAT_PSPLIT "/"
-    #define CGRAPH_PLAT_FEND "\n"
-  #else
-    #define CGRAPH_PLAT_MODE "windows"
-    #define CGRAPH_PLAT_PSPLIT "\\"
-    #define CGRAPH_PLAT_FEND "\r\n"
-  #endif
+#if defined(__CYGWIN__)
+  #define CGRAPH_PLAT_MODE "cygwin/msys/msys2"
+  #define CGRAPH_PLAT_PSPLIT "/"
+  #define CGRAPH_PLAT_FEND "\n"
+#elif (defined(_WIN32) || defined(_WIN64))
+  #define CGRAPH_PLAT_MODE "windows"
+  #define CGRAPH_PLAT_PSPLIT "\\"
+  #define CGRAPH_PLAT_FEND "\r\n"
 #elif defined(__APPLE__)
   #define CGRAPH_PLAT_MODE "macos"
   #define CGRAPH_PLAT_PSPLIT "/"
@@ -64,16 +62,34 @@ extern "C" {
 #if CGRAPH_STDC_VERSION >= 199901L
   #define CGRAPH_INLINE inline
   #define __CGRAPH_INT64 signed long long
+  #define __CGRAPH_INT64_MIN (-9223372036854775808LL)
+  #define __CGRAPH_INT64_MAX (9223372036854775807LL)
+  #define __CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFFLL)
   #define __CGRAPH_UINT64 unsigned long long
+  #define __CGRAPH_UINT64_MIN (0LL)
+  #define __CGRAPH_UINT64_MAX (1844674407370955161ULL)
+  #define __CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFFLL)
 #else
   #if defined(__GNUC__) || defined(__clang__)
-    #define CGRAPH_INLINE __inline
+    #define CGRAPH_INLINE __extension__ __inline
     #define __CGRAPH_INT64 __extension__ signed long long
+    #define __CGRAPH_INT64_MIN (__extension__ -9223372036854775808LL)
+    #define __CGRAPH_INT64_MAX (__extension__ 9223372036854775807LL)
+    #define __CGRAPH_INT64_EPS (__extension__ 0xFFFFFFFFFFFFFFFFLL)
     #define __CGRAPH_UINT64 __extension__ unsigned long long
+    #define __CGRAPH_UINT64_MIN (__extension__ 0LL)
+    #define __CGRAPH_UINT64_MAX (__extension__ 1844674407370955161ULL)
+    #define __CGRAPH_UINT64_EPS (__extension__ 0xFFFFFFFFFFFFFFFFLL)
   #elif defined(_MSC_VER)
     #define CGRAPH_INLINE _inline
     #define __CGRAPH_INT64 signed __int64
+    #define __CGRAPH_INT64_MIN (-9223372036854775808LL)
+    #define __CGRAPH_INT64_MAX (9223372036854775807LL)
+    #define __CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFFLL)
     #define __CGRAPH_UINT64 unsigned __int64
+    #define __CGRAPH_UINT64_MIN (0LL)
+    #define __CGRAPH_UINT64_MAX (1844674407370955161ULL)
+    #define __CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFFLL)
   #else
     #error unsupported C compiler in 32-bit system
   #endif
