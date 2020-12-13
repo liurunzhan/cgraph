@@ -4,7 +4,15 @@ CC = cc
 CFLAGS = "-pedantic -Wall -fPIC -std=c89"
 CSFLAGS = "-shared"
 
+MODE = "debug"
+if MODE == "debug":
+  CFLAGS += " -g -DDEBUG"
+elif MODE == "release":
+  CFLAGS += " -static -O2"
 
+# package shared library
+AR = "ar"
+ARFLAGS = "-rcs"
 
 rule compile
   command = $CC $CFLAGS $CSFLAGS -c $in -o $out -MD -MF $out.d

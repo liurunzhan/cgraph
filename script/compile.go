@@ -28,19 +28,24 @@ func main() {
     CFLAGS = CFLAGS + " -static -O2"
   }
 
-	var AR = "ar"
-	var ARFLAGS = "-rcs"
+	var AR string = "ar"
+	var ARFLAGS string = "-rcs"
 
+	var LIBSHARED string 
+	var LIBSTATIC string 
+	var TSTFILE string 
+	var TSTTARGET string
+	
 	if runtime.GOOS == "windows" {
-    var LIBSHARED = path.Join(LIB, "lib" + PRO + ".dll")
-    var LIBSTATIC = path.Join(LIB, "lib" + PRO + ".a")
-    var TSTFILE   = path.Join(TST, PRO + ".c")
-    var TSTTARGET = path.Join(TST, POR + ".exe")
+    LIBSHARED = path.Join(LIB, "lib" + PRO + ".dll")
+    LIBSTATIC = path.Join(LIB, "lib" + PRO + ".a")
+    TSTFILE   = path.Join(TST, PRO + ".c")
+    TSTTARGET = path.Join(TST, PRO + ".exe")
 	} else {
-    var LIBSHARED = path.Join(LIB, "lib" + PRO + ".so")
-    var LIBSTATIC = path.Join(LIB, "lib" + PRO + ".a")
-    var TSTFILE   = path.Join(TST, PRO + ".c")
-    var TSTTARGET = path.Join(TST, PRO)
+    LIBSHARED = path.Join(LIB, "lib" + PRO + ".so")
+    LIBSTATIC = path.Join(LIB, "lib" + PRO + ".a")
+    TSTFILE   = path.Join(TST, PRO + ".c")
+    TSTTARGET = path.Join(TST, PRO)
 	}
 
 	var args []string = os.Args

@@ -2,7 +2,8 @@
 # which crosses the platforms of windows and linux.
 
 export CC = cc
-export CFLAGS = -pedantic -Wall -std=c89
+
+export CFLAGS = -std=c89 -Wall -pedantic
 export MAKE = make
 export AR = ar
 export ARFLAGS = -rcs
@@ -10,6 +11,10 @@ export CSFLAGS = -shared
 export TARGET = cgraph
 export LIBTARGET = lib$(TARGET)
 export MODE = debug
+
+ifneq ($(CC), tcc)
+CFLAGS += -pedantic-errors
+endif
 
 ifeq ($(MODE), debug)
 CFLAGS += -g -DDEBUG

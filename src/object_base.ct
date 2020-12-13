@@ -120,7 +120,7 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
     if(NULL != _object)
     {
       void *tmp = NULL;
-      cgraph_memcpy(_object, _cthis, FUNCTION(NAME, tsizeof)());
+      cgraph_memcpy(_object, _cthis, FUNCTION(NAME, tsize)());
       _object->data = tmp;
     }
   }

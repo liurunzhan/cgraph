@@ -3,7 +3,7 @@
 
 static const cgraph_char_t *cgraph_version_string = CGRAPH_VERSION;
 
-void cgraph_version(const cgraph_char_t **version, cgraph_int_t *major, cgraph_int_t *minor, cgraph_int_t *subminor)
+void cgraph_version(cgraph_char_t **version, cgraph_int_t *major, cgraph_int_t *minor, cgraph_int_t *subminor)
 {
   cgraph_int_t cgraph_major, cgraph_minor, cgraph_subminor;
   sscanf(cgraph_version_string, "%d.%d.%d", &cgraph_major, &cgraph_minor, &cgraph_subminor);

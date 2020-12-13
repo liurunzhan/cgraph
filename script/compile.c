@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
 
 #define STRING_MAX 2048
 
@@ -24,24 +25,24 @@ int main(int argc, char *argv[])
   
   char *AR = "ar";
   char *ARFLAGS = "-rcs";
-
+  
   if(argc == 1)
   {
-
+    
   }
-  else if(strcmp("test", argv[1]))
+  else if(0 == strcmp("test", argv[1]))
   {
 
   }
-  else if(strcmp("clean", argv[1]))
+  else if(0 == strcmp("clean", argv[1]))
   {
     
   }
-  else if(strcmp("distclean", argv[1]))
+  else if(0 == strcmp("distclean", argv[1]))
   {
     
   }
-  else if(strcmp("help", argv[1]))
+  else if(0 == strcmp("help", argv[1]))
   {
     fprintf(stdout, "%s    <target>\n", argv[0]);
     fprintf(stdout, "<target>: \n");

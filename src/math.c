@@ -10,7 +10,7 @@ cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata, const cgraph_uint_t d
   {
     msb = ((res ^ temp) >> (bits-1) & 0x01);
     if(msb == 0x01)
-    { res = ((res << 1) ^ ones & poly); }
+    { res = (((res << 1) ^ ones) & poly); }
     else
     { res = (res << 1); }
     temp = (temp << 1);
