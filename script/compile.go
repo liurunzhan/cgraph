@@ -4,18 +4,20 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"os/exec"
+	"regexp"
 	"path"
-	"runtime"
 )
 
 func main() {
 	var PRO string = "cgraph"
 	var DIR string = "."
-	var INC string = path.Join(PRO, "include")
-	var SRC string = path.Join(PRO, "src")
-	var TST string = path.Join(PRO, "test")
-	var LIB string = path.Join(PRO, "lib")
+	var INC string = path.Join(DIR, "include")
+	var SRC string = path.Join(DIR, "src")
+	var TST string = path.Join(DIR, "test")
+	var LIB string = path.Join(DIR, "lib")
 
   var CC string = "cc"
   var CFLAGS string = "-std=c89 -Wall -pedantic -fPIC"
@@ -48,15 +50,42 @@ func main() {
     TSTTARGET = path.Join(TST, PRO)
 	}
 
+	dir, _ := ioutil.ReadDir(SRC)
+	var CFILES []string
+	for _, file := range dir {
+		if !file.IsDir() {
+			matched, _ := regexp.MatchString(`\.c$`, file.Name())
+			if matched {
+				CFILES = append(CFILES, path.Join(SRC, file.Name()))
+			}
+		}
+	}
+	fmt.Println(CFILES)
+
 	var args []string = os.Args
 	if len(args) == 1 {
-	
+		for _, file := range CFILES {
+			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
+			cmd := exec.Command("cc")
+			cmd.Run()
+			fmt.Println(obj)
+		}
 	} else if args[1] == "test" {
 
 	} else if args[1] == "clean" {
-
+		for _, file := range CFILES {
+			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
+			cmd := exec.Command("cc")
+			cmd.Run()
+			fmt.Println(obj)
+		}
 	} else if args[1] == "distclean" {
-
+		for _, file := range CFILES {
+			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
+			cmd := exec.Command("cc")
+			cmd.Run()
+			fmt.Println(obj)
+		}
 	} else if args[1] == "help" {
     fmt.Printf("%s    <target>\n", args[0])
     fmt.Printf("<target>: \n")

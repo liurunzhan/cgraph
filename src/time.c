@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include <time.h>
 #include "cgraph_memory.h"
 #include "cgraph_time.h"
@@ -98,16 +99,26 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, initc)(const cgraph_char_t *cthis, const cgraph_char_t *sep)
 {
   TYPE res;
+  cgraph_size_t i = 0;
+  DATA_TYPE res_tmp[TYPE1_ELEMENTS] = {0};
   if((NULL != cthis) && (NULL != sep))
   {
-    char *buffer = cgraph_calloc(strlen(cthis));
+    char *buffer = cgraph_calloc(strlen(cthis)+1);
     if(NULL != buffer)
     {
+      char *p = NULL;
       buffer = cgraph_strcpy(buffer, cthis);
-      
+      while((NULL != (p = strtok(buffer, sep))) && (TYPE1_ELEMENTS > i))
+      { res_tmp[i++] = atoi(p); }
       cgraph_free(buffer);
     }
   }
+  TIME_YEAR(res) = res_tmp[0];
+  TIME_MONTH(res) = res_tmp[1];
+  TIME_DAY(res) = res_tmp[2];
+  TIME_HOUR(res) = res_tmp[3];
+  TIME_MINUTE(res) = res_tmp[4];
+  TIME_SECOND(res) = res_tmp[5];
 
   return res;
 }

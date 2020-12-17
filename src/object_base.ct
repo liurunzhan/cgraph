@@ -37,7 +37,8 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
   if(NULL != _cthis)
   {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
-    _len = (ID == _type ? 1 : OBJECT(_type, len)(_cthis->data));
+    /* _len = (ID == _type ? 1 : OBJECT(_type, len)(_cthis->data)); */
+    _len = OBJECT(_type, len)(_cthis->data);
   }
 
   return _len;
@@ -50,7 +51,8 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const void *cthis)
   if(NULL != _cthis)
   {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
-    _size = (ID == _type ? 1 : OBJECT(_type, size)(_cthis->data));
+    /* _size = (ID == _type ? 1 : OBJECT(_type, size)(_cthis->data)); */
+    _size = OBJECT(_type, size)(_cthis->data);
   }
 
   return _size;
@@ -114,9 +116,10 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
     _object = (TYPE *)FUNCTION(NAME, calloc)(_type, _size);
     if(NULL != _object)
     {
-      void *tmp = NULL;
+      void *tmp = _object->data;
       cgraph_memcpy(_object, _cthis, FUNCTION(NAME, tsize)());
       _object->data = tmp;
+      cgraph_memcpy(_object->data, _cthis->data, OBJECT(_type, msize)(_type, _size));
     }
   }
 
@@ -128,10 +131,10 @@ void FUNCTION(NAME, free)(void *cthis)
   TYPE *_cthis = (TYPE *)cthis;
   if(NULL != _cthis)
   {
-    cgraph_type_t type = CGRAPH_DTYPE_TYPE(_cthis);
-    OBJECT(type, free)(_cthis->data);
+    cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
+    OBJECT(_type, free)(_cthis->data);
   #if DEBUG
-    fprintf(stdout, "FREE OBJECT TYPE : %d\n", type);
+    fprintf(stdout, "FREE OBJECT TYPE : %d\n", _type);
   #endif
     cgraph_free(_cthis);
   }

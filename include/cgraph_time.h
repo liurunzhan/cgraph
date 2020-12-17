@@ -73,6 +73,8 @@ typedef struct
 #define TIME_TYPE0(x)  ((x).data.type0)
 #define TIME_TYPE1(x) ((x).data.type1)
 
+#define TYPE1_ELEMENTS (6)
+
 #endif /* CGRAPH_STDC_VERSION */
 
 #define TIME_TYPE(x)    ((x).type)
@@ -82,14 +84,14 @@ typedef struct
 #define TIME_VALUE0(x) (TIME_TYPE0(x).time0)
 #define TIME_VALUE1(x) (TIME_TYPE0(x).time1)
 #define TIME_VALUE(x)  ((TIME_VALUE1(x) << 31) + TIME_VALUE0(x))
+#define TIME_WEEK(x)   (TIME_TYPE1(x).weeks)
+#define TIME_DAYS(x)   (TIME_TYPE1(x).days)
 #define TIME_YEAR(x)   (TIME_TYPE1(x).year)
 #define TIME_MONTH(x)  (TIME_TYPE1(x).month)
 #define TIME_DAY(x)    (TIME_TYPE1(x).day)
 #define TIME_HOUR(x)   (TIME_TYPE1(x).hour)
 #define TIME_MINUTE(x) (TIME_TYPE1(x).minute)
 #define TIME_SECOND(x) (TIME_TYPE1(x).second)
-#define TIME_WEEK(x)   (TIME_TYPE1(x).weeks)
-#define TIME_DAYS(x)   (TIME_TYPE1(x).days)
 
 #include "data_base.ht"
 

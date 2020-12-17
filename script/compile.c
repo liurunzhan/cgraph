@@ -1,23 +1,29 @@
 #!/usr/bin/tcc -run
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
 
-#define STRING_MAX 2048
+#define STRING_MAX 4096
 
 int main(int argc, char *argv[])
 {
   char *PRO = "cgraph";
-  char *DIR = ".";
+  char *_DIR = ".";
   char INC[STRING_MAX], SRC[STRING_MAX], TST[STRING_MAX], LIB[STRING_MAX];
+
+  sprintf(INC, "%s/%s", _DIR, "include");
+  sprintf(SRC, "%s/%s", _DIR, "src");
+  sprintf(TST, "%s/%s", _DIR, "test");
+  sprintf(LIB, "%s/%s", _DIR, "lib");
+
   char CFLAGS[STRING_MAX];
-  
   char *CC = "cc";
   char *CSFLAGS = "-shared";
+  strcpy(CFLAGS, "-pedantic -Wall -fPIC -std=c89");
 
   char *mode = "debug";
-  strcpy(CFLAGS, "-pedantic -Wall -fPIC -std=c89");
   if (mode == "debug")
   { strcat(CFLAGS, " -g -DDEBUG"); }
   else if (mode == "release")
@@ -25,7 +31,20 @@ int main(int argc, char *argv[])
   
   char *AR = "ar";
   char *ARFLAGS = "-rcs";
+  DIR *dptr;
+  struct dirent *eptr;
+  if(NULL == (dptr = opendir(SRC)))
+  {
+    fprintf(stderr, "read directory %s error!\n", SRC);
+    exit(-1);
+  }
   
+  while(NULL != (eptr = readdir(dptr)))
+  {
+    printf("%s\n", eptr->d_name);
+  }
+  closedir(dptr);
+
   if(argc == 1)
   {
     

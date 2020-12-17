@@ -14,6 +14,13 @@ elif MODE == "release":
 AR = "ar"
 ARFLAGS = "-rcs"
 
+PRO = "cgraph"
+DIR = "."
+INC = join_path(DIR, "include")
+SRC = join_path(DIR, "src")
+TST = join_path(DIR, "test")
+LIB = join_path(DIR, "lib")
+
 rule compile
   command = $CC $CFLAGS $CSFLAGS -c $in -o $out -MD -MF $out.d
   description = compile $in to $out

@@ -63,6 +63,7 @@ test/cgraph
 .VSCodeCounter/
 
 # Autoconf Files
+*.log
 autom4te.cache/
 configure*
 !Configure.pl
