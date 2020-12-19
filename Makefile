@@ -5,7 +5,7 @@ export TOOLS = make cmake xmake\
 	     perl perl6 ruby python lua r julia lisp typescript \
 	     java scala kotlin clojure groovy
 
-MAKE = make
+MAKE ?= make
 
 .PHONY: all test clean distclean doc cloc help $(TOOLS)
 

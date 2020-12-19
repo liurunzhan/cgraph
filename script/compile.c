@@ -5,7 +5,11 @@
 #include <string.h>
 #include <dirent.h>
 
-#define STRING_MAX 4096
+#define STRING_MAX 256
+#define CMD_MAX 81960
+#define FILE_NUM 100
+
+extern char **environ;
 
 int main(int argc, char *argv[])
 {
@@ -28,26 +32,55 @@ int main(int argc, char *argv[])
   { strcat(CFLAGS, " -g -DDEBUG"); }
   else if (mode == "release")
   { strcat(CFLAGS, " -static -O2"); }
+
+  // build and clean directories and files
+  char *MKDIR = "mkdir";
+  char *RM = "rm";
+  char *RMFLAGS = "-rf";
+  
+  char *RMDIR = "rm";
+  char *RMDIRFLAGS = "-rf";
   
   char *AR = "ar";
   char *ARFLAGS = "-rcs";
+
+  char **env = environ;
+  while(*env)
+  {
+    fprintf(stdout, "%s\n", *env);
+    env ++;
+  }
+
+  char CFILES[STRING_MAX][FILE_NUM], OBJ[STRING_MAX];
   DIR *dptr;
   struct dirent *eptr;
+  int i = 0, j;
   if(NULL == (dptr = opendir(SRC)))
   {
     fprintf(stderr, "read directory %s error!\n", SRC);
     exit(-1);
   }
-  
   while(NULL != (eptr = readdir(dptr)))
   {
-    printf("%s\n", eptr->d_name);
+    int len = strlen(eptr->d_name);
+    if(('c' == eptr->d_name[len-1]) && ('.' == eptr->d_name[len-2]))
+    { sprintf(CFILES[i++], "%s/%s", SRC, eptr->d_name); }
   }
   closedir(dptr);
 
+  char CMD[CMD_MAX], BUFFER[CMD_MAX];
   if(argc == 1)
   {
-    
+    sprintf(BUFFER, "%s %s -I%s", CC, CFLAGS, INC);
+    for(j=0; j<i; j++)
+    {
+      int len = strlen(CFILES[j]);
+      strcpy(OBJ, CFILES[j]);
+      OBJ[len-1] = 'o';
+      sprintf(CMD, "%s -c %s -o %s\n", BUFFER, CFILES[j], OBJ);
+      fprintf(stdout, CMD);
+      system(CMD);
+    }
   }
   else if(0 == strcmp("test", argv[1]))
   {
@@ -55,11 +88,24 @@ int main(int argc, char *argv[])
   }
   else if(0 == strcmp("clean", argv[1]))
   {
-    
+    sprintf(BUFFER, "%s %s", RM, RMFLAGS);
+    for(j=0; j<i; j++)
+    {
+      int len = strlen(CFILES[j]);
+      strcpy(OBJ, CFILES[j]);
+      OBJ[len-1] = 'o';
+      fprintf(stdout, "%s %s\n", BUFFER, OBJ);
+    }  
   }
   else if(0 == strcmp("distclean", argv[1]))
   {
-    
+    for(j=0; j<i; j++)
+    {
+      int len = strlen(CFILES[j]);
+      strcpy(OBJ, CFILES[j]);
+      OBJ[len-1] = 'o';
+      fprintf(stdout, "%s\n", OBJ);
+    }
   }
   else if(0 == strcmp("help", argv[1]))
   {

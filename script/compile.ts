@@ -20,5 +20,14 @@ if (MODE == "debug") {
   CFLAGS.concat(" -static -O2");
 }
 
+# build and clean directories and files
+let MKDIR : string = "mkdir";
+let RM : string = "rm";
+let RMFLAGS : string = "-rf";
+
+let RMDIR : string = "rm";
+let RMDIRFLAGS : string = "-rf";
+
 let AR : string = "ar";
 let ARFLAGS : string = "-rcs";
+

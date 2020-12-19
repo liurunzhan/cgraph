@@ -3,7 +3,7 @@
 
 export CC = cc
 export CFLAGS = -std=c89 -Wall -pedantic
-export MAKE = make
+export MAKE ?= make
 export AR = ar
 export ARFLAGS = -rcs
 export CSFLAGS = -shared

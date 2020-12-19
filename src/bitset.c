@@ -81,6 +81,7 @@ TYPE *FUNCTION(NAME, bits)(const TYPE *cthis, const cgraph_size_t min, const cgr
 
 TYPE *FUNCTION(NAME, sets)(TYPE *cthis, const cgraph_size_t min, const cgraph_size_t max)
 {
+  
 
   return cthis;
 }
@@ -93,6 +94,7 @@ TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min, const cgraph_si
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
+  
 
   return z;
 }

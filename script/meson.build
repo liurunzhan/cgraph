@@ -3,6 +3,10 @@ project(PRO, "c")
 executable(PRO, "cgraph.c")
 library(PRO)
 
-CC = cc 
+CC = "cc" 
 CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
 CSFLAGS = "-shared"
+
+
+AR = "ar"
+ARFLAGS = "-rcs"

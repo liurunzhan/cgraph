@@ -83,7 +83,7 @@ typedef struct
 
 #define TIME_VALUE0(x) (TIME_TYPE0(x).time0)
 #define TIME_VALUE1(x) (TIME_TYPE0(x).time1)
-#define TIME_VALUE(x)  ((TIME_VALUE1(x) << 31) + TIME_VALUE0(x))
+#define TIME_VALUE(x)  (((cgraph_int64_t)TIME_VALUE1(x) << 31) + TIME_VALUE0(x))
 #define TIME_WEEK(x)   (TIME_TYPE1(x).weeks)
 #define TIME_DAYS(x)   (TIME_TYPE1(x).days)
 #define TIME_YEAR(x)   (TIME_TYPE1(x).year)
@@ -107,6 +107,7 @@ extern TYPE FUNCTION(NAME, sub0i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, mul0i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, div0i)(const TYPE x, const DATA_TYPE y);
 
+extern TYPE FUNCTION(NAME, mul0I)(const TYPE x);
 extern TYPE FUNCTION(NAME, add0t)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub0t)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul0t)(const TYPE x, const TYPE y);
@@ -117,6 +118,7 @@ extern TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, mul1i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, div1i)(const TYPE x, const DATA_TYPE y);
 
+extern TYPE FUNCTION(NAME, mul1I)(const TYPE x);
 extern TYPE FUNCTION(NAME, add1t)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub1t)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul1t)(const TYPE x, const TYPE y);

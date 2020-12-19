@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"regexp"
 	"path"
+	"runtime"
 )
 
 func main() {
@@ -28,7 +29,15 @@ func main() {
     CFLAGS = CFLAGS + " -g -DDEBUG"
   } else if MODE == "release" {
     CFLAGS = CFLAGS + " -static -O2"
-  }
+	}
+	
+	// build and clean directories and files
+	var MKDIR string = "mkdir"
+	var RM string = "rm"
+	var RMFLAGS string = "-rf"
+	
+	var RMDIR string = "rm"
+	var RMDIRFLAGS string = "-rf"
 
 	var AR string = "ar"
 	var ARFLAGS string = "-rcs"
@@ -66,7 +75,7 @@ func main() {
 	if len(args) == 1 {
 		for _, file := range CFILES {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
-			cmd := exec.Command("cc")
+			cmd := exec.Command(CC, )
 			cmd.Run()
 			fmt.Println(obj)
 		}
@@ -75,7 +84,7 @@ func main() {
 	} else if args[1] == "clean" {
 		for _, file := range CFILES {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
-			cmd := exec.Command("cc")
+			cmd := exec.Command(RM, RMFLAGS, obj)
 			cmd.Run()
 			fmt.Println(obj)
 		}

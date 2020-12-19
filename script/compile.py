@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+"""
+  This script is used to compile library by Python-2.7 or higher
+"""
+
 import os
 import sys
 import platform
