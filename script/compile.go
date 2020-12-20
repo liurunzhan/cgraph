@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"path"
 	"runtime"
+	"strings"
 )
 
 func main() {
@@ -21,23 +22,15 @@ func main() {
 	var LIB string = path.Join(DIR, "lib")
 
   var CC string = "cc"
-  var CFLAGS string = "-std=c89 -Wall -pedantic -fPIC"
+  var CFLAGS []string = strings.Split("-std=c89 -Wall -pedantic -fPIC", " ")
   var CSFLAGS string = "-shared"
 
   var MODE string = "debug"
   if MODE == "debug" {
-    CFLAGS = CFLAGS + " -g -DDEBUG"
+    CFLAGS = append(CFLAGS, "-g", "-DDEBUG")
   } else if MODE == "release" {
-    CFLAGS = CFLAGS + " -static -O2"
+    CFLAGS = append(CFLAGS, "-static", "-O2")
 	}
-	
-	// build and clean directories and files
-	var MKDIR string = "mkdir"
-	var RM string = "rm"
-	var RMFLAGS string = "-rf"
-	
-	var RMDIR string = "rm"
-	var RMDIRFLAGS string = "-rf"
 
 	var AR string = "ar"
 	var ARFLAGS string = "-rcs"
@@ -69,32 +62,65 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(CFILES)
 
 	var args []string = os.Args
 	if len(args) == 1 {
+		if _, err := os.Stat(LIB); os.IsNotExist(err) {
+			os.MkdirAll(LIB, 0777)
+		}
+		var OFILES []string
 		for _, file := range CFILES {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
-			cmd := exec.Command(CC, )
+			fmt.Printf("compile %s to %s\n", file, obj)
+			ARGS := append(CFLAGS, "-I"+INC, "-c", file, "-o", obj)
+			cmd := exec.Command(CC, ARGS...)
 			cmd.Run()
-			fmt.Println(obj)
+			OFILES = append(OFILES, obj)
 		}
+		fmt.Printf("compile %s\n", LIBSHARED)
+		ARGS0 := []string{CSFLAGS, "-o", LIBSHARED}
+		ARGS0 = append(ARGS0, OFILES...)
+		cmd0 := exec.Command(CC, ARGS0...)
+		cmd0.Run()
+		fmt.Printf("compile %s\n", LIBSTATIC)
+		ARGS1 := []string{ARFLAGS, LIBSTATIC}
+		ARGS1 = append(ARGS1, OFILES...)
+		cmd1 := exec.Command(AR, ARGS1...)
+		cmd1.Run()
 	} else if args[1] == "test" {
-
+		fmt.Printf("compile %s to \n", TSTFILE, TSTTARGET)
+		ARGS0 := append(CFLAGS, "-I"+INC, "-o", TSTTARGET, TSTFILE, "-L"+LIB, "-static", "-l"+PRO, "-lm")
+		cmd0 := exec.Command(CC, ARGS0...)
+		cmd0.Run()
+		fmt.Printf("test %s with %s/elements.csv", TSTTARGET, TST)
+		cmd1 := exec.Command(TSTTARGET, TST, "/elements.csv")
+		cmd1.Run()
 	} else if args[1] == "clean" {
 		for _, file := range CFILES {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
-			cmd := exec.Command(RM, RMFLAGS, obj)
-			cmd.Run()
-			fmt.Println(obj)
+			fmt.Printf("clean %s\n", obj)
+			os.Remove(obj)
 		}
+		fmt.Printf("clean %s\n", LIBSHARED)
+		os.Remove(LIBSHARED)
+		fmt.Printf("clean %s\n", LIBSTATIC)
+		os.Remove(LIBSTATIC)
+		fmt.Printf("clean %s\n", TSTTARGET)
+		os.Remove(TSTTARGET)
 	} else if args[1] == "distclean" {
 		for _, file := range CFILES {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
-			cmd := exec.Command("cc")
-			cmd.Run()
-			fmt.Println(obj)
+			fmt.Printf("clean %s\n", obj)
+			os.Remove(obj)
 		}
+		fmt.Printf("clean %s\n", LIBSHARED)
+		os.Remove(LIBSHARED)
+		fmt.Printf("clean %s\n", LIBSTATIC)
+		os.Remove(LIBSTATIC)
+		fmt.Printf("clean %s\n", LIB)
+		os.RemoveAll(LIB)
+		fmt.Printf("clean %s\n", TSTTARGET)
+		os.Remove(TSTTARGET)
 	} else if args[1] == "help" {
     fmt.Printf("%s    <target>\n", args[0])
     fmt.Printf("<target>: \n")

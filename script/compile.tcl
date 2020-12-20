@@ -1,4 +1,4 @@
-#!/usr/bin/csh -f
+#!/usr/bin/tclsh -f
 
 set PRO "cgraph"
 set DIR "."

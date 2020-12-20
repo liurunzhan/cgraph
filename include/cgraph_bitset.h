@@ -41,6 +41,12 @@ extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 
+extern TYPE *FUNCTION(NAME, and)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, or)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, xor)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, xnor)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, not)(const TYPE *x, TYPE *y);
+
 #include "templete_off.h"
 
 #ifdef __cplusplus

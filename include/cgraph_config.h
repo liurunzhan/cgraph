@@ -277,6 +277,17 @@ typedef cgraph_uint8_t cgraph_addr8_t;
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define CGRAPH_ABS(x) (((x) < 0) ? (-(x)) : (x))
+#define CGRAPH_AND(x, y) ((x) & (y))
+#define CGRAPH_OR(x, y) ((x) | (y))
+#define CGRAPH_XOR(x, y) ((x) ^ (y))
+#define CGRAPH_NOT(x) (~(x))
+#define CGRAPH_XNOR(x, y) CGRAPH_NOT(CGRAPH_XOR(x, y))
+#define CGRAPH_BIT(x, pos) (((x) >> (pos)) & 0x01)
+#define CGRAPH_BSET(x, pos) ((x) | (0x01 << (pos)))
+#define CGRAPH_BCLR(x, pos) ((x) & (~(0x01 << (pos))))
+#define CGRAPH_BITS(x, from, to) (((x) >> (from)) & (~(ONES << ((to) - (from)))))
+#define CGRAPH_BSETS(x, from, to) ((x) | ((~(ONES << ((to) - (from)))) << (from)))
+#define CGRAPH_BCLRS(x, from, to) ((x) & ((ONES << (to)) | (~(ONES << (from)))))
 
 /**
  * @def CGRAPH_DTYPE_MAX

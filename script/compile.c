@@ -8,6 +8,7 @@
 #define STRING_MAX 256
 #define CMD_MAX 81960
 #define FILE_NUM 100
+#define STRING_END '\0'
 
 extern char **environ;
 
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
   char CFLAGS[STRING_MAX];
   char *CC = "cc";
   char *CSFLAGS = "-shared";
-  strcpy(CFLAGS, "-pedantic -Wall -fPIC -std=c89");
+  strcpy(CFLAGS, "-std=c89 -Wall -pedantic -fPIC");
 
   char *mode = "debug";
   if (mode == "debug")
@@ -45,10 +46,19 @@ int main(int argc, char *argv[])
   char *ARFLAGS = "-rcs";
 
   char **env = environ;
-  while(*env)
+  char *path = "PATH";
+  for(; NULL != *env; env++)
   {
-    fprintf(stdout, "%s\n", *env);
-    env ++;
+    char *senv = *env, *tpath = NULL;
+    for(tpath=path; STRING_END != *tpath; tpath++, senv++)
+    {
+      if(*tpath != *senv)
+      { break; }
+    }
+    if(STRING_END == *tpath)
+    {
+      fprintf(stdout, "%s\n", *env);
+    }
   }
 
   char CFILES[STRING_MAX][FILE_NUM], OBJ[STRING_MAX];
@@ -62,8 +72,10 @@ int main(int argc, char *argv[])
   }
   while(NULL != (eptr = readdir(dptr)))
   {
-    int len = strlen(eptr->d_name);
-    if(('c' == eptr->d_name[len-1]) && ('.' == eptr->d_name[len-2]))
+    char *file = eptr->d_name;
+    for(; STRING_END != *file; file++)
+    { }
+    if(('c' == *(--file)) && ('.' == *(--file)))
     { sprintf(CFILES[i++], "%s/%s", SRC, eptr->d_name); }
   }
   closedir(dptr);
@@ -74,13 +86,18 @@ int main(int argc, char *argv[])
     sprintf(BUFFER, "%s %s -I%s", CC, CFLAGS, INC);
     for(j=0; j<i; j++)
     {
-      int len = strlen(CFILES[j]);
-      strcpy(OBJ, CFILES[j]);
-      OBJ[len-1] = 'o';
+      char *tCFILE = CFILES[j], *tOBJ = OBJ;
+      for(; STRING_END != *tCFILE; tCFILE++, tOBJ++)
+      { *tOBJ = *tCFILE; }
+      *tOBJ = STRING_END;
+      *(--tOBJ) = 'o';
       sprintf(CMD, "%s -c %s -o %s\n", BUFFER, CFILES[j], OBJ);
       fprintf(stdout, CMD);
-      system(CMD);
     }
+    // fprintf(stdout, "compile %s\n", LIBSHARED);
+    // ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o
+    // fprintf(stdout, "compile %s\n", LIBSTATIC);
+    // ${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o
   }
   else if(0 == strcmp("test", argv[1]))
   {
@@ -91,20 +108,29 @@ int main(int argc, char *argv[])
     sprintf(BUFFER, "%s %s", RM, RMFLAGS);
     for(j=0; j<i; j++)
     {
-      int len = strlen(CFILES[j]);
-      strcpy(OBJ, CFILES[j]);
-      OBJ[len-1] = 'o';
-      fprintf(stdout, "%s %s\n", BUFFER, OBJ);
-    }  
+      char *tCFILE = CFILES[j], *tOBJ = OBJ;
+      for(; STRING_END != *tCFILE; tCFILE++, tOBJ++)
+      { *tOBJ = *tCFILE; }
+      *tOBJ = STRING_END;
+      *(--tOBJ) = 'o';
+      sprintf(CMD, "%s %s\n", BUFFER, OBJ);
+      fprintf(stdout, "clean %s\n", OBJ);
+      system(CMD);
+    }
   }
   else if(0 == strcmp("distclean", argv[1]))
   {
+    sprintf(BUFFER, "%s %s", RMDIR, RMDIRFLAGS);
     for(j=0; j<i; j++)
     {
-      int len = strlen(CFILES[j]);
-      strcpy(OBJ, CFILES[j]);
-      OBJ[len-1] = 'o';
-      fprintf(stdout, "%s\n", OBJ);
+      char *tCFILE = CFILES[j], *tOBJ = OBJ;
+      for(; STRING_END != *tCFILE; tCFILE++, tOBJ++)
+      { *tOBJ = *tCFILE; }
+      *tOBJ = STRING_END;
+      *(--tOBJ) = 'o';
+      sprintf(CMD, "%s %s\n", BUFFER, OBJ);
+      fprintf(stdout, "clean %s\n", OBJ);
+      system(CMD);
     }
   }
   else if(0 == strcmp("help", argv[1]))

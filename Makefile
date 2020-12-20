@@ -26,7 +26,7 @@ doc:
 	doxygen
 
 cloc:
-	cloc include src script --force-lang=C,ct --force-lang="C/C++ Header",ht
+	cloc include src script --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=d,o
 
 $(TOOLS):
 	$(MAKE) -f Makefile.sub $@ TOOL=$@ CMD=$(CMD)

@@ -12,7 +12,7 @@ What's more, this library provides perl script [compile.pl](./script/compile.pl)
 
 In addtion, this library provides some other language scripts, based on jvm, to do the same work, such as java script [compile.java](./script/compile.java) in openjdk11, scala script [compile.scala](./script/compile.scala), kotlin script [compile.kts](./script/compile.kts), clojure script [compile.clj](./script/compile.clj) and groovy script [compile.groovy](./script/compile.groovy).
 
-Any compiler who supports STANDARD C89/ANSI C/C99 can compile this library well, such as mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc and clang. Their flags are lised as bellow. If you want to cross compilers, use flag "-pedantic -Wall -std=c89/c99/c11" or "-pedantic -Wall -ansi" instead.
+Any compiler who supports STANDARD C89/ANSI C/C99/C11 can compile this library well, such as mingw32-gcc, mingw-w64-i686-gcc, mingw-w64-x86_64-gcc, tcc, gcc and clang. Their flags are lised as bellow. If you want to cross compilers, use flag "-pedantic -Wall -std=c89/c99/c11" or "-pedantic -Wall -ansi" instead.
 
 | tool | optional flags 1 | optional flags 2 |
 | :-: | :-: | :-: |

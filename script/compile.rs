@@ -8,11 +8,11 @@ fn main() {
   let PRO = "cgraph";
   let DIR = path::Path::new(".");
   let INC = DIR.join("include");
-  let SRC = DIR.join("SRC");
+  let SRC = DIR.join("src");
   let TST = DIR.join("test");
-  let LIB = DIR.join("LIB");
+  let LIB = DIR.join("lib");
 
-  let CC = "CC";
+  let CC = "cc";
   let mut CFLAGS = "-std=c89 -Wall -pedantic -fPIC".to_string();
   let CSFLAGS = "-shared";
   
@@ -29,10 +29,10 @@ fn main() {
   
   for file in SRC.read_dir().expect("read_dir call failed") {
     if let Ok(file) = file {
-      if "c" == file.path().extension().unwrap() {
+      if file.path().extension() != None && "c" == file.path().extension().unwrap() {
         let path = file.path();
         let obj = path.with_extension("o");
-        println!("{:?}", path);
+        println!("{:?} {:?}", path, obj);
       }
     }
   }
@@ -40,8 +40,19 @@ fn main() {
   let args: Vec<String> = env::args().collect();
   if args.len() == 1 {
     if !LIB.exists() {
-      fs::create_dir(LIB);
+      fs::create_dir(LIB).unwrap();
     }
+
+    for file in SRC.read_dir().expect("read_dir call failed") {
+      if let Ok(file) = file {
+        if file.path().extension() != None && "c" == file.path().extension().unwrap() {
+          let path = file.path();
+          let obj = path.with_extension("o");
+          println!("{:?} {:?}", path, obj);
+        }
+      }
+    }
+
   } else if args[1] == "test" {
 
   } else if args[1] == "clean" {

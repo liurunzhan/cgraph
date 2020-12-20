@@ -11,7 +11,7 @@ cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
   cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != _x && NULL != _y)
   {
-    if(EQ(_x, _y))
+    if(EQ(*_x, *_y))
     { flag = CGRAPH_TRUE; }
   }
   else if(NULL == _x && NULL == _y)
@@ -73,57 +73,57 @@ TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y)
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y)
 {
-  return x & y;
+  return CGRAPH_AND(x, y);
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y)
 {
-  return x | y;
+  return CGRAPH_OR(x, y);
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, not)(const TYPE x)
 {
-  return ~x;
+  return CGRAPH_NOT(x);
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y)
 {
-  return x ^ y;
+  return CGRAPH_XOR(x, y);
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
 {
-  return ~(x ^ y);
+  return CGRAPH_XNOR(x, y);
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, bit)(const TYPE x, const cgraph_size_t position)
 {
-  return (x >> (position % BITS)) & 1;
+  return (BITS < position) ? CGRAPH_BIT(x, position) : 0;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, set)(const TYPE x, const cgraph_size_t position)
 {
-  return x | (1 << (position % BITS));
+  return (BITS < position) ? CGRAPH_BSET(x, position) : 0;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, clr)(const TYPE x, const cgraph_size_t position)
 {
-  return x & (~(1 << (position % BITS)));
+  return (BITS < position) ? CGRAPH_BCLR(x, position) : 0;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
-  return (x >> (from % BITS)) & (~(ONES << ((to - from) % BITS)));
+  return to > from ? CGRAPH_BITS(x, from, to) : 0;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
-  return x | ((~((ONES << ((to - from) % BITS)))) << (from % BITS));
+  return to > from ? CGRAPH_BSETS(x, from, to) : 0;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
 {
-  return x & ((ONES << (to % BITS)) | (~(ONES << (from % BITS))));
+  return to > from ? CGRAPH_BCLRS(x, from, to) : 0;
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
