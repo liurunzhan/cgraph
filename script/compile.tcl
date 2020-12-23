@@ -47,19 +47,36 @@ if { [ $argc == 0 ] } {
   puts "compile ${LIBSTATIC}"
   exec sh -c "${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o"
 } elseif { [ lindex $argv 0 ] == "test" } {
-
+  puts "compile ${TSTFILE} to ${TSTTARGET}"
+  exec sh -c "${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm"
+  puts "test ${TSTTARGET} with ${TST}/elements.csv"
+  exec sh -c "${TSTTARGET} ${TST}/elements.csv"
 } elseif { [ lindex $argv 0 ] == "clean" } {
   foreach file $CFILES {
     regsub {.c$} $file .o obj
     puts "clean ${obj}"
     exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}"
   }
+  puts "clean ${LIBSHARED}"
+  exec sh -c "${RM} ${RMFLAGS} ${LIBSHARED}"
+  puts "clean ${LIBSTATIC}"
+  exec sh -c "${RM} ${RMFLAGS} ${LIBSTATIC}"
+  puts "clean ${TSTTARGET}"
+  exec sh -c "${RM} ${RMFLAGS} ${TSTTARGET}"
 } elseif { [ lindex $argv 0 ] == "distclean" } {
   foreach file $CFILES {
     regsub {.c$} $file .o obj
     puts "clean ${obj}"
-    exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}"
+    exec sh -c "${RM} ${RMFL} ${obj}"
   }
+  puts "clean ${LIBSHARED}"
+  exec sh -c "${RM} ${RMFLAGS} ${LIBSHARED}"
+  puts "clean ${LIBSTATIC}"
+  exec sh -c "${RM} ${RMFLAGS} ${LIBSTATIC}"
+  puts "clean ${LIB}"
+  exec sh -c "${RMDIR} ${RMDIRFLAGS} ${LIB}"
+  puts "clean ${TSTTARGET}"
+  exec sh -c "${RM} ${RMFLAGS} ${TSTTARGET}"
 } elseif { [ lindex $argv 0 ] == "help" } {
   puts "$argv0 <target>"
   puts "<target>: "

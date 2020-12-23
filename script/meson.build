@@ -7,6 +7,5 @@ CC = "cc"
 CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
 CSFLAGS = "-shared"
 
-
 AR = "ar"
 ARFLAGS = "-rcs"

@@ -16,47 +16,17 @@ extern "C" {
 #define CGRAPH_TIME_TYPE0  (0)
 #define CGRAPH_TIME_TYPE1 (1)
 
-#if (CGRAPH_STDC_VERSION >= 199901L) /* C99 OR HIGHER */ 
 typedef struct
 {
   DATA_UTYPE type:1;
   union 
   {
-    struct
-    {
-      DATA_TYPE time0:31;
-      DATA_TYPE time1:32;
-    };
-    struct 
-    {
-      DATA_TYPE weeks:4;  /* maximum is 7      */
-      DATA_TYPE days:10;  /* maximum is 366    */
-      DATA_TYPE year:18;  /* maximum is 2^17-1 */
-      DATA_TYPE month:5;  /* maximum is 12     */
-      DATA_TYPE day:6;    /* maximum is 31     */
-      DATA_TYPE hour:6;   /* maximum is 24     */
-      DATA_TYPE minute:7; /* maximum is 60     */
-      DATA_TYPE second:7; /* maximum is 60     */
-    };
-  };
-}cgraph_time_t;
-
-#define TIME_TYPE0(x)  ((x))
-#define TIME_TYPE1(x) ((x))
-
-#else
-/* C89 OR C90 */
-typedef struct
-{
-  DATA_UTYPE type:1;
-  union 
-  {
-    struct time_type0_t
+    struct __CGRAPH_TYPE_BEGIN(time_type0_t)
     {
       DATA_TYPE time1:31;
       DATA_TYPE time0:32;
-    }type0;
-    struct time_type1_t 
+    }__CGRAPH_TYPE_END(type0);
+    struct  __CGRAPH_TYPE_BEGIN(time_type1_t)
     {
       DATA_TYPE weeks:4;  /* maximum is 7      */
       DATA_TYPE days:10;  /* maximum is 366    */
@@ -66,16 +36,14 @@ typedef struct
       DATA_TYPE hour:6;   /* maximum is 24     */
       DATA_TYPE minute:7; /* maximum is 60     */
       DATA_TYPE second:7; /* maximum is 60     */
-    }type1;
-  }data;
+    }__CGRAPH_TYPE_END(type1);
+  }__CGRAPH_TYPE_END(data);
 }cgraph_time_t;
 
-#define TIME_TYPE0(x)  ((x).data.type0)
-#define TIME_TYPE1(x) ((x).data.type1)
+#define TIME_TYPE0(x)  __CGRAPH_TYPE_ELEMENT((x), data.type0)
+#define TIME_TYPE1(x) __CGRAPH_TYPE_ELEMENT((x), data.type1)
 
 #define TYPE1_ELEMENTS (6)
-
-#endif /* CGRAPH_STDC_VERSION */
 
 #define TIME_TYPE(x)    ((x).type)
 #define TIME_ISTYPE0(x) ((x).type == 0)

@@ -1,74 +1,90 @@
 #!/usr/bin/csh -f
 
-set PRO "cgraph"
-set DIR "."
-set INC [file join ${DIR} "include"]
-set SRC [file join ${DIR} "src"]
-set TST [file join ${DIR} "test"]
-set LIB [file join ${DIR} "lib"]
+set PRO="cgraph"
+set DIR="."
+set INC=${DIR}/"include"
+set SRC=${DIR}/"src"
+set TST=${DIR}/"test"
+set LIB=${DIR}/"lib"
 
-set CC "cc"
-set CFLAGS "-std=c89 -Wall -pedantic"
-set CSFLAGS "-shared"
+set CC="cc"
+set CFLAGS="-std=c89 -Wall -pedantic"
+set CSFLAGS="-shared"
 
-if { [ $CC != "tcc" ] } {
-  append CFLAGS " -pedantic-errors"
-}
-append CFLAGS " -fPIC"
+if ( $CC != "tcc" ) then
+  set CFLAGS="${CFLAGS} -pedantic-errors"
+endif
+set CFLAGS="${CFLAGS} -fPIC"
 
-set MODE "debug"
-if { [ string compare $MODE "debug" ] } {
-  append CFLAGS " -g -DDEBUG"
-} elseif { [ string compare $MODE "release" ] } {
-  append CFLAGS " -static -O2"
-}
+set MODE="debug"
+if ( $MODE == "debug" ) then
+  set CFLAGS="${CFLAGS} -g -DDEBUG"
+else if ( $MODE == "release" ) then
+  set CFLAGS="${CFLAGS} -static -O2"
+endif
 
 # package shared library
-set AR ar
-set ARFLAGS "-rcs"
+set AR="ar"
+set ARFLAGS="-rcs"
 
 # source files
-set CFILES [glob ${SRC}/*.c]
+set CFILES=`ls ${SRC}/*.c`
+echo ${CFILES}
+
 # target files
-set LIBSHARED ${LIB}/lib${PRO}.so
-set LIBSTATIC ${LIB}/lib${PRO}.a
+set LIBSHARED=${LIB}/lib${PRO}.so
+set LIBSTATIC=${LIB}/lib${PRO}.a
 # test files
-set TSTFILE ${TST}/${PRO}.c
-set TSTTARGET ${TST}/${PRO}
+set TSTFILE=${TST}/${PRO}.c
+set TSTTARGET=${TST}/${PRO}
 
-if { [ $argc == 0 ] } {
-  foreach file $CFILES {
+if ( $#argv == 0 ) then
+  foreach file ($CFILES)
     regsub {.c$} $file .o obj
-    puts "compile ${file} to ${obj}"
-    exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}"
-  }
-  puts "compile ${LIBSHARED}"
-  exec sh -c "${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o"
-  puts "compile ${LIBSTATIC}"
-  exec sh -c "${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o"
-} elseif { [ lindex $argv 0 ] == "test" } {
+    echo "compile ${file} to ${obj}"
+    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}
+  end
+  echo "compile ${LIBSHARED}"
+  ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o
+  echo "compile ${LIBSTATIC}"
+  ${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o
+else if ( $argv[1] == "test" ) then
 
-} elseif { [ lindex $argv 0 ] == "clean" } {
-  foreach file $CFILES {
+else if ( $argv[1] == "clean" ) then
+  foreach file ($CFILES)
     regsub {.c$} $file .o obj
-    puts "clean ${obj}"
-    exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}"
-  }
-} elseif { [ lindex $argv 0 ] == "distclean" } {
-  foreach file $CFILES {
+    echo "clean ${obj}"
+    ${RM} ${RMFLAGS} ${obj}
+  end
+  echo "clean ${LIBSHARED}"
+  ${RM} ${RMFLAGS} ${LIBSHARED}
+  echo "clean ${LIBSTATIC}"
+  ${RM} ${RMFLAGS} ${LIBSTATIC}
+  echo "clean ${TSTTARGET}"
+  ${RM} ${RMFLAGS} ${TSTTARGET}
+else if ( $argv[1] == "distclean" ) then
+  foreach file ($CFILES)
     regsub {.c$} $file .o obj
-    puts "clean ${obj}"
-    exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}"
-  }
-} elseif { [ lindex $argv 0 ] == "help" } {
-  puts "$argv0 <target>"
-  puts "<target>: "
-  puts "                    compile cgraph"
-  puts "          test      test cgraph"
-  puts "          clean     clean all the generated files"
-  puts "          distclean clean all the generated files and directories"
-  puts "          help      commands to this program"
-} else {
-  puts "[ lindex $argv 0 ] is an unsupported command"
-  puts "use \"$argv0 help\" to know all supported commands"
-}
+    echo "clean ${obj}"
+    ${RM} ${RMFLAGS} ${obj}
+  end
+  echo "clean ${LIBSHARED}"
+  ${RM} ${RMFLAGS} ${LIBSHARED}
+  echo "clean ${LIBSTATIC}"
+  ${RM} ${RMFLAGS} ${LIBSTATIC}
+  echo "clean ${LIB}"
+  ${RMDIR} ${RMDIRFLAGS} ${LIB}
+  echo "clean ${TSTTARGET}"
+  ${RM} ${RMFLAGS} ${TSTTARGET}
+else if ( $argv[1] == "help" ) then
+  echo "${argv[0]} <target>"
+  echo "<target>: "
+  echo "                    compile cgraph"
+  echo "          test      test cgraph"
+  echo "          clean     clean all the generated files"
+  echo "          distclean clean all the generated files and directories"
+  echo "          help      commands to this program"
+else
+  echo "${argv[1]} is an unsupported command"
+  echo "use \"${argv[0]} help\" to know all supported commands"
+endif

@@ -12,19 +12,11 @@ typedef struct
 {
   struct cgraph_keyval_t *next;
   cgraph_size_t addr;
-#if (CGRAPH_STDC_VERSION >= 199901L)
-  union
-  {
-    cgraph_string_t *name;
-    cgraph_size_t id;
-  };
-#else
   union 
   {
     cgraph_string_t *names;
     cgraph_size_t id;
   }key;
-#endif
 }cgraph_keyval_t;
 
 typedef struct 

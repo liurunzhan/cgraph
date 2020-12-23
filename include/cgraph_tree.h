@@ -6,23 +6,16 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_pobject.h"
 
 #define TYPE_TREE
 #include "templete.h"
 
 typedef struct 
 {
-  cgraph_type_t type;
-  cgraph_size_t num_of_child;
-  struct cgraph_tobject_t **child;
-  void *data;
-}cgraph_tobject_t;
-
-typedef struct 
-{
-  cgraph_size_t len, size;
+  CGRAPH_STRUCTURE_BASE
   cgraph_bool_t with_hash;
-  cgraph_tobject_t *root;
+  CGRAPH_STRUCTURE_ROOT
 }cgraph_tree_t;
 
 #include "struct_base.ht"

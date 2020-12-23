@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_pobject.h"
 
 #define TYPE_STACK
 #include "templete.h"

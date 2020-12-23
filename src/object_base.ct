@@ -60,13 +60,31 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const void *cthis)
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size)
 {
+  return FUNCTION(NAME, tsize)();
+}
+/*
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size)
+{
   cgraph_size_t _size = FUNCTION(NAME, tsize)();
   if(ID != type)
   { _size += OBJECT(type, msize)(type, size); }
   
   return _size;
 }
+*/
 
+CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)
+{
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  {
+    CGRAPH_DTYPE_TYPE(_cthis) = type;
+    OBJECT(type, update)(_cthis->data, type, size);
+  }
+
+  return _cthis;
+}
+/*
 CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)
 {
   TYPE *_cthis = (TYPE *)cthis;
@@ -79,6 +97,7 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
 
   return _cthis;
 }
+*/
 
 void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
@@ -155,12 +174,12 @@ void *FUNCTION(NAME, chtype)(void *cthis, const cgraph_type_t type, const cgraph
   return _cthis;
 }
 
-void *FUNCTION(NAME, visit)(void *cthis)
+CGRAPH_INLINE void *FUNCTION(NAME, visit)(void *cthis)
 {
   return FUNCTION(NAME, accessible)((TYPE *)cthis);
 }
 
-void *FUNCTION(NAME, delete)(void *cthis)
+CGRAPH_INLINE void *FUNCTION(NAME, delete)(void *cthis)
 {
   return FUNCTION(NAME, unaccessible)((TYPE *)cthis);
 }
@@ -178,7 +197,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
-void *FUNCTION(NAME, accessible)(void *cthis)
+CGRAPH_INLINE void *FUNCTION(NAME, accessible)(void *cthis)
 {
   TYPE *_cthis = (TYPE *)cthis;
   if(NULL != _cthis)
@@ -187,7 +206,7 @@ void *FUNCTION(NAME, accessible)(void *cthis)
   return _cthis;
 }
 
-void *FUNCTION(NAME, unaccessible)(void *cthis)
+CGRAPH_INLINE void *FUNCTION(NAME, unaccessible)(void *cthis)
 {
   TYPE *_cthis = (TYPE *)cthis;
   if(NULL != _cthis)

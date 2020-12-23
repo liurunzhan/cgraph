@@ -71,7 +71,7 @@ extern "C" {
   #define __CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFFLL)
 #else
   #if defined(__GNUC__) || defined(__clang__)
-    #define CGRAPH_INLINE __extension__ __inline
+    #define CGRAPH_INLINE __extension__ __inline__
     __extension__
     typedef signed long long __CGRAPH_INT64;
     #define __CGRAPH_INT64_MIN (__extension__ -9223372036854775808LL)
@@ -83,18 +83,28 @@ extern "C" {
     #define __CGRAPH_UINT64_MAX (__extension__ 1844674407370955161ULL)
     #define __CGRAPH_UINT64_EPS (__extension__ 0xFFFFFFFFFFFFFFFFLL)
   #elif defined(_MSC_VER)
-    #define CGRAPH_INLINE _inline
-    #define __CGRAPH_INT64 signed __int64
+    #define CGRAPH_INLINE __inline
+    typedef signed __int64 __CGRAPH_INT64;
     #define __CGRAPH_INT64_MIN (-9223372036854775808LL)
     #define __CGRAPH_INT64_MAX (9223372036854775807LL)
     #define __CGRAPH_INT64_EPS (0xFFFFFFFFFFFFFFFFLL)
-    #define __CGRAPH_UINT64 unsigned __int64
+    typedef  unsigned __int64 __CGRAPH_UINT64;
     #define __CGRAPH_UINT64_MIN (0LL)
     #define __CGRAPH_UINT64_MAX (1844674407370955161ULL)
     #define __CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFFLL)
   #else
     #error unsupported C compiler in 32-bit system
   #endif
+#endif
+
+#if (CGRAPH_STDC_VERSION >= 201112L)
+  #define __CGRAPH_TYPE_BEGIN(name)
+  #define __CGRAPH_TYPE_END(name) 
+  #define __CGRAPH_TYPE_ELEMENT(type, element) ((type))
+#else
+  #define __CGRAPH_TYPE_BEGIN(name) name
+  #define __CGRAPH_TYPE_END(name) name
+  #define __CGRAPH_TYPE_ELEMENT(type, element) ((type).element)
 #endif
 
 #ifdef __cplusplus
