@@ -84,12 +84,13 @@ int main(int argc, char *argv[])
 
   cgraph_verilog_test();
   
-  cgraph_error_log_buffer(stdout, __FILE__, __LINE__, buffer, 100, "%s %d %d", "hello", 1 , 2);
-  cgraph_error_log(stdout, __FILE__, __LINE__, "%s %d", "hello", 1);
-  cgraph_error_log(stdout, __FILE__, __LINE__, "%d", cgraph_fraction_ismin(fraction));
+  cgraph_error_log_buffer(stdout, buffer, 100, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%s %d %d", "hello", 1 , 2);
+  cgraph_error_log(stdout, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%s %d", "hello", 1);
+  cgraph_error_log(stdout, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%d", cgraph_fraction_ismin(fraction));
   cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */
+  cgraph_error_print(2);
   cgraph_string_test();
   /*
   cgraph_version_test();

@@ -27,21 +27,21 @@ typedef enum
 }cgraph_error_t;
 
 #if defined(DEBUG)
-#define cgraph_error_print(reason) \
-  cgraph_error((reason), (__LINE__), (__FILE__))
+  #define cgraph_error_print(reason) \
+    cgraph_error((reason), (__LINE__), (__FILE__), (__CGRAPH_FUNCTION))
 #else
-#define cgraph_error_print(reason) ((void)0)
+  #define cgraph_error_print(reason) ((void)0)
 #endif
 
-void cgraph_error(cgraph_error_t reason, const cgraph_size_t line, cgraph_char_t *file);
+void cgraph_error(cgraph_error_t reason, const cgraph_size_t line, cgraph_char_t *file, const cgraph_char_t *function);
 
 extern cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason);
 extern void cgraph_error_details_md(FILE *fout);
 extern void cgraph_error_details_csv(FILE *fout);
 
 extern cgraph_char_t *cgraph_error_time(void);
-extern void cgraph_error_log(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, const cgraph_char_t *format, ...);
-extern void cgraph_error_log_buffer(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...);
+extern void cgraph_error_log(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, const cgraph_char_t *function, const cgraph_char_t *format, ...);
+extern void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *file, const cgraph_size_t line, const cgraph_char_t *function, const cgraph_char_t *format, ...);
 
 #ifdef __cplusplus
 }

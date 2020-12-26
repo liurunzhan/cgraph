@@ -381,7 +381,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define TYPE cgraph_bitset_t
   #define ID CGRAPH_BITSET_T
   #define NAME bitset
-  #define OUT_FORMAT "%x"
+  #define OUT_FORMAT "%02x"
   #define ZERO (0)
   #define ONE (1)
   #define ONES (1)
@@ -540,6 +540,23 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 
 #define CGRAPH_STRUCTURE_ROOT \
   DATA_TYPE data, root;
+
+/* copyed memory size without pointer memory size */
+#ifndef CGRAPH_WITH_DATA
+  #define COPY_SIZE (sizeof(TYPE))
+#elif defined(TYPE_OBJECT)
+  #define COPY_SIZE (sizeof(TYPE) - sizeof(DATA_TYPE *))
+#elif defined(TYPE_HOBJECT)
+  #define COPY_SIZE (sizeof(TYPE) - sizeof(TYPE *) - 2*sizeof(DATA_TYPE *))
+#elif defined(TYPE_POBJECT)
+  #define COPY_SIZE (sizeof(TYPE) - 2*sizeof(TYPE *) - sizeof(DATA_TYPE *))
+#elif defined(TYPE_SOBJECT)
+  #define COPY_SIZE (sizeof(TYPE) - sizeof(DATA_TYPE *))
+#elif ID <= CGRAPH_DTYPE_PTR_MAX
+  #define COPY_SIZE (sizeof(TYPE) - __CGRAPH_TYPE_PTRSIZE*sizeof(DATA_TYPE *))
+#else
+  #define COPY_SIZE (sizeof(TYPE) - 2*sizeof(DATA_TYPE *))
+#endif
 
 #if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
 

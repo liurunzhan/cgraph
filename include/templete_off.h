@@ -318,7 +318,12 @@
   #undef DATA_ISNEG
 #endif
 
-/* objects */
+/* COPYED MEMORY SIZE WITHOUT POINTER MEMORY SIZE */
+#ifdef COPY_SIZE
+  #undef COPY_SIZE
+#endif
+
+/* OBJECT TYPE */
 #ifdef OBJECT
   #undef OBJECT
 #endif

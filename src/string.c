@@ -292,16 +292,19 @@ void FUNCTION(NAME, test)(void)
   {
     cgraph_bool_t error = CGRAPH_FALSE;
     fprintf(stdout, "hello!\n");
-    string = FUNCTION(NAME, initd)(string, str, strlen(str)+1);
+    string = FUNCTION(NAME, initd)(string, str, strlen(str));
     fprintf(stdout, "%s\n", string->data);
-    fprintf(stdout, "test base %ld start %ld end %ld\n", string, string->data, string->data+10000);
-    string = FUNCTION(NAME, realloc)(string, DATA_ID, 10000, 10000 * i, &error);
-    if(error == CGRAPH_FALSE)
+    fprintf(stdout, "test base " CGRAPH_PTRADDR_OUT_FORMAT " start " CGRAPH_PTRADDR_OUT_FORMAT " end " CGRAPH_PTRADDR_OUT_FORMAT "\n", CGRAPH_PTRADDR(string), CGRAPH_PTRADDR(string->data), CGRAPH_PTRADDR(string->data+10000));
+    for(i=1; i<=200; i++)
     {
-      fprintf(stdout, "%ld\n", string);
-      fprintf(stdout, "%ld\n", string->len);
-      fprintf(stdout, "%ld\n", string->size);
-      fprintf(stdout, "%s\n", string->data);
+      string = FUNCTION(NAME, realloc)(string, DATA_ID, 10000, 10000 * i, &error);
+      if(error == CGRAPH_FALSE)
+      {
+        fprintf(stdout, "address : " CGRAPH_PTRADDR_OUT_FORMAT "\n", CGRAPH_PTRADDR(string));
+        fprintf(stdout, "length  : " CGRAPH_SIZE_OUT_FORMAT "\n", string->len);
+        fprintf(stdout, "size    : " CGRAPH_SIZE_OUT_FORMAT "\n", string->size);
+        fprintf(stdout, "data    : " OUT_FORMAT "\n", string->data);
+      }
     }
   }
   FUNCTION(NAME, free)(string);

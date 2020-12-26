@@ -52,7 +52,7 @@ extern "C" {
   #if defined(__STDC_VERSION__)
     #define CGRAPH_STDC_VERSION __STDC_VERSION__
   #else
-    #define CGRAPH_STDC_VERSION 1989L
+    #define CGRAPH_STDC_VERSION 198901L
   #endif
 #else
   #error only standard c is suppoted!!
@@ -105,6 +105,22 @@ extern "C" {
   #define __CGRAPH_TYPE_BEGIN(name) name
   #define __CGRAPH_TYPE_END(name) name
   #define __CGRAPH_TYPE_ELEMENT(type, element) ((type).element)
+#endif
+
+#if (CGRAPH_STDC_VERSION >= 199901L) || defined(__func__)
+  #define __CGRAPH_FUNCTION __func__
+#elif defined(__FUNCTION__)
+  #define __CGRAPH_FUNCTION __FUNCTION__
+#elif defined(__function__)
+  #define __CGRAPH_FUNCTION __function__
+#else
+  #define __CGRAPH_FUNCTION NULL
+#endif
+
+#if CGRAPH_STDC_VERSION >= 199901L
+  #define __CGRAPH_TYPE_PTRSIZE (1)
+#else
+  #define __CGRAPH_TYPE_PTRSIZE (2)
 #endif
 
 #ifdef __cplusplus

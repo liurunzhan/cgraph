@@ -12,7 +12,7 @@ extern cgraph_bool_t FUNCTION(NAME, hasdata)(void);
 extern cgraph_size_t FUNCTION(NAME, len)(const void *cthis);
 extern cgraph_size_t FUNCTION(NAME, size)(const void *cthis);
 extern cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size);
-extern void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size);
+extern void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size);
 
 extern void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size);
 extern void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error);

@@ -33,34 +33,38 @@ object Compile {
     val AR : String = "ar"
     val ARFLAGS : String = "-rcs"
 
+
+
     val CFILES : Array[File] = (new File(SRC)).listFiles().filter(_.isFile).filter(_.toString.endsWith(".c"))
 
     val SCRIPT_NAME = (new File(getClass()).protectionDomain.codeSource.location.path).name
     if (args.length == 0) {
-
+      if (!obj.exists()) {
+        (new File(LIB)).mkdir()
+      }
       val OFILES = ArrayBuffer[String]()
-      for(i <- 0 until CFILES.length) {
+      for(file <- CFILES) {
         val patten = "\.c$"r
-        val obj : String = pattern.replaceAll(CFILES(i), ".o")
-        println("compile ${CFILES(i)} to ${obj}")
-        "${CC} ${CFLAGS} -I${INC} -c ${CFILES(i)} -o ${obj}" !
+        val obj : String = pattern.replaceAll(file, ".o")
+        println("compile ${file} to ${obj}")
+        "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}" !
         OFILES += obj
       }
     } else if (args(0) == "test") {
 
     } else if (args(0) == "clean") {
-      for(i <- 0 until CFILES.length) {
+      for(file <- CFILES) {
         val patten = "\.c$"r
-        val obj : String = pattern.replaceAll(CFILES(i), ".o")
+        val obj : String = pattern.replaceAll(file ".o")
         println("clean ${obj}")
         if (obj.exists()) {
           obj.delete()
         }
       }
     } else if (args(0) == "distclean") {
-      for(i <- 0 until CFILES.length) {
+      for(file <- CFILES) {
         val patten = "\.c$"r
-        val obj : String = pattern.replaceAll(CFILES(i), ".o")
+        val obj : String = pattern.replaceAll(file, ".o")
         println("clean ${obj}")
         if (obj.exists()) {
           obj.delete()
@@ -68,7 +72,9 @@ object Compile {
       }
 
       println("clean ${LIB}")
-      LIB.delete()
+      if (LIB.exists()) {
+        LIB.delete()
+      }
     } else if (args(0) == "help") {
       println("${SCRIPT_NAME} <target>")
       println("<target>: ")

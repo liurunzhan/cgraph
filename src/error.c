@@ -19,10 +19,15 @@ static cgraph_char_t *__cgraph_error_strings__[] =
 
 #define CGRAPH_ERROR_STRING(reason) (__cgraph_error_strings__[reason])
 
-void cgraph_error(cgraph_error_t reason, const cgraph_size_t line, cgraph_char_t *file)
+void cgraph_error(cgraph_error_t reason, const cgraph_size_t line, cgraph_char_t *file, const cgraph_char_t *function)
 {
   if(reason < CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS)
-  { fprintf(stderr, "%s happens in Line %ld of File %s\n", CGRAPH_ERROR_STRING(reason), line, file); }
+  {
+    if(NULL != function)
+    { fprintf(stderr, "%s happens in FUNCTION %s Line %ld of File %s\n", CGRAPH_ERROR_STRING(reason), function, line, file); }
+    else
+    { fprintf(stderr, "%s happens in Line %ld of File %s\n", CGRAPH_ERROR_STRING(reason), line, file); }
+  }
   else
   { fprintf(stderr, "Undefined error %d happens in Line %ld of File %s\n", reason, line, file); }
   fflush(stderr);
@@ -78,7 +83,7 @@ cgraph_char_t *cgraph_error_time(void)
 
 static cgraph_char_t __cgraph_log_buffer__[CGRAPH_LOG_BUFFER_SIZE];
 
-void cgraph_error_log(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, const cgraph_char_t *format, ...)
+void cgraph_error_log(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, const cgraph_char_t *function, const cgraph_char_t *format, ...)
 {
   if((NULL != fp) && (0 == ferror(fp)) && (NULL != format))
   {
@@ -87,7 +92,10 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file, const cgraph_size_t l
     vsprintf(__cgraph_log_buffer__, format, args);
     va_end(args);
     cgraph_error_time();
-    fprintf(fp, "LINE %ld of FILE %s at TIME %s : %s\n", line, file, __cgraph_time_buffer__, __cgraph_log_buffer__);
+    if(NULL != function)
+    { fprintf(fp, "FUNCTION %s LINE %ld of FILE %s at TIME %s : %s\n", function, line, file, __cgraph_time_buffer__, __cgraph_log_buffer__); }
+    else
+    { fprintf(fp, "LINE %ld of FILE %s at TIME %s : %s\n", line, file, __cgraph_time_buffer__, __cgraph_log_buffer__); }
   }
   else
   {
@@ -99,7 +107,7 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file, const cgraph_size_t l
   }
 }
 
-void cgraph_error_log_buffer(FILE *fp, const cgraph_char_t *file, const cgraph_size_t line, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *format, ...)
+void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len, const cgraph_char_t *file, const cgraph_size_t line, const cgraph_char_t *function, const cgraph_char_t *format, ...)
 {
   if((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < len) && (NULL != format))
   {

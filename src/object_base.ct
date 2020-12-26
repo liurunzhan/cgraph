@@ -63,7 +63,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, cons
   return FUNCTION(NAME, tsize)();
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)
+CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size)
 {
   TYPE *_cthis = (TYPE *)cthis;
   if(NULL != _cthis)
@@ -92,7 +92,7 @@ void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   {
     cthis->data = OBJECT(type, calloc)(type, size);
     if(NULL != cthis->data)
-    { FUNCTION(NAME, update)(cthis, type, size); }
+    { cthis = FUNCTION(NAME, update)(cthis, type, 0, size); }
     else
     { cgraph_free(cthis); }
   }
@@ -130,8 +130,9 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
     _object = (TYPE *)FUNCTION(NAME, calloc)(_type, _size);
     if(NULL != _object)
     {
-      cgraph_memcpy(_object, _cthis, FUNCTION(NAME, tsize)() - FUNCTION(NAME, datsize)());
+      cgraph_memcpy(_object, _cthis, COPY_SIZE);
       cgraph_memcpy(_object->data, _cthis->data, OBJECT(_type, msize)(_type, _size));
+      OBJECT(_type, update)(_object->data, _type, -1, -1);
     }
   }
 

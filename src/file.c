@@ -13,7 +13,7 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode)
   {
   #ifdef DEBUG
     fflush(stdout);
-    cgraph_error_log(stderr, __FILE__, __LINE__, "%s in style %s is opened error", file, mode);
+    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%s in style %s is opened error", file, mode);
     fflush(stderr);
   #endif
     abort();
@@ -28,7 +28,7 @@ cgraph_bool_t cgraph_file_fclose(FILE *fp)
   {
   #ifdef DEBUG
     fflush(stdout);
-    cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error before closed");
+    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file handle is error before closed");
     fflush(stderr);
   #endif
     clearerr(fp);
@@ -57,7 +57,7 @@ cgraph_bool_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
     {
     #ifdef DEBUG
       fflush(stdout);
-      cgraph_error_log(stderr, __FILE__, __LINE__, "read a whole line in the file error");
+      cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "read a whole line in the file error");
       fflush(stderr);
     #endif
       error = CGRAPH_TRUE;
@@ -66,7 +66,7 @@ cgraph_bool_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
     {
     #ifdef DEBUG
       fflush(stdout);
-      cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error");
+      cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file handle is error");
       fflush(stderr);
     #endif
       error = CGRAPH_TRUE;
@@ -77,9 +77,9 @@ cgraph_bool_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
   #ifdef DEBUG
     fflush(stdout);
     if(NULL == buffer)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "file buffer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file buffer is empty"); }
     if((NULL == fp) || (0 != ferror(fp)))
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file handle is error"); }
     fflush(stderr);
   #endif
     error = CGRAPH_TRUE;
@@ -100,11 +100,11 @@ cgraph_string_t *cgraph_file_header(FILE *fp, cgraph_string_t *buffer, cgraph_bo
   {
     fflush(stdout);
     if(NULL != buffer)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "file buffer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file buffer is empty"); }
     if((NULL == fp) || (0 != ferror(fp)))
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file handle is error"); }
     if(NULL == error)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "error flag is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "error flag is empty"); }
     fflush(stderr);
   }
 #endif
@@ -159,7 +159,7 @@ cgraph_bool_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_s
       {
       #ifdef DEBUG
         fflush(stdout);
-        cgraph_error_log(stderr, __FILE__, __LINE__, "read %ld line error", i);
+        cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "read %ld line error", i);
         fflush(stderr);
       #endif
         break;
@@ -171,11 +171,11 @@ cgraph_bool_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp, const cgraph_s
   {
     fflush(stdout);
     if((NULL == fp) || (0 != ferror(fp)))
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "file handle is error"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file handle is error"); }
     if(NULL == buffer)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "file buffer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "file buffer is empty"); }
     if(line < 0)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "line number %ld is a negative number", line); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "line number %ld is a negative number", line); }
     fflush(stderr);
   }
 #endif

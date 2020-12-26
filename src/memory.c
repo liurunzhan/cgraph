@@ -13,7 +13,7 @@ void *cgraph_calloc(const cgraph_size_t size)
   {
     fflush(stdout);
     if(0 >= size)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "memory size %ld is a negative number or equal to zero", size); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "memory size %ld is a negative number or equal to zero", size); }
     fflush(stderr);
   }
 #endif
@@ -37,7 +37,7 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size, const cgraph_siz
       {
       #ifdef DEBUG
         fflush(stdout);
-        cgraph_error_log(stderr, __FILE__, __LINE__, "memory is re-allocated error, and the pointer is kept to the old one");
+        cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "memory is re-allocated error, and the pointer is kept to the old one");
         fflush(stderr);
       #endif
         _cthis = cthis;
@@ -49,7 +49,7 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size, const cgraph_siz
   else
   {
     fflush(stdout);
-    cgraph_error_log(stderr, __FILE__, __LINE__, "error flag pointer is empty");
+    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "error flag pointer is empty");
     fflush(stderr);
   }
 #endif
@@ -67,13 +67,13 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size)
   {
     fflush(stdout);
     if(NULL == object)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "target pointer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "target pointer is empty"); }
     if(NULL == cthis)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "source pointer is empty"); }
     if(object == cthis)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is equal to target pointer"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "source pointer is equal to target pointer"); }
     if(0 >= size)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "memory size %ld is a negative number or equal to zero", size); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "memory size %ld is a negative number or equal to zero", size); }
     fflush(stderr);
   }
 #endif
@@ -91,11 +91,11 @@ void *cgraph_strcpy(void *object, const void *cthis)
   {
     fflush(stdout);
     if(NULL == object)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "target pointer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "target pointer is empty"); }
     if(NULL == cthis)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "source pointer is empty"); }
     if(object == cthis)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is equal to target pointer"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "source pointer is equal to target pointer"); }
     fflush(stderr);
   }
 #endif
@@ -114,7 +114,7 @@ void cgraph_free(void *cthis)
   else
   {
     fflush(stdout);
-    cgraph_error_log(stderr, __FILE__, __LINE__, "empty pointer is freed");
+    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "empty pointer is freed");
     fflush(stderr);
   }
 #endif
@@ -135,11 +135,11 @@ cgraph_bool_t cgraph_memcmp(const void *x, const void *y, const cgraph_size_t si
   {
     fflush(stdout);
     if(NULL == x)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "target pointer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "target pointer is empty"); }
     if(NULL == y)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "source pointer is empty"); }
     if(0 >= size)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "length %ld is a negative number or equal to zero", size); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "length %ld is a negative number or equal to zero", size); }
     fflush(stderr);
   }
 #endif
@@ -160,9 +160,9 @@ cgraph_bool_t cgraph_strcmp(const char *x, const char *y)
   {
     fflush(stdout);
     if(NULL == x)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "target pointer is empty\n"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "target pointer is empty\n"); }
     if(NULL == y)
-    { cgraph_error_log(stderr, __FILE__, __LINE__, "source pointer is empty"); }
+    { cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION, "source pointer is empty"); }
     fflush(stderr);
   }
 #endif

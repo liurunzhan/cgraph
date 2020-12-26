@@ -132,6 +132,7 @@ typedef unsigned long   cgraph_ulong_t;
  * @def CGRAPH_SIZE_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
  * @def CGRAPH_SIZE_BIT (32)/(64)
  */
+#define CGRAPH_SIZE_OUT_FORMAT "%ld"
 typedef cgraph_long_t   cgraph_size_t;
 #define CGRAPH_SIZE_MAX CGRAPH_LONG_MAX
 #define CGRAPH_SIZE_MIN CGRAPH_LONG_MIN
@@ -269,11 +270,21 @@ typedef double             cgraph_float64_t;
 #define CGRAPH_FLOAT_PINF_HASH (1234567891UL)
 #define CGRAPH_FLOAT_NINF_HASH (1987654321UL)
 
+#define CGRAPH_MEMORY_HEADER_SIZE (2)
 #define CGRAPH_MEMORY_FREED_SIZE (4)
+
+#if CGRAPH_MEMORY_FREED_SIZE <= CGRAPH_MEMORY_HEADER_SIZE
+  #error CGRAPH_MEMORY_FREED_SIZE must be greater than CGRAPH_MEMORY_HEADER_SIZE
+#endif
+
 typedef void *         cgraph_stl_t;
 typedef cgraph_uint8_t cgraph_addr8_t;
+
 #define CGRAPH_VARADDR1V(x) ((cgraph_addr8_t *)(&(x)))
 #define CGRAPH_VARADDR2V(x, y) ((cgraph_addr8_t *)(&(x)) + (y))
+
+#define CGRAPH_PTRADDR_OUT_FORMAT "%p"
+#define CGRAPH_PTRADDR(x) ((void *)(x))
 #define CGRAPH_PTRADDR1V(x) ((cgraph_addr8_t *)(x))
 #define CGRAPH_PTRADDR2V(x, y) ((cgraph_addr8_t *)(x) + (y))
 
@@ -294,14 +305,22 @@ typedef cgraph_uint8_t cgraph_addr8_t;
 #define CGRAPH_BCLRS(x, from, to) ((x) & ((ONES << (to)) | (~(ONES << (from)))))
 
 /**
- * @def CGRAPH_DTYPE_MAX
- * @def CGRAPH_TYPE_MAX
+ * @def CGRAPH_DTYPE_NPTR_MIN CGRAPH_BOOL_T
+ * @def CGRAPH_DTYPE_NPTR_MAX CGRAPH_FRACTION_T
+ * @def CGRAPH_DTYPE_PTR_MIN CGRAPH_BITSET_T
+ * @def CGRAPH_DTYPE_PTR_MAX CGRAPH_STRING_T
+ * @def CGRAPH_TYPE_MIN CGRAPH_VECTOR_T
+ * @def CGRAPH_TYPE_MAX CGRAPH_NULL_T
  * @brief the boundary between data objects and data structural objects 
  * if type is greater than CGRAPH_NODE_T, this object is a data object; 
  * otherwise, this object is a data structural object.
 */
-#define CGRAPH_DTYPE_MAX CGRAPH_VECTOR_T
-#define CGRAPH_TYPE_MAX  CGRAPH_NULL_T
+#define CGRAPH_DTYPE_NPTR_MIN CGRAPH_BOOL_T
+#define CGRAPH_DTYPE_NPTR_MAX CGRAPH_FRACTION_T
+#define CGRAPH_DTYPE_PTR_MIN  CGRAPH_BITSET_T
+#define CGRAPH_DTYPE_PTR_MAX  CGRAPH_STRING_T
+#define CGRAPH_TYPE_MIN       CGRAPH_VECTOR_T
+#define CGRAPH_TYPE_MAX       CGRAPH_NULL_T
 
 /** 
  * @enum cgraph_type_t
@@ -389,6 +408,10 @@ typedef struct
 #define CGRAPH_GTYPE_GKEYISID(a)  ((a)->element.g_keyisid)
 #define CGRAPH_GTYPE_GSTRUCT(a)   ((a)->element.g_struct)
 
+typedef void (*cgraph_pfunc1_t)(void *x);
+typedef void (*cgraph_pfunc2_t)(void *x, void *y);
+typedef void (*cgraph_pfunc3_t)(void *x, void *y, void *res);
+
 typedef struct
 {
 /**< private: */
@@ -412,7 +435,7 @@ typedef struct
   cgraph_size_t (*len)(const void *cthis);
   cgraph_size_t (*size)(const void* cthis);
   cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);
-  void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size);
+  void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_bool_t *error);
   void *(*copy)(const void *cthis, const cgraph_size_t size);
@@ -423,14 +446,14 @@ typedef struct
   void (*sub)(const void *x, const void *y, void *z);
   void (*mul)(const void *x, const void *y, void *z);
   void (*div)(const void *x, const void *y, void *z);
-  void (*tabend)(void);
+  void *(*iter1x)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
+  void *(*iter2x)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
+  void *(*iter3x)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+  void (*tend)(void);
 }CGVTable;
 
 #define _CGRAPH_OBJECTS_NAME(NAME) (_cgraph_ ## NAME ## s)
 #define CGRAPH_OBJECTS_NAME(NAME) _CGRAPH_OBJECTS_NAME(NAME)
-
-typedef void *(*cgraph_pfunc2_t)(const void *cthis, void *res);
-typedef void *(*cgraph_pfunc3_t)(const void *x, const void *y, void *res);
 
 #ifdef __cplusplus
 }
