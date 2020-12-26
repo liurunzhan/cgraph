@@ -36,10 +36,10 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
   {
     _cthis->size = size;
   #if (CGRAPH_STDC_VERSION >= 199901L)
-    _cthis->data = (DATA_TYPE *)&(_cthis->root[1]);
+    _cthis->data = (DATA_TYPE *)&(_cthis->root[2]);
   #else
-    _cthis->root = (DATA_TYPE *)(((cgraph_addr8_t *)_cthis) + FUNCTION(NAME, tsize)());
-    _cthis->data = _cthis->root + 1;
+    _cthis->root = (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis, FUNCTION(NAME, tsize)());
+    _cthis->data = _cthis->root + 2;
   #endif /**< CGRAPH_STDC_VERSION */
   }
 
@@ -93,6 +93,17 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
 void FUNCTION(NAME, free)(void *cthis)
 {
   cgraph_free(cthis);
+}
+
+void *FUNCTION(NAME, memcpy)(void *x, const void *y, const cgraph_size_t size)
+{
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
+  if(NULL != _x || NULL != _y)
+  {
+    
+  }
+
+  return _x;
 }
 
 void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size)

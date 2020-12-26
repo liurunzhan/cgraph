@@ -404,7 +404,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_VECTOR_T
   #define NAME vector
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
   
   #if defined(CGRAPH_OBJECT)
     #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
@@ -415,7 +415,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_MATRIX_T
   #define NAME matrix
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
   
   #if defined(CGRAPH_OBJECT)
     #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
@@ -426,7 +426,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_BIGMAT_T
   #define NAME bigmat
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_OBJECT)
     #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
@@ -437,7 +437,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_DFRAME_T
   #define NAME dframe
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_OBJECT)
     #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
@@ -448,7 +448,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_DICT_T
   #define NAME dict
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
   
   #if defined(CGRAPH_HOBJECT)
     #define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
@@ -459,7 +459,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_LIST_T
   #define NAME list
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
     #define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
@@ -470,7 +470,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_TREE_T
   #define NAME tree
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
     #define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
@@ -481,7 +481,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_SET_T
   #define NAME tree
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_HOBJECT)
     #define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
@@ -492,7 +492,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_QUEUE_T
   #define NAME tree
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
     #define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
@@ -503,7 +503,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
   #define ID CGRAPH_STACK_T
   #define NAME tree
   #define ZERO NULL
-  #define DATA_TYPE void
+  #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
     #define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
@@ -517,6 +517,9 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 #define CGRAPH_OBJECT_BASE \
   cgraph_element_t element; \
   cgraph_size_t hash;
+
+#define CGRAPH_OBJECT_ROOT \
+  DATA_TYPE data;
 
 /* property inheritance of data and structure types */
 #define CGRAPH_DATA_BASE \
@@ -536,7 +539,7 @@ DATA AND STRUCTURE TYPE TEMPLETE :
 	cgraph_element_t element; \
 
 #define CGRAPH_STRUCTURE_ROOT \
-  DATA_TYPE *data, *root;
+  DATA_TYPE data, root;
 
 #if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
 

@@ -286,12 +286,24 @@ void FUNCTION(NAME, test)(void)
 #ifdef DEBUG
   TYPE *string = FUNCTION(NAME, calloc)(ID, 10000);
   char *str = "hello world!";
+  cgraph_size_t i = 2;
   fprintf(stdout, "test %s\n", STRING(NAME));
   if(NULL != string)
-  { printf("hello!\n"); }
-  FUNCTION(NAME, initd)(string, str, strlen(str)+1);
-  fprintf(stdout, "%s\n", string->data);
-
+  {
+    cgraph_bool_t error = CGRAPH_FALSE;
+    fprintf(stdout, "hello!\n");
+    string = FUNCTION(NAME, initd)(string, str, strlen(str)+1);
+    fprintf(stdout, "%s\n", string->data);
+    fprintf(stdout, "test base %ld start %ld end %ld\n", string, string->data, string->data+10000);
+    string = FUNCTION(NAME, realloc)(string, DATA_ID, 10000, 10000 * i, &error);
+    if(error == CGRAPH_FALSE)
+    {
+      fprintf(stdout, "%ld\n", string);
+      fprintf(stdout, "%ld\n", string->len);
+      fprintf(stdout, "%ld\n", string->size);
+      fprintf(stdout, "%s\n", string->data);
+    }
+  }
   FUNCTION(NAME, free)(string);
 #endif
 }

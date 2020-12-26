@@ -269,9 +269,13 @@ typedef double             cgraph_float64_t;
 #define CGRAPH_FLOAT_PINF_HASH (1234567891UL)
 #define CGRAPH_FLOAT_NINF_HASH (1987654321UL)
 
-#define CGRAPH_MEMORY_FREED_SIZE (2)
+#define CGRAPH_MEMORY_FREED_SIZE (4)
 typedef void *         cgraph_stl_t;
 typedef cgraph_uint8_t cgraph_addr8_t;
+#define CGRAPH_VARADDR1V(x) ((cgraph_addr8_t *)(&(x)))
+#define CGRAPH_VARADDR2V(x, y) ((cgraph_addr8_t *)(&(x)) + (y))
+#define CGRAPH_PTRADDR1V(x) ((cgraph_addr8_t *)(x))
+#define CGRAPH_PTRADDR2V(x, y) ((cgraph_addr8_t *)(x) + (y))
 
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
@@ -315,6 +319,7 @@ typedef enum
   CGRAPH_LONG_T      =  3,  /**< TYPE  3 : CGRAPH_LONG_T     */
   CGRAPH_INT8_T      =  4,  /**< TYPE  4 : CGRAPH_INT8_T     */
   CGRAPH_UINT8_T     =  4,  /**< TYPE  4 : CGRAPH_UINT8_T    */
+  CGRAPH_CHAR_T      =  4,  /**< TYPE  4 : CGRAPH_CHAR_T     */
   CGRAPH_INT16_T     =  5,  /**< TYPE  5 : CGRAPH_INT16_T    */
   CGRAPH_INT32_T     =  6,  /**< TYPE  6 : CGRAPH_INT32_T    */
   CGRAPH_INT64_T     =  7,  /**< TYPE  7 : CGRAPH_INT64_T    */
@@ -387,19 +392,21 @@ typedef struct
 typedef struct
 {
 /**< private: */
-  cgraph_type_t t_id;      /**< type id   */
-  cgraph_char_t *t_name;   /**< type name */
-  cgraph_size_t t_size;    /**< type size */
-  cgraph_size_t t_ptrsize; /**< pointer size of type */
-  cgraph_size_t t_memsize; /**< memory size of type used in structure types */
-  cgraph_size_t d_size;    /**< data size of type */
+  cgraph_type_t t_id;       /**< type id   */
+  cgraph_char_t *t_name;    /**< type name */
+  cgraph_size_t t_size;     /**< type size */
+  cgraph_size_t t_ptrsize;  /**< pointer size of type */
+  cgraph_size_t t_cpysize;  /**< memory size of type used in copy memory size, excludes data pointer size */
+  cgraph_size_t t_strusize; /**< memory size of type used in structure types */
+  cgraph_size_t d_size;     /**< data size of type */
 
 /**< public: */
   cgraph_type_t (*tid)(void);
   cgraph_char_t *(*tname)(void);
   cgraph_size_t (*tsize)(void);
   cgraph_size_t (*tptrsize)(void);
-  cgraph_size_t (*tmemsize)(void);
+  cgraph_size_t (*tcpycsize)(void);
+  cgraph_size_t (*tstrusize)(void);
   cgraph_size_t (*datsize)(void);
   cgraph_bool_t (*hasdata)(void);
   cgraph_size_t (*len)(const void *cthis);
@@ -408,14 +415,15 @@ typedef struct
   void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_bool_t *error);
-  void (*free)(void *gthis);
   void *(*copy)(const void *cthis, const cgraph_size_t size);
+  void (*free)(void *cthis);
+  void *(*memcpy)(void *x, const void *y, const cgraph_size_t size);
   cgraph_size_t (*hash)(const void *cthis);
   void (*add)(const void *x, const void *y, void *z);
   void (*sub)(const void *x, const void *y, void *z);
   void (*mul)(const void *x, const void *y, void *z);
   void (*div)(const void *x, const void *y, void *z);
-  void (*none)(void);
+  void (*tabend)(void);
 }CGVTable;
 
 #define _CGRAPH_OBJECTS_NAME(NAME) (_cgraph_ ## NAME ## s)

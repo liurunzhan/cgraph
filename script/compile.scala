@@ -4,6 +4,8 @@ exec scala "$0" "$@"
 
 import java.io.File
 import scala.reflect.io.Directory
+import scala.collection.mutable.ArrayBuffer
+import sys.process._
 
 object Compile {
   def main(args: Array[String]): Unit = {
@@ -31,21 +33,52 @@ object Compile {
     val AR : String = "ar"
     val ARFLAGS : String = "-rcs"
 
-    val FILES : Array[File] = (new File(SRC)).listFiles().filter(_.isFile).filter(_.toString.endsWith(".c"))
+    val CFILES : Array[File] = (new File(SRC)).listFiles().filter(_.isFile).filter(_.toString.endsWith(".c"))
 
     val SCRIPT_NAME = (new File(getClass()).protectionDomain.codeSource.location.path).name
     if (args.length == 0) {
 
-    } else if (args[0] == "test") {
+      val OFILES = ArrayBuffer[String]()
+      for(i <- 0 until CFILES.length) {
+        val patten = "\.c$"r
+        val obj : String = pattern.replaceAll(CFILES(i), ".o")
+        println("compile ${CFILES(i)} to ${obj}")
+        "${CC} ${CFLAGS} -I${INC} -c ${CFILES(i)} -o ${obj}" !
+        OFILES += obj
+      }
+    } else if (args(0) == "test") {
 
-    } else if (args[0] == "clean") {
+    } else if (args(0) == "clean") {
+      for(i <- 0 until CFILES.length) {
+        val patten = "\.c$"r
+        val obj : String = pattern.replaceAll(CFILES(i), ".o")
+        println("clean ${obj}")
+        if (obj.exists()) {
+          obj.delete()
+        }
+      }
+    } else if (args(0) == "distclean") {
+      for(i <- 0 until CFILES.length) {
+        val patten = "\.c$"r
+        val obj : String = pattern.replaceAll(CFILES(i), ".o")
+        println("clean ${obj}")
+        if (obj.exists()) {
+          obj.delete()
+        }
+      }
 
-    } else if (args[0] == "distclean") {
-
-    } else if (args[0] == "help") {
-
+      println("clean ${LIB}")
+      LIB.delete()
+    } else if (args(0) == "help") {
+      println("${SCRIPT_NAME} <target>")
+      println("<target>: ")
+      println("                    compile cgraph")
+      println("          test      test cgraph\n")
+      println("          clean     clean all the generated files")
+      println("          distclean clean all the generated files and directories")
+      println("          help      commands to this PROgram")
     } else {
-      println("${args[0]} is an unsupported command")
+      println("${args(0)} is an unsupported command")
       println("use \"${SCRIPT_NAME} help\" to know all supported commands")
     }
   }

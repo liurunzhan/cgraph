@@ -24,7 +24,7 @@ void *cgraph_calloc(const cgraph_size_t size)
 void *cgraph_realloc(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_bool_t *error)
 {
   void *_cthis = cthis;
-  if(NULL != error)
+  if((NULL != error) && (0 < new_size))
   {
     *error = CGRAPH_FALSE;
     /** memory lazy release */
@@ -32,7 +32,7 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size, const cgraph_siz
     {
       _cthis = realloc(cthis, new_size);
       if(NULL != _cthis)
-      { _cthis = memset((cgraph_addr8_t *)_cthis+old_size, 0, (new_size-old_size)); }
+      { memset(CGRAPH_PTRADDR2V(_cthis, old_size), 0, new_size - old_size); }
       else
       {
       #ifdef DEBUG
@@ -52,7 +52,7 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size, const cgraph_siz
     cgraph_error_log(stderr, __FILE__, __LINE__, "error flag pointer is empty");
     fflush(stderr);
   }
- #endif
+#endif
 
   return _cthis;
 }

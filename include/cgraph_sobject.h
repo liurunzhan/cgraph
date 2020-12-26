@@ -21,7 +21,7 @@ typedef struct
 {
   CGRAPH_OBJECT_BASE
   cgraph_size_t row, column;
-  DATA_TYPE data;
+  CGRAPH_OBJECT_ROOT
 }cgraph_sobject_t;
 
 #include "object_base.ht"

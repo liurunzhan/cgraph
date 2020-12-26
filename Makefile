@@ -7,7 +7,7 @@ export TOOLS = make cmake xmake\
 
 MAKE ?= make
 
-.PHONY: all test clean distclean doc cloc help $(TOOLS)
+.PHONY: all test clean distclean doc cloc help $(TOOLS) memchk
 
 all: CMD =
 

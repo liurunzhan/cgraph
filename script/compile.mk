@@ -112,6 +112,10 @@ distclean:
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
 
+memchk:
+	@echo "do memory check by valgrind"
+	$(MAKE) -C $(TST) memchk
+
 help:
 	@echo "build cgraph in Platform $(MY_OS)"
 	@echo "$(MAKE) <target>"

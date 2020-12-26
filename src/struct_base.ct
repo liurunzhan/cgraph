@@ -7,7 +7,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const void *cthis)
 { return NULL != cthis ? ((TYPE *)cthis)->size : 0; }
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size)
-{ return FUNCTION(NAME, tsize)() + (size+CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tmemsize)(); }
+{ return FUNCTION(NAME, tsize)() + (size+CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tstrusize)(); }
 
 CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)
 {
@@ -16,8 +16,8 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
   {
     CGRAPH_DTYPE_TYPE(_cthis) = type;
     _cthis->size = size;
-    _cthis->root = (DATA_TYPE *)(((cgraph_addr8_t *)_cthis) + FUNCTION(NAME, tsize)());
-    _cthis->data = (DATA_TYPE *)(((cgraph_addr8_t *)(_cthis->root)) + OBJECT(type, tptrsize)());
+    _cthis->root = (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis, FUNCTION(NAME, tsize)());
+    _cthis->data = (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis->root, 2*OBJECT(type, tptrsize)());
   }
 
   return _cthis;
@@ -88,6 +88,17 @@ void FUNCTION(NAME, free)(void *cthis)
     cgraph_free(_cthis->root);
     cgraph_free(_cthis);
   }
+}
+
+void *FUNCTION(NAME, memcpy)(void *x, const void *y, const cgraph_size_t size)
+{
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
+  if(NULL != _x || NULL != _y)
+  {
+    
+  }
+
+  return _x;
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
