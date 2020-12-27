@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_MATRIX
-#include "templete.h"
+#include "template.h"
 typedef struct 
 {
   CGRAPH_STRUCTURE_BASE
@@ -17,10 +17,10 @@ typedef struct
 }cgraph_matrix_t;
 
 #include "struct_base.ht"
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_MATRIX_H_ */
+#endif /** _CGRAPH_MATRIX_H_ */

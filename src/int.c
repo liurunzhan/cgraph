@@ -2,7 +2,7 @@
 #include "cgraph_int.h"
 
 #define TYPE_INT
-#include "templete.h"
+#include "template.h"
 #include "int_base.ct"
 
 /*
@@ -36,4 +36,4 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
-#include "templete_off.h"
+#include "template_off.h"

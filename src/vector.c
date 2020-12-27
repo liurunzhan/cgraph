@@ -4,7 +4,7 @@
 #include "cgraph_vector.h"
 
 #define TYPE_VECTOR
-#include "templete.h"
+#include "template.h"
 #include "struct_base.ct"
 
 void *FUNCTION(NAME, add)(const void *x, const void *y)
@@ -131,4 +131,4 @@ void FUNCTION(NAME, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

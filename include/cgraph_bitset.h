@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_BITSET
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -47,10 +47,10 @@ extern TYPE *FUNCTION(NAME, xor)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, xnor)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, not)(const TYPE *x, TYPE *y);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_BITSET_H_ */
+#endif /** _CGRAPH_BITSET_H_ */

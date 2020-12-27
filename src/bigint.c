@@ -3,7 +3,7 @@
 #include "cgraph_bigint.h"
 
 #define TYPE_BIGINT
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
 /**
@@ -385,4 +385,4 @@ void FUNCTION(TYPE, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

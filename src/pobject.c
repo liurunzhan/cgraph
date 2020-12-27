@@ -5,7 +5,7 @@
 #include "cgraph_pobject.h"
 
 #define TYPE_POBJECT
-#include "templete.h"
+#include "template.h"
 
 #include "object_base.ct"
 
@@ -16,4 +16,4 @@ void FUNCTION(TYPE, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_STRING
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -18,11 +18,11 @@ typedef struct
 
 #include "data_base.ht"
 
-/*                         string operation function                          */
+/**                        string operation function                          */
 
-/*                       string mathematical functions                        */
+/**                      string mathematical functions                        */
 
-/*                           string hash functions                            */
+/**                          string hash functions                            */
 extern cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis);
@@ -44,10 +44,10 @@ extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_STRING_H_ */
+#endif /** _CGRAPH_STRING_H_ */

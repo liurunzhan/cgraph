@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_VECTOR
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -20,10 +20,10 @@ typedef struct
 
 extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_VECTOR_H_ */
+#endif /** _CGRAPH_VECTOR_H_ */

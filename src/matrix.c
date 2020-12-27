@@ -3,7 +3,7 @@
 #include "cgraph_matrix.h"
 
 #define TYPE_MATRIX
-#include "templete.h"
+#include "template.h"
 #include "struct_base.ct"
 
 
@@ -14,4 +14,4 @@ void FUNCTION(TYPE, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

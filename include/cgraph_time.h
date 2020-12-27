@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_TIME
-#include "templete.h"
+#include "template.h"
 
 /*
 */
@@ -28,14 +28,14 @@ typedef struct
     }__CGRAPH_TYPE_END(type0);
     struct  __CGRAPH_TYPE_BEGIN(time_type1_t)
     {
-      DATA_TYPE weeks:4;  /* maximum is 7      */
-      DATA_TYPE days:10;  /* maximum is 366    */
-      DATA_TYPE year:18;  /* maximum is 2^17-1 */
-      DATA_TYPE month:5;  /* maximum is 12     */
-      DATA_TYPE day:6;    /* maximum is 31     */
-      DATA_TYPE hour:6;   /* maximum is 24     */
-      DATA_TYPE minute:7; /* maximum is 60     */
-      DATA_TYPE second:7; /* maximum is 60     */
+      DATA_TYPE weeks:4;  /**maximum is 7      */
+      DATA_TYPE days:10;  /**maximum is 366    */
+      DATA_TYPE year:18;  /**maximum is 2^17-1 */
+      DATA_TYPE month:5;  /**maximum is 12     */
+      DATA_TYPE day:6;    /**maximum is 31     */
+      DATA_TYPE hour:6;   /**maximum is 24     */
+      DATA_TYPE minute:7; /**maximum is 60     */
+      DATA_TYPE second:7; /**maximum is 60     */
     }__CGRAPH_TYPE_END(type1);
   }__CGRAPH_TYPE_END(data);
 }cgraph_time_t;
@@ -97,10 +97,10 @@ extern TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE mo
 extern TYPE FUNCTION(NAME, initt0t1)(const DATA_TYPE time0, const DATA_TYPE time1);
 extern TYPE FUNCTION(NAME, localtime)(void);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_TIME_H_ */
+#endif /** _CGRAPH_TIME_H_ */

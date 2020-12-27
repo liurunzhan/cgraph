@@ -4,10 +4,10 @@
 #include "cgraph_string.h"
 
 #define TYPE_STRING
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
-/* 
+/**
   times 33 hash algorithm proposed by Daniel J. Bernstein  
   hash = hash * 33 + cthis->data[i]
   or
@@ -37,7 +37,7 @@ cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
-/*                           string hash functions                            */
+/**                          string hash functions                            */
 cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis)
 {
   cgraph_size_t hash = 1315423911, i;
@@ -311,4 +311,4 @@ void FUNCTION(NAME, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

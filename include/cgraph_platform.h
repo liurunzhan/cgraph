@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-/* Self-defined features in different platforms */
+/**Self-defined features in different platforms */
 #if defined(__CYGWIN__)
   #define CGRAPH_PLAT_MODE "cygwin/msys/msys2"
   #define CGRAPH_PLAT_PSPLIT "/"
@@ -30,7 +30,7 @@ extern "C" {
  #error unsupported platforms!!
 #endif
 
-/* Self-defined features in different structures */
+/**Self-defined features in different structures */
 #if defined(__LITTLE_ENDIAN__)
   #define CGRAPH_PLAT_ENDIAN 0
 #elif defined(__BIG_ENDIAN__)
@@ -47,7 +47,7 @@ extern "C" {
   #error only 32-bit and 64-bit system are supported!!
 #endif
 
-/* C standard */
+/**C standard */
 #if defined(__STDC__)
   #if defined(__STDC_VERSION__)
     #define CGRAPH_STDC_VERSION __STDC_VERSION__
@@ -58,7 +58,7 @@ extern "C" {
   #error only standard c is suppoted!!
 #endif
 
-/* Self-defined features in different compilers */
+/**Self-defined features in different compilers */
 #if CGRAPH_STDC_VERSION >= 199901L
   #define CGRAPH_INLINE inline
   #define __CGRAPH_INT64 signed long long
@@ -127,4 +127,4 @@ extern "C" {
 }
 #endif
 
-#endif /* _CGRAPH_PLATFORM_H_ */
+#endif /** _CGRAPH_PLATFORM_H_ */

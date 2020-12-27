@@ -5,7 +5,7 @@
 #include "cgraph_time.h"
 
 #define TYPE_TIME
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
@@ -407,4 +407,4 @@ void FUNCTION(NAME, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

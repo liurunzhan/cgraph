@@ -28,4 +28,4 @@ extern "C" {
 }
 #endif
 
-#endif /* _CGRAPH_DATA_H_ */
+#endif /** _CGRAPH_DATA_H_ */

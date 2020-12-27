@@ -5,11 +5,11 @@
 #include "cgraph_hobject.h"
 
 #define TYPE_HOBJECT
-#include "templete.h"
+#include "template.h"
 
 #include "object_base.ct"
 
-/* key data of hobject */
+/**key data of hobject */
 void *FUNCTION(NAME, kaccessible)(void *cthis)
 {
   TYPE *_cthis = (TYPE *)cthis;
@@ -46,7 +46,7 @@ void *FUNCTION(NAME, kunhashed)(void *cthis)
   return _cthis;
 }
 
-/* value data of hobject */
+/**value data of hobject */
 void *FUNCTION(NAME, vaccessible)(void *cthis)
 {
   TYPE *_cthis = (TYPE *)cthis;
@@ -90,4 +90,4 @@ void FUNCTION(TYPE, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

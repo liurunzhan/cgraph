@@ -44,4 +44,4 @@ extern "C" {
 }
 #endif
 
-#endif /* _CGRAPH_H_ */
+#endif /** _CGRAPH_H_ */

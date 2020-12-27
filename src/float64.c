@@ -1,9 +1,9 @@
-#include <math.h>
+#include "cgraph_math.h"
 #include "cgraph_memory.h"
 #include "cgraph_float64.h"
 
 #define TYPE_FLOAT64
-#include "templete.h"
+#include "template.h"
 
 #include "float_base.ct"
 
@@ -14,4 +14,4 @@ void FUNCTION(TYPE, test)(void)
 #endif
 }
 
-#include "templete_off.h"
+#include "template_off.h"

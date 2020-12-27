@@ -2,7 +2,7 @@
 #include "cgraph_bool.h"
 
 #define TYPE_BOOL
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
@@ -76,4 +76,4 @@ cgraph_char_t *FUNCTION(NAME, tostr)(const void *cthis, cgraph_size_t *len)
   return str;
 }
 
-#include "templete_off.h"
+#include "template_off.h"

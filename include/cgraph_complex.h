@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_COMPLEX
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -22,7 +22,7 @@ typedef struct
 
 #include "data_base.ht"
 
-/*                              initial function                              */
+/**                             initial function                              */
 extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mod, const DATA_TYPE arg);
 extern TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mod);
 extern TYPE FUNCTION(NAME, initwa)(const DATA_TYPE arg);
@@ -30,7 +30,7 @@ extern TYPE FUNCTION(NAME, initwri)(const DATA_TYPE real, const DATA_TYPE imag);
 extern TYPE FUNCTION(NAME, initwr)(const DATA_TYPE real);
 extern TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag);
 
-/*                   complex number mathematical functions                    */
+/**                  complex number mathematical functions                    */
 extern DATA_TYPE FUNCTION(NAME, mod)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, arg)(const TYPE x);
 
@@ -79,10 +79,10 @@ extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_COMPLEX_H_ */
+#endif /** _CGRAPH_COMPLEX_H_ */

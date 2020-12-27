@@ -2,7 +2,7 @@
 #include "cgraph_bitset.h"
 
 #define TYPE_BITSET
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
 static const cgraph_uint8_t cgraph_uint8_bits[8] = {
@@ -278,4 +278,4 @@ TYPE *FUNCTION(NAME, not)(const TYPE *x, TYPE *y)
   return y;
 }
 
-#include "templete_off.h"
+#include "template_off.h"

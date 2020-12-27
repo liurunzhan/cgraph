@@ -13,17 +13,17 @@ extern "C" {
 
 typedef enum 
 {
-  CGRAPH_ERROR_NO_ERROR,                  /* NO ERROR */
-  CGRAPH_ERROR_ERROR,                     /* ERROR */
-  CGRAPH_ERROR_OUT_OF_MEMORY,             /* OUT OF MEMORY */
-  CGRAPH_ERROR_OUT_OF_INDEX,              /* OUT OF INDEX */
-  CGRAPH_ERROR_INFINITE,                  /* INFINITE */
-  CGRAPH_ERROR_NOT_A_NUMBER,              /* NOT A NUMBER */
-  CGRAPH_ERROR_DIVISOR_EQUAL_TO_ZERO,     /* DIVISOR EQUAL TO ZERO */   
-  CGRAPH_ERROR_MATH_ERROR,                /* MATH ERROR */
-  CGRAPH_ERROR_FILE_HANDLE_EMPTY,         /* FILE HANDLE EMPTY */
-  CGRAPH_ERROR_FILE_HANDLE_ERROR,         /* FILE HANDLE ERROR */
-  CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS   /* MAXIMUM VALUE OF ERRORS, NO USED */
+  CGRAPH_ERROR_NO_ERROR,                 /** NO ERROR */
+  CGRAPH_ERROR_ERROR,                    /** ERROR */
+  CGRAPH_ERROR_OUT_OF_MEMORY,            /** OUT OF MEMORY */
+  CGRAPH_ERROR_OUT_OF_INDEX,             /** OUT OF INDEX */
+  CGRAPH_ERROR_INFINITE,                 /** INFINITE */
+  CGRAPH_ERROR_NOT_A_NUMBER,             /** NOT A NUMBER */
+  CGRAPH_ERROR_DIVISOR_EQUAL_TO_ZERO,    /** DIVISOR EQUAL TO ZERO */   
+  CGRAPH_ERROR_MATH_ERROR,               /** MATH ERROR */
+  CGRAPH_ERROR_FILE_HANDLE_EMPTY,        /** FILE HANDLE EMPTY */
+  CGRAPH_ERROR_FILE_HANDLE_ERROR,        /** FILE HANDLE ERROR */
+  CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS   /** MAXIMUM VALUE OF ERRORS, NO USED */
 }cgraph_error_t;
 
 #if defined(DEBUG)
@@ -47,4 +47,4 @@ extern void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size
 }
 #endif
 
-#endif /* _CGRAPH_ERROR_H_ */
+#endif /** _CGRAPH_ERROR_H_ */

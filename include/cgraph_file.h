@@ -25,4 +25,4 @@ extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep, cgraph_char_
 }
 #endif
 
-#endif /* _CGRAPH_FILE_H_ */
+#endif /** _CGRAPH_FILE_H_ */

@@ -1,4 +1,4 @@
-#include "templete_base.ht"
+#include "template_base.ht"
 
 extern cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y);
 

@@ -15,7 +15,7 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(sobject)[];
 #define CGRAPH_SOBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(sobject)[type])->opt)
 
 #define TYPE_SOBJECT
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -26,10 +26,10 @@ typedef struct
 
 #include "object_base.ht"
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_SOBJECT_H_ */
+#endif /** _CGRAPH_SOBJECT_H_ */

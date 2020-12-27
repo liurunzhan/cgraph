@@ -20,17 +20,41 @@ cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
-void *FUNCTION(NAME, divrs)(const void *x, const void *y, const void *z, const cgraph_size_t len)
+#include "template_check.h"
+
+void FUNCTION(NAME, padd)(void *x, void *y, void *z)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  cgraph_float64_t *object_z = (cgraph_float64_t *)z;
-  if(NULL != _x && NULL != _y && NULL != object_z)
-  {
-    cgraph_size_t i;
-    for(i=0; i<len; i++)
-    { object_z[i] = 1.0 * _x[i] / _y[i]; }
-  }
-  return object_z;
+  *(TYPE *)z = ADD(*(TYPE *)x, *(TYPE *)y, 0);
+}
+
+void FUNCTION(NAME, psub)(void *x, void *y, void *z)
+{
+  *(TYPE *)z = SUB(*(TYPE *)x, *(TYPE *)y, 0);
+}
+
+void FUNCTION(NAME, pmul)(void *x, void *y, void *z)
+{
+  *(TYPE *)z = MUL(*(TYPE *)x, *(TYPE *)y, 0);
+}
+
+void FUNCTION(NAME, pdiv)(void *x, void *y, void *z)
+{
+  *(TYPE *)z = DIV(*(TYPE *)x, *(TYPE *)y, 0);
+}
+
+void FUNCTION(NAME, pdivf)(void *x, void *y, void *z)
+{
+  *(cgraph_float64_t *)z = DIVF(*(TYPE *)x, *(TYPE *)y, 0);
+}
+
+void FUNCTION(NAME, pint)(void *x, void *y, void *z)
+{
+  *(TYPE *)z = INT(*(TYPE *)x, *(TYPE *)y, 0);
+}
+
+void FUNCTION(NAME, pmod)(void *x, void *y, void *z)
+{
+  *(TYPE *)z = INT(*(TYPE *)x, *(TYPE *)y, 0);
 }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)

@@ -9,7 +9,7 @@ extern "C" {
 #include "cgraph_pobject.h"
 
 #define TYPE_LIST
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -19,10 +19,10 @@ typedef struct
 }cgraph_list_t;
 
 #include "struct_base.ht"
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_LIST_H_ */
+#endif /** _CGRAPH_LIST_H_ */

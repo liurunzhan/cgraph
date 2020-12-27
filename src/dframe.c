@@ -3,9 +3,9 @@
 #include "cgraph_dframe.h"
 
 #define TYPE_DFRAME
-#include "templete.h"
+#include "template.h"
 #include "struct_base.ct"
 
 
 
-#include "templete_off.h"
+#include "template_off.h"

@@ -47,4 +47,4 @@ extern "C" {
 }
 #endif
 
-#endif /* _CGRAPH_STRUCT_H_ */
+#endif /** _CGRAPH_STRUCT_H_ */

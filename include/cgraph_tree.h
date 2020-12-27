@@ -9,7 +9,7 @@ extern "C" {
 #include "cgraph_pobject.h"
 
 #define TYPE_TREE
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -19,10 +19,10 @@ typedef struct
 }cgraph_tree_t;
 
 #include "struct_base.ht"
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_TREE_H_ */
+#endif /** _CGRAPH_TREE_H_ */

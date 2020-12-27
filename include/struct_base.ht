@@ -1,4 +1,4 @@
-#include "templete_base.ht"
+#include "template_base.ht"
 
 extern void *FUNCTION(NAME, find)(void *cthis, void *data);
 extern void *FUNCTION(NAME, insert)(void *cthis, void *data);

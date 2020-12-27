@@ -1,6 +1,12 @@
 #include "data_base.ht"
 
-extern void *FUNCTION(NAME, divrs)(const void *x, const void *y, const void *z, const cgraph_size_t len);
+extern void FUNCTION(NAME, padd)(void *x, void *y, void *z);
+extern void FUNCTION(NAME, psub)(void *x, void *y, void *z);
+extern void FUNCTION(NAME, pmul)(void *x, void *y, void *z);
+extern void FUNCTION(NAME, pdiv)(void *x, void *y, void *z);
+extern void FUNCTION(NAME, pdivf)(void *x, void *y, void *z);
+extern void FUNCTION(NAME, pint)(void *x, void *y, void *z);
+extern void FUNCTION(NAME, pmod)(void *x, void *y, void *z);
 
 extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...);
 

@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_SET
-#include "templete.h"
+#include "template.h"
 
 typedef struct
 {
@@ -16,10 +16,10 @@ typedef struct
   CGRAPH_STRUCTURE_ROOT
 }cgraph_set_t;
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_SET_H_ */
+#endif /** _CGRAPH_SET_H_ */

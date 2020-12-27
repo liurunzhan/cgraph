@@ -20,4 +20,4 @@ extern cgraph_bool_t cgraph_strcmp(const char *x, const char *y);
 }
 #endif
 
-#endif /* _CGRAPH_MEMORY_H_ */
+#endif /** _CGRAPH_MEMORY_H_ */

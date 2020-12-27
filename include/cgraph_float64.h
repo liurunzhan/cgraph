@@ -8,14 +8,14 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_FLOAT64
-#include "templete.h"
+#include "template.h"
 
 #include "float_base.ht"
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_FLOAT64_H_ */
+#endif /** _CGRAPH_FLOAT64_H_ */

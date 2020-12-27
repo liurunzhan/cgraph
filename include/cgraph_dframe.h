@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_DFRAME
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -18,10 +18,10 @@ typedef struct
 }cgraph_dframe_t;
 
 #include "struct_base.ht"
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_DFRAME_H_ */
+#endif /** _CGRAPH_DFRAME_H_ */

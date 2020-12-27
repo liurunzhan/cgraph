@@ -1,4 +1,4 @@
-/**
+/** 
 * @file  cgraph_bigint.h  
 * @brief  
 * @author       Liurunzhan
@@ -19,7 +19,7 @@ extern "C" {
 #include "cgraph_bignum.h"
 
 #define TYPE_BIGINT
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -45,10 +45,10 @@ extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 extern cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_BIGINT_H_ */
+#endif /** _CGRAPH_BIGINT_H_ */

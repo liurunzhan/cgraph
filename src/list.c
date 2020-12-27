@@ -3,7 +3,7 @@
 #include "cgraph_list.h"
 
 #define TYPE_LIST
-#include "templete.h"
+#include "template.h"
 #include "struct_base.ct"
 
-#include "templete_off.h"
+#include "template_off.h"

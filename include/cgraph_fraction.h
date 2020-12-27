@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_FRACTION
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -21,11 +21,11 @@ typedef struct
 
 #include "data_base.ht"
 
-/*                                public apis                                 */
+/**                               public apis                                 */
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
 extern cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y);
 
-/*                             initial functions                              */
+/**                            initial functions                              */
 extern TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den);
 extern TYPE FUNCTION(NAME, initwn)(const DATA_TYPE num);
 extern TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den);
@@ -68,10 +68,10 @@ extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_FRACTION_H_ */
+#endif /** _CGRAPH_FRACTION_H_ */

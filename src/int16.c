@@ -2,7 +2,7 @@
 #include "cgraph_int16.h"
 
 #define TYPE_INT16
-#include "templete.h"
+#include "template.h"
 #include "int_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
@@ -15,4 +15,4 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return hash;
 }
 
-#include "templete_off.h"
+#include "template_off.h"

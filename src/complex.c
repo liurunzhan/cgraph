@@ -1,11 +1,10 @@
 #include <float.h>
-#include <math.h>
 #include "cgraph_memory.h"
 #include "cgraph_math.h"
 #include "cgraph_complex.h"
 
 #define TYPE_COMPLEX
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
@@ -49,7 +48,7 @@ cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
-/*                          initial function                                  */
+/**                         initial function                                  */
 TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mod, const DATA_TYPE arg)
 {
   TYPE res;
@@ -104,10 +103,14 @@ TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag)
   return res;
 }
 
-/*             functions of complex numbers with one complex number           */
+/**            functions of complex numbers with one complex number           */
 DATA_TYPE FUNCTION(NAME, mod)(const TYPE x)
 {
+#if CGRAPH_STDC_VERSION >= 199901L
+  return hypot(COMPLEX_REAL(x), COMPLEX_IMAG(x));
+#else
   return sqrt(COMPLEX_MOD2(x));
+#endif
 }
 
 DATA_TYPE FUNCTION(NAME, arg)(const TYPE x)
@@ -323,8 +326,8 @@ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
   return EQ(x, _cgraph_complex_min);
 }
 
-/*  functions of complex numbers with one complex number and one data types   */
-/*         one complex number and one real part of one complex number         */
+/** functions of complex numbers with one complex number and one data types   */
+/**        one complex number and one real part of one complex number         */
 TYPE FUNCTION(NAME, addr)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
@@ -371,7 +374,7 @@ TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
-/*         one complex number and one image part of one complex number        */
+/**        one complex number and one image part of one complex number        */
 TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y)
 {
   TYPE res;
@@ -418,7 +421,7 @@ TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y)
   return res;
 }
 
-/*                  one complex number and one complex number                 */
+/**                 one complex number and one complex number                 */
 TYPE FUNCTION(NAME, addc)(const TYPE x, const TYPE y)
 {
   TYPE res; 
@@ -448,18 +451,10 @@ TYPE FUNCTION(NAME, mulc)(const TYPE x, const TYPE y)
 
 TYPE FUNCTION(NAME, divc)(const TYPE x, const TYPE y)
 {
-  DATA_TYPE mod = COMPLEX_MOD2(y);
+  DATA_TYPE mod_1 = 1.0 / COMPLEX_MOD2(y);
   TYPE res;
-  if(mod > DATA_EPSILON)
-  {
-    COMPLEX_REAL(res) = (COMPLEX_REAL(x) * COMPLEX_REAL(y) + COMPLEX_IMAG(x) * COMPLEX_IMAG(y)) / mod; 
-    COMPLEX_IMAG(res) = (COMPLEX_IMAG(x) * COMPLEX_REAL(y) - COMPLEX_REAL(x) * COMPLEX_IMAG(y)) / mod;
-  }
-  else
-  {
-    COMPLEX_REAL(res) = 1.0 / 0.0;
-    COMPLEX_IMAG(res) = 1.0 / 0.0;
-  }
+  COMPLEX_REAL(res) = (COMPLEX_REAL(x) * COMPLEX_REAL(y) + COMPLEX_IMAG(x) * COMPLEX_IMAG(y)) * mod_1; 
+  COMPLEX_IMAG(res) = (COMPLEX_IMAG(x) * COMPLEX_REAL(y) - COMPLEX_REAL(x) * COMPLEX_IMAG(y)) * mod_1;
   
   return res;
 }
@@ -472,4 +467,4 @@ TYPE FUNCTION(NAME, powc)(const TYPE x, const TYPE y)
   return FUNCTION(NAME, exp)(res);
 }
 
-#include "templete_off.h"
+#include "template_off.h"

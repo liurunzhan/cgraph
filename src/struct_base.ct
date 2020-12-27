@@ -1,4 +1,4 @@
-#include "templete_base.ct"
+#include "template_base.ct"
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 { return NULL != cthis ? ((TYPE *)cthis)->len : 0; }
@@ -74,7 +74,7 @@ void FUNCTION(NAME, free)(void *cthis)
   if(NULL != _cthis)
   {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
-    /* missing iterator to free data objects! */
+    /**missing iterator to free data objects! */
     if((0 == _type) || (CGRAPH_DTYPE_PTR_MIN <= _type))
     { OBJECT(_type, iter1x)(_cthis->root, _cthis->size, OBJECT(_type, free)); }
     cgraph_free(_cthis->root);

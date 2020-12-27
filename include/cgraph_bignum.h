@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_BIGNUM
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -34,10 +34,10 @@ extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_BIGNUM_H_ */
+#endif /** _CGRAPH_BIGNUM_H_ */

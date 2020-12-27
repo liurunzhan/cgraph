@@ -3,9 +3,9 @@
 #include "cgraph_dict.h"
 
 #define TYPE_DICT
-#include "templete.h"
+#include "template.h"
 #include "struct_base.ct"
 
 
 
-#include "templete_off.h"
+#include "template_off.h"

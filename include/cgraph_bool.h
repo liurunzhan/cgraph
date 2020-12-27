@@ -14,13 +14,13 @@ extern "C" {
 #define BOOL_XNOR(x, y) ((x == y) ? CGRAPH_TRUE : CGRAPH_FALSE)
 
 #define TYPE_BOOL
-#include "templete.h"
+#include "template.h"
 #include "data_base.ht"
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_BOOL_H_ */
+#endif /** _CGRAPH_BOOL_H_ */

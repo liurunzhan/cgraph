@@ -1,12 +1,12 @@
-#include <math.h>
+#include "cgraph_math.h"
 #include "cgraph_memory.h"
 #include "cgraph_fraction.h"
 
 #define TYPE_FRACTION
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
-/*                                public apis                                 */
+/**                               public apis                                 */
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn Fowler，Landon Curt Noll and Phong Vo in 1991):
   begin_of_algorithm
@@ -67,7 +67,7 @@ cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
   return flag;
 }
 
-/*                               private apis                                 */
+/**                              private apis                                 */
 TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den)
 {
   TYPE res;
@@ -288,4 +288,4 @@ TYPE FUNCTION(NAME, abs)(const TYPE x)
   return res;
 }
 
-#include "templete_off.h"
+#include "template_off.h"

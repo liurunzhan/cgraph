@@ -13,11 +13,11 @@ extern void cgraph_version(cgraph_char_t **version, cgraph_int_t *major, cgraph_
 extern void cgraph_version_print(void);
 extern void cgraph_version_fprintf(void *fp);
 
-/* test function in DEBUG mode and do not use in RELEASE mode */
+/**test function in DEBUG mode and do not use in RELEASE mode */
 extern void cgraph_version_test(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_VERSION_H_ */
+#endif /** _CGRAPH_VERSION_H_ */

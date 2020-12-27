@@ -70,4 +70,4 @@ typedef struct
 }
 #endif
 
-#endif /* _CGRAPH_GRAPH_H_ */
+#endif /** _CGRAPH_GRAPH_H_ */

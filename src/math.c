@@ -1,5 +1,4 @@
 #include <ctype.h>
-#include <math.h>
 #include "cgraph_math.h"
 
 cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata, const cgraph_uint_t data, const cgraph_uint_t poly)

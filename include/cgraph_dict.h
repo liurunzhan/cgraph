@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_DICT
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -17,10 +17,10 @@ typedef struct
 }cgraph_dict_t;
 
 #include "struct_base.ht"
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_DICT_H_ */
+#endif /** _CGRAPH_DICT_H_ */

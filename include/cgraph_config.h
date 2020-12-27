@@ -1,4 +1,4 @@
-/**
+/** 
  * @file cgraph_config.h
  * @author liurunzhan (liurunzhan@sina.com)
  * @brief common definitions in cgraph
@@ -13,13 +13,13 @@
 extern "C" {
 #endif
 
-/**
+/** 
  * @brief 
  * basic c-type definitions:
  * integer number types : char int long int8_t int16_t int32_t
  * float number types   : float double
  * c-type string type   : char *
-*/
+ */
 
 #include "cgraph_platform.h"
 
@@ -28,7 +28,7 @@ extern "C" {
 #include <float.h>
 #include <stdarg.h>
 
-/** 
+/**  
  * @typedef cgraph_char_t
  * @brief 8-bit ASCII character data type, used in c-type string
  * @def CGRAPH_CHAR_MAX CHAR_MAX
@@ -42,7 +42,7 @@ typedef char            cgraph_char_t;
 #define CGRAPH_CHAR_EPS (0xFF)
 #define CGRAPH_CHAR_BIT (8)
 
-/** 
+/**  
  * @typedef cgraph_bool_t
  * @brief 1-bit integer number data type
  * @def CGRAPH_BOOL_MAX CGRAPH_TRUE  (1)
@@ -58,7 +58,7 @@ typedef signed int      cgraph_bool_t;
 #define CGRAPH_BOOL_EPS (0x01)
 #define CGRAPH_BOOL_BIT (1)
 
-/** 
+/**  
  * @typedef cgraph_int_t
  * @brief 32-bit integer number data type
  * @def CGRAPH_INT_MAX INT_MAX
@@ -73,7 +73,7 @@ typedef unsigned int    cgraph_uint_t;
 #define CGRAPH_INT_EPS  (0xFFFFFFFF)
 #define CGRAPH_INT_BIT  (32)
 
-/** 
+/**  
  * @typedef cgraph_uint_t
  * @brief 32-bit unsigned integer number data type
  * @def CGRAPH_UINT_MAX UINT_MAX
@@ -86,7 +86,7 @@ typedef unsigned int    cgraph_uint_t;
 #define CGRAPH_UINT_EPS  (0xFFFFFFFF)
 #define CGRAPH_UINT_BIT  (32)
 
-/** 
+/**  
  * @typedef cgraph_long_t 
  * @brief 32-bit/64-bit integer number data type in 32-bit/64-bit system
  * @def CGRAPH_BOOL_MAX LONG_MAX
@@ -106,7 +106,7 @@ typedef unsigned long   cgraph_ulong_t;
   #define CGRAPH_LONG_BIT (32)
 #endif
 
-/** 
+/**  
  * @typedef cgraph_ulong_t  
  * @brief 32-bit/64-bit unsigned integer number data type in 32-bit/64-bit system
  * @def CGRAPH_ULONG_MAX ULONG_MAX
@@ -124,7 +124,7 @@ typedef unsigned long   cgraph_ulong_t;
   #define CGRAPH_ULONG_BIT (32)
 #endif
 
-/** 
+/**  
  * @typedef cgraph_size_t
  * @brief 32-bit/64-bit integer number data type in 32-bit/64-bit system
  * @def CGRAPH_SIZE_MAX LONG_MAX
@@ -235,10 +235,10 @@ typedef cgraph_long_t   cgraph_size_t;
   #elif CGRAPH_WORDSIZE == 32
     typedef __CGRAPH_INT64 cgraph_int64_t;
     typedef __CGRAPH_UINT64 cgraph_uint64_t;
-  #endif /* CGRAPH_WORDSIZE */
-#endif /* CGRAPH_STDC_VERSION */
+  #endif /**< CGRAPH_WORDSIZE */
+#endif /**< CGRAPH_STDC_VERSION */
 
-/** 
+/**  
  * @typedef cgraph_float32_t
  * @brief 32-bit floating point number data type
  * @def CGRAPH_FLOAT32_MAX FLT_MAX
@@ -252,7 +252,7 @@ typedef float              cgraph_float32_t;
 #define CGRAPH_FLOAT32_EPS FLT_EPSILON
 #define CGRAPH_FLOAT32_BIT FLT_DIG
 
-/** 
+/**  
  * @typedef cgraph_float64_t
  * @brief 64-bit floating point number data type
  * @def CGRAPH_FLOAT64_MAX DBL_MAX
@@ -304,7 +304,7 @@ typedef cgraph_uint8_t cgraph_addr8_t;
 #define CGRAPH_BSETS(x, from, to) ((x) | ((~(ONES << ((to) - (from)))) << (from)))
 #define CGRAPH_BCLRS(x, from, to) ((x) & ((ONES << (to)) | (~(ONES << (from)))))
 
-/**
+/** 
  * @def CGRAPH_DTYPE_NPTR_MIN CGRAPH_BOOL_T
  * @def CGRAPH_DTYPE_NPTR_MAX CGRAPH_FRACTION_T
  * @def CGRAPH_DTYPE_PTR_MIN CGRAPH_BITSET_T
@@ -314,7 +314,7 @@ typedef cgraph_uint8_t cgraph_addr8_t;
  * @brief the boundary between data objects and data structural objects 
  * if type is greater than CGRAPH_NODE_T, this object is a data object; 
  * otherwise, this object is a data structural object.
-*/
+ */
 #define CGRAPH_DTYPE_NPTR_MIN CGRAPH_BOOL_T
 #define CGRAPH_DTYPE_NPTR_MAX CGRAPH_FRACTION_T
 #define CGRAPH_DTYPE_PTR_MIN  CGRAPH_BITSET_T
@@ -322,7 +322,7 @@ typedef cgraph_uint8_t cgraph_addr8_t;
 #define CGRAPH_TYPE_MIN       CGRAPH_VECTOR_T
 #define CGRAPH_TYPE_MAX       CGRAPH_NULL_T
 
-/** 
+/**  
  * @enum cgraph_type_t
  * @brief the type enumerate structure, storing all object, data and structure types defined in this library
  * @details CGRAPH_OBJECT_T, CGRAPH_HOBJECT_T, CGRAPH_POBJECT_T and CGRAPH_SOBJECT_T share the same value, for the case that object types are defined to be used in structure types and it is useless to use them separately without structure type used and use two or more object types in the same structure module. Users can use them separately with <cgraph.h> included.
@@ -362,23 +362,23 @@ typedef enum
   CGRAPH_NULL_T      = 25   /**< TYPE 25 : CGRAPH_NULL_T     */
 }cgraph_type_t;
 
-/**
- * @brief 
+/** 
+ * @brief data and structure tyep id
  * @struct cgraph_element_t
  */
 typedef struct
 {
-  /* key data type */
+  /**  key data type */
   cgraph_uint_t k_type       : 6;
   cgraph_uint_t k_accessible : 1;
   cgraph_uint_t k_hashed     : 1;
-  /* value data type */
+  /**  value data type */
   cgraph_uint_t v_type       : 6;
   cgraph_uint_t v_accessible : 1;
   cgraph_uint_t v_hashed     : 1;
-  /* unused space for extertions */
+  /** unused space for extertions */
   cgraph_uint_t              : 8;
-  /* graph type */
+  /**  graph type */
   cgraph_uint_t g_directed   : 1;
   cgraph_uint_t g_weighted   : 1;
   cgraph_uint_t g_hyper      : 1;
@@ -442,10 +442,13 @@ typedef struct
   void (*free)(void *cthis);
   void *(*memcpy)(void *x, const void *y, const cgraph_size_t size);
   cgraph_size_t (*hash)(const void *cthis);
-  void (*add)(const void *x, const void *y, void *z);
-  void (*sub)(const void *x, const void *y, void *z);
-  void (*mul)(const void *x, const void *y, void *z);
-  void (*div)(const void *x, const void *y, void *z);
+  void (*padd)(void *x, void *y, void *z);
+  void (*psub)(void *x, void *y, void *z);
+  void (*pmul)(void *x, void *y, void *z);
+  void (*pdiv)(void *x, void *y, void *z);
+  void (*pdivf)(void *x, void *y, void *z);
+  void (*pint)(void *x, void *y, void *z);
+  void (*pmod)(void *x, void *y, void *z);
   void *(*iter1x)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
   void *(*iter2x)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
   void *(*iter3x)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
@@ -459,4 +462,4 @@ typedef struct
 }
 #endif
 
-#endif /* _CGRAPH_CONFIG_H_ */
+#endif /** _CGRAPH_CONFIG_H_ */

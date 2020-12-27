@@ -9,7 +9,7 @@ extern "C" {
 #include "cgraph_sobject.h"
 
 #define TYPE_SPAMAT
-#include "templete.h"
+#include "template.h"
 
 typedef struct 
 {
@@ -19,10 +19,10 @@ typedef struct
 }cgraph_spamat_t;
 
 #include "struct_base.ht"
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_SPAMAT_H_ */
+#endif /** _CGRAPH_SPAMAT_H_ */

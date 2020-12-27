@@ -9,7 +9,7 @@ extern "C" {
 #include "cgraph_pobject.h"
 
 #define TYPE_STACK
-#include "templete.h"
+#include "template.h"
 
 typedef struct
 {
@@ -17,10 +17,10 @@ typedef struct
   CGRAPH_STRUCTURE_ROOT
 }cgraph_stack_t;
 
-#include "templete_off.h"
+#include "template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _CGRAPH_STACK_H_ */
+#endif /** _CGRAPH_STACK_H_ */

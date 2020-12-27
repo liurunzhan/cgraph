@@ -1,4 +1,4 @@
-#include "templete_base.ct"
+#include "template_base.ct"
 
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
@@ -199,7 +199,7 @@ void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgra
   FUNCTION(NAME, descsort)(_cthis, left+1, end);
 }
 
-/*              functions with one vectors of the same data types             */
+/**             functions with one vectors of the same data types             */
 void FUNCTION(NAME, free1x)(void *cthis, const cgraph_size_t size)
 {
 #ifdef CGRAPH_WITH_DATA
@@ -213,7 +213,7 @@ void FUNCTION(NAME, free1x)(void *cthis, const cgraph_size_t size)
 #endif
 }
 
-/*              functions with two vectors of the same data types             */
+/**             functions with two vectors of the same data types             */
 void *FUNCTION(NAME, adds2x)(const void *x, const void *y, void *z, const cgraph_size_t len)
 {
 #ifdef CGRAPH_WITH_DATA
@@ -291,7 +291,7 @@ cgraph_bool_t FUNCTION(NAME, eqs2x)(const void *x, const void *y, const cgraph_s
   return res;
 }
 
-/*        functions with a vector and an _cthis of the same data types        */
+/**       functions with a vector and an _cthis of the same data types        */
 void *FUNCTION(NAME, adds1x)(const void *x, const void *y, const void *z, const cgraph_size_t len)
 {
 #ifdef CGRAPH_WITH_DATA

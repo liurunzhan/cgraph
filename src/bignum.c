@@ -3,7 +3,7 @@
 #include "cgraph_bignum.h"
 
 #define TYPE_BIGNUM
-#include "templete.h"
+#include "template.h"
 #include "data_base.ct"
 
 /*
@@ -318,4 +318,4 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
-#include "templete_off.h"
+#include "template_off.h"
