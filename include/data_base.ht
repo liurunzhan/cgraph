@@ -1,6 +1,6 @@
 #include "template_base.ht"
 
-extern cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y);
+extern cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y);
 
 extern void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size);
 extern void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t size);

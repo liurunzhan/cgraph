@@ -8,38 +8,44 @@
 #include "template.h"
 #include "data_base.ct"
 
-cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
-  TYPE _cthis = *(TYPE *)cthis;
-  cgraph_size_t hash = (TIME_YEAR(_cthis) << 13) + (TIME_MONTH(_cthis) << 7) + TIME_DAY(_cthis);
+  cgraph_size_t hash = 0;
+  if(NULL != cthis)
+  {
+    hash = (TIME_YEAR(*cthis) << 13) + (TIME_MONTH(*cthis) << 7) + TIME_DAY(*cthis);
+  }
+
   return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
-  TYPE _cthis = *(TYPE *)cthis;
   cgraph_bool_t flag = CGRAPH_TRUE;
-  if(0 == TIME_YEAR(_cthis))
-  { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_MONTH(_cthis)) || (12 < TIME_MONTH(_cthis)))
-  { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_DAY(_cthis)) || (31 < TIME_DAY(_cthis)))
-  { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_HOUR(_cthis)) || (24 < TIME_HOUR(_cthis)))
-  { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_MINUTE(_cthis)) || (60 < TIME_MINUTE(_cthis)))
-  { flag = CGRAPH_FALSE; }
-  else if((0 > TIME_SECOND(_cthis)) || (60 < TIME_SECOND(_cthis)))
+  if(NULL != cthis)
+  {
+    if(0 == TIME_YEAR(*cthis))
+    { flag = CGRAPH_FALSE; }
+    else if((0 > TIME_MONTH(*cthis)) || (12 < TIME_MONTH(*cthis)))
+    { flag = CGRAPH_FALSE; }
+    else if((0 > TIME_DAY(*cthis)) || (31 < TIME_DAY(*cthis)))
+    { flag = CGRAPH_FALSE; }
+    else if((0 > TIME_HOUR(*cthis)) || (24 < TIME_HOUR(*cthis)))
+    { flag = CGRAPH_FALSE; }
+    else if((0 > TIME_MINUTE(*cthis)) || (60 < TIME_MINUTE(*cthis)))
+    { flag = CGRAPH_FALSE; }
+    else if((0 > TIME_SECOND(*cthis)) || (60 < TIME_SECOND(*cthis)))
+    { flag = CGRAPH_FALSE; }
+  }
+  else
   { flag = CGRAPH_FALSE; }
 
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
-  TYPE object_x = *(TYPE *)x, object_y = *(TYPE *)y;
-
-  return FUNCTION(NAME, eq)(object_x, object_y);
+  return FUNCTION(NAME, eq)(*x, *y);
 }
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)

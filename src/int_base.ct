@@ -1,20 +1,19 @@
 #include "data_base.ct"
 
-cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
   return NULL == cthis ? CGRAPH_FALSE : CGRAPH_TRUE;
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != _x && NULL != _y)
+  if(NULL != x && NULL != y)
   {
-    if(EQ(*_x, *_y))
+    if(EQ(*x, *y))
     { flag = CGRAPH_TRUE; }
   }
-  else if(NULL == _x && NULL == _y)
+  else if(NULL == x && NULL == y)
   { flag = CGRAPH_TRUE; }
 
   return flag;

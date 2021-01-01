@@ -7,6 +7,17 @@ This is a data template file defined in GRAPH library.
         | DTYPE | data type with pointer|
 *******************************************************************************/
 
+static cgraph_size_t FUNCTION(NAME, _len)(const void *cthis);
+static cgraph_size_t FUNCTION(NAME, _size)(const void *cthis);
+CGRAPH_INLINE static cgraph_size_t FUNCTION(NAME, _hash)(const void *cthis);
+static void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size);
+static cgraph_bool_t FUNCTION(NAME, _equal)(const void *x, const void *y);
+static void *FUNCTION(NAME, _calloc)(const cgraph_type_t type, const cgraph_size_t size);
+static void *FUNCTION(NAME, _realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error);
+static void *FUNCTION(NAME, _copy)(const void *cthis, const cgraph_size_t size);
+static void FUNCTION(NAME, _free)(void *cthis);
+static void *FUNCTION(NAME, _memcpy)(void *x, const void *y, const cgraph_size_t size);
+
 CGVTable STRUCT(NAME) = 
 {
 /**< private: */
@@ -16,10 +27,10 @@ CGVTable STRUCT(NAME) =
   sizeof(TYPE *),    /**< cgraph_size_t t_ptrsize;                            */
   COPY_SIZE,         /**< cgraph_size_t t_cpysize;                            */
 #ifdef CGRAPH_WITH_DATA
-  sizeof(TYPE *),    /**< cgraph_size_t t_strusize;                            */
+  sizeof(TYPE *),    /**< cgraph_size_t t_strusize;                           */
   sizeof(DATA_TYPE), /**< cgraph_size_t d_size;                               */
 #else
-  sizeof(TYPE),      /**< cgraph_size_t t_strusize;                            */
+  sizeof(TYPE),      /**< cgraph_size_t t_strusize;                           */
   sizeof(TYPE),      /**< cgraph_size_t d_size;                               */
 #endif
 
@@ -29,19 +40,20 @@ CGVTable STRUCT(NAME) =
   FUNCTION(NAME, tsize),     /**< cgraph_size_t (*tsize)(void);               */
   FUNCTION(NAME, tptrsize),  /**< cgraph_size_t (*tptrsize)(void);            */
   FUNCTION(NAME, tcpysize),  /**< cgraph_size_t (*tcpysize)(void);            */
-  FUNCTION(NAME, tstrusize), /**< cgraph_size_t (*tstrusize)(void);          */
+  FUNCTION(NAME, tstrusize), /**< cgraph_size_t (*tstrusize)(void);           */
   FUNCTION(NAME, datsize),   /**< cgraph_size_t (*datsize)(void);             */
   FUNCTION(NAME, hasdata),   /**< cgraph_bool_t (*hasdata)(void);             */
-  FUNCTION(NAME, len),       /**< cgraph_size_t (*len)(const void *cthis);    */
-  FUNCTION(NAME, size),      /**< cgraph_size_t (*size)(const void *cthis);   */
+  FUNCTION(NAME, _len),      /**< cgraph_size_t (*len)(const void *cthis);    */
+  FUNCTION(NAME, _size),     /**< cgraph_size_t (*size)(const void *cthis);   */
   FUNCTION(NAME, msize),     /**< cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);                                            */
   FUNCTION(NAME, update),    /**< void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size)      */
-  FUNCTION(NAME, calloc),    /**< void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);                                                  */
-  FUNCTION(NAME, realloc),   /**< void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size);                      */
-  FUNCTION(NAME, copy),      /**< void *(*copy)(const void *cthis, const cgraph_size_t size);                                                        */
-  FUNCTION(NAME, free),      /**< void (*free)(void *cthis);                  */
-  FUNCTION(NAME, memcpy),    /**< void *(*memcpy)(void *cthis);               */
-  FUNCTION(NAME, hash),      /**< cgraph_size_t (*hash)(const void *cthis);   */
+  FUNCTION(NAME, _hash),     /**< cgraph_size_t (*hash)(const void *cthis);   */
+  FUNCTION(NAME, _equal),    /**< cgraph_bool_t (*equal)(const void *x, const void *y);                                                                   */
+  FUNCTION(NAME, _calloc),   /**< void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);                                                  */
+  FUNCTION(NAME, _realloc),  /**< void *(*realloc)(void *cthis, const cgraph_size_t old_size, const cgraph_size_t new_size);                      */
+  FUNCTION(NAME, _copy),     /**< void *(*copy)(const void *cthis, const cgraph_size_t size);                                                        */
+  FUNCTION(NAME, _free),     /**< void (*free)(void *cthis);                  */
+  FUNCTION(NAME, _memcpy),   /**< void *(*memcpy)(void *cthis);               */
   NULL                       /** void (*tend)(void);                          */
 };
 
@@ -75,114 +87,52 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, hasdata)(void)
 #endif
 }
 
-void *FUNCTION(NAME, iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter)
+CGRAPH_INLINE static cgraph_size_t FUNCTION(NAME, _len)(const void *cthis)
 {
-  cgraph_size_t i;
-#ifdef CGRAPH_WITH_DATA
-  TYPE **_x = (TYPE **)x;
-  for(i=0; i<len; i++)
-  { iter(_x[i]); }
-#else
-  TYPE *_x = (TYPE *)x;
-  for(i=0; i<len; i++)
-  { iter(CGRAPH_VARADDR(_x[i])); }
-#endif
-
-  return _x;
+  return FUNCTION(NAME, len)((TYPE *)cthis);
 }
 
-void *FUNCTION(NAME, iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+CGRAPH_INLINE static cgraph_size_t FUNCTION(NAME, _size)(const void *cthis)
 {
-  cgraph_size_t i;
-#ifdef CGRAPH_WITH_DATA
-  TYPE **_x = (TYPE **)x, **_y = (TYPE **)y;
-  for(i=0; i<len; i++)
-  { iter(_x[i], _y[i]); }
-#else
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  for(i=0; i<len; i++)
-  { iter(CGRAPH_VARADDR(_x[i]), CGRAPH_VARADDR(_y[i])); }
-#endif
-
-  return _y;
+  return FUNCTION(NAME, size)((TYPE *)cthis);
 }
 
-void *FUNCTION(NAME, iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+CGRAPH_INLINE static cgraph_size_t FUNCTION(NAME, _hash)(const void *cthis)
 {
-  cgraph_size_t i;
-#ifdef CGRAPH_WITH_DATA
-  TYPE **_x = (TYPE **)x, *_y = (TYPE *)y;
-  for(i=0; i<len; i++)
-  { iter(_x[i], _y); }
-#else
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  for(i=0; i<len; i++)
-  { iter(CGRAPH_VARADDR(_x[i]), _y); }
-#endif
-  
-  return _y;
+  return FUNCTION(NAME, hash)((TYPE *)cthis);
 }
 
-void *FUNCTION(NAME, iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+static cgraph_bool_t FUNCTION(NAME, _equal)(const void *x, const void *y)
 {
-  cgraph_size_t i;
-#ifdef CGRAPH_WITH_DATA
-  TYPE **_x = (TYPE **)x, **_y = (TYPE **)y, **_z = (TYPE **)z;
-  for(i=0; i<len; i++)
-  { iter(_x[i], _y[i], _z[i]); }
-#else
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
-  for(i=0; i<len; i++)
-  { iter(CGRAPH_VARADDR(_x[i]), CGRAPH_VARADDR(_y[i]), CGRAPH_VARADDR(_z[i])); }
-#endif
-
-  return _z;
+  return FUNCTION(NAME, equal)((TYPE *)x, (TYPE *)y);
 }
 
-void *FUNCTION(NAME, iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+CGRAPH_INLINE static cgraph_bool_t FUNCTION(NAME, _check)(const void *cthis)
 {
-  cgraph_size_t i;
-#ifdef CGRAPH_WITH_DATA
-  TYPE **_x = (TYPE **)x, *_y = (TYPE *)y, **_z = (TYPE **)z;
-  for(i=0; i<len; i++)
-  { iter(_x[i], _y, _z[i]); }
-#else
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
-  for(i=0; i<len; i++)
-  { iter(CGRAPH_VARADDR(_x[i]), _y, CGRAPH_VARADDR(_z[i])); }
-#endif
-
-  return _z;
+  return FUNCTION(NAME, check)((TYPE *)cthis);
 }
 
-void *FUNCTION(NAME, iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+static void *FUNCTION(NAME, _calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
-  cgraph_size_t i;
-#ifdef CGRAPH_WITH_DATA
-  TYPE **_x = (TYPE **)x, **_y = (TYPE **)y, *_z = (TYPE *)z;
-  for(i=0; i<len; i++)
-  { iter(_x[i], _y[i], _z); }
-#else
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
-  for(i=0; i<len; i++)
-  { iter(CGRAPH_VARADDR(_x[i]), CGRAPH_VARADDR(_y[i]), _z); }
-#endif
-
-  return _z;
+  return FUNCTION(NAME, calloc)(type, size);
 }
 
-void *FUNCTION(NAME, iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+static void *FUNCTION(NAME, _realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error)
 {
-  cgraph_size_t i;
-#ifdef CGRAPH_WITH_DATA
-  TYPE *_x = (TYPE *)x, **_y = (TYPE **)y, *_z = (TYPE *)z;
-  for(i=0; i<len; i++)
-  { iter(_x, _y[i], _z); }
-#else
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
-  for(i=0; i<len; i++)
-  { iter(_x, CGRAPH_VARADDR(_y[i]), _z); }
-#endif
+  return FUNCTION(NAME, realloc)((TYPE *)cthis, type, old_size, new_size, error);
+}
 
-  return _z;
+static void *FUNCTION(NAME, _copy)(const void *cthis, const cgraph_size_t size)
+{
+  return FUNCTION(NAME, copy)((TYPE *)cthis, size);
+}
+
+CGRAPH_INLINE static void FUNCTION(NAME, _free)(void *cthis)
+{
+  FUNCTION(NAME, free)((TYPE *)cthis);
+}
+
+static void *FUNCTION(NAME, _memcpy)(void *x, const void *y, const cgraph_size_t size)
+{
+  return FUNCTION(NAME, memcpy)(x, y, size);
 }

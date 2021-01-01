@@ -7,7 +7,7 @@
 #include "template.h"
 #include "data_base.ct"
 
-cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
   cgraph_size_t hash = 142857UL;
   if(NULL != cthis)
@@ -20,7 +20,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
   return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != cthis)
@@ -33,7 +33,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if(NULL != x && NULL != y)

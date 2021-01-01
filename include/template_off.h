@@ -318,7 +318,16 @@
   #undef DATA_ISNEG
 #endif
 
-/**COPYED MEMORY SIZE WITHOUT POINTER MEMORY SIZE */
+/** POINTER TYPE OF TYPE VECTOR */
+#ifdef TYPE_VPTR
+  #undef TYPE_VPTR
+#endif
+
+#ifdef TYPE_CPTR
+  #undef TYPE_CPTR
+#endif
+
+/** COPYED MEMORY SIZE WITHOUT POINTER MEMORY SIZE */
 #ifdef COPY_SIZE
   #undef COPY_SIZE
 #endif

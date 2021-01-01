@@ -540,6 +540,14 @@
 #define CGRAPH_STRUCTURE_ROOT \
   DATA_TYPE data, root;
 
+#ifndef CGRAPH_WITH_DATA
+  #define TYPE_VPTR *
+  #define TYPE_CPTR *
+#else
+  #define TYPE_VPTR **
+  #define TYPE_CPTR *
+#endif
+
 /**copyed memory size without pointer memory size */
 #ifndef CGRAPH_WITH_DATA
   #define COPY_SIZE (sizeof(TYPE))

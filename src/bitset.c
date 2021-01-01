@@ -9,34 +9,35 @@ static const cgraph_uint8_t cgraph_uint8_bits[8] = {
   0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80
 };
 
-cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
-  TYPE *_cthis = (TYPE *)cthis;
-  cgraph_size_t i, hash = 0;
-  for(i=0; i<_cthis->len; i++)
-  { hash = (hash << 4) ^ (hash >> 28) ^ _cthis->data[i]; }
+  cgraph_size_t hash = 0;
+  if(NULL != cthis)
+  {
+    cgraph_size_t i;
+    for(i=0; i<cthis->len; i++)
+    { hash = (hash << 4) ^ (hash >> 28) ^ cthis->data[i]; }
+  }
 
   return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if((NULL != _x) && (NULL != _y))
+  if((NULL != x) && (NULL != y))
   {
-    if(_x->len == _y->len)
-    { flag = cgraph_memcmp(_x->data, _y->data, _x->len*FUNCTION(NAME, datsize)()); }
+    if(x->len == y->len)
+    { flag = cgraph_memcmp(x->data, y->data, x->len*FUNCTION(NAME, datsize)()); }
   }
 
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
+  if(NULL != cthis)
   { flag = CGRAPH_TRUE; }
 
   return flag;

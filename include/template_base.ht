@@ -9,25 +9,26 @@ extern cgraph_size_t FUNCTION(NAME, tstrusize)(void);
 extern cgraph_size_t FUNCTION(NAME, datsize)(void);
 extern cgraph_bool_t FUNCTION(NAME, hasdata)(void);
 
-extern cgraph_size_t FUNCTION(NAME, len)(const void *cthis);
-extern cgraph_size_t FUNCTION(NAME, size)(const void *cthis);
+extern cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size);
-extern void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size);
 
-extern void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size);
-extern void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error);
-extern void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size);
-extern void FUNCTION(NAME, free)(void *cthis);
+extern TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error);
+extern TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size);
+extern void FUNCTION(NAME, free)(TYPE *cthis);
 
-extern void *FUNCTION(NAME, memcpy)(void *x, const void *y, const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size);
 
-extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
-extern cgraph_bool_t FUNCTION(NAME, check)(const void *cthis);
+extern cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis);
 
-extern void *FUNCTION(NAME, iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
-extern void *FUNCTION(NAME, iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
-extern void *FUNCTION(NAME, iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
-extern void *FUNCTION(NAME, iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
-extern void *FUNCTION(NAME, iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
-extern void *FUNCTION(NAME, iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
-extern void *FUNCTION(NAME, iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+
+extern TYPE TYPE_VPTR FUNCTION(NAME, iter1v)(TYPE TYPE_VPTR x, const cgraph_size_t len, cgraph_pfunc1_t iter);
+extern TYPE TYPE_VPTR FUNCTION(NAME, iter2v)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, const cgraph_size_t len, cgraph_pfunc2_t iter);
+extern TYPE TYPE_VPTR FUNCTION(NAME, iter2vc)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, const cgraph_size_t len, cgraph_pfunc2_t iter);
+extern TYPE TYPE_VPTR FUNCTION(NAME, iter3v)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+extern TYPE TYPE_VPTR FUNCTION(NAME, iter3vcv)(TYPE TYPE_VPTR x, TYPE TYPE_CPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+extern TYPE TYPE_VPTR FUNCTION(NAME, iter3vvc)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+extern TYPE TYPE_VPTR FUNCTION(NAME, iter3cvc)(TYPE TYPE_CPTR x, TYPE TYPE_VPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter);

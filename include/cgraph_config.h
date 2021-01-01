@@ -437,12 +437,13 @@ typedef struct
   cgraph_size_t (*size)(const void* cthis);
   cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size);
+  cgraph_size_t (*hash)(const void *cthis);
+  cgraph_bool_t (*equal)(const void *x, const void *y);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, const cgraph_size_t new_size, cgraph_bool_t *error);
   void *(*copy)(const void *cthis, const cgraph_size_t size);
   void (*free)(void *cthis);
   void *(*memcpy)(void *x, const void *y, const cgraph_size_t size);
-  cgraph_size_t (*hash)(const void *cthis);
   void (*padd)(void *x, void *y, void *z);
   void (*psub)(void *x, void *y, void *z);
   void (*pmul)(void *x, void *y, void *z);

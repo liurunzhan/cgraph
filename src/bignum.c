@@ -10,34 +10,32 @@
   BKDR Hash Algorithm
   hash = (hash * 31) + (cthis->data[i] - '0')
 */
-cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
-  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 0, i;
-  for(i=0; i<_cthis->len; i++)
-  { hash = (hash * 31) + (_cthis->data[i] - '0'); }
+  for(i=0; i<cthis->len; i++)
+  { hash = (hash * 31) + (cthis->data[i] - '0'); }
 
   return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
-  TYPE *_cthis = (TYPE *)cthis;
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != _cthis)
+  if(NULL != cthis)
   {
     cgraph_size_t i = 0;
     flag = CGRAPH_TRUE;
-    if(('+' == _cthis->data[i]) || ('-' == _cthis->data[i]))
+    if(('+' == cthis->data[i]) || ('-' == cthis->data[i]))
     { i++; }
     else
     {
       cgraph_bool_t point_cnt = 0;
-      for(; i<_cthis->len; i++)
+      for(; i<cthis->len; i++)
       {
-        if('0' > _cthis->data[i] || '9' < _cthis->data[i])
+        if('0' > cthis->data[i] || '9' < cthis->data[i])
         {
-          if('.' == _cthis->data[i])
+          if('.' == cthis->data[i])
           {  point_cnt++; }
           if(1 < point_cnt)
           {
@@ -52,15 +50,14 @@ cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if((NULL != _x) && (NULL != _y))
+  if((NULL != x) && (NULL != y))
   {
-    if(_x->len == _y->len)
+    if(x->len == y->len)
     {
-      flag = cgraph_memcmp(_x->data, _y->data, _x->len*FUNCTION(NAME, datsize)());
+      flag = cgraph_memcmp(x->data, y->data, x->len*FUNCTION(NAME, datsize)());
     }
   }
 

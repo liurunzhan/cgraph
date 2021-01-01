@@ -1,7 +1,6 @@
 #include "template_base.ct"
 
-
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
 {
 #ifdef CGRAPH_WITH_DATA
   return NULL != cthis ? ((TYPE *)cthis)->len : 0;
@@ -10,7 +9,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const void *cthis)
 #endif
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const void *cthis)
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis)
 {
 #ifdef CGRAPH_WITH_DATA
   return NULL != cthis ? ((TYPE *)cthis)->size : 0;
@@ -28,7 +27,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, cons
 #endif
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size)
+CGRAPH_INLINE static void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size)
 {
 #ifdef CGRAPH_WITH_DATA
   TYPE *_cthis = (TYPE *)cthis;
@@ -51,17 +50,17 @@ CGRAPH_INLINE void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type
 #endif
 }
 
-void *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
+CGRAPH_INLINE TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
   TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, msize)(type, size));
 
   return FUNCTION(NAME, update)(cthis, type, 0, size);
 }
 
-void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error)
+TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error)
 {
 #ifdef CGRAPH_WITH_DATA
-  TYPE *_cthis = (TYPE *)cthis;
+  TYPE *_cthis = cthis;
   cgraph_size_t _size = ((NULL != _cthis) ? FUNCTION(NAME, msize)(type, _cthis->size) : 0);
   _cthis = (TYPE *)cgraph_realloc(_cthis, _size, FUNCTION(NAME, msize)(type, new_size), error);
   if((NULL != error) && (CGRAPH_FALSE == *error))
@@ -73,7 +72,7 @@ void *FUNCTION(NAME, realloc)(void *cthis, const cgraph_type_t type, const cgrap
   return _cthis;
 }
 
-void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
+TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size)
 {
   TYPE *_cthis = (TYPE *)cthis, *_object = NULL;
   if(NULL != _cthis)
@@ -92,12 +91,12 @@ void *FUNCTION(NAME, copy)(const void *cthis, const cgraph_size_t size)
   return _object;
 }
 
-CGRAPH_INLINE void FUNCTION(NAME, free)(void *cthis)
+CGRAPH_INLINE void FUNCTION(NAME, free)(TYPE *cthis)
 {
   cgraph_free(cthis);
 }
 
-void *FUNCTION(NAME, memcpy)(void *x, const void *y, const cgraph_size_t size)
+TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size)
 {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   if(NULL != _x || NULL != _y)
@@ -197,6 +196,104 @@ void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgra
   _cthis[left] = key;
   FUNCTION(NAME, descsort)(_cthis, start, left-1);
   FUNCTION(NAME, descsort)(_cthis, left+1, end);
+}
+
+TYPE TYPE_VPTR FUNCTION(NAME, iter1v)(TYPE TYPE_VPTR x, const cgraph_size_t len, cgraph_pfunc1_t iter)
+{
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { iter(&x[i]); }
+
+  return x;
+}
+
+void *FUNCTION(NAME, _iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter)
+{
+  return FUNCTION(NAME, iter1v)((TYPE TYPE_VPTR)x, len, iter);
+}
+
+TYPE TYPE_VPTR FUNCTION(NAME, iter2v)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+{
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { iter(&x[i], &y[i]); }
+
+  return y;
+}
+
+void *FUNCTION(NAME, _iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+{
+  return FUNCTION(NAME, iter2v)((TYPE TYPE_VPTR)x, (TYPE TYPE_VPTR)y, len, iter);
+}
+
+TYPE TYPE_VPTR FUNCTION(NAME, iter2vc)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+{
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { iter(&x[i], &y[i]); }
+
+  return y;
+}
+
+void *FUNCTION(NAME, _iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+{
+  return FUNCTION(NAME, iter2vc)((TYPE TYPE_VPTR)x, (TYPE TYPE_VPTR)y, len, iter);
+}
+
+TYPE TYPE_VPTR FUNCTION(NAME, iter3v)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { iter(&x[i], &y[i], &z[i]); }
+
+  return z;
+}
+
+void *FUNCTION(NAME, _iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  return FUNCTION(NAME, iter3v)((TYPE TYPE_VPTR)x, (TYPE TYPE_VPTR)y, (TYPE TYPE_VPTR)z, len, iter);
+}
+
+TYPE TYPE_VPTR FUNCTION(NAME, iter3vcv)(TYPE TYPE_VPTR x, TYPE TYPE_CPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { iter(&x[i], y, &z[i]); }
+
+  return z;
+}
+
+void *FUNCTION(NAME, _iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  return FUNCTION(NAME, iter3vcv)((TYPE TYPE_VPTR)x, (TYPE TYPE_CPTR)y, (TYPE TYPE_VPTR)z, len, iter);
+}
+
+TYPE TYPE_VPTR FUNCTION(NAME, iter3vvc)(TYPE TYPE_VPTR x, TYPE TYPE_VPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { iter(&x[i], &y[i], z); }
+
+  return z;
+}
+
+void *FUNCTION(NAME, _iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  return FUNCTION(NAME, iter3vvc)((TYPE TYPE_VPTR)x, (TYPE TYPE_VPTR)y, (TYPE TYPE_VPTR)z, len, iter);
+}
+
+TYPE TYPE_VPTR FUNCTION(NAME, iter3cvc)(TYPE TYPE_CPTR x, TYPE TYPE_VPTR y, TYPE TYPE_VPTR z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  cgraph_size_t i;
+  for(i=0; i<len; i++)
+  { iter(x, &y[i], z); }
+
+  return z;
+}
+
+void *FUNCTION(NAME, _iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  return FUNCTION(NAME, iter3cvc)((TYPE TYPE_CPTR)x, (TYPE TYPE_VPTR)y, (TYPE TYPE_VPTR)z, len, iter);
 }
 
 /**             functions with one vectors of the same data types             */

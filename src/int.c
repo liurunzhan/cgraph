@@ -21,13 +21,12 @@
   64-bit offset_basis : 14695981039346656037
   64-bit fnv_prime : 1099511628211 = 2^40 + 2^8 + 0xb3
 */
-cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
-  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 2166136261UL;
-  if(NULL != _cthis)
+  if(NULL != cthis)
   {
-    char *tmp = (char *)(_cthis);
+    char *tmp = (char *)cthis;
     cgraph_size_t i;
     for(i=0; i<sizeof(TYPE); i++)
     { hash = (hash ^ tmp[i]) * 16777619UL; }

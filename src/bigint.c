@@ -10,32 +10,35 @@
   @brief BKDR Hash Algorithm
   hash = (hash * 31) + cthis->data[i]
 */
-cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
-  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 0;
-  if(NULL != _cthis)
+  if(NULL != cthis)
   {
     cgraph_size_t i;
-    hash = _cthis->postive;
-    for(i=0; i<_cthis->len; i++)
-    { hash = hash * 31 + _cthis->data[i]; }
+    hash = cthis->postive;
+    for(i=0; i<cthis->len; i++)
+    { hash = hash * 31 + cthis->data[i]; }
   }
 
   return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
-  TYPE *_cthis = (TYPE *)cthis;
+  return EQ(x, y);
+}
+
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
+{
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != _cthis)
+  if(NULL != cthis)
   {
     cgraph_size_t i;
     flag = CGRAPH_TRUE;
-    for(i=0; i<_cthis->len; i++)
+    for(i=0; i<cthis->len; i++)
     {
-      if((_cthis->data[i] > 10) || (_cthis->data[i] < 0))
+      if((cthis->data[i] > 10) || (cthis->data[i] < 0))
       {
         flag = CGRAPH_FALSE;
         break;
@@ -68,13 +71,6 @@ cgraph_string_t *FUNCTION(NAME, tostr)(const TYPE *cthis)
   }
 
   return str;
-}
-
-cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
-{
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-
-  return EQ(_x, _y);
 }
 
 TYPE *FUNCTION(NAME, abs)(TYPE *cthis)

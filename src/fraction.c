@@ -23,45 +23,39 @@
   64-bit offset_basis : 14695981039346656037
   64-bit fnv_prime : 1099511628211 = 2^40 + 2^8 + 0xb3
 */
-cgraph_size_t FUNCTION(NAME, hash)(const void *cthis)
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
-  TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 2166136261UL;
-  if(NULL != _cthis)
+  if(NULL != cthis)
   {
-    TYPE tmp = *_cthis;
-    hash = (hash ^ FRACTION_NUM(tmp)) * 16777619UL;
-    hash = ((hash >> 8) ^ FRACTION_DEN(tmp)) * 16777619UL;
+    hash = (hash ^ FRACTION_NUM(*cthis)) * 16777619UL;
+    hash = ((hash >> 8) ^ FRACTION_DEN(*cthis)) * 16777619UL;
   }
 
   return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const void *cthis)
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
-  TYPE *_cthis = (TYPE *)cthis;
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != _cthis)
+  if(NULL != cthis)
   {
-    TYPE tmp = *_cthis;
-    if(0 != FRACTION_DEN(tmp))
+    if(0 != FRACTION_DEN(*cthis))
     { flag = CGRAPH_TRUE; }
   }
 
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != _x && NULL != _y)
+  if(NULL != x && NULL != y)
   {
-    TYPE tmp_x = *_x, tmp_y = *_y;
-    if(EQ(tmp_x, tmp_y))
+    if(EQ(*x, *y))
     { flag = CGRAPH_TRUE; }
   }
-  else if(NULL == _x && NULL == _y)
+  else if(NULL == x && NULL == y)
   { flag = CGRAPH_TRUE; }
 
   return flag;
