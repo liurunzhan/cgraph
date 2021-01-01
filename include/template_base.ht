@@ -23,3 +23,11 @@ extern void *FUNCTION(NAME, memcpy)(void *x, const void *y, const cgraph_size_t 
 
 extern cgraph_size_t FUNCTION(NAME, hash)(const void *cthis);
 extern cgraph_bool_t FUNCTION(NAME, check)(const void *cthis);
+
+extern void *FUNCTION(NAME, iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
+extern void *FUNCTION(NAME, iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
+extern void *FUNCTION(NAME, iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
+extern void *FUNCTION(NAME, iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+extern void *FUNCTION(NAME, iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+extern void *FUNCTION(NAME, iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+extern void *FUNCTION(NAME, iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);

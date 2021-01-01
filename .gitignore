@@ -78,7 +78,8 @@ doc/
 !doc/Makefile
 !doc/Introduction.md
 
-# compile scripts
+# Compile Scripts
+[0-9]*
 script/compile
 script/compile.exe
 script/compile.hi

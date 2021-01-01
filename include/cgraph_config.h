@@ -271,7 +271,7 @@ typedef double             cgraph_float64_t;
 #define CGRAPH_FLOAT_NINF_HASH (1987654321UL)
 
 #define CGRAPH_MEMORY_HEADER_SIZE (2)
-#define CGRAPH_MEMORY_FREED_SIZE (4)
+#define CGRAPH_MEMORY_FREED_SIZE (2*CGRAPH_MEMORY_HEADER_SIZE)
 
 #if CGRAPH_MEMORY_FREED_SIZE <= CGRAPH_MEMORY_HEADER_SIZE
   #error CGRAPH_MEMORY_FREED_SIZE must be greater than CGRAPH_MEMORY_HEADER_SIZE
@@ -280,6 +280,7 @@ typedef double             cgraph_float64_t;
 typedef void *         cgraph_stl_t;
 typedef cgraph_uint8_t cgraph_addr8_t;
 
+#define CGRAPH_VARADDR(x) (&(x))
 #define CGRAPH_VARADDR1V(x) ((cgraph_addr8_t *)(&(x)))
 #define CGRAPH_VARADDR2V(x, y) ((cgraph_addr8_t *)(&(x)) + (y))
 
@@ -449,9 +450,13 @@ typedef struct
   void (*pdivf)(void *x, void *y, void *z);
   void (*pint)(void *x, void *y, void *z);
   void (*pmod)(void *x, void *y, void *z);
-  void *(*iter1x)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
-  void *(*iter2x)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
-  void *(*iter3x)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+  void *(*iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
+  void *(*iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
+  void *(*iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
+  void *(*iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+  void *(*iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+  void *(*iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+  void *(*iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
   void (*tend)(void);
 }CGVTable;
 

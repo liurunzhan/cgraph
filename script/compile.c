@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
   char *path = "PATH";
   for(; NULL != *env; env++)
   {
-    char *senv = *env, *tpath = NULL;
-    for(tpath=path; STRING_END != *tpath; tpath++, senv++)
+    char *senv = *env, *tpath = path;
+    for(; STRING_END != *tpath; tpath++, senv++)
     {
       if(*tpath != *senv)
       { break; }
@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
       *(--tOBJ) = 'o';
       sprintf(CMD, "%s -c %s -o %s\n", BUFFER, CFILES[j], OBJ);
       fprintf(stdout, CMD);
+      sysetem(CMD);
     }
     // fprintf(stdout, "compile %s\n", LIBSHARED);
     // ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o

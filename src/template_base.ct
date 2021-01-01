@@ -75,7 +75,7 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, hasdata)(void)
 #endif
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, iter1x)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter)
+void *FUNCTION(NAME, iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter)
 {
   cgraph_size_t i;
 #ifdef CGRAPH_WITH_DATA
@@ -85,13 +85,13 @@ CGRAPH_INLINE void *FUNCTION(NAME, iter1x)(void *x, const cgraph_size_t len, cgr
 #else
   TYPE *_x = (TYPE *)x;
   for(i=0; i<len; i++)
-  { iter(&_x[i]); }
+  { iter(CGRAPH_VARADDR(_x[i])); }
 #endif
 
   return _x;
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, iter2x)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+void *FUNCTION(NAME, iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
 {
   cgraph_size_t i;
 #ifdef CGRAPH_WITH_DATA
@@ -101,13 +101,29 @@ CGRAPH_INLINE void *FUNCTION(NAME, iter2x)(void *x, void *y, const cgraph_size_t
 #else
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
   for(i=0; i<len; i++)
-  { iter(&_x[i], &_y[i]); }
+  { iter(CGRAPH_VARADDR(_x[i]), CGRAPH_VARADDR(_y[i])); }
 #endif
 
   return _y;
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, iter3x)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+void *FUNCTION(NAME, iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
+{
+  cgraph_size_t i;
+#ifdef CGRAPH_WITH_DATA
+  TYPE **_x = (TYPE **)x, *_y = (TYPE *)y;
+  for(i=0; i<len; i++)
+  { iter(_x[i], _y); }
+#else
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
+  for(i=0; i<len; i++)
+  { iter(CGRAPH_VARADDR(_x[i]), _y); }
+#endif
+  
+  return _y;
+}
+
+void *FUNCTION(NAME, iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
 {
   cgraph_size_t i;
 #ifdef CGRAPH_WITH_DATA
@@ -117,7 +133,55 @@ CGRAPH_INLINE void *FUNCTION(NAME, iter3x)(void *x, void *y, void *z, const cgra
 #else
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
   for(i=0; i<len; i++)
-  { iter(&_x[i], &_y[i], &_z[i]); }
+  { iter(CGRAPH_VARADDR(_x[i]), CGRAPH_VARADDR(_y[i]), CGRAPH_VARADDR(_z[i])); }
+#endif
+
+  return _z;
+}
+
+void *FUNCTION(NAME, iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  cgraph_size_t i;
+#ifdef CGRAPH_WITH_DATA
+  TYPE **_x = (TYPE **)x, *_y = (TYPE *)y, **_z = (TYPE **)z;
+  for(i=0; i<len; i++)
+  { iter(_x[i], _y, _z[i]); }
+#else
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
+  for(i=0; i<len; i++)
+  { iter(CGRAPH_VARADDR(_x[i]), _y, CGRAPH_VARADDR(_z[i])); }
+#endif
+
+  return _z;
+}
+
+void *FUNCTION(NAME, iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  cgraph_size_t i;
+#ifdef CGRAPH_WITH_DATA
+  TYPE **_x = (TYPE **)x, **_y = (TYPE **)y, *_z = (TYPE *)z;
+  for(i=0; i<len; i++)
+  { iter(_x[i], _y[i], _z); }
+#else
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
+  for(i=0; i<len; i++)
+  { iter(CGRAPH_VARADDR(_x[i]), CGRAPH_VARADDR(_y[i]), _z); }
+#endif
+
+  return _z;
+}
+
+void *FUNCTION(NAME, iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+  cgraph_size_t i;
+#ifdef CGRAPH_WITH_DATA
+  TYPE *_x = (TYPE *)x, **_y = (TYPE **)y, *_z = (TYPE *)z;
+  for(i=0; i<len; i++)
+  { iter(_x, _y[i], _z); }
+#else
+  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = (TYPE *)z;
+  for(i=0; i<len; i++)
+  { iter(_x, CGRAPH_VARADDR(_y[i]), _z); }
 #endif
 
   return _z;

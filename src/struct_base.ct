@@ -76,7 +76,7 @@ void FUNCTION(NAME, free)(void *cthis)
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
     /**missing iterator to free data objects! */
     if((0 == _type) || (CGRAPH_DTYPE_PTR_MIN <= _type))
-    { OBJECT(_type, iter1x)(_cthis->root, _cthis->size, OBJECT(_type, free)); }
+    { OBJECT(_type, iter1v)(_cthis->root, _cthis->size, OBJECT(_type, free)); }
     cgraph_free(_cthis->root);
     cgraph_free(_cthis);
   }
