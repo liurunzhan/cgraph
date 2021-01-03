@@ -65,6 +65,17 @@
   #define DATA_TYPE cgraph_stl_t
   
   #define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
+
+#elif defined(TYPE_GOBJECT)
+  #define TYPE cgraph_gobject_t
+  #define ID CGRAPH_GOBJECT_T
+  #define NAME gobject
+  #define OUT_FORMAT "ld"
+  #define ZERO NULL
+  #define CGRAPH_WITH_DATA
+  #define DATA_TYPE cgraph_stl_t
+  
+  #define OBJECT(type, opt) CGRAPH_GOBJECT(type, opt)
   
 #elif defined(TYPE_POBJECT)
   #define TYPE cgraph_pobject_t
@@ -403,6 +414,7 @@
   #define ID CGRAPH_VECTOR_T
   #define NAME vector
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
   
   #if defined(CGRAPH_OBJECT)
@@ -414,6 +426,7 @@
   #define ID CGRAPH_MATRIX_T
   #define NAME matrix
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
   
   #if defined(CGRAPH_OBJECT)
@@ -425,6 +438,7 @@
   #define ID CGRAPH_BIGMAT_T
   #define NAME bigmat
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_OBJECT)
@@ -436,6 +450,7 @@
   #define ID CGRAPH_DFRAME_T
   #define NAME dframe
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_OBJECT)
@@ -447,6 +462,7 @@
   #define ID CGRAPH_DICT_T
   #define NAME dict
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
   
   #if defined(CGRAPH_HOBJECT)
@@ -458,6 +474,7 @@
   #define ID CGRAPH_LIST_T
   #define NAME list
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
@@ -469,6 +486,7 @@
   #define ID CGRAPH_TREE_T
   #define NAME tree
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
@@ -480,6 +498,7 @@
   #define ID CGRAPH_SET_T
   #define NAME tree
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_HOBJECT)
@@ -491,6 +510,7 @@
   #define ID CGRAPH_QUEUE_T
   #define NAME tree
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
@@ -502,6 +522,7 @@
   #define ID CGRAPH_STACK_T
   #define NAME tree
   #define ZERO NULL
+  #define CGRAPH_WITH_DATA
   #define DATA_TYPE cgraph_stl_t
 
   #if defined(CGRAPH_POBJECT)
@@ -543,9 +564,11 @@
 #ifndef CGRAPH_WITH_DATA
   #define TYPE_VPTR *
   #define TYPE_CPTR *
+  #define TYPE_SPTR *
 #else
   #define TYPE_VPTR **
   #define TYPE_CPTR *
+  #define TYPE_SPTR 
 #endif
 
 /**copyed memory size without pointer memory size */
@@ -565,7 +588,22 @@
   #define COPY_SIZE (sizeof(TYPE) - 2*sizeof(DATA_TYPE *))
 #endif
 
-#if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
+#if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
+
+  #define ADD(a, b, c) __CGRAPH_UNDEFINED
+  #define SUB(a, b, c) __CGRAPH_UNDEFINED
+  #define MUL(a, b, c) __CGRAPH_UNDEFINED
+  #define DIV(a, b, c) __CGRAPH_UNDEFINED
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
+
+  #define EQ(a, b) __CGRAPH_UNDEFINED
+  #define NE(a, b) __CGRAPH_UNDEFINED
+  #define GR(a, b) __CGRAPH_UNDEFINED
+  #define GE(a, b) __CGRAPH_UNDEFINED
+  #define LS(a, b) __CGRAPH_UNDEFINED
+  #define LE(a, b) __CGRAPH_UNDEFINED
 
 #elif defined(TYPE_BOOL)
   #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
@@ -574,6 +612,7 @@
   #define SUB(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
   #define	MUL(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
   #define DIV(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+  #define DIVF(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
   #define INT(a, b, c) ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
   #define MOD(a, b, c) (SUB((a), INT(a, b)))
   
@@ -712,6 +751,9 @@
   #define SUB(a, b, c) FUNCTION(NAME, sub1t)((a), (b))
   #define MUL(a, b, c) FUNCTION(NAME, mul1t)((a), (b))
   #define DIV(a, b, c) FUNCTION(NAME, div1t)((a), (b))
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
   
 #elif defined(TYPE_COMPLEX)
   #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -736,6 +778,9 @@
   #define SUB(a, b, c) FUNCTION(NAME, subc)((a), (b))
   #define MUL(a, b, c) FUNCTION(NAME, mulc)((a), (b))
   #define DIV(a, b, c) FUNCTION(NAME, divc)((a), (b))
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
   
   #define EQ(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
   #define NE(a, b) ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) || (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
@@ -756,6 +801,9 @@
   #define SUB(a, b, c) FUNCTION(NAME, subf)((a), (b))
   #define MUL(a, b, c) FUNCTION(NAME, mulf)((a), (b))
   #define DIV(a, b, c) FUNCTION(NAME, divf)((a), (b))
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
   
   #define EQ(a, b) ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
   #define NE(a, b) ((FRACTION_NUM(a) != FRACTION_NUM(b)) || (FRACTION_DEN(a) != FRACTION_DEN(b)))
@@ -775,6 +823,9 @@
   #define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
   #define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
   #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
   
   #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
   #define NE(a, b) FUNCTION(NAME, ne)((a), (b))
@@ -792,6 +843,9 @@
   #define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
   #define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
   #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
   
   #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
   #define NE(a, b) FUNCTION(NAME, ne)((a), (b))
@@ -809,6 +863,9 @@
   #define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
   #define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
   #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
   
   #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
   #define NE(a, b) FUNCTION(NAME, ne)((a), (b))
@@ -826,6 +883,9 @@
   #define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
   #define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
   #define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
   
   #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
   #define NE(a, b) FUNCTION(NAME, ne)((a), (b))
@@ -835,6 +895,21 @@
   #define LE(a, b) FUNCTION(NAME, le)((a), (b))
   
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) || defined(TYPE_STACK)
+
+  #define ADD(a, b, c) __CGRAPH_UNDEFINED
+  #define SUB(a, b, c) __CGRAPH_UNDEFINED
+  #define MUL(a, b, c) __CGRAPH_UNDEFINED
+  #define DIV(a, b, c) __CGRAPH_UNDEFINED
+  #define DIVF(a, b, c) __CGRAPH_UNDEFINED
+  #define INT(a, b, c) __CGRAPH_UNDEFINED
+  #define MOD(a, b, c) __CGRAPH_UNDEFINED
+
+  #define EQ(a, b) __CGRAPH_UNDEFINED
+  #define NE(a, b) __CGRAPH_UNDEFINED
+  #define GR(a, b) __CGRAPH_UNDEFINED
+  #define GE(a, b) __CGRAPH_UNDEFINED
+  #define LS(a, b) __CGRAPH_UNDEFINED
+  #define LE(a, b) __CGRAPH_UNDEFINED
 
   #define EXCHANGE(a, b) do{ TYPE *tmp; tmp = (a); (a) = (b); (b) = tmp; }while(0)
 

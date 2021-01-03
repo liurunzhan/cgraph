@@ -24,7 +24,6 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
     for(i=0; i<cthis->len; i++)
     { hash += (hash << 5) + cthis->data[i]; }
   }
-
   
   return hash;
 }
@@ -32,13 +31,29 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if((NULL != x) && (NULL != y))
+  if((NULL != x) && (NULL != y) && (0 == cgraph_strcmp(x->data, y->data)))
   {
-    flag = cgraph_strcmp(x->data, y->data);
+    flag = CGRAPH_TRUE;
+  }
+  else if((NULL == x) && (NULL == y))
+  {
+    flag = CGRAPH_TRUE;
   }
 
   return flag;
 }
+
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
+{
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if((NULL != cthis) && ('\0' == cthis->data[cthis->len]))
+  {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
 
 /**                          string hash functions                            */
 cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis)

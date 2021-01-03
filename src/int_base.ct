@@ -19,43 +19,6 @@ cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
   return flag;
 }
 
-#include "template_check.h"
-
-void FUNCTION(NAME, padd)(void *x, void *y, void *z)
-{
-  *(TYPE *)z = ADD(*(TYPE *)x, *(TYPE *)y, 0);
-}
-
-void FUNCTION(NAME, psub)(void *x, void *y, void *z)
-{
-  *(TYPE *)z = SUB(*(TYPE *)x, *(TYPE *)y, 0);
-}
-
-void FUNCTION(NAME, pmul)(void *x, void *y, void *z)
-{
-  *(TYPE *)z = MUL(*(TYPE *)x, *(TYPE *)y, 0);
-}
-
-void FUNCTION(NAME, pdiv)(void *x, void *y, void *z)
-{
-  *(TYPE *)z = DIV(*(TYPE *)x, *(TYPE *)y, 0);
-}
-
-void FUNCTION(NAME, pdivf)(void *x, void *y, void *z)
-{
-  *(cgraph_float64_t *)z = DIVF(*(TYPE *)x, *(TYPE *)y, 0);
-}
-
-void FUNCTION(NAME, pint)(void *x, void *y, void *z)
-{
-  *(TYPE *)z = INT(*(TYPE *)x, *(TYPE *)y, 0);
-}
-
-void FUNCTION(NAME, pmod)(void *x, void *y, void *z)
-{
-  *(TYPE *)z = INT(*(TYPE *)x, *(TYPE *)y, 0);
-}
-
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)
 {
   va_list args;

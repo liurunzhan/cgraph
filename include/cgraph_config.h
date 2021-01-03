@@ -332,6 +332,7 @@ typedef enum
 {
   CGRAPH_OBJECT_T    =  0,  /**< TYPE  0 : CGRAPH_OBJECT_T   */
   CGRAPH_HOBJECT_T   =  0,  /**< TYPE  0 : CGRAPH_HOBJECT_T  */
+  CGRAPH_GOBJECT_T   =  0,  /**< TYPE  0 : CGRAPH_GOBJECT_T  */
   CGRAPH_POBJECT_T   =  0,  /**< TYPE  0 : CGRAPH_POBJECT_T  */
   CGRAPH_SOBJECT_T   =  0,  /**< TYPE  0 : CGRAPH_SOBJECT_T  */
   CGRAPH_BOOL_T      =  1,  /**< TYPE  1 : CGRAPH_BOOL_T     */
@@ -437,6 +438,7 @@ typedef struct
   cgraph_size_t (*size)(const void* cthis);
   cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);
   void *(*update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size);
+  cgraph_bool_t (*check)(const void *cthis);
   cgraph_size_t (*hash)(const void *cthis);
   cgraph_bool_t (*equal)(const void *x, const void *y);
   void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
@@ -444,25 +446,27 @@ typedef struct
   void *(*copy)(const void *cthis, const cgraph_size_t size);
   void (*free)(void *cthis);
   void *(*memcpy)(void *x, const void *y, const cgraph_size_t size);
-  void (*padd)(void *x, void *y, void *z);
-  void (*psub)(void *x, void *y, void *z);
-  void (*pmul)(void *x, void *y, void *z);
-  void (*pdiv)(void *x, void *y, void *z);
-  void (*pdivf)(void *x, void *y, void *z);
-  void (*pint)(void *x, void *y, void *z);
-  void (*pmod)(void *x, void *y, void *z);
+  void (*add)(void *x, void *y, void *z);
+  void (*sub)(void *x, void *y, void *z);
+  void (*mul)(void *x, void *y, void *z);
+  void (*div)(void *x, void *y, void *z);
+  void (*divi)(void *x, void *y, void *z);
+  void (*divf)(void *x, void *y, void *z);
+  void (*mod)(void *x, void *y, void *z);
   void *(*iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
   void *(*iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
   void *(*iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter);
   void *(*iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
-  void *(*iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
   void *(*iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
+  void *(*iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
   void *(*iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter);
   void (*tend)(void);
 }CGVTable;
 
-#define _CGRAPH_OBJECTS_NAME(NAME) (_cgraph_ ## NAME ## s)
-#define CGRAPH_OBJECTS_NAME(NAME) _CGRAPH_OBJECTS_NAME(NAME)
+#define __CGRAPH_OBJECTS_NAME(NAME) (_cgraph_ ## NAME ## s)
+#define CGRAPH_OBJECTS_NAME(NAME) __CGRAPH_OBJECTS_NAME(NAME)
+
+#define __CGRAPH_UNDEFINED NULL
 
 #ifdef __cplusplus
 }

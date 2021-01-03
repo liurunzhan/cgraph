@@ -30,6 +30,28 @@ CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] =
 
 #include "template_base.ct"
 
+CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size)
+{
+  TYPE *_cthis = (TYPE *)cthis;
+  if(NULL != _cthis)
+  {
+    #if defined(TYPE_OBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
+      CGRAPH_DTYPE_TYPE(_cthis) = type;
+      CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_TRUE;
+      CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE;
+    #elif defined(TYPE_HOBJECT)
+      CGRAPH_DTYPE_KTYPE(_cthis) = type;
+      CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_TRUE;
+      CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE;
+      CGRAPH_DTYPE_VACCESSIABLE(_cthis) = CGRAPH_TRUE;
+    #else
+      #error !! unsupported object type !!
+    #endif
+  }
+
+  return _cthis;
+}
+
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
 {
   TYPE *_cthis = (TYPE *)cthis;
@@ -63,28 +85,6 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, cons
   return FUNCTION(NAME, tsize)();
 }
 
-CGRAPH_INLINE static void *FUNCTION(NAME, update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size)
-{
-  TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
-  {
-    #if defined(TYPE_OBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
-      CGRAPH_DTYPE_TYPE(_cthis) = type;
-      CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_TRUE;
-      CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE;
-    #elif defined(TYPE_HOBJECT)
-      CGRAPH_DTYPE_KTYPE(_cthis) = type;
-      CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_TRUE;
-      CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE;
-      CGRAPH_DTYPE_VACCESSIABLE(_cthis) = CGRAPH_TRUE;
-    #else
-      #error !! unsupported object type !!
-    #endif
-  }
-
-  return _cthis;
-}
-
 TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
   TYPE *cthis = cgraph_calloc(FUNCTION(NAME, tsize)());
@@ -92,7 +92,7 @@ TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
   {
     cthis->data = OBJECT(type, calloc)(type, size);
     if(NULL != cthis->data)
-    { cthis = FUNCTION(NAME, update)(cthis, type, 0, size); }
+    { cthis = FUNCTION(NAME, _update)(cthis, type, 0, size); }
     else
     { cgraph_free(cthis); }
   }

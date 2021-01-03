@@ -327,6 +327,10 @@
   #undef TYPE_CPTR
 #endif
 
+#ifdef TYPE_SPTR
+  #undef TYPE_SPTR
+#endif
+
 /** COPYED MEMORY SIZE WITHOUT POINTER MEMORY SIZE */
 #ifdef COPY_SIZE
   #undef COPY_SIZE
