@@ -139,12 +139,12 @@ void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t s
   if((NULL != _cthis) && (NULL != _data))
   {
     cgraph_size_t _len = CGRAPH_MIN(_cthis->size, size);
-    _cthis->data = cgraph_memcpy(_cthis->data, data, _len*FUNCTION(NAME, datsize)());
+    _cthis->data = cgraph_memcpy(_cthis->data, data, _len*FUNCTION(NAME, tdatsize)());
     _cthis->len = _len;
     _cthis->data[_len] = 0;
   }
 #else
-  _cthis = cgraph_memcpy(_cthis, data, size*FUNCTION(NAME, datsize)());
+  _cthis = cgraph_memcpy(_cthis, data, size*FUNCTION(NAME, tdatsize)());
 #endif
 
   return _cthis;
@@ -165,7 +165,7 @@ void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgrap
     while((left < right) && (GE(_cthis[right], key)))
     { right --; }
     _cthis[left] = _cthis[right];
-    while((left < right) && (LE(_cthis[left],key)))
+    while((left < right) && (LE(_cthis[left], key)))
     { left ++; }
     _cthis[right] = _cthis[left];
   }

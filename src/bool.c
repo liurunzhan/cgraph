@@ -3,24 +3,12 @@
 
 #define TYPE_BOOL
 #include "template.h"
-#include "data_base.ct"
+#include "int_base.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
   cgraph_size_t hash = *cthis == CGRAPH_FALSE ? 0 : (*cthis == CGRAPH_TRUE ? 1 : 2);
   return hash;
-}
-
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
-{
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != cthis)
-  {
-    if((CGRAPH_TRUE == *cthis) || (CGRAPH_FALSE == *cthis))
-    { flag = CGRAPH_TRUE; }
-  }
-
-  return flag;
 }
 
 static const cgraph_char_t *__cgraph_true__ = "true";

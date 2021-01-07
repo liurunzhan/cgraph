@@ -381,13 +381,13 @@ typedef struct
   /** unused space for extertions */
   cgraph_uint_t              : 8;
   /**  graph type */
+  cgraph_uint_t g_keyisid    : 1;
   cgraph_uint_t g_directed   : 1;
   cgraph_uint_t g_weighted   : 1;
-  cgraph_uint_t g_hyper      : 1;
   cgraph_uint_t g_multiple   : 1;
+  cgraph_uint_t g_hyper      : 1;
   cgraph_uint_t g_dynamic    : 1;
-  cgraph_uint_t g_keyisid    : 1;
-  cgraph_uint_t g_struct     : 2;
+  cgraph_uint_t              : 2;
 }cgraph_element_t;
 
 #define CGRAPH_DTYPE_KTYPE(a)        ((a)->element.k_type)
@@ -402,13 +402,12 @@ typedef struct
 #define CGRAPH_DTYPE_ACCESSIABLE(a)  CGRAPH_DTYPE_KACCESSIABLE(a)
 #define CGRAPH_DTYPE_HASHED(a)       CGRAPH_DTYPE_KHASHED(a)
 
+#define CGRAPH_GTYPE_GKEYISID(a)  ((a)->element.g_keyisid)
 #define CGRAPH_GTYPE_DIRECTED(a)  ((a)->element.g_directed)
 #define CGRAPH_GTYPE_WEIGHTED(a)  ((a)->element.g_weighted)
-#define CGRAPH_GTYPE_GHYPER(a)    ((a)->element.g_hyper)
 #define CGRAPH_GTYPE_GMULTIPLE(a) ((a)->element.g_multiple)
+#define CGRAPH_GTYPE_GHYPER(a)    ((a)->element.g_hyper)
 #define CGRAPH_GTYPE_GDYNAMIC(a)  ((a)->element.g_dynamic)
-#define CGRAPH_GTYPE_GKEYISID(a)  ((a)->element.g_keyisid)
-#define CGRAPH_GTYPE_GSTRUCT(a)   ((a)->element.g_struct)
 
 typedef void (*cgraph_pfunc1_t)(void *x);
 typedef void (*cgraph_pfunc2_t)(void *x, void *y);
@@ -423,7 +422,8 @@ typedef struct
   cgraph_size_t t_ptrsize;  /**< pointer size of type */
   cgraph_size_t t_cpysize;  /**< memory size of type used in copy memory size, excludes data pointer size */
   cgraph_size_t t_strusize; /**< memory size of type used in structure types */
-  cgraph_size_t d_size;     /**< data size of type */
+  cgraph_size_t t_bmatsize; /**< memory size of type used in big matrix */
+  cgraph_size_t t_datsize;     /**< data size of type */
 
 /**< public: */
   cgraph_type_t (*tid)(void);
@@ -432,6 +432,7 @@ typedef struct
   cgraph_size_t (*tptrsize)(void);
   cgraph_size_t (*tcpycsize)(void);
   cgraph_size_t (*tstrusize)(void);
+  cgraph_size_t (*tbmatsize)(void);
   cgraph_size_t (*datsize)(void);
   cgraph_bool_t (*hasdata)(void);
   cgraph_size_t (*len)(const void *cthis);

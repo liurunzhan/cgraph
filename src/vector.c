@@ -7,113 +7,52 @@
 #include "template.h"
 #include "struct_base.ct"
 
-void *FUNCTION(NAME, add)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  TYPE *_z = NULL;
-  if(CGRAPH_DTYPE_TYPE(_x) == CGRAPH_DTYPE_TYPE(_y))
-  {
-    cgraph_size_t i, len = CGRAPH_MIN(_x->len, _y->len);
-    if(NULL != (_z = FUNCTION(NAME, calloc)(CGRAPH_DTYPE_TYPE(_x), len)))
-    {
-      for(i=0; i<_z->len; i++)
-      {
-        
-      }
-    }
-  }
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
-  return _z;
+  return flag;
 }
 
-void *FUNCTION(NAME, sub)(const void *x, const void *y)
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  TYPE *_z = NULL;
-  if(CGRAPH_DTYPE_TYPE(_x) == CGRAPH_DTYPE_TYPE(_y))
-  {
-    cgraph_size_t i, len = CGRAPH_MIN(_x->len, _y->len);
-    if(NULL != (_z = FUNCTION(NAME, calloc)(CGRAPH_DTYPE_TYPE(_x), len)))
-    {
-      for(i=0; i<_z->len; i++)
-      {
-        
-      }
-    }
-  }
+  cgraph_bool_t flag = CGRAPH_FALSE;
 
-  return _z;
+  return flag;
 }
 
-void *FUNCTION(NAME, mul)(const void *x, const void *y)
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  TYPE *_z = NULL;
-  if(CGRAPH_DTYPE_TYPE(_x) == CGRAPH_DTYPE_TYPE(_y))
-  {
-    cgraph_size_t i, len = CGRAPH_MIN(_x->len, _y->len);
-    if(NULL != (_z = FUNCTION(NAME, calloc)(CGRAPH_DTYPE_TYPE(_x), len)))
-    {
-      for(i=0; i<_z->len; i++)
-      {
-        
-      }
-    }
-  }
+  cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
+  cgraph_bool_t error = CGRAPH_FALSE;
+  cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
+  z = FUNCTION(NAME, realloc)(z, type, z->size, len, &error);
 
-  return _z;
+  return z;
 }
 
-void *FUNCTION(NAME, div)(const void *x, const void *y)
+TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  TYPE *_z = NULL;
-  if(CGRAPH_DTYPE_TYPE(_x) == CGRAPH_DTYPE_TYPE(_y))
-  {
-    cgraph_size_t i, len = CGRAPH_MIN(_x->len, _y->len);
-    if(NULL != (_z = FUNCTION(NAME, calloc)(CGRAPH_DTYPE_TYPE(_x), len)))
-    {
-      for(i=0; i<_z->len; i++)
-      {
-        
-      }
-    }
-  }
 
-  return _z;
+  return z;
 }
 
-void *FUNCTION(NAME, iterator2)(const void *x, cgraph_pfunc2_t opt)
+TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  TYPE *_x = (TYPE *)x, *_y = NULL;
-  if(NULL != _x)
-  {
-    _y = FUNCTION(NAME, calloc)(CGRAPH_DTYPE_TYPE(_x), _x->size);
-    opt(_x, _y);
-  }
 
-  return _y;
+  return z;
 }
 
-void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_pfunc3_t opt)
+TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y, *_z = NULL;
-  if(NULL != _x && NULL != _y)
-  {
-    if(_x->len == _y->len && CGRAPH_DTYPE_TYPE(_x) == CGRAPH_DTYPE_TYPE(_y))
-    {
-      _z = FUNCTION(NAME, calloc)(CGRAPH_DTYPE_TYPE(_x), _x->len);
-      opt(_x, _y, _z);
-    }
-  }
 
-  return _z;
+  return z;
 }
 
-cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data)
+TYPE *FUNCTION(NAME, primes)(const cgraph_int_t data)
 {
-  cgraph_vector_t *primes = FUNCTION(NAME, calloc)(CGRAPH_INT_T, data);
-  cgraph_vector_t *isprime = FUNCTION(NAME, calloc)(CGRAPH_INT_T, data);
+  TYPE *primes = FUNCTION(NAME, calloc)(CGRAPH_INT_T, data);
+  TYPE *isprime = FUNCTION(NAME, calloc)(CGRAPH_INT_T, data);
   if(NULL != isprime)
   {
     if(NULL != primes)

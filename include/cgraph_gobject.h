@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_string.h"
 
 extern CGVTable *CGRAPH_OBJECTS_NAME(gobject)[];
 #define CGRAPH_GOBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(hobject)[type])->opt)
@@ -20,6 +21,13 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(gobject)[];
 typedef struct
 {
   CGRAPH_OBJECT_BASE
+  cgraph_size_t addr;
+  union 
+  {
+    cgraph_string_t *names;
+    cgraph_size_t id;
+  }key;
+  CGRAPH_OBJECT_ROOT
 }cgraph_gobject_t;
 
 

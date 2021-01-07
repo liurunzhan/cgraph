@@ -447,6 +447,38 @@
   #undef ATAN
 #endif
 
+#ifdef SINH
+  #undef SINH
+#endif
+
+#ifdef COSH
+  #undef COSH
+#endif
+
+#ifdef TANH
+  #undef TANH
+#endif
+
+#ifdef LOG
+  #undef LOG
+#endif
+
+#ifdef LOG2
+  #undef LOG2
+#endif
+
+#ifdef LOG10
+  #undef LOG10
+#endif
+
+#ifdef EXP
+  #undef EXP
+#endif
+
+#ifdef SQRT
+  #undef SQRT
+#endif
+
 #ifdef EXCHANGE
   #undef EXCHANGE
 #endif

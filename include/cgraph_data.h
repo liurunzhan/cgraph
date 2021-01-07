@@ -11,7 +11,7 @@ extern "C" {
 #include "cgraph_int8.h"
 #include "cgraph_int16.h"
 #include "cgraph_int32.h"
-#include "cgraph_int64.h"
+/* #include "cgraph_int64.h" */
 #include "cgraph_float32.h"
 #include "cgraph_float64.h"
 

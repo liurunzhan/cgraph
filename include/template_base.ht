@@ -6,8 +6,9 @@ extern cgraph_size_t FUNCTION(NAME, tsize)(void);
 extern cgraph_size_t FUNCTION(NAME, tptrsize)(void);
 extern cgraph_size_t FUNCTION(NAME, tcpysize)(void);
 extern cgraph_size_t FUNCTION(NAME, tstrusize)(void);
-extern cgraph_size_t FUNCTION(NAME, datsize)(void);
-extern cgraph_bool_t FUNCTION(NAME, hasdata)(void);
+extern cgraph_size_t FUNCTION(NAME, tbmatsize)(void);
+extern cgraph_size_t FUNCTION(NAME, tdatsize)(void);
+extern cgraph_bool_t FUNCTION(NAME, thasdata)(void);
 
 extern cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis);

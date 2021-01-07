@@ -5,12 +5,9 @@ extern void *FUNCTION(NAME, insert)(void *cthis, void *data);
 extern void *FUNCTION(NAME, disable)(void *cthis, void *data);
 extern void *FUNCTION(NAME, delete)(void *cthis, void *data);
 
-extern void *FUNCTION(NAME, add)(const void *x, const void *y);
-extern void *FUNCTION(NAME, sub)(const void *x, const void *y);
-extern void *FUNCTION(NAME, mul)(const void *x, const void *y);
-extern void *FUNCTION(NAME, div)(const void *x, const void *y);
-
-extern void *FUNCTION(NAME, iterator2)(const void *x, cgraph_pfunc2_t opt);
-extern void *FUNCTION(NAME, iterator3)(const void *x, const void *y, cgraph_pfunc3_t opt);
+extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 
 extern void FUNCTION(NAME, test)(void);

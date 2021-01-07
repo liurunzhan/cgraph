@@ -7,6 +7,10 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis, const cgraph_typ
   {
     CGRAPH_DTYPE_TYPE(_cthis) = type;
     _cthis->size = size;
+  #if defined(TYPE_MATRIX) || defined(TYPE_BIGMAT)
+    _cthis->row = _cthis->row == 0 ? 1 : _cthis->row;
+    _cthis->column = _cthis->column == 0 ? 1 : _cthis->column;
+  #endif
     _cthis->root = (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis, FUNCTION(NAME, tsize)());
     _cthis->data = (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis->root, CGRAPH_MEMORY_HEADER_SIZE*OBJECT(type, tptrsize)());
   }
@@ -26,7 +30,11 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis)
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size)
 {
+#if defined(TYPE_BIGMAT)
+  return FUNCTION(NAME, tsize)() + (size+CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tbmatsize)();
+#else
   return FUNCTION(NAME, tsize)() + (size+CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tstrusize)();
+#endif
 }
 
 TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
