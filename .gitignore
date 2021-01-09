@@ -58,6 +58,7 @@ lib/
 test/cgraph
 
 # VSCode Files
+.clang-format
 .vscode/
 .vstags
 .VSCodeCounter/

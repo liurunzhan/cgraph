@@ -11,13 +11,13 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-  DATA_TYPE data[2];
+    DATA_TYPE data[2];
 } cgraph_complex_t;
 
 #define COMPLEX_REAL(x) ((x).data[0])
 #define COMPLEX_IMAG(x) ((x).data[1])
 #define COMPLEX_MOD2(x) \
-  (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
+    (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
 
 #include "data_base.ht"
 

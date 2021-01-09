@@ -10,7 +10,8 @@
 /**/
 #include "object_base.ct"
 
-void FUNCTION(TYPE, test)(void) {
+void FUNCTION(TYPE, test)(void)
+{
 #ifdef DEBUG
 
 #endif

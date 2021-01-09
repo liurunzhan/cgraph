@@ -20,10 +20,10 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(hobject)[];
 #include "template.h"
 
 typedef struct {
-  CGRAPH_OBJECT_BASE
-  struct cgraph_hobject_t *next;
-  DATA_TYPE *key;
-  CGRAPH_OBJECT_ROOT
+    CGRAPH_OBJECT_BASE
+    struct cgraph_hobject_t *next;
+    DATA_TYPE *key;
+    CGRAPH_OBJECT_ROOT
 } cgraph_hobject_t;
 
 #include "object_base.ht"

@@ -3,205 +3,223 @@
 CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
                                                    const cgraph_type_t type,
                                                    const cgraph_size_t len,
-                                                   const cgraph_size_t size) {
+                                                   const cgraph_size_t size)
+{
 #ifdef TYPE_WITH_DATA
-  TYPE *_cthis = (TYPE *)cthis;
-  if (NULL != _cthis) {
-    _cthis->len = ((len < 0) ? _cthis->len : len);
-    _cthis->size = ((size <= 0) ? _cthis->size : size);
+    TYPE *_cthis = (TYPE *)cthis;
+    if (NULL != _cthis) {
+        _cthis->len = ((len < 0) ? _cthis->len : len);
+        _cthis->size = ((size <= 0) ? _cthis->size : size);
 #if (CGRAPH_STDC_VERSION >= 199901L)
-    _cthis->data = (DATA_TYPE *)(&(_cthis->root[CGRAPH_MEMORY_HEADER_SIZE]));
+        _cthis->data = (DATA_TYPE *)(&(_cthis->root[CGRAPH_MEMORY_HEADER_SIZE]));
 #else
-    _cthis->root =
-        (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis, FUNCTION(NAME, tsize)());
-    _cthis->data = _cthis->root + CGRAPH_MEMORY_HEADER_SIZE;
+        _cthis->root =
+            (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis, FUNCTION(NAME, tsize)());
+        _cthis->data = _cthis->root + CGRAPH_MEMORY_HEADER_SIZE;
 #endif /**< CGRAPH_STDC_VERSION */
-    _cthis->data[_cthis->len] = 0;
-  }
+        _cthis->data[_cthis->len] = 0;
+    }
 
-  return _cthis;
+    return _cthis;
 #else
-  return cthis;
+    return cthis;
 #endif
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
+{
 #ifdef TYPE_WITH_DATA
-  return NULL != cthis ? ((TYPE *)cthis)->len : 0;
+    return NULL != cthis ? ((TYPE *)cthis)->len : 0;
 #else
-  return NULL != cthis ? 1 : 0;
+    return NULL != cthis ? 1 : 0;
 #endif
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis)
+{
 #ifdef TYPE_WITH_DATA
-  return NULL != cthis ? ((TYPE *)cthis)->size : 0;
+    return NULL != cthis ? ((TYPE *)cthis)->size : 0;
 #else
-  return NULL != cthis ? 1 : 0;
+    return NULL != cthis ? 1 : 0;
 #endif
 }
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
-                                                  const cgraph_size_t size) {
+                                                  const cgraph_size_t size)
+{
 #ifdef TYPE_WITH_DATA
-  return sizeof(TYPE) + (size + CGRAPH_MEMORY_FREED_SIZE) * sizeof(DATA_TYPE);
+    return sizeof(TYPE) + (size + CGRAPH_MEMORY_FREED_SIZE) * sizeof(DATA_TYPE);
 #else
-  return (size + CGRAPH_MEMORY_FREED_SIZE) * sizeof(TYPE);
+    return (size + CGRAPH_MEMORY_FREED_SIZE) * sizeof(TYPE);
 #endif
 }
 
 TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type,
-                             const cgraph_size_t size) {
-  TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, msize)(type, size));
+                             const cgraph_size_t size)
+{
+    TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, msize)(type, size));
 
-  return FUNCTION(NAME, _update)(cthis, type, 0, size);
+    return FUNCTION(NAME, _update)(cthis, type, 0, size);
 }
 
 TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type,
                               const cgraph_size_t old_size,
-                              cgraph_size_t new_size, cgraph_bool_t *error) {
+                              cgraph_size_t new_size, cgraph_bool_t *error)
+{
 #ifdef TYPE_WITH_DATA
-  TYPE *_cthis = cthis;
-  cgraph_size_t _size =
-      ((NULL != _cthis) ? FUNCTION(NAME, msize)(type, _cthis->size) : 0);
-  _cthis = (TYPE *)cgraph_realloc(_cthis, _size,
-                                  FUNCTION(NAME, msize)(type, new_size), error);
-  if ((NULL != error) && (CGRAPH_FALSE == *error)) {
-    _cthis = FUNCTION(NAME, _update)(_cthis, type, -1, new_size);
-  }
+    TYPE *_cthis = cthis;
+    cgraph_size_t _size =
+        ((NULL != _cthis) ? FUNCTION(NAME, msize)(type, _cthis->size) : 0);
+    _cthis = (TYPE *)cgraph_realloc(_cthis, _size,
+                                    FUNCTION(NAME, msize)(type, new_size), error);
+    if ((NULL != error) && (CGRAPH_FALSE == *error)) {
+        _cthis = FUNCTION(NAME, _update)(_cthis, type, -1, new_size);
+    }
 #else
-  TYPE *_cthis =
-      (TYPE *)cgraph_realloc(cthis, FUNCTION(NAME, msize)(type, old_size),
-                             FUNCTION(NAME, msize)(type, new_size), error);
+    TYPE *_cthis =
+        (TYPE *)cgraph_realloc(cthis, FUNCTION(NAME, msize)(type, old_size),
+                               FUNCTION(NAME, msize)(type, new_size), error);
 #endif
 
-  return _cthis;
+    return _cthis;
 }
 
-TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size) {
-  TYPE *_cthis = (TYPE *)cthis, *_object = NULL;
-  if (NULL != _cthis) {
+TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size)
+{
+    TYPE *_cthis = (TYPE *)cthis, *_object = NULL;
+    if (NULL != _cthis) {
 #ifdef TYPE_WITH_DATA
-    cgraph_size_t _size = _cthis->size;
-    _object = FUNCTION(NAME, calloc)(DATA_ID, _size);
-    _object = (TYPE *)cgraph_memcpy(_object, _cthis,
-                                    FUNCTION(NAME, msize)(DATA_ID, _size));
-    _object = FUNCTION(NAME, _update)(_object, DATA_ID, -1, _size);
+        cgraph_size_t _size = _cthis->size;
+        _object = FUNCTION(NAME, calloc)(DATA_ID, _size);
+        _object = (TYPE *)cgraph_memcpy(_object, _cthis,
+                                        FUNCTION(NAME, msize)(DATA_ID, _size));
+        _object = FUNCTION(NAME, _update)(_object, DATA_ID, -1, _size);
 #else
-    _object = FUNCTION(NAME, calloc)(ID, size);
-    _object =
-        (TYPE *)cgraph_memcpy(_object, _cthis, FUNCTION(NAME, msize)(ID, size));
+        _object = FUNCTION(NAME, calloc)(ID, size);
+        _object =
+            (TYPE *)cgraph_memcpy(_object, _cthis, FUNCTION(NAME, msize)(ID, size));
 #endif
-  }
+    }
 
-  return _object;
+    return _object;
 }
 
 void FUNCTION(NAME, free)(TYPE *cthis) { cgraph_free(cthis); }
 
-TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size) {
-  TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  if (NULL != _x || NULL != _y) {
+TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size)
+{
+    TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
+    if (NULL != _x || NULL != _y) {
 #ifdef TYPE_WITH_DATA
-    cgraph_size_t _size = CGRAPH_MIN(_x->size, _y->size);
-    _x = cgraph_memcpy(_x, _y, FUNCTION(NAME, msize)(DATA_ID, _size));
-    _x = FUNCTION(NAME, _update)(_x, DATA_ID, -1, _size);
+        cgraph_size_t _size = CGRAPH_MIN(_x->size, _y->size);
+        _x = cgraph_memcpy(_x, _y, FUNCTION(NAME, msize)(DATA_ID, _size));
+        _x = FUNCTION(NAME, _update)(_x, DATA_ID, -1, _size);
 #else
-    _x = cgraph_memcpy(_x, _y, FUNCTION(NAME, msize)(ID, size));
+        _x = cgraph_memcpy(_x, _y, FUNCTION(NAME, msize)(ID, size));
 #endif
-  }
+    }
 
-  return _x;
+    return _x;
 }
 
 void *FUNCTION(NAME, init)(void *cthis, const void *object,
-                           const cgraph_size_t size) {
-  TYPE *_cthis = (TYPE *)cthis, *_object = (TYPE *)object;
+                           const cgraph_size_t size)
+{
+    TYPE *_cthis = (TYPE *)cthis, *_object = (TYPE *)object;
 #ifdef TYPE_WITH_DATA
-  if ((NULL != _cthis) && (NULL != _object)) {
-    cgraph_size_t _min = CGRAPH_MIN(_object->len, size);
-    cgraph_size_t _len = CGRAPH_MIN(_cthis->size, _min);
-    _cthis =
-        cgraph_memcpy(_cthis, _object, FUNCTION(NAME, msize)(DATA_ID, _len));
-    _cthis = FUNCTION(NAME, _update)(_cthis, DATA_ID, _len, -1);
-  }
+    if ((NULL != _cthis) && (NULL != _object)) {
+        cgraph_size_t _min = CGRAPH_MIN(_object->len, size);
+        cgraph_size_t _len = CGRAPH_MIN(_cthis->size, _min);
+        _cthis =
+            cgraph_memcpy(_cthis, _object, FUNCTION(NAME, msize)(DATA_ID, _len));
+        _cthis = FUNCTION(NAME, _update)(_cthis, DATA_ID, _len, -1);
+    }
 #else
-  _cthis = cgraph_memcpy(_cthis, _object, FUNCTION(NAME, msize)(ID, size));
+    _cthis = cgraph_memcpy(_cthis, _object, FUNCTION(NAME, msize)(ID, size));
 #endif
 
-  return _cthis;
+    return _cthis;
 }
 
 void *FUNCTION(NAME, initd)(void *cthis, const void *data,
-                            const cgraph_size_t size) {
-  TYPE *_cthis = (TYPE *)cthis;
+                            const cgraph_size_t size)
+{
+    TYPE *_cthis = (TYPE *)cthis;
 #ifdef TYPE_WITH_DATA
-  DATA_TYPE *_data = (DATA_TYPE *)data;
-  if ((NULL != _cthis) && (NULL != _data)) {
-    cgraph_size_t _len = CGRAPH_MIN(_cthis->size, size);
-    _cthis->data =
-        cgraph_memcpy(_cthis->data, data, _len * FUNCTION(NAME, tdatsize)());
-    _cthis->len = _len;
-    _cthis->data[_len] = 0;
-  }
+    DATA_TYPE *_data = (DATA_TYPE *)data;
+    if ((NULL != _cthis) && (NULL != _data)) {
+        cgraph_size_t _len = CGRAPH_MIN(_cthis->size, size);
+        _cthis->data =
+            cgraph_memcpy(_cthis->data, data, _len * FUNCTION(NAME, tdatsize)());
+        _cthis->len = _len;
+        _cthis->data[_len] = 0;
+    }
 #else
-  _cthis = cgraph_memcpy(_cthis, data, size * FUNCTION(NAME, tdatsize)());
+    _cthis = cgraph_memcpy(_cthis, data, size * FUNCTION(NAME, tdatsize)());
 #endif
 
-  return _cthis;
+    return _cthis;
 }
 
 #ifdef TYPE_WITH_DATA
 void FUNCTION(NAME, ascsort)(TYPE **cthis, const cgraph_size_t start,
-                             const cgraph_size_t end) {
-  cgraph_size_t left = start, right = end;
-  TYPE *key = cthis[left];
+                             const cgraph_size_t end)
+{
+    cgraph_size_t left = start, right = end;
+    TYPE *key = cthis[left];
 #else
 void FUNCTION(NAME, ascsort)(TYPE *cthis, const cgraph_size_t start,
-                             const cgraph_size_t end) {
-  cgraph_size_t left = start, right = end;
-  TYPE key = cthis[left];
+                             const cgraph_size_t end)
+{
+    cgraph_size_t left = start, right = end;
+    TYPE key = cthis[left];
 #endif
 
-  while (left < right) {
-    while ((left < right) && (GE(cthis[right], key))) {
-      right--;
+    while (left < right) {
+        while ((left < right) && (GE(cthis[right], key))) {
+            right--;
+        }
+        cthis[left] = cthis[right];
+        while ((left < right) && (LE(cthis[left], key))) {
+            left++;
+        }
+        cthis[right] = cthis[left];
     }
-    cthis[left] = cthis[right];
-    while ((left < right) && (LE(cthis[left], key))) {
-      left++;
-    }
-    cthis[right] = cthis[left];
-  }
-  cthis[left] = key;
-  FUNCTION(NAME, ascsort)(cthis, start, left - 1);
-  FUNCTION(NAME, ascsort)(cthis, left + 1, end);
+    cthis[left] = key;
+    FUNCTION(NAME, ascsort)
+    (cthis, start, left - 1);
+    FUNCTION(NAME, ascsort)
+    (cthis, left + 1, end);
 }
 
 #ifdef TYPE_WITH_DATA
 void FUNCTION(NAME, descsort)(TYPE **cthis, const cgraph_size_t start,
-                              const cgraph_size_t end) {
-  cgraph_size_t left = start, right = end;
-  TYPE *key = cthis[left];
+                              const cgraph_size_t end)
+{
+    cgraph_size_t left = start, right = end;
+    TYPE *key = cthis[left];
 #else
 void FUNCTION(NAME, descsort)(TYPE *cthis, const cgraph_size_t start,
-                              const cgraph_size_t end) {
-  cgraph_size_t left = start, right = end;
-  TYPE key = cthis[left];
+                              const cgraph_size_t end)
+{
+    cgraph_size_t left = start, right = end;
+    TYPE key = cthis[left];
 #endif
-  while (left < right) {
-    while ((left < right) && (LE(cthis[right], key))) {
-      right--;
+    while (left < right) {
+        while ((left < right) && (LE(cthis[right], key))) {
+            right--;
+        }
+        cthis[left] = cthis[right];
+        while ((left < right) && (GE(cthis[left], key))) {
+            left++;
+        }
+        cthis[right] = cthis[left];
     }
-    cthis[left] = cthis[right];
-    while ((left < right) && (GE(cthis[left], key))) {
-      left++;
-    }
-    cthis[right] = cthis[left];
-  }
-  cthis[left] = key;
-  FUNCTION(NAME, descsort)(cthis, start, left - 1);
-  FUNCTION(NAME, descsort)(cthis, left + 1, end);
+    cthis[left] = key;
+    FUNCTION(NAME, descsort)
+    (cthis, start, left - 1);
+    FUNCTION(NAME, descsort)
+    (cthis, left + 1, end);
 }
 
 #ifdef TYPE_WITH_DATA
@@ -212,12 +230,12 @@ TYPE *FUNCTION(NAME, iter1v)(TYPE *x, const cgraph_size_t len,
                              cgraph_pfunc1_t iter)
 #endif
 {
-  cgraph_size_t i;
-  for (i = 0; i < len; i++) {
-    iter((TYPE *)&x[i]);
-  }
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+        iter((TYPE *)&x[i]);
+    }
 
-  return x;
+    return x;
 }
 
 #ifdef TYPE_WITH_DATA
@@ -228,12 +246,12 @@ TYPE *FUNCTION(NAME, iter2v)(const TYPE *x, TYPE *y, const cgraph_size_t len,
                              cgraph_pfunc2_t iter)
 #endif
 {
-  cgraph_size_t i;
-  for (i = 0; i < len; i++) {
-    iter((TYPE *)&x[i], &y[i]);
-  }
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+        iter((TYPE *)&x[i], &y[i]);
+    }
 
-  return y;
+    return y;
 }
 
 #ifdef TYPE_WITH_DATA
@@ -244,12 +262,12 @@ TYPE FUNCTION(NAME, iter2vc)(const TYPE *x, TYPE y, const cgraph_size_t len,
                              cgraph_pfunc2_t iter)
 #endif
 {
-  cgraph_size_t i;
-  for (i = 0; i < len; i++) {
-    iter((TYPE *)&x[i], (TYPE *)&y);
-  }
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+        iter((TYPE *)&x[i], (TYPE *)&y);
+    }
 
-  return y;
+    return y;
 }
 
 #ifdef TYPE_WITH_DATA
@@ -260,12 +278,12 @@ TYPE *FUNCTION(NAME, iter3v)(const TYPE *x, const TYPE *y, TYPE *z,
                              const cgraph_size_t len, cgraph_pfunc3_t iter)
 #endif
 {
-  cgraph_size_t i;
-  for (i = 0; i < len; i++) {
-    iter((TYPE *)&x[i], (TYPE *)&y[i], &z[i]);
-  }
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+        iter((TYPE *)&x[i], (TYPE *)&y[i], &z[i]);
+    }
 
-  return z;
+    return z;
 }
 
 #ifdef TYPE_WITH_DATA
@@ -276,12 +294,12 @@ TYPE FUNCTION(NAME, iter3vvc)(const TYPE *x, const TYPE *y, TYPE z,
                               const cgraph_size_t len, cgraph_pfunc3_t iter)
 #endif
 {
-  cgraph_size_t i;
-  for (i = 0; i < len; i++) {
-    iter((TYPE *)&x[i], (TYPE *)&y[i], (TYPE *)&z);
-  }
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+        iter((TYPE *)&x[i], (TYPE *)&y[i], (TYPE *)&z);
+    }
 
-  return z;
+    return z;
 }
 
 #ifdef TYPE_WITH_DATA
@@ -292,12 +310,12 @@ TYPE *FUNCTION(NAME, iter3vcv)(const TYPE *x, const TYPE y, TYPE *z,
                                const cgraph_size_t len, cgraph_pfunc3_t iter)
 #endif
 {
-  cgraph_size_t i;
-  for (i = 0; i < len; i++) {
-    iter((TYPE *)&x[i], (TYPE *)&y, &z[i]);
-  }
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+        iter((TYPE *)&x[i], (TYPE *)&y, &z[i]);
+    }
 
-  return z;
+    return z;
 }
 
 #ifdef TYPE_WITH_DATA
@@ -308,10 +326,10 @@ TYPE FUNCTION(NAME, iter3cvc)(const TYPE x, const TYPE *y, TYPE z,
                               const cgraph_size_t len, cgraph_pfunc3_t iter)
 #endif
 {
-  cgraph_size_t i;
-  for (i = 0; i < len; i++) {
-    iter((TYPE *)&x, (TYPE *)&y[i], (TYPE *)&z);
-  }
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+        iter((TYPE *)&x, (TYPE *)&y[i], (TYPE *)&z);
+    }
 
-  return z;
+    return z;
 }

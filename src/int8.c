@@ -6,5 +6,4 @@
 
 /**/
 #include "int_base.ct"
-
 #include "template_off.h"

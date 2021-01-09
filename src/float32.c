@@ -7,5 +7,4 @@
 
 /**/
 #include "float_base.ct"
-
 #include "template_off.h"

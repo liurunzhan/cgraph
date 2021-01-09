@@ -20,9 +20,9 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-  CGRAPH_DATA_BASE
-  cgraph_bool_t postive;
-  CGRAPH_DATA_ROOT
+    CGRAPH_DATA_BASE
+    cgraph_bool_t postive;
+    CGRAPH_DATA_ROOT
 } cgraph_bigint_t;
 
 #include "data_base.ht"

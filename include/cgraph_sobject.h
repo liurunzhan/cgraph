@@ -20,9 +20,9 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(sobject)[];
 #include "template.h"
 
 typedef struct {
-  CGRAPH_OBJECT_BASE
-  cgraph_size_t row, column;
-  CGRAPH_OBJECT_ROOT
+    CGRAPH_OBJECT_BASE
+    cgraph_size_t row, column;
+    CGRAPH_OBJECT_ROOT
 } cgraph_sobject_t;
 
 #include "object_base.ht"

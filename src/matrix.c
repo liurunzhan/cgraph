@@ -8,13 +8,15 @@
 /**/
 #include "struct_base.ct"
 
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
+{
+    cgraph_bool_t flag = CGRAPH_FALSE;
 
-  return flag;
+    return flag;
 }
 
-void FUNCTION(TYPE, test)(void) {
+void FUNCTION(TYPE, test)(void)
+{
 #ifdef DEBUG
 
 #endif

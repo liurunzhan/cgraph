@@ -11,16 +11,16 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-  CGRAPH_DATA_BASE
-  CGRAPH_DATA_ROOT
+    CGRAPH_DATA_BASE
+    CGRAPH_DATA_ROOT
 } cgraph_bitset_t;
 
 #define BITSET_BYTE_POSTION(postion) ((postion) / DATA_BITS)
-#define BITSET_BIT_POSTION(postion) ((postion) % DATA_BITS)
-#define BITSET_GET_BIT(cthis, postion)               \
-  ((((cthis)->data[BITSET_BYTE_POSTION(postion)]) >> \
-    BITSET_BIT_POSTION(postion)) ^                   \
-   0x1)
+#define BITSET_BIT_POSTION(postion)  ((postion) % DATA_BITS)
+#define BITSET_GET_BIT(cthis, postion)                 \
+    ((((cthis)->data[BITSET_BYTE_POSTION(postion)]) >> \
+      BITSET_BIT_POSTION(postion)) ^                   \
+     0x1)
 
 #include "data_base.ht"
 

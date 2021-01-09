@@ -12,9 +12,9 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-  CGRAPH_STRUCTURE_BASE
-  cgraph_size_t row, column;
-  CGRAPH_STRUCTURE_ROOT
+    CGRAPH_STRUCTURE_BASE
+    cgraph_size_t row, column;
+    CGRAPH_STRUCTURE_ROOT
 } cgraph_spamat_t;
 
 #include "struct_base.ht"
