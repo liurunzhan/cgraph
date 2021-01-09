@@ -1,11 +1,37 @@
 #include "template_base.ht"
 
-extern cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y);
+#ifdef TYPE_WITH_DATA
 
-extern void *FUNCTION(NAME, init)(void *cthis, const void *data, const cgraph_size_t size);
-extern void *FUNCTION(NAME, initd)(void *cthis, const void *data, const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 
-extern void FUNCTION(NAME, ascsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end);
-extern void FUNCTION(NAME, descsort)(void *cthis, const cgraph_size_t start, const cgraph_size_t end);
+extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
+
+#else
+
+extern TYPE FUNCTION(NAME, abs)(TYPE cthis);
+extern TYPE FUNCTION(NAME, format)(TYPE cthis);
+extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y, TYPE z);
+extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y, TYPE z);
+extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y, TYPE z);
+extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y, TYPE z);
+
+extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
+
+#endif
 
 extern void FUNCTION(NAME, test)(void);

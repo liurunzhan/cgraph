@@ -10,11 +10,10 @@ extern "C" {
 #define TYPE_DICT
 #include "template.h"
 
-typedef struct 
-{
+typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
-}cgraph_dict_t;
+} cgraph_dict_t;
 
 #include "struct_base.ht"
 #include "template_off.h"

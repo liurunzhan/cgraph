@@ -9,9 +9,9 @@ extern "C" {
 
 #define TYPE_FLOAT64
 #include "template.h"
+/* */
 
 #include "float_base.ht"
-
 #include "template_off.h"
 
 #ifdef __cplusplus

@@ -9,9 +9,8 @@ extern "C" {
 
 #define TYPE_INT8
 #include "template.h"
-
+/* */
 #include "int_base.ht"
-
 #include "template_off.h"
 
 #ifdef __cplusplus

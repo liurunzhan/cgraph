@@ -1,12 +1,10 @@
-#include <stdio.h>
 #include "cgraph_math.h"
 #include "cgraph_verilog.h"
 
-void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len)
-{
-  if((NULL != fp) && (!ferror(fp)))
-  {
-    cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max-1, len_1 = len-1;
+void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
+  if ((NULL != fp) && (!ferror(fp))) {
+    cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max - 1,
+                     len_1 = len - 1;
     fprintf(fp, "module clkgen (\n"
                 "   rstn,\n"
                 "   clki,\n"
@@ -34,8 +32,9 @@ void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len)
                 "    if(clken)\n"
                 "      begin\n"
                 "        case(dr)\n");
-    for(i=0; i<max; i++)
-    { fprintf(fp, "        %ld : clko = clk_cnt[%ld];\n", i, i); }
+    for (i = 0; i < max; i++) {
+      fprintf(fp, "        %ld : clko = clk_cnt[%ld];\n", i, i);
+    }
     fprintf(fp, "        default : clko = 1'bx;\n"
                 "        endcase\n"
                 "      end\n"
@@ -46,11 +45,9 @@ void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len)
   }
 }
 
-void cgraph_verilog_sync(FILE *fp, const cgraph_size_t len)
-{
-  if(NULL != fp && !ferror(fp))
-  {
-    cgraph_size_t len_1 = len-1, len_2 = len-2;
+void cgraph_verilog_sync(FILE *fp, const cgraph_size_t len) {
+  if (NULL != fp && !ferror(fp)) {
+    cgraph_size_t len_1 = len - 1, len_2 = len - 2;
     fprintf(fp, "module sync (\n"
                 "  rstn,\n"
                 "  clki,\n"
@@ -68,7 +65,8 @@ void cgraph_verilog_sync(FILE *fp, const cgraph_size_t len)
     fprintf(fp, "       signs[%ld:0] <= {%ld{1'b0}};\n", len_1, len);
     fprintf(fp, "    else\n"
                 "      begin\n");
-    fprintf(fp, "        signs[%ld:0] <= {signs[%ld:0], signi};\n", len_1, len_2);
+    fprintf(fp, "        signs[%ld:0] <= {signs[%ld:0], signi};\n", len_1,
+            len_2);
     fprintf(fp, "      end\n"
                 "  end\n\n");
     fprintf(fp, "assign signo = signs[%ld];\n\n", len_1);
@@ -76,11 +74,9 @@ void cgraph_verilog_sync(FILE *fp, const cgraph_size_t len)
   }
 }
 
-void cgraph_verilog_filter(FILE *fp, const cgraph_size_t len)
-{
-  if(NULL != fp && !ferror(fp))
-  {
-    cgraph_size_t len_1 = len-1, len_2 = len-2;
+void cgraph_verilog_filter(FILE *fp, const cgraph_size_t len) {
+  if (NULL != fp && !ferror(fp)) {
+    cgraph_size_t len_1 = len - 1, len_2 = len - 2;
     fprintf(fp, "module sync (\n"
                 "  rstn,\n"
                 "  clki,\n"
@@ -106,7 +102,8 @@ void cgraph_verilog_filter(FILE *fp, const cgraph_size_t len)
                 "    if(!rstn)\n");
     fprintf(fp, "        signs[%ld:0] <= {%ld{1'b0}};\n", len_1, len);
     fprintf(fp, "    else\n");
-    fprintf(fp, "        signs[%ld:0] <= {signs[%ld:0], sync[1]};\n", len_1, len_2);
+    fprintf(fp, "        signs[%ld:0] <= {signs[%ld:0], sync[1]};\n", len_1,
+            len_2);
     fprintf(fp, "  end\n\n"
                 "always @(posedge clki or negedge rstn)\n"
                 "  begin\n"
@@ -122,11 +119,9 @@ void cgraph_verilog_filter(FILE *fp, const cgraph_size_t len)
   }
 }
 
-void cgraph_verilog_simple(FILE *fp, const cgraph_size_t len)
-{
-  if(NULL != fp && !ferror(fp))
-  {
-    cgraph_size_t len_1 = len-1;
+void cgraph_verilog_simple(FILE *fp, const cgraph_size_t len) {
+  if (NULL != fp && !ferror(fp)) {
+    cgraph_size_t len_1 = len - 1;
     fprintf(fp, "module sync (\n"
                 "  rstn,\n"
                 "  clki,\n"
@@ -145,7 +140,8 @@ void cgraph_verilog_simple(FILE *fp, const cgraph_size_t len)
     fprintf(fp, "       signs[%ld:0] <= {%ld{1'b0}};\n", len_1, len);
     fprintf(fp, "    else\n"
                 "      begin\n");
-    fprintf(fp, "        signs[%ld:0] <= {signs[%ld:0], signi};\n", len_1, len-2);
+    fprintf(fp, "        signs[%ld:0] <= {signs[%ld:0], signi};\n", len_1,
+            len - 2);
     fprintf(fp, "      end\n"
                 "  end\n\n"
                 "always @(posedge clki or negedge rstn)\n"
@@ -161,10 +157,8 @@ void cgraph_verilog_simple(FILE *fp, const cgraph_size_t len)
   }
 }
 
-void cgraph_verilog_edgedet(FILE *fp)
-{
-  if(NULL != fp && !ferror(fp))
-  {
+void cgraph_verilog_edgedet(FILE *fp) {
+  if (NULL != fp && !ferror(fp)) {
     fprintf(fp, "module edgedect (\n"
                 "  rstn,\n"
                 "  clki,\n"
@@ -191,16 +185,12 @@ void cgraph_verilog_edgedet(FILE *fp)
   }
 }
 
-void cgraph_verilog_handshake(FILE *fp)
-{
-  
-}
+void cgraph_verilog_handshake(FILE *fp) {}
 
-void cgraph_verilog_fifo(FILE *fp, const cgraph_size_t vlen, const cgraph_size_t len)
-{
-  if(NULL != fp && !ferror(fp))
-  {
-    cgraph_size_t vlen_1 = vlen-1, len_1 = len-1;
+void cgraph_verilog_fifo(FILE *fp, const cgraph_size_t vlen,
+                         const cgraph_size_t len) {
+  if (NULL != fp && !ferror(fp)) {
+    cgraph_size_t vlen_1 = vlen - 1, len_1 = len - 1;
     fprintf(fp, "module fifo (\n"
                 "  rstn,\n"
                 "  clk,\n"
@@ -222,11 +212,9 @@ void cgraph_verilog_fifo(FILE *fp, const cgraph_size_t vlen, const cgraph_size_t
   }
 }
 
-void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len)
-{
-  if(NULL != fp && !ferror(fp))
-  {
-    cgraph_size_t i, len_1 = len-1, len_2 = len-2;
+void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len) {
+  if (NULL != fp && !ferror(fp)) {
+    cgraph_size_t i, len_1 = len - 1, len_2 = len - 2;
     fprintf(fp, "module shift (\n"
                 "  rstn,\n"
                 "  clk,\n"
@@ -250,7 +238,9 @@ void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len)
                 "    if(!rstn)\n");
     fprintf(fp, "        reg_cnt[%ld:0] <= {%ld{1'b0}};\n", len_1, len);
     fprintf(fp, "    else if(read)\n");
-    fprintf(fp, "        reg_cnt[%ld:0] <= reg_cnt[%ld:0] + {{%ld{1'b0}}, 1'b1};\n", len_1, len_1, len_1);
+    fprintf(fp,
+            "        reg_cnt[%ld:0] <= reg_cnt[%ld:0] + {{%ld{1'b0}}, 1'b1};\n",
+            len_1, len_1, len_1);
     fprintf(fp, "  end\n\n"
                 "always @(posedge clki or negedge rstn)\n"
                 "  begin\n"
@@ -262,23 +252,23 @@ void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len)
     fprintf(fp, "            reg_shift[%ld:0] <= din[%ld:0];\n", len_1, len_1);
     fprintf(fp, "        else\n");
     fprintf(fp, "            reg_shift[%ld:0] <= {reg_shift[0]", len_1);
-    for(i = 1; i < len; i++)
-    { fprintf(fp, ", reg_shift[%ld]", i); }
+    for (i = 1; i < len; i++) {
+      fprintf(fp, ", reg_shift[%ld]", i);
+    }
     fprintf(fp, "};\n"
                 "      end\n"
                 "    else if(read)\n");
-    fprintf(fp, "        reg_shift[%ld:0] <= {reg_shift[%ld:0], 1'b0};\n", len_1, len_2);
+    fprintf(fp, "        reg_shift[%ld:0] <= {reg_shift[%ld:0], 1'b0};\n",
+            len_1, len_2);
     fprintf(fp, "  end\n\n");
     fprintf(fp, "assign dout = reg_shift[%ld];\n\n", len_1);
     fprintf(fp, "endmodule\n");
   }
 }
 
-void cgraph_verilog_crc(FILE *fp, const cgraph_size_t len)
-{
-  if(NULL != fp && !ferror(fp))
-  {
-    cgraph_size_t len_1 = len-1;
+void cgraph_verilog_crc(FILE *fp, const cgraph_size_t len) {
+  if (NULL != fp && !ferror(fp)) {
+    cgraph_size_t len_1 = len - 1;
     fprintf(fp, "module crc (\n"
                 "  rstn,\n"
                 "  clk,\n"
@@ -305,8 +295,7 @@ void cgraph_verilog_crc(FILE *fp, const cgraph_size_t len)
   }
 }
 
-void cgraph_verilog_test(void)
-{
+void cgraph_verilog_test(void) {
 #ifdef DEBUG
   cgraph_verilog_clkgen(stdout, 2);
   cgraph_verilog_sync(stdout, 2);

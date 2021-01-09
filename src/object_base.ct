@@ -3,61 +3,57 @@
  * @def NAME type name
  * @struct CGRAPH_OBJECTS_NAME(NAME)
  */
-CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = 
-{
-  &STRUCT(NAME),
-  &STRUCT(bool),
-  &STRUCT(int),
-  &STRUCT(long),
-  &STRUCT(int8),
-  &STRUCT(int16),
-  &STRUCT(int32),
-  NULL, /* &STRUCT(int64), */
-  &STRUCT(float32),
-  &STRUCT(float64),
-  &STRUCT(time),
-  &STRUCT(complex),
-  &STRUCT(fraction),
-  &STRUCT(bigint),
-  &STRUCT(bignum),
-  &STRUCT(string),
-  &STRUCT(bitset),
-  &STRUCT(vector),
-  &STRUCT(matrix),
-  &STRUCT(bigmat),
-  NULL
-};
+CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {&STRUCT(NAME),
+                                         &STRUCT(bool),
+                                         &STRUCT(int),
+                                         &STRUCT(long),
+                                         &STRUCT(int8),
+                                         &STRUCT(int16),
+                                         &STRUCT(int32),
+                                         NULL, /* &STRUCT(int64), */
+                                         &STRUCT(float32),
+                                         &STRUCT(float64),
+                                         &STRUCT(time),
+                                         &STRUCT(complex),
+                                         &STRUCT(fraction),
+                                         &STRUCT(bigint),
+                                         &STRUCT(bignum),
+                                         &STRUCT(string),
+                                         &STRUCT(bitset),
+                                         &STRUCT(vector),
+                                         &STRUCT(matrix),
+                                         &STRUCT(bigmat),
+                                         NULL};
 
 #include "template_base.ct"
 
-CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis, const cgraph_type_t type, const cgraph_size_t len, const cgraph_size_t size)
-{
+CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
+                                                   const cgraph_type_t type,
+                                                   const cgraph_size_t len,
+                                                   const cgraph_size_t size) {
   TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
-  {
-    #if defined(TYPE_OBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
-      CGRAPH_DTYPE_TYPE(_cthis) = type;
-      CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_TRUE;
-      CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE;
-    #elif defined(TYPE_HOBJECT)
-      CGRAPH_DTYPE_KTYPE(_cthis) = type;
-      CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_TRUE;
-      CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE;
-      CGRAPH_DTYPE_VACCESSIABLE(_cthis) = CGRAPH_TRUE;
-    #else
-      #error !! unsupported object type !!
-    #endif
+  if (NULL != _cthis) {
+#if defined(TYPE_OBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
+    CGRAPH_DTYPE_TYPE(_cthis) = type;
+    CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_TRUE;
+    CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE;
+#elif defined(TYPE_HOBJECT)
+    CGRAPH_DTYPE_KTYPE(_cthis) = type;
+    CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_TRUE;
+    CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE;
+    CGRAPH_DTYPE_VACCESSIABLE(_cthis) = CGRAPH_TRUE;
+#else
+#error !! unsupported object type !!
+#endif
   }
 
   return _cthis;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
-{
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
   TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t _len = 0;
-  if(NULL != _cthis)
-  {
+  if (NULL != _cthis) {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
     /** _len = (ID == _type ? 1 : OBJECT(_type, len)(_cthis->data)); */
     _len = OBJECT(_type, len)(_cthis->data);
@@ -66,12 +62,10 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
   return _len;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis)
-{
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
   TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t _size = 0;
-  if(NULL != _cthis)
-  {
+  if (NULL != _cthis) {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
     /** _size = (ID == _type ? 1 : OBJECT(_type, size)(_cthis->data)); */
     _size = OBJECT(_type, size)(_cthis->data);
@@ -80,58 +74,58 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis)
   return _size;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type, const cgraph_size_t size)
-{
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
+                                                  const cgraph_size_t size) {
   return FUNCTION(NAME, tsize)();
 }
 
-TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
-{
+TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type,
+                             const cgraph_size_t size) {
   TYPE *cthis = cgraph_calloc(FUNCTION(NAME, tsize)());
-  if((NULL != cthis) && (ID != type))
-  {
+  if ((NULL != cthis) && (ID != type)) {
     cthis->data = OBJECT(type, calloc)(type, size);
-    if(NULL != cthis->data)
-    { cthis = FUNCTION(NAME, _update)(cthis, type, 0, size); }
-    else
-    { cgraph_free(cthis); }
+    if (NULL != cthis->data) {
+      cthis = FUNCTION(NAME, _update)(cthis, type, 0, size);
+    } else {
+      cgraph_free(cthis);
+    }
   }
-  
+
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type, const cgraph_size_t old_size, cgraph_size_t new_size, cgraph_bool_t *error)
-{
+TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type,
+                              const cgraph_size_t old_size,
+                              cgraph_size_t new_size, cgraph_bool_t *error) {
   TYPE *_cthis = (TYPE *)cthis;
   cgraph_type_t _type = type;
   cgraph_size_t _size = 0;
-  if(NULL != _cthis)
-  {
+  if (NULL != _cthis) {
     _type = CGRAPH_DTYPE_TYPE(_cthis);
     _size = FUNCTION(NAME, size)(_cthis);
+  } else {
+    _cthis = cgraph_calloc(FUNCTION(NAME, tsize)());
   }
-  else
-  { _cthis = cgraph_calloc(FUNCTION(NAME, tsize)()); }
-  if(NULL != _cthis)
-  { _cthis->data = OBJECT(_type, realloc)(_cthis->data, _type, _size, new_size, error); }
+  if (NULL != _cthis) {
+    _cthis->data =
+        OBJECT(_type, realloc)(_cthis->data, _type, _size, new_size, error);
+  }
 
   return _cthis;
 }
 
-TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size)
-{
+TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size) {
   TYPE *_cthis = (TYPE *)cthis;
   TYPE *_object = NULL;
-  if(NULL != _cthis)
-  {
+  if (NULL != _cthis) {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
-    cgraph_size_t _old_size  = OBJECT(_type, len)(_cthis->data);
+    cgraph_size_t _old_size = OBJECT(_type, len)(_cthis->data);
     cgraph_size_t _size = _old_size > size ? size : _old_size;
     _object = (TYPE *)FUNCTION(NAME, calloc)(_type, _size);
-    if(NULL != _object)
-    {
+    if (NULL != _object) {
       cgraph_memcpy(_object, _cthis, COPY_SIZE);
-      cgraph_memcpy(_object->data, _cthis->data, OBJECT(_type, msize)(_type, _size));
+      cgraph_memcpy(_object->data, _cthis->data,
+                    OBJECT(_type, msize)(_type, _size));
       OBJECT(_type, update)(_object->data, _type, -1, -1);
     }
   }
@@ -139,33 +133,26 @@ TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size)
   return _object;
 }
 
-void FUNCTION(NAME, free)(TYPE *cthis)
-{
+void FUNCTION(NAME, free)(TYPE *cthis) {
   TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
-  {
+  if (NULL != _cthis) {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
     OBJECT(_type, free)(_cthis->data);
     cgraph_free(_cthis);
   }
 }
 
-TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size)
-{
+TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size) {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
-  if(NULL != _x || NULL != _y)
-  {
-    
+  if (NULL != _x || NULL != _y) {
   }
 
   return _x;
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
-{
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != cthis)
-  {
+  if (NULL != cthis) {
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
     flag = OBJECT(type, check)(cthis->data);
   }
@@ -173,24 +160,9 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
-{
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  if((NULL != x) && (NULL != y))
-  {
-    cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
-    flag = OBJECT(type, equal)(x->data, y->data);
-  }
-
-
-  return flag;
-}
-
-cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
-{
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   cgraph_size_t hash = 0;
-  if(NULL != cthis)
-  {
+  if (NULL != cthis) {
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
     hash = OBJECT(type, hash)(cthis->data);
   }
@@ -198,85 +170,70 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
   return hash;
 }
 
-void *FUNCTION(NAME, chtype)(void *cthis, const cgraph_type_t type, const cgraph_size_t size)
-{
-  TYPE *_cthis = (TYPE *)cthis;
+TYPE *FUNCTION(NAME, chtype)(TYPE *cthis, const cgraph_type_t type,
+                             const cgraph_size_t size) {
   cgraph_type_t _type = type;
   void *_data = NULL;
-  if(NULL != _cthis)
-  {  _type = CGRAPH_DTYPE_TYPE(_cthis); }
-  else
-  { _cthis = cgraph_calloc(FUNCTION(NAME, tsize)()); }
-  if(NULL != _cthis)
-  {
-    if(NULL != _cthis->data)
-    {
-      if(_type == type)
-      {
+  if (NULL != cthis) {
+    _type = CGRAPH_DTYPE_TYPE(cthis);
+  } else {
+    cthis = cgraph_calloc(FUNCTION(NAME, tsize)());
+  }
+  if (NULL != cthis) {
+    if (NULL != cthis->data) {
+      if (_type == type) {
         cgraph_bool_t error = CGRAPH_FALSE;
         _data = OBJECT(_type, realloc)(_data, _type, 0, size, &error);
-        if(CGRAPH_FALSE == error)
-        {  }
-      }
-      else
-      {
+        if (CGRAPH_FALSE == error) {
+        }
+      } else {
         _data = OBJECT(_type, calloc)(_type, size);
-        
       }
-      
+
+    } else {
+      cthis->data = _data;
     }
-    else
-    {
-      _cthis->data = _data;
-    }
-    
   }
 
-  return _cthis;
+  return cthis;
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, visit)(void *cthis)
-{
-  return FUNCTION(NAME, accessible)((TYPE *)cthis);
+CGRAPH_INLINE TYPE *FUNCTION(NAME, visit)(TYPE *cthis) {
+  return FUNCTION(NAME, accessible)(cthis);
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, delete)(void *cthis)
-{
-  return FUNCTION(NAME, unaccessible)((TYPE *)cthis);
+CGRAPH_INLINE TYPE *FUNCTION(NAME, delete)(TYPE *cthis) {
+  return FUNCTION(NAME, unaccessible)(cthis);
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, accessible)(void *cthis)
-{
-  TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
-  { CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_TRUE; }
+CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis) {
+  if (NULL != cthis) {
+    CGRAPH_DTYPE_ACCESSIABLE(cthis) = CGRAPH_TRUE;
+  }
 
-  return _cthis;
+  return cthis;
 }
 
-CGRAPH_INLINE void *FUNCTION(NAME, unaccessible)(void *cthis)
-{
-  TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
-  { CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_FALSE; }
+CGRAPH_INLINE TYPE *FUNCTION(NAME, unaccessible)(TYPE *cthis) {
+  if (NULL != cthis) {
+    CGRAPH_DTYPE_ACCESSIABLE(cthis) = CGRAPH_FALSE;
+  }
 
-  return _cthis;
+  return cthis;
 }
 
-void *FUNCTION(NAME, hashed)(void *cthis)
-{
-  TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
-  { CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_TRUE; }
+TYPE *FUNCTION(NAME, hashed)(TYPE *cthis) {
+  if (NULL != cthis) {
+    CGRAPH_DTYPE_HASHED(cthis) = CGRAPH_TRUE;
+  }
 
-  return _cthis;
+  return cthis;
 }
 
-void *FUNCTION(NAME, unhashed)(void *cthis)
-{
-  TYPE *_cthis = (TYPE *)cthis;
-  if(NULL != _cthis)
-  { CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE; }
+TYPE *FUNCTION(NAME, unhashed)(TYPE *cthis) {
+  if (NULL != cthis) {
+    CGRAPH_DTYPE_HASHED(cthis) = CGRAPH_FALSE;
+  }
 
-  return _cthis;
+  return cthis;
 }

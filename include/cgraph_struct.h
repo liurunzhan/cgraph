@@ -11,9 +11,9 @@ extern "C" {
   --> matrix
   --> bigmat
 */
-#include "cgraph_vector.h"
-#include "cgraph_matrix.h"
 #include "cgraph_bigmat.h"
+#include "cgraph_matrix.h"
+#include "cgraph_vector.h"
 
 /*
   structure with multiple index:
@@ -21,9 +21,9 @@ extern "C" {
   --> directory
   --> data frame
 */
-#include "cgraph_set.h"
-#include "cgraph_dict.h"
 #include "cgraph_dframe.h"
+#include "cgraph_dict.h"
+#include "cgraph_set.h"
 
 /*
   structure with node pointers:
@@ -32,9 +32,9 @@ extern "C" {
   --> list
   --> tree
 */
+#include "cgraph_list.h"
 #include "cgraph_queue.h"
 #include "cgraph_stack.h"
-#include "cgraph_list.h"
 #include "cgraph_tree.h"
 
 /*

@@ -5,7 +5,9 @@
 extern "C" {
 #endif
 
-#if !(defined(_CGRAPH_H_) || defined(_CGRAPH_STRUCT_H_)) && (defined(_CGRAPH_OBJECT_H_) || defined(_CGRAPH_GOBJECT_H_) || defined(_CGRAPH_POBJECT_H_) || defined(_CGRAPH_SOBJECT_H_))
+#if !(defined(_CGRAPH_H_) || defined(_CGRAPH_STRUCT_H_)) &&       \
+    (defined(_CGRAPH_OBJECT_H_) || defined(_CGRAPH_GOBJECT_H_) || \
+     defined(_CGRAPH_POBJECT_H_) || defined(_CGRAPH_SOBJECT_H_))
 #error <cgraph_hobject.h> can not be included in the same file together with <cgraph_object.h>, <cgraph_gobject.h>, <cgraph_pobject.h> or <cgraph_sobject.h> except in <cgraph.h> and <cgraph_struct.h>
 #endif
 
@@ -17,13 +19,12 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(hobject)[];
 #define TYPE_HOBJECT
 #include "template.h"
 
-typedef struct 
-{
+typedef struct {
   CGRAPH_OBJECT_BASE
   struct cgraph_hobject_t *next;
   DATA_TYPE *key;
   CGRAPH_OBJECT_ROOT
-}cgraph_hobject_t;
+} cgraph_hobject_t;
 
 #include "object_base.ht"
 

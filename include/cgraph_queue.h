@@ -10,11 +10,10 @@ extern "C" {
 #define TYPE_QUEUE
 #include "template.h"
 
-typedef struct
-{
+typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
-}cgraph_queue_t;
+} cgraph_queue_t;
 
 #include "template_off.h"
 

@@ -1,29 +1,25 @@
 #include "data_base.ht"
 
-extern void FUNCTION(NAME, padd)(void *x, void *y, void *z);
-extern void FUNCTION(NAME, psub)(void *x, void *y, void *z);
-extern void FUNCTION(NAME, pmul)(void *x, void *y, void *z);
-extern void FUNCTION(NAME, pdiv)(void *x, void *y, void *z);
-extern void FUNCTION(NAME, pdivf)(void *x, void *y, void *z);
-extern void FUNCTION(NAME, pint)(void *x, void *y, void *z);
-extern void FUNCTION(NAME, pmod)(void *x, void *y, void *z);
-
-extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...);
+extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
+                                      const TYPE first, ...);
 
 extern TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, not)(const TYPE x);
+extern TYPE FUNCTION(NAME, not )(const TYPE x);
 extern TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, bit)(const TYPE x, const cgraph_size_t position);
 extern TYPE FUNCTION(NAME, set)(const TYPE x, const cgraph_size_t position);
 extern TYPE FUNCTION(NAME, clr)(const TYPE x, const cgraph_size_t position);
-extern TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to);
-extern TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to);
-extern TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to);
+extern TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from,
+                                 const cgraph_size_t to);
+extern TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from,
+                                 const cgraph_size_t to);
+extern TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from,
+                                 const cgraph_size_t to);
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
@@ -31,4 +27,5 @@ extern cgraph_size_t FUNCTION(NAME, ones)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x);
 
 extern UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly);
-extern UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data, const UTYPE poly);
+extern UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
+                                 const UTYPE poly);

@@ -10,10 +10,9 @@ extern "C" {
 #define TYPE_FRACTION
 #include "template.h"
 
-typedef struct 
-{
+typedef struct {
   DATA_TYPE data[2];
-}cgraph_fraction_t;
+} cgraph_fraction_t;
 
 #define FRACTION_NUM(x) ((x).data[0])
 #define FRACTION_DEN(x) ((x).data[1])

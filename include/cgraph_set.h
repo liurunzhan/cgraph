@@ -10,11 +10,10 @@ extern "C" {
 #define TYPE_SET
 #include "template.h"
 
-typedef struct
-{
+typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
-}cgraph_set_t;
+} cgraph_set_t;
 
 #include "template_off.h"
 

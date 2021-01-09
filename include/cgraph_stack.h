@@ -11,11 +11,10 @@ extern "C" {
 #define TYPE_STACK
 #include "template.h"
 
-typedef struct
-{
+typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
-}cgraph_stack_t;
+} cgraph_stack_t;
 
 #include "template_off.h"
 

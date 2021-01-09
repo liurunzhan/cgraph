@@ -9,12 +9,11 @@ extern "C" {
 
 #define TYPE_MATRIX
 #include "template.h"
-typedef struct 
-{
+typedef struct {
   CGRAPH_STRUCTURE_BASE
   cgraph_size_t row, column;
   CGRAPH_STRUCTURE_ROOT
-}cgraph_matrix_t;
+} cgraph_matrix_t;
 
 #include "struct_base.ht"
 #include "template_off.h"

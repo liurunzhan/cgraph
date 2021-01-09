@@ -1,115 +1,76 @@
 #include "data_base.ct"
 
-cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
-{
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   cgraph_size_t hash = 0;
-  if(NULL != cthis)
-  {
-    TYPE _cthis = *(TYPE *)cthis;
-    if(DATA_ISNAN(_cthis))
-    { hash = CGRAPH_FLOAT_NAN_HASH; }
-    else if(DATA_ISPINF(_cthis))
-    { hash = CGRAPH_FLOAT_PINF_HASH; }
-    else if(DATA_ISNINF(_cthis))
-    { hash = CGRAPH_FLOAT_NINF_HASH; }
-    else
-    {
-      TYPE ipart = floor(_cthis), fpart = _cthis - ipart;
-      cgraph_size_t hash_ipart = (cgraph_size_t)(ipart), hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
-      hash = (hash_ipart << 4) ^ hash_fpart;
-    }
+  if (DATA_ISNAN(cthis)) {
+    hash = CGRAPH_FLOAT_NAN_HASH;
+  } else if (DATA_ISPINF(cthis)) {
+    hash = CGRAPH_FLOAT_PINF_HASH;
+  } else if (DATA_ISNINF(cthis)) {
+    hash = CGRAPH_FLOAT_NINF_HASH;
+  } else {
+    TYPE ipart = floor(cthis), fpart = cthis - ipart;
+    cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
+                  hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) *
+                                               EPSILON_LEN);
+    hash = (hash_ipart << 4) ^ hash_fpart;
   }
 
   return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
-{
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != cthis)
-  {
-    if(DATA_TEST(*cthis))
-    { flag = CGRAPH_TRUE; }
-  }
-
-  return flag;
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
+  return CGRAPH_TEST(DATA_TEST(cthis));
 }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
-{
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  if((NULL != x) && (NULL != y))
-  {
-    if((CGRAPH_TRUE == FUNCTION(NAME, isnan)(*x)) && (CGRAPH_TRUE == FUNCTION(NAME,isnan)(*y)))
-    { flag = CGRAPH_TRUE; }
-    else if((CGRAPH_TRUE == FUNCTION(NAME, ispinf)(*x)) && (CGRAPH_TRUE == FUNCTION(NAME, ispinf)(*y)))
-    { flag = CGRAPH_TRUE; }
-    else if((CGRAPH_TRUE == FUNCTION(NAME, isninf)(*x)) && (CGRAPH_TRUE == FUNCTION(NAME, isninf)(*y)))
-    { flag = CGRAPH_TRUE; }
-    else if(EQ(*x, *y))
-    { flag = CGRAPH_TRUE; }
-  }
-
-  return flag;
-}
-
-TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)
-{
+TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
+                               const TYPE first, ...) {
   va_list args;
-  if((NULL != cthis) && (0 < size))
-  {
+  if ((NULL != cthis) && (0 < size)) {
     cgraph_size_t i = 1;
     va_start(args, first);
     cthis[0] = (TYPE)first;
-    for(i=1; i<size; i++)
-    { cthis[i] = (TYPE)va_arg(args, ARG); }
+    for (i = 1; i < size; i++) {
+      cthis[i] = (TYPE)va_arg(args, ARG);
+    }
     va_end(args);
   }
 
   return cthis;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNAN(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISINF(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISPINF(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, 0.0));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISPOS(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNEG(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, MIN));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, MAX));
 }

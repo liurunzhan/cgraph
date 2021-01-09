@@ -7,16 +7,20 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define BOOL_AND(x, y) (((x == CGRAPH_FALSE) || (y == CGRAPH_FALSE)) ? CGRAPH_FALSE : CGRAPH_TRUE)
-#define BOOL_OR(x, y) (((x == CGRAPH_TRUE) || (y == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define BOOL_AND(x, y) \
+  (((x == CGRAPH_FALSE) || (y == CGRAPH_FALSE)) ? CGRAPH_FALSE : CGRAPH_TRUE)
+#define BOOL_OR(x, y) \
+  (((x == CGRAPH_TRUE) || (y == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define BOOL_NOT(x) ((x == CGRAPH_TRUE) ? CGRAPH_FALSE : CGRAPH_TRUE)
 #define BOOL_XOR(x, y) ((x != y) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define BOOL_XNOR(x, y) ((x == y) ? CGRAPH_TRUE : CGRAPH_FALSE)
 
 #define TYPE_BOOL
 #include "template.h"
-#include "data_base.ht"
 
+/* */
+
+#include "data_base.ht"
 #include "template_off.h"
 
 #ifdef __cplusplus

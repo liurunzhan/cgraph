@@ -10,11 +10,10 @@ extern "C" {
 #define TYPE_VECTOR
 #include "template.h"
 
-typedef struct 
-{
+typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
-}cgraph_vector_t;
+} cgraph_vector_t;
 
 #include "struct_base.ht"
 

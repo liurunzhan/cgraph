@@ -10,8 +10,9 @@ extern "C" {
 #define TYPE_FLOAT32
 #include "template.h"
 
-#include "float_base.ht"
+/* */
 
+#include "float_base.ht"
 #include "template_off.h"
 
 #ifdef __cplusplus

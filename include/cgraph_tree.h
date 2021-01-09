@@ -11,12 +11,11 @@ extern "C" {
 #define TYPE_TREE
 #include "template.h"
 
-typedef struct 
-{
+typedef struct {
   CGRAPH_STRUCTURE_BASE
   cgraph_bool_t with_hash;
   CGRAPH_STRUCTURE_ROOT
-}cgraph_tree_t;
+} cgraph_tree_t;
 
 #include "struct_base.ht"
 #include "template_off.h"

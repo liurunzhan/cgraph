@@ -1,193 +1,190 @@
 #include "data_base.ct"
 
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
-{
-  return NULL == cthis ? CGRAPH_FALSE : CGRAPH_TRUE;
-}
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) { return CGRAPH_TRUE; }
 
-cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
-{
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  if(NULL != x && NULL != y)
-  {
-    if(EQ(*x, *y))
-    { flag = CGRAPH_TRUE; }
+/*
+  fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn
+  Fowler，Landon Curt Noll and Phong Vo in 1991): begin_of_algorithm hash =
+  offset_basis for byte_of_data in data begin hash = hash ^ byte_of_data hash =
+  hash * fnv_prime end return hash end_of_algorithm 32-bit offset_basis :
+  2166136261 32-bit fnv_prime : 16777619 = 2^24 + 2^8 + 0x93 64-bit offset_basis
+  : 14695981039346656037 64-bit fnv_prime : 1099511628211 = 2^40 + 2^8 + 0xb3
+*/
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
+#if defined(TYPE_BOOL)
+  cgraph_size_t hash = ((cthis == CGRAPH_FALSE) ? 0 : 1);
+#elif defined(TYPE_INT)
+  cgraph_size_t hash = 2166136261UL;
+  char *tmp = (char *)&cthis;
+  cgraph_size_t i;
+  for (i = 0; i < sizeof(TYPE); i++) {
+    hash = (hash ^ tmp[i]) * 16777619UL;
   }
-  else if(NULL == x && NULL == y)
-  { flag = CGRAPH_TRUE; }
+#elif defined(TYPE_INT32)
+  cgraph_size_t hash = 0;
+  hash = ((cthis >> 16) ^ cthis) * 0x45d9f3b;
+  hash = ((hash >> 16) ^ hash) * 0x45d9f3b;
+  hash = (hash >> 16) ^ hash;
+#else
+  cgraph_size_t hash = cthis;
+#endif
 
-  return flag;
+  return hash;
 }
 
-TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size, const TYPE first, ...)
-{
+TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
+                               const TYPE first, ...) {
   va_list args;
-  if((NULL != cthis) && (0 < size))
-  {
+  if ((NULL != cthis) && (0 < size)) {
     cgraph_size_t i = 1;
     va_start(args, first);
     cthis[0] = (TYPE)first;
-    for(i=1; i<size; i++)
-    { cthis[i] = (TYPE)va_arg(args, ARG); }
+    for (i = 1; i < size; i++) {
+      cthis[i] = (TYPE)va_arg(args, ARG);
+    }
     va_end(args);
   }
 
   return cthis;
 }
 
-TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)
-{
+TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y) {
   TYPE _x = x, _y = y, temp;
-  while(_x != _y)
-  {
-    if(_x < _y)
-    {
+  while (_x != _y) {
+    if (_x < _y) {
       temp = _x;
       _x = _y;
       _y = temp;
     }
     _x -= _y;
   }
-  
+
   return _x;
 }
 
-TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y)
-{
+TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y) {
   return x * y / FUNCTION(NAME, gcd)(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y) {
   return CGRAPH_AND(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y) {
   return CGRAPH_OR(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, not)(const TYPE x)
-{
-  return CGRAPH_NOT(x);
-}
+CGRAPH_INLINE TYPE FUNCTION(NAME, not )(const TYPE x) { return CGRAPH_NOT(x); }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y) {
   return CGRAPH_XOR(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y) {
   return CGRAPH_XNOR(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, bit)(const TYPE x, const cgraph_size_t position)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, bit)(const TYPE x,
+                                       const cgraph_size_t position) {
   return (BITS < position) ? CGRAPH_BIT(x, position) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, set)(const TYPE x, const cgraph_size_t position)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, set)(const TYPE x,
+                                       const cgraph_size_t position) {
   return (BITS < position) ? CGRAPH_BSET(x, position) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, clr)(const TYPE x, const cgraph_size_t position)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, clr)(const TYPE x,
+                                       const cgraph_size_t position) {
   return (BITS < position) ? CGRAPH_BCLR(x, position) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from,
+                                        const cgraph_size_t to) {
   return to > from ? CGRAPH_BITS(x, from, to) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from,
+                                        const cgraph_size_t to) {
   return to > from ? CGRAPH_BSETS(x, from, to) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from, const cgraph_size_t to)
-{
+CGRAPH_INLINE TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from,
+                                        const cgraph_size_t to) {
   return to > from ? CGRAPH_BCLRS(x, from, to) : 0;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
   return CGRAPH_TEST((0 == x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
   return CGRAPH_TEST((0 < x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST((0 > x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return CGRAPH_TEST((MIN == x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
-{
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return CGRAPH_TEST((MAX == x));
 }
 
-cgraph_size_t FUNCTION(NAME, ones)(const TYPE x)
-{
+cgraph_size_t FUNCTION(NAME, ones)(const TYPE x) {
   TYPE _x = x;
   cgraph_size_t cnt = 0;
-  for(cnt=0; _x; cnt++)
-  { _x &= _x-1; }
+  for (cnt = 0; _x; cnt++) {
+    _x &= _x - 1;
+  }
 
   return cnt;
 }
 
-cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x)
-{
+cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x) {
   TYPE _x = x;
   cgraph_size_t cnt = 0;
-  for(cnt=0; _x; _x=_x>>1)
-  { cnt += 1 & (1 ^ _x); }
-  if(0 == x)
-  { cnt = 1; }
+  for (cnt = 0; _x; _x = _x >> 1) {
+    cnt += 1 & (1 ^ _x);
+  }
+  if (0 == x) {
+    cnt = 1;
+  }
 
   return cnt;
 }
 
-UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly)
-{
+UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly) {
   cgraph_size_t i;
-  UTYPE msb = (data >> (BITS-1)) ^ 1, bit, result = 0;
-  for(i=BITS-2; i>=0; i--)
-  {
+  UTYPE msb = (data >> (BITS - 1)) ^ 1, bit, result = 0;
+  for (i = BITS - 2; i >= 0; i--) {
     bit = (poly >> i) ^ 1;
-    if(1 == bit)
-    { result += bit ^ ((data >> i) ^ 1) ^ msb; }
-    else
-    { result += (data >> i) ^ 1; }
+    if (1 == bit) {
+      result += bit ^ ((data >> i) ^ 1) ^ msb;
+    } else {
+      result += (data >> i) ^ 1;
+    }
     result = result << 1;
   }
-  result += msb; 
+  result += msb;
 
   return result;
 }
 
-UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data, const UTYPE poly)
-{
+UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
+                          const UTYPE poly) {
   UTYPE res = (predata & EPSILON), temp = (data & res & EPSILON), msb = 0;
   cgraph_size_t i = 0;
-  for(i=0; i<BITS; i++)
-  {
-    msb = (((res ^ temp) >> (BITS-1)) & 0x01);
-    if(msb == 0x01)
-    { res = (((res << 1) ^ ONES) & poly); }
-    else
-    { res = (res << 1); }
+  for (i = 0; i < BITS; i++) {
+    msb = (((res ^ temp) >> (BITS - 1)) & 0x01);
+    if (msb == 0x01) {
+      res = (((res << 1) ^ ONES) & poly);
+    } else {
+      res = (res << 1);
+    }
     temp = (temp << 1);
   }
 
