@@ -221,18 +221,18 @@ typedef unsigned short cgraph_uint16_t;
 typedef signed int cgraph_int32_t;
 typedef unsigned int cgraph_uint32_t;
 /**< 64-bit integer number */
-#define CGRAPH_INT64_MIN
-#define CGRAPH_INT64_MAX
-#define CGRAPH_INT64_EPS __CGRAPH_INT64_EPS
-#define CGRAPH_INT64_BIT (64)
-#define CGRAPH_UINT64_MIN
-#define CGRAPH_UINT64_MAX
+#define CGRAPH_INT64_MIN  __CGRAPH_INT64_MIN
+#define CGRAPH_INT64_MAX  __CGRAPH_INT64_MAX
+#define CGRAPH_INT64_EPS  __CGRAPH_INT64_EPS
+#define CGRAPH_INT64_BIT  (64)
+#define CGRAPH_UINT64_MIN __CGRAPH_UINT64_MIN
+#define CGRAPH_UINT64_MAX __CGRAPH_UINT64_MAX
 #define CGRAPH_UINT64_EPS __CGRAPH_UINT64_EPS
 #define CGRAPH_UINT64_BIT (64)
 #if CGRAPH_WORDSIZE == 64
 typedef signed long cgraph_int64_t;
 typedef unsigned long cgraph_uint64_t;
-#elif CGRAPH_WORDSIZE == 32
+#else
 typedef __CGRAPH_INT64 cgraph_int64_t;
 typedef __CGRAPH_UINT64 cgraph_uint64_t;
 #endif /**< CGRAPH_WORDSIZE */

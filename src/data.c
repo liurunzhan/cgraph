@@ -1,6 +1,6 @@
 #include "cgraph_data.h"
 
-cgraph_string_t *cgraph_bigint_2string(const cgraph_bigint_t *cthis)
+cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis)
 {
     cgraph_string_t *str = NULL;
     if (NULL != cthis) {
@@ -22,7 +22,7 @@ cgraph_string_t *cgraph_bigint_2string(const cgraph_bigint_t *cthis)
     return str;
 }
 
-cgraph_bigint_t *cgraph_bigint_string2(const cgraph_string_t *cthis)
+cgraph_bigint_t *cgraph_string_to_bigint(const cgraph_string_t *cthis)
 {
     cgraph_size_t len = '-' == cthis->data[0] ? (cthis->len - 1) : cthis->len;
     cgraph_bigint_t *object = cgraph_bigint_calloc(1, len);

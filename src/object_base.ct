@@ -10,7 +10,7 @@ CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {&STRUCT(NAME),
                                          &STRUCT(int8),
                                          &STRUCT(int16),
                                          &STRUCT(int32),
-                                         NULL, /* &STRUCT(int64), */
+                                         &STRUCT(int64),
                                          &STRUCT(float32),
                                          &STRUCT(float64),
                                          &STRUCT(time),
@@ -183,7 +183,22 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
     return hash;
 }
 
-TYPE *FUNCTION(NAME, chtype)(TYPE *cthis, const cgraph_type_t type,
+CGRAPH_INLINE cgraph_type_t FUNCTION(NAME, obj_type)(const TYPE *cthis)
+{
+    return (NULL != cthis) ? CGRAPH_DTYPE_KTYPE(cthis) : 0;
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, obj_accessiable)(const TYPE *cthis)
+{
+    return (NULL != cthis) ? CGRAPH_DTYPE_KACCESSIABLE(cthis) : 0;
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, obj_hashed)(const TYPE *cthis)
+{
+    return (NULL != cthis) ? CGRAPH_DTYPE_KHASHED(cthis) : 0;
+}
+
+TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
                              const cgraph_size_t size)
 {
     cgraph_type_t _type = type;
@@ -212,20 +227,11 @@ TYPE *FUNCTION(NAME, chtype)(TYPE *cthis, const cgraph_type_t type,
     return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, visit)(TYPE *cthis)
-{
-    return FUNCTION(NAME, accessible)(cthis);
-}
-
-CGRAPH_INLINE TYPE *FUNCTION(NAME, delete)(TYPE *cthis)
-{
-    return FUNCTION(NAME, unaccessible)(cthis);
-}
-
 CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis)
 {
-    if (NULL != cthis) {
-        CGRAPH_DTYPE_ACCESSIABLE(cthis) = CGRAPH_TRUE;
+    if(NULL != cthis)
+    {
+        CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_TRUE;
     }
 
     return cthis;
@@ -233,26 +239,9 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unaccessible)(TYPE *cthis)
 {
-    if (NULL != cthis) {
-        CGRAPH_DTYPE_ACCESSIABLE(cthis) = CGRAPH_FALSE;
-    }
-
-    return cthis;
-}
-
-TYPE *FUNCTION(NAME, hashed)(TYPE *cthis)
-{
-    if (NULL != cthis) {
-        CGRAPH_DTYPE_HASHED(cthis) = CGRAPH_TRUE;
-    }
-
-    return cthis;
-}
-
-TYPE *FUNCTION(NAME, unhashed)(TYPE *cthis)
-{
-    if (NULL != cthis) {
-        CGRAPH_DTYPE_HASHED(cthis) = CGRAPH_FALSE;
+    if(NULL != cthis)
+    {
+        CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_FALSE;
     }
 
     return cthis;

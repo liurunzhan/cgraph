@@ -75,13 +75,13 @@ extern "C" {
 #if defined(__GNUC__) || defined(__clang__)
 #define CGRAPH_INLINE       __extension__ __inline__
 __extension__ typedef signed long long __CGRAPH_INT64;
-#define __CGRAPH_INT64_MIN  (__extension__ - 9223372036854775808LL)
-#define __CGRAPH_INT64_MAX  (__extension__ 9223372036854775807LL)
-#define __CGRAPH_INT64_EPS  (__extension__ 0xFFFFFFFFFFFFFFFFLL)
+#define __CGRAPH_INT64_MIN  __extension__(-9223372036854775808LL)
+#define __CGRAPH_INT64_MAX  __extension__(9223372036854775807LL)
+#define __CGRAPH_INT64_EPS  __extension__(0xFFFFFFFFFFFFFFFFLL)
 __extension__ typedef unsigned long long __CGRAPH_UINT64;
-#define __CGRAPH_UINT64_MIN (__extension__ 0LL)
-#define __CGRAPH_UINT64_MAX (__extension__ 1844674407370955161ULL)
-#define __CGRAPH_UINT64_EPS (__extension__ 0xFFFFFFFFFFFFFFFFLL)
+#define __CGRAPH_UINT64_MIN __extension__(0LL)
+#define __CGRAPH_UINT64_MAX __extension__(1844674407370955161ULL)
+#define __CGRAPH_UINT64_EPS __extension__(0xFFFFFFFFFFFFFFFFLL)
 #elif defined(_MSC_VER)
 #define CGRAPH_INLINE       __inline
 typedef signed __int64 __CGRAPH_INT64;

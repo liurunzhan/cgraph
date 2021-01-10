@@ -17,10 +17,6 @@ typedef struct {
 
 #include "data_base.ht"
 
-/**                        string operation function                          */
-
-/**                      string mathematical functions                        */
-
 /**                          string hash functions                            */
 extern cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis);

@@ -1,11 +1,11 @@
 #include "data_base.ht"
 
-extern TYPE *FUNCTION(NAME, chtype)(TYPE *cthis, const cgraph_type_t type,
-                                    const cgraph_size_t size);
-extern TYPE *FUNCTION(NAME, visit)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, delete)(TYPE *cthis);
+extern cgraph_type_t FUNCTION(NAME, obj_type)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, obj_accessiable)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, obj_hashed)(const TYPE *cthis);
 
+extern TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
+                                    const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, accessible)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unaccessible)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, hashed)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unhashed)(TYPE *cthis);
+

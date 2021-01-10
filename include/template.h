@@ -808,27 +808,37 @@
 
 #elif defined(TYPE_TIME)
 
-#define EQ(a, b) FUNCTION(NAME, eq) \
-((a), (b))
-#define NE(a, b) FUNCTION(NAME, ne) \
-((a), (b))
-#define GR(a, b) FUNCTION(NAME, gr) \
-((a), (b))
-#define GE(a, b) FUNCTION(NAME, ge) \
-((a), (b))
-#define LS(a, b) FUNCTION(NAME, ls) \
-((a), (b))
-#define LE(a, b) FUNCTION(NAME, le) \
-((a), (b))
+#define EQ(a, b)       \
+    FUNCTION(NAME, eq) \
+    ((a), (b))
+#define NE(a, b)       \
+    FUNCTION(NAME, ne) \
+    ((a), (b))
+#define GR(a, b)       \
+    FUNCTION(NAME, gr) \
+    ((a), (b))
+#define GE(a, b)       \
+    FUNCTION(NAME, ge) \
+    ((a), (b))
+#define LS(a, b)       \
+    FUNCTION(NAME, ls) \
+    ((a), (b))
+#define LE(a, b)       \
+    FUNCTION(NAME, le) \
+    ((a), (b))
 
-#define ADD(a, b, c) FUNCTION(NAME, add1t) \
-((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, sub1t) \
-((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mul1t) \
-((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, div1t) \
-((a), (b))
+#define ADD(a, b, c)      \
+    FUNCTION(NAME, add1t) \
+    ((a), (b))
+#define SUB(a, b, c)      \
+    FUNCTION(NAME, sub1t) \
+    ((a), (b))
+#define MUL(a, b, c)      \
+    FUNCTION(NAME, mul1t) \
+    ((a), (b))
+#define DIV(a, b, c)      \
+    FUNCTION(NAME, div1t) \
+    ((a), (b))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
@@ -852,14 +862,18 @@
 #define DATA_ISNEG(a)  LS((a), 0.0)
 #endif /**CGRAPH_STDC_VERSION */
 
-#define ADD(a, b, c) FUNCTION(NAME, addc) \
-((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, subc) \
-((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mulc) \
-((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, divc) \
-((a), (b))
+#define ADD(a, b, c)     \
+    FUNCTION(NAME, addc) \
+    ((a), (b))
+#define SUB(a, b, c)     \
+    FUNCTION(NAME, subc) \
+    ((a), (b))
+#define MUL(a, b, c)     \
+    FUNCTION(NAME, mulc) \
+    ((a), (b))
+#define DIV(a, b, c)     \
+    FUNCTION(NAME, divc) \
+    ((a), (b))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
@@ -889,14 +903,18 @@
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))
 
-#define ADD(a, b, c) FUNCTION(NAME, addf) \
-((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, subf) \
-((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mulf) \
-((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, divf) \
-((a), (b))
+#define ADD(a, b, c)     \
+    FUNCTION(NAME, addf) \
+    ((a), (b))
+#define SUB(a, b, c)     \
+    FUNCTION(NAME, subf) \
+    ((a), (b))
+#define MUL(a, b, c)     \
+    FUNCTION(NAME, mulf) \
+    ((a), (b))
+#define DIV(a, b, c)     \
+    FUNCTION(NAME, divf) \
+    ((a), (b))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
@@ -927,33 +945,44 @@
 
 #elif defined(TYPE_BIGINT)
 
-#define ADD(a, b, c) FUNCTION(NAME, add) \
-((a), (b), (c))
-#define SUB(a, b, c) FUNCTION(NAME, sub) \
-((a), (b), (c))
-#define MUL(a, b, c) FUNCTION(NAME, mul) \
-((a), (b), (c))
-#define DIV(a, b, c) FUNCTION(NAME, div) \
-((a), (b), (c))
+#define ADD(a, b, c)    \
+    FUNCTION(NAME, add) \
+    ((a), (b), (c))
+#define SUB(a, b, c)    \
+    FUNCTION(NAME, sub) \
+    ((a), (b), (c))
+#define MUL(a, b, c)    \
+    FUNCTION(NAME, mul) \
+    ((a), (b), (c))
+#define DIV(a, b, c)    \
+    FUNCTION(NAME, div) \
+    ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b) FUNCTION(NAME, eq) \
-((a), (b))
-#define NE(a, b) FUNCTION(NAME, ne) \
-((a), (b))
-#define GR(a, b) FUNCTION(NAME, gr) \
-((a), (b))
-#define GE(a, b) FUNCTION(NAME, ge) \
-((a), (b))
-#define LS(a, b) FUNCTION(NAME, ls) \
-((a), (b))
-#define LE(a, b) FUNCTION(NAME, le) \
-((a), (b))
+#define EQ(a, b)       \
+    FUNCTION(NAME, eq) \
+    ((a), (b))
+#define NE(a, b)       \
+    FUNCTION(NAME, ne) \
+    ((a), (b))
+#define GR(a, b)       \
+    FUNCTION(NAME, gr) \
+    ((a), (b))
+#define GE(a, b)       \
+    FUNCTION(NAME, ge) \
+    ((a), (b))
+#define LS(a, b)       \
+    FUNCTION(NAME, ls) \
+    ((a), (b))
+#define LE(a, b)       \
+    FUNCTION(NAME, le) \
+    ((a), (b))
 
-#define ABS(a) FUNCTION(NAME, abs) \
-((a))
+#define ABS(a)          \
+    FUNCTION(NAME, abs) \
+    ((a))
 #define EXCHANGE(a, b) \
     do {               \
         TYPE *tmp;     \
@@ -964,33 +993,44 @@
 
 #elif defined(TYPE_BIGNUM)
 
-#define ADD(a, b, c) FUNCTION(NAME, add) \
-((a), (b), (c))
-#define SUB(a, b, c) FUNCTION(NAME, sub) \
-((a), (b), (c))
-#define MUL(a, b, c) FUNCTION(NAME, mul) \
-((a), (b), (c))
-#define DIV(a, b, c) FUNCTION(NAME, div) \
-((a), (b), (c))
+#define ADD(a, b, c)    \
+    FUNCTION(NAME, add) \
+    ((a), (b), (c))
+#define SUB(a, b, c)    \
+    FUNCTION(NAME, sub) \
+    ((a), (b), (c))
+#define MUL(a, b, c)    \
+    FUNCTION(NAME, mul) \
+    ((a), (b), (c))
+#define DIV(a, b, c)    \
+    FUNCTION(NAME, div) \
+    ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b) FUNCTION(NAME, eq) \
-((a), (b))
-#define NE(a, b) FUNCTION(NAME, ne) \
-((a), (b))
-#define GR(a, b) FUNCTION(NAME, gr) \
-((a), (b))
-#define GE(a, b) FUNCTION(NAME, ge) \
-((a), (b))
-#define LS(a, b) FUNCTION(NAME, ls) \
-((a), (b))
-#define LE(a, b) FUNCTION(NAME, le) \
-((a), (b))
+#define EQ(a, b)       \
+    FUNCTION(NAME, eq) \
+    ((a), (b))
+#define NE(a, b)       \
+    FUNCTION(NAME, ne) \
+    ((a), (b))
+#define GR(a, b)       \
+    FUNCTION(NAME, gr) \
+    ((a), (b))
+#define GE(a, b)       \
+    FUNCTION(NAME, ge) \
+    ((a), (b))
+#define LS(a, b)       \
+    FUNCTION(NAME, ls) \
+    ((a), (b))
+#define LE(a, b)       \
+    FUNCTION(NAME, le) \
+    ((a), (b))
 
-#define ABS(a) FUNCTION(NAME, abs) \
-((a))
+#define ABS(a)          \
+    FUNCTION(NAME, abs) \
+    ((a))
 #define EXCHANGE(a, b) \
     do {               \
         TYPE *tmp;     \
@@ -1001,30 +1041,40 @@
 
 #elif defined(TYPE_STRING)
 
-#define ADD(a, b, c) FUNCTION(NAME, add) \
-((a), (b), (c))
-#define SUB(a, b, c) FUNCTION(NAME, sub) \
-((a), (b), (c))
-#define MUL(a, b, c) FUNCTION(NAME, mul) \
-((a), (b), (c))
-#define DIV(a, b, c) FUNCTION(NAME, div) \
-((a), (b), (c))
+#define ADD(a, b, c)    \
+    FUNCTION(NAME, add) \
+    ((a), (b), (c))
+#define SUB(a, b, c)    \
+    FUNCTION(NAME, sub) \
+    ((a), (b), (c))
+#define MUL(a, b, c)    \
+    FUNCTION(NAME, mul) \
+    ((a), (b), (c))
+#define DIV(a, b, c)    \
+    FUNCTION(NAME, div) \
+    ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b) FUNCTION(NAME, eq) \
-((a), (b))
-#define NE(a, b) FUNCTION(NAME, ne) \
-((a), (b))
-#define GR(a, b) FUNCTION(NAME, gr) \
-((a), (b))
-#define GE(a, b) FUNCTION(NAME, ge) \
-((a), (b))
-#define LS(a, b) FUNCTION(NAME, ls) \
-((a), (b))
-#define LE(a, b) FUNCTION(NAME, le) \
-((a), (b))
+#define EQ(a, b)       \
+    FUNCTION(NAME, eq) \
+    ((a), (b))
+#define NE(a, b)       \
+    FUNCTION(NAME, ne) \
+    ((a), (b))
+#define GR(a, b)       \
+    FUNCTION(NAME, gr) \
+    ((a), (b))
+#define GE(a, b)       \
+    FUNCTION(NAME, ge) \
+    ((a), (b))
+#define LS(a, b)       \
+    FUNCTION(NAME, ls) \
+    ((a), (b))
+#define LE(a, b)       \
+    FUNCTION(NAME, le) \
+    ((a), (b))
 
 #define ABS(a) ((a))
 #define EXCHANGE(a, b) \
@@ -1037,30 +1087,40 @@
 
 #elif defined(TYPE_BITSET)
 
-#define ADD(a, b, c) FUNCTION(NAME, add) \
-((a), (b), (c))
-#define SUB(a, b, c) FUNCTION(NAME, sub) \
-((a), (b), (c))
-#define MUL(a, b, c) FUNCTION(NAME, mul) \
-((a), (b), (c))
-#define DIV(a, b, c) FUNCTION(NAME, div) \
-((a), (b), (c))
+#define ADD(a, b, c)    \
+    FUNCTION(NAME, add) \
+    ((a), (b), (c))
+#define SUB(a, b, c)    \
+    FUNCTION(NAME, sub) \
+    ((a), (b), (c))
+#define MUL(a, b, c)    \
+    FUNCTION(NAME, mul) \
+    ((a), (b), (c))
+#define DIV(a, b, c)    \
+    FUNCTION(NAME, div) \
+    ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b) FUNCTION(NAME, eq) \
-((a), (b))
-#define NE(a, b) FUNCTION(NAME, ne) \
-((a), (b))
-#define GR(a, b) FUNCTION(NAME, gr) \
-((a), (b))
-#define GE(a, b) FUNCTION(NAME, ge) \
-((a), (b))
-#define LS(a, b) FUNCTION(NAME, ls) \
-((a), (b))
-#define LE(a, b) FUNCTION(NAME, le) \
-((a), (b))
+#define EQ(a, b)       \
+    FUNCTION(NAME, eq) \
+    ((a), (b))
+#define NE(a, b)       \
+    FUNCTION(NAME, ne) \
+    ((a), (b))
+#define GR(a, b)       \
+    FUNCTION(NAME, gr) \
+    ((a), (b))
+#define GE(a, b)       \
+    FUNCTION(NAME, ge) \
+    ((a), (b))
+#define LS(a, b)       \
+    FUNCTION(NAME, ls) \
+    ((a), (b))
+#define LE(a, b)       \
+    FUNCTION(NAME, le) \
+    ((a), (b))
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || \
     defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) ||       \
