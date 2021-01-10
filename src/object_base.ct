@@ -38,7 +38,7 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
         CGRAPH_DTYPE_TYPE(_cthis) = type;
         CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_TRUE;
         CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE;
-#elif defined(TYPE_HOBJECT)
+#elif defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT)
         CGRAPH_DTYPE_KTYPE(_cthis) = type;
         CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_TRUE;
         CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE;
@@ -199,7 +199,7 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, obj_hashed)(const TYPE *cthis)
 }
 
 TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
-                             const cgraph_size_t size)
+                              const cgraph_size_t size)
 {
     cgraph_type_t _type = type;
     void *_data = NULL;
@@ -229,8 +229,7 @@ TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_TRUE;
     }
 
@@ -239,8 +238,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unaccessible)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_FALSE;
     }
 

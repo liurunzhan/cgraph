@@ -263,7 +263,7 @@ TYPE *FUNCTION(NAME, xnor)(const TYPE *x, const TYPE *y, TYPE *z)
     return z;
 }
 
-TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y)
+TYPE *FUNCTION(NAME, not)(const TYPE *x, TYPE *y)
 {
     cgraph_size_t len = x->len;
     cgraph_bool_t error = CGRAPH_FALSE;

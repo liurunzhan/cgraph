@@ -5,7 +5,6 @@ extern cgraph_bool_t FUNCTION(NAME, obj_accessiable)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, obj_hashed)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
-                                    const cgraph_size_t size);
+                                     const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, accessible)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unaccessible)(TYPE *cthis);
-

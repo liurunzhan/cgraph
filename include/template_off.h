@@ -52,6 +52,10 @@
 #undef TYPE_HOBJECT
 #endif
 
+#ifdef TYPE_GOBJECT
+#undef TYPE_GOBJECT
+#endif
+
 #ifdef TYPE_POBJECT
 #undef TYPE_POBJECT
 #endif

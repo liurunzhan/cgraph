@@ -12,8 +12,7 @@
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, kaccessible)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_TRUE;
         CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_TRUE;
     }
@@ -23,8 +22,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, kaccessible)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unkaccessible)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_FALSE;
         CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_FALSE;
     }
@@ -34,8 +32,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unkaccessible)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, khashed)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_KHASHED(cthis) = CGRAPH_TRUE;
     }
 
@@ -44,8 +41,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, khashed)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_KHASHED(cthis) = CGRAPH_FALSE;
     }
 
@@ -54,8 +50,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, vaccessible)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_TRUE;
     }
 
@@ -64,8 +59,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, vaccessible)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unvaccessible)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_FALSE;
     }
 
@@ -74,8 +68,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unvaccessible)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, vhashed)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_VHASHED(cthis) = CGRAPH_TRUE;
     }
 
@@ -84,8 +77,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, vhashed)(TYPE *cthis)
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis)
 {
-    if(NULL != cthis)
-    {
+    if (NULL != cthis) {
         CGRAPH_DTYPE_VHASHED(cthis) = CGRAPH_FALSE;
     }
 
