@@ -322,8 +322,9 @@ typedef enum {
     CGRAPH_OBJECT_T = 0,    /**< TYPE  0 : CGRAPH_OBJECT_T   */
     CGRAPH_HOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_HOBJECT_T  */
     CGRAPH_GOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_GOBJECT_T  */
+    CGRAPH_M3OBJECT_T = 0,  /**< TYPE  0 : CGRAPH_M3OBJECT_T  */
+    CGRAPH_MOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_MOBJECT_T  */
     CGRAPH_POBJECT_T = 0,   /**< TYPE  0 : CGRAPH_POBJECT_T  */
-    CGRAPH_SOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_SOBJECT_T  */
     CGRAPH_BOOL_T = 1,      /**< TYPE  1 : CGRAPH_BOOL_T     */
     CGRAPH_INT_T = 2,       /**< TYPE  2 : CGRAPH_INT_T      */
     CGRAPH_LONG_T = 3,      /**< TYPE  3 : CGRAPH_LONG_T     */
@@ -378,12 +379,12 @@ typedef enum {
 typedef struct {
     /**  key data type */
     cgraph_uint_t k_type : 6;
-    cgraph_uint_t k_accessible : 1;
-    cgraph_uint_t k_hashed : 1;
+    cgraph_uint_t k_access : 1;
+    cgraph_uint_t k_hash : 1;
     /**  value data type */
     cgraph_uint_t v_type : 6;
-    cgraph_uint_t v_accessible : 1;
-    cgraph_uint_t v_hashed : 1;
+    cgraph_uint_t v_access : 1;
+    cgraph_uint_t v_hash : 1;
     /** unused space for extertions */
     cgraph_uint_t : 8;
     /**  graph type */
@@ -396,21 +397,21 @@ typedef struct {
     cgraph_uint_t : 2;
 } cgraph_element_t;
 
-#define CGRAPH_DTYPE_KTYPE(a)        ((a)->element.k_type)
-#define CGRAPH_DTYPE_KACCESSIABLE(a) ((a)->element.k_accessible)
-#define CGRAPH_DTYPE_KHASHED(a)      ((a)->element.k_hashed)
+#define CGRAPH_DTYPE_KTYPE(a)   ((a)->element.k_type)
+#define CGRAPH_DTYPE_KACCESS(a) ((a)->element.k_access)
+#define CGRAPH_DTYPE_KHASHED(a) ((a)->element.k_hash)
 
-#define CGRAPH_DTYPE_VTYPE(a)        ((a)->element.v_type)
-#define CGRAPH_DTYPE_VACCESSIABLE(a) ((a)->element.v_accessible)
-#define CGRAPH_DTYPE_VHASHED(a)      ((a)->element.v_hashed)
+#define CGRAPH_DTYPE_VTYPE(a)   ((a)->element.v_type)
+#define CGRAPH_DTYPE_VACCESS(a) ((a)->element.v_access)
+#define CGRAPH_DTYPE_VHASHED(a) ((a)->element.v_hash)
 
-#define CGRAPH_DTYPE_TYPE(a)        CGRAPH_DTYPE_KTYPE(a)
-#define CGRAPH_DTYPE_ACCESSIABLE(a) CGRAPH_DTYPE_KACCESSIABLE(a)
-#define CGRAPH_DTYPE_HASHED(a)      CGRAPH_DTYPE_KHASHED(a)
+#define CGRAPH_DTYPE_TYPE(a)   CGRAPH_DTYPE_KTYPE(a)
+#define CGRAPH_DTYPE_ACCESS(a) CGRAPH_DTYPE_KACCESS(a)
+#define CGRAPH_DTYPE_HASHED(a) CGRAPH_DTYPE_KHASHED(a)
 
 #define CGRAPH_GTYPE_GKEYISID(a)  ((a)->element.g_keyisid)
-#define CGRAPH_GTYPE_DIRECTED(a)  ((a)->element.g_directed)
-#define CGRAPH_GTYPE_WEIGHTED(a)  ((a)->element.g_weighted)
+#define CGRAPH_GTYPE_GDIRECTED(a) ((a)->element.g_directed)
+#define CGRAPH_GTYPE_GWEIGHTED(a) ((a)->element.g_weighted)
 #define CGRAPH_GTYPE_GMULTIPLE(a) ((a)->element.g_multiple)
 #define CGRAPH_GTYPE_GHYPER(a)    ((a)->element.g_hyper)
 #define CGRAPH_GTYPE_GDYNAMIC(a)  ((a)->element.g_dynamic)

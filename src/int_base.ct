@@ -80,7 +80,7 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y)
     return CGRAPH_OR(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, not)(const TYPE x) { return CGRAPH_NOT(x); }
+CGRAPH_INLINE TYPE FUNCTION(NAME, not )(const TYPE x) { return CGRAPH_NOT(x); }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y)
 {

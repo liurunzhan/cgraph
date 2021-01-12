@@ -8,10 +8,15 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
     TYPE *_cthis = (TYPE *)cthis;
     if (NULL != _cthis) {
         CGRAPH_DTYPE_TYPE(_cthis) = type;
+        _cthis->len = len;
         _cthis->size = size;
-#if defined(TYPE_MATRIX) || defined(TYPE_BIGMAT)
-        _cthis->row = _cthis->row == 0 ? 1 : _cthis->row;
-        _cthis->column = _cthis->column == 0 ? 1 : _cthis->column;
+#if defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_SPAMAT)
+        _cthis->row = len;
+        _cthis->column = (0 == _cthis->column ? 1 : _cthis->column);
+#elif defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D)
+        _cthis->x = len;
+        _cthis->y = (0 == _cthis->y ? 1 : _cthis->y);
+        _cthis->z = (0 == _cthis->z ? 1 : _cthis->z);
 #endif
         _cthis->root =
             (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis, FUNCTION(NAME, tsize)());

@@ -6,14 +6,14 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include "cgraph_sobject.h"
+#include "cgraph_mobject.h"
 
 #define TYPE_SPAMAT
 #include "template.h"
 
 typedef struct {
     CGRAPH_STRUCTURE_BASE
-    cgraph_size_t row, column;
+    CGRAPH_MATRIX_INDEXES
     CGRAPH_STRUCTURE_ROOT
 } cgraph_spamat_t;
 

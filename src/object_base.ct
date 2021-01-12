@@ -34,15 +34,15 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
 {
     TYPE *_cthis = (TYPE *)cthis;
     if (NULL != _cthis) {
-#if defined(TYPE_OBJECT) || defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
+#if defined(TYPE_OBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || defined(TYPE_POBJECT)
         CGRAPH_DTYPE_TYPE(_cthis) = type;
-        CGRAPH_DTYPE_ACCESSIABLE(_cthis) = CGRAPH_TRUE;
+        CGRAPH_DTYPE_ACCESS(_cthis) = CGRAPH_TRUE;
         CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE;
 #elif defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT)
         CGRAPH_DTYPE_KTYPE(_cthis) = type;
-        CGRAPH_DTYPE_KACCESSIABLE(_cthis) = CGRAPH_TRUE;
+        CGRAPH_DTYPE_KACCESS(_cthis) = CGRAPH_TRUE;
         CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE;
-        CGRAPH_DTYPE_VACCESSIABLE(_cthis) = CGRAPH_TRUE;
+        CGRAPH_DTYPE_VACCESS(_cthis) = CGRAPH_TRUE;
 #else
 #error !! unsupported object type !!
 #endif
@@ -185,17 +185,17 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 
 CGRAPH_INLINE cgraph_type_t FUNCTION(NAME, obj_type)(const TYPE *cthis)
 {
-    return (NULL != cthis) ? CGRAPH_DTYPE_KTYPE(cthis) : 0;
+    return (NULL != cthis) ? CGRAPH_DTYPE_KTYPE(cthis) : CGRAPH_FALSE;
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, obj_accessiable)(const TYPE *cthis)
 {
-    return (NULL != cthis) ? CGRAPH_DTYPE_KACCESSIABLE(cthis) : 0;
+    return (NULL != cthis) ? CGRAPH_DTYPE_KACCESS(cthis) : CGRAPH_FALSE;
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, obj_hashed)(const TYPE *cthis)
 {
-    return (NULL != cthis) ? CGRAPH_DTYPE_KHASHED(cthis) : 0;
+    return (NULL != cthis) ? CGRAPH_DTYPE_KHASHED(cthis) : CGRAPH_FALSE;
 }
 
 TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
@@ -230,7 +230,7 @@ TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
 CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis)
 {
     if (NULL != cthis) {
-        CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_TRUE;
+        CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_TRUE;
     }
 
     return cthis;
@@ -239,7 +239,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis)
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unaccessible)(TYPE *cthis)
 {
     if (NULL != cthis) {
-        CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_FALSE;
+        CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_FALSE;
     }
 
     return cthis;

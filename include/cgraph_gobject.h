@@ -6,7 +6,13 @@ extern "C" {
 #endif
 
 #if !(defined(_CGRAPH_H_) || defined(_CGRAPH_STRUCT_H_)) && defined(OBJECT)
-#error <cgraph_hobject.h> can not be included in the same file together with <cgraph_object.h>, <cgraph_hobject.h>, <cgraph_pobject.h> or <cgraph_sobject.h> except in <cgraph.h> and <cgraph_struct.h>
+#error <cgraph_hobject.h> can not be included in the same file together with \
+<cgraph_object.h>, \
+<cgraph_hobject.h>, \
+<cgraph_pobject.h>, \
+<cgraph_mobject.h> or \
+<cgraph_m3object.h>, \
+except in <cgraph.h> and <cgraph_struct.h>
 #endif
 
 #include "cgraph_config.h"
@@ -28,6 +34,13 @@ typedef struct {
 } cgraph_gobject_t;
 
 #include "object_base.ht"
+
+extern cgraph_bool_t FUNCTION(NAME, keyisid)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, directed)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, weighted)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, multiple)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, hyper)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, dynamic)(const TYPE *cthis);
 
 #include "template_off.h"
 

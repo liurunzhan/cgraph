@@ -77,6 +77,28 @@
 
 #define OBJECT(type, opt) CGRAPH_GOBJECT(type, opt)
 
+#elif defined(TYPE_M3OBJECT)
+#define TYPE       cgraph_m3object_t
+#define ID         CGRAPH_M3OBJECT_T
+#define NAME       m3object
+#define OUT_FORMAT "ld"
+#define ZERO       NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
+
+#elif defined(TYPE_MOBJECT)
+#define TYPE       cgraph_mobject_t
+#define ID         CGRAPH_MOBJECT_T
+#define NAME       mobject
+#define OUT_FORMAT "ld"
+#define ZERO       NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#define OBJECT(type, opt) CGRAPH_MOBJECT(type, opt)
+
 #elif defined(TYPE_POBJECT)
 #define TYPE       cgraph_pobject_t
 #define ID         CGRAPH_POBJECT_T
@@ -87,17 +109,6 @@
 #define DATA_TYPE cgraph_stl_t
 
 #define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
-
-#elif defined(TYPE_SOBJECT)
-#define TYPE       cgraph_sobject_t
-#define ID         CGRAPH_SOBJECT_T
-#define NAME       sobject
-#define OUT_FORMAT "ld"
-#define ZERO       NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
-
-#define OBJECT(type, opt) CGRAPH_SOBJECT(type, opt)
 
 #elif defined(TYPE_BOOL)
 #define ARG         cgraph_long_t
@@ -505,6 +516,54 @@
 #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
 #endif
 
+#elif defined(TYPE_SPAMAT)
+#define TYPE cgraph_spamat_t
+#define ID   CGRAPH_SPAMAT_T
+#define NAME spamat
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#if defined(CGRAPH_MOBJECT)
+#define OBJECT(type, opt) CGRAPH_MOBJECT(type, opt)
+#endif
+
+#elif defined(TYPE_MATRIX3D)
+#define TYPE cgraph_matrix3d_t
+#define ID   CGRAPH_MATRIX3D_T
+#define NAME matrix3d
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#if defined(CGRAPH_OBJECT)
+#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
+#endif
+
+#elif defined(TYPE_BIGMAT3D)
+#define TYPE cgraph_bigmat3d_t
+#define ID   CGRAPH_BIGMAT3D_T
+#define NAME bigmat3d
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#if defined(CGRAPH_OBJECT)
+#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
+#endif
+
+#elif defined(TYPE_SPAMAT3D)
+#define TYPE cgraph_spamat3d_t
+#define ID   CGRAPH_SPAMAT3D_T
+#define NAME spamat3d
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#if defined(CGRAPH_M3OBJECT)
+#define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
+#endif
+
 #elif defined(TYPE_DFRAME)
 #define TYPE cgraph_dframe_t
 #define ID   CGRAPH_DFRAME_T
@@ -611,10 +670,15 @@
 
 #define CGRAPH_STRUCTURE_BASE \
     CGRAPH_DATA_BASE          \
-    cgraph_size_t msize;      \
     cgraph_element_t element;
 
 #define CGRAPH_STRUCTURE_ROOT DATA_TYPE data, root;
+
+#define CGRAPH_MATRIX_INDEXES \
+    cgraph_size_t row, column;
+
+#define CGRAPH_MATRIX3D_INDEXES \
+    cgraph_size_t index_i, index_j, index_k;
 
 /**copyed memory size without pointer memory size */
 #ifndef TYPE_WITH_DATA
@@ -633,8 +697,7 @@
 #define COPY_SIZE (sizeof(TYPE) - 2 * sizeof(DATA_TYPE *))
 #endif
 
-#if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT) || \
-    defined(TYPE_POBJECT) || defined(TYPE_SOBJECT)
+#if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || defined(TYPE_POBJECT)
 
 #define ADD(a, b, c)  __CGRAPH_UNDEFINED
 #define SUB(a, b, c)  __CGRAPH_UNDEFINED
@@ -1122,10 +1185,7 @@
     FUNCTION(NAME, le) \
     ((a), (b))
 
-#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || \
-    defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) ||       \
-    defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) ||         \
-    defined(TYPE_STACK)
+#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) || defined(TYPE_STACK)
 
 #define ADD(a, b, c)  __CGRAPH_UNDEFINED
 #define SUB(a, b, c)  __CGRAPH_UNDEFINED

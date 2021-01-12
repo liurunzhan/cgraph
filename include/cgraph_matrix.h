@@ -11,7 +11,7 @@ extern "C" {
 #include "template.h"
 typedef struct {
     CGRAPH_STRUCTURE_BASE
-    cgraph_size_t row, column;
+    CGRAPH_MATRIX_INDEXES
     CGRAPH_STRUCTURE_ROOT
 } cgraph_matrix_t;
 

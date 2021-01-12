@@ -13,8 +13,8 @@
 CGRAPH_INLINE TYPE *FUNCTION(NAME, kaccessible)(TYPE *cthis)
 {
     if (NULL != cthis) {
-        CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_TRUE;
-        CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_TRUE;
+        CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_TRUE;
+        CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_TRUE;
     }
 
     return cthis;
@@ -23,8 +23,8 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, kaccessible)(TYPE *cthis)
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unkaccessible)(TYPE *cthis)
 {
     if (NULL != cthis) {
-        CGRAPH_DTYPE_KACCESSIABLE(cthis) = CGRAPH_FALSE;
-        CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_FALSE;
+        CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_FALSE;
+        CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_FALSE;
     }
 
     return cthis;
@@ -51,7 +51,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis)
 CGRAPH_INLINE TYPE *FUNCTION(NAME, vaccessible)(TYPE *cthis)
 {
     if (NULL != cthis) {
-        CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_TRUE;
+        CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_TRUE;
     }
 
     return cthis;
@@ -60,7 +60,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, vaccessible)(TYPE *cthis)
 CGRAPH_INLINE TYPE *FUNCTION(NAME, unvaccessible)(TYPE *cthis)
 {
     if (NULL != cthis) {
-        CGRAPH_DTYPE_VACCESSIABLE(cthis) = CGRAPH_FALSE;
+        CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_FALSE;
     }
 
     return cthis;

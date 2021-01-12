@@ -56,12 +56,16 @@
 #undef TYPE_GOBJECT
 #endif
 
-#ifdef TYPE_POBJECT
-#undef TYPE_POBJECT
+#ifdef TYPE_MOBJECT
+#undef TYPE_MOBJECT
 #endif
 
-#ifdef TYPE_SOBJECT
-#undef TYPE_SOBJECT
+#ifdef TYPE_M3OBJECT
+#undef TYPE_M3OBJECT
+#endif
+
+#ifdef TYPE_POBJECT
+#undef TYPE_POBJECT
 #endif
 
 #ifdef TYPE_INT
@@ -138,8 +142,24 @@
 #undef TYPE_MATRIX
 #endif
 
+#ifdef TYPE_SPAMAT
+#undef TYPE_SPAMAT
+#endif
+
+#ifdef TYPE_MATRIX3D
+#undef TYPE_MATRIX3D
+#endif
+
 #ifdef TYPE_BIGMAT
 #undef TYPE_BIGMAT
+#endif
+
+#ifdef TYPE_BIGMAT3
+#undef TYPE_BIGMAT3
+#endif
+
+#ifdef TYPE_SPAMAT3D
+#undef TYPE_SPAMAT3D
 #endif
 
 #ifdef TYPE_DFRAME

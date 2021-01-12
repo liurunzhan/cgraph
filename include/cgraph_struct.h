@@ -10,10 +10,19 @@ extern "C" {
   --> vector
   --> matrix
   --> bigmat
+  --> spamat
+  --> matrix3d
+  --> bigmat3d
+  --> spamat3d
 */
 #include "cgraph_bigmat.h"
 #include "cgraph_matrix.h"
 #include "cgraph_vector.h"
+#include "cgraph_spamat.h"
+
+#include "cgraph_bigmat3d.h"
+#include "cgraph_matrix3d.h"
+#include "cgraph_spamat3d.h"
 
 /*
   structure with multiple index:
