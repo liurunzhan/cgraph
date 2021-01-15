@@ -345,13 +345,17 @@ typedef enum {
     CGRAPH_STRING_T = 16,   /**< TYPE 16 : CGRAPH_STRING_T   */
     CGRAPH_VECTOR_T = 17,   /**< TYPE 17 : CGRAPH_VECTOR_T   */
     CGRAPH_MATRIX_T = 18,   /**< TYPE 18 : CGRAPH_MATRIX_T   */
-    CGRAPH_BIGMAT_T = 19,   /**< TYPE 19 : CGRAPH_BIGMAT_T   */
-    CGRAPH_DFRAME_T = 20,   /**< TYPE 20 : CGRAPH_DFRAME_T   */
-    CGRAPH_DICT_T = 21,     /**< TYPE 21 : CGRAPH_DICT_T     */
-    CGRAPH_LIST_T = 22,     /**< TYPE 22 : CGRAPH_LIST_T     */
-    CGRAPH_TREE_T = 23,     /**< TYPE 23 : CGRAPH_TREE_T     */
-    CGRAPH_SET_T = 24,      /**< TYPE 24 : CGRAPH_SET_T      */
-    CGRAPH_NULL_T = 25      /**< TYPE 25 : CGRAPH_NULL_T     */
+    CGRAPH_MATRIX3D_T = 19, /**< TYPE 18 : CGRAPH_MATRIX3D_T   */
+    CGRAPH_BIGMAT_T = 20,   /**< TYPE 19 : CGRAPH_BIGMAT_T   */
+    CGRAPH_BIGMAT3D_T = 21, /**< TYPE 19 : CGRAPH_BIGMAT3D_T   */
+    CGRAPH_SPAMAT_T = 20,   /**< TYPE 19 : CGRAPH_SPAMAT_T   */
+    CGRAPH_SPAMAT3D_T = 21, /**< TYPE 19 : CGRAPH_SPAMAT3D_T   */
+    CGRAPH_DFRAME_T = 22,   /**< TYPE 20 : CGRAPH_DFRAME_T   */
+    CGRAPH_DICT_T = 23,     /**< TYPE 21 : CGRAPH_DICT_T     */
+    CGRAPH_LIST_T = 24,     /**< TYPE 22 : CGRAPH_LIST_T     */
+    CGRAPH_TREE_T = 25,     /**< TYPE 23 : CGRAPH_TREE_T     */
+    CGRAPH_SET_T = 26,      /**< TYPE 24 : CGRAPH_SET_T      */
+    CGRAPH_NULL_T = 27      /**< TYPE 25 : CGRAPH_NULL_T     */
 } cgraph_type_t;
 
 /**
@@ -447,9 +451,6 @@ typedef struct {
     cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);
     void *(*update)(void *cthis, const cgraph_type_t type,
                     const cgraph_size_t len, const cgraph_size_t size);
-    cgraph_bool_t (*check)(const void *cthis);
-    cgraph_size_t (*hash)(const void *cthis);
-    cgraph_bool_t (*equal)(const void *x, const void *y);
     void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
     void *(*realloc)(void *cthis, const cgraph_type_t type,
                      const cgraph_size_t old_size, const cgraph_size_t new_size,
@@ -457,6 +458,9 @@ typedef struct {
     void *(*copy)(const void *cthis, const cgraph_size_t size);
     void (*free)(void *cthis);
     void *(*memcpy)(void *x, const void *y, const cgraph_size_t size);
+    void (*check)(const void *x, void *y);
+    void (*hash)(const void *x, void *y);
+    void (*equal)(const void *x, const void *y, void *z);
     void (*add)(void *x, void *y, void *z);
     void (*sub)(void *x, void *y, void *z);
     void (*mul)(void *x, void *y, void *z);
@@ -464,11 +468,14 @@ typedef struct {
     void (*divi)(void *x, void *y, void *z);
     void (*divf)(void *x, void *y, void *z);
     void (*mod)(void *x, void *y, void *z);
-    cgraph_bool_t (*eq)(void *x, void *y);
-    cgraph_bool_t (*gr)(void *x, void *y);
-    cgraph_bool_t (*ge)(void *x, void *y);
-    cgraph_bool_t (*ls)(void *x, void *y);
-    cgraph_bool_t (*le)(void *x, void *y);
+    void (*eq)(void *x, void *y, void *z);
+    void (*ne)(void *x, void *y, void *z);
+    void (*gr)(void *x, void *y, void *z);
+    void (*ge)(void *x, void *y, void *z);
+    void (*ls)(void *x, void *y, void *z);
+    void (*le)(void *x, void *y, void *z);
+    void *(*cmp)(void *x, void *y, void *z, const cgraph_size_t len,
+                 cgraph_pfunc3_t iter);
     void *(*iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
     void *(*iter2v)(void *x, void *y, const cgraph_size_t len,
                     cgraph_pfunc2_t iter);

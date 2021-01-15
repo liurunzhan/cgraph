@@ -6,6 +6,7 @@
 #include "template.h"
 
 /**/
+#include "matrix_base.ct"
 #include "struct_base.ct"
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)

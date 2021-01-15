@@ -15,7 +15,7 @@ typedef struct {
     CGRAPH_MATRIX_INDEXES
     CGRAPH_STRUCTURE_ROOT
 } cgraph_bigmat_t;
-
+#include "matrix_base.ht"
 #include "struct_base.ht"
 #include "template_off.h"
 

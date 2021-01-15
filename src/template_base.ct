@@ -14,9 +14,6 @@ static cgraph_size_t FUNCTION(NAME, _size)(const void *cthis);
 static void *FUNCTION(NAME, _update)(void *cthis, const cgraph_type_t type,
                                      const cgraph_size_t len,
                                      const cgraph_size_t size);
-static cgraph_bool_t FUNCTION(NAME, _check)(const void *cthis);
-static cgraph_size_t FUNCTION(NAME, _hash)(const void *cthis);
-static cgraph_bool_t FUNCTION(NAME, _equal)(const void *x, const void *y);
 static void *FUNCTION(NAME, _calloc)(const cgraph_type_t type,
                                      const cgraph_size_t size);
 static void *FUNCTION(NAME, _realloc)(void *cthis, const cgraph_type_t type,
@@ -28,6 +25,9 @@ static void FUNCTION(NAME, _free)(void *cthis);
 static void *FUNCTION(NAME, _memcpy)(void *x, const void *y,
                                      const cgraph_size_t size);
 
+static void FUNCTION(NAME, _check)(const void *x, void *y);
+static void FUNCTION(NAME, _hash)(const void *x, void *y);
+static void FUNCTION(NAME, _equal)(const void *x, const void *y, void *z);
 #if 0
 static void FUNCTION(NAME, _add)(void *x, void *y, void *z);
 static void FUNCTION(NAME, _sub)(void *x, void *y, void *z);
@@ -79,13 +79,8 @@ CGVTable STRUCT(NAME) = {
                               const cgraph_size_t size); */
     FUNCTION(
         NAME,
-        _update),           /**< void *(*update)(void *cthis, const cgraph_type_t type,
+        _update),            /**< void *(*update)(void *cthis, const cgraph_type_t type,
                      const cgraph_size_t len, const cgraph_size_t size)      */
-    FUNCTION(NAME, _check), /**< cgraph_size_t (*check)(const void *cthis);  */
-    FUNCTION(NAME, _hash),  /**< cgraph_size_t (*hash)(const void *cthis);   */
-    FUNCTION(
-        NAME,
-        _equal),             /**< cgraph_bool_t (*equal)(const void *x, const void *y); */
     FUNCTION(NAME, _calloc), /**< void *(*calloc)(const cgraph_type_t type,
                                 const cgraph_size_t size); */
     FUNCTION(NAME,
@@ -95,6 +90,11 @@ CGVTable STRUCT(NAME) = {
                                 cgraph_size_t size);   */
     FUNCTION(NAME, _free),   /**< void (*free)(void *cthis);                  */
     FUNCTION(NAME, _memcpy), /**< void *(*memcpy)(void *cthis);               */
+    FUNCTION(NAME, _check),  /**< cgraph_size_t (*check)(const void *x, void *y);  */
+    FUNCTION(NAME, _hash),   /**< cgraph_size_t (*hash)(const void *cthis, void *y);   */
+    FUNCTION(
+        NAME,
+        _equal), /**< cgraph_bool_t (*equal)(const void *x, const void *y, void *z); */
 #if 0
   FUNCTION(NAME, _add),      /** void (*add)(void *x, void *y, void *z);      */
   FUNCTION(NAME, _sub),      /** void (*sub)(void *x, void *y, void *z);      */
@@ -173,45 +173,6 @@ static cgraph_size_t FUNCTION(NAME, _size)(const void *cthis)
     return FUNCTION(NAME, size)((TYPE *)cthis);
 }
 
-static cgraph_bool_t FUNCTION(NAME, _check)(const void *cthis)
-{
-#ifdef TYPE_WITH_DATA
-    return FUNCTION(NAME, check)((TYPE *)cthis);
-#else
-    return FUNCTION(NAME, check)(*(TYPE *)cthis);
-#endif
-}
-
-static cgraph_size_t FUNCTION(NAME, _hash)(const void *cthis)
-{
-#ifdef TYPE_WITH_DATA
-    return FUNCTION(NAME, hash)((TYPE *)cthis);
-#else
-    return FUNCTION(NAME, hash)(*(TYPE *)cthis);
-#endif
-}
-
-static cgraph_bool_t FUNCTION(NAME, _equal)(const void *x, const void *y)
-{
-#ifdef TYPE_WITH_DATA
-    return FUNCTION(NAME, equal)((TYPE *)x, (TYPE *)y);
-#else
-    return FUNCTION(NAME, equal)(*(TYPE *)x, *(TYPE *)y);
-#endif
-}
-
-#ifdef TYPE_WITH_DATA
-cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
-{
-    return CGRAPH_TEST(x == y);
-}
-#else
-cgraph_bool_t FUNCTION(NAME, equal)(const TYPE x, const TYPE y)
-{
-    return CGRAPH_TEST(EQ(x, y));
-}
-#endif
-
 static void *FUNCTION(NAME, _calloc)(const cgraph_type_t type,
                                      const cgraph_size_t size)
 {
@@ -245,84 +206,120 @@ static void *FUNCTION(NAME, _memcpy)(void *x, const void *y,
     return FUNCTION(NAME, memcpy)((TYPE *)x, (TYPE *)y, size);
 }
 
-#if 0
-/** #include "template_check.h" */
+static void FUNCTION(NAME, _check)(const void *x, void *y)
+{
+#ifdef TYPE_WITH_DATA
+    *(cgraph_bool_t *)y = FUNCTION(NAME, check)((TYPE *)x);
+#else
+    *(cgraph_bool_t *)y = FUNCTION(NAME, check)(*(TYPE *)x);
+#endif
+}
 
+static void FUNCTION(NAME, _hash)(const void *x, void *y)
+{
+#ifdef TYPE_WITH_DATA
+    *(cgraph_size_t *)y = FUNCTION(NAME, hash)((TYPE *)x);
+#else
+    *(cgraph_size_t *)y = FUNCTION(NAME, hash)(*(TYPE *)x);
+#endif
+}
+
+static void FUNCTION(NAME, _equal)(const void *x, const void *y, void *z)
+{
+#ifdef TYPE_WITH_DATA
+    *(cgraph_bool_t *)z = FUNCTION(NAME, equal)((TYPE *)x, (TYPE *)y);
+#else
+    *(cgraph_bool_t *)z = FUNCTION(NAME, equal)(*(TYPE *)x, *(TYPE *)y);
+#endif
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y)
+{
+    return CGRAPH_TEST(x == y);
+}
+#else
+cgraph_bool_t FUNCTION(NAME, equal)(const TYPE x, const TYPE y)
+{
+    return CGRAPH_TEST(EQ(x, y));
+}
+#endif
+
+/** #include "template_check.h" */
+#ifndef TYPE_WITH_DATA
 static void FUNCTION(NAME, _add)(void *x, void *y, void *z)
 {
-  TYPE _x = (TYPE)x,  _y = (TYPE)y,  _z = (TYPE)z;
-   _z = ADD( _x,  _y,  _z);
+    *(TYPE *)_z = ADD(*(TYPE *)_x, *(TYPE *)_y, *(TYPE *)z);
 }
 
 static void FUNCTION(NAME, _sub)(void *x, void *y, void *z)
 {
-  TYPE _x = (TYPE)x,  _y = (TYPE)y,  _z = (TYPE)z;
-   _z = ADD( _x,  _y,  _z);
+    *(TYPE *)_z = SUB(*(TYPE *)_x, *(TYPE *)_y, *(TYPE *)z);
 }
 
 static void FUNCTION(NAME, _mul)(void *x, void *y, void *z)
 {
-  TYPE _x = (TYPE)x,  _y = (TYPE)y,  _z = (TYPE)z;
-   _z = ADD( _x,  _y,  _z);
+    *(TYPE *)_z = MUL(*(TYPE *)_x, *(TYPE *)_y, *(TYPE *)z);
 }
 
 static void FUNCTION(NAME, _div)(void *x, void *y, void *z)
 {
-  TYPE _x = (TYPE)x,  _y = (TYPE)y,  _z = (TYPE)z;
-   _z = ADD( _x,  _y,  _z);
+    *(TYPE *)_z = DIV(*(TYPE *)_x, *(TYPE *)_y, *(TYPE *)z);
 }
 
 static void FUNCTION(NAME, _divi)(void *x, void *y, void *z)
 {
-  TYPE _x = (TYPE)x,  _y = (TYPE)y,  _z = (TYPE)z;
-   _z = ADD( _x,  _y,  _z);
+    *(TYPE *)_z = INT(*(TYPE *)_x, *(TYPE *)_y, *(TYPE *)z);
 }
-
 
 static void FUNCTION(NAME, _divf)(void *x, void *y, void *z)
 {
-  TYPE _x = (TYPE)x,  _y = (TYPE)y,  _z = (TYPE)z;
-   _z = ADD( _x,  _y,  _z);
+    *(TYPE *)_z = DIVF(*(TYPE *)_x, *(TYPE *)_y, *(TYPE *)z);
 }
 
 static void FUNCTION(NAME, _mod)(void *x, void *y, void *z)
 {
-  TYPE _x = (TYPE)x,  _y = (TYPE)y,  _z = (TYPE)z;
-   _z = ADD( _x,  _y,  _z);
+    *(TYPE *)_z = MOD(*(TYPE *)_x, *(TYPE *)_y, *(TYPE *)z);
 }
 
 static void *FUNCTION(NAME, _iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter)
 {
-  return FUNCTION(NAME, iter1v)((TYPE )x, len, iter);
+    return FUNCTION(NAME, iter1v)((TYPE)x, len, iter);
 }
 
 static void *FUNCTION(NAME, _iter2v)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
 {
-  return FUNCTION(NAME, iter2v)((TYPE )x, (TYPE )y, len, iter);
+    return FUNCTION(NAME, iter2v)((TYPE)x, (TYPE)y, len, iter);
 }
 
 static void *FUNCTION(NAME, _iter2vc)(void *x, void *y, const cgraph_size_t len, cgraph_pfunc2_t iter)
 {
-  return FUNCTION(NAME, iter2vc)((TYPE )x, (TYPE )y, len, iter);
+    return FUNCTION(NAME, iter2vc)((TYPE)x, (TYPE)y, len, iter);
 }
 
 static void *FUNCTION(NAME, _iter3v)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
 {
-  return FUNCTION(NAME, iter3v)((TYPE )x, (TYPE )y, (TYPE )z, len, iter);
+    return FUNCTION(NAME, iter3v)((TYPE *)x, (TYPE)y, (TYPE)z, len, iter);
 }
 
 static void *FUNCTION(NAME, _iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
 {
-  return FUNCTION(NAME, iter3vvc)((TYPE )x, (TYPE )y, (TYPE )z, len, iter);
+    return FUNCTION(NAME, iter3vvc)((TYPE *)x, (TYPE *)y, (TYPE *)z, len, iter);
 }
 
 static void *FUNCTION(NAME, _iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
 {
-  return FUNCTION(NAME, iter3vcv)((TYPE )x, (TYPE)y, (TYPE )z, len, iter);
+    return FUNCTION(NAME, iter3vcv)((TYPE)x, (TYPE)y, (TYPE)z, len, iter);
 }
 
 static void *FUNCTION(NAME, _iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
 {
-  return FUNCTION(NAME, iter3cvc)((TYPE)x, (TYPE )y, (TYPE )z, len, iter);
+    return FUNCTION(NAME, iter3cvc)((TYPE)x, (TYPE)y, (TYPE)z, len, iter);
+}
+
+static void *FUNCITON(NAME, _cmp)(void *x, void *y, void *z, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+    *(cgraph_bool_t *)z = FUNCTION(NAME, cmp)((TYPE *)x, (TYPE *)y, len, iter);
+    return *z;
 }
 #endif

@@ -17,8 +17,8 @@ extern "C" {
 */
 #include "cgraph_bigmat.h"
 #include "cgraph_matrix.h"
-#include "cgraph_vector.h"
 #include "cgraph_spamat.h"
+#include "cgraph_vector.h"
 
 #include "cgraph_bigmat3d.h"
 #include "cgraph_matrix3d.h"

@@ -14,9 +14,9 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
         _cthis->row = len;
         _cthis->column = (0 == _cthis->column ? 1 : _cthis->column);
 #elif defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D)
-        _cthis->x = len;
-        _cthis->y = (0 == _cthis->y ? 1 : _cthis->y);
-        _cthis->z = (0 == _cthis->z ? 1 : _cthis->z);
+        _cthis->index_i = len;
+        _cthis->index_j = (0 == _cthis->index_j ? 1 : _cthis->index_j);
+        _cthis->index_k = (0 == _cthis->index_k ? 1 : _cthis->index_k);
 #endif
         _cthis->root =
             (DATA_TYPE *)CGRAPH_PTRADDR2V(_cthis, FUNCTION(NAME, tsize)());

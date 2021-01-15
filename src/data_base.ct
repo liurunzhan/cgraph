@@ -223,6 +223,21 @@ void FUNCTION(NAME, descsort)(TYPE *cthis, const cgraph_size_t start,
 }
 
 #ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE **x, const TYPE **y, const cgraph_size_t len, cgraph_pfunc3_t iter)
+#else
+cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE *x, const TYPE *y, const cgraph_size_t len, cgraph_pfunc3_t iter)
+#endif
+{
+    cgraph_size_t i;
+    
+    for (i = 0; i < len; i++) {
+        
+    }
+
+    return *z;
+}
+
+#ifdef TYPE_WITH_DATA
 TYPE **FUNCTION(NAME, iter1v)(TYPE **x, const cgraph_size_t len,
                               cgraph_pfunc1_t iter)
 #else

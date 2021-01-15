@@ -22,10 +22,10 @@ if(MODE == "debug") then(
 AR := "ar"
 ARFLAGS := "-rcs"
 
-LIBSHARED := ""
-LIBSTATIC := ""
-TSTFILE := ""
-TSTTARGET := ""
+LIBSHARED := nil
+LIBSTATIC := nil
+TSTFILE := nil
+TSTTARGET := nil
 if(System platform == "windows") then(
   # target files
   LIBSHARED := File clone setPath("#{LIB}/lib#{PRO}.dll" interpolate)
@@ -47,54 +47,74 @@ CFILES := SRC filesWithExtension(".c")
 args := System args
 
 if(args size == 1) then(
-  "haha" println
   LIB create
   OFILES := List clone
-  CFILES foreach(file, 
-    # obj = replace(file, r".c$"=>".o")
-    # push!(OFILES, obj)
+  CFILES foreach(file,
+    file := file path 
+    obj := file asMutable replaceSeq(".c", ".o")
+    OFILES append(obj)
     "compile #{file} to #{obj}" interpolate println
-    # run(`$CC $CFLAGS -I$INC -c $src_path -o $obj_path`)
+    System system("#{CC} #{CFLAGS} -I#{INC path} -c #{file} -o #{obj}" interpolate )
   )
-  "compile #{LIBSHARED}" interpolate println
-  # run(`$CC $CSFLAGS -o $LIBSHARED $OFILES`)
-  "compile #{LIBSTATIC}" interpolate println
-  # run(`$AR $ARFLAGS $LIBSTATIC $OFILES`)
+  OFILES := OFILES join(" ")
+  "compile #{LIBSHARED name}" interpolate println
+  System system("#{CC} #{CSFLAGS} -o #{LIBSHARED name} #{OFILES}" interpolate)
+  "compile #{LIBSTATIC name}" interpolate println
+  System system("#{AR} #{ARFLAGS} #{LIBSTATIC name} #{OFILES}" interpolate)
 ) elseif(args at(1) == "test") then(
-  "compile #{TSTFILE name}" interpolate println
-  "compile #{TSTFILE path} to #{TSTTARGET path}" interpolate println
-  # run(`$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm`)
-  tst_path := Directory clone setPath("#{TST}/elements.csv" interpolate)
-  "test #{TSTTARGET} with #{tst_path}" interpolate println
-  # run(`$TSTTARGET $tst_path`)
+  "compile #{TSTFILE name} to #{TSTTARGET name}" interpolate println
+  System system("#{CC} #{CFLAGS} -I#{INC path} -o #{TSTTARGET name} #{TSTFILE name} -L#{LIB path} -static -l#{PRO} -lm" interpolate)
+  tst_path := File clone setPath("#{TST}/elements.csv" interpolate)
+  "test #{TSTTARGET name} with #{tst_path name}" interpolate println
+  System system("#{TSTTARGET name} #{tst_path name}" interpolate)
 ) elseif(args at(1) == "clean") then(
-  # CFILES foreach(file,
-  #   obj = replace(file, r".c$"=>".o")
-  #   "clean #{obj}" interpolate println
-  #   obj remove
-  # )
-  "clean #{LIBSTATIC}" interpolate println
-  rm(LIBSTATIC, force=true)
-  "clean #{LIBSHARED}" interpolate println
-  rm(LIBSHARED, force=true)
-  "clean #{TSTTARGET}" interpolate println
-  rm(TSTTARGET, force=true)
+  CFILES foreach(file,
+    file := file path 
+    obj := file asMutable replaceSeq(".c", ".o")
+    "clean #{obj}" interpolate println
+    if(obj asFile exists) then(
+      obj asFile remove
+    )
+  )
+  "clean #{LIBSTATIC name}" interpolate println
+  if(LIBSTATIC exists) then(
+    LIBSTATIC remove
+  )
+  "clean #{LIBSHARED name}" interpolate println
+  if(LIBSHARED exists) then(
+    LIBSHARED remove
+  )
+  "clean #{TSTTARGET name}" interpolate println
+  if(TSTTARGET exists) then(
+    TSTTARGET remove
+  )
 ) elseif(args at(1) == "distclean") then(
-  # CFILES foreach(file,
-  #   obj = replace(file, r".c$"=>".o")
-  #   "clean #{obj}" interpolate println
-  #   obj remove
-  # )
-  "clean #{LIBSTATIC}" interpolate println
-  LIBSTATIC remove
-  "clean #{LIBSHARED}" interpolate println
-  LIBSHARED remove
-  "clean #{LIB}" interpolate println
-  LIB remove
-  "clean #{TSTTARGET}" interpolate println
-  TSTTARGET remove
+  CFILES foreach(file,
+    file := file path 
+    obj := file asMutable replaceSeq(".c", ".o")
+    "clean #{obj}" interpolate println
+    if(obj asFile exists) then(
+      obj asFile remove
+    )
+  )
+  "clean #{LIBSTATIC name}" interpolate println
+  if(LIBSTATIC exists) then(
+    LIBSTATIC remove
+  )
+  "clean #{LIBSHARED name}" interpolate println
+  if(LIBSHARED exists) then(
+    LIBSHARED remove
+  )
+  "clean #{LIB path}" interpolate println
+  if(LIB exists) then(
+    LIB remove
+  )
+  "clean #{TSTTARGET name}" interpolate println
+  if(TSTTARGET exists) then(
+    TSTTARGET remove
+  )
 ) elseif(args at(1) == "help") then(
-  "#{args[0]}    <target>" interpolate println
+  "#{args at(0)}    <target>" interpolate println
   "<target>: " println
   "                    compile cgraph" println
   "          test      test cgraph" println

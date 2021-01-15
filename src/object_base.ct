@@ -166,7 +166,8 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
     cgraph_bool_t flag = CGRAPH_FALSE;
     if (NULL != cthis) {
         cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-        flag = OBJECT(type, check)(cthis->data);
+        OBJECT(type, check)
+        (cthis->data, &flag);
     }
 
     return flag;
@@ -177,7 +178,8 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
     cgraph_size_t hash = 0;
     if (NULL != cthis) {
         cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-        hash = OBJECT(type, hash)(cthis->data);
+        OBJECT(type, hash)
+        (cthis->data, &hash);
     }
 
     return hash;

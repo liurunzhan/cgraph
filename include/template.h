@@ -504,10 +504,10 @@
 #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
 #endif
 
-#elif defined(TYPE_BIGMAT)
-#define TYPE cgraph_bigmat_t
-#define ID   CGRAPH_BIGMAT_T
-#define NAME bigmat
+#elif defined(TYPE_MATRIX3D)
+#define TYPE cgraph_matrix3d_t
+#define ID   CGRAPH_MATRIX3D_T
+#define NAME matrix3d
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
@@ -516,22 +516,10 @@
 #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
 #endif
 
-#elif defined(TYPE_SPAMAT)
-#define TYPE cgraph_spamat_t
-#define ID   CGRAPH_SPAMAT_T
-#define NAME spamat
-#define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_MOBJECT)
-#define OBJECT(type, opt) CGRAPH_MOBJECT(type, opt)
-#endif
-
-#elif defined(TYPE_MATRIX3D)
-#define TYPE cgraph_matrix3d_t
-#define ID   CGRAPH_MATRIX3D_T
-#define NAME matrix3d
+#elif defined(TYPE_BIGMAT)
+#define TYPE cgraph_bigmat_t
+#define ID   CGRAPH_BIGMAT_T
+#define NAME bigmat
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
@@ -550,6 +538,18 @@
 
 #if defined(CGRAPH_OBJECT)
 #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
+#endif
+
+#elif defined(TYPE_SPAMAT)
+#define TYPE cgraph_spamat_t
+#define ID   CGRAPH_SPAMAT_T
+#define NAME spamat
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#if defined(CGRAPH_MOBJECT)
+#define OBJECT(type, opt) CGRAPH_MOBJECT(type, opt)
 #endif
 
 #elif defined(TYPE_SPAMAT3D)
@@ -677,8 +677,15 @@
 #define CGRAPH_MATRIX_INDEXES \
     cgraph_size_t row, column;
 
+#define MATRIX_ROW(x)    ((x)->row)
+#define MATRIX_COLUMN(x) ((x)->column)
+
 #define CGRAPH_MATRIX3D_INDEXES \
     cgraph_size_t index_i, index_j, index_k;
+
+#define MATRIX_INDEX_I(x) ((x)->index_i)
+#define MATRIX_INDEX_J(x) ((x)->index_j)
+#define MATRIX_INDEX_K(x) ((x)->index_k)
 
 /**copyed memory size without pointer memory size */
 #ifndef TYPE_WITH_DATA
