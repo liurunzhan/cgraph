@@ -33,6 +33,7 @@
  *
  * @def DATA_TYPE
  * @def DATA_ID
+ * @def DATA_NAME
  * @def DATA_UTYPE
  * @def DATA_ZERO
  * @def DATA_ONE
@@ -284,6 +285,7 @@
 #define MAX        (1)
 #define DATA_TYPE  cgraph_int32_t
 #define DATA_ID    CGRAPH_INT32_T
+#define DATA_NAME  int32
 #define DATA_UTYPE cgraph_uint32_t
 #define DATA_ZERO  (0)
 #define DATA_ONE   (1)
@@ -332,6 +334,7 @@
     }
 #define DATA_TYPE        cgraph_float64_t
 #define DATA_ID          CGRAPH_FLOAT64_T
+#define DATA_NAME        float64
 #define DATA_ZERO        0.0
 #define DATA_ONE         1.0
 #define DATA_ONES        1.0
@@ -386,6 +389,7 @@
 #define EPSILON_LEN (8 * sizeof(TYPE))
 #define DATA_TYPE   cgraph_int_t
 #define DATA_ID     CGRAPH_INT_T
+#define DATA_NAME   int
 #define DATA_ZERO   0
 #define DATA_ONE    1
 #define DATA_ONES   CGRAPH_INT_MIN
@@ -672,20 +676,23 @@
     CGRAPH_DATA_BASE          \
     cgraph_element_t element;
 
-#define CGRAPH_STRUCTURE_ROOT DATA_TYPE data, root;
+#define CGRAPH_STRUCTURE_ROOT \
+    DATA_TYPE data, root;
 
+#if defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_MOBJECT) || defined(TYPE_SPAMAT)
 #define CGRAPH_MATRIX_INDEXES \
     cgraph_size_t row, column;
 
 #define MATRIX_ROW(x)    ((x)->row)
 #define MATRIX_COLUMN(x) ((x)->column)
-
+#elif defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_M3OBJECT) || defined(TYPE_SPAMAT3D)
 #define CGRAPH_MATRIX3D_INDEXES \
     cgraph_size_t index_i, index_j, index_k;
 
-#define MATRIX_INDEX_I(x) ((x)->index_i)
-#define MATRIX_INDEX_J(x) ((x)->index_j)
-#define MATRIX_INDEX_K(x) ((x)->index_k)
+#define MATRIX3D_INDEX_I(x) ((x)->index_i)
+#define MATRIX3D_INDEX_J(x) ((x)->index_j)
+#define MATRIX3D_INDEX_K(x) ((x)->index_k)
+#endif
 
 /**copyed memory size without pointer memory size */
 #ifndef TYPE_WITH_DATA
@@ -932,21 +939,27 @@
 #define DATA_ISNEG(a)  LS((a), 0.0)
 #endif /**CGRAPH_STDC_VERSION */
 
-#define ADD(a, b, c)     \
-    FUNCTION(NAME, addc) \
+#define ADD(a, b, c)    \
+    FUNCTION(NAME, add) \
     ((a), (b))
-#define SUB(a, b, c)     \
-    FUNCTION(NAME, subc) \
+#define SUB(a, b, c)    \
+    FUNCTION(NAME, sub) \
     ((a), (b))
-#define MUL(a, b, c)     \
-    FUNCTION(NAME, mulc) \
+#define MUL(a, b, c)    \
+    FUNCTION(NAME, mul) \
     ((a), (b))
-#define DIV(a, b, c)     \
-    FUNCTION(NAME, divc) \
+#define DIV(a, b, c)    \
+    FUNCTION(NAME, mod) \
     ((a), (b))
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c)  __CGRAPH_UNDEFINED
-#define MOD(a, b, c)  __CGRAPH_UNDEFINED
+#define DIVF(a, b, c)   \
+    FUNCTION(NAME, div) \
+    ((a), (b))
+#define INT(a, b, c)    \
+    FUNCTION(NAME, div) \
+    ((a), (b))
+#define MOD(a, b, c)    \
+    FUNCTION(NAME, mod) \
+    ((a), (b))
 
 #define EQ(a, b)                                                 \
     ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && \
@@ -959,15 +972,11 @@
 #define LS(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < (-DATA_EPSILON))
 #define LE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < DATA_EPSILON)
 
-#define EXCHANGE(a, b)                       \
-    do {                                     \
-        TYPE tmp;                            \
-        COMPLEX_REAL(tmp) = COMPLEX_REAL(a); \
-        COMPLEX_IMAG(tmp) = COMPLEX_IMAG(a); \
-        COMPLEX_REAL(a) = COMPLEX_REAL(b);   \
-        COMPLEX_IMAG(a) = COMPLEX_IMAG(b);   \
-        COMPLEX_REAL(b) = COMPLEX_REAL(tmp); \
-        COMPLEX_IMAG(b) = COMPLEX_IMAG(tmp); \
+#define EXCHANGE(a, b) \
+    do {               \
+        TYPE tmp = a;  \
+        a = b;         \
+        b = tmp;       \
     } while (0)
 
 #elif defined(TYPE_FRACTION)
@@ -985,9 +994,15 @@
 #define DIV(a, b, c)     \
     FUNCTION(NAME, divf) \
     ((a), (b))
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c)  __CGRAPH_UNDEFINED
-#define MOD(a, b, c)  __CGRAPH_UNDEFINED
+#define DIVF(a, b, c)    \
+    FUNCTION(NAME, divf) \
+    ((a), (b))
+#define INT(a, b, c)     \
+    FUNCTION(NAME, divf) \
+    ((a), (b))
+#define MOD(a, b, c)     \
+    FUNCTION(NAME, divf) \
+    ((a), (b))
 
 #define EQ(a, b) \
     ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
@@ -1002,15 +1017,11 @@
 #define LE(a, b) \
     ((FRACTION_NUM(a) * FRACTION_DEN(b)) <= (FRACTION_NUM(b) * FRACTION_DEN(a)))
 
-#define EXCHANGE(a, b)                       \
-    do {                                     \
-        TYPE tmp;                            \
-        FRACTION_NUM(tmp) = FRACTION_NUM(a); \
-        FRACTION_DEN(tmp) = FRACTION_DEN(a); \
-        FRACTION_NUM(a) = FRACTION_NUM(b);   \
-        FRACTION_DEN(a) = FRACTION_DEN(b);   \
-        FRACTION_NUM(b) = FRACTION_NUM(tmp); \
-        FRACTION_DEN(b) = FRACTION_DEN(tmp); \
+#define EXCHANGE(a, b) \
+    do {               \
+        TYPE tmp = a;  \
+        a = b;         \
+        b = tmp;       \
     } while (0)
 
 #elif defined(TYPE_BIGINT)
@@ -1053,12 +1064,11 @@
 #define ABS(a)          \
     FUNCTION(NAME, abs) \
     ((a))
-#define EXCHANGE(a, b) \
-    do {               \
-        TYPE *tmp;     \
-        tmp = (a);     \
-        (a) = (b);     \
-        (b) = tmp;     \
+#define EXCHANGE(a, b)   \
+    do {                 \
+        TYPE *tmp = (a); \
+        (a) = (b);       \
+        (b) = tmp;       \
     } while (0)
 
 #elif defined(TYPE_BIGNUM)
@@ -1101,12 +1111,11 @@
 #define ABS(a)          \
     FUNCTION(NAME, abs) \
     ((a))
-#define EXCHANGE(a, b) \
-    do {               \
-        TYPE *tmp;     \
-        tmp = (a);     \
-        (a) = (b);     \
-        (b) = tmp;     \
+#define EXCHANGE(a, b)   \
+    do {                 \
+        TYPE *tmp = (a); \
+        (a) = (b);       \
+        (b) = tmp;       \
     } while (0)
 
 #elif defined(TYPE_STRING)
@@ -1147,12 +1156,11 @@
     ((a), (b))
 
 #define ABS(a) ((a))
-#define EXCHANGE(a, b) \
-    do {               \
-        TYPE *tmp;     \
-        tmp = (a);     \
-        (a) = (b);     \
-        (b) = tmp;     \
+#define EXCHANGE(a, b)   \
+    do {                 \
+        TYPE *tmp = (a); \
+        (a) = (b);       \
+        (b) = tmp;       \
     } while (0)
 
 #elif defined(TYPE_BITSET)
@@ -1191,6 +1199,12 @@
 #define LE(a, b)       \
     FUNCTION(NAME, le) \
     ((a), (b))
+#define EXCHANGE(a, b)   \
+    do {                 \
+        TYPE *tmp = (a); \
+        (a) = (b);       \
+        (b) = tmp;       \
+    } while (0)
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) || defined(TYPE_STACK)
 
@@ -1209,12 +1223,11 @@
 #define LS(a, b) __CGRAPH_UNDEFINED
 #define LE(a, b) __CGRAPH_UNDEFINED
 
-#define EXCHANGE(a, b) \
-    do {               \
-        TYPE *tmp;     \
-        tmp = (a);     \
-        (a) = (b);     \
-        (b) = tmp;     \
+#define EXCHANGE(a, b)   \
+    do {                 \
+        TYPE *tmp = (a); \
+        (a) = (b);       \
+        (b) = tmp;       \
     } while (0)
 
 #else

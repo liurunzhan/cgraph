@@ -1,15 +1,15 @@
+#include "cgraph.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "cgraph.h"
 
 void printf_char(char data)
 {
-  printf("debug %x %x\n", 0xFF & data, 0xFF & data);
+    printf("debug %x %x\n", 0xFF & data, 0xFF & data);
 }
 
 int main(int argc, char *argv[])
 {
-  /*
+    /*
   cgraph_char_t buffer[100];
   cgraph_fraction_t fraction = {-1, INT_MAX};
   cgraph_int_t integer = 123;
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
   fprintf(stdout, "%x\n", cgraph_int8_ones(pre));
   cgraph_math_primes(primes, numbers, 10000);
   */
-  /*
+    /*
   if(argc == 2)
   {
     cgraph_string_t *buffer = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
   }
   fprintf(stdout, "end simulation\n");
   */
- /*
+    /*
   fprintf(stdout, "%d %x\n", 3, cgraph_integer_bits(3, 1, 3));
   fprintf(stdout, "%d %x\n", 0, cgraph_integer_sets(0, 1, 3));
   fprintf(stdout, "%d %x\n", 127, cgraph_integer_clrs(127, 0, 3));
@@ -90,13 +90,13 @@ int main(int argc, char *argv[])
   cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */
-  cgraph_error_print(2);
-  cgraph_string_test();
-  /*
+    cgraph_error_print(2);
+    cgraph_string_test();
+    /*
   cgraph_version_test();
   cgraph_verilog_test();
   printf("%ld\n", cgraph_pobject_msize(CGRAPH_POBJECT_T, 10));
   */
 
-  return 0;
+    return 0;
 }

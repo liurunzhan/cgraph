@@ -270,6 +270,10 @@
 #undef DATA_ID
 #endif
 
+#ifdef DATA_NAME
+#undef DATA_NAME
+#endif
+
 #ifdef DATA_UTYPE
 #undef DATA_UTYPE
 #endif

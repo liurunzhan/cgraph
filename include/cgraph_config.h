@@ -461,6 +461,7 @@ typedef struct {
     void (*check)(const void *x, void *y);
     void (*hash)(const void *x, void *y);
     void (*equal)(const void *x, const void *y, void *z);
+    void (*at)(void *x, const cgraph_size_t i);
     void (*add)(void *x, void *y, void *z);
     void (*sub)(void *x, void *y, void *z);
     void (*mul)(void *x, void *y, void *z);

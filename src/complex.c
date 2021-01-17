@@ -30,29 +30,29 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
 }
 
 /**                         initial function                                  */
-TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mod, const DATA_TYPE arg)
+TYPE FUNCTION(NAME, initwma)(const DATA_TYPE abs, const DATA_TYPE angle)
 {
     TYPE res;
-    COMPLEX_REAL(res) = mod * cos(arg);
-    COMPLEX_IMAG(res) = mod * sin(arg);
+    COMPLEX_REAL(res) = abs * cos(angle);
+    COMPLEX_IMAG(res) = abs * sin(angle);
 
     return res;
 }
 
-TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mod)
+TYPE FUNCTION(NAME, initwm)(const DATA_TYPE abs)
 {
     TYPE res;
-    COMPLEX_REAL(res) = mod;
+    COMPLEX_REAL(res) = abs;
     COMPLEX_IMAG(res) = 0;
 
     return res;
 }
 
-TYPE FUNCTION(NAME, initwa)(const DATA_TYPE arg)
+TYPE FUNCTION(NAME, initwa)(const DATA_TYPE angle)
 {
     TYPE res;
-    COMPLEX_REAL(res) = cos(arg);
-    COMPLEX_IMAG(res) = sin(arg);
+    COMPLEX_REAL(res) = cos(angle);
+    COMPLEX_IMAG(res) = sin(angle);
 
     return res;
 }
@@ -85,16 +85,26 @@ TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag)
 }
 
 /**            functions of complex numbers with one complex number           */
-DATA_TYPE FUNCTION(NAME, mod)(const TYPE x)
+DATA_TYPE FUNCTION(NAME, real)(const TYPE x)
 {
-#if CGRAPH_STDC_VERSION >= 199901L
+    return COMPLEX_REAL(x);
+}
+
+DATA_TYPE FUNCTION(NAME, imag)(const TYPE x)
+{
+    return COMPLEX_IMAG(x);
+}
+
+DATA_TYPE FUNCTION(NAME, abs)(const TYPE x)
+{
+#if CGRAPH_STDC_VERSION >= 199901L && defined(_MATH_H_)
     return hypot(COMPLEX_REAL(x), COMPLEX_IMAG(x));
 #else
     return sqrt(COMPLEX_MOD2(x));
 #endif
 }
 
-DATA_TYPE FUNCTION(NAME, arg)(const TYPE x)
+DATA_TYPE FUNCTION(NAME, angle)(const TYPE x)
 {
     return atan2(COMPLEX_IMAG(x), COMPLEX_REAL(x));
 }
@@ -152,11 +162,119 @@ TYPE FUNCTION(NAME, opp)(const TYPE x)
     return res;
 }
 
-TYPE FUNCTION(NAME, abs)(const TYPE x)
+TYPE FUNCTION(NAME, inv)(const TYPE x)
+{
+    TYPE res = FUNCTION(NAME, conj)(x);
+    DATA_TYPE abs_inv = 1.0 / FUNCTION(NAME, abs)(x);
+    COMPLEX_REAL(res) = abs_inv * COMPLEX_REAL(x);
+    COMPLEX_IMAG(res) = abs_inv * COMPLEX_IMAG(x);
+
+    return res;
+}
+
+/**                 one complex number and one complex number                 */
+TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y)
 {
     TYPE res;
-    COMPLEX_REAL(res) = fabs(COMPLEX_REAL(x));
-    COMPLEX_IMAG(res) = fabs(COMPLEX_IMAG(x));
+    COMPLEX_REAL(res) = COMPLEX_REAL(x) + COMPLEX_REAL(y);
+    COMPLEX_IMAG(res) = COMPLEX_IMAG(x) + COMPLEX_IMAG(y);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y)
+{
+    TYPE res;
+    COMPLEX_REAL(res) = COMPLEX_REAL(x) - COMPLEX_REAL(y);
+    COMPLEX_IMAG(res) = COMPLEX_IMAG(x) - COMPLEX_IMAG(y);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y)
+{
+    TYPE res;
+    COMPLEX_REAL(res) =
+        COMPLEX_REAL(x) * COMPLEX_REAL(y) - COMPLEX_IMAG(x) * COMPLEX_IMAG(y);
+    COMPLEX_IMAG(res) =
+        COMPLEX_REAL(x) * COMPLEX_IMAG(y) + COMPLEX_IMAG(x) * COMPLEX_REAL(y);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y)
+{
+    DATA_TYPE mod_1 = 1.0 / COMPLEX_MOD2(y);
+    TYPE res;
+    COMPLEX_REAL(res) =
+        (COMPLEX_REAL(x) * COMPLEX_REAL(y) + COMPLEX_IMAG(x) * COMPLEX_IMAG(y)) *
+        mod_1;
+    COMPLEX_IMAG(res) =
+        (COMPLEX_IMAG(x) * COMPLEX_REAL(y) - COMPLEX_REAL(x) * COMPLEX_IMAG(y)) *
+        mod_1;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, log)(const TYPE x)
+{
+    TYPE res;
+    COMPLEX_REAL(res) = log(FUNCTION(NAME, abs)(x));
+    COMPLEX_IMAG(res) = FUNCTION(NAME, angle)(x);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, log2)(const TYPE x)
+{
+    TYPE res = FUNCTION(NAME, log)(x);
+    COMPLEX_REAL(res) = COMPLEX_REAL(res) / MATH_CONST_LOG2;
+    COMPLEX_IMAG(res) = COMPLEX_IMAG(res) / MATH_CONST_LOG2;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, log10)(const TYPE x)
+{
+    TYPE res = FUNCTION(NAME, log)(x);
+    COMPLEX_REAL(res) = COMPLEX_REAL(res) / MATH_CONST_LOG10;
+    COMPLEX_IMAG(res) = COMPLEX_IMAG(res) / MATH_CONST_LOG10;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, exp)(const TYPE x)
+{
+    DATA_TYPE abs = exp(COMPLEX_REAL(x));
+    TYPE res;
+    COMPLEX_REAL(res) = abs * cos(COMPLEX_IMAG(x));
+    COMPLEX_IMAG(res) = abs * sin(COMPLEX_IMAG(x));
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, sqrt)(const TYPE x)
+{
+    DATA_TYPE abs = sqrt(FUNCTION(NAME, abs)(x)),
+              angle = 0.5 * FUNCTION(NAME, angle)(x);
+    TYPE res;
+    COMPLEX_REAL(res) = abs * cos(angle);
+    COMPLEX_IMAG(res) = abs * sin(angle);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y)
+{
+    TYPE res = FUNCTION(NAME, log)(x);
+    res = FUNCTION(NAME, mul)(y, res);
+
+    return FUNCTION(NAME, exp)(res);
+}
+
+TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y)
+{
+    TYPE res;
 
     return res;
 }
@@ -186,7 +304,31 @@ TYPE FUNCTION(NAME, cos)(const TYPE x)
 TYPE FUNCTION(NAME, tan)(const TYPE x)
 {
     TYPE sinx = FUNCTION(NAME, sin)(x), cosx = FUNCTION(NAME, cos)(x);
-    TYPE res = FUNCTION(NAME, divc)(sinx, cosx);
+    TYPE res = FUNCTION(NAME, div)(sinx, cosx);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, cot)(const TYPE x)
+{
+    TYPE sinx = FUNCTION(NAME, sin)(x), cosx = FUNCTION(NAME, cos)(x);
+    TYPE res = FUNCTION(NAME, div)(cosx, sinx);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, sec)(const TYPE x)
+{
+    TYPE cosx = FUNCTION(NAME, cos)(x);
+    TYPE res = FUNCTION(NAME, inv)(cosx);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, csc)(const TYPE x)
+{
+    TYPE sinx = FUNCTION(NAME, sin)(x);
+    TYPE res = FUNCTION(NAME, inv)(sinx);
 
     return res;
 }
@@ -216,55 +358,66 @@ TYPE FUNCTION(NAME, cosh)(const TYPE x)
 TYPE FUNCTION(NAME, tanh)(const TYPE x)
 {
     TYPE sinhx = FUNCTION(NAME, sinh)(x), coshx = FUNCTION(NAME, cosh)(x);
-    TYPE res = FUNCTION(NAME, divc)(sinhx, coshx);
+    TYPE res = FUNCTION(NAME, div)(sinhx, coshx);
 
     return res;
 }
 
-TYPE FUNCTION(NAME, log)(const TYPE x)
+TYPE FUNCTION(NAME, coth)(const TYPE x)
 {
+    TYPE sinhx = FUNCTION(NAME, sinh)(x), coshx = FUNCTION(NAME, cosh)(x);
+    TYPE res = FUNCTION(NAME, div)(coshx, sinhx);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, sech)(const TYPE x)
+{
+    TYPE coshx = FUNCTION(NAME, cosh)(x);
+    TYPE res = FUNCTION(NAME, inv)(coshx);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, csch)(const TYPE x)
+{
+    TYPE sinhx = FUNCTION(NAME, sinh)(x);
+    TYPE res = FUNCTION(NAME, inv)(sinhx);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, asin)(const TYPE x)
+{
+    TYPE x2 = FUNCTION(NAME, mul)(x, x), ix = FUNCTION(NAME, mulI1)(x);
+    TYPE x2_1 = FUNCTION(NAME, subr)(x2, 1.0), s_1_x2 = FUNCTION(NAME, sqrt)(FUNCTION(NAME, opp)(x2_1)), ix_s_1_x2 = FUNCTION(NAME, add)(ix, s_1_x2);
+    TYPE ln_ix_s_1_x2 = FUNCTION(NAME, log)(ix_s_1_x2), res;
+    COMPLEX_REAL(res) = COMPLEX_IMAG(ln_ix_s_1_x2);
+    COMPLEX_IMAG(res) = -COMPLEX_REAL(ln_ix_s_1_x2);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, acos)(const TYPE x)
+{
+    TYPE x2 = FUNCTION(NAME, mul)(x, x), x2_1 = FUNCTION(NAME, subr)(x2, 1.0);
+    TYPE s_1_x2 = FUNCTION(NAME, sqrt)(FUNCTION(NAME, opp)(x2_1));
+    TYPE x_is_1_x2 = FUNCTION(NAME, add)(x, FUNCTION(NAME, mulI1)(s_1_x2));
     TYPE res;
-    COMPLEX_REAL(res) = log(FUNCTION(NAME, mod)(x));
-    COMPLEX_IMAG(res) = FUNCTION(NAME, arg)(x);
+    COMPLEX_REAL(res) = COMPLEX_IMAG(x_is_1_x2);
+    COMPLEX_IMAG(res) = -COMPLEX_REAL(x_is_1_x2);
 
     return res;
 }
 
-TYPE FUNCTION(NAME, log2)(const TYPE x)
+TYPE FUNCTION(NAME, atan)(const TYPE x)
 {
-    TYPE res = FUNCTION(NAME, log)(x);
-    COMPLEX_REAL(res) = COMPLEX_REAL(res) / MATH_CONST_LOG2;
-    COMPLEX_IMAG(res) = COMPLEX_IMAG(res) / MATH_CONST_LOG2;
-
-    return res;
-}
-
-TYPE FUNCTION(NAME, log10)(const TYPE x)
-{
-    TYPE res = FUNCTION(NAME, log)(x);
-    COMPLEX_REAL(res) = COMPLEX_REAL(res) / MATH_CONST_LOG10;
-    COMPLEX_IMAG(res) = COMPLEX_IMAG(res) / MATH_CONST_LOG10;
-
-    return res;
-}
-
-TYPE FUNCTION(NAME, exp)(const TYPE x)
-{
-    DATA_TYPE mod = exp(COMPLEX_REAL(x));
+    TYPE x_i = FUNCTION(NAME, subi)(x, 1.0), x__i = FUNCTION(NAME, addi)(x, 1.0);
+    TYPE log_x_i = FUNCTION(NAME, log)(x_i), log_x__i = FUNCTION(NAME, log)(x__i);
+    TYPE log_log = FUNCTION(NAME, sub)(log_x_i, log_x__i);
     TYPE res;
-    COMPLEX_REAL(res) = mod * cos(COMPLEX_IMAG(x));
-    COMPLEX_IMAG(res) = mod * sin(COMPLEX_IMAG(x));
-
-    return res;
-}
-
-TYPE FUNCTION(NAME, sqrt)(const TYPE x)
-{
-    DATA_TYPE mod = sqrt(FUNCTION(NAME, mod)(x)),
-              arg = 0.5 * FUNCTION(NAME, arg)(x);
-    TYPE res;
-    COMPLEX_REAL(res) = mod * cos(arg);
-    COMPLEX_IMAG(res) = mod * sin(arg);
+    COMPLEX_REAL(res) = 0.5 * (MATH_CONST_PI + COMPLEX_IMAG(log_log));
+    COMPLEX_IMAG(res) = -0.5 * COMPLEX_REAL(log_log);
 
     return res;
 }
@@ -354,11 +507,11 @@ TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y)
 
 TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y)
 {
-    DATA_TYPE mod = pow(FUNCTION(NAME, mod)(x), y),
-              arg = FUNCTION(NAME, arg)(x) * y;
+    DATA_TYPE abs = pow(FUNCTION(NAME, abs)(x), y),
+              angle = FUNCTION(NAME, angle)(x) * y;
     TYPE res;
-    COMPLEX_REAL(res) = mod * cos(arg);
-    COMPLEX_IMAG(res) = mod * sin(arg);
+    COMPLEX_REAL(res) = abs * cos(angle);
+    COMPLEX_IMAG(res) = abs * sin(angle);
 
     return res;
 }
@@ -410,56 +563,71 @@ TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y)
     return res;
 }
 
-/**                 one complex number and one complex number                 */
-TYPE FUNCTION(NAME, addc)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i)
 {
+    DATA_TYPE angle = 1.0 * MATH_CONST_2PI * i / n;
     TYPE res;
-    COMPLEX_REAL(res) = COMPLEX_REAL(x) + COMPLEX_REAL(y);
-    COMPLEX_IMAG(res) = COMPLEX_IMAG(x) + COMPLEX_IMAG(y);
+    COMPLEX_REAL(res) = cos(angle);
+    COMPLEX_IMAG(res) = sin(angle);
 
     return res;
 }
 
-TYPE FUNCTION(NAME, subc)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i)
 {
+    DATA_TYPE angle = 1.0 * MATH_CONST_2PI * i / n;
     TYPE res;
-    COMPLEX_REAL(res) = COMPLEX_REAL(x) - COMPLEX_REAL(y);
-    COMPLEX_IMAG(res) = COMPLEX_IMAG(x) - COMPLEX_IMAG(y);
+    COMPLEX_REAL(res) = cos(angle);
+    COMPLEX_IMAG(res) = -sin(angle);
 
     return res;
 }
 
-TYPE FUNCTION(NAME, mulc)(const TYPE x, const TYPE y)
+TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len)
 {
-    TYPE res;
-    COMPLEX_REAL(res) =
-        COMPLEX_REAL(x) * COMPLEX_REAL(y) - COMPLEX_IMAG(x) * COMPLEX_IMAG(y);
-    COMPLEX_IMAG(res) =
-        COMPLEX_REAL(x) * COMPLEX_IMAG(y) + COMPLEX_IMAG(x) * COMPLEX_REAL(y);
-
-    return res;
+    cgraph_size_t i, j, k, times = cgraph_math_log2(len);
+    for (i = 0, j = len / 2; i < (len - 2); i++) {
+        cgraph_size_t k = len / 2;
+        if (i < j) {
+            EXCHANGE(x[i], x[j]);
+        }
+        while (k <= j) {
+            j = j - k;
+            k /= 2;
+        }
+        j += k;
+    }
+    for (i = 0; i < times; i++) {
+        cgraph_size_t group0 = cgraph_math_pow2(i), group1 = group0 / 2;
+        for (j = 0; j < group1; j++) {
+            cgraph_size_t n = j * cgraph_math_pow2(len - times);
+            for (k = i; k < len; j += group0) {
+                cgraph_size_t group2 = k + group1;
+                TYPE wn = FUNCTION(NAME, unit)(len, n), xwn = FUNCTION(NAME, mul)(x[group2], wn);
+                x[group2] = FUNCTION(NAME, sub)(x[k], xwn);
+                x[k] = FUNCTION(NAME, add)(x[k], xwn);
+            }
+        }
+    }
+    return x;
 }
 
-TYPE FUNCTION(NAME, divc)(const TYPE x, const TYPE y)
+TYPE *FUNCTION(NAME, ifft)(TYPE *x, const cgraph_size_t len)
 {
-    DATA_TYPE mod_1 = 1.0 / COMPLEX_MOD2(y);
-    TYPE res;
-    COMPLEX_REAL(res) =
-        (COMPLEX_REAL(x) * COMPLEX_REAL(y) + COMPLEX_IMAG(x) * COMPLEX_IMAG(y)) *
-        mod_1;
-    COMPLEX_IMAG(res) =
-        (COMPLEX_IMAG(x) * COMPLEX_REAL(y) - COMPLEX_REAL(x) * COMPLEX_IMAG(y)) *
-        mod_1;
+    cgraph_size_t i = 0;
+    for (i = 0; i < len; i++) {
+        x[i] = FUNCTION(NAME, conj)(x[i]);
+    }
+    x = FUNCTION(NAME, fft)(x, len);
+    for (i = 0; i < len; i++) {
+        x[i] = FUNCTION(NAME, conj)(x[i]);
+    }
+    for (i = 0; i < len; i++) {
+        COMPLEX_REAL(x[i]) = COMPLEX_REAL(x[i]) / len;
+        COMPLEX_IMAG(x[i]) = COMPLEX_IMAG(x[i]) / len;
+    }
 
-    return res;
-}
-
-TYPE FUNCTION(NAME, powc)(const TYPE x, const TYPE y)
-{
-    TYPE res = FUNCTION(NAME, log)(x);
-    res = FUNCTION(NAME, mulc)(y, res);
-
-    return FUNCTION(NAME, exp)(res);
+    return x;
 }
 
 #include "template_off.h"

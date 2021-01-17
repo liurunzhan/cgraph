@@ -16,8 +16,10 @@
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
     cgraph_size_t hash = 0, i;
-    for (i = 0; i < cthis->len; i++) {
-        hash = (hash * 31) + (cthis->data[i] - '0');
+    if (NULL != cthis) {
+        for (i = 0; i < cthis->len; i++) {
+            hash = (hash * 31) + (cthis->data[i] - '0');
+        }
     }
 
     return CGRAPH_ABS(hash);
@@ -53,8 +55,24 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
 {
     if ((NULL != cthis) && ('-' == cthis->data[0])) {
-        cthis->data = &(cthis->data[1]);
+        cthis->data += 1;
         cthis->len -= 1;
+    }
+
+    return cthis;
+}
+
+TYPE *FUNCTION(NAME, opp)(TYPE *cthis)
+{
+    if (NULL != cthis) {
+        if ('-' == cthis->data[0]) {
+            cthis->data += 1;
+            cthis->len -= 1;
+        } else {
+            cthis->data -= 1;
+            cthis->len += 1;
+            cthis->data[0] = '-';
+        }
     }
 
     return cthis;
@@ -266,6 +284,45 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
     } else if (NULL != x && NULL == y) {
         flag = CGRAPH_TRUE;
     }
+
+    return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE *cthis)
+{
+    cgraph_bool_t flag = CGRAPH_FALSE;
+    if (NULL != cthis) {
+        if (2 <= cthis->len) {
+            if ('N' == cthis->data[0] || 'n' == cthis->data[0]) {
+                if ('A' == cthis->data[1] || 'a' == cthis->data[1]) {
+                    if ((3 <= cthis->len) && ('N' == cthis->data[2] || 'n' == cthis->data[2])) {
+                        flag = CGRAPH_TRUE;
+                    }
+                }
+            }
+        }
+    }
+
+    return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE *cthis)
+{
+    cgraph_bool_t flag = CGRAPH_FALSE;
+
+    return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE *cthis)
+{
+    cgraph_bool_t flag = CGRAPH_FALSE;
+
+    return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE *cthis)
+{
+    cgraph_bool_t flag = CGRAPH_FALSE;
 
     return flag;
 }

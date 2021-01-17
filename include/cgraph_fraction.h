@@ -47,13 +47,9 @@ extern TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE FUNCTION(NAME, addf)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, subf)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, mulf)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, divf)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, powf)(const TYPE x, const TYPE y);
-
+extern TYPE FUNCTION(NAME, opp)(const TYPE x);
 extern TYPE FUNCTION(NAME, abs)(const TYPE x);
+extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 
 extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x);

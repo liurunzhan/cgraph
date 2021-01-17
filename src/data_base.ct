@@ -223,18 +223,33 @@ void FUNCTION(NAME, descsort)(TYPE *cthis, const cgraph_size_t start,
 }
 
 #ifdef TYPE_WITH_DATA
-cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE **x, const TYPE **y, const cgraph_size_t len, cgraph_pfunc3_t iter)
+TYPE **FUNCTION(NAME, exchange)(TYPE **cthis, const cgraph_size_t startx, const cgraph_size_t starty, const cgraph_size_t len)
 #else
-cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE *x, const TYPE *y, const cgraph_size_t len, cgraph_pfunc3_t iter)
+TYPE *FUNCTION(NAME, exchange)(TYPE *cthis, const cgraph_size_t startx, const cgraph_size_t starty, const cgraph_size_t len)
 #endif
 {
+    return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE **x, const TYPE **y, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+    TYPE **_x = (TYPE **)x, **_y = (TYPE **)y;
+#else
+cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE *x, const TYPE *y, const cgraph_size_t len, cgraph_pfunc3_t iter)
+{
+    TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
+#endif
+    cgraph_bool_t flag = CGRAPH_FALSE;
     cgraph_size_t i;
-    
-    for (i = 0; i < len; i++) {
-        
+    for (i = 0; i < len; i++, _x++, _y++) {
+        iter(_x, _y, &flag);
+        if (CGRAPH_TRUE == flag) {
+            break;
+        }
     }
 
-    return *z;
+    return flag;
 }
 
 #ifdef TYPE_WITH_DATA

@@ -22,16 +22,18 @@ typedef struct {
 #include "data_base.ht"
 
 /**                             initial function                              */
-extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mod, const DATA_TYPE arg);
-extern TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mod);
-extern TYPE FUNCTION(NAME, initwa)(const DATA_TYPE arg);
+extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE abs, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, initwm)(const DATA_TYPE abs);
+extern TYPE FUNCTION(NAME, initwa)(const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, initwri)(const DATA_TYPE real, const DATA_TYPE imag);
 extern TYPE FUNCTION(NAME, initwr)(const DATA_TYPE real);
 extern TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag);
 
 /**                  complex number mathematical functions                    */
-extern DATA_TYPE FUNCTION(NAME, mod)(const TYPE x);
-extern DATA_TYPE FUNCTION(NAME, arg)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, real)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, imag)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, abs)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, conj)(const TYPE x);
 
@@ -52,23 +54,32 @@ extern TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE FUNCTION(NAME, addc)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, subc)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, mulc)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, divc)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, powc)(const TYPE x, const TYPE y);
-
 extern TYPE FUNCTION(NAME, opp)(const TYPE x);
-extern TYPE FUNCTION(NAME, abs)(const TYPE x);
-extern TYPE FUNCTION(NAME, sin)(const TYPE x);
-extern TYPE FUNCTION(NAME, cos)(const TYPE x);
-extern TYPE FUNCTION(NAME, tan)(const TYPE x);
-
 extern TYPE FUNCTION(NAME, log)(const TYPE x);
 extern TYPE FUNCTION(NAME, log2)(const TYPE x);
 extern TYPE FUNCTION(NAME, log10)(const TYPE x);
 extern TYPE FUNCTION(NAME, exp)(const TYPE x);
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
+extern TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, sin)(const TYPE x);
+extern TYPE FUNCTION(NAME, cos)(const TYPE x);
+extern TYPE FUNCTION(NAME, tan)(const TYPE x);
+extern TYPE FUNCTION(NAME, cot)(const TYPE x);
+extern TYPE FUNCTION(NAME, sec)(const TYPE x);
+extern TYPE FUNCTION(NAME, csc)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, sinh)(const TYPE x);
+extern TYPE FUNCTION(NAME, cosh)(const TYPE x);
+extern TYPE FUNCTION(NAME, tanh)(const TYPE x);
+extern TYPE FUNCTION(NAME, coth)(const TYPE x);
+extern TYPE FUNCTION(NAME, sech)(const TYPE x);
+extern TYPE FUNCTION(NAME, csch)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, asin)(const TYPE x);
+extern TYPE FUNCTION(NAME, acos)(const TYPE x);
+extern TYPE FUNCTION(NAME, atan)(const TYPE x);
 
 extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x);
@@ -77,6 +88,11 @@ extern cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i);
+extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i);
+extern TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, ifft)(TYPE *x, const cgraph_size_t len);
 
 #include "template_off.h"
 

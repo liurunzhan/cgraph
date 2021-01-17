@@ -15,27 +15,41 @@ extern "C" {
 #define MATH_CONST_PI (M_PI)
 #else
 #define MATH_CONST_PI (3.14159265358979323846)
-#endif /** MATH_CONST_PI */
+#endif /** MATH_CONST_PI pi */
+
+#define MATH_CONST_2PI (6.28318530717958647693) /** MATH_CONST_2PI : 2*pi */
+
+#if defined(M_PI_2)
+#define MATH_CONST_PI_2 (M_PI_2)
+#else
+#define MATH_CONST_PI_2 (1.57079632679489661923)
+#endif /** MATH_CONST_PI_2 : pi/2 */
+
+#if defined(M_2_PI)
+#define MATH_CONST_2_PI (M_PI_2)
+#else
+#define MATH_CONST_2_PI (1.57079632679489661923)
+#endif /** MATH_CONST_2_PI : 2/pi */
 
 #if defined(M_E)
 #define MATH_CONST_E (M_E)
 #else
 #define MATH_CONST_E (2.71828182845904523536)
-#endif
+#endif /** MATH_CONST_E : e */
 
-#define MATH_CONST_PHI (0.61803398874989484820) /**(sqrt(5)-1)/2 */
+#define MATH_CONST_PHI (0.61803398874989484820) /** MATH_CONST_PHI : (sqrt(5)-1)/2 */
 
 #if defined(M_LN2)
 #define MATH_CONST_LOG2 (M_LN2)
 #else
 #define MATH_CONST_LOG2 (0.69314718055994530942)
-#endif /** MATH_CONST_LOG2 */
+#endif /** MATH_CONST_LOG2 : log_e 2 */
 
 #if defined(M_LN10)
 #define MATH_CONST_LOG10 (M_LN10)
 #else
 #define MATH_CONST_LOG10 (2.30258509299404568402)
-#endif /** MATH_CONST_LOG10 */
+#endif /** MATH_CONST_LOG10 : log_e 10 */
 
 extern cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata,
                                      const cgraph_uint_t data,
@@ -71,6 +85,11 @@ extern cgraph_int_t cgraph_math_log2(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_mod2(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data);
+
+extern cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n, const cgraph_int_t mod);
+extern cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y);
+extern cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y, const cgraph_int_t mod);
 
 #ifdef __cplusplus
 }

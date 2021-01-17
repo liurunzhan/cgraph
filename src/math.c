@@ -178,11 +178,11 @@ cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
     return counter;
 }
 
-static cgraph_int_t cgraph_seed = 0;
+static cgraph_int_t __cgraph_math_seed = 0;
 
-void cgraph_random_seed(cgraph_int_t seed) { cgraph_seed = seed; }
+void cgraph_random_seed(cgraph_int_t seed) { __cgraph_math_seed = seed; }
 
-/*
+/**
         Author  : Park,  Miller
         Methode : X(n+1) <- (a * X(n) + b) % m
         a = 16807 or 48271
@@ -195,10 +195,10 @@ cgraph_int_t cgraph_random(void)
 {
     const cgraph_int_t a = 48271, m = CGRAPH_RANDOM_MAX;
     const cgraph_int_t m_div_a = m / a, m_mod_a = m % a;
-    cgraph_int_t hi = cgraph_seed / m_div_a, lo = cgraph_seed % m_div_a;
-    cgraph_seed = (a * lo - m_mod_a * hi);
+    cgraph_int_t hi = __cgraph_math_seed / m_div_a, lo = __cgraph_math_seed % m_div_a;
+    __cgraph_math_seed = (a * lo - m_mod_a * hi);
 
-    return cgraph_seed;
+    return __cgraph_math_seed;
 }
 
 cgraph_int_t cgraph_random_uniform(const cgraph_int_t min,
@@ -235,7 +235,7 @@ cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
     return log(x) / log(n);
 }
 
-cgraph_int_t cgraph_math_pow2(const cgraph_int_t n) { return (1 << n); }
+CGRAPH_INLINE cgraph_int_t cgraph_math_pow2(const cgraph_int_t n) { return (1 << n); }
 
 cgraph_int_t cgraph_math_log2(const cgraph_int_t x)
 {
@@ -248,14 +248,70 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x)
     return res;
 }
 
-cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) { return (x & 0x01); }
+CGRAPH_INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) { return (x & 0x01); }
 
-cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data)
+CGRAPH_INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data)
 {
     return (data ^ (data >> 1));
 }
 
-cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data)
+CGRAPH_INLINE cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data)
 {
     return (data ^ (data << 1));
+}
+
+cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n)
+{
+    cgraph_int_t res = 1, _x = x, _n = n;
+    while (_n != 0) {
+        if ((_n & 0x01) == 1) {
+            res *= _x;
+        }
+        _n = _n >> 1;
+        _x *= _x;
+    }
+
+    return res;
+}
+
+cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n, const cgraph_int_t mod)
+{
+    cgraph_int_t res = 1, _x = x, _n = n;
+    while (_n != 0) {
+        if ((_n & 0x01) == 1) {
+            res = (res * x) % mod;
+        }
+        _n = _n >> 1;
+        _x *= _x;
+    }
+
+    return res % mod;
+}
+
+cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y)
+{
+    cgraph_int_t res = 0, _x = x, _y = y;
+    while (_y != 0) {
+        if ((_y & 0x01) == 1) {
+            res += _x;
+        }
+        _x = _x << 1;
+        _y = _y >> 1;
+    }
+
+    return res;
+}
+
+cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y, const cgraph_int_t mod)
+{
+    cgraph_int_t res = 0, _x = x, _y = y;
+    while (_y != 0) {
+        if ((_y & 0x01) == 1) {
+            res = (res + _x) % mod;
+        }
+        _x = (_x << 1) % mod;
+        _y = _y >> 1;
+    }
+
+    return res % mod;
 }

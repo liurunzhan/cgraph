@@ -67,7 +67,7 @@ TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y)
 
 TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y)
 {
-    return x * y / FUNCTION(NAME, gcd)(x, y);
+    return x / FUNCTION(NAME, gcd)(x, y) * y;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y)
