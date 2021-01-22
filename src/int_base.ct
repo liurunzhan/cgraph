@@ -113,19 +113,19 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, clr)(const TYPE x,
 CGRAPH_INLINE TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from,
                                         const cgraph_size_t to)
 {
-    return to > from ? CGRAPH_BITS(x, from, to) : 0;
+    return (to > from) ? (TYPE)CGRAPH_BITS(x, from, to) : 0;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from,
                                         const cgraph_size_t to)
 {
-    return to > from ? CGRAPH_BSETS(x, from, to) : 0;
+    return (to > from) ? (TYPE)CGRAPH_BSETS(x, from, to) : 0;
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from,
                                         const cgraph_size_t to)
 {
-    return to > from ? CGRAPH_BCLRS(x, from, to) : 0;
+    return (to > from) ? (TYPE)CGRAPH_BCLRS(x, from, to) : 0;
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)

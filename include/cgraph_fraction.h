@@ -59,6 +59,9 @@ extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 
+extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);
+extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
+
 #include "template_off.h"
 
 #ifdef __cplusplus

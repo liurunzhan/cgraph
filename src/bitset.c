@@ -1,4 +1,5 @@
 #include "cgraph_bitset.h"
+#include "cgraph_int8.h"
 #include "cgraph_memory.h"
 
 #define TYPE_BITSET
@@ -25,12 +26,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
 {
-    cgraph_bool_t flag = CGRAPH_FALSE;
-    if (NULL != cthis) {
-        flag = CGRAPH_TRUE;
-    }
-
-    return flag;
+    return CGRAPH_TEST(NULL != cthis);
 }
 
 TYPE *FUNCTION(NAME, bit)(const TYPE *cthis, const cgraph_size_t postion)
@@ -277,6 +273,50 @@ TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y)
     }
 
     return y;
+}
+
+TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
+{
+    return cthis;
+}
+
+TYPE *FUNCTION(NAME, opp)(TYPE *cthis)
+{
+    if (NULL != cthis) {
+        cgraph_size_t i;
+        DATA_TYPE *cthisd = cthis->data;
+        for (i = 0; i < cthis->len; i++, cthisd++) {
+            *cthisd = ~(*cthisd);
+        }
+    }
+
+    return cthis;
+}
+
+TYPE *FUNCTION(NAME, unit)(const cgraph_size_t size)
+{
+    TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
+    if (NULL != cthis) {
+        cthis->len = size;
+        cgraph_memset(cthis->data, 255, size);
+    }
+
+    return cthis;
+}
+
+TYPE *FUNCTION(NAME, unit_inv)(const cgraph_size_t size)
+{
+    return FUNCTION(NAME, unit)(size);
+}
+
+TYPE *FUNCTION(NAME, zero)(const cgraph_size_t size)
+{
+    TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
+    if (NULL != cthis) {
+        cthis->len = size;
+    }
+
+    return cthis;
 }
 
 #include "template_off.h"

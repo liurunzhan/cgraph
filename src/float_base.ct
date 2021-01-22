@@ -86,3 +86,11 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
 {
     return CGRAPH_TEST(EQ(x, MAX));
 }
+
+CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y)
+{
+    ARG res = 0.0;
+    modf(x / y, &res);
+
+    return (TYPE)res;
+}

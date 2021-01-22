@@ -264,7 +264,7 @@ cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n)
 {
     cgraph_int_t res = 1, _x = x, _n = n;
     while (_n != 0) {
-        if ((_n & 0x01) == 1) {
+        if (1 == (_n & 0x01)) {
             res *= _x;
         }
         _n = _n >> 1;
@@ -278,11 +278,11 @@ cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n, con
 {
     cgraph_int_t res = 1, _x = x, _n = n;
     while (_n != 0) {
-        if ((_n & 0x01) == 1) {
-            res = (res * x) % mod;
+        if (1 == (_n & 0x01)) {
+            res = (res * _x) % mod;
         }
         _n = _n >> 1;
-        _x *= _x;
+        _x = (_x * _x) % mod;
     }
 
     return res % mod;

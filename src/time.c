@@ -43,7 +43,8 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    if ((TIME_VALUE0(x) == TIME_VALUE0(y)) &&
+    if ((TIME_TYPE(x) == TIME_TYPE(y)) &&
+        (TIME_VALUE0(x) == TIME_VALUE0(y)) &&
         (TIME_VALUE1(x) == TIME_VALUE1(y))) {
         flag = CGRAPH_TRUE;
     }
@@ -54,7 +55,8 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    if ((TIME_VALUE0(x) != TIME_VALUE0(y)) ||
+    if ((TIME_TYPE(x) == TIME_TYPE(y)) ||
+        (TIME_VALUE0(x) != TIME_VALUE0(y)) ||
         (TIME_VALUE1(x) != TIME_VALUE1(y))) {
         flag = CGRAPH_TRUE;
     }
@@ -104,56 +106,29 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y)
     return flag;
 }
 
-TYPE FUNCTION(NAME, initc)(const cgraph_char_t *cthis,
-                           const cgraph_char_t *sep)
+TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1)
 {
     TYPE res;
-    cgraph_size_t i = 0;
-    DATA_TYPE res_tmp[TYPE1_ELEMENTS] = {0};
-    if ((NULL != cthis) && (NULL != sep)) {
-        char *buffer = cgraph_calloc(strlen(cthis) + 1);
-        if (NULL != buffer) {
-            char *p = NULL;
-            buffer = cgraph_strcpy(buffer, cthis);
-            while ((NULL != (p = strtok(buffer, sep))) && (TYPE1_ELEMENTS > i)) {
-                res_tmp[i++] = atoi(p);
-            }
-            cgraph_free(buffer);
-        }
-    }
-    TIME_YEAR(res) = res_tmp[0];
-    TIME_MONTH(res) = res_tmp[1];
-    TIME_DAY(res) = res_tmp[2];
-    TIME_HOUR(res) = res_tmp[3];
-    TIME_MINUTE(res) = res_tmp[4];
-    TIME_SECOND(res) = res_tmp[5];
+    TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+    TIME_VALUE0(res) = time0;
+    TIME_VALUE1(res) = time1;
 
     return res;
 }
 
-TYPE FUNCTION(NAME, initwymdhms)(const DATA_TYPE year, const DATA_TYPE month,
-                                 const DATA_TYPE day, const DATA_TYPE hour,
-                                 const DATA_TYPE minute,
-                                 const DATA_TYPE second)
+TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
+                           const DATA_TYPE day, const DATA_TYPE hour,
+                           const DATA_TYPE minute,
+                           const DATA_TYPE second)
 {
     TYPE res;
-    TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+    TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
     TIME_YEAR(res) = year;
     TIME_MONTH(res) = month;
     TIME_DAY(res) = day;
     TIME_HOUR(res) = hour;
     TIME_MINUTE(res) = minute;
     TIME_SECOND(res) = second;
-
-    return res;
-}
-
-TYPE FUNCTION(NAME, initt0t1)(const DATA_TYPE time0, const DATA_TYPE time1)
-{
-    TYPE res;
-    TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
-    TIME_VALUE0(res) = time0;
-    TIME_VALUE1(res) = time1;
 
     return res;
 }
@@ -172,8 +147,27 @@ TYPE FUNCTION(NAME, localtime)(void)
     TIME_HOUR(res) = pt->tm_hour;
     TIME_MINUTE(res) = pt->tm_min;
     TIME_SECOND(res) = pt->tm_sec;
-    TIME_WEEK(res) = pt->tm_wday;
-    TIME_DAYS(res) = pt->tm_yday;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep)
+{
+    TYPE res;
+    cgraph_size_t i = 0;
+    DATA_TYPE res_tmp[6] = {0};
+    if ((NULL != cthis) && (NULL != sep)) {
+        char *p = NULL;
+        while ((NULL != (p = strtok(cthis, sep))) && (6 > i)) {
+            res_tmp[i++] = atoi(p);
+        }
+    }
+    TIME_YEAR(res) = res_tmp[0];
+    TIME_MONTH(res) = res_tmp[1];
+    TIME_DAY(res) = res_tmp[2];
+    TIME_HOUR(res) = res_tmp[3];
+    TIME_MINUTE(res) = res_tmp[4];
+    TIME_SECOND(res) = res_tmp[5];
 
     return res;
 }
@@ -231,7 +225,7 @@ TYPE FUNCTION(NAME, div0i)(const TYPE x, const DATA_TYPE y)
     return res;
 }
 
-TYPE FUNCTION(NAME, mul0I)(const TYPE x)
+TYPE FUNCTION(NAME, opp0)(const TYPE x)
 {
     TYPE res;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
@@ -241,7 +235,7 @@ TYPE FUNCTION(NAME, mul0I)(const TYPE x)
     return res;
 }
 
-TYPE FUNCTION(NAME, add0t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, add0)(const TYPE x, const TYPE y)
 {
     TYPE res;
     DATA_TYPE tmp = TIME_VALUE0(x) + TIME_VALUE0(y);
@@ -269,12 +263,12 @@ TYPE FUNCTION(NAME, add0t)(const TYPE x, const TYPE y)
     return res;
 }
 
-TYPE FUNCTION(NAME, sub0t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, sub0)(const TYPE x, const TYPE y)
 {
-    return FUNCTION(NAME, add0t)(x, FUNCTION(NAME, mul0I)(y));
+    return FUNCTION(NAME, add0)(x, FUNCTION(NAME, opp0)(y));
 }
 
-TYPE FUNCTION(NAME, mul0t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, mul0)(const TYPE x, const TYPE y)
 {
     TYPE res;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
@@ -284,7 +278,7 @@ TYPE FUNCTION(NAME, mul0t)(const TYPE x, const TYPE y)
     return res;
 }
 
-TYPE FUNCTION(NAME, div0t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y)
 {
     TYPE res;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
@@ -326,12 +320,10 @@ TYPE FUNCTION(NAME, div1i)(const TYPE x, const DATA_TYPE y)
     return res;
 }
 
-TYPE FUNCTION(NAME, mul1I)(const TYPE x)
+TYPE FUNCTION(NAME, opp1)(const TYPE x)
 {
     TYPE res;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
-    TIME_WEEK(res) = -TIME_WEEK(x);
-    TIME_DAYS(res) = -TIME_DAYS(x);
     TIME_YEAR(res) = -TIME_YEAR(x);
     TIME_MONTH(res) = -TIME_MONTH(x);
     TIME_DAY(res) = -TIME_DAY(x);
@@ -342,7 +334,7 @@ TYPE FUNCTION(NAME, mul1I)(const TYPE x)
     return res;
 }
 
-TYPE FUNCTION(NAME, add1t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, add1)(const TYPE x, const TYPE y)
 {
     TYPE res;
     DATA_TYPE tmp = 0;
@@ -375,12 +367,12 @@ TYPE FUNCTION(NAME, add1t)(const TYPE x, const TYPE y)
     return res;
 }
 
-TYPE FUNCTION(NAME, sub1t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, sub1)(const TYPE x, const TYPE y)
 {
-    return FUNCTION(NAME, add1t)(x, FUNCTION(NAME, mul1I)(y));
+    return FUNCTION(NAME, add1)(x, FUNCTION(NAME, opp1)(y));
 }
 
-TYPE FUNCTION(NAME, mul1t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, mul1)(const TYPE x, const TYPE y)
 {
     TYPE res;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
@@ -388,7 +380,7 @@ TYPE FUNCTION(NAME, mul1t)(const TYPE x, const TYPE y)
     return res;
 }
 
-TYPE FUNCTION(NAME, div1t)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y)
 {
     TYPE res;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE1;

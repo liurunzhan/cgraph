@@ -333,6 +333,29 @@ void cgraph_verilog_crc(FILE *fp, const cgraph_size_t len)
     }
 }
 
+void cgraph_verilog_tbench(FILE *fp, const cgraph_size_t delay_time)
+{
+    fprintf(fp, "`timescale 1ns/1ps\n\n"
+                "module tbench();\n"
+                "reg clk;\n"
+                "reg rstn;\n");
+    fprintf(fp, "always @(*)\n"
+                "  begin\n"
+                "    if(!rstn)\n"
+                "      clk = 1'b0;\n"
+                "    else\n"
+                "      #50 clk = ~clk;\n"
+                "  end\n");
+    fprintf(fp, "initial\n"
+                "  begin\n"
+                "    rstn = 1'b0;\n"
+                "    #100 rstn = 1'b1;\n"
+                "    #%ld $finish;\n"
+                "  end\n",
+            delay_time);
+    fprintf(fp, "endmodule\n");
+}
+
 void cgraph_verilog_test(void)
 {
 #ifdef DEBUG

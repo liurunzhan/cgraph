@@ -34,11 +34,13 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
 
 TYPE FUNCTION(NAME, format)(const TYPE cthis)
 {
-    DATA_TYPE gcd = cgraph_int_gcd(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
+    DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
     TYPE res;
+    FRACTION_NUM(res) = FRACTION_NUM(cthis);
+    FRACTION_DEN(res) = FRACTION_DEN(cthis);
     if (gcd != 1) {
-        FRACTION_NUM(res) = FRACTION_NUM(cthis) / gcd;
-        FRACTION_DEN(res) = FRACTION_DEN(cthis) / gcd;
+        FRACTION_NUM(res) = FRACTION_NUM(res) / gcd;
+        FRACTION_DEN(res) = FRACTION_DEN(res) / gcd;
     }
 
     return res;
@@ -202,8 +204,8 @@ TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y)
 {
     TYPE res;
-    FRACTION_DEN(res) = FUNCTION(DATA_NAME, lcm)(FRACTION_DEN(x), FRACTION_DEN(y));
-    FRACTION_NUM(res) = (FRACTION_DEN(res) / FRACTION_DEN(x) * FRACTION_NUM(x)) % (FRACTION_DEN(res) / FRACTION_DEN(y) * FRACTION_NUM(y));
+    FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
+    FRACTION_NUM(res) = (FRACTION_DEN(y) * FRACTION_NUM(x)) % (FRACTION_DEN(x) * FRACTION_NUM(y));
 
     return res;
 }
@@ -301,6 +303,24 @@ TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y)
     FRACTION_DEN(res) = FRACTION_DEN(x) == 1
                             ? FRACTION_DEN(x)
                             : (DATA_TYPE)pow(FRACTION_DEN(x), 1.0 / y);
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, unit)(const DATA_TYPE x)
+{
+    TYPE res;
+    FRACTION_NUM(res) = x;
+    FRACTION_DEN(res) = 1;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x)
+{
+    TYPE res;
+    FRACTION_NUM(res) = 1;
+    FRACTION_DEN(res) = x;
 
     return res;
 }

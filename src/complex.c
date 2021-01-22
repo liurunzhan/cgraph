@@ -1,6 +1,5 @@
-#include <float.h>
-
 #include "cgraph_complex.h"
+#include "cgraph_float64.h"
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
@@ -272,9 +271,21 @@ TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y)
     return FUNCTION(NAME, exp)(res);
 }
 
-TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y)
+TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y)
 {
     TYPE res;
+    DATA_TYPE res_real = FUNCTION(DATA_NAME, int)(COMPLEX_REAL(x), COMPLEX_REAL(y)), res_imag = FUNCTION(DATA_NAME, int)(COMPLEX_IMAG(x), COMPLEX_IMAG(y));
+    COMPLEX_REAL(res) = CGRAPH_MIN(res_real, res_imag);
+    COMPLEX_IMAG(res) = 0.0;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y)
+{
+    TYPE res = FUNCTION(NAME, int)(x, y);
+    COMPLEX_REAL(res) = COMPLEX_REAL(x) - COMPLEX_REAL(y) * COMPLEX_REAL(res);
+    COMPLEX_IMAG(res) = COMPLEX_IMAG(x) - COMPLEX_IMAG(y) * COMPLEX_REAL(res);
 
     return res;
 }
@@ -412,9 +423,7 @@ TYPE FUNCTION(NAME, acos)(const TYPE x)
 
 TYPE FUNCTION(NAME, atan)(const TYPE x)
 {
-    TYPE x_i = FUNCTION(NAME, subi)(x, 1.0), x__i = FUNCTION(NAME, addi)(x, 1.0);
-    TYPE log_x_i = FUNCTION(NAME, log)(x_i), log_x__i = FUNCTION(NAME, log)(x__i);
-    TYPE log_log = FUNCTION(NAME, sub)(log_x_i, log_x__i);
+    TYPE x_i = FUNCTION(NAME, subi)(x, 1.0), x__i = FUNCTION(NAME, addi)(x, 1.0), log_log = FUNCTION(NAME, sub)(FUNCTION(NAME, log)(x_i), FUNCTION(NAME, log)(x__i));
     TYPE res;
     COMPLEX_REAL(res) = 0.5 * (MATH_CONST_PI + COMPLEX_IMAG(log_log));
     COMPLEX_IMAG(res) = -0.5 * COMPLEX_REAL(log_log);

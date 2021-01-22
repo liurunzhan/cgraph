@@ -71,6 +71,12 @@ extern "C" {
 #define __CGRAPH_UINT64_MIN (0LL)
 #define __CGRAPH_UINT64_MAX (1844674407370955161ULL)
 #define __CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFFLL)
+#define CGRAPH_WITH_FLOAT128
+#define __CGRAPH_FLOAT128     signed long double
+#define __CGRAPH_FLOAT128_MIN LDBL_MIN
+#define __CGRAPH_FLOAT128_MAX LDBL_MAX
+#define __CGRAPH_FLOAT128_EPS LDBL_EPSILON
+#define __CGRAPH_FLOAT128_BIT LDBL_DIG
 #else
 #if defined(__GNUC__) || defined(__clang__)
 #define CGRAPH_INLINE       __extension__ __inline__

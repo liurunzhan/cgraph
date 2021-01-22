@@ -267,6 +267,21 @@
 #define EPSILON     CGRAPH_FLOAT64_EPS
 #define EPSILON_LEN CGRAPH_FLOAT64_BIT
 
+#elif defined(TYPE_FLOAT128)
+#define ARG         cgraph_float128_t
+#define TYPE        cgraph_float128_t
+#define ID          CGRAPH_FLOAT128_T
+#define NAME        float128
+#define OUT_FORMAT  "%lg"
+#define ZERO        (0.0)
+#define ONE         (1.0)
+#define ONES        (1.0)
+#define BITS        CGRAPH_FLOAT128_BIT
+#define MIN         CGRAPH_FLOAT128_MIN
+#define MAX         CGRAPH_FLOAT128_MAX
+#define EPSILON     CGRAPH_FLOAT128_EPS
+#define EPSILON_LEN CGRAPH_FLOAT128_BIT
+
 #elif defined(TYPE_TIME)
 #define TYPE       cgraph_time_t
 #define ID         CGRAPH_TIME_T
@@ -823,7 +838,7 @@
         (b) = tmp;      \
     } while (0)
 
-#elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64)
+#elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
 #define DATA_TEST(a)   isnormal((a))
 #define DATA_ISNAN(a)  isnan((a))
@@ -847,7 +862,7 @@
 #define MUL(a, b, c)  ((a) * (b))
 #define DIV(a, b, c)  ((a) / (b))
 #define DIVF(a, b, c) ((a) / (b))
-#define INT(a, b, c)  (floor(DIV((a), (b), (0))))
+#define INT(a, b, c)  (FUNCTION(NAME, int)((a), (b)))
 #define MOD(a, b, c)  (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
@@ -904,17 +919,17 @@
     FUNCTION(NAME, le) \
     ((a), (b))
 
-#define ADD(a, b, c)      \
-    FUNCTION(NAME, add1t) \
+#define ADD(a, b, c)     \
+    FUNCTION(NAME, add1) \
     ((a), (b))
-#define SUB(a, b, c)      \
-    FUNCTION(NAME, sub1t) \
+#define SUB(a, b, c)     \
+    FUNCTION(NAME, sub1) \
     ((a), (b))
-#define MUL(a, b, c)      \
-    FUNCTION(NAME, mul1t) \
+#define MUL(a, b, c)     \
+    FUNCTION(NAME, mul1) \
     ((a), (b))
-#define DIV(a, b, c)      \
-    FUNCTION(NAME, div1t) \
+#define DIV(a, b, c)     \
+    FUNCTION(NAME, div1) \
     ((a), (b))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED

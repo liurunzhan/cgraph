@@ -11,6 +11,7 @@ extern "C" {
 extern void *cgraph_calloc(const cgraph_size_t size);
 extern void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
                             const cgraph_size_t new_size, cgraph_bool_t *error);
+extern void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data);
 extern void *cgraph_memcpy(void *object, const void *cthis,
                            const cgraph_size_t size);
 extern void *cgraph_strcpy(void *object, const void *cthis);

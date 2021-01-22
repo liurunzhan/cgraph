@@ -15,8 +15,7 @@ void *cgraph_calloc(const cgraph_size_t size)
         fflush(stdout);
         if (0 >= size) {
             cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
-                             "memory size %ld is a negative number or equal to zero",
-                             size);
+                             "memory size %ld is a negative number or equal to zero", size);
         }
         fflush(stderr);
     }
@@ -40,8 +39,7 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
 #ifdef DEBUG
                 fflush(stdout);
                 cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
-                                 "memory is re-allocated error, and the pointer is "
-                                 "kept to the old one");
+                                 "memory is re-allocated error, and the pointer is kept to the old one");
                 fflush(stderr);
 #endif
                 _cthis = cthis;
@@ -55,6 +53,22 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
         cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
                          "error flag pointer is empty");
         fflush(stderr);
+    }
+#endif
+
+    return _cthis;
+}
+
+void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data)
+{
+    void *_cthis = cthis;
+    if (NULL != _cthis) {
+        _cthis = memset(cthis, data & 0xFF, size);
+    }
+#ifdef DEBUG
+    else {
+        cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+                         "source pointer is empty");
     }
 #endif
 

@@ -1,4 +1,5 @@
 #include "cgraph_bigint.h"
+#include "cgraph_int8.h"
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
@@ -63,12 +64,12 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis)
 
 cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE *cthis)
 {
-    return cthis->postive;
+    return NULL != cthis ? cthis->postive : CGRAPH_FALSE;
 }
 
 cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 {
-    return CGRAPH_TEST(cthis->postive == CGRAPH_FALSE);
+    return NULL != cthis ? CGRAPH_TEST(cthis->postive == CGRAPH_FALSE) : CGRAPH_FALSE;
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
@@ -207,9 +208,11 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
             if (i < 0) {
                 flag = CGRAPH_TRUE;
             }
-        } else if (CGRAPH_TRUE == x->postive && CGRAPH_FALSE == y->postive) {
+        } else if ((CGRAPH_TRUE == x->postive) && (CGRAPH_FALSE == y->postive)) {
             flag = CGRAPH_TRUE;
         }
+    } else if ((NULL != x) && (NULL == y)) {
+        flag = CGRAPH_TRUE;
     }
 
     return flag;
@@ -314,6 +317,34 @@ TYPE *FUNCTION(NAME, format)(TYPE *cthis)
             data++;
         }
         cthis->data = data;
+    }
+
+    return cthis;
+}
+
+TYPE *FUNCTION(NAME, unit)(const cgraph_size_t size)
+{
+    cgraph_size_t _size = (size > 1 ? size : 1);
+    TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+    if (NULL != cthis) {
+        cthis->len = 1;
+        cthis->data[0] = 1;
+    }
+
+    return cthis;
+}
+
+TYPE *FUNCTION(NAME, unit_inv)(const cgraph_size_t size)
+{
+    return FUNCTION(NAME, unit)(size);
+}
+
+TYPE *FUNCTION(NAME, zero)(const cgraph_size_t size)
+{
+    cgraph_size_t _size = (size > 1 ? size : 1);
+    TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+    if (NULL != cthis) {
+        cthis->len = 1;
     }
 
     return cthis;

@@ -327,4 +327,39 @@ cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE *cthis)
     return flag;
 }
 
+TYPE *FUNCTION(NAME, unit)(const cgraph_size_t size)
+{
+    cgraph_size_t _size = (size > 3 ? size : 3);
+    TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+    if (NULL != cthis) {
+        cthis->len = 3;
+        cthis->point = 1;
+        cthis->data[0] = '1';
+        cthis->data[1] = '.';
+        cthis->data[2] = '0';
+    }
+
+    return cthis;
+}
+
+TYPE *FUNCTION(NAME, unit_inv)(const cgraph_size_t size)
+{
+    return FUNCTION(NAME, unit)(size);
+}
+
+TYPE *FUNCTION(NAME, zero)(const cgraph_size_t size)
+{
+    cgraph_size_t _size = (size > 3 ? size : 3);
+    TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+    if (NULL != cthis) {
+        cthis->len = 3;
+        cthis->point = 1;
+        cthis->data[0] = '0';
+        cthis->data[1] = '.';
+        cthis->data[2] = '0';
+    }
+
+    return cthis;
+}
+
 #include "template_off.h"

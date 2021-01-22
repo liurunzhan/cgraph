@@ -23,6 +23,7 @@ extern "C" {
 #include "cgraph_string.h"
 #include "cgraph_time.h"
 
+extern cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x);
 extern cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis);
 extern cgraph_bigint_t *cgraph_string_to_bigint(const cgraph_string_t *cthis);
 

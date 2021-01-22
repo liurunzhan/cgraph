@@ -7,3 +7,4 @@ extern cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
+extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
