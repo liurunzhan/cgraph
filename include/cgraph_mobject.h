@@ -30,6 +30,10 @@ typedef struct {
 } cgraph_mobject_t;
 
 #include "object_base.ht"
+
+extern cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis);
+
 #include "template_off.h"
 
 #ifdef __cplusplus

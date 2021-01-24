@@ -23,7 +23,7 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
         if (CGRAPH_DTYPE_TYPE(x) == CGRAPH_DTYPE_TYPE(y)) {
             cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
             cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
-            OBJECT(type, iter3vvc)
+            OBJECT(type, cmp)
             (x->data, y->data, &flag, len, OBJECT(type, eq));
         } else {
             flag = CGRAPH_FALSE;
@@ -40,7 +40,7 @@ cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
         if (CGRAPH_DTYPE_TYPE(x) == CGRAPH_DTYPE_TYPE(y)) {
             cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
             cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
-            OBJECT(type, iter3vvc)
+            OBJECT(type, cmp)
             (x->data, y->data, &flag, len, OBJECT(type, ne));
         } else {
             flag = CGRAPH_TRUE;

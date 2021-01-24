@@ -15,7 +15,7 @@ cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x)
         if (NULL != cthis) {
             cthis->len = __cgraph_true_len__;
         }
-    } else {
+    } else if (CGRAPH_FALSE == x) {
         cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_false_size__);
         if (NULL != cthis) {
             cthis->len = __cgraph_false_len__;

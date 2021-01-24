@@ -116,7 +116,25 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
     return cthis;
 }
 
-TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
+TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
+{
+    if ((NULL != x) && (NULL != y)) {
+        cgraph_size_t _len = (NULL != z ? z->len : 0);
+        cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
+        cgraph_bool_t error = CGRAPH_FALSE;
+        FUNCTION(NAME, realloc)
+        (z, DATA_ID, _len, len, &error);
+        if (CGRAPH_FALSE == error) {
+            cgraph_size_t i;
+            DATA_TYPE *_xd = &(x->data[x->len-1]), *_yd = &(y->data[y->len-1]), *_zd = &(z->data[z->len-1]);
+            for (i = 0; i < len; i++, _xd--, _yd--, _zd--) {
+                *_zd = *_xd + *_yd;
+            }
+        }
+    }
+
+    return z;
+}
 
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
 

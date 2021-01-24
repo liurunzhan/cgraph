@@ -10,6 +10,16 @@
 /**/
 #include "object_base.ct"
 
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis)
+{
+    return (NULL != cthis ? MATRIX_ROW(cthis) : 0);
+}
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis)
+{
+    return (NULL != cthis ? MATRIX_COLUMN(cthis) : 0);
+}
+
 void FUNCTION(TYPE, test)(void)
 {
 #ifdef DEBUG

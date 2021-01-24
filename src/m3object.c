@@ -10,6 +10,21 @@
 /**/
 #include "object_base.ct"
 
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis)
+{
+    return (NULL != cthis ? MATRIX3D_INDEX_I(cthis) : 0);
+}
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis)
+{
+    return (NULL != cthis ? MATRIX3D_INDEX_J(cthis) : 0);
+}
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis)
+{
+    return (NULL != cthis ? MATRIX3D_INDEX_K(cthis) : 0);
+}
+
 void FUNCTION(TYPE, test)(void)
 {
 #ifdef DEBUG

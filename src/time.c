@@ -172,6 +172,26 @@ TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep)
     return res;
 }
 
+TYPE FUNCTION(NAME, unit0)(void)
+{
+    TYPE res;
+    TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+    TIME_VALUE0(res) = 1;
+    TIME_VALUE1(res) = 0;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, zero0)(void)
+{
+    TYPE res;
+    TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+    TIME_VALUE0(res) = 0;
+    TIME_VALUE1(res) = 0;
+
+    return res;
+}
+
 TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y)
 {
     TYPE res;
@@ -288,6 +308,34 @@ TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y)
     return res;
 }
 
+TYPE FUNCTION(NAME, unit1)(void)
+{
+    TYPE res;
+    TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+    TIME_YEAR(res) = 0;
+    TIME_MONTH(res) = 0;
+    TIME_DAY(res) = 0;
+    TIME_HOUR(res) = 0;
+    TIME_MINUTE(res) = 0;
+    TIME_SECOND(res) = 1;
+
+    return res;
+}
+
+TYPE FUNCTION(NAME, zero1)(void)
+{
+    TYPE res;
+    TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+    TIME_YEAR(res) = 0;
+    TIME_MONTH(res) = 0;
+    TIME_DAY(res) = 0;
+    TIME_HOUR(res) = 0;
+    TIME_MINUTE(res) = 0;
+    TIME_SECOND(res) = 0;
+
+    return res;
+}
+
 TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y)
 {
     TYPE res;
@@ -340,25 +388,37 @@ TYPE FUNCTION(NAME, add1)(const TYPE x, const TYPE y)
     DATA_TYPE tmp = 0;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
     if (59 < (TIME_SECOND(res) = TIME_SECOND(x) + TIME_SECOND(y))) {
-        TIME_SECOND(res) -= 59;
+        TIME_SECOND(res) = TIME_SECOND(x) - 60 + TIME_SECOND(y);
         tmp = 1;
     } else {
         tmp = 0;
     }
     if (59 < (TIME_MINUTE(res) = tmp + TIME_MINUTE(x) + TIME_MINUTE(y))) {
-        TIME_MINUTE(res) -= 59;
+        TIME_MINUTE(res) = TIME_MINUTE(x) - 60 + TIME_MINUTE(y) + tmp;
         tmp = 1;
     } else {
         tmp = 0;
     }
     if (23 < (TIME_HOUR(res) = tmp + TIME_HOUR(x) + TIME_HOUR(y))) {
-        TIME_MINUTE(res) -= 23;
+        TIME_HOUR(res) = TIME_HOUR(x) - 24 + TIME_HOUR(y) + tmp;
         tmp = 1;
     } else {
         tmp = 0;
     }
-    if (23 < (TIME_HOUR(res) = tmp + TIME_HOUR(x) + TIME_HOUR(y))) {
-        TIME_MINUTE(res) -= 23;
+    if (31 < (TIME_DAY(res) = tmp + TIME_DAY(x) + TIME_DAY(y))) {
+        TIME_DAY(res) = TIME_DAY(x) - 31 + TIME_DAY(y) + tmp;
+        tmp = 1;
+    } else {
+        tmp = 0;
+    }
+    if (12 < (TIME_MONTH(res) = tmp + TIME_MONTH(x) + TIME_MONTH(y))) {
+        TIME_MONTH(res) = TIME_MONTH(x) - 12 + TIME_MONTH(y) + tmp;
+        tmp = 1;
+    } else {
+        tmp = 0;
+    }
+    if (DATA_MAX < (TIME_YEAR(res) = tmp + TIME_YEAR(x) + TIME_YEAR(y))) {
+        TIME_YEAR(res) = TIME_YEAR(x) - 12 + TIME_YEAR(y) + tmp;
         tmp = 1;
     } else {
         tmp = 0;
