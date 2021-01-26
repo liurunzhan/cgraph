@@ -115,7 +115,8 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
         z = FUNCTION(NAME, realloc)(z, type, z_size, len, &error);
         if (CGRAPH_FALSE == error) {
             OBJECT(type, iter3v)
-            (x->data, y->data, z->data, len, (cgraph_pfunc3_t)OBJECT(type, div));
+            (x->data, y->data, z->data, len,
+             (cgraph_pfunc3_t)OBJECT(type, div));
         }
     }
 
@@ -134,13 +135,6 @@ TYPE *FUNCTION(NAME, primes)(const cgraph_int_t data)
     }
 
     return primes;
-}
-
-void FUNCTION(NAME, test)(void)
-{
-#ifdef DEBUG
-
-#endif
 }
 
 #include "template_off.h"

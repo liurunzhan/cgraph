@@ -12,8 +12,8 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
     } else {
         TYPE ipart = floor(cthis), fpart = cthis - ipart;
         cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
-                      hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) *
-                                                   EPSILON_LEN);
+                      hash_fpart = (cgraph_size_t)(
+                          ((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
         hash = (hash_ipart << 4) ^ hash_fpart;
     }
 

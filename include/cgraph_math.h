@@ -37,7 +37,8 @@ extern "C" {
 #define MATH_CONST_E (2.71828182845904523536)
 #endif /** MATH_CONST_E : e */
 
-#define MATH_CONST_PHI (0.61803398874989484820) /** MATH_CONST_PHI : (sqrt(5)-1)/2 */
+#define MATH_CONST_PHI                                                         \
+    (0.61803398874989484820) /** MATH_CONST_PHI : (sqrt(5)-1)/2 */
 
 #if defined(M_LN2)
 #define MATH_CONST_LOG2 (M_LN2)
@@ -87,9 +88,13 @@ extern cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data);
 
 extern cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n);
-extern cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n, const cgraph_int_t mod);
+extern cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x,
+                                        const cgraph_int_t n,
+                                        const cgraph_int_t mod);
 extern cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y);
-extern cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y, const cgraph_int_t mod);
+extern cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x,
+                                        const cgraph_int_t y,
+                                        const cgraph_int_t mod);
 
 #ifdef __cplusplus
 }

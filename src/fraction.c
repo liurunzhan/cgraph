@@ -34,7 +34,8 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
 
 TYPE FUNCTION(NAME, format)(const TYPE cthis)
 {
-    DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
+    DATA_TYPE gcd =
+        FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
     TYPE res;
     FRACTION_NUM(res) = FRACTION_NUM(cthis);
     FRACTION_DEN(res) = FRACTION_DEN(cthis);
@@ -191,12 +192,14 @@ TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y)
 TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y)
 {
     TYPE res;
-    FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1)
-                            ? FRACTION_NUM(x)
-                            : (DATA_TYPE)pow(FRACTION_DEN(x), FRACTION_VALUE(y));
-    FRACTION_DEN(res) = (FRACTION_DEN(x) == 0 || FRACTION_DEN(x) == 1)
-                            ? FRACTION_DEN(x)
-                            : (DATA_TYPE)pow(FRACTION_DEN(x), FRACTION_VALUE(y));
+    FRACTION_NUM(res) =
+        (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1)
+            ? FRACTION_NUM(x)
+            : (DATA_TYPE)pow(FRACTION_DEN(x), FRACTION_VALUE(y));
+    FRACTION_DEN(res) =
+        (FRACTION_DEN(x) == 0 || FRACTION_DEN(x) == 1)
+            ? FRACTION_DEN(x)
+            : (DATA_TYPE)pow(FRACTION_DEN(x), FRACTION_VALUE(y));
 
     return res;
 }
@@ -205,7 +208,8 @@ TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y)
 {
     TYPE res;
     FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
-    FRACTION_NUM(res) = (FRACTION_DEN(y) * FRACTION_NUM(x)) % (FRACTION_DEN(x) * FRACTION_NUM(y));
+    FRACTION_NUM(res) = (FRACTION_DEN(y) * FRACTION_NUM(x)) %
+                        (FRACTION_DEN(x) * FRACTION_NUM(y));
 
     return res;
 }
@@ -252,8 +256,9 @@ TYPE FUNCTION(NAME, pown)(const TYPE x, const DATA_TYPE y)
     FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1)
                             ? FRACTION_NUM(x)
                             : (DATA_TYPE)pow(FRACTION_DEN(x), y);
-    FRACTION_DEN(res) = FRACTION_DEN(x) == 1 ? FRACTION_DEN(x)
-                                             : (DATA_TYPE)pow(FRACTION_DEN(x), y);
+    FRACTION_DEN(res) = FRACTION_DEN(x) == 1
+                            ? FRACTION_DEN(x)
+                            : (DATA_TYPE)pow(FRACTION_DEN(x), y);
 
     return res;
 }

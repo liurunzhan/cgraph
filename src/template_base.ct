@@ -54,47 +54,50 @@ CGVTable STRUCT(NAME) = {
     sizeof(TYPE *), /**< cgraph_size_t t_ptrsize;                            */
     COPY_SIZE,      /**< cgraph_size_t t_cpysize;                            */
 #ifdef TYPE_WITH_DATA
-    sizeof(TYPE *),    /**< cgraph_size_t t_strusize;                           */
-    sizeof(TYPE **),   /**< cgraph_size_t t_bmatsize;                           */
+    sizeof(TYPE *),  /**< cgraph_size_t t_strusize;                           */
+    sizeof(TYPE **), /**< cgraph_size_t t_bmatsize;                           */
+    sizeof(TYPE ***),  /**< cgraph_size_t t_bmat3dsize;  */
     sizeof(DATA_TYPE), /**< cgraph_size_t t_datsize; */
 #else
-    sizeof(TYPE),   /**< cgraph_size_t t_strusize;                           */
-    sizeof(TYPE *), /**< cgraph_size_t t_bmatsize;                           */
-    sizeof(TYPE),   /**< cgraph_size_t t_datsize;                            */
+    sizeof(TYPE),    /**< cgraph_size_t t_strusize;                           */
+    sizeof(TYPE *),  /**< cgraph_size_t t_bmatsize;                           */
+    sizeof(TYPE **), /**< cgraph_size_t t_bmat3dsize; */
+    sizeof(TYPE), /**< cgraph_size_t t_datsize;                            */
 #endif
 
     /**< public: */
-    FUNCTION(NAME, tid),       /**< cgraph_int_t (*tid)(void);                  */
-    FUNCTION(NAME, tname),     /**< cgraph_char_t *(*tname)(void);              */
-    FUNCTION(NAME, tsize),     /**< cgraph_size_t (*tsize)(void);               */
-    FUNCTION(NAME, tptrsize),  /**< cgraph_size_t (*tptrsize)(void);  */
-    FUNCTION(NAME, tcpysize),  /**< cgraph_size_t (*tcpysize)(void);  */
-    FUNCTION(NAME, tstrusize), /**< cgraph_size_t (*tstrusize)(void); */
-    FUNCTION(NAME, tbmatsize), /**< cgraph_size_t (*tbmatsize)(void); */
-    FUNCTION(NAME, tdatsize),  /**< cgraph_size_t (*tdatsize)(void);  */
-    FUNCTION(NAME, thasdata),  /**< cgraph_bool_t (*thasdata)(void);  */
-    FUNCTION(NAME, _len),      /**< cgraph_size_t (*len)(const void *cthis);    */
-    FUNCTION(NAME, _size),     /**< cgraph_size_t (*size)(const void *cthis);   */
-    FUNCTION(NAME, msize),     /**< cgraph_size_t (*msize)(const cgraph_type_t type,
-                              const cgraph_size_t size); */
-    FUNCTION(
-        NAME,
-        _update),            /**< void *(*update)(void *cthis, const cgraph_type_t type,
-                     const cgraph_size_t len, const cgraph_size_t size)      */
+    FUNCTION(NAME, tid),   /**< cgraph_int_t (*tid)(void);                  */
+    FUNCTION(NAME, tname), /**< cgraph_char_t *(*tname)(void);              */
+    FUNCTION(NAME, tsize), /**< cgraph_size_t (*tsize)(void);               */
+    FUNCTION(NAME, tptrsize),    /**< cgraph_size_t (*tptrsize)(void);  */
+    FUNCTION(NAME, tcpysize),    /**< cgraph_size_t (*tcpysize)(void);  */
+    FUNCTION(NAME, tstrusize),   /**< cgraph_size_t (*tstrusize)(void); */
+    FUNCTION(NAME, tbmatsize),   /**< cgraph_size_t (*tbmatsize)(void); */
+    FUNCTION(NAME, tbmat3dsize), /**< cgraph_size_t (*tbmat3dsize)(void); */
+    FUNCTION(NAME, tdatsize),    /**< cgraph_size_t (*tdatsize)(void);  */
+    FUNCTION(NAME, thasdata),    /**< cgraph_bool_t (*thasdata)(void);  */
+    FUNCTION(NAME, _len),  /**< cgraph_size_t (*len)(const void *cthis);    */
+    FUNCTION(NAME, _size), /**< cgraph_size_t (*size)(const void *cthis);   */
+    FUNCTION(NAME, msize), /**< cgraph_size_t (*msize)(const cgraph_type_t type,
+                          const cgraph_size_t size); */
+    FUNCTION(NAME,
+             _update), /**< void *(*update)(void *cthis, const cgraph_type_t
+               type, const cgraph_size_t len, const cgraph_size_t size)      */
     FUNCTION(NAME, _calloc), /**< void *(*calloc)(const cgraph_type_t type,
                                 const cgraph_size_t size); */
     FUNCTION(NAME,
-             _realloc),      /**< void *(*realloc)(void *cthis, const cgraph_size_t
-                           old_size, const cgraph_size_t new_size); */
+             _realloc), /**< void *(*realloc)(void *cthis, const cgraph_size_t
+                      old_size, const cgraph_size_t new_size); */
     FUNCTION(NAME, _copy),   /**< void *(*copy)(const void *cthis, const
                                 cgraph_size_t size);   */
     FUNCTION(NAME, _free),   /**< void (*free)(void *cthis);                  */
     FUNCTION(NAME, _memcpy), /**< void *(*memcpy)(void *cthis);               */
-    FUNCTION(NAME, _check),  /**< cgraph_size_t (*check)(const void *x, void *y); */
-    FUNCTION(NAME, _hash),   /**< cgraph_size_t (*hash)(const void *cthis, void *y); */
-    FUNCTION(
-        NAME,
-        _equal), /**< cgraph_bool_t (*equal)(const void *x, const void *y, void *z); */
+    FUNCTION(NAME,
+             _check), /**< cgraph_size_t (*check)(const void *x, void *y); */
+    FUNCTION(NAME,
+             _hash), /**< cgraph_size_t (*hash)(const void *cthis, void *y); */
+    FUNCTION(NAME, _equal), /**< cgraph_bool_t (*equal)(const void *x, const
+                               void *y, void *z); */
 #if 0
   FUNCTION(NAME, _at);       /** void *(at)(void *x, const cgraph_size_t i);  */
   FUNCTION(NAME, _add),      /** void (*add)(void *x, void *y, void *z);      */
@@ -150,6 +153,11 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tbmatsize)(void)
     return STRUCT(NAME).t_bmatsize;
 }
 
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tbmat3dsize)(void)
+{
+    return STRUCT(NAME).t_bmat3dsize;
+}
+
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tdatsize)(void)
 {
     return STRUCT(NAME).t_datsize;
@@ -189,8 +197,7 @@ static void *FUNCTION(NAME, _realloc)(void *cthis, const cgraph_type_t type,
                                    error);
 }
 
-static void *FUNCTION(NAME, _copy)(const void *cthis,
-                                   const cgraph_size_t size)
+static void *FUNCTION(NAME, _copy)(const void *cthis, const cgraph_size_t size)
 {
     return FUNCTION(NAME, copy)((TYPE *)cthis, size);
 }

@@ -3,27 +3,14 @@
  * @def NAME type name
  * @struct CGRAPH_OBJECTS_NAME(NAME)
  */
-CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {&STRUCT(NAME),
-                                         &STRUCT(bool),
-                                         &STRUCT(int),
-                                         &STRUCT(long),
-                                         &STRUCT(int8),
-                                         &STRUCT(int16),
-                                         &STRUCT(int32),
-                                         &STRUCT(int64),
-                                         &STRUCT(float32),
-                                         &STRUCT(float64),
-                                         &STRUCT(time),
-                                         &STRUCT(complex),
-                                         &STRUCT(fraction),
-                                         &STRUCT(bigint),
-                                         &STRUCT(bignum),
-                                         &STRUCT(string),
-                                         &STRUCT(bitset),
-                                         &STRUCT(vector),
-                                         &STRUCT(matrix),
-                                         &STRUCT(bigmat),
-                                         NULL};
+CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {
+    &STRUCT(NAME),     &STRUCT(bool),   &STRUCT(int),
+    &STRUCT(long),     &STRUCT(int8),   &STRUCT(int16),
+    &STRUCT(int32),    &STRUCT(int64),  &STRUCT(float32),
+    &STRUCT(float64),  &STRUCT(time),   &STRUCT(complex),
+    &STRUCT(fraction), &STRUCT(bigint), &STRUCT(bignum),
+    &STRUCT(string),   &STRUCT(bitset), &STRUCT(vector),
+    &STRUCT(matrix),   &STRUCT(bigmat), NULL};
 
 #include "template_base.ct"
 
@@ -34,7 +21,8 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
 {
     TYPE *_cthis = (TYPE *)cthis;
     if (NULL != _cthis) {
-#if defined(TYPE_OBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || defined(TYPE_POBJECT)
+#if defined(TYPE_OBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || \
+    defined(TYPE_POBJECT)
         CGRAPH_DTYPE_TYPE(_cthis) = type;
         CGRAPH_DTYPE_ACCESS(_cthis) = CGRAPH_TRUE;
         CGRAPH_DTYPE_HASHED(_cthis) = CGRAPH_FALSE;
@@ -83,8 +71,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
     return FUNCTION(NAME, tsize)();
 }
 
-TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type,
-                             const cgraph_size_t size)
+TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type, const cgraph_size_t size)
 {
     TYPE *cthis = cgraph_calloc(FUNCTION(NAME, tsize)());
     if ((NULL != cthis) && (ID != type)) {

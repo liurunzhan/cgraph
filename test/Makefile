@@ -2,11 +2,9 @@ DIR = .
 INC = $(DIR)$(SEPARATOR)..$(SEPARATOR)include
 LIB = $(DIR)$(SEPARATOR)..$(SEPARATOR)lib
 
-SOURCE = cgraph.c
-
-ifndef TARGET
+PRO = cgraph
 TARGET = cgraph
-endif
+SOURCE = $(TARGET).c
 
 ifeq ($(MY_OS), Windows)
 TARGET_TEST = $(TARGET).exe
@@ -23,7 +21,7 @@ endif
 all:
 
 compile:
-	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET) $(SOURCE) -L$(LIB) -static -l$(TARGET) -lm
+	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET_TEST) $(SOURCE) -L$(LIB) -static -l$(PRO) -lm
 
 test: compile
 	.$(SEPARATOR)$(TARGET_TEST) .$(SEPARATOR)elements.csv

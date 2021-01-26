@@ -6,7 +6,8 @@ cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata,
                               const cgraph_uint_t data,
                               const cgraph_uint_t poly)
 {
-    cgraph_uint_t res = predata, temp = (data & res), ones = 0xFFFFFFFF, msb = 0;
+    cgraph_uint_t res = predata, temp = (data & res), ones = 0xFFFFFFFF,
+                  msb = 0;
     cgraph_size_t i = 0, bits = 32;
     for (i = 0; i < bits; i++) {
         msb = ((res ^ temp) >> (bits - 1) & 0x01);
@@ -195,7 +196,8 @@ cgraph_int_t cgraph_random(void)
 {
     const cgraph_int_t a = 48271, m = CGRAPH_RANDOM_MAX;
     const cgraph_int_t m_div_a = m / a, m_mod_a = m % a;
-    cgraph_int_t hi = __cgraph_math_seed / m_div_a, lo = __cgraph_math_seed % m_div_a;
+    cgraph_int_t hi = __cgraph_math_seed / m_div_a,
+                 lo = __cgraph_math_seed % m_div_a;
     __cgraph_math_seed = (a * lo - m_mod_a * hi);
 
     return __cgraph_math_seed;
@@ -235,7 +237,10 @@ cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
     return log(x) / log(n);
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_math_pow2(const cgraph_int_t n) { return (1 << n); }
+CGRAPH_INLINE cgraph_int_t cgraph_math_pow2(const cgraph_int_t n)
+{
+    return (1 << n);
+}
 
 cgraph_int_t cgraph_math_log2(const cgraph_int_t x)
 {
@@ -248,7 +253,10 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x)
     return res;
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) { return (x & 0x01); }
+CGRAPH_INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x)
+{
+    return (x & 0x01);
+}
 
 CGRAPH_INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data)
 {
@@ -274,7 +282,8 @@ cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n)
     return res;
 }
 
-cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n, const cgraph_int_t mod)
+cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n,
+                                 const cgraph_int_t mod)
 {
     cgraph_int_t res = 1, _x = x, _n = n;
     while (_n != 0) {
@@ -302,7 +311,8 @@ cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y)
     return res;
 }
 
-cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y, const cgraph_int_t mod)
+cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y,
+                                 const cgraph_int_t mod)
 {
     cgraph_int_t res = 0, _x = x, _y = y;
     while (_y != 0) {

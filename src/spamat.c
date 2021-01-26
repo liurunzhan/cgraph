@@ -16,11 +16,4 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis)
     return flag;
 }
 
-void FUNCTION(TYPE, test)(void)
-{
-#ifdef DEBUG
-
-#endif
-}
-
 #include "template_off.h"

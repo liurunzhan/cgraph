@@ -56,7 +56,8 @@ TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
 TYPE *FUNCTION(NAME, opp)(TYPE *cthis)
 {
     if (NULL != cthis) {
-        cthis->postive = (CGRAPH_TRUE == cthis->postive ? CGRAPH_FALSE : CGRAPH_TRUE);
+        cthis->postive =
+            (CGRAPH_TRUE == cthis->postive ? CGRAPH_FALSE : CGRAPH_TRUE);
     }
 
     return cthis;
@@ -69,33 +70,33 @@ cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE *cthis)
 
 cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 {
-    return NULL != cthis ? CGRAPH_TEST(cthis->postive == CGRAPH_FALSE) : CGRAPH_FALSE;
+    return NULL != cthis ? CGRAPH_TEST(cthis->postive == CGRAPH_FALSE)
+                         : CGRAPH_FALSE;
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
         cgraph_size_t _size = (NULL != z ? z->size : 0);
-        cgraph_size_t min = CGRAPH_MIN(x->len, y->len), max = CGRAPH_MAX(x->len, y->len);
+        cgraph_size_t min = CGRAPH_MIN(x->len, y->len),
+                      max = CGRAPH_MAX(x->len, y->len);
         cgraph_bool_t error = CGRAPH_FALSE;
         z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, max + 1, &error);
         if (CGRAPH_FALSE == error) {
             cgraph_size_t i;
             DATA_TYPE carry = 0;
-            DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]), *zd = &(z->data[max + 1]);
+            DATA_TYPE *xd = &(x->data[x->len - 1]),
+                      *yd = &(y->data[y->len - 1]), *zd = &(z->data[max]);
             if (x->postive == y->postive) {
                 z->postive = x->postive;
                 for (i = 0; i < min; i++, xd--, yd--, zd--) {
                     *zd = *xd + *yd + carry;
                     carry = ((*zd < *xd) || (*zd < *yd)) ? 1 : 0;
-                    printf("1 : %u\n", *zd);
                 }
-                printf("1 : %u\n", *zd);
                 for (i = min; x->len < max && i < max; i++, yd--, zd--) {
                     *zd = *yd + carry;
                     carry = (*zd < *yd) ? 1 : 0;
                 }
-                printf("1 : %u\n", *zd);
                 for (i = min; y->len < max && i < max; i++, xd--, zd--) {
                     *zd = *xd + carry;
                     carry = (*zd < *xd) ? 1 : 0;
@@ -105,8 +106,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
                     *zd = carry;
                     z->len++;
                 } else {
-                    /*z->data = --zd; */
-                    printf("%u\n", zd);
+                    ++z->data;
                 }
             } else {
                 if (CGRAPH_FALSE == x->postive) {
@@ -130,7 +130,9 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
         z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);
         if (CGRAPH_FALSE == error) {
             cgraph_size_t i;
-            DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]), *zd = &(z->data[z->len - 1]);
+            DATA_TYPE *xd = &(x->data[x->len - 1]),
+                      *yd = &(y->data[y->len - 1]),
+                      *zd = &(z->data[z->len - 1]);
             for (i = 1; i < len; i++, xd--, yd--, zd--) {
                 *zd = *xd - *yd;
             }
@@ -150,7 +152,9 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
         z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);
         if (CGRAPH_FALSE == error) {
             cgraph_size_t i;
-            DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]), *zd = &(z->data[z->len - 1]);
+            DATA_TYPE *xd = &(x->data[x->len - 1]),
+                      *yd = &(y->data[y->len - 1]),
+                      *zd = &(z->data[z->len - 1]);
             for (i = 1; i < len; i++, xd--, yd--, zd--) {
                 *zd = (*xd) * (*yd);
             }
@@ -170,7 +174,9 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
     if (CGRAPH_FALSE == error) {
         if (x->postive == y->postive) {
             cgraph_size_t i;
-            DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]), *zd = &(z->data[z->len - 1]);
+            DATA_TYPE *xd = &(x->data[x->len - 1]),
+                      *yd = &(y->data[y->len - 1]),
+                      *zd = &(z->data[z->len - 1]);
             for (i = 1; i < len; i++, xd--, yd--, zd--) {
                 z->data[z->len - i] = x->data[x->len - i] + y->data[y->len - i];
             }
@@ -241,7 +247,8 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
             if (i < 0) {
                 flag = CGRAPH_TRUE;
             }
-        } else if ((CGRAPH_TRUE == x->postive) && (CGRAPH_FALSE == y->postive)) {
+        } else if ((CGRAPH_TRUE == x->postive) &&
+                   (CGRAPH_FALSE == y->postive)) {
             flag = CGRAPH_TRUE;
         }
     } else if ((NULL != x) && (NULL == y)) {
@@ -381,32 +388,6 @@ TYPE *FUNCTION(NAME, zero)(const cgraph_size_t size)
     }
 
     return cthis;
-}
-
-void FUNCTION(NAME, test)(void)
-{
-#ifdef DEBUG
-    TYPE *bigint1 = FUNCTION(NAME, calloc)(DATA_ID, 20);
-    TYPE *bigint2 = FUNCTION(NAME, calloc)(DATA_ID, 20);
-    TYPE *bigint3 = FUNCTION(NAME, calloc)(DATA_ID, 20);
-
-    printf("%u %ld %ld\n", bigint3->data[0], bigint3->len, bigint3->size);
-    bigint1->data[0] = 10;
-    bigint1->len = 1;
-    bigint2->data[0] = 10;
-    bigint2->len = 1;
-
-    FUNCTION(NAME, add)
-    (bigint1, bigint2, bigint3);
-    printf("%u %ld %ld\n", bigint3->data[0], bigint3->len, bigint3->size);
-
-    FUNCTION(NAME, free)
-    (bigint1);
-    FUNCTION(NAME, free)
-    (bigint2);
-    FUNCTION(NAME, free)
-    (bigint3);
-#endif
 }
 
 #include "template_off.h"

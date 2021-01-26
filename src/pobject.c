@@ -10,11 +10,4 @@
 /**/
 #include "object_base.ct"
 
-void FUNCTION(TYPE, test)(void)
-{
-#ifdef DEBUG
-
-#endif
-}
-
 #include "template_off.h"

@@ -2,7 +2,9 @@
 
 #ifdef TYPE_WITH_DATA
 
-extern TYPE **FUNCTION(NAME, exchange)(TYPE **cthis, const cgraph_size_t startx, const cgraph_size_t starty, const cgraph_size_t len);
+extern TYPE **FUNCTION(NAME, exchange)(TYPE **cthis, const cgraph_size_t startx,
+                                       const cgraph_size_t starty,
+                                       const cgraph_size_t len);
 
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
@@ -20,7 +22,9 @@ extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 
 #else
 
-extern TYPE *FUNCTION(NAME, exchange)(TYPE *cthis, const cgraph_size_t startx, const cgraph_size_t starty, const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, exchange)(TYPE *cthis, const cgraph_size_t startx,
+                                      const cgraph_size_t starty,
+                                      const cgraph_size_t len);
 
 #ifndef TYPE_COMPLEX
 extern TYPE FUNCTION(NAME, abs)(TYPE cthis);
@@ -39,5 +43,3 @@ extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
 
 #endif
-
-extern void FUNCTION(NAME, test)(void);

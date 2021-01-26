@@ -170,13 +170,15 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
     if ((NULL != x) && (NULL != y)) {
         if (x->data[0] == y->data[0]) {
             cgraph_size_t i, j;
-            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0; i--, j--) {
+            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0;
+                 i--, j--) {
                 if (x->data[i] <= y->data[j]) {
                     break;
                 }
             }
             if (i < 0) {
-                for (i = x->point, j = y->point; i < x->len && j < y->len; i++, j++) {
+                for (i = x->point, j = y->point; i < x->len && j < y->len;
+                     i++, j++) {
                     if (x->data[i] <= y->data[j]) {
                         break;
                     }
@@ -201,13 +203,15 @@ cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
     if ((NULL != x) && (NULL != y)) {
         if (x->data[0] == y->data[0]) {
             cgraph_size_t i, j;
-            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0; i--, j--) {
+            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0;
+                 i--, j--) {
                 if (x->data[i] < y->data[j]) {
                     break;
                 }
             }
             if (i < 0) {
-                for (i = x->point, j = y->point; i < x->len && j < y->len; i++, j++) {
+                for (i = x->point, j = y->point; i < x->len && j < y->len;
+                     i++, j++) {
                     if (x->data[i] < y->data[j]) {
                         break;
                     }
@@ -232,13 +236,15 @@ cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
     if ((NULL != x) && (NULL != y)) {
         if (x->data[0] == y->data[0]) {
             cgraph_size_t i, j;
-            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0; i--, j--) {
+            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0;
+                 i--, j--) {
                 if (x->data[i] <= y->data[j]) {
                     break;
                 }
             }
             if (i < 0) {
-                for (i = x->point, j = y->point; i < x->len && j < y->len; i++, j++) {
+                for (i = x->point, j = y->point; i < x->len && j < y->len;
+                     i++, j++) {
                     if (x->data[i] <= y->data[j]) {
                         break;
                     }
@@ -263,13 +269,15 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
     if ((NULL != x) && (NULL != y)) {
         if (x->data[0] == y->data[0]) {
             cgraph_size_t i, j;
-            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0; i--, j--) {
+            for (i = x->point - 1, j = y->point - 1; i >= 0 && j >= 0;
+                 i--, j--) {
                 if (x->data[i] <= y->data[j]) {
                     break;
                 }
             }
             if (i < 0) {
-                for (i = x->point, j = y->point; i < x->len && j < y->len; i++, j++) {
+                for (i = x->point, j = y->point; i < x->len && j < y->len;
+                     i++, j++) {
                     if (x->data[i] <= y->data[j]) {
                         break;
                     }
@@ -295,7 +303,8 @@ cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE *cthis)
         if (2 <= cthis->len) {
             if ('N' == cthis->data[0] || 'n' == cthis->data[0]) {
                 if ('A' == cthis->data[1] || 'a' == cthis->data[1]) {
-                    if ((3 <= cthis->len) && ('N' == cthis->data[2] || 'n' == cthis->data[2])) {
+                    if ((3 <= cthis->len) &&
+                        ('N' == cthis->data[2] || 'n' == cthis->data[2])) {
                         flag = CGRAPH_TRUE;
                     }
                 }

@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "cgraph_version.h"
 
 static const cgraph_char_t *cgraph_version_string = CGRAPH_VERSION;
@@ -27,23 +25,7 @@ void cgraph_version_print(void)
     fprintf(stdout, "Version of Library CGRAPH is %s\n", cgraph_version_string);
 }
 
-void cgraph_version_fprintf(void *fp)
+void cgraph_version_fprintf(FILE *fp)
 {
-    fprintf((FILE *)fp, "Version of Library CGRAPH is %s\n",
-            cgraph_version_string);
-}
-
-void cgraph_version_test(void)
-{
-#ifdef DEBUG
-    cgraph_char_t *version;
-    cgraph_int_t major, minor, subminor;
-    cgraph_version_print();
-    cgraph_version_fprintf(stdout);
-    cgraph_version(&version, &major, &minor, &subminor);
-    fprintf(stdout,
-            "CGRAPH : %s\nMajor version : %d\nMinor version : %d\nSubminor "
-            "version : %d\n",
-            version, major, minor, subminor);
-#endif
+    fprintf(fp, "Version of Library CGRAPH is %s\n", cgraph_version_string);
 }

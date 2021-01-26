@@ -50,8 +50,9 @@ cgraph_bool_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp)
                (buffer->data[buffer->size - 1] != '\0') &&
                (buffer->data[buffer->size - 1] != '\n') &&
                (buffer->data[buffer->size - 1] != '\r')) {
-            buffer = cgraph_string_realloc(buffer, CGRAPH_STRING_T, buffer->size,
-                                           2 * buffer->size, &error);
+            buffer =
+                cgraph_string_realloc(buffer, CGRAPH_STRING_T, buffer->size,
+                                      2 * buffer->size, &error);
             fsetpos(fp, &fp_init);
             if (CGRAPH_TRUE == error) {
                 break;
@@ -214,6 +215,7 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep,
     *sep = (cgraph_char_t *)_path_split;
     *end = (cgraph_char_t *)_file_end;
     if (NULL != isbigendian) {
-        *isbigendian = (cgraph_file_endian.byte[3] ? CGRAPH_FALSE : CGRAPH_TRUE);
+        *isbigendian =
+            (cgraph_file_endian.byte[3] ? CGRAPH_FALSE : CGRAPH_TRUE);
     }
 }

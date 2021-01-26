@@ -20,11 +20,4 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis)
     return (NULL != cthis ? MATRIX_COLUMN(cthis) : 0);
 }
 
-void FUNCTION(TYPE, test)(void)
-{
-#ifdef DEBUG
-
-#endif
-}
-
 #include "template_off.h"

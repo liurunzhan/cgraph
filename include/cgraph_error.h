@@ -27,7 +27,7 @@ typedef enum {
 } cgraph_error_t;
 
 #if defined(DEBUG)
-#define cgraph_error_print(reason) \
+#define cgraph_error_print(reason)                                             \
     cgraph_error((reason), (__LINE__), (__FILE__), (__CGRAPH_FUNCTION))
 #else
 #define cgraph_error_print(reason) ((void)0)

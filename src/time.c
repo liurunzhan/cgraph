@@ -15,7 +15,8 @@
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
 {
     cgraph_size_t hash = 0;
-    hash = (TIME_YEAR(cthis) << 13) + (TIME_MONTH(cthis) << 7) + TIME_DAY(cthis);
+    hash =
+        (TIME_YEAR(cthis) << 13) + (TIME_MONTH(cthis) << 7) + TIME_DAY(cthis);
 
     return CGRAPH_ABS(hash);
 }
@@ -43,8 +44,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    if ((TIME_TYPE(x) == TIME_TYPE(y)) &&
-        (TIME_VALUE0(x) == TIME_VALUE0(y)) &&
+    if ((TIME_TYPE(x) == TIME_TYPE(y)) && (TIME_VALUE0(x) == TIME_VALUE0(y)) &&
         (TIME_VALUE1(x) == TIME_VALUE1(y))) {
         flag = CGRAPH_TRUE;
     }
@@ -55,8 +55,7 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y)
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    if ((TIME_TYPE(x) == TIME_TYPE(y)) ||
-        (TIME_VALUE0(x) != TIME_VALUE0(y)) ||
+    if ((TIME_TYPE(x) == TIME_TYPE(y)) || (TIME_VALUE0(x) != TIME_VALUE0(y)) ||
         (TIME_VALUE1(x) != TIME_VALUE1(y))) {
         flag = CGRAPH_TRUE;
     }
@@ -67,7 +66,8 @@ cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y)
 cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    if ((TIME_VALUE0(x) > TIME_VALUE0(y)) || (TIME_VALUE1(x) > TIME_VALUE1(y))) {
+    if ((TIME_VALUE0(x) > TIME_VALUE0(y)) ||
+        (TIME_VALUE1(x) > TIME_VALUE1(y))) {
         flag = CGRAPH_TRUE;
     }
 
@@ -88,7 +88,8 @@ cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y)
 cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    if ((TIME_VALUE0(x) < TIME_VALUE0(y)) || (TIME_VALUE1(x) < TIME_VALUE1(y))) {
+    if ((TIME_VALUE0(x) < TIME_VALUE0(y)) ||
+        (TIME_VALUE1(x) < TIME_VALUE1(y))) {
         flag = CGRAPH_TRUE;
     }
 
@@ -118,8 +119,7 @@ TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1)
 
 TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
                            const DATA_TYPE day, const DATA_TYPE hour,
-                           const DATA_TYPE minute,
-                           const DATA_TYPE second)
+                           const DATA_TYPE minute, const DATA_TYPE second)
 {
     TYPE res;
     TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
@@ -446,13 +446,6 @@ TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y)
     TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
     return res;
-}
-
-void FUNCTION(NAME, test)(void)
-{
-#ifdef DEBUG
-
-#endif
 }
 
 #include "template_off.h"

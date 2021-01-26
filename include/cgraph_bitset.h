@@ -17,9 +17,9 @@ typedef struct {
 
 #define BITSET_BYTE_POSTION(postion) ((postion) / DATA_BITS)
 #define BITSET_BIT_POSTION(postion)  ((postion) % DATA_BITS)
-#define BITSET_GET_BIT(cthis, postion)                 \
-    ((((cthis)->data[BITSET_BYTE_POSTION(postion)]) >> \
-      BITSET_BIT_POSTION(postion)) ^                   \
+#define BITSET_GET_BIT(cthis, postion)                                         \
+    ((((cthis)->data[BITSET_BYTE_POSTION(postion)]) >>                         \
+      BITSET_BIT_POSTION(postion)) ^                                           \
      0x1)
 
 #include "data_base.ht"

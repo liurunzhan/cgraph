@@ -84,11 +84,4 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis)
     return cthis;
 }
 
-void FUNCTION(TYPE, test)(void)
-{
-#ifdef DEBUG
-
-#endif
-}
-
 #include "template_off.h"

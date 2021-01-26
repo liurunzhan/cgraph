@@ -16,7 +16,7 @@ typedef struct {
 
 #define COMPLEX_REAL(x) ((x).data[0])
 #define COMPLEX_IMAG(x) ((x).data[1])
-#define COMPLEX_MOD2(x) \
+#define COMPLEX_MOD2(x)                                                        \
     (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
 
 #include "data_base.ht"
@@ -29,7 +29,8 @@ extern TYPE FUNCTION(NAME, initwri)(const DATA_TYPE real, const DATA_TYPE imag);
 extern TYPE FUNCTION(NAME, initwr)(const DATA_TYPE real);
 extern TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag);
 extern TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i);
-extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i);
+extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n,
+                                     const cgraph_int_t i);
 
 /**                  complex number mathematical functions                    */
 extern DATA_TYPE FUNCTION(NAME, real)(const TYPE x);

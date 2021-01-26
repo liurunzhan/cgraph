@@ -289,11 +289,11 @@
 #define OUT_FORMAT "%d"
 #define ZERO       (0)
 #define ONE        (1)
-#define ONES                                                    \
-    {                                                           \
-        {                                                       \
-            1 << 26 | 1 << 22 | 1 << 17 || 1 << 12 | 1 << 6 | 1 \
-        }                                                       \
+#define ONES                                                                   \
+    {                                                                          \
+        {                                                                      \
+            1 << 26 | 1 << 22 | 1 << 17 || 1 << 12 | 1 << 6 | 1                \
+        }                                                                      \
     }
 #define BITS       (8 * sizeof(TYPE) - 1)
 #define MIN        (0)
@@ -316,36 +316,36 @@
 #define ID         CGRAPH_COMPLEX_T
 #define NAME       complex
 #define OUT_FORMAT "%g"
-#define ZERO         \
-    {                \
-        {            \
-            0.0, 0.0 \
-        }            \
+#define ZERO                                                                   \
+    {                                                                          \
+        {                                                                      \
+            0.0, 0.0                                                           \
+        }                                                                      \
     }
-#define ONE          \
-    {                \
-        {            \
-            0.0, 1.0 \
-        }            \
+#define ONE                                                                    \
+    {                                                                          \
+        {                                                                      \
+            0.0, 1.0                                                           \
+        }                                                                      \
     }
-#define ONES         \
-    {                \
-        {            \
-            1.0, 1.0 \
-        }            \
+#define ONES                                                                   \
+    {                                                                          \
+        {                                                                      \
+            1.0, 1.0                                                           \
+        }                                                                      \
     }
 #define BITS (CGRAPH_FLOAT64_BIT * 2)
-#define MIN                                        \
-    {                                              \
-        {                                          \
-            CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN \
-        }                                          \
+#define MIN                                                                    \
+    {                                                                          \
+        {                                                                      \
+            CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN                             \
+        }                                                                      \
     }
-#define MAX                                        \
-    {                                              \
-        {                                          \
-            CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX \
-        }                                          \
+#define MAX                                                                    \
+    {                                                                          \
+        {                                                                      \
+            CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX                             \
+        }                                                                      \
     }
 #define DATA_TYPE        cgraph_float64_t
 #define DATA_ID          CGRAPH_FLOAT64_T
@@ -364,42 +364,42 @@
 #define ID         CGRAPH_FRACTION_T
 #define NAME       fraction
 #define OUT_FORMAT "%d"
-#define ZERO     \
-    {            \
-        {        \
-            0, 1 \
-        }        \
+#define ZERO                                                                   \
+    {                                                                          \
+        {                                                                      \
+            0, 1                                                               \
+        }                                                                      \
     }
-#define ONE      \
-    {            \
-        {        \
-            1, 1 \
-        }        \
+#define ONE                                                                    \
+    {                                                                          \
+        {                                                                      \
+            1, 1                                                               \
+        }                                                                      \
     }
-#define ONES                  \
-    {                         \
-        {                     \
-            CGRAPH_INT_MIN, 1 \
-        }                     \
+#define ONES                                                                   \
+    {                                                                          \
+        {                                                                      \
+            CGRAPH_INT_MIN, 1                                                  \
+        }                                                                      \
     }
 #define BITS (8 * sizeof(TYPE))
-#define MIN                   \
-    {                         \
-        {                     \
-            CGRAPH_INT_MIN, 1 \
-        }                     \
+#define MIN                                                                    \
+    {                                                                          \
+        {                                                                      \
+            CGRAPH_INT_MIN, 1                                                  \
+        }                                                                      \
     }
-#define MAX                   \
-    {                         \
-        {                     \
-            CGRAPH_INT_MAX, 1 \
-        }                     \
+#define MAX                                                                    \
+    {                                                                          \
+        {                                                                      \
+            CGRAPH_INT_MAX, 1                                                  \
+        }                                                                      \
     }
-#define EPSILON               \
-    {                         \
-        {                     \
-            1, CGRAPH_INT_MAX \
-        }                     \
+#define EPSILON                                                                \
+    {                                                                          \
+        {                                                                      \
+            1, CGRAPH_INT_MAX                                                  \
+        }                                                                      \
     }
 #define EPSILON_LEN (8 * sizeof(TYPE))
 #define DATA_TYPE   cgraph_int_t
@@ -672,8 +672,8 @@
 #endif
 
 /**property inheritance of object types  */
-#define CGRAPH_OBJECT_BASE    \
-    cgraph_element_t element; \
+#define CGRAPH_OBJECT_BASE                                                     \
+    cgraph_element_t element;                                                  \
     cgraph_size_t hash;
 
 #define CGRAPH_OBJECT_ROOT DATA_TYPE data;
@@ -687,22 +687,21 @@
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, *root;
 #endif /**CGRAPH_STDC_VERSION */
 
-#define CGRAPH_STRUCTURE_BASE \
-    CGRAPH_DATA_BASE          \
+#define CGRAPH_STRUCTURE_BASE                                                  \
+    CGRAPH_DATA_BASE                                                           \
     cgraph_element_t element;
 
-#define CGRAPH_STRUCTURE_ROOT \
-    DATA_TYPE data, root;
+#define CGRAPH_STRUCTURE_ROOT DATA_TYPE data, root;
 
-#if defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_MOBJECT) || defined(TYPE_SPAMAT)
-#define CGRAPH_MATRIX_INDEXES \
-    cgraph_size_t row, column;
+#if defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_MOBJECT) ||   \
+    defined(TYPE_SPAMAT)
+#define CGRAPH_MATRIX_INDEXES cgraph_size_t row, column;
 
 #define MATRIX_ROW(x)    ((x)->row)
 #define MATRIX_COLUMN(x) ((x)->column)
-#elif defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_M3OBJECT) || defined(TYPE_SPAMAT3D)
-#define CGRAPH_MATRIX3D_INDEXES \
-    cgraph_size_t index_i, index_j, index_k;
+#elif defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) ||                      \
+    defined(TYPE_M3OBJECT) || defined(TYPE_SPAMAT3D)
+#define CGRAPH_MATRIX3D_INDEXES cgraph_size_t index_i, index_j, index_k;
 
 #define MATRIX3D_INDEX_I(x) ((x)->index_i)
 #define MATRIX3D_INDEX_J(x) ((x)->index_j)
@@ -726,7 +725,8 @@
 #define COPY_SIZE (sizeof(TYPE) - 2 * sizeof(DATA_TYPE *))
 #endif
 
-#if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || defined(TYPE_POBJECT)
+#if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT) ||  \
+    defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || defined(TYPE_POBJECT)
 
 #define ADD(a, b, c)  __CGRAPH_UNDEFINED
 #define SUB(a, b, c)  __CGRAPH_UNDEFINED
@@ -746,18 +746,24 @@
 #elif defined(TYPE_BOOL)
 #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
 
-#define ADD(a, b, c) \
-    ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define SUB(a, b, c) \
-    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define MUL(a, b, c) \
-    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define DIV(a, b, c) \
-    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define DIVF(a, b, c) \
-    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define INT(a, b, c) \
-    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define ADD(a, b, c)                                                           \
+    ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE              \
+                                                    : CGRAPH_FALSE)
+#define SUB(a, b, c)                                                           \
+    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE             \
+                                                     : CGRAPH_FALSE)
+#define MUL(a, b, c)                                                           \
+    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE              \
+                                                    : CGRAPH_FALSE)
+#define DIV(a, b, c)                                                           \
+    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE              \
+                                                    : CGRAPH_FALSE)
+#define DIVF(a, b, c)                                                          \
+    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE              \
+                                                    : CGRAPH_FALSE)
+#define INT(a, b, c)                                                           \
+    ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE              \
+                                                    : CGRAPH_FALSE)
 #define MOD(a, b, c) (SUB((a), INT(a, b)))
 
 #define EQ(a, b) ((a) == (b))
@@ -786,14 +792,14 @@
 #define EXP(a, b)   exp((a))
 #define SQRT(a, b)  sqrt((a))
 
-#define EXCHNAGE(a, b)  \
-    do {                \
-        TYPE tmp = (a); \
-        (a) = (b);      \
-        (b) = tmp;      \
+#define EXCHNAGE(a, b)                                                         \
+    do {                                                                       \
+        TYPE tmp = (a);                                                        \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
-#elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) || \
+#elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
     defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
 
@@ -831,11 +837,11 @@
 #define EXP(a)    exp((a))
 #define SQRT(a)   sqrt((a))
 
-#define EXCHANGE(a, b)  \
-    do {                \
-        TYPE tmp = (a); \
-        (a) = (b);      \
-        (b) = tmp;      \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE tmp = (a);                                                        \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
@@ -891,45 +897,45 @@
 #define EXP(a)    exp((a))
 #define SQRT(a)   sqrt((a))
 
-#define EXCHANGE(a, b)  \
-    do {                \
-        TYPE tmp = (a); \
-        (a) = (b);      \
-        (b) = tmp;      \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE tmp = (a);                                                        \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
 #elif defined(TYPE_TIME)
 
-#define EQ(a, b)       \
-    FUNCTION(NAME, eq) \
+#define EQ(a, b)                                                               \
+    FUNCTION(NAME, eq)                                                         \
     ((a), (b))
-#define NE(a, b)       \
-    FUNCTION(NAME, ne) \
+#define NE(a, b)                                                               \
+    FUNCTION(NAME, ne)                                                         \
     ((a), (b))
-#define GR(a, b)       \
-    FUNCTION(NAME, gr) \
+#define GR(a, b)                                                               \
+    FUNCTION(NAME, gr)                                                         \
     ((a), (b))
-#define GE(a, b)       \
-    FUNCTION(NAME, ge) \
+#define GE(a, b)                                                               \
+    FUNCTION(NAME, ge)                                                         \
     ((a), (b))
-#define LS(a, b)       \
-    FUNCTION(NAME, ls) \
+#define LS(a, b)                                                               \
+    FUNCTION(NAME, ls)                                                         \
     ((a), (b))
-#define LE(a, b)       \
-    FUNCTION(NAME, le) \
+#define LE(a, b)                                                               \
+    FUNCTION(NAME, le)                                                         \
     ((a), (b))
 
-#define ADD(a, b, c)     \
-    FUNCTION(NAME, add1) \
+#define ADD(a, b, c)                                                           \
+    FUNCTION(NAME, add1)                                                       \
     ((a), (b))
-#define SUB(a, b, c)     \
-    FUNCTION(NAME, sub1) \
+#define SUB(a, b, c)                                                           \
+    FUNCTION(NAME, sub1)                                                       \
     ((a), (b))
-#define MUL(a, b, c)     \
-    FUNCTION(NAME, mul1) \
+#define MUL(a, b, c)                                                           \
+    FUNCTION(NAME, mul1)                                                       \
     ((a), (b))
-#define DIV(a, b, c)     \
-    FUNCTION(NAME, div1) \
+#define DIV(a, b, c)                                                           \
+    FUNCTION(NAME, div1)                                                       \
     ((a), (b))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
@@ -954,274 +960,281 @@
 #define DATA_ISNEG(a)  LS((a), 0.0)
 #endif /**CGRAPH_STDC_VERSION */
 
-#define ADD(a, b, c)    \
-    FUNCTION(NAME, add) \
+#define ADD(a, b, c)                                                           \
+    FUNCTION(NAME, add)                                                        \
     ((a), (b))
-#define SUB(a, b, c)    \
-    FUNCTION(NAME, sub) \
+#define SUB(a, b, c)                                                           \
+    FUNCTION(NAME, sub)                                                        \
     ((a), (b))
-#define MUL(a, b, c)    \
-    FUNCTION(NAME, mul) \
+#define MUL(a, b, c)                                                           \
+    FUNCTION(NAME, mul)                                                        \
     ((a), (b))
-#define DIV(a, b, c)    \
-    FUNCTION(NAME, mod) \
+#define DIV(a, b, c)                                                           \
+    FUNCTION(NAME, mod)                                                        \
     ((a), (b))
-#define DIVF(a, b, c)   \
-    FUNCTION(NAME, div) \
+#define DIVF(a, b, c)                                                          \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b))
-#define INT(a, b, c)    \
-    FUNCTION(NAME, div) \
+#define INT(a, b, c)                                                           \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b))
-#define MOD(a, b, c)    \
-    FUNCTION(NAME, mod) \
+#define MOD(a, b, c)                                                           \
+    FUNCTION(NAME, mod)                                                        \
     ((a), (b))
 
-#define EQ(a, b)                                                 \
-    ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) && \
+#define EQ(a, b)                                                               \
+    ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) &&               \
      (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
-#define NE(a, b)                                                 \
-    ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) || \
+#define NE(a, b)                                                               \
+    ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) ||               \
      (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
 #define GR(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > DATA_EPSILON)
 #define GE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > (-DATA_EPSILON))
 #define LS(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < (-DATA_EPSILON))
 #define LE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < DATA_EPSILON)
 
-#define EXCHANGE(a, b) \
-    do {               \
-        TYPE tmp = a;  \
-        a = b;         \
-        b = tmp;       \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE tmp = a;                                                          \
+        a = b;                                                                 \
+        b = tmp;                                                               \
     } while (0)
 
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))
 
-#define ADD(a, b, c)     \
-    FUNCTION(NAME, addf) \
+#define ADD(a, b, c)                                                           \
+    FUNCTION(NAME, addf)                                                       \
     ((a), (b))
-#define SUB(a, b, c)     \
-    FUNCTION(NAME, subf) \
+#define SUB(a, b, c)                                                           \
+    FUNCTION(NAME, subf)                                                       \
     ((a), (b))
-#define MUL(a, b, c)     \
-    FUNCTION(NAME, mulf) \
+#define MUL(a, b, c)                                                           \
+    FUNCTION(NAME, mulf)                                                       \
     ((a), (b))
-#define DIV(a, b, c)     \
-    FUNCTION(NAME, divf) \
+#define DIV(a, b, c)                                                           \
+    FUNCTION(NAME, divf)                                                       \
     ((a), (b))
-#define DIVF(a, b, c)    \
-    FUNCTION(NAME, divf) \
+#define DIVF(a, b, c)                                                          \
+    FUNCTION(NAME, divf)                                                       \
     ((a), (b))
-#define INT(a, b, c)     \
-    FUNCTION(NAME, divf) \
+#define INT(a, b, c)                                                           \
+    FUNCTION(NAME, divf)                                                       \
     ((a), (b))
-#define MOD(a, b, c)     \
-    FUNCTION(NAME, divf) \
+#define MOD(a, b, c)                                                           \
+    FUNCTION(NAME, divf)                                                       \
     ((a), (b))
 
-#define EQ(a, b) \
-    ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
-#define NE(a, b) \
-    ((FRACTION_NUM(a) != FRACTION_NUM(b)) || (FRACTION_DEN(a) != FRACTION_DEN(b)))
-#define GR(a, b) \
+#define EQ(a, b)                                                               \
+    ((FRACTION_NUM(a) == FRACTION_NUM(b)) &&                                   \
+     (FRACTION_DEN(a) == FRACTION_DEN(b)))
+#define NE(a, b)                                                               \
+    ((FRACTION_NUM(a) != FRACTION_NUM(b)) ||                                   \
+     (FRACTION_DEN(a) != FRACTION_DEN(b)))
+#define GR(a, b)                                                               \
     ((FRACTION_NUM(a) * FRACTION_DEN(b)) > (FRACTION_NUM(b) * FRACTION_DEN(a)))
-#define GE(a, b) \
+#define GE(a, b)                                                               \
     ((FRACTION_NUM(a) * FRACTION_DEN(b)) >= (FRACTION_NUM(b) * FRACTION_DEN(a)))
-#define LS(a, b) \
+#define LS(a, b)                                                               \
     ((FRACTION_NUM(a) * FRACTION_DEN(b)) < (FRACTION_NUM(b) * FRACTION_DEN(a)))
-#define LE(a, b) \
+#define LE(a, b)                                                               \
     ((FRACTION_NUM(a) * FRACTION_DEN(b)) <= (FRACTION_NUM(b) * FRACTION_DEN(a)))
 
-#define EXCHANGE(a, b) \
-    do {               \
-        TYPE tmp = a;  \
-        a = b;         \
-        b = tmp;       \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE tmp = a;                                                          \
+        a = b;                                                                 \
+        b = tmp;                                                               \
     } while (0)
 
 #elif defined(TYPE_BIGINT)
 
-#define ADD(a, b, c)    \
-    FUNCTION(NAME, add) \
+#define ADD(a, b, c)                                                           \
+    FUNCTION(NAME, add)                                                        \
     ((a), (b), (c))
-#define SUB(a, b, c)    \
-    FUNCTION(NAME, sub) \
+#define SUB(a, b, c)                                                           \
+    FUNCTION(NAME, sub)                                                        \
     ((a), (b), (c))
-#define MUL(a, b, c)    \
-    FUNCTION(NAME, mul) \
+#define MUL(a, b, c)                                                           \
+    FUNCTION(NAME, mul)                                                        \
     ((a), (b), (c))
-#define DIV(a, b, c)    \
-    FUNCTION(NAME, div) \
+#define DIV(a, b, c)                                                           \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b)       \
-    FUNCTION(NAME, eq) \
+#define EQ(a, b)                                                               \
+    FUNCTION(NAME, eq)                                                         \
     ((a), (b))
-#define NE(a, b)       \
-    FUNCTION(NAME, ne) \
+#define NE(a, b)                                                               \
+    FUNCTION(NAME, ne)                                                         \
     ((a), (b))
-#define GR(a, b)       \
-    FUNCTION(NAME, gr) \
+#define GR(a, b)                                                               \
+    FUNCTION(NAME, gr)                                                         \
     ((a), (b))
-#define GE(a, b)       \
-    FUNCTION(NAME, ge) \
+#define GE(a, b)                                                               \
+    FUNCTION(NAME, ge)                                                         \
     ((a), (b))
-#define LS(a, b)       \
-    FUNCTION(NAME, ls) \
+#define LS(a, b)                                                               \
+    FUNCTION(NAME, ls)                                                         \
     ((a), (b))
-#define LE(a, b)       \
-    FUNCTION(NAME, le) \
+#define LE(a, b)                                                               \
+    FUNCTION(NAME, le)                                                         \
     ((a), (b))
 
-#define ABS(a)          \
-    FUNCTION(NAME, abs) \
+#define ABS(a)                                                                 \
+    FUNCTION(NAME, abs)                                                        \
     ((a))
-#define EXCHANGE(a, b)   \
-    do {                 \
-        TYPE *tmp = (a); \
-        (a) = (b);       \
-        (b) = tmp;       \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
 #elif defined(TYPE_BIGNUM)
 
-#define ADD(a, b, c)    \
-    FUNCTION(NAME, add) \
+#define ADD(a, b, c)                                                           \
+    FUNCTION(NAME, add)                                                        \
     ((a), (b), (c))
-#define SUB(a, b, c)    \
-    FUNCTION(NAME, sub) \
+#define SUB(a, b, c)                                                           \
+    FUNCTION(NAME, sub)                                                        \
     ((a), (b), (c))
-#define MUL(a, b, c)    \
-    FUNCTION(NAME, mul) \
+#define MUL(a, b, c)                                                           \
+    FUNCTION(NAME, mul)                                                        \
     ((a), (b), (c))
-#define DIV(a, b, c)    \
-    FUNCTION(NAME, div) \
+#define DIV(a, b, c)                                                           \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b)       \
-    FUNCTION(NAME, eq) \
+#define EQ(a, b)                                                               \
+    FUNCTION(NAME, eq)                                                         \
     ((a), (b))
-#define NE(a, b)       \
-    FUNCTION(NAME, ne) \
+#define NE(a, b)                                                               \
+    FUNCTION(NAME, ne)                                                         \
     ((a), (b))
-#define GR(a, b)       \
-    FUNCTION(NAME, gr) \
+#define GR(a, b)                                                               \
+    FUNCTION(NAME, gr)                                                         \
     ((a), (b))
-#define GE(a, b)       \
-    FUNCTION(NAME, ge) \
+#define GE(a, b)                                                               \
+    FUNCTION(NAME, ge)                                                         \
     ((a), (b))
-#define LS(a, b)       \
-    FUNCTION(NAME, ls) \
+#define LS(a, b)                                                               \
+    FUNCTION(NAME, ls)                                                         \
     ((a), (b))
-#define LE(a, b)       \
-    FUNCTION(NAME, le) \
+#define LE(a, b)                                                               \
+    FUNCTION(NAME, le)                                                         \
     ((a), (b))
 
-#define ABS(a)          \
-    FUNCTION(NAME, abs) \
+#define ABS(a)                                                                 \
+    FUNCTION(NAME, abs)                                                        \
     ((a))
-#define EXCHANGE(a, b)   \
-    do {                 \
-        TYPE *tmp = (a); \
-        (a) = (b);       \
-        (b) = tmp;       \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
 #elif defined(TYPE_STRING)
 
-#define ADD(a, b, c)    \
-    FUNCTION(NAME, add) \
+#define ADD(a, b, c)                                                           \
+    FUNCTION(NAME, add)                                                        \
     ((a), (b), (c))
-#define SUB(a, b, c)    \
-    FUNCTION(NAME, sub) \
+#define SUB(a, b, c)                                                           \
+    FUNCTION(NAME, sub)                                                        \
     ((a), (b), (c))
-#define MUL(a, b, c)    \
-    FUNCTION(NAME, mul) \
+#define MUL(a, b, c)                                                           \
+    FUNCTION(NAME, mul)                                                        \
     ((a), (b), (c))
-#define DIV(a, b, c)    \
-    FUNCTION(NAME, div) \
+#define DIV(a, b, c)                                                           \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b)       \
-    FUNCTION(NAME, eq) \
+#define EQ(a, b)                                                               \
+    FUNCTION(NAME, eq)                                                         \
     ((a), (b))
-#define NE(a, b)       \
-    FUNCTION(NAME, ne) \
+#define NE(a, b)                                                               \
+    FUNCTION(NAME, ne)                                                         \
     ((a), (b))
-#define GR(a, b)       \
-    FUNCTION(NAME, gr) \
+#define GR(a, b)                                                               \
+    FUNCTION(NAME, gr)                                                         \
     ((a), (b))
-#define GE(a, b)       \
-    FUNCTION(NAME, ge) \
+#define GE(a, b)                                                               \
+    FUNCTION(NAME, ge)                                                         \
     ((a), (b))
-#define LS(a, b)       \
-    FUNCTION(NAME, ls) \
+#define LS(a, b)                                                               \
+    FUNCTION(NAME, ls)                                                         \
     ((a), (b))
-#define LE(a, b)       \
-    FUNCTION(NAME, le) \
+#define LE(a, b)                                                               \
+    FUNCTION(NAME, le)                                                         \
     ((a), (b))
 
 #define ABS(a) ((a))
-#define EXCHANGE(a, b)   \
-    do {                 \
-        TYPE *tmp = (a); \
-        (a) = (b);       \
-        (b) = tmp;       \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
 #elif defined(TYPE_BITSET)
 
-#define ADD(a, b, c)    \
-    FUNCTION(NAME, add) \
+#define ADD(a, b, c)                                                           \
+    FUNCTION(NAME, add)                                                        \
     ((a), (b), (c))
-#define SUB(a, b, c)    \
-    FUNCTION(NAME, sub) \
+#define SUB(a, b, c)                                                           \
+    FUNCTION(NAME, sub)                                                        \
     ((a), (b), (c))
-#define MUL(a, b, c)    \
-    FUNCTION(NAME, mul) \
+#define MUL(a, b, c)                                                           \
+    FUNCTION(NAME, mul)                                                        \
     ((a), (b), (c))
-#define DIV(a, b, c)    \
-    FUNCTION(NAME, div) \
+#define DIV(a, b, c)                                                           \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b), (c))
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
 
-#define EQ(a, b)       \
-    FUNCTION(NAME, eq) \
+#define EQ(a, b)                                                               \
+    FUNCTION(NAME, eq)                                                         \
     ((a), (b))
-#define NE(a, b)       \
-    FUNCTION(NAME, ne) \
+#define NE(a, b)                                                               \
+    FUNCTION(NAME, ne)                                                         \
     ((a), (b))
-#define GR(a, b)       \
-    FUNCTION(NAME, gr) \
+#define GR(a, b)                                                               \
+    FUNCTION(NAME, gr)                                                         \
     ((a), (b))
-#define GE(a, b)       \
-    FUNCTION(NAME, ge) \
+#define GE(a, b)                                                               \
+    FUNCTION(NAME, ge)                                                         \
     ((a), (b))
-#define LS(a, b)       \
-    FUNCTION(NAME, ls) \
+#define LS(a, b)                                                               \
+    FUNCTION(NAME, ls)                                                         \
     ((a), (b))
-#define LE(a, b)       \
-    FUNCTION(NAME, le) \
+#define LE(a, b)                                                               \
+    FUNCTION(NAME, le)                                                         \
     ((a), (b))
-#define EXCHANGE(a, b)   \
-    do {                 \
-        TYPE *tmp = (a); \
-        (a) = (b);       \
-        (b) = tmp;       \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
-#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D) || defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) || defined(TYPE_STACK)
+#elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) ||  \
+    defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) ||                          \
+    defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D) ||                        \
+    defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) ||        \
+    defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) ||          \
+    defined(TYPE_STACK)
 
 #define ADD(a, b, c)  __CGRAPH_UNDEFINED
 #define SUB(a, b, c)  __CGRAPH_UNDEFINED
@@ -1238,11 +1251,11 @@
 #define LS(a, b) __CGRAPH_UNDEFINED
 #define LE(a, b) __CGRAPH_UNDEFINED
 
-#define EXCHANGE(a, b)   \
-    do {                 \
-        TYPE *tmp = (a); \
-        (a) = (b);       \
-        (b) = tmp;       \
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
     } while (0)
 
 #else

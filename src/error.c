@@ -51,8 +51,8 @@ void cgraph_error_details_md(FILE *fp)
             fprintf(fp, "| %d | %s |\n", i, CGRAPH_ERROR_STRING(i));
         }
     } else {
-        fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n",
+                __FILE__, __LINE__);
         fflush(stderr);
     }
 }
@@ -66,8 +66,8 @@ void cgraph_error_details_csv(FILE *fp)
             fprintf(fp, "%d,%s\n", i, CGRAPH_ERROR_STRING(i));
         }
     } else {
-        fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n",
+                __FILE__, __LINE__);
         fflush(stderr);
     }
 }
@@ -97,20 +97,21 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
         va_end(args);
         cgraph_error_time();
         if (NULL != function) {
-            fprintf(fp, "FUNCTION %s LINE %ld of FILE %s at TIME %s : %s\n", function,
-                    line, file, __cgraph_time_buffer__, __cgraph_log_buffer__);
+            fprintf(fp, "FUNCTION %s LINE %ld of FILE %s at TIME %s : %s\n",
+                    function, line, file, __cgraph_time_buffer__,
+                    __cgraph_log_buffer__);
         } else {
             fprintf(fp, "LINE %ld of FILE %s at TIME %s : %s\n", line, file,
                     __cgraph_time_buffer__, __cgraph_log_buffer__);
         }
     } else {
         if ((NULL == fp) || (0 != ferror(fp))) {
-            fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__,
-                    __LINE__);
+            fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n",
+                    __FILE__, __LINE__);
         }
         if (NULL == format) {
-            fprintf(stderr, "FILE %s of LINE %d : style format is empty!\n", __FILE__,
-                    __LINE__);
+            fprintf(stderr, "FILE %s of LINE %d : style format is empty!\n",
+                    __FILE__, __LINE__);
         }
         fflush(stderr);
     }
@@ -132,16 +133,16 @@ void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len,
         fprintf(fp, "%s: %s\n", __cgraph_time_buffer__, buffer);
     } else {
         if ((NULL == fp) || (0 != ferror(fp))) {
-            fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n", __FILE__,
-                    __LINE__);
+            fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n",
+                    __FILE__, __LINE__);
         }
         if ((NULL == buffer) || (0 >= len)) {
             fprintf(stderr, "FILE %s of LINE %d : buffer is empty!\n", __FILE__,
                     __LINE__);
         }
         if (NULL == format) {
-            fprintf(stderr, "FILE %s of LINE %d : style format is empty!\n", __FILE__,
-                    __LINE__);
+            fprintf(stderr, "FILE %s of LINE %d : style format is empty!\n",
+                    __FILE__, __LINE__);
         }
         fflush(stderr);
     }

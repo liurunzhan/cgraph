@@ -79,20 +79,21 @@ int main(int argc, char *argv[])
     cgraph_float_hash(&data);
     number = number / 10.0;
   }
-  
+
   cgraph_file_fgets(NULL, NULL);
 
   cgraph_verilog_test();
-  
-  cgraph_error_log_buffer(stdout, buffer, 100, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%s %d %d", "hello", 1 , 2);
-  cgraph_error_log(stdout, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%s %d", "hello", 1);
-  cgraph_error_log(stdout, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%d", cgraph_fraction_ismin(fraction));
-  cgraph_string_free(string);
+
+  cgraph_error_log_buffer(stdout, buffer, 100, __FILE__, __LINE__,
+  __CGRAPH_FUNCTION, "%s %d %d", "hello", 1 , 2); cgraph_error_log(stdout,
+  __FILE__, __LINE__, __CGRAPH_FUNCTION, "%s %d", "hello", 1);
+  cgraph_error_log(stdout, __FILE__, __LINE__, __CGRAPH_FUNCTION, "%d",
+  cgraph_fraction_ismin(fraction)); cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */
     /* cgraph_error_print(2);
        cgraph_string_test(); */
-    cgraph_bigint_test();
+    /* cgraph_bigint_test(); */
     /*
   cgraph_version_test();
   cgraph_verilog_test();

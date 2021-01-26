@@ -91,6 +91,6 @@
 #error undefined needed macro ATAN
 #endif
 
-#ifndef EXCHANGE
-#error undefined needed macro EXCHANGE
+#ifndef SWAP
+#error undefined needed macro SWAP
 #endif

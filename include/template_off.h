@@ -494,6 +494,6 @@
 #undef SQRT
 #endif
 
-#ifdef EXCHANGE
-#undef EXCHANGE
+#ifdef SWAP
+#undef SWAP
 #endif

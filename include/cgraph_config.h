@@ -301,9 +301,9 @@ typedef cgraph_uint8_t cgraph_addr8_t;
 #define CGRAPH_BIT(x, pos)  (((x) >> (pos)) & 0x01)
 #define CGRAPH_BSET(x, pos) ((x) | (0x01 << (pos)))
 #define CGRAPH_BCLR(x, pos) ((x) & (~(0x01 << (pos))))
-#define CGRAPH_BITS(x, from, to) \
+#define CGRAPH_BITS(x, from, to)                                               \
     (((x) >> (from)) & (~(ONES << ((to) - (from)))))
-#define CGRAPH_BSETS(x, from, to) \
+#define CGRAPH_BSETS(x, from, to)                                              \
     ((x) | ((~(ONES << ((to) - (from)))) << (from)))
 #define CGRAPH_BCLRS(x, from, to) ((x) & ((ONES << (to)) | (~(ONES << (from)))))
 
@@ -426,15 +426,18 @@ typedef void (*cgraph_pfunc3_t)(void *x, void *y, void *res);
 
 typedef struct {
     /**< private: */
-    cgraph_type_t t_id;       /**< type id   */
-    cgraph_char_t *t_name;    /**< type name */
-    cgraph_size_t t_size;     /**< type size */
-    cgraph_size_t t_ptrsize;  /**< pointer size of type */
-    cgraph_size_t t_cpysize;  /**< memory size of type used in copy memory size,
-                               excludes data pointer size */
-    cgraph_size_t t_strusize; /**< memory size of type used in structure types */
+    cgraph_type_t t_id;      /**< type id   */
+    cgraph_char_t *t_name;   /**< type name */
+    cgraph_size_t t_size;    /**< type size */
+    cgraph_size_t t_ptrsize; /**< pointer size of type */
+    cgraph_size_t t_cpysize; /**< memory size of type used in copy memory size,
+                              excludes data pointer size */
+    cgraph_size_t
+        t_strusize; /**< memory size of type used in structure types */
     cgraph_size_t t_bmatsize; /**< memory size of type used in big matrix */
-    cgraph_size_t t_datsize;  /**< data size of type */
+    cgraph_size_t
+        t_bmat3dsize;        /**< memory size of type used in big matrix 3d */
+    cgraph_size_t t_datsize; /**< data size of type */
 
     /**< public: */
     cgraph_type_t (*tid)(void);
@@ -444,6 +447,7 @@ typedef struct {
     cgraph_size_t (*tcpycsize)(void);
     cgraph_size_t (*tstrusize)(void);
     cgraph_size_t (*tbmatsize)(void);
+    cgraph_size_t (*tbmat3dsize)(void);
     cgraph_size_t (*datsize)(void);
     cgraph_bool_t (*hasdata)(void);
     cgraph_size_t (*len)(const void *cthis);

@@ -75,14 +75,14 @@ extern TYPE FUNCTION(NAME, sub1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y);
 
-extern TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0,
-                                  const DATA_TYPE time1);
+extern TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1);
 extern TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
                                   const DATA_TYPE day, const DATA_TYPE hour,
                                   const DATA_TYPE minute,
                                   const DATA_TYPE second);
 extern TYPE FUNCTION(NAME, localtime)(void);
-extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep);
+extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,
+                                  const cgraph_char_t *sep);
 
 #include "template_off.h"
 

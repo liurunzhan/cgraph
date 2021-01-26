@@ -10,5 +10,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis)
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis)
 {
-    return (NULL != cthis ? CGRAPH_TEST(MATRIX_ROW(cthis) == MATRIX_COLUMN(cthis)) : CGRAPH_FALSE);
+    return (NULL != cthis
+                ? CGRAPH_TEST(MATRIX_ROW(cthis) == MATRIX_COLUMN(cthis))
+                : CGRAPH_FALSE);
 }

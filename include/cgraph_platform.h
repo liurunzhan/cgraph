@@ -39,10 +39,10 @@ extern "C" {
 #define CGRAPH_PLAT_ENDIAN 2
 #endif
 
-#if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) || \
+#if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) ||                \
     defined(__x86_64__) || defined(__x86_64)
 #define CGRAPH_WORDSIZE 64
-#elif (__WORDSIZE == 32) || defined(_WIN32) || defined(_M_IX86) || \
+#elif (__WORDSIZE == 32) || defined(_WIN32) || defined(_M_IX86) ||             \
     defined(__i386__) || defined(__i486__)
 #define CGRAPH_WORDSIZE 32
 #else

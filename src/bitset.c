@@ -275,10 +275,7 @@ TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y)
     return y;
 }
 
-TYPE *FUNCTION(NAME, abs)(TYPE *cthis)
-{
-    return cthis;
-}
+TYPE *FUNCTION(NAME, abs)(TYPE *cthis) { return cthis; }
 
 TYPE *FUNCTION(NAME, opp)(TYPE *cthis)
 {

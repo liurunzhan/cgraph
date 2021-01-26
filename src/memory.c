@@ -14,8 +14,9 @@ void *cgraph_calloc(const cgraph_size_t size)
     else {
         fflush(stdout);
         if (0 >= size) {
-            cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
-                             "memory size %ld is a negative number or equal to zero", size);
+            cgraph_error_log(
+                stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+                "memory size %ld is a negative number or equal to zero", size);
         }
         fflush(stderr);
     }
@@ -34,12 +35,14 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
         if (new_size > old_size) {
             _cthis = realloc(cthis, new_size);
             if (NULL != _cthis) {
-                memset(CGRAPH_PTRADDR2V(_cthis, old_size), 0, new_size - old_size);
+                memset(CGRAPH_PTRADDR2V(_cthis, old_size), 0,
+                       new_size - old_size);
             } else {
 #ifdef DEBUG
                 fflush(stdout);
                 cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
-                                 "memory is re-allocated error, and the pointer is kept to the old one");
+                                 "memory is re-allocated error, and the "
+                                 "pointer is kept to the old one");
                 fflush(stderr);
 #endif
                 _cthis = cthis;
@@ -78,7 +81,8 @@ void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data)
 void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size)
 {
     void *_object = object;
-    if ((NULL != object) && (NULL != cthis) && (object != cthis) && (0 < size)) {
+    if ((NULL != object) && (NULL != cthis) && (object != cthis) &&
+        (0 < size)) {
         _object = memcpy(object, cthis, size);
     }
 #ifdef DEBUG
@@ -97,9 +101,9 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size)
                              "source pointer is equal to target pointer");
         }
         if (0 >= size) {
-            cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
-                             "memory size %ld is a negative number or equal to zero",
-                             size);
+            cgraph_error_log(
+                stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+                "memory size %ld is a negative number or equal to zero", size);
         }
         fflush(stderr);
     }

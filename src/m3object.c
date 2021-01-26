@@ -25,11 +25,4 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis)
     return (NULL != cthis ? MATRIX3D_INDEX_K(cthis) : 0);
 }
 
-void FUNCTION(TYPE, test)(void)
-{
-#ifdef DEBUG
-
-#endif
-}
-
 #include "template_off.h"
