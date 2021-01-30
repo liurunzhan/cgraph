@@ -6,7 +6,6 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include <stdio.h>
 
 #define CGRAPH_VERSION "0.0.0"
 

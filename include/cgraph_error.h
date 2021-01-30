@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-#include <stdio.h>
-
 #include "cgraph_config.h"
 
 #define CGRAPH_TIME_BUFFER_SIZE 256

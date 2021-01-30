@@ -15,6 +15,7 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
+#include "cgraph_int8.h"
 
 #define TYPE_BIGINT
 #include "template.h"

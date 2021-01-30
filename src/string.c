@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
+#include <string.h>
 
 #define TYPE_STRING
 #include "template.h"
@@ -102,11 +100,7 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
     if ((NULL != cthis) && (NULL != format)) {
         va_list args;
         va_start(args, format);
-#if (CGRAPH_STDC_VERSION >= 199901L)
-        len = vsnprintf(cthis->data, cthis->size, format, args);
-#else
-        len = vsprintf(cthis->data, format, args);
-#endif
+        len = __cgraph_vsnprintf(cthis->data, cthis->size, format, args);
         va_end(args);
         if (0 < len) {
             cthis->len = len;
@@ -119,19 +113,25 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
-        cgraph_size_t _len = (NULL != z ? z->len : 0);
-        cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
+        cgraph_size_t _size = CGRAPH_SIZE(z);
+        cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
+                      size = CGRAPH_MAX(x->len, y->len);
         cgraph_bool_t error = CGRAPH_FALSE;
-        FUNCTION(NAME, realloc)
-        (z, DATA_ID, _len, len, &error);
+        FUNCTION(NAME, realloc)(z, DATA_ID, _size, size, &error);
         if (CGRAPH_FALSE == error) {
             cgraph_size_t i;
-            DATA_TYPE *_xd = &(x->data[x->len - 1]),
-                      *_yd = &(y->data[y->len - 1]),
-                      *_zd = &(z->data[z->len - 1]);
-            for (i = 0; i < len; i++, _xd--, _yd--, _zd--) {
-                *_zd = *_xd + *_yd;
+            DATA_TYPE *xd = &(x->data[x->len - 1]),
+                      *yd = &(y->data[y->len - 1]), *zd = &(z->data[size - 1]);
+            for (i = 0; i < len; i++, xd--, yd--, zd--) {
+                *zd = *xd + *yd;
             }
+            for (i = len; i < x->len; i++, xd--, zd--) {
+                *zd = *xd;
+            }
+            for (i = len; i < y->len; i++, yd--, zd--) {
+                *zd = *yd;
+            }
+            z->len = size;
         }
     }
 

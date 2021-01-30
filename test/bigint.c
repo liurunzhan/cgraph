@@ -11,16 +11,19 @@ int main(int argc, char *argv[])
     TYPE *bigint3 = FUNCTION(NAME, calloc)(DATA_ID, 20);
 
     printf("%u %ld %ld\n", bigint3->data[0], bigint3->len, bigint3->size);
-    bigint1->data[0] = 30;
+    bigint1->data[0] = 255;
     bigint1->len = 1;
-    bigint2->data[0] = 10;
-    bigint2->len = 1;
+    bigint2->data[0] = 255;
+    bigint2->data[1] = 255;
+    bigint2->data[2] = 255;
+    bigint2->len = 3;
 
     printf("%u %ld %ld\n", bigint1->data[0], bigint1->len, bigint1->size);
     printf("%u %ld %ld\n", bigint2->data[0], bigint2->len, bigint2->size);
 
     FUNCTION(NAME, add)(bigint1, bigint2, bigint3);
     printf("%u %ld %ld\n", bigint3->data[0], bigint3->len, bigint3->size);
+    FUNCTION(NAME, fprintf)(stdout, bigint2);
 
     FUNCTION(NAME, free)(bigint1);
     FUNCTION(NAME, free)(bigint2);

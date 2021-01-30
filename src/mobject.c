@@ -12,12 +12,12 @@
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis)
 {
-    return (NULL != cthis ? MATRIX_ROW(cthis) : 0);
+    return MATRIX_ROW(cthis);
 }
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis)
 {
-    return (NULL != cthis ? MATRIX_COLUMN(cthis) : 0);
+    return MATRIX_COLUMN(cthis);
 }
 
 #include "template_off.h"

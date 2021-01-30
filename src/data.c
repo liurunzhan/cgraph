@@ -1,11 +1,11 @@
 #include "cgraph_data.h"
 
-static const cgraph_char_t *__cgraph_true__ = "true";
-static const cgraph_size_t __cgraph_true_len__ = 4;
-static const cgraph_size_t __cgraph_true_size__ = 5;
-static const cgraph_char_t *__cgraph_false__ = "false";
-static const cgraph_size_t __cgraph_false_len__ = 5;
-static const cgraph_size_t __cgraph_false_size__ = 6;
+static const cgraph_char_t *__cgraph_true__ = CGRAPH_BOOL_TRUE;
+static const cgraph_size_t __cgraph_true_len__ = CGRAPH_BOOL_TRUE_LEN;
+static const cgraph_size_t __cgraph_true_size__ = (__cgraph_true_len__ + 1);
+static const cgraph_char_t *__cgraph_false__ = CGRAPH_BOOL_FALSE;
+static const cgraph_size_t __cgraph_false_len__ = CGRAPH_BOOL_FALSE_LEN;
+static const cgraph_size_t __cgraph_false_size__ = (__cgraph_false_len__ + 1);
 
 cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x)
 {
@@ -13,11 +13,13 @@ cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x)
     if (CGRAPH_TRUE == x) {
         cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_true_size__);
         if (NULL != cthis) {
+            cgraph_string_initd(cthis, __cgraph_true__, __cgraph_true_size__);
             cthis->len = __cgraph_true_len__;
         }
     } else if (CGRAPH_FALSE == x) {
         cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_false_size__);
         if (NULL != cthis) {
+            cgraph_string_initd(cthis, __cgraph_false__, __cgraph_false_size__);
             cthis->len = __cgraph_false_len__;
         }
     }

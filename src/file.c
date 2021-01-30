@@ -7,6 +7,21 @@
 #include "cgraph_platform.h"
 #include "cgraph_string.h"
 
+cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
+                                  const cgraph_size_t size,
+                                  const cgraph_char_t *format, ...)
+{
+    cgraph_int_t _size = 0;
+    if (NULL != buffer) {
+        va_list args;
+        va_start(args, format);
+        _size = __cgraph_vsnprintf(buffer, size, format, args);
+        va_end(args);
+    }
+
+    return _size;
+}
+
 FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode)
 {
     FILE *fp = fopen(file, mode);
@@ -199,7 +214,7 @@ cgraph_bool_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp,
     return flag;
 }
 
-static const cgraph_char_t *_platform = CGRAPH_PLAT_MODE;
+static const cgraph_char_t *_platform = CGRAPH_PLAT_NAME;
 static const cgraph_char_t *_path_split = CGRAPH_PLAT_PSPLIT;
 static const cgraph_char_t *_file_end = CGRAPH_PLAT_FEND;
 

@@ -27,7 +27,7 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
 {
 #ifdef TYPE_WITH_DATA
-    return NULL != cthis ? ((TYPE *)cthis)->len : 0;
+    return CGRAPH_LEN(cthis);
 #else
     return NULL != cthis ? 1 : 0;
 #endif
@@ -36,7 +36,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis)
 {
 #ifdef TYPE_WITH_DATA
-    return NULL != cthis ? ((TYPE *)cthis)->size : 0;
+    return CGRAPH_SIZE(cthis);
 #else
     return NULL != cthis ? 1 : 0;
 #endif
@@ -119,43 +119,50 @@ TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size)
     return _x;
 }
 
-void *FUNCTION(NAME, init)(void *cthis, const void *object,
+TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
                            const cgraph_size_t size)
 {
-    TYPE *_cthis = (TYPE *)cthis, *_object = (TYPE *)object;
 #ifdef TYPE_WITH_DATA
-    if ((NULL != _cthis) && (NULL != _object)) {
-        cgraph_size_t _min = CGRAPH_MIN(_object->len, size);
-        cgraph_size_t _len = CGRAPH_MIN(_cthis->size, _min);
-        _cthis = cgraph_memcpy(_cthis, _object,
-                               FUNCTION(NAME, msize)(DATA_ID, _len));
-        _cthis = FUNCTION(NAME, _update)(_cthis, DATA_ID, _len, -1);
+    if (NULL != data) {
+        cgraph_size_t _size = CGRAPH_SIZE(cthis);
+        cgraph_bool_t error = CGRAPH_FALSE;
+        cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, _size, size, &error);
+        if (CGRAPH_FALSE == error) {
+            cthis->data = cgraph_memcpy(cthis->data, data->data,
+                                        FUNCTION(NAME, msize)(DATA_ID, size));
+            cthis = FUNCTION(NAME, _update)(cthis, DATA_ID, size, -1);
+        }
     }
 #else
-    _cthis = cgraph_memcpy(_cthis, _object, FUNCTION(NAME, msize)(ID, size));
+    cthis = cgraph_memcpy(cthis, data, FUNCTION(NAME, msize)(ID, size));
 #endif
 
-    return _cthis;
+    return cthis;
 }
 
-void *FUNCTION(NAME, initd)(void *cthis, const void *data,
+#ifdef TYPE_WITH_DATA
+TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const DATA_TYPE *data,
                             const cgraph_size_t size)
 {
-    TYPE *_cthis = (TYPE *)cthis;
-#ifdef TYPE_WITH_DATA
-    DATA_TYPE *_data = (DATA_TYPE *)data;
-    if ((NULL != _cthis) && (NULL != _data)) {
-        cgraph_size_t _len = CGRAPH_MIN(_cthis->size, size);
-        _cthis->data = cgraph_memcpy(_cthis->data, data,
-                                     _len * FUNCTION(NAME, tdatsize)());
-        _cthis->len = _len;
-        _cthis->data[_len] = 0;
+    if (NULL != data) {
+        cgraph_size_t _size = CGRAPH_SIZE(cthis);
+        cgraph_bool_t error = CGRAPH_FALSE;
+        cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, _size, size, &error);
+        if (CGRAPH_FALSE == error) {
+            cthis->data = cgraph_memcpy(cthis->data, data,
+                                        size * FUNCTION(NAME, tdatsize)());
+            cthis->len = size;
+            cthis->data[size] = 0;
+        }
     }
 #else
-    _cthis = cgraph_memcpy(_cthis, data, size * FUNCTION(NAME, tdatsize)());
+TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const TYPE *data,
+                            const cgraph_size_t size)
+{
+    cthis = cgraph_memcpy(cthis, data, FUNCTION(NAME, msize)(ID, size));
 #endif
 
-    return _cthis;
+    return cthis;
 }
 
 #ifdef TYPE_WITH_DATA
@@ -366,3 +373,21 @@ TYPE FUNCTION(NAME, iter3cvc)(const TYPE x, const TYPE *y, TYPE z,
 
     return z;
 }
+
+#ifdef TYPE_WITH_DATA
+TYPE *FUNCTION(NAME, det2x2)(TYPE **cthis, TYPE *res0, TYPE *res1, TYPE *res)
+{
+    res0 = MUL(cthis[0], cthis[2], res0);
+    res1 = MUL(cthis[1], cthis[3], res1);
+    res = ADD(res0, res1, res);
+    return res;
+}
+#else
+TYPE *FUNCTION(NAME, det2x2)(TYPE *cthis, TYPE *res0, TYPE *res1, TYPE *res)
+{
+    *res0 = MUL(cthis[0], cthis[2], *res0);
+    *res1 = MUL(cthis[1], cthis[3], *res1);
+    *res = ADD(*res0, *res1, *res);
+    return res;
+}
+#endif

@@ -29,12 +29,12 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis)
 {
-    return NULL != cthis ? ((TYPE *)cthis)->len : 0;
+    return CGRAPH_LEN(cthis);
 }
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis)
 {
-    return NULL != cthis ? ((TYPE *)cthis)->size : 0;
+    return CGRAPH_SIZE(cthis);
 }
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,

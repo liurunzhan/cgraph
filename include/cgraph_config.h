@@ -25,6 +25,7 @@ extern "C" {
 #include <limits.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "cgraph_platform.h"
 
@@ -57,6 +58,11 @@ typedef signed int cgraph_bool_t;
 #define CGRAPH_BOOL_MIN CGRAPH_FALSE
 #define CGRAPH_BOOL_EPS (0x01)
 #define CGRAPH_BOOL_BIT (1)
+
+#define CGRAPH_BOOL_TRUE      "true"
+#define CGRAPH_BOOL_TRUE_LEN  (4)
+#define CGRAPH_BOOL_FALSE     "false"
+#define CGRAPH_BOOL_FALSE_LEN (5)
 
 /**
  * @typedef cgraph_int_t
@@ -233,8 +239,8 @@ typedef unsigned int cgraph_uint32_t;
 typedef signed long cgraph_int64_t;
 typedef unsigned long cgraph_uint64_t;
 #else
-typedef __CGRAPH_INT64 cgraph_int64_t;
-typedef __CGRAPH_UINT64 cgraph_uint64_t;
+typedef __cgraph_int64 cgraph_int64_t;
+typedef __cgraph_uint64 cgraph_uint64_t;
 #endif /**< CGRAPH_WORDSIZE */
 #endif /**< CGRAPH_STDC_VERSION */
 
@@ -345,17 +351,17 @@ typedef enum {
     CGRAPH_STRING_T = 16,   /**< TYPE 16 : CGRAPH_STRING_T   */
     CGRAPH_VECTOR_T = 17,   /**< TYPE 17 : CGRAPH_VECTOR_T   */
     CGRAPH_MATRIX_T = 18,   /**< TYPE 18 : CGRAPH_MATRIX_T   */
-    CGRAPH_MATRIX3D_T = 19, /**< TYPE 18 : CGRAPH_MATRIX3D_T   */
-    CGRAPH_BIGMAT_T = 20,   /**< TYPE 19 : CGRAPH_BIGMAT_T   */
-    CGRAPH_BIGMAT3D_T = 21, /**< TYPE 19 : CGRAPH_BIGMAT3D_T   */
-    CGRAPH_SPAMAT_T = 20,   /**< TYPE 19 : CGRAPH_SPAMAT_T   */
-    CGRAPH_SPAMAT3D_T = 21, /**< TYPE 19 : CGRAPH_SPAMAT3D_T   */
-    CGRAPH_DFRAME_T = 22,   /**< TYPE 20 : CGRAPH_DFRAME_T   */
-    CGRAPH_DICT_T = 23,     /**< TYPE 21 : CGRAPH_DICT_T     */
-    CGRAPH_LIST_T = 24,     /**< TYPE 22 : CGRAPH_LIST_T     */
-    CGRAPH_TREE_T = 25,     /**< TYPE 23 : CGRAPH_TREE_T     */
-    CGRAPH_SET_T = 26,      /**< TYPE 24 : CGRAPH_SET_T      */
-    CGRAPH_NULL_T = 27      /**< TYPE 25 : CGRAPH_NULL_T     */
+    CGRAPH_MATRIX3D_T = 19, /**< TYPE 19 : CGRAPH_MATRIX3D_T   */
+    CGRAPH_BIGMAT_T = 20,   /**< TYPE 20 : CGRAPH_BIGMAT_T   */
+    CGRAPH_BIGMAT3D_T = 21, /**< TYPE 21 : CGRAPH_BIGMAT3D_T   */
+    CGRAPH_SPAMAT_T = 20,   /**< TYPE 20 : CGRAPH_SPAMAT_T   */
+    CGRAPH_SPAMAT3D_T = 21, /**< TYPE 21 : CGRAPH_SPAMAT3D_T   */
+    CGRAPH_DFRAME_T = 22,   /**< TYPE 22 : CGRAPH_DFRAME_T   */
+    CGRAPH_DICT_T = 23,     /**< TYPE 23 : CGRAPH_DICT_T     */
+    CGRAPH_LIST_T = 24,     /**< TYPE 24 : CGRAPH_LIST_T     */
+    CGRAPH_TREE_T = 25,     /**< TYPE 25 : CGRAPH_TREE_T     */
+    CGRAPH_SET_T = 26,      /**< TYPE 26 : CGRAPH_SET_T      */
+    CGRAPH_NULL_T = 27      /**< TYPE 27 : CGRAPH_NULL_T     */
 } cgraph_type_t;
 
 /**

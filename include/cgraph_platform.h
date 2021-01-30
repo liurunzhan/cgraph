@@ -5,28 +5,45 @@
 extern "C" {
 #endif
 
+typedef enum {
+    CGRAPH_PLAT_CYGWIN = 0,   /**< TYPE 0 : CGRAPH_PLAT_CYGWIN   */
+    CGRAPH_PLAT_MSYS = 0,     /**< TYPE 0 : CGRAPH_PLAT_MSYS   */
+    CGRAPH_PLAT_MSYS2 = 0,    /**< TYPE 0 : CGRAPH_PLAT_MSYS2   */
+    CGRAPH_PLAT_WINDOWS = 1,  /**< TYPE 1 : CGRAPH_PLAT_WINDOWS   */
+    CGRAPH_PLAT_MACOS = 2,    /**< TYPE 2 : CGRAPH_PLAT_MACOS   */
+    CGRAPH_PLAT_LINUX = 3,    /**< TYPE 3 : CGRAPH_PLAT_LINUX   */
+    CGRAPH_PLAT_UNIX = 4,     /**< TYPE 4 : CGRAPH_PLAT_UNIX */
+    CGRAPH_PLAT_UNDEFINED = 5 /**< TYPE 5 : CGRAPH_PLAT_UNDEFINED */
+} cgraph_plat_t;
+
 /**Self-defined features in different platforms */
 #if defined(__CYGWIN__)
-#define CGRAPH_PLAT_MODE   "cygwin/msys/msys2"
+#define CGRAPH_PLAT_NAME   "cgywin"
+#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_CYGWIN
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\n"
 #elif (defined(_WIN32) || defined(_WIN64))
-#define CGRAPH_PLAT_MODE   "windows"
+#define CGRAPH_PLAT_NAME   "windows"
+#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_WINDOWS
 #define CGRAPH_PLAT_PSPLIT "\\"
 #define CGRAPH_PLAT_FEND   "\r\n"
 #elif defined(__APPLE__)
-#define CGRAPH_PLAT_MODE   "macos"
+#define CGRAPH_PLAT_NAME   "macos"
+#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_MACOS
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\r"
 #elif defined(__linux__)
-#define CGRAPH_PLAT_MODE   "linux"
+#define CGRAPH_PLAT_NAME   "linux"
+#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_LINUX
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\n"
 #elif defined(__unix__)
-#define CGRAPH_PLAT_MODE   "unix"
+#define CGRAPH_PLAT_NAME   "unix"
+#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_UNIX
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\n"
 #else
+#define CGRAPH_PLAT_MODE CGRAPH_PLAT_UNDEFINED
 #error unsupported platforms!!
 #endif
 
@@ -62,45 +79,60 @@ extern "C" {
 
 /**Self-defined features in different compilers */
 #if CGRAPH_STDC_VERSION >= 199901L
-#define CGRAPH_INLINE       inline
-#define __CGRAPH_INT64      signed long long
-#define __CGRAPH_INT64_MIN  (-9223372036854775808LL)
-#define __CGRAPH_INT64_MAX  (9223372036854775807LL)
-#define __CGRAPH_INT64_EPS  (0xFFFFFFFFFFFFFFFFLL)
-#define __CGRAPH_UINT64     unsigned long long
-#define __CGRAPH_UINT64_MIN (0LL)
-#define __CGRAPH_UINT64_MAX (1844674407370955161ULL)
-#define __CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFFLL)
+#define CGRAPH_INLINE              inline
+#define __cgraph_int64             signed long long
+#define __CGRAPH_INT64_MIN         (-9223372036854775808LL)
+#define __CGRAPH_INT64_MAX         (9223372036854775807LL)
+#define __CGRAPH_INT64_EPS         (0xFFFFFFFFFFFFFFFFLL)
+#define __CGRAPH_INT64_OUT_FORMAT  "%lld"
+#define __cgraph_uint64            unsigned long long
+#define __CGRAPH_UINT64_MIN        (0LL)
+#define __CGRAPH_UINT64_MAX        (1844674407370955161ULL)
+#define __CGRAPH_UINT64_EPS        (0xFFFFFFFFFFFFFFFFLL)
+#define __CGRAPH_UINT64_OUT_FORMAT "%llu"
 #define CGRAPH_WITH_FLOAT128
 #define __CGRAPH_FLOAT128     signed long double
 #define __CGRAPH_FLOAT128_MIN LDBL_MIN
 #define __CGRAPH_FLOAT128_MAX LDBL_MAX
 #define __CGRAPH_FLOAT128_EPS LDBL_EPSILON
 #define __CGRAPH_FLOAT128_BIT LDBL_DIG
+#define __cgraph_vsnprintf(buffer, size, format, args)                         \
+    vsnprintf(buffer, size, format, args)
 #else
 #if defined(__GNUC__) || defined(__clang__)
 #define CGRAPH_INLINE       __extension__ __inline__
-__extension__ typedef signed long long __CGRAPH_INT64;
+__extension__ typedef signed long long __cgraph_int64;
 #define __CGRAPH_INT64_MIN  __extension__(-9223372036854775808LL)
 #define __CGRAPH_INT64_MAX  __extension__(9223372036854775807LL)
 #define __CGRAPH_INT64_EPS  __extension__(0xFFFFFFFFFFFFFFFFLL)
-__extension__ typedef unsigned long long __CGRAPH_UINT64;
+__extension__ typedef unsigned long long __cgraph_uint64;
 #define __CGRAPH_UINT64_MIN __extension__(0LL)
 #define __CGRAPH_UINT64_MAX __extension__(1844674407370955161ULL)
 #define __CGRAPH_UINT64_EPS __extension__(0xFFFFFFFFFFFFFFFFLL)
+#if CGRAPH_PLAT_MODE != CGRAPH_PLAT_WINDOWS
+#define __CGRAPH_INT64_OUT_FORMAT  "%lld"
+#define __CGRAPH_UINT64_OUT_FORMAT "%llu"
+#else
+#define __CGRAPH_INT64_OUT_FORMAT  "%I64d"
+#define __CGRAPH_UINT64_OUT_FORMAT "%I64u"
+#endif
 #elif defined(_MSC_VER)
-#define CGRAPH_INLINE       __inline
-typedef signed __int64 __CGRAPH_INT64;
-#define __CGRAPH_INT64_MIN  (-9223372036854775808LL)
-#define __CGRAPH_INT64_MAX  (9223372036854775807LL)
-#define __CGRAPH_INT64_EPS  (0xFFFFFFFFFFFFFFFFLL)
-typedef unsigned __int64 __CGRAPH_UINT64;
-#define __CGRAPH_UINT64_MIN (0LL)
-#define __CGRAPH_UINT64_MAX (1844674407370955161ULL)
-#define __CGRAPH_UINT64_EPS (0xFFFFFFFFFFFFFFFFLL)
+#define CGRAPH_INLINE              __inline
+typedef signed __int64 __cgraph_int64;
+#define __CGRAPH_INT64_MIN         (-9223372036854775808LL)
+#define __CGRAPH_INT64_MAX         (9223372036854775807LL)
+#define __CGRAPH_INT64_EPS         (0xFFFFFFFFFFFFFFFFLL)
+#define __CGRAPH_INT64_OUT_FORMAT  "%I64d"
+typedef unsigned __int64 __cgraph_uint64;
+#define __CGRAPH_UINT64_MIN        (0LL)
+#define __CGRAPH_UINT64_MAX        (1844674407370955161ULL)
+#define __CGRAPH_UINT64_EPS        (0xFFFFFFFFFFFFFFFFLL)
+#define __CGRAPH_UINT64_OUT_FORMAT "%I64u"
 #else
 #error unsupported C compiler in 32-bit system
 #endif
+#define __cgraph_vsnprintf(buffer, size, format, args)                         \
+    vsprintf(buffer, format, args)
 #endif
 
 #if (CGRAPH_STDC_VERSION >= 201112L)

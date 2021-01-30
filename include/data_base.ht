@@ -20,6 +20,12 @@ extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 
+extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE *x);
+extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x);
+extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                             const cgraph_size_t size,
+                                             const TYPE *x);
+
 #else
 
 extern TYPE *FUNCTION(NAME, exchange)(TYPE *cthis, const cgraph_size_t startx,
@@ -41,5 +47,11 @@ extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
+
+extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                             const cgraph_size_t size,
+                                             const TYPE x);
 
 #endif

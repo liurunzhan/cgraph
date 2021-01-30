@@ -8,6 +8,20 @@
 /*template module*/
 #include "data_base.ct"
 
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x)
+{
+    cgraph_int_t size = 0;
+    if (NULL != x) {
+        cgraph_size_t i;
+        for (i = 0; i < x->len; i++) {
+            fprintf(fp, OUT_FORMAT, x->data[i]);
+        }
+        size = x->len;
+    }
+
+    return size;
+}
+
 static const cgraph_uint8_t cgraph_uint8_bits[8] = {0x01, 0x02, 0x04, 0x08,
                                                     0x10, 0x20, 0x40, 0x80};
 

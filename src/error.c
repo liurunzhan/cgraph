@@ -93,7 +93,8 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
     if ((NULL != fp) && (0 == ferror(fp)) && (NULL != format)) {
         va_list args;
         va_start(args, format);
-        vsprintf(__cgraph_log_buffer__, format, args);
+        __cgraph_vsnprintf(__cgraph_log_buffer__, CGRAPH_LOG_BUFFER_SIZE,
+                           format, args);
         va_end(args);
         cgraph_error_time();
         if (NULL != function) {
@@ -117,17 +118,17 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
     }
 }
 
-void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len,
-                             const cgraph_char_t *file,
+void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer,
+                             cgraph_size_t size, const cgraph_char_t *file,
                              const cgraph_size_t line,
                              const cgraph_char_t *function,
                              const cgraph_char_t *format, ...)
 {
-    if ((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < len) &&
+    if ((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < size) &&
         (NULL != format)) {
         va_list args;
         va_start(args, format);
-        vsprintf(buffer, format, args);
+        __cgraph_vsnprintf(buffer, size, format, args);
         va_end(args);
         cgraph_error_time();
         fprintf(fp, "%s: %s\n", __cgraph_time_buffer__, buffer);
@@ -136,7 +137,7 @@ void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer, cgraph_size_t len,
             fprintf(stderr, "FILE %s of LINE %d : file handle is error!\n",
                     __FILE__, __LINE__);
         }
-        if ((NULL == buffer) || (0 >= len)) {
+        if ((NULL == buffer) || (0 >= size)) {
             fprintf(stderr, "FILE %s of LINE %d : buffer is empty!\n", __FILE__,
                     __LINE__);
         }

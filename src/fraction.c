@@ -9,6 +9,25 @@
 /**/
 #include "data_base.ct"
 
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE x)
+{
+    return fprintf(stdout, OUT_FORMAT "/" OUT_FORMAT, FRACTION_NUM(x),
+                   FRACTION_DEN(x));
+}
+
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x)
+{
+    return fprintf(fp, OUT_FORMAT "/" OUT_FORMAT, FRACTION_NUM(x),
+                   FRACTION_DEN(x));
+}
+
+cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size, const TYPE x)
+{
+    return cgraph_file_snprintf(buffer, size, OUT_FORMAT "/" OUT_FORMAT,
+                                FRACTION_NUM(x), FRACTION_DEN(x));
+}
+
 /**                               public apis                                 */
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn

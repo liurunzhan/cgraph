@@ -1,4 +1,6 @@
 #include "cgraph.h"
+#include <stdio.h>
+#include <string.h>
 
 #define TYPE_STRING
 #include "template.h"
@@ -11,9 +13,9 @@ int main(int argc, char *argv[])
     fprintf(stdout, "test %s\n", STRING(NAME));
     if (NULL != string) {
         cgraph_bool_t error = CGRAPH_FALSE;
-        fprintf(stdout, "hello!\n");
+        fprintf(stdout, "%s\n", str);
         string = FUNCTION(NAME, initd)(string, str, strlen(str));
-        fprintf(stdout, "%s\n", string->data);
+        fprintf(stdout, "data %s\n", string->data);
         fprintf(stdout,
                 "test base " CGRAPH_PTRADDR_OUT_FORMAT
                 " start " CGRAPH_PTRADDR_OUT_FORMAT

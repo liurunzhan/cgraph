@@ -87,3 +87,12 @@ script/compile.hi
 /compile*
 /xmake.lua
 /CMakeLists.txt
+
+# Test Cases
+test/
+!test/*.c
+!test/*.r
+!test/*.py
+!test/*.sql
+!test/*.csv
+!test/Makefile

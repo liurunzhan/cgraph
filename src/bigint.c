@@ -1,17 +1,38 @@
 #include "cgraph_bigint.h"
-#include "cgraph_int8.h"
+#include "cgraph_file.h"
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
 #define TYPE_BIGINT
 #include "template.h"
 
-/*template module*/
+/** template module */
 #include "data_base.ct"
+
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis)
+{
+    cgraph_int_t size = 0;
+    if (NULL != cthis) {
+        cgraph_size_t i = cthis->len - 1;
+        cgraph_int_t tmp = cthis->data[i];
+        for (i--; i >= 0; i--) {
+            tmp = cthis->data[i] * 256 + tmp;
+            fprintf(fp, "%d\n", tmp);
+            fprintf(fp, "%c\n", (tmp % 10) + '0');
+            tmp = tmp / 10;
+            fprintf(fp, "%c\n", (tmp % 10) + '0');
+            tmp = tmp / 10;
+        }
+        fprintf(fp, "%c\n", (tmp % 10) + '0');
+        size = cthis->len;
+    }
+
+    return size;
+}
 
 /**
   @brief BKDR Hash Algorithm
-  hash = (hash * 31) + cthis->data[i]
+  @brief hash = (hash * 31) + cthis->data[i]
 */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
 {
@@ -57,7 +78,7 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis)
 {
     if (NULL != cthis) {
         cthis->postive =
-            (CGRAPH_TRUE == cthis->postive ? CGRAPH_FALSE : CGRAPH_TRUE);
+            ((CGRAPH_TRUE == cthis->postive) ? CGRAPH_FALSE : CGRAPH_TRUE);
     }
 
     return cthis;
@@ -65,48 +86,48 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis)
 
 cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE *cthis)
 {
-    return NULL != cthis ? cthis->postive : CGRAPH_FALSE;
+    return ((NULL != cthis) ? cthis->postive : CGRAPH_FALSE);
 }
 
 cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 {
-    return NULL != cthis ? CGRAPH_TEST(cthis->postive == CGRAPH_FALSE)
-                         : CGRAPH_FALSE;
+    return ((NULL != cthis) ? CGRAPH_TEST(cthis->postive == CGRAPH_FALSE)
+                            : CGRAPH_FALSE);
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
-        cgraph_size_t _size = (NULL != z ? z->size : 0);
-        cgraph_size_t min = CGRAPH_MIN(x->len, y->len),
-                      max = CGRAPH_MAX(x->len, y->len);
+        cgraph_size_t _size = CGRAPH_SIZE(z);
+        cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
+                      size = CGRAPH_MAX(x->len, y->len);
         cgraph_bool_t error = CGRAPH_FALSE;
-        z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, max + 1, &error);
+        z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, size + 1, &error);
         if (CGRAPH_FALSE == error) {
             cgraph_size_t i;
             DATA_TYPE carry = 0;
             DATA_TYPE *xd = &(x->data[x->len - 1]),
-                      *yd = &(y->data[y->len - 1]), *zd = &(z->data[max]);
+                      *yd = &(y->data[y->len - 1]), *zd = &(z->data[size]);
             if (x->postive == y->postive) {
                 z->postive = x->postive;
-                for (i = 0; i < min; i++, xd--, yd--, zd--) {
-                    *zd = *xd + *yd + carry;
-                    carry = ((*zd < *xd) || (*zd < *yd)) ? 1 : 0;
+                for (i = 0; i < len; i++, xd--, yd--, zd--) {
+                    *zd = (*xd + *yd + carry);
+                    carry = (((*zd < *xd) || (*zd < *yd)) ? 1 : 0);
                 }
-                for (i = min; x->len < max && i < max; i++, yd--, zd--) {
-                    *zd = *yd + carry;
-                    carry = (*zd < *yd) ? 1 : 0;
+                for (; i < x->len; i++, xd--, zd--) {
+                    *zd = (*xd + carry);
+                    carry = ((*zd < *xd) ? 1 : 0);
                 }
-                for (i = min; y->len < max && i < max; i++, xd--, zd--) {
-                    *zd = *xd + carry;
-                    carry = (*zd < *xd) ? 1 : 0;
+                for (; i < y->len; i++, yd--, zd--) {
+                    *zd = (*yd + carry);
+                    carry = ((*zd < *yd) ? 1 : 0);
                 }
-                z->len = max;
                 if (0 != carry) {
                     *zd = carry;
-                    z->len++;
+                    z->len = ++i;
                 } else {
                     ++z->data;
+                    z->len = i;
                 }
             } else {
                 if (CGRAPH_FALSE == x->postive) {
@@ -124,7 +145,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
-        cgraph_size_t _len = (NULL != z ? z->len : 0);
+        cgraph_size_t _len = CGRAPH_LEN(z);
         cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
         cgraph_bool_t error = CGRAPH_FALSE;
         z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);
@@ -146,17 +167,18 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
-        cgraph_size_t _len = (NULL != z ? z->len : 0);
-        cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
+        cgraph_size_t _size = CGRAPH_SIZE(z);
+        cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
+                      size = CGRAPH_MAX(x->len, y->len);
         cgraph_bool_t error = CGRAPH_FALSE;
-        z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);
+        z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, size, &error);
         if (CGRAPH_FALSE == error) {
             cgraph_size_t i;
             DATA_TYPE *xd = &(x->data[x->len - 1]),
                       *yd = &(y->data[y->len - 1]),
                       *zd = &(z->data[z->len - 1]);
             for (i = 1; i < len; i++, xd--, yd--, zd--) {
-                *zd = (*xd) * (*yd);
+                *zd = ((*xd) * (*yd));
             }
             z->postive = x->postive;
         }
@@ -167,7 +189,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-    cgraph_size_t _len = (NULL != z ? z->len : 0);
+    cgraph_size_t _len = CGRAPH_LEN(z);
     cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);
@@ -178,7 +200,7 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
                       *yd = &(y->data[y->len - 1]),
                       *zd = &(z->data[z->len - 1]);
             for (i = 1; i < len; i++, xd--, yd--, zd--) {
-                z->data[z->len - i] = x->data[x->len - i] + y->data[y->len - i];
+                *zd = ((*xd) / (*yd));
             }
             z->postive = x->postive;
         }
@@ -199,12 +221,12 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
             }
         }
         if (i >= min) {
-            for (i = min; i < x->len; i++, xd--) {
+            for (; i < x->len; i++, xd--) {
                 if (0 != *xd) {
                     break;
                 }
             }
-            for (i = min; i < y->len; i++, yd--) {
+            for (; i < y->len; i++, yd--) {
                 if (0 != *yd) {
                     break;
                 }
@@ -230,16 +252,18 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
     cgraph_bool_t flag = CGRAPH_FALSE;
     if ((NULL != x) && (NULL != y)) {
         if (x->postive == y->postive) {
-            cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+            cgraph_size_t i, min = CGRAPH_MIN(x->len, y->len);
+            DATA_TYPE *xd = &(x->data[x->len - 1]),
+                      *yd = &(y->data[y->len - 1]);
             if (CGRAPH_TRUE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
-                    if (x->data[i] <= y->data[i]) {
+                for (i = 0; i < min; i++, xd--, yd--) {
+                    if (*xd <= *yd) {
                         break;
                     }
                 }
-            } else if (CGRAPH_FALSE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
-                    if (x->data[i] >= y->data[i]) {
+            } else {
+                for (i = 0; i < min; i++, xd--, yd--) {
+                    if (*xd >= *yd) {
                         break;
                     }
                 }

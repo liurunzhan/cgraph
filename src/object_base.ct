@@ -1,6 +1,6 @@
 /**
  * @brief all data and data structure types defined in this library
- * @def NAME type name
+ * @param NAME type name
  * @struct CGRAPH_OBJECTS_NAME(NAME)
  */
 CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {

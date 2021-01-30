@@ -116,7 +116,7 @@
 #define TYPE        cgraph_bool_t
 #define ID          CGRAPH_BOOL_T
 #define NAME        bool
-#define OUT_FORMAT  "%d"
+#define OUT_FORMAT  "%s"
 #define UTYPE       cgraph_bool_t
 #define ZERO        CGRAPH_FALSE
 #define ONE         CGRAPH_TRUE
@@ -680,6 +680,8 @@
 
 /**property inheritance of data and structure types */
 #define CGRAPH_DATA_BASE cgraph_size_t size, len;
+#define CGRAPH_SIZE(x)   ((NULL != (x)) ? (x)->size : 0)
+#define CGRAPH_LEN(x)    ((NULL != (x)) ? (x)->len : 0)
 
 #if (CGRAPH_STDC_VERSION >= 199901L)
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, root[];
@@ -697,15 +699,15 @@
     defined(TYPE_SPAMAT)
 #define CGRAPH_MATRIX_INDEXES cgraph_size_t row, column;
 
-#define MATRIX_ROW(x)    ((x)->row)
-#define MATRIX_COLUMN(x) ((x)->column)
+#define MATRIX_ROW(x)    ((NULL != (x)) ? (x)->row : 0)
+#define MATRIX_COLUMN(x) ((NULL != (x)) ? (x)->column : 0)
 #elif defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) ||                      \
     defined(TYPE_M3OBJECT) || defined(TYPE_SPAMAT3D)
 #define CGRAPH_MATRIX3D_INDEXES cgraph_size_t index_i, index_j, index_k;
 
-#define MATRIX3D_INDEX_I(x) ((x)->index_i)
-#define MATRIX3D_INDEX_J(x) ((x)->index_j)
-#define MATRIX3D_INDEX_K(x) ((x)->index_k)
+#define MATRIX3D_INDEX_I(x) ((NULL != (x)) ? (x)->index_i : 0)
+#define MATRIX3D_INDEX_J(x) ((NULL != (x)) ? (x)->index_j : 0)
+#define MATRIX3D_INDEX_K(x) ((NULL != (x)) ? (x)->index_k : 0)
 #endif
 
 /**copyed memory size without pointer memory size */
@@ -1004,25 +1006,25 @@
 #define DATA_TEST(a) (0 == (a))
 
 #define ADD(a, b, c)                                                           \
-    FUNCTION(NAME, addf)                                                       \
+    FUNCTION(NAME, add)                                                        \
     ((a), (b))
 #define SUB(a, b, c)                                                           \
-    FUNCTION(NAME, subf)                                                       \
+    FUNCTION(NAME, sub)                                                        \
     ((a), (b))
 #define MUL(a, b, c)                                                           \
-    FUNCTION(NAME, mulf)                                                       \
+    FUNCTION(NAME, mul)                                                        \
     ((a), (b))
 #define DIV(a, b, c)                                                           \
-    FUNCTION(NAME, divf)                                                       \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b))
 #define DIVF(a, b, c)                                                          \
-    FUNCTION(NAME, divf)                                                       \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b))
 #define INT(a, b, c)                                                           \
-    FUNCTION(NAME, divf)                                                       \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b))
 #define MOD(a, b, c)                                                           \
-    FUNCTION(NAME, divf)                                                       \
+    FUNCTION(NAME, div)                                                        \
     ((a), (b))
 
 #define EQ(a, b)                                                               \
