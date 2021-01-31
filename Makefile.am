@@ -1,3 +1,4 @@
 SUBDIRS=src
-ROOTPATH=$(shell /bin/pwd)
-INCLUDES=-I$(ROOTPATH)/include
+ROOTDIR=$(shell /bin/pwd)
+AM_CPPFLAGS=-I$(ROOTDIR)/include
+export AM_CPPFLAGS

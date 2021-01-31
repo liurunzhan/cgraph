@@ -70,21 +70,28 @@ test/
 .VSCodeCounter/
 
 # Autoconf Files
-*.log
 autom4te.cache/
+m4/
+.deps/
+src/.deps
+test/.deps
+*.log
 aclocal.m4
 config.*
 configure*
+!configure.ac
 !Configure.pl
+depcomp
 install-sh
 libtool
 ltmain.sh
-Makefile.*
+Makefile*
 !Makefile.am
 !Makefile.mk
 !Makefile.sub
 missing
 stamp-h1
+
 
 # Doc/Markdown Files
 Doxyfile.bak

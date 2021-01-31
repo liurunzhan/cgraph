@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "using autotools to generate configure and Makefiles"
+echo "using autotools to generate configure"
 
 MISSING=""
 
@@ -65,24 +65,44 @@ fi
 # echo missing tools
 if [ "x$MISSING" != "x" ]; then
   for tool in $MISSING; do
-    echo " missing $tool"
+    echo "missing TOOL $tool"
   done
   exit 1
 fi
 
-echo "step 1 : $ACLOCAL"
+echo "step 1 : running $ACLOCAL"
 $ACLOCAL
+if [ $? -ne 0 ]; then
+  echo "running $ACLOCAL error"
+  exit 1
+fi
 
-echo "step 2 : $AUTOHEADER"
+echo "step 2 : running $AUTOHEADER"
 $AUTOHEADER
+if [ $? -ne 0 ]; then
+  echo "running $AUTOHEADER error"
+  exit 1
+fi
 
-echo "step 3 : $LIBTOOL"
-$LIBTOOL
+echo "step 3 : running $LIBTOOL -f -c"
+$LIBTOOL -f -c
+if [ $? -ne 0 ]; then
+  echo "running $LIBTOOL -f -c error"
+  exit 1
+fi
 
-echo "step 4 : $AUTOCONF"
+echo "step 4 : running $AUTOCONF"
 $AUTOCONF
+if [ $? -ne 0 ]; then
+  echo "running $AUTOCONF error"
+  exit 1
+fi
 
-echo "step 5 : $AUTOMAKE --add-missing --force-missing --copy --foreign"
-$AUTOMAKE --add-missing --force-missing --copy --foreign
+echo "step 5 : running $AUTOMAKE --add-missing"
+$AUTOMAKE --add-missing
+if [ $? -ne 0 ]; then
+  echo "running $AUTOMAKE --add-missing error"
+  exit 1
+fi
 
-echo "generating configure and Makefiles done"
+echo "generating configure done"
