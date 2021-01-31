@@ -63,6 +63,7 @@ export CPFLAGS = /Y
 export LIBSTATIC = $(LIBTARGET).a
 export LIBSHARED = $(LIBTARGET).dll
 export SEPARATOR = \\
+export SPLIT = &
 else
 export RM = -rm
 export RMFLAGS = -f
@@ -75,6 +76,7 @@ export CPFLAGS =
 export LIBSTATIC = $(LIBTARGET).a
 export LIBSHARED = $(LIBTARGET).so
 export SEPARATOR = /
+export SPLIT = ;
 endif
 
 DIR = .
@@ -90,31 +92,31 @@ PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
 all:
 	@echo "compile cgraph in Platform $(MY_OS)"
 	$(MKDIR) $(MKDIRFLAGS) $(LIB)
-	$(MAKE) -C $(SRC)
-	$(MAKE) -C $(TST)
+	cd $(SRC) $(SPLIT) $(MAKE) -f Makefile.mk
+	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk
 
 test:
 	@echo "test cgraph in Platform $(MY_OS)"
-	$(MAKE) -C $(TST) test
+	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk test
 
 clean:
 	@echo "clean cgraph in Platform $(MY_OS)"
-	$(MAKE) -C $(SRC) clean
-	$(MAKE) -C $(TST) clean
+	cd $(SRC) $(SPLIT) $(MAKE) -f Makefile.mk clean
+	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk clean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 
 distclean:
 	@echo "distclean cgraph in Platform $(MY_OS)"
-	$(MAKE) -C $(SRC) distclean
-	$(MAKE) -C $(TST) distclean
+	cd $(SRC) $(SPLIT) $(MAKE) -f Makefile.mk distclean
+	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk distclean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
 
 memchk:
 	@echo "do memory check by valgrind"
-	$(MAKE) -C $(TST) memchk
+	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk memchk
 
 help:
 	@echo "build cgraph in Platform $(MY_OS)"

@@ -55,7 +55,13 @@ dkms.conf
 .xmake/
 build/
 lib/
-test/cgraph
+test/
+!test/*.c
+!test/Makefile*
+!test/cgraph.r
+!test/cgraph.py
+!test/cgraph.sql
+!test/elements.csv
 
 # VSCode Files
 .clang-format
@@ -66,17 +72,27 @@ test/cgraph
 # Autoconf Files
 *.log
 autom4te.cache/
+aclocal.m4
+config.*
 configure*
 !Configure.pl
+install-sh
+libtool
+ltmain.sh
+Makefile.*
+!Makefile.am
+!Makefile.mk
+!Makefile.sub
+missing
+stamp-h1
 
 # Doc/Markdown Files
 Doxyfile.bak
-doc/
+doc/*
 !doc/build-gtk-doc.sh
-!doc/data.pl
-!doc/headers.pl
-!doc/sources.pl
-!doc/Makefile
+!doc/*.pl
+!doc/Makefile.mk
+!doc/Makefile.am
 !doc/Introduction.md
 
 # Compile Scripts
@@ -90,9 +106,9 @@ script/compile.hi
 
 # Test Cases
 test/
-!test/*.c
-!test/*.r
-!test/*.py
-!test/*.sql
-!test/*.csv
-!test/Makefile
+!/test/*.c
+!/test/*.r
+!/test/*.py
+!/test/*.sql
+!/test/*.csv
+!/test/Makefile.mk

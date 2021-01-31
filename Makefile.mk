@@ -1,3 +1,6 @@
+# using subscript Makefile.sub to choose which self-defined script is used to compile library cgraph
+# using make -f Makefile.self ? CMD=? TARGET=?
+
 ROOT = .
 export TOOLS = make cmake xmake\
 			 sh zsh fish tsh vsh cmd powershell \
