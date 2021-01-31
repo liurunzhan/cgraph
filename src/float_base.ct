@@ -28,8 +28,8 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...)
 {
-    va_list args;
     if ((NULL != cthis) && (0 < size)) {
+        va_list args;
         cgraph_size_t i = 1;
         va_start(args, first);
         cthis[0] = (TYPE)first;

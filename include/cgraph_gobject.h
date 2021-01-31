@@ -25,7 +25,7 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(gobject)[];
 
 typedef struct {
     CGRAPH_OBJECT_BASE
-    cgraph_size_t addr;
+    cgraph_size_t hash, index;
     union {
         cgraph_string_t *names;
         cgraph_size_t id;

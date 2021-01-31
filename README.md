@@ -1,14 +1,14 @@
 # cgraph
 
-A C LIBRARY FOR GRAPH AND MATHEMATICAL ANALYSIS
+A C library for graph and mathematical analysis
 
 ## Compilation
 
-This library supports mingw32-make, make, cmake and xmake to compile those source files with the version of debug (with the addtional c flags of "-g -DDEBUG") and release (with the addtional c flags of "-static -O2"), cross different platforms of mingw, msys, msys2, cgywin, wsl and linux.
+This library supports mingw32-make, make, cmake and xmake to compile all the source files with the version of debug (with the addtional c flags of "-g -DDEBUG") and release (with the addtional c flags of "-static -O2"), cross different platforms of mingw, msys, msys2, cgywin, wsl and linux.
 
-This library also provides shell script [compile.sh](./script/compile.sh), z shell script [compile.zsh](./script/compile.zsh) and fish script [compile.fish](./script/compile.fish) in msys, msys2, cgywin, wsl and linux, batch script [compile.bat](./script/compile.bat) and powershell script [compile.ps1](./script/compile.ps1) in mingw to directly compile those source files by C compiler without make tools. All the compile scripts provide the same command-line arguments, without any argument or with the arguments of test, clean, distclean and help.
+This library also provides shell script [compile.sh](./script/compile.sh), z shell script [compile.zsh](./script/compile.zsh) and fish script [compile.fish](./script/compile.fish) in msys, msys2, cgywin, wsl and linux, batch script [compile.bat](./script/compile.bat) and powershell script [compile.ps1](./script/compile.ps1) in mingw to directly compile this library by C compiler without make tools in special platforms(notice that incremental compilation is unsupported). All the compile scripts provide the same command-line arguments, without any argument or with the arguments of test, clean, distclean and help.
 
-What's more, this library provides perl script [compile.pl](./script/compile.pl), perl6 script [compile.p6](./script/compile.p6), ruby script [compile.rb](./script/compile.rb), python script [compile.py](./script/compile.py), lua script [compile.lua](./script/compile.lua) r script [compile.r](./script/compile.r) and julia script [compile.jl](./script/compile.jl) to compile those source files. Makes and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
+What's more, this library provides perl script [compile.pl](./script/compile.pl), perl6 script [compile.p6](./script/compile.p6), ruby script [compile.rb](./script/compile.rb), python script [compile.py](./script/compile.py), lua script [compile.lua](./script/compile.lua) r script [compile.r](./script/compile.r) and julia script [compile.jl](./script/compile.jl) to compile this library(where incremental compilation is also unsupported here). Makes and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
 
 In addtion, this library provides some other language scripts, based on jvm, to do the same work, such as java script [compile.java](./script/compile.java) in openjdk11, scala script [compile.scala](./script/compile.scala), kotlin script [compile.kts](./script/compile.kts), clojure script [compile.clj](./script/compile.clj) and groovy script [compile.groovy](./script/compile.groovy).
 

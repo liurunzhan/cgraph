@@ -36,9 +36,9 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...)
 {
-    va_list args;
     if ((NULL != cthis) && (0 < size)) {
         cgraph_size_t i = 1;
+        va_list args;
         va_start(args, first);
         cthis[0] = (TYPE)first;
         for (i = 1; i < size; i++) {
@@ -92,40 +92,43 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y)
     return CGRAPH_XNOR(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, bit)(const TYPE x,
-                                       const cgraph_size_t position)
+CGRAPH_INLINE UTYPE FUNCTION(NAME, bit)(const UTYPE x,
+                                        const cgraph_size_t position)
 {
     return (BITS < position) ? CGRAPH_BIT(x, position) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, set)(const TYPE x,
-                                       const cgraph_size_t position)
+CGRAPH_INLINE UTYPE FUNCTION(NAME, set)(const UTYPE x,
+                                        const cgraph_size_t position)
 {
     return (BITS < position) ? CGRAPH_BSET(x, position) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, clr)(const TYPE x,
-                                       const cgraph_size_t position)
+CGRAPH_INLINE UTYPE FUNCTION(NAME, clr)(const UTYPE x,
+                                        const cgraph_size_t position)
 {
     return (BITS < position) ? CGRAPH_BCLR(x, position) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, bits)(const TYPE x, const cgraph_size_t from,
-                                        const cgraph_size_t to)
+CGRAPH_INLINE UTYPE FUNCTION(NAME, bits)(const UTYPE x,
+                                         const cgraph_size_t from,
+                                         const cgraph_size_t to)
 {
-    return (to > from) ? (TYPE)CGRAPH_BITS(x, from, to) : 0;
+    return (to > from) ? CGRAPH_BITS(x, from, to) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, sets)(const TYPE x, const cgraph_size_t from,
-                                        const cgraph_size_t to)
+CGRAPH_INLINE UTYPE FUNCTION(NAME, sets)(const UTYPE x,
+                                         const cgraph_size_t from,
+                                         const cgraph_size_t to)
 {
-    return (to > from) ? (TYPE)CGRAPH_BSETS(x, from, to) : 0;
+    return (to > from) ? CGRAPH_BSETS(x, from, to) : 0;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, clrs)(const TYPE x, const cgraph_size_t from,
-                                        const cgraph_size_t to)
+CGRAPH_INLINE UTYPE FUNCTION(NAME, clrs)(const UTYPE x,
+                                         const cgraph_size_t from,
+                                         const cgraph_size_t to)
 {
-    return (to > from) ? (TYPE)CGRAPH_BCLRS(x, from, to) : 0;
+    return (to > from) ? CGRAPH_BCLRS(x, from, to) : 0;
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)

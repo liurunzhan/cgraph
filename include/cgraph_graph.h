@@ -10,7 +10,7 @@ extern "C" {
 
 typedef struct {
     struct cgraph_keyval_t *next;
-    cgraph_size_t addr;
+    cgraph_size_t index;
     union {
         cgraph_string_t *names;
         cgraph_size_t id;

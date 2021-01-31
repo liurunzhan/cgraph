@@ -672,9 +672,7 @@
 #endif
 
 /**property inheritance of object types  */
-#define CGRAPH_OBJECT_BASE                                                     \
-    cgraph_element_t element;                                                  \
-    cgraph_size_t hash;
+#define CGRAPH_OBJECT_BASE cgraph_element_t element;
 
 #define CGRAPH_OBJECT_ROOT DATA_TYPE data;
 
