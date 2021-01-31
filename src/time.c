@@ -2,6 +2,8 @@
 #include <string.h>
 #include <time.h>
 
+#include "cgraph_file.h"
+#include "cgraph_int.h"
 #include "cgraph_memory.h"
 #include "cgraph_time.h"
 
@@ -11,6 +13,39 @@
 /**/
 
 #include "data_base.ct"
+
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis, const cgraph_char_t *sep)
+{
+    return fprintf(stdout,
+                   OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT
+                              "%s" OUT_FORMAT "%s" OUT_FORMAT,
+                   TIME_YEAR(cthis), sep, TIME_MONTH(cthis), sep,
+                   TIME_DAY(cthis), sep, TIME_HOUR(cthis), sep,
+                   TIME_MINUTE(cthis), sep, TIME_SECOND(cthis));
+}
+
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis,
+                                     const cgraph_char_t *sep)
+{
+    return fprintf(fp,
+                   OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT
+                              "%s" OUT_FORMAT "%s" OUT_FORMAT,
+                   TIME_YEAR(cthis), sep, TIME_MONTH(cthis), sep,
+                   TIME_DAY(cthis), sep, TIME_HOUR(cthis), sep,
+                   TIME_MINUTE(cthis), sep, TIME_SECOND(cthis));
+}
+
+cgraph_int_t FUNCTION(NAME,
+                      snprintf)(cgraph_char_t *buffer, const cgraph_size_t size,
+                                const TYPE cthis, const cgraph_char_t *sep)
+{
+    return cgraph_file_snprintf(
+        buffer, size,
+        OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT
+                   "%s" OUT_FORMAT "%s" OUT_FORMAT,
+        TIME_YEAR(cthis), sep, TIME_MONTH(cthis), sep, TIME_DAY(cthis), sep,
+        TIME_HOUR(cthis), sep, TIME_MINUTE(cthis), sep, TIME_SECOND(cthis));
+}
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
 {

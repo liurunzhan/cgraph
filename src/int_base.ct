@@ -33,6 +33,41 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
     return hash;
 }
 
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis, const cgraph_char_t *sep)
+{
+#ifdef TYPE_BOOL
+    return fprintf(stdout, "%s",
+                   (CGRAPH_FALSE == cthis) ? __cgraph_false__
+                                           : __cgraph_true__);
+#else
+    return fprintf(stdout, OUT_FORMAT, cthis);
+#endif
+}
+
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis,
+                                     const cgraph_char_t *sep)
+{
+#ifdef TYPE_BOOL
+    return fprintf(
+        fp, "%s", (CGRAPH_FALSE == cthis) ? __cgraph_false__ : __cgraph_true__);
+#else
+    return fprintf(fp, OUT_FORMAT, cthis);
+#endif
+}
+
+cgraph_int_t FUNCTION(NAME,
+                      snprintf)(cgraph_char_t *buffer, const cgraph_size_t size,
+                                const TYPE cthis, const cgraph_char_t *sep)
+{
+#ifdef TYPE_BOOL
+    return cgraph_file_snprintf(buffer, size, "%s",
+                                (CGRAPH_FALSE == cthis) ? __cgraph_false__
+                                                        : __cgraph_true__);
+#else
+    return cgraph_file_snprintf(buffer, size, OUT_FORMAT, cthis);
+#endif
+}
+
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...)
 {

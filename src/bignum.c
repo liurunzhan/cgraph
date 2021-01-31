@@ -1,6 +1,7 @@
 #include <ctype.h>
 
 #include "cgraph_bignum.h"
+#include "cgraph_file.h"
 #include "cgraph_memory.h"
 
 #define TYPE_BIGNUM
@@ -9,20 +10,23 @@
 /*template module*/
 #include "data_base.ct"
 
-cgraph_int_t FUNCTION(NAME, printf)(const TYPE *x)
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE *cthis, const cgraph_char_t *sep)
 {
-    return fprintf(stdout, OUT_FORMAT, x->data);
+    return fprintf(stdout, OUT_FORMAT, NULL != cthis ? cthis->data : sep);
 }
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x)
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis,
+                                     const cgraph_char_t *sep)
 {
-    return fprintf(fp, OUT_FORMAT, x->data);
+    return fprintf(fp, OUT_FORMAT, NULL != cthis ? cthis->data : sep);
 }
 
-cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                      const cgraph_size_t size, const TYPE *x)
+cgraph_int_t FUNCTION(NAME,
+                      snprintf)(cgraph_char_t *buffer, const cgraph_size_t size,
+                                const TYPE *cthis, const cgraph_char_t *sep)
 {
-    return cgraph_file_snprintf(buffer, size, OUT_FORMAT, x->data);
+    return cgraph_file_snprintf(buffer, size, OUT_FORMAT,
+                                NULL != cthis ? cthis->data : sep);
 }
 
 /*

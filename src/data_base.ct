@@ -375,19 +375,23 @@ TYPE FUNCTION(NAME, iter3cvc)(const TYPE x, const TYPE *y, TYPE z,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE *FUNCTION(NAME, det2x2)(TYPE **cthis, TYPE *res0, TYPE *res1, TYPE *res)
+TYPE *FUNCTION(NAME, det2x2)(const TYPE **cthis, TYPE *res0, TYPE *res1,
+                             TYPE *res)
 {
     res0 = MUL(cthis[0], cthis[2], res0);
     res1 = MUL(cthis[1], cthis[3], res1);
-    res = ADD(res0, res1, res);
+    res = SUB(res0, res1, res);
+
     return res;
 }
 #else
-TYPE *FUNCTION(NAME, det2x2)(TYPE *cthis, TYPE *res0, TYPE *res1, TYPE *res)
+TYPE *FUNCTION(NAME, det2x2)(const TYPE *cthis, TYPE *res0, TYPE *res1,
+                             TYPE *res)
 {
     *res0 = MUL(cthis[0], cthis[2], *res0);
     *res1 = MUL(cthis[1], cthis[3], *res1);
-    *res = ADD(*res0, *res1, *res);
+    *res = SUB(*res0, *res1, *res);
+
     return res;
 }
 #endif

@@ -1,3 +1,4 @@
+#include "cgraph_file.h"
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
 #include <string.h>
@@ -7,6 +8,25 @@
 
 /**/
 #include "data_base.ct"
+
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE *cthis, const cgraph_char_t *sep)
+{
+    return fprintf(stdout, OUT_FORMAT, NULL != cthis ? cthis->data : sep);
+}
+
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis,
+                                     const cgraph_char_t *sep)
+{
+    return fprintf(fp, OUT_FORMAT, NULL != cthis ? cthis->data : sep);
+}
+
+cgraph_int_t FUNCTION(NAME,
+                      snprintf)(cgraph_char_t *buffer, const cgraph_size_t size,
+                                const TYPE *cthis, const cgraph_char_t *sep)
+{
+    return cgraph_file_snprintf(buffer, size, OUT_FORMAT,
+                                NULL != cthis ? cthis->data : sep);
+}
 
 /**
   times 33 hash algorithm proposed by Daniel J. Bernstein

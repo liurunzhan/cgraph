@@ -1,4 +1,5 @@
 #include "cgraph_complex.h"
+#include "cgraph_file.h"
 #include "cgraph_float64.h"
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
@@ -9,23 +10,25 @@
 /**/
 #include "data_base.ct"
 
-cgraph_int_t FUNCTION(NAME, printf)(const TYPE x)
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE x, const cgraph_char_t *sep)
 {
-    return fprintf(stdout, OUT_FORMAT " + i" OUT_FORMAT, COMPLEX_REAL(x),
+    return fprintf(stdout, OUT_FORMAT "%s" OUT_FORMAT, COMPLEX_REAL(x), sep,
                    COMPLEX_IMAG(x));
 }
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x)
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x,
+                                     const cgraph_char_t *sep)
 {
-    return fprintf(fp, OUT_FORMAT " + i" OUT_FORMAT, COMPLEX_REAL(x),
+    return fprintf(fp, OUT_FORMAT "%s" OUT_FORMAT, COMPLEX_REAL(x), sep,
                    COMPLEX_IMAG(x));
 }
 
 cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                      const cgraph_size_t size, const TYPE x)
+                                      const cgraph_size_t size, const TYPE x,
+                                      const cgraph_char_t *sep)
 {
-    return cgraph_file_snprintf(buffer, size, OUT_FORMAT " + i" OUT_FORMAT,
-                                COMPLEX_REAL(x), COMPLEX_IMAG(x));
+    return cgraph_file_snprintf(buffer, size, OUT_FORMAT "%s" OUT_FORMAT,
+                                COMPLEX_REAL(x), sep, COMPLEX_IMAG(x));
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)

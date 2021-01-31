@@ -20,11 +20,17 @@ extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 
-extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE *x);
-extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x);
+extern TYPE *FUNCTION(NAME, det2x2)(const TYPE **cthis, TYPE *res0, TYPE *res1,
+                                    TYPE *res);
+
+extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE *x,
+                                           const cgraph_char_t *sep);
+extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x,
+                                            const cgraph_char_t *sep);
 extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
                                              const cgraph_size_t size,
-                                             const TYPE *x);
+                                             const TYPE *x,
+                                             const cgraph_char_t *sep);
 
 #else
 
@@ -48,10 +54,16 @@ extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
 
-extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x);
+extern TYPE *FUNCTION(NAME, det2x2)(const TYPE *cthis, TYPE *res0, TYPE *res1,
+                                    TYPE *res);
+
+extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE x,
+                                           const cgraph_char_t *sep);
+extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x,
+                                            const cgraph_char_t *sep);
 extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
                                              const cgraph_size_t size,
-                                             const TYPE x);
+                                             const TYPE x,
+                                             const cgraph_char_t *sep);
 
 #endif

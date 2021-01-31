@@ -1,4 +1,5 @@
 #include "cgraph_bitset.h"
+#include "cgraph_file.h"
 #include "cgraph_int8.h"
 #include "cgraph_memory.h"
 
@@ -8,15 +9,16 @@
 /*template module*/
 #include "data_base.ct"
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x)
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis,
+                                     const cgraph_char_t *sep)
 {
     cgraph_int_t size = 0;
-    if (NULL != x) {
+    if (NULL != cthis) {
         cgraph_size_t i;
-        for (i = 0; i < x->len; i++) {
-            fprintf(fp, OUT_FORMAT, x->data[i]);
+        for (i = 0; i < cthis->len; i++) {
+            fprintf(fp, OUT_FORMAT, cthis->data[i]);
         }
-        size = x->len;
+        size = cthis->len;
     }
 
     return size;

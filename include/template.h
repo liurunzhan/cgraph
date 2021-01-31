@@ -224,7 +224,7 @@
 #define TYPE        cgraph_int64_t
 #define ID          CGRAPH_INT64_T
 #define NAME        int64
-#define OUT_FORMAT  "%lld"
+#define OUT_FORMAT  __CGRAPH_INT64_OUT_FORMAT
 #define UTYPE       cgraph_uint64_t
 #define ZERO        (0LL)
 #define ONE         (1LL)

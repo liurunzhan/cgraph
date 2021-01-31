@@ -1,5 +1,6 @@
 #include "cgraph_bigint.h"
 #include "cgraph_file.h"
+#include "cgraph_int8.h"
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
@@ -9,7 +10,8 @@
 /** template module */
 #include "data_base.ct"
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis)
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis,
+                                     const cgraph_char_t *sep)
 {
     cgraph_int_t size = 0;
     if (NULL != cthis) {
@@ -130,6 +132,11 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
                     z->len = i;
                 }
             } else {
+                TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
+                if ((_x->len < _y->len) ||
+                    ((_x->len == _y->len) && (_x->data[0] < _y->data[0]))) {
+                    SWAP(_x, _y);
+                }
                 if (CGRAPH_FALSE == x->postive) {
 
                 } else {

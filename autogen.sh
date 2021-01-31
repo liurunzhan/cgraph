@@ -16,7 +16,7 @@ env aclocal --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   ACLOCAL=aclocal
 else
-  MISSING="$MISSING aclocal"
+  MISSING="aclocal"
 fi
 
 # detect whether platform has autoconf or not

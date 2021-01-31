@@ -30,26 +30,31 @@ typedef enum {
 #define CGRAPH_PLAT_MODE   CGRAPH_PLAT_CYGWIN
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\n"
+#define CGRAPH_PLAT_WINDOWS
 #elif (defined(_WIN32) || defined(_WIN64))
 #define CGRAPH_PLAT_NAME   "windows"
 #define CGRAPH_PLAT_MODE   CGRAPH_PLAT_WINDOWS
 #define CGRAPH_PLAT_PSPLIT "\\"
 #define CGRAPH_PLAT_FEND   "\r\n"
+#define CGRAPH_PLAT_WINDOWS
 #elif defined(__APPLE__)
 #define CGRAPH_PLAT_NAME   "macos"
 #define CGRAPH_PLAT_MODE   CGRAPH_PLAT_MACOS
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\r"
+#define CGRAPH_PLAT_UNIX
 #elif defined(__linux__)
 #define CGRAPH_PLAT_NAME   "linux"
 #define CGRAPH_PLAT_MODE   CGRAPH_PLAT_LINUX
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\n"
+#define CGRAPH_PLAT_UNIX
 #elif defined(__unix__)
 #define CGRAPH_PLAT_NAME   "unix"
 #define CGRAPH_PLAT_MODE   CGRAPH_PLAT_UNIX
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_FEND   "\n"
+#define CGRAPH_PLAT_UNIX
 #else
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_UNDEFINED
 #error unsupported platforms!!
@@ -117,12 +122,12 @@ __extension__ typedef unsigned long long __cgraph_uint64;
 #define __CGRAPH_UINT64_MIN __extension__(0LL)
 #define __CGRAPH_UINT64_MAX __extension__(1844674407370955161ULL)
 #define __CGRAPH_UINT64_EPS __extension__(0xFFFFFFFFFFFFFFFFLL)
-#if CGRAPH_PLAT_MODE != CGRAPH_PLAT_WINDOWS
-#define __CGRAPH_INT64_OUT_FORMAT  "%lld"
-#define __CGRAPH_UINT64_OUT_FORMAT "%llu"
-#else
+#ifdef CGRAPH_PLAT_WINDOWS
 #define __CGRAPH_INT64_OUT_FORMAT  "%I64d"
 #define __CGRAPH_UINT64_OUT_FORMAT "%I64u"
+#else
+#define __CGRAPH_INT64_OUT_FORMAT  "%lld"
+#define __CGRAPH_UINT64_OUT_FORMAT "%llu"
 #endif
 #elif defined(_MSC_VER)
 #define CGRAPH_INLINE              __inline

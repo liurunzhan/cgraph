@@ -1,3 +1,4 @@
+#include "cgraph_file.h"
 #include "cgraph_int8.h"
 #include "cgraph_memory.h"
 
