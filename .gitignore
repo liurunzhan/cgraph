@@ -112,3 +112,10 @@ test/
 !/test/*.sql
 !/test/*.csv
 !/test/Makefile.mk
+
+# submodules 
+dist/
+julia/
+perl/
+python/
+r/
