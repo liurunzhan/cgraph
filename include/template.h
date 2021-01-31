@@ -743,6 +743,13 @@
 #define LS(a, b) __CGRAPH_UNDEFINED
 #define LE(a, b) __CGRAPH_UNDEFINED
 
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
+    } while (0)
+
 #elif defined(TYPE_BOOL)
 #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
 
@@ -792,7 +799,7 @@
 #define EXP(a, b)   exp((a))
 #define SQRT(a, b)  sqrt((a))
 
-#define EXCHNAGE(a, b)                                                         \
+#define SWAP(a, b)                                                             \
     do {                                                                       \
         TYPE tmp = (a);                                                        \
         (a) = (b);                                                             \
@@ -940,6 +947,13 @@
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
+
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE tmp = (a);                                                        \
+        (a) = (b);                                                             \
+        (b) = tmp;                                                             \
+    } while (0)
 
 #elif defined(TYPE_COMPLEX)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
