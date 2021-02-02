@@ -21,7 +21,7 @@ and cleaned by Makefiles with following standard steps:
   make clean
   make distclean
 
-Only the platform supports bash and autotools that can use the standard way to compile this library. If the users use Windows OS, use msys, msys2 or cygwin instead. Other unix-like OS can use the standard way well.
+Only the platform supports bash and autotools that can use the standard way to compile this library. If the users use Windows OS, use msys, msys2 or cygwin instead. Users in unix-like OS can use the standard way well.
 
 ### Custom way
 ___

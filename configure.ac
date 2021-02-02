@@ -14,12 +14,10 @@ AC_PROG_CC
 
 LT_PREREQ([2.4.0])
 LT_INIT
-AC_PROG_LIBTOOL
-AC_PROG_RANLIB
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lm':
-AC_CHECK_LIB([m], [main])
+AC_CHECK_LIB([m], [pow])
 
 # Checks for header files.
 AC_HEADER_STDC

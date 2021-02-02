@@ -84,10 +84,10 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "step 3 : running $LIBTOOL -f -c"
-$LIBTOOL -f -c
+echo "step 3 : running $LIBTOOL --automake --copy --force"
+$LIBTOOL --automake --copy --force
 if [ $? -ne 0 ]; then
-  echo "running $LIBTOOL -f -c error"
+  echo "running $LIBTOOL --automake --copy --force error"
   exit 1
 fi
 

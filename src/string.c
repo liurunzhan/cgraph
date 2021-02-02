@@ -30,10 +30,7 @@ cgraph_int_t FUNCTION(NAME,
 
 /**
   times 33 hash algorithm proposed by Daniel J. Bernstein
-  hash = hash * 33 + cthis->data[i]
-  or
-  hash = hash + hash << 5 + cthis->data[i]
-  or
+  hash = hash * 33 + cthis->data[i] or
   hash += hash << 5 + cthis->data[i]
 */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis)
@@ -74,7 +71,7 @@ cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis)
 {
     cgraph_size_t hash = 0, i;
     for (i = 0; i < cthis->len; i++) {
-        hash = ((hash << 6) + (hash << 16) + cthis->data[i] - hash);
+        hash = ((hash << 6) - hash + (hash << 16) + cthis->data[i]);
     }
     return hash;
 }
@@ -92,12 +89,13 @@ cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis)
 
 cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis)
 {
-    cgraph_size_t hash = 0, x = 0, i;
+    cgraph_size_t hash = 0, hbyte = 0, i;
+
     for (i = 0; i < cthis->len; i++) {
-        hash = (hash << 4) + cthis->data[i];
-        if ((x = hash & 0xF0000000) != 0) {
-            hash ^= (x >> 24);
-            hash &= ~x;
+        hash = (hash << (CGRAPH_SIZE_BIT / 8)) + cthis->data[i];
+        if (0 != (hbyte = hash & (0xFUL << (7 * CGRAPH_SIZE_BIT / 8)))) {
+            hash ^= (hbyte >> (3 * CGRAPH_SIZE_BIT / 4));
+            hash &= ~hbyte;
         }
     }
 

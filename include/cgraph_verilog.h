@@ -7,7 +7,7 @@ extern "C" {
 
 /**
  * learn more knowledge about software and hardware
- * know more ways to solve different fields of problems
+ * know more ways to solve cross-field problems
  * work harder to catch more opportunities
  */
 #include "cgraph_config.h"

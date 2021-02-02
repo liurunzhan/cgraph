@@ -99,6 +99,5 @@ int main(int argc, char *argv[])
   cgraph_verilog_test();
   printf("%ld\n", cgraph_pobject_msize(CGRAPH_POBJECT_T, 10));
   */
-
     return 0;
 }

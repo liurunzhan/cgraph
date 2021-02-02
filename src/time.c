@@ -59,18 +59,20 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
 {
     cgraph_bool_t flag = CGRAPH_TRUE;
-    if (0 == TIME_YEAR(cthis)) {
-        flag = CGRAPH_FALSE;
-    } else if ((0 > TIME_MONTH(cthis)) || (12 < TIME_MONTH(cthis))) {
-        flag = CGRAPH_FALSE;
-    } else if ((0 > TIME_DAY(cthis)) || (31 < TIME_DAY(cthis))) {
-        flag = CGRAPH_FALSE;
-    } else if ((0 > TIME_HOUR(cthis)) || (24 < TIME_HOUR(cthis))) {
-        flag = CGRAPH_FALSE;
-    } else if ((0 > TIME_MINUTE(cthis)) || (60 < TIME_MINUTE(cthis))) {
-        flag = CGRAPH_FALSE;
-    } else if ((0 > TIME_SECOND(cthis)) || (60 < TIME_SECOND(cthis))) {
-        flag = CGRAPH_FALSE;
+    if (TIME_ISTYPE1(cthis)) {
+        if (0 == TIME_YEAR(cthis)) {
+            flag = CGRAPH_FALSE;
+        } else if ((-12 > TIME_MONTH(cthis)) || (12 < TIME_MONTH(cthis))) {
+            flag = CGRAPH_FALSE;
+        } else if (-31 > TIME_DAY(cthis)) {
+            flag = CGRAPH_FALSE;
+        } else if ((-24 > TIME_HOUR(cthis)) || (24 < TIME_HOUR(cthis))) {
+            flag = CGRAPH_FALSE;
+        } else if ((-60 > TIME_MINUTE(cthis)) || (60 < TIME_MINUTE(cthis))) {
+            flag = CGRAPH_FALSE;
+        } else if ((-60 > TIME_SECOND(cthis)) || (60 < TIME_SECOND(cthis))) {
+            flag = CGRAPH_FALSE;
+        }
     }
 
     return flag;

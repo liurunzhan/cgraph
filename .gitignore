@@ -74,6 +74,7 @@ autom4te.cache/
 m4/
 .deps/
 src/.deps
+src/.libs
 test/.deps
 *.log
 aclocal.m4
