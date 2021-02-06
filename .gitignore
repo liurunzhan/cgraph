@@ -55,13 +55,6 @@ dkms.conf
 .xmake/
 build/
 lib/
-test/
-!test/*.c
-!test/Makefile*
-!test/cgraph.r
-!test/cgraph.py
-!test/cgraph.sql
-!test/elements.csv
 
 # VSCode Files
 .clang-format
@@ -73,9 +66,9 @@ test/
 autom4te.cache/
 m4/
 .deps/
-src/.deps
-src/.libs
-test/.deps
+src/.deps/
+src/.libs/
+test/.deps/
 *.log
 aclocal.m4
 config.*
@@ -116,13 +109,14 @@ script/compile.hi
 /CMakeLists.txt
 
 # Test Cases
-test/
-!/test/*.c
-!/test/*.r
-!/test/*.py
-!/test/*.sql
-!/test/*.csv
-!/test/Makefile.mk
+test/*
+!test/*.c
+!test/*.r
+!test/*.py
+!test/*.sql
+!test/*.csv
+!test/Makefile.mk
+!test/Makefile.am
 
 # submodules 
 dist/
