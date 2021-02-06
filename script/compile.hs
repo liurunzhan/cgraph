@@ -1,6 +1,8 @@
 #!/usr/bin/runhaskell
 
 import System.FilePath
+import Text.Regex.Posix
+import System.FilePath
 
 main :: IO ()
 

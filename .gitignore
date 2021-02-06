@@ -84,6 +84,9 @@ configure*
 !Configure.pl
 depcomp
 install-sh
+gtk-doc.m4
+gtk-doc.make
+test-driver
 libtool
 ltmain.sh
 Makefile*

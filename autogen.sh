@@ -10,6 +10,7 @@ AUTOHEADER=
 AUTOMAKE=
 LIBTOOL=
 TAR=
+GTKDOCIZE= 
 
 # detect whether platform has aclocal or not
 env aclocal --version > /dev/null 2>&1
@@ -56,9 +57,18 @@ else
   fi
 fi
 
+env gtkdocize --version > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  GTKDOCIZE=gtkdocize
+else
+  MISSING="$MISSING gtkdocize"
+fi
+
 # detect whether platform has tar or not
 env tar --version > /dev/null 2>&1
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
+  TAR=tar
+else
   MISSING="$MISSING tar"
 fi
 
@@ -102,6 +112,13 @@ echo "step 5 : running $AUTOMAKE --add-missing"
 $AUTOMAKE --add-missing
 if [ $? -ne 0 ]; then
   echo "running $AUTOMAKE --add-missing error"
+  exit 1
+fi
+
+echo "step 6 : running $GTKDOCIZE"
+$GTKDOCIZE
+if [ $? -ne 0 ]; then
+  echo "running $GTKDOCIZE error"
   exit 1
 fi
 

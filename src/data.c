@@ -32,17 +32,15 @@ cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis)
     cgraph_string_t *str = NULL;
     if (NULL != cthis) {
         cgraph_size_t len = cthis->postive ? cthis->len : (cthis->len + 1);
-        str = cgraph_string_calloc(1, len + 1);
+        str = cgraph_string_calloc(CGRAPH_CHAR_T, len);
         if (NULL != str) {
             cgraph_size_t i = 0;
-            if (cthis->postive == CGRAPH_FALSE) {
-                str->data[i] = '-';
-                i++;
+            if (CGRAPH_FALSE == cthis->postive) {
+                str->data[i++] = '-';
             }
             for (; i < len; i++) {
                 str->data[i] = cthis->data[i] + '0';
             }
-            str->data[i] = '\0';
         }
     }
 
@@ -51,7 +49,7 @@ cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis)
 
 cgraph_bigint_t *cgraph_string_to_bigint(const cgraph_string_t *cthis)
 {
-    cgraph_size_t len = '-' == cthis->data[0] ? (cthis->len - 1) : cthis->len;
+    cgraph_size_t len = ('-' == cthis->data[0] ? (cthis->len - 1) : cthis->len);
     cgraph_bigint_t *object = cgraph_bigint_calloc(1, len);
     if (NULL != object) {
         cgraph_size_t i = 0;

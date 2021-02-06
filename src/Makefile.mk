@@ -2,8 +2,6 @@ ROOT = ..
 INC = $(ROOT)$(SEPARATOR)include
 LIB = $(ROOT)$(SEPARATOR)lib
 
-DIR = .
-
 SOURCE = $(wildcard *.c)
 OBJECT = $(SOURCE:.c=.o)
 DEPEND = $(SOURCE:.c=.d)

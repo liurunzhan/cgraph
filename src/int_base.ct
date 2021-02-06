@@ -40,7 +40,7 @@ cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis, const cgraph_char_t *sep)
                    (CGRAPH_FALSE == cthis) ? __cgraph_false__
                                            : __cgraph_true__);
 #else
-    return fprintf(stdout, OUT_FORMAT, cthis);
+    return __extension__ fprintf(stdout, OUT_FORMAT, cthis);
 #endif
 }
 
@@ -51,7 +51,7 @@ cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis,
     return fprintf(
         fp, "%s", (CGRAPH_FALSE == cthis) ? __cgraph_false__ : __cgraph_true__);
 #else
-    return fprintf(fp, OUT_FORMAT, cthis);
+    return __extension__ fprintf(fp, OUT_FORMAT, cthis);
 #endif
 }
 

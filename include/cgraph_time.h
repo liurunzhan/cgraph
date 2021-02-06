@@ -38,8 +38,8 @@ typedef struct {
 #define TIME_TYPE1(x) __CGRAPH_TYPE_ELEMENT((x), data.type1)
 
 #define TIME_TYPE(x)    ((x).type)
-#define TIME_ISTYPE0(x) ((x).type == 0)
-#define TIME_ISTYPE1(x) ((x).type != 0)
+#define TIME_ISTYPE0(x) (CGRAPH_TIME_TYPE0 == TIME_TYPE(x))
+#define TIME_ISTYPE1(x) (CGRAPH_TIME_TYPE1 == TIME_TYPE(x))
 
 #define TIME_VALUE0(x) (TIME_TYPE0(x).time0)
 #define TIME_VALUE1(x) (TIME_TYPE0(x).time1)

@@ -14,7 +14,7 @@ typedef struct {
     union {
         cgraph_string_t *names;
         cgraph_size_t id;
-    } key;
+    } __CGRAPH_TYPE_END(key);
 } cgraph_keyval_t;
 
 typedef struct {
@@ -46,14 +46,14 @@ typedef struct {
     cgraph_edges_t *edges;
     union {
         union {
-            cgraph_bool_t **unweighted;
-            cgraph_float64_t **weighted;
-        } adjmatrix;
+            cgraph_bool_t **unweighted_adjmatrix;
+            cgraph_float64_t **weighted_adjmatrix;
+        } __CGRAPH_TYPE_END(adjmatrix);
         union {
-            cgraph_size_t **is_id;
-            cgraph_string_t ***is_name;
-        } edgelist;
-    } data;
+            cgraph_size_t **id_edgelist;
+            cgraph_string_t ***name_edgelist;
+        } __CGRAPH_TYPE_END(edgelist);
+    } __CGRAPH_TYPE_END(data);
 } cgraph_graph_t;
 
 #ifdef __cplusplus

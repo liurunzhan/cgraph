@@ -212,6 +212,10 @@
 #undef NAME
 #endif
 
+#ifdef IN_FORMAT
+#undef IN_FORMAT
+#endif
+
 #ifdef OUT_FORMAT
 #undef OUT_FORMAT
 #endif

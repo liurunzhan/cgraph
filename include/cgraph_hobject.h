@@ -36,6 +36,10 @@ typedef struct {
 
 #include "object_base.ht"
 
+#define HOBJECT_EXT(x)   __CGRAPH_TYPE_ELEMENT((x), ext)
+#define HOBJECT_INDEX(x) (HOBJECT_EXT(x).index)
+#define HOBJECT_VALUE(x) (HOBJECT_EXT(x).value)
+
 extern cgraph_type_t FUNCTION(NAME, obj_ktype)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, obj_kaccessiable)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, obj_khashed)(const TYPE *cthis);

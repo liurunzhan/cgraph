@@ -170,7 +170,8 @@
 #define TYPE        cgraph_int8_t
 #define ID          CGRAPH_INT8_T
 #define NAME        int8
-#define OUT_FORMAT  "%d"
+#define IN_FORMAT   CGRAPH_INT8_IN_FORMAT
+#define OUT_FORMAT  CGRAPH_INT8_OUT_FORMAT
 #define UTYPE       cgraph_uint8_t
 #define ZERO        (0)
 #define ONE         (1)
@@ -188,7 +189,8 @@
 #define TYPE        cgraph_int16_t
 #define ID          CGRAPH_INT16_T
 #define NAME        int16
-#define OUT_FORMAT  "%d"
+#define IN_FORMAT   CGRAPH_INT16_IN_FORMAT
+#define OUT_FORMAT  CGRAPH_INT16_OUT_FORMAT
 #define UTYPE       cgraph_uint16_t
 #define ZERO        (0)
 #define ONE         (1)
@@ -206,7 +208,8 @@
 #define TYPE        cgraph_int32_t
 #define ID          CGRAPH_INT32_T
 #define NAME        int32
-#define OUT_FORMAT  "%d"
+#define IN_FORMAT   CGRAPH_INT32_IN_FORMAT
+#define OUT_FORMAT  CGRAPH_INT32_OUT_FORMAT
 #define UTYPE       cgraph_uint32_t
 #define ZERO        (0)
 #define ONE         (1)
@@ -224,7 +227,8 @@
 #define TYPE        cgraph_int64_t
 #define ID          CGRAPH_INT64_T
 #define NAME        int64
-#define OUT_FORMAT  __CGRAPH_INT64_OUT_FORMAT
+#define IN_FORMAT   CGRAPH_INT64_IN_FORMAT
+#define OUT_FORMAT  CGRAPH_INT64_OUT_FORMAT
 #define UTYPE       cgraph_uint64_t
 #define ZERO        (0LL)
 #define ONE         (1LL)
