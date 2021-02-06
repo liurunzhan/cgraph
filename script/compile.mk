@@ -86,37 +86,44 @@ TST = $(DIR)$(SEPARATOR)test
 LIB = $(DIR)$(SEPARATOR)lib
 PATH_LIBSHARED = $(LIB)$(SEPARATOR)$(LIBSHARED)
 PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
+DOC = $(DIR)$(SEPARATOR)doc
 
-.PHONY: all test clean distclean help
+.PHONY: all test memchk doc clean distclean help
 
 all:
 	@echo "compile cgraph in Platform $(MY_OS)"
 	$(MKDIR) $(MKDIRFLAGS) $(LIB)
-	cd $(SRC) $(SPLIT) $(MAKE) -f Makefile.mk
-	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk
+	$(MAKE) -C $(SRC) -f Makefile.mk
+	$(MAKE) -C $(TST) -f Makefile.mk
 
 test:
 	@echo "test cgraph in Platform $(MY_OS)"
-	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk test
+	$(MAKE) -C $(TST) -f Makefile.mk test
+
+memchk:
+	@echo "do memory check by valgrind"
+	$(MAKE) -C $(TST) -f Makefile.mk memchk
+
+doc:
+	@echo "generate documentation of cgraph in Platform $(MY_OS) with gtk-doc"
+	$(MAKE) -C $(DOC) -f Makefile.mk doc
 
 clean:
 	@echo "clean cgraph in Platform $(MY_OS)"
-	cd $(SRC) $(SPLIT) $(MAKE) -f Makefile.mk clean
-	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk clean
+	$(MAKE) -C $(SRC) -f Makefile.mk clean
+	$(MAKE) -C $(TST) -f Makefile.mk clean
+	$(MAKE) -C $(DOC) -f Makefile.mk clean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 
 distclean:
 	@echo "distclean cgraph in Platform $(MY_OS)"
-	cd $(SRC) $(SPLIT) $(MAKE) -f Makefile.mk distclean
-	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk distclean
+	$(MAKE) -C $(SRC) -f Makefile.mk distclean
+	$(MAKE) -C $(TST) -f Makefile.mk distclean
+	$(MAKE) -C $(DOC) -f Makefile.mk distclean
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
-
-memchk:
-	@echo "do memory check by valgrind"
-	cd $(TST) $(SPLIT) $(MAKE) -f Makefile.mk memchk
 
 help:
 	@echo "build cgraph in Platform $(MY_OS)"

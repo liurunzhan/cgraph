@@ -1,6 +1,6 @@
-ROOT = ..
-INC = $(ROOT)$(SEPARATOR)include
-LIB = $(ROOT)$(SEPARATOR)lib
+DIR = .
+INC = $(DIR)$(SEPARATOR)..$(SEPARATOR)include
+LIB = $(DIR)$(SEPARATOR)..$(SEPARATOR)lib
 
 SOURCE = $(wildcard *.c)
 OBJECT = $(SOURCE:.c=.o)

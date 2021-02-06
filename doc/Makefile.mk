@@ -1,7 +1,11 @@
+DIR = .
+INC = $(DIR)$(SEPARATOR)..$(SEPARATOR)include
+SRC = $(DIR)$(SEPARATOR)..$(SEPARATOR)src
+
 PERL= perl
 DOC_MODULE= meep
 
-.PHONY: all gtk clean
+.PHONY: all doc clean distclean
 
 all:
 	$(PERL) headers.pl
@@ -11,15 +15,18 @@ all:
 	dot sources.dot -Tpng -o sources.png
 	pandoc Introduction.md -o Introduction.pdf
 
-gtk:
+doc:
 	# sources have changed
-	gtkdoc-scan --module=$(DOC_MODULE) ../src/*.c
+	gtkdoc-scan --module=$(DOC_MODULE) $(SRC)$(SEPARATOR)*.c
 	gtkdoc-scangobj --module=$(DOC_MODULE)
-	gtkdoc-mkdb --module=$(DOC_MODULE) --output-format=xml --source-dir=../src
+	gtkdoc-mkdb --module=$(DOC_MODULE) --output-format=xml --source-dir=$(SRC)
 	# xml files have changed
-	mkdir html
-	cd html && gtkdoc-mkhtml $(DOC_MODULE) ../meep-docs.xml
+	$(MKDIR) $(MKDIRFLAGS) html
+	cd html $(SPLIT) gtkdoc-mkhtml $(DOC_MODULE) $(DIR)$(SEPARATOR)..$(SEPARATOR)meep-docs.xml
 	gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html
 
 clean:
-	rm -rf *.dot *.png *.pdf
+	$(RM) $(RMFLAGS) *.dot *.png *.pdf meep-docs.xml setup-build.stamp
+
+distclean:
+	$(RM) $(RMFLAGS) *.dot *.png *.pdf meep-docs.xml setup-build.stamp
