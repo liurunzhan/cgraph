@@ -2,9 +2,9 @@
  * @file  cgraph_bigint.h
  * @brief
  * @author       Liurunzhan
- * @date     2015-5-24
+ * @date     2021-02-06
  * @version  0.0.0
- * @copyright Vincent
+ * @copyright GPL 3.0
  */
 
 #ifndef _CGRAPH_BIGINT_H_

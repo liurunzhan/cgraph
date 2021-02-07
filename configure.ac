@@ -39,5 +39,6 @@ AC_CHECK_FUNCS([memset pow sqrt])
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile
-                 src/Makefile])
+                 src/Makefile
+                 test/Makefile])
 AC_OUTPUT

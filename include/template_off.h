@@ -501,3 +501,7 @@
 #ifdef SWAP
 #undef SWAP
 #endif
+
+#ifdef HASH_OFFSET
+#undef HASH_OFFSET
+#endif

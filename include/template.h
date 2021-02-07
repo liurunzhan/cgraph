@@ -221,6 +221,7 @@
 #define LSB         (ONE)
 #define EPSILON     CGRAPH_INT32_EPS
 #define EPSILON_LEN CGRAPH_INT32_BIT
+#define HASH_OFFSET (4)
 
 #elif defined(TYPE_INT64)
 #define ARG         cgraph_long_t
@@ -240,6 +241,7 @@
 #define LSB         (ONE)
 #define EPSILON     CGRAPH_INT64_EPS
 #define EPSILON_LEN CGRAPH_INT64_BIT
+#define HASH_OFFSET (8)
 
 #elif defined(TYPE_FLOAT32)
 #define ARG         cgraph_float64_t
@@ -255,6 +257,7 @@
 #define MAX         CGRAPH_FLOAT32_MAX
 #define EPSILON     CGRAPH_FLOAT32_EPS
 #define EPSILON_LEN CGRAPH_FLOAT32_BIT
+#define HASH_OFFSET (4)
 
 #elif defined(TYPE_FLOAT64)
 #define ARG         cgraph_float64_t
@@ -270,6 +273,7 @@
 #define MAX         CGRAPH_FLOAT64_MAX
 #define EPSILON     CGRAPH_FLOAT64_EPS
 #define EPSILON_LEN CGRAPH_FLOAT64_BIT
+#define HASH_OFFSET (8)
 
 #elif defined(TYPE_FLOAT128)
 #define ARG         cgraph_float128_t
@@ -285,6 +289,7 @@
 #define MAX         CGRAPH_FLOAT128_MAX
 #define EPSILON     CGRAPH_FLOAT128_EPS
 #define EPSILON_LEN CGRAPH_FLOAT128_BIT
+#define HASH_OFFSET (12)
 
 #elif defined(TYPE_TIME)
 #define TYPE       cgraph_time_t

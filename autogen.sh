@@ -5,12 +5,12 @@ echo "using autotools to generate configure"
 MISSING=""
 
 ACLKCAL=
-AUTOCONF=
 AUTOHEADER=
-AUTOMAKE=
 LIBTOOL=
-TAR=
+AUTOCONF=
 GTKDOCIZE= 
+AUTOMAKE=
+TAR=
 
 # detect whether platform has aclocal or not
 env aclocal --version > /dev/null 2>&1
@@ -20,28 +20,12 @@ else
   MISSING="aclocal"
 fi
 
-# detect whether platform has autoconf or not
-env autoconf --version > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-  AUTOCONF=autoconf
-else
-  MISSING="$MISSING autoconf"
-fi
-
 # detect whether platform has autoheader or not
 env autoheader --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   AUTOHEADER=autoheader
 else
   MISSING="$MISSING autoheader"
-fi
-
-# detect whether platform has automake or not
-env automake --version > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-  AUTOMAKE=automake
-else
-  MISSING="$MISSING automake"
 fi
 
 # detect whether platform has libtoolize/glibtoolize or not
@@ -57,11 +41,27 @@ else
   fi
 fi
 
+# detect whether platform has autoconf or not
+env autoconf --version > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  AUTOCONF=autoconf
+else
+  MISSING="$MISSING autoconf"
+fi
+
 env gtkdocize --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   GTKDOCIZE=gtkdocize
 else
   MISSING="$MISSING gtkdocize"
+fi
+
+# detect whether platform has automake or not
+env automake --version > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  AUTOMAKE=automake
+else
+  MISSING="$MISSING automake"
 fi
 
 # detect whether platform has tar or not
@@ -108,17 +108,17 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "step 5 : running $AUTOMAKE --add-missing"
-$AUTOMAKE --add-missing
-if [ $? -ne 0 ]; then
-  echo "running $AUTOMAKE --add-missing error"
-  exit 1
-fi
-
-echo "step 6 : running $GTKDOCIZE"
+echo "step 5 : running $GTKDOCIZE"
 $GTKDOCIZE
 if [ $? -ne 0 ]; then
   echo "running $GTKDOCIZE error"
+  exit 1
+fi
+
+echo "step 6 : running $AUTOMAKE --add-missing"
+$AUTOMAKE --add-missing
+if [ $? -ne 0 ]; then
+  echo "running $AUTOMAKE --add-missing error"
   exit 1
 fi
 

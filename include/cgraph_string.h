@@ -26,6 +26,8 @@ extern cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format,
                                    ...);
 
+extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_int_t y, TYPE *z);
+
 #include "template_off.h"
 
 #ifdef __cplusplus

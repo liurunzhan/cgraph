@@ -14,7 +14,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
         cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
                       hash_fpart = (cgraph_size_t)(
                           ((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
-        hash = (hash_ipart << 4) ^ hash_fpart;
+        hash = (hash_ipart << HASH_OFFSET) ^ hash_fpart;
     }
 
     return CGRAPH_ABS(hash);

@@ -160,6 +160,25 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
 
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
 
+TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_int_t y, TYPE *z)
+{
+    if ((NULL != x) && (0 < y)) {
+        cgraph_bool_t error = CGRAPH_FALSE;
+        cgraph_size_t _len = y * x->len;
+        _len = (_len >= 0) ? _len : CGRAPH_SIZE_MAX;
+        z = FUNCTION(NAME, realloc)(z, CGRAPH_CHAR_T, x->len, _len, &error);
+        if (CGRAPH_FALSE == error) {
+            DATA_TYPE *zd = z->data;
+            cgraph_size_t i = 0;
+            for (i = 0; i < y; i++) {
+                zd = cgraph_memcpy(zd, x->data, x->len);
+                zd += x->len;
+            }
+        }
+    }
+    return z;
+}
+
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
 
 TYPE *FUNCTION(NAME, abs)(TYPE *cthis) { return cthis; }
@@ -169,17 +188,15 @@ TYPE *FUNCTION(NAME, format)(TYPE *cthis) { return cthis; }
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    if (NULL != x && NULL != y) {
-        if (x->len == y->len) {
-            cgraph_size_t i;
-            for (i = 0; i < x->len; i++) {
-                if (x->data[i] != y->data[i]) {
-                    break;
-                }
+    if ((NULL != x) && (NULL != y) && (x->len == y->len)) {
+        cgraph_size_t i;
+        for (i = 0; i < x->len; i++) {
+            if (x->data[i] != y->data[i]) {
+                break;
             }
-            if (i >= x->len) {
-                flag = CGRAPH_TRUE;
-            }
+        }
+        if (i >= x->len) {
+            flag = CGRAPH_TRUE;
         }
     } else if (NULL == x && NULL == y) {
         flag = CGRAPH_TRUE;
@@ -190,24 +207,7 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
 
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y)
 {
-    cgraph_bool_t flag = CGRAPH_FALSE;
-    if (NULL != x && NULL != y) {
-        if (x->len == y->len) {
-            cgraph_size_t i;
-            for (i = 0; i < x->len; i++) {
-                if (x->data[i] == y->data[i]) {
-                    break;
-                }
-            }
-            if (i >= x->len) {
-                flag = CGRAPH_TRUE;
-            }
-        }
-    } else if (NULL == x && NULL == y) {
-        flag = CGRAPH_TRUE;
-    }
-
-    return flag;
+    return CGRAPH_TEST(CGRAPH_FALSE == FUNCTION(NAME, eq)(x, y));
 }
 
 cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
@@ -224,6 +224,8 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
             if (i >= x->len) {
                 flag = CGRAPH_TRUE;
             }
+        } else if (x->len > y->len) {
+            flag = CGRAPH_TRUE;
         }
     } else if (NULL != x && NULL == y) {
         flag = CGRAPH_TRUE;
