@@ -17,9 +17,11 @@ This library can be configured by autotools with [autogen.sh](./autogen.sh) and 
   ./autogen.sh
   ./configure --prefix=$(prefix) --enable-static/--enable-dynamic
   make
+  make doc
 and cleaned by Makefiles with following standard steps:
   make clean
   make distclean
+  make allclean
 
 Only the platform supports bash and autotools that can use the standard way to compile this library. If the users use Windows OS, use msys, msys2 or cygwin instead. Users in unix-like OS can use the standard way well.
 

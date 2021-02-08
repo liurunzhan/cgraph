@@ -80,10 +80,10 @@ if [ "x$MISSING" != "x" ]; then
   exit 1
 fi
 
-echo "step 1 : running $ACLOCAL"
-$ACLOCAL
+echo "step 1 : running $ACLOCAL --install --force"
+$ACLOCAL --install --force
 if [ $? -ne 0 ]; then
-  echo "running $ACLOCAL error"
+  echo "running $ACLOCAL --install --force error"
   exit 1
 fi
 

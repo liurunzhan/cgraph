@@ -117,10 +117,3 @@ test/*
 !test/*.csv
 !test/Makefile.mk
 !test/Makefile.am
-
-# submodules 
-dist/
-julia/
-perl/
-python/
-r/

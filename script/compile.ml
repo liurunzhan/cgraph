@@ -8,6 +8,25 @@ let _SRC = String.concat _SEP [ _DIR; "src" ];;
 let _TST = String.concat _SEP [ _DIR; "test" ];;
 let _LIB = String.concat _SEP [ _DIR; "lib" ];;
 
+let _CC = "cc";
+let _CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
+let _CSFLAGS = "-shared";
+
+let _MODE = "debug";
+if String.equal _MODE "debug" then begin
+  _CFLAGS = "_CFLAGS -g -DDEBUG";
+end
+else begin
+  if String.equal _MODE "release" then begin
+    _CFLAGS = "_CFLAGS -static -O2";
+  end
+end
+
+(* package shared library *)
+let _AR = "ar";;
+let _ARFLAGS = "-rcs";;
+
+
 let args = Sys.argv;;
 
 if Array.length args == 0 then begin
