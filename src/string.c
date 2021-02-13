@@ -1,6 +1,7 @@
 #include "cgraph_file.h"
 #include "cgraph_memory.h"
 #include "cgraph_string.h"
+#include <ctype.h>
 #include <string.h>
 
 #define TYPE_STRING
@@ -114,14 +115,69 @@ cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis)
 
 cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis)
 {
-    return NULL != cthis ? cgraph_strcmp(cthis->data, CGRAPH_PLAT_PSPLIT)
-                         : CGRAPH_FALSE;
+    cgraph_bool_t flag = CGRAPH_TRUE;
+    if (NULL != cthis) {
+        cgraph_size_t i;
+        for (i = 0; i < cthis->len; i++) {
+            if (CGRAPH_PLAT_PSPLIT_C != cthis->data[i]) {
+                flag = CGRAPH_FALSE;
+                break;
+            }
+        }
+    }
+
+    return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis)
+cgraph_bool_t FUNCTION(NAME, isnewline)(const TYPE *cthis)
 {
-    return NULL != cthis ? cgraph_strcmp(cthis->data, CGRAPH_PLAT_LEND)
-                         : CGRAPH_FALSE;
+    cgraph_bool_t flag = CGRAPH_TRUE;
+    if (NULL != cthis) {
+        cgraph_size_t i = 0;
+        for (i = 0; i < cthis->len; i++) {
+#ifdef __CGRAPH_PLAT_WINDOWS
+            if (('\r' != cthis->data[i]) && ('\n' != cthis->data[i + 1])) {
+#else
+            if (CGRAPH_PLAT_NLINE_C != cthis->data[i]) {
+#endif
+                flag = CGRAPH_FALSE;
+                break;
+            }
+        }
+    }
+    return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isspace)(const TYPE *cthis)
+{
+    cgraph_bool_t flag = CGRAPH_TRUE;
+    if (NULL != cthis) {
+        cgraph_size_t i;
+        for (i = 0; i < cthis->len; i++) {
+            if (!isspace(cthis->data[i])) {
+                flag = CGRAPH_FALSE;
+                break;
+            }
+        }
+    }
+
+    return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isblankspace)(const TYPE *cthis)
+{
+    cgraph_bool_t flag = CGRAPH_TRUE;
+    if (NULL != cthis) {
+        cgraph_size_t i;
+        for (i = 0; i < cthis->len; i++) {
+            if ((' ' != cthis->data[i]) && ('\t' != cthis->data[i])) {
+                flag = CGRAPH_FALSE;
+                break;
+            }
+        }
+    }
+
+    return flag;
 }
 
 TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)

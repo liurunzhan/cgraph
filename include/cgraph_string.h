@@ -26,6 +26,11 @@ extern cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format,
                                    ...);
 
+extern cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isnewline)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isspace)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isblankspace)(const TYPE *cthis);
+
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_int_t y, TYPE *z);
 
 #include "template_off.h"

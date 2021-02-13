@@ -10,7 +10,7 @@ export TOOLS = make cmake xmake\
 
 MAKE ?= make
 
-.PHONY: all test clean distclean doc cloc help $(TOOLS) memchk
+.PHONY: all test clean distclean gtkdoc doxygen update cloc help $(TOOLS) memchk
 
 all: CMD =
 
@@ -20,13 +20,15 @@ clean: CMD = clean
 
 distclean: CMD = distclean
 
-test: CMD = test
+gtkdoc: CMD=gtkdoc
+
+doxygen: CMD=doxygen
 
 help: CMD= help
 
-doc:
-	doxygen -u
-	doxygen
+update:
+	git clean -xf
+	git pull --quiet
 
 cloc:
 	cloc include src script test --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=d,o,in

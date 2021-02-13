@@ -11,6 +11,8 @@ AC_CONFIG_MACRO_DIRS([m4])
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
 LT_PREREQ([2.4.0])
 LT_INIT
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])

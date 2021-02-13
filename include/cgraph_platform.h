@@ -26,43 +26,41 @@ typedef enum {
 
 /**Self-defined features in different platforms */
 #if defined(__CYGWIN__)
-#define CGRAPH_PLAT_NAME        "cygwin"
-#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_CYGWIN
-#define CGRAPH_PLAT_PSPLIT      "/"
-#define CGRAPH_PLAT_CHAR_PSPLIT '/'
-#define CGRAPH_PLAT_LEND        "\n"
-#define CGRAPH_PLAT_CHAR_LEND   '\n'
-#define CGRAPH_PLAT_WINDOWS
+#define CGRAPH_PLAT_NAME     "cygwin"
+#define CGRAPH_PLAT_MODE     CGRAPH_PLAT_CYGWIN
+#define CGRAPH_PLAT_PSPLIT   "/"
+#define CGRAPH_PLAT_PSPLIT_C '/'
+#define CGRAPH_PLAT_NLINE    "\n"
+#define CGRAPH_PLAT_NLINE_C  '\n'
 #elif (defined(_WIN32) || defined(_WIN64))
-#define CGRAPH_PLAT_NAME        "windows"
-#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_WINDOWS
-#define CGRAPH_PLAT_PSPLIT      "\\"
-#define CGRAPH_PLAT_CHAR_PSPLIT '\\'
-#define CGRAPH_PLAT_LEND        "\r\n"
-#define CGRAPH_PLAT_CHAR_LEND   '\n'
-#define CGRAPH_PLAT_WINDOWS
+#define CGRAPH_PLAT_NAME     "windows"
+#define CGRAPH_PLAT_MODE     CGRAPH_PLAT_WINDOWS
+#define CGRAPH_PLAT_PSPLIT   "\\"
+#define CGRAPH_PLAT_PSPLIT_C '\\'
+#define CGRAPH_PLAT_NLINE    "\r\n"
+#define CGRAPH_PLAT_NLINE_C  '\n'
+#define __CGRAPH_PLAT_WINDOWS
 #elif defined(__APPLE__)
-#define CGRAPH_PLAT_NAME        "macos"
-#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_MACOS
-#define CGRAPH_PLAT_PSPLIT      "/"
-#define CGRAPH_PLAT_CHAR_PSPLIT '/'
-#define CGRAPH_PLAT_LEND        "\r"
-#define CGRAPH_PLAT_CHAR_LEND   '\r'
-#define CGRAPH_PLAT_UNIX
+#define CGRAPH_PLAT_NAME     "macos"
+#define CGRAPH_PLAT_MODE     CGRAPH_PLAT_MACOS
+#define CGRAPH_PLAT_PSPLIT   "/"
+#define CGRAPH_PLAT_PSPLIT_C '/'
+#define CGRAPH_PLAT_NLINE    "\r"
+#define CGRAPH_PLAT_NLINE_C  '\r'
 #elif defined(__linux__)
-#define CGRAPH_PLAT_NAME        "linux"
-#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_LINUX
-#define CGRAPH_PLAT_PSPLIT      "/"
-#define CGRAPH_PLAT_CHAR_PSPLIT '/'
-#define CGRAPH_PLAT_LEND        "\n"
-#define CGRAPH_PLAT_CHAR_LEND   '\n'
-#define CGRAPH_PLAT_UNIX
+#define CGRAPH_PLAT_NAME     "linux"
+#define CGRAPH_PLAT_MODE     CGRAPH_PLAT_LINUX
+#define CGRAPH_PLAT_PSPLIT   "/"
+#define CGRAPH_PLAT_PSPLIT_C '/'
+#define CGRAPH_PLAT_NLINE    "\n"
+#define CGRAPH_PLAT_NLINE_C  '\n'
 #elif defined(__unix__)
-#define CGRAPH_PLAT_NAME   "unix"
-#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_UNIX
-#define CGRAPH_PLAT_PSPLIT "/"
-#define CGRAPH_PLAT_LEND   "\n"
-#define CGRAPH_PLAT_UNIX
+#define CGRAPH_PLAT_NAME     "unix"
+#define CGRAPH_PLAT_MODE     CGRAPH_PLAT_UNIX
+#define CGRAPH_PLAT_PSPLIT   "/"
+#define CGRAPH_PLAT_PSPLIT_C '/'
+#define CGRAPH_PLAT_NLINE    "\n"
+#define CGRAPH_PLAT_NLINE_C  '\n'
 #else
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_UNDEFINED
 #error unsupported platforms!!
@@ -250,7 +248,7 @@ __extension__ typedef signed long long __cgraph_int64;
 #define __CGRAPH_UINT64_BIT (64)
 __extension__ typedef unsigned long long __cgraph_uint64;
 
-#ifdef CGRAPH_PLAT_WINDOWS
+#ifdef __CGRAPH_PLAT_WINDOWS
 
 #define __CGRAPH_INT64_IN_FORMAT  "%I64d"
 #define __CGRAPH_INT64_OUT_FORMAT "%I64d"

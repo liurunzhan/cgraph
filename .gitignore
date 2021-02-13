@@ -89,9 +89,8 @@ Makefile*
 missing
 stamp-h1
 
-
 # Doc/Markdown Files
-Doxyfile.bak
+Doxyfile
 doc/*
 !doc/build-gtk-doc.sh
 !doc/*.pl

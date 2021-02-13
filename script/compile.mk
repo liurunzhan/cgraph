@@ -88,7 +88,7 @@ PATH_LIBSHARED = $(LIB)$(SEPARATOR)$(LIBSHARED)
 PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
 DOC = $(DIR)$(SEPARATOR)doc
 
-.PHONY: all test memchk doc clean distclean update help
+.PHONY: all test memchk gtkdoc doxygen clean distclean update help
 
 all:
 	@echo "compile cgraph in Platform $(MY_OS)"
@@ -104,9 +104,14 @@ memchk:
 	@echo "do memory check by valgrind"
 	$(MAKE) -C $(TST) -f Makefile.mk memchk
 
-doc:
+gtkdoc:
 	@echo "generate documentation of cgraph in Platform $(MY_OS) with gtk-doc"
 	$(MAKE) -C $(DOC) -f Makefile.mk doc
+
+doxygen:
+	$(CP) $(CPFLAGS) Doxyfile.base Doxyfile
+	doxygen -u
+	doxygen
 
 clean:
 	@echo "clean cgraph in Platform $(MY_OS)"

@@ -11,8 +11,8 @@ libcgraph_la_SOURCES  = $(SOURCE)
 includedir           = $(prefix)/include/cgraph
 include_HEADERS      = $(HEADERS_PUBLIC)
 
-.PHONY: allclean
+clean-local:
+	-rm -rf .deps
 
-allclean:
-	-rm -rf $(top_srcdir)/src/.deps
-	-rm -rf $(top_srcdir)/src/.libs
+distclean-local:
+	-rm -rf .deps

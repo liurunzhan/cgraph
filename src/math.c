@@ -65,12 +65,12 @@ CGRAPH_INLINE cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data)
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data)
 {
-    return CGRAPH_TEST(CGRAPH_PLAT_CHAR_PSPLIT == data);
+    return CGRAPH_TEST(CGRAPH_PLAT_PSPLIT_C == data);
 }
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data)
 {
-    return CGRAPH_TEST(CGRAPH_PLAT_CHAR_LEND == data);
+    return CGRAPH_TEST(CGRAPH_PLAT_NLINE_C == data);
 }
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data)

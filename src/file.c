@@ -7,6 +7,34 @@
 #include "cgraph_platform.h"
 #include "cgraph_string.h"
 
+cgraph_int_t cgraph_file_println(const cgraph_char_t *format, ...)
+{
+    cgraph_int_t _size = 0;
+    va_list args;
+    va_start(args, format);
+    _size = fprintf(stdout, format, args);
+    va_end(args);
+    if (_size > 0) {
+        fprintf(stdout, "%s", CGRAPH_PLAT_NLINE);
+    }
+
+    return _size;
+}
+
+cgraph_int_t cgraph_file_fprintln(FILE *fp, const cgraph_char_t *format, ...)
+{
+    cgraph_int_t _size = 0;
+    va_list args;
+    va_start(args, format);
+    _size = fprintf(fp, format, args);
+    va_end(args);
+    if (_size > 0) {
+        fprintf(fp, "%s", CGRAPH_PLAT_NLINE);
+    }
+
+    return _size;
+}
+
 cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
                                   const cgraph_size_t size,
                                   const cgraph_char_t *format, ...)
@@ -216,7 +244,7 @@ cgraph_bool_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp,
 
 static const cgraph_char_t *_platform = CGRAPH_PLAT_NAME;
 static const cgraph_char_t *_path_split = CGRAPH_PLAT_PSPLIT;
-static const cgraph_char_t *_file_end = CGRAPH_PLAT_LEND;
+static const cgraph_char_t *_new_line = CGRAPH_PLAT_NLINE;
 
 const static union cgraph_endian_t {
     cgraph_int32_t num;
@@ -228,7 +256,7 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep,
 {
     *os = (cgraph_char_t *)_platform;
     *sep = (cgraph_char_t *)_path_split;
-    *end = (cgraph_char_t *)_file_end;
+    *end = (cgraph_char_t *)_new_line;
     if (NULL != isbigendian) {
         *isbigendian =
             (cgraph_file_endian.byte[3] ? CGRAPH_FALSE : CGRAPH_TRUE);
