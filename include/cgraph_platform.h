@@ -26,34 +26,42 @@ typedef enum {
 
 /**Self-defined features in different platforms */
 #if defined(__CYGWIN__)
-#define CGRAPH_PLAT_NAME   "cygwin"
-#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_CYGWIN
-#define CGRAPH_PLAT_PSPLIT "/"
-#define CGRAPH_PLAT_FEND   "\n"
+#define CGRAPH_PLAT_NAME        "cygwin"
+#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_CYGWIN
+#define CGRAPH_PLAT_PSPLIT      "/"
+#define CGRAPH_PLAT_CHAR_PSPLIT '/'
+#define CGRAPH_PLAT_LEND        "\n"
+#define CGRAPH_PLAT_CHAR_LEND   '\n'
 #define CGRAPH_PLAT_WINDOWS
 #elif (defined(_WIN32) || defined(_WIN64))
-#define CGRAPH_PLAT_NAME   "windows"
-#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_WINDOWS
-#define CGRAPH_PLAT_PSPLIT "\\"
-#define CGRAPH_PLAT_FEND   "\r\n"
+#define CGRAPH_PLAT_NAME        "windows"
+#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_WINDOWS
+#define CGRAPH_PLAT_PSPLIT      "\\"
+#define CGRAPH_PLAT_CHAR_PSPLIT '\\'
+#define CGRAPH_PLAT_LEND        "\r\n"
+#define CGRAPH_PLAT_CHAR_LEND   '\n'
 #define CGRAPH_PLAT_WINDOWS
 #elif defined(__APPLE__)
-#define CGRAPH_PLAT_NAME   "macos"
-#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_MACOS
-#define CGRAPH_PLAT_PSPLIT "/"
-#define CGRAPH_PLAT_FEND   "\r"
+#define CGRAPH_PLAT_NAME        "macos"
+#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_MACOS
+#define CGRAPH_PLAT_PSPLIT      "/"
+#define CGRAPH_PLAT_CHAR_PSPLIT '/'
+#define CGRAPH_PLAT_LEND        "\r"
+#define CGRAPH_PLAT_CHAR_LEND   '\r'
 #define CGRAPH_PLAT_UNIX
 #elif defined(__linux__)
-#define CGRAPH_PLAT_NAME   "linux"
-#define CGRAPH_PLAT_MODE   CGRAPH_PLAT_LINUX
-#define CGRAPH_PLAT_PSPLIT "/"
-#define CGRAPH_PLAT_FEND   "\n"
+#define CGRAPH_PLAT_NAME        "linux"
+#define CGRAPH_PLAT_MODE        CGRAPH_PLAT_LINUX
+#define CGRAPH_PLAT_PSPLIT      "/"
+#define CGRAPH_PLAT_CHAR_PSPLIT '/'
+#define CGRAPH_PLAT_LEND        "\n"
+#define CGRAPH_PLAT_CHAR_LEND   '\n'
 #define CGRAPH_PLAT_UNIX
 #elif defined(__unix__)
 #define CGRAPH_PLAT_NAME   "unix"
 #define CGRAPH_PLAT_MODE   CGRAPH_PLAT_UNIX
 #define CGRAPH_PLAT_PSPLIT "/"
-#define CGRAPH_PLAT_FEND   "\n"
+#define CGRAPH_PLAT_LEND   "\n"
 #define CGRAPH_PLAT_UNIX
 #else
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_UNDEFINED

@@ -1,4 +1,4 @@
-#!/ usr / bin / tcc - run
+#!/usr/bin/tcc - run
 
 #include <dirent.h>
 #include <stdio.h>

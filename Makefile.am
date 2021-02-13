@@ -1,6 +1,6 @@
 SUBDIRS=src
 
-.PHONY: allclean doc cloc
+.PHONY: allclean doc cloc update
 
 allclean: distclean
 	-rm -f autoscan.log aclocal.m4 config.* configure install-sh ltmain.sh
@@ -16,4 +16,8 @@ doc:
 	make -C $(top_srcdir)/doc
 
 cloc:
-	cloc include src script --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=d,o
+	cloc include src script test --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=d,o,in
+
+update:
+	git clean -xf
+	git pull --quiet

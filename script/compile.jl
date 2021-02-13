@@ -59,7 +59,7 @@ if length(args) == 0
   end
   println("compile $LIBSHARED")
   run(`$CC $CSFLAGS -o $LIBSHARED $OFILES`)
-  println("compile $LIBSTATIC");
+  println("compile $LIBSTATIC")
   run(`$AR $ARFLAGS $LIBSTATIC $OFILES`)
 elseif args[1] == "test"
   println("compile $TSTFILE to $TSTTARGET")

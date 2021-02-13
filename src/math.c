@@ -1,6 +1,7 @@
 #include <ctype.h>
 
 #include "cgraph_math.h"
+#include "cgraph_memory.h"
 
 cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata,
                               const cgraph_uint_t data,
@@ -20,6 +21,66 @@ cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata,
     }
 
     return res;
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(isprint(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(isalnum(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(isalpha(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(isupper(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(islower(data));
+}
+
+CGRAPH_INLINE cgraph_char_t cgraph_math_toupper(const cgraph_char_t data)
+{
+    return isupper(data) ? toupper(data) : MATH_ERROR;
+}
+
+CGRAPH_INLINE cgraph_char_t cgraph_math_tolower(const cgraph_char_t data)
+{
+    return islower(data) ? tolower(data) : MATH_ERROR;
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(isspace(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(CGRAPH_PLAT_CHAR_PSPLIT == data);
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(CGRAPH_PLAT_CHAR_LEND == data);
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(isdigit(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data)
+{
+    return CGRAPH_TEST(isxdigit(data));
 }
 
 cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error)
@@ -69,7 +130,7 @@ cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error)
     return res;
 }
 
-static const cgraph_char_t __dec2hex_upper__[16] = {
+static const cgraph_char_t __cgraph_math_dec2hex_upper__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
@@ -80,7 +141,7 @@ cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
     if (NULL != error) {
         *error = CGRAPH_TRUE;
         if (data >= 0 && data < 16) {
-            ch = __dec2hex_upper__[data];
+            ch = __cgraph_math_dec2hex_upper__[data];
             *error = CGRAPH_FALSE;
         }
     }
@@ -88,7 +149,7 @@ cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
     return ch;
 }
 
-static const cgraph_char_t __dec2hex_lower__[16] = {
+static const cgraph_char_t __cgraph_math_dec2hex_lower__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
@@ -99,22 +160,12 @@ cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
     if (NULL != error) {
         *error = CGRAPH_TRUE;
         if (data >= 0 && data < 16) {
-            ch = __dec2hex_lower__[data];
+            ch = __cgraph_math_dec2hex_lower__[data];
             *error = CGRAPH_FALSE;
         }
     }
 
     return ch;
-}
-
-cgraph_char_t cgraph_math_toupper(cgraph_char_t data)
-{
-    return isupper(data) ? toupper(data) : MATH_ERROR;
-}
-
-cgraph_char_t cgraph_math_tolower(cgraph_char_t data)
-{
-    return islower(data) ? tolower(data) : MATH_ERROR;
 }
 
 cgraph_size_t cgraph_math_baseoflen(const cgraph_int_t data,

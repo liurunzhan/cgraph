@@ -216,7 +216,7 @@ cgraph_bool_t cgraph_file_line(cgraph_string_t *buffer, FILE *fp,
 
 static const cgraph_char_t *_platform = CGRAPH_PLAT_NAME;
 static const cgraph_char_t *_path_split = CGRAPH_PLAT_PSPLIT;
-static const cgraph_char_t *_file_end = CGRAPH_PLAT_FEND;
+static const cgraph_char_t *_file_end = CGRAPH_PLAT_LEND;
 
 const static union cgraph_endian_t {
     cgraph_int32_t num;

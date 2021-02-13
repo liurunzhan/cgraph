@@ -112,6 +112,18 @@ cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis)
     return CGRAPH_ABS(hash);
 }
 
+cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis)
+{
+    return NULL != cthis ? cgraph_strcmp(cthis->data, CGRAPH_PLAT_PSPLIT)
+                         : CGRAPH_FALSE;
+}
+
+cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis)
+{
+    return NULL != cthis ? cgraph_strcmp(cthis->data, CGRAPH_PLAT_LEND)
+                         : CGRAPH_FALSE;
+}
+
 TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...)
 {
     cgraph_size_t len;

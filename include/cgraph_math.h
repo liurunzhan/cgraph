@@ -55,14 +55,29 @@ extern "C" {
 extern cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata,
                                      const cgraph_uint_t data,
                                      const cgraph_uint_t poly);
+
+extern cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data);
+
+extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
+
+extern cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_islower(const cgraph_char_t data);
+extern cgraph_char_t cgraph_math_toupper(const cgraph_char_t data);
+extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
+
+extern cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data);
+
+extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data);
 extern cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data,
                                         cgraph_bool_t *error);
 extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
                                           cgraph_bool_t *error);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
                                           cgraph_bool_t *error);
-extern cgraph_char_t cgraph_math_toupper(cgraph_char_t data);
-extern cgraph_char_t cgraph_math_tolower(cgraph_char_t data);
 extern cgraph_size_t cgraph_math_baseoflen(const cgraph_int_t data,
                                            const cgraph_int_t base);
 

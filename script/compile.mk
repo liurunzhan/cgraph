@@ -88,7 +88,7 @@ PATH_LIBSHARED = $(LIB)$(SEPARATOR)$(LIBSHARED)
 PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
 DOC = $(DIR)$(SEPARATOR)doc
 
-.PHONY: all test memchk doc clean distclean help
+.PHONY: all test memchk doc clean distclean update help
 
 all:
 	@echo "compile cgraph in Platform $(MY_OS)"
@@ -124,6 +124,10 @@ distclean:
 	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
 	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
+
+update:
+	git clean -xf
+	git pull --quiet
 
 help:
 	@echo "build cgraph in Platform $(MY_OS)"
