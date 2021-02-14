@@ -10,7 +10,7 @@ my $cc   = "cc";
 my $std  = "c89";
 my $mode = "debug";
 
-my %plats = ("none" => 0, "linux" => 1, "wsl" => 2, "cgywin" => 3, "msys" => 4, "msys2" => 5, "mingw" => 6, "windows" => 7);
+my %plats = ("none" => 0, "linux" => 1, "wsl" => 2, "cygwin" => 3, "msys" => 4, "msys2" => 5, "mingw" => 6, "windows" => 7);
 my %ccs   = (
   "all" => {"cc" => 0, "gcc" => 1, "clang" => 2, "tcc" => 3}, 
   "mingw32" => {"mingw32-gcc" => 4}, 

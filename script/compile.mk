@@ -25,7 +25,7 @@ endif
 # mingw
 # msys
 # msys2
-# cgywin
+# cygwin
 # wsl
 # linux
 # referred by http://www.imooc.com/wenda/detail/584860
