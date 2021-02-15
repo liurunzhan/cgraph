@@ -364,9 +364,9 @@ typedef enum {
     CGRAPH_SPAMAT3D_T = 21, /**< TYPE 21 : CGRAPH_SPAMAT3D_T   */
     CGRAPH_DFRAME_T = 22,   /**< TYPE 22 : CGRAPH_DFRAME_T   */
     CGRAPH_DICT_T = 23,     /**< TYPE 23 : CGRAPH_DICT_T     */
-    CGRAPH_LIST_T = 24,     /**< TYPE 24 : CGRAPH_LIST_T     */
-    CGRAPH_TREE_T = 25,     /**< TYPE 25 : CGRAPH_TREE_T     */
-    CGRAPH_SET_T = 26,      /**< TYPE 26 : CGRAPH_SET_T      */
+    CGRAPH_SET_T = 24,      /**< TYPE 24 : CGRAPH_SET_T      */
+    CGRAPH_LIST_T = 25,     /**< TYPE 25 : CGRAPH_LIST_T     */
+    CGRAPH_TREE_T = 26,     /**< TYPE 26 : CGRAPH_TREE_T     */
     CGRAPH_NULL_T = 27      /**< TYPE 27 : CGRAPH_NULL_T     */
 } cgraph_type_t;
 

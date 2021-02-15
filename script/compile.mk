@@ -110,8 +110,8 @@ gtkdoc:
 
 doxygen:
 	$(CP) $(CPFLAGS) Doxyfile.base Doxyfile
-	doxygen -u
-	doxygen
+	-doxygen -u
+	-doxygen
 
 clean:
 	@echo "clean cgraph in Platform $(MY_OS)"
@@ -131,8 +131,8 @@ distclean:
 	$(RMDIR) $(RMDIRFLAGS) $(LIB)
 
 update:
-	git clean -xf
-	git pull --quiet
+	-git clean -xf
+	-git pull --quiet
 
 help:
 	@echo "build cgraph in Platform $(MY_OS)"

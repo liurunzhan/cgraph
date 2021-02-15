@@ -116,3 +116,6 @@ test/*
 !test/*.csv
 !test/Makefile.mk
 !test/Makefile.am
+
+# Update branches
+update_branch.sh

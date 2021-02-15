@@ -10,7 +10,7 @@ export TOOLS = make cmake xmake\
 
 MAKE ?= make
 
-.PHONY: all test clean distclean gtkdoc doxygen update cloc help $(TOOLS) memchk
+.PHONY: all test clean distclean gtkdoc doxygen update branch cloc help $(TOOLS) memchk
 
 all: CMD =
 
@@ -27,8 +27,22 @@ doxygen: CMD=doxygen
 help: CMD= help
 
 update:
-	git clean -xf
-	git pull --quiet
+	-git clean -xf
+	-git pull --quiet
+
+define push-branch
+	@echo push branch master to branch $(1)
+	-git checkout $(1)
+	-git rebase master
+	-git push --force origin $(1)
+endef
+
+branch:
+	$(call push-branch, dist)
+	$(call push-branch, julia)
+	$(call push-branch, perl)
+	$(call call push-branch, python)
+	$(call push-branch, r)
 
 cloc:
 	cloc include src script test --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=d,o,in

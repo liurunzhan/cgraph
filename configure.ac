@@ -6,7 +6,7 @@ AC_INIT([cgraph], [0.0.0], [liurunzhan@sina.com])
 AC_CONFIG_SRCDIR([include/cgraph.h])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE
-AC_CONFIG_MACRO_DIRS([m4])
+AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CXX

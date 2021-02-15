@@ -1,9 +1,9 @@
 #include "template_base.ht"
 
-extern void *FUNCTION(NAME, find)(const TYPE *cthis, void *data);
-extern void *FUNCTION(NAME, insert)(const TYPE *cthis, void *data);
-extern void *FUNCTION(NAME, disable)(const TYPE *cthis, void *data);
-extern void *FUNCTION(NAME, delete)(const TYPE *cthis, void *data);
+extern cgraph_bool_t FUNCTION(NAME, find)(TYPE *cthis, void *x);
+extern TYPE *FUNCTION(NAME, push)(TYPE *cthis, void *x);
+extern TYPE *FUNCTION(NAME, pop)(TYPE *cthis, void *x);
+extern TYPE *FUNCTION(NAME, delete)(TYPE *cthis, void *x);
 
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);

@@ -2,8 +2,8 @@ DIR = .
 INC = $(DIR)$(SEPARATOR)..$(SEPARATOR)include
 SRC = $(DIR)$(SEPARATOR)..$(SEPARATOR)src
 
-PERL= perl
-DOC_MODULE= meep
+PERL = perl
+DOC_MODULE = meep
 
 .PHONY: all doc clean distclean
 

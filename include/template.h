@@ -616,6 +616,18 @@
 #define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
 #endif
 
+#elif defined(TYPE_SET)
+#define TYPE cgraph_set_t
+#define ID   CGRAPH_SET_T
+#define NAME tree
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#if defined(CGRAPH_HOBJECT)
+#define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
+#endif
+
 #elif defined(TYPE_LIST)
 #define TYPE cgraph_list_t
 #define ID   CGRAPH_LIST_T
@@ -638,18 +650,6 @@
 
 #if defined(CGRAPH_POBJECT)
 #define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
-#endif
-
-#elif defined(TYPE_SET)
-#define TYPE cgraph_set_t
-#define ID   CGRAPH_SET_T
-#define NAME tree
-#define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_HOBJECT)
-#define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
 #endif
 
 #elif defined(TYPE_QUEUE)
@@ -1255,8 +1255,8 @@
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) ||  \
     defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) ||                          \
     defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D) ||                        \
-    defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_LIST) ||        \
-    defined(TYPE_TREE) || defined(TYPE_SET) || defined(TYPE_QUEUE) ||          \
+    defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_SET) ||         \
+    defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_QUEUE) ||         \
     defined(TYPE_STACK)
 
 #define ADD(a, b, c)  __CGRAPH_UNDEFINED
