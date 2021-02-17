@@ -374,6 +374,10 @@ TYPE FUNCTION(NAME, iter3cvc)(const TYPE x, const TYPE *y, TYPE z,
     return z;
 }
 
+/**
+ * A = [[0 1] [2 3]]
+ * det A = 0 x 3 - 1 x 2
+ */
 #ifdef TYPE_WITH_DATA
 TYPE *FUNCTION(NAME, det2x2)(const TYPE **cthis, TYPE *res0, TYPE *res1,
                              TYPE *res)
@@ -396,6 +400,11 @@ TYPE *FUNCTION(NAME, det2x2)(const TYPE *cthis, TYPE *res0, TYPE *res1,
 }
 #endif
 
+/**
+ * A = [[0 1 2] [3 4 5] [6 7 8]]
+ * det A = 0 x (4 x 8 - 5 x 7) - 1 x (3 x 8 - 5 x 6) + 2 x (3 x 7 - 4 x 6)
+ *       = 0 x (4 x 8 - 5 x 7) + 1 x (5 x 6 - 3 x 8) + 2 x (3 x 7 - 4 x 6)
+ */
 #ifdef TYPE_WITH_DATA
 TYPE *FUNCTION(NAME, det3x3)(const TYPE **cthis, TYPE *res0, TYPE *res1,
                              TYPE *res2, TYPE *res)
@@ -410,9 +419,20 @@ TYPE *FUNCTION(NAME, det3x3)(const TYPE **cthis, TYPE *res0, TYPE *res1,
 TYPE *FUNCTION(NAME, det3x3)(const TYPE *cthis, TYPE *res0, TYPE *res1,
                              TYPE *res2, TYPE *res)
 {
-    *res0 = MUL(cthis[0], cthis[2], *res0);
-    *res1 = MUL(cthis[1], cthis[3], *res1);
-    *res = SUB(*res0, *res1, *res);
+    /*  */
+    *res0 = MUL(cthis[4], cthis[8], *res0);
+    *res1 = MUL(cthis[5], cthis[7], *res1);
+    *res2 = SUB(*res0, *res1, *res2);
+    *res0 = MUL(cthis[3], cthis[8], *res0);
+    *res1 = MUL(cthis[5], cthis[6], *res1);
+    *res = SUB(*res1, *res0, *res);
+    *res0 = ADD(*res, *res2, *res0);
+    *res = ASSIGN(*res0, *res);
+    *res0 = MUL(cthis[3], cthis[7], *res0);
+    *res1 = MUL(cthis[4], cthis[6], *res1);
+    *res2 = SUB(*res0, *res1, *res2);
+    *res0 = ADD(*res, *res2, *res0);
+    *res = ASSIGN(*res0, *res);
 
     return res;
 }

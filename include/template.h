@@ -815,6 +815,8 @@
         (b) = tmp;                                                             \
     } while (0)
 
+#define ASSIGN(a, b) ((b) = (a))
+
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
     defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
@@ -859,6 +861,8 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
+
+#define ASSIGN(a, b) ((b) = (a))
 
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -920,6 +924,8 @@
         (b) = tmp;                                                             \
     } while (0)
 
+#define ASSIGN(a, b) ((b) = (a))
+
 #elif defined(TYPE_TIME)
 
 #define EQ(a, b)                                                               \
@@ -963,6 +969,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
+#define ASSIGN(a, b) ((b) = (a))
 
 #elif defined(TYPE_COMPLEX)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -1023,6 +1030,8 @@
         b = tmp;                                                               \
     } while (0)
 
+#define ASSIGN(a, b) ((b) = (a))
+
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))
 
@@ -1069,6 +1078,8 @@
         a = b;                                                                 \
         b = tmp;                                                               \
     } while (0)
+
+#define ASSIGN(a, b) ((b) = (a))
 
 #elif defined(TYPE_BIGINT)
 

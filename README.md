@@ -131,7 +131,7 @@ Do what you want to do, and be what you want to be!
 
 I am used to using process-oriented programming thinking and languages to solve problems, like C and Perl, but now I want to use pointer and structural variables in C to realize some features in object-oriented programming, and macro in C to realize the features in generic programming and interface-oriented programming.
 
-A lot of repetitive work used to be done by compilers, but now must be done by hand. The programming process may be tough and boring, but the target is cool and interesting enough! And it is also meaningful for me to understand the mechanism behind object-oriented compilers.
+A lot of repetitive work used to be done by compilers, must be done by hand while programming with C. The process may be tough and boring, but the target is cool and interesting enough! And it is also meaningful for me to understand the mechanism behind object-oriented compilers. Writing a library by hand will be better than packaging the APIs of a known library, for the case that its stability can be guaranteed. 
 
 ## Structure
 ____________

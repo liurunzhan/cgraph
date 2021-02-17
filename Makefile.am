@@ -7,7 +7,6 @@ DISTCLEANFILES = autoscan.log aclocal.m4 config.* configure install-sh libtool l
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache
 	-rm -rf $(top_srcdir)/m4
-	-rm -rf $(top_srcdir)/po
 
 .PHONY: gtkdoc doxygen cloc update branch
 
@@ -25,17 +24,3 @@ cloc:
 update:
 	git clean -xf
 	git pull --quiet
-
-define push-branch
-	@echo push branch master to branch $(1)
-	-git checkout $(1)
-	-git rebase master
-	-git push --force origin $(1)
-endef
-
-branch:
-	$(call push-branch, dist)
-	$(call push-branch, julia)
-	$(call push-branch, perl)
-	$(call call push-branch, python)
-	$(call push-branch, r)

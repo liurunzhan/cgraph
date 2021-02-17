@@ -1,14 +1,12 @@
-#!/ usr / bin / tcc - run
-
-// #include <direct.h>
-// #include <io.h>
+//!/usr/bin/env -S tcc -run
 
 #if defined(__linux__) || defined(__unix__)
 #include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #else
-
+#include <direct.h>
+#include <io.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>

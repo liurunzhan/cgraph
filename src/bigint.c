@@ -100,7 +100,7 @@ cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE *cthis)
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
-        cgraph_size_t _size = CGRAPH_SIZE(z);
+        cgraph_size_t _size = z->size;
         cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
                       size = CGRAPH_MAX(x->len, y->len);
         cgraph_bool_t error = CGRAPH_FALSE;
@@ -152,10 +152,11 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z)
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
-        cgraph_size_t _len = CGRAPH_LEN(z);
-        cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
+        cgraph_size_t _size = z->size;
+        cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
+                      size = CGRAPH_MAX(x->len, y->len);
         cgraph_bool_t error = CGRAPH_FALSE;
-        z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);
+        z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, size, &error);
         if (CGRAPH_FALSE == error) {
             cgraph_size_t i;
             DATA_TYPE *xd = &(x->data[x->len - 1]),
@@ -174,9 +175,8 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z)
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 {
     if ((NULL != x) && (NULL != y)) {
-        cgraph_size_t _size = CGRAPH_SIZE(z);
-        cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
-                      size = CGRAPH_MAX(x->len, y->len);
+        cgraph_size_t _size = z->size;
+        cgraph_size_t len = CGRAPH_MIN(x->len, y->len), size = x->len + y->len;
         cgraph_bool_t error = CGRAPH_FALSE;
         z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, size, &error);
         if (CGRAPH_FALSE == error) {
@@ -196,7 +196,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z)
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z)
 {
-    cgraph_size_t _len = CGRAPH_LEN(z);
+    cgraph_size_t _len = z->size;
     cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);

@@ -14,7 +14,7 @@ include_HEADERS       = $(HEADERS_PUBLIC)
 DISTCLEANFILES        = Makefile.in Makefile
 
 clean-local:
-	-rm -rf .deps
+	-rm -f .deps/*
 
 distclean-local:
 	-rm -rf .deps

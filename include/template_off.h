@@ -360,7 +360,7 @@
 #undef OBJECT
 #endif
 
-/**DATA AND STRUCTURE INIT */
+/**DATA AND STRUCTURE ASSIGN */
 #ifdef CGRAPH_DATA_BASE
 #undef CGRAPH_DATA_BASE
 #endif
@@ -500,6 +500,10 @@
 
 #ifdef SWAP
 #undef SWAP
+#endif
+
+#ifdef ASSIGN
+#undef ASSIGN
 #endif
 
 #ifdef HASH_OFFSET

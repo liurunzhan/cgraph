@@ -1,6 +1,3 @@
-void FUNCTION(TYPE, test)(void)
-{
-#ifdef DEBUG
+#include "cgraph.h"
 
-#endif
-}
+int main(int argc, char *argv[]) { return 0; }

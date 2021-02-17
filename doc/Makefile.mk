@@ -17,9 +17,9 @@ all:
 
 doc:
 	# sources have changed
-	gtkdoc-scan --module=$(DOC_MODULE) $(SRC)$(SEPARATOR)*.c
+	gtkdoc-scan --module=$(DOC_MODULE) $(SRC)$(SEPARATOR)*.c $(SRC)$(SEPARATOR)*.ct
 	gtkdoc-scangobj --module=$(DOC_MODULE)
-	gtkdoc-mkdb --module=$(DOC_MODULE) --output-format=xml --source-dir=$(SRC)
+	gtkdoc-mkdb --module=$(DOC_MODULE) --xml-mode --output-format=xml --source-dir=$(SRC)
 	# xml files have changed
 	$(MKDIR) $(MKDIRFLAGS) html
 	cd html $(SPLIT) gtkdoc-mkhtml $(DOC_MODULE) $(DIR)$(SEPARATOR)..$(SEPARATOR)meep-docs.xml

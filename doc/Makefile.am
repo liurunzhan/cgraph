@@ -45,18 +45,18 @@ DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.xml
 DOC_SOURCE_DIR=$(top_srcdir)/include $(top_srcdir)/src
 
 # Extra options to pass to gtkdoc-scangobj. Normally not needed.
-SCANGOBJ_OPTIONS=
+SCANGOBJ_OPTIONS=--module=$(DOC_MODULE)
 
 # Extra options to supply to gtkdoc-scan.
 # e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED"
-SCAN_OPTIONS=
+SCAN_OPTIONS=--module=$(DOC_MODULE) $(top_srcdir)/src/*.c $(top_srcdir)/src/*.ct
 
 # Extra options to supply to gtkdoc-mkdb
 # e.g. MKDB_OPTIONS=--xml-mode --output-format=xml
-MKDB_OPTIONS=--xml-mode --output-format=xml
+MKDB_OPTIONS=--module=$(DOC_MODULE) --xml-mode --output-format=xml --source-dir=$(top_srcdir)/src
 
 # Extra options to supply to gtkdoc-mkhtml
-MKHTML_OPTIONS=
+MKHTML_OPTIONS=--module=$(DOC_MODULE) --module-dir=html
 
 # Extra options to supply to gtkdoc-fixref. Normally not needed.
 # e.g. FIXXREF_OPTIONS=--extra-dir=../gdk-pixbuf/html --extra-dir=../gdk/html
@@ -93,7 +93,7 @@ expand_content_files=
 # signals and properties.
 # e.g. GTKDOC_CFLAGS=-I$(top_srcdir) -I$(top_builddir) $(GTK_DEBUG_FLAGS)
 # e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
-GTKDOC_CFLAGS=
+GTKDOC_CFLAGS=-I$(top_srcdir) -I$(top_builddir)
 GTKDOC_LIBS=
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
@@ -110,4 +110,4 @@ endif
 
 -include $(top_srcdir)/git.mk
 
-DISTCLEANFILES = Makefile.in Makefile
+DISTCLEANFILES = Makefile.in Makefile cgraph-docs.xml cgraph-overrides.txt cgraph-sections.txt
