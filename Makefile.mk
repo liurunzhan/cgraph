@@ -10,7 +10,7 @@ export TOOLS = make cmake xmake\
 
 MAKE ?= make
 
-.PHONY: all test clean distclean gtkdoc doxygen update branch cloc help $(TOOLS) memchk
+.PHONY: all test clean distclean help $(TOOLS) gtkdoc doxygen update branch cloc memchk
 
 all: CMD =
 
@@ -20,11 +20,17 @@ clean: CMD = clean
 
 distclean: CMD = distclean
 
+help: CMD= help
+
 gtkdoc: CMD=gtkdoc
 
 doxygen: CMD=doxygen
 
-help: CMD= help
+error:
+	@echo "command line error!"
+	@echo "for example:"
+	@echo "make -f Makefile.mk make CMD="
+	@exit
 
 update:
 	-git clean -xf

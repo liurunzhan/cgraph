@@ -814,8 +814,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
-
-#define ASSIGN(a, b) ((b) = (a))
+#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
     defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
@@ -861,8 +860,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
-
-#define ASSIGN(a, b) ((b) = (a))
+#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -923,8 +921,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
-
-#define ASSIGN(a, b) ((b) = (a))
+#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_TIME)
 
@@ -969,7 +966,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
-#define ASSIGN(a, b) ((b) = (a))
+#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_COMPLEX)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -1029,8 +1026,7 @@
         a = b;                                                                 \
         b = tmp;                                                               \
     } while (0)
-
-#define ASSIGN(a, b) ((b) = (a))
+#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))
@@ -1078,8 +1074,7 @@
         a = b;                                                                 \
         b = tmp;                                                               \
     } while (0)
-
-#define ASSIGN(a, b) ((b) = (a))
+#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_BIGINT)
 
@@ -1127,6 +1122,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
+#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_BIGNUM)
 
@@ -1174,6 +1170,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
+#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_STRING)
 
@@ -1219,6 +1216,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
+#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_BITSET)
 
@@ -1262,6 +1260,7 @@
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
+#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) ||  \
     defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) ||                          \

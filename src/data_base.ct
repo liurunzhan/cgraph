@@ -124,13 +124,14 @@ TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
 {
 #ifdef TYPE_WITH_DATA
     if (NULL != data) {
-        cgraph_size_t _size = CGRAPH_SIZE(cthis);
+        cgraph_size_t _size = CGRAPH_SIZE(cthis),
+                      _dsize = (size > 0 ? size : CGRAPH_SIZE(data));
         cgraph_bool_t error = CGRAPH_FALSE;
-        cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, _size, size, &error);
+        cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, _size, _dsize, &error);
         if (CGRAPH_FALSE == error) {
             cthis->data = cgraph_memcpy(cthis->data, data->data,
-                                        FUNCTION(NAME, msize)(DATA_ID, size));
-            cthis = FUNCTION(NAME, _update)(cthis, DATA_ID, size, -1);
+                                        FUNCTION(NAME, msize)(DATA_ID, _dsize));
+            cthis = FUNCTION(NAME, _update)(cthis, DATA_ID, _dsize, -1);
         }
     }
 #else
@@ -409,9 +410,19 @@ TYPE *FUNCTION(NAME, det2x2)(const TYPE *cthis, TYPE *res0, TYPE *res1,
 TYPE *FUNCTION(NAME, det3x3)(const TYPE **cthis, TYPE *res0, TYPE *res1,
                              TYPE *res2, TYPE *res)
 {
-    res0 = MUL(cthis[0], cthis[1], res0);
-    res1 = MUL(cthis[2], res0, res1);
-    res = SUB(res0, res1, res);
+    res0 = MUL(cthis[4], cthis[8], res0);
+    res1 = MUL(cthis[5], cthis[7], res1);
+    res2 = SUB(res0, res1, res2);
+    res0 = MUL(cthis[3], cthis[8], res0);
+    res1 = MUL(cthis[5], cthis[6], res1);
+    res = SUB(res1, res0, res);
+    res0 = ADD(res, res2, res0);
+    res = ASSIGN(res0, res);
+    res0 = MUL(cthis[3], cthis[7], res0);
+    res1 = MUL(cthis[4], cthis[6], res1);
+    res2 = SUB(res0, res1, res2);
+    res0 = ADD(res, res2, res0);
+    res = ASSIGN(res0, res);
 
     return res;
 }
@@ -419,7 +430,6 @@ TYPE *FUNCTION(NAME, det3x3)(const TYPE **cthis, TYPE *res0, TYPE *res1,
 TYPE *FUNCTION(NAME, det3x3)(const TYPE *cthis, TYPE *res0, TYPE *res1,
                              TYPE *res2, TYPE *res)
 {
-    /*  */
     *res0 = MUL(cthis[4], cthis[8], *res0);
     *res1 = MUL(cthis[5], cthis[7], *res1);
     *res2 = SUB(*res0, *res1, *res2);

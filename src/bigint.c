@@ -220,14 +220,14 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y)
 {
     cgraph_bool_t flag = CGRAPH_FALSE;
     if ((NULL != x) && (NULL != y) && (x->postive == y->postive)) {
-        cgraph_size_t i, min = CGRAPH_MIN(x->len, y->len);
+        cgraph_size_t len = CGRAPH_MIN(x->len, y->len), i = 0;
         DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
-        for (i = 0; i < min; i++, xd--, yd--) {
+        for (; i < len; i++, xd--, yd--) {
             if (*xd != *yd) {
                 break;
             }
         }
-        if (i >= min) {
+        if (i >= len) {
             for (; i < x->len; i++, xd--) {
                 if (0 != *xd) {
                     break;
@@ -259,23 +259,23 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y)
     cgraph_bool_t flag = CGRAPH_FALSE;
     if ((NULL != x) && (NULL != y)) {
         if (x->postive == y->postive) {
-            cgraph_size_t i, min = CGRAPH_MIN(x->len, y->len);
+            cgraph_size_t len = CGRAPH_MIN(x->len, y->len), i = 0;
             DATA_TYPE *xd = &(x->data[x->len - 1]),
                       *yd = &(y->data[y->len - 1]);
             if (CGRAPH_TRUE == x->postive) {
-                for (i = 0; i < min; i++, xd--, yd--) {
+                for (; i < len; i++, xd--, yd--) {
                     if (*xd <= *yd) {
                         break;
                     }
                 }
             } else {
-                for (i = 0; i < min; i++, xd--, yd--) {
+                for (; i < len; i++, xd--, yd--) {
                     if (*xd >= *yd) {
                         break;
                     }
                 }
             }
-            if (i < 0) {
+            if (i >= len) {
                 flag = CGRAPH_TRUE;
             }
         } else if ((CGRAPH_TRUE == x->postive) &&
@@ -294,15 +294,15 @@ cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y)
     cgraph_bool_t flag = CGRAPH_FALSE;
     if ((NULL != x) && (NULL != y)) {
         if (x->postive == y->postive) {
-            cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+            cgraph_size_t len = CGRAPH_MIN(x->len, y->len), i = len - 1;
             if (CGRAPH_TRUE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
+                for (; i >= 0; i--) {
                     if (x->data[i] < y->data[i]) {
                         break;
                     }
                 }
             } else if (CGRAPH_FALSE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
+                for (; i >= 0; i--) {
                     if (x->data[i] > y->data[i]) {
                         break;
                     }
@@ -324,15 +324,15 @@ cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y)
     cgraph_bool_t flag = CGRAPH_FALSE;
     if ((NULL != x) && (NULL != y)) {
         if (x->postive == y->postive) {
-            cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+            cgraph_size_t len = CGRAPH_MIN(x->len, y->len), i = len - 1;
             if (CGRAPH_TRUE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
+                for (; i >= 0; i--) {
                     if (x->data[i] >= y->data[i]) {
                         break;
                     }
                 }
             } else if (CGRAPH_FALSE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
+                for (; i >= 0; i--) {
                     if (x->data[i] <= y->data[i]) {
                         break;
                     }
@@ -354,15 +354,15 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y)
     cgraph_bool_t flag = CGRAPH_FALSE;
     if ((NULL != x) && (NULL != y)) {
         if (x->postive == y->postive) {
-            cgraph_size_t i, len = CGRAPH_MIN(x->len, y->len);
+            cgraph_size_t len = CGRAPH_MIN(x->len, y->len), i = len - 1;
             if (CGRAPH_TRUE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
+                for (; i >= 0; i--) {
                     if (x->data[i] > y->data[i]) {
                         break;
                     }
                 }
             } else if (CGRAPH_FALSE == x->postive) {
-                for (i = len - 1; i >= 0; i--) {
+                for (; i >= 0; i--) {
                     if (x->data[i] < y->data[i]) {
                         break;
                     }
