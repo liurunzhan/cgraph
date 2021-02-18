@@ -49,14 +49,14 @@ SCANGOBJ_OPTIONS=--module=$(DOC_MODULE)
 
 # Extra options to supply to gtkdoc-scan.
 # e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED"
-SCAN_OPTIONS=--module=$(DOC_MODULE) $(top_srcdir)/src/*.c $(top_srcdir)/src/*.ct
+SCAN_OPTIONS=--module=$(DOC_MODULE) $(top_srcdir)/src/*.c $(top_srcdir)/src/*.ct $(top_srcdir)/include/*.ht $(top_srcdir)/include/*.h
 
 # Extra options to supply to gtkdoc-mkdb
 # e.g. MKDB_OPTIONS=--xml-mode --output-format=xml
 MKDB_OPTIONS=--module=$(DOC_MODULE) --xml-mode --output-format=xml --source-dir=$(top_srcdir)/src
 
 # Extra options to supply to gtkdoc-mkhtml
-MKHTML_OPTIONS=--module=$(DOC_MODULE) --module-dir=html
+MKHTML_OPTIONS=
 
 # Extra options to supply to gtkdoc-fixref. Normally not needed.
 # e.g. FIXXREF_OPTIONS=--extra-dir=../gdk-pixbuf/html --extra-dir=../gdk/html
@@ -110,4 +110,8 @@ endif
 
 -include $(top_srcdir)/git.mk
 
-DISTCLEANFILES = Makefile.in Makefile cgraph-docs.xml cgraph-overrides.txt cgraph-sections.txt
+CLEANED_FILES = $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt $(DOC_MODULE)-docs.xml $(DOC_MODULE)-overrides.txt $(DOC_MODULE)-scan.c $(DOC_MODULE)-sections.txt 
+
+CLEANFILES = $(CLEANED_FILES)
+
+DISTCLEANFILES = Makefile.in Makefile $(CLEANED_FILES)

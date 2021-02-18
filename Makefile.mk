@@ -26,11 +26,11 @@ gtkdoc: CMD=gtkdoc
 
 doxygen: CMD=doxygen
 
-error:
-	@echo "command line error!"
-	@echo "for example:"
-	@echo "make -f Makefile.mk make CMD="
-	@exit
+$(TOOLS):
+	$(MAKE) -f Makefile.sub $@ TOOL=$@ CMD=$(CMD)
+
+cloc:
+	cloc include src script test --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=d,o,in
 
 update:
 	-git clean -xf
@@ -41,6 +41,7 @@ define push-branch
 	-git checkout $(1)
 	-git rebase master
 	-git push --force origin $(1)
+	-git checkout master
 endef
 
 branch:
@@ -49,9 +50,3 @@ branch:
 	$(call push-branch, perl)
 	$(call call push-branch, python)
 	$(call push-branch, r)
-
-cloc:
-	cloc include src script test --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=d,o,in
-
-$(TOOLS):
-	$(MAKE) -f Makefile.sub $@ TOOL=$@ CMD=$(CMD)
