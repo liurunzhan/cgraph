@@ -110,8 +110,4 @@ endif
 
 -include $(top_srcdir)/git.mk
 
-CLEANED_FILES = $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt $(DOC_MODULE)-docs.xml $(DOC_MODULE)-overrides.txt $(DOC_MODULE)-scan.c $(DOC_MODULE)-sections.txt 
-
-CLEANFILES = $(CLEANED_FILES)
-
-DISTCLEANFILES = Makefile.in Makefile $(CLEANED_FILES)
+DISTCLEANFILES = Makefile.in Makefile $(DOC_MODULE)-*.*

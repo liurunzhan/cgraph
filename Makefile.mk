@@ -33,15 +33,15 @@ cloc:
 	cloc include src script test --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=d,o,in
 
 update:
-	-git clean -xf
-	-git pull --quiet
+	git clean -xf
+	git pull --quiet
 
 define push-branch
 	@echo push branch master to branch $(1)
-	-git checkout $(1)
-	-git rebase master
-	-git push --force origin $(1)
-	-git checkout master
+	git checkout $(1)
+	git rebase master
+	git push --force origin $(1)
+	git checkout master
 endef
 
 branch:

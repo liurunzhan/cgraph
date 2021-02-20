@@ -25,21 +25,19 @@ Learn more types of programming languages, and know more ways to ponder, model a
 
 ### Standard way
 ________________
-This library can be configured by ***autotools*** with [autogen.sh](./autogen.sh) and ***configure***, compiled by Makefiles with following standard steps:
+This library can be configured by ***autotools*** with [autogen.sh](./autogen.sh) and ***configure***, compiled by Makefiles with the following standard steps:
 ```bash
   ./autogen.sh  
-  ./configure --prefix=$(prefix) --enable-static/--enable-dynamic  
+  ./configure --prefix=$(prefix) --enable-gtk-doc
   make  
-  make doxygen
-  make gtkdoc
-```  
-and cleaned by Makefiles with following standard steps:  
+```
+and cleaned by Makefiles with the following standard steps:  
 ```bash
   make clean  
   make distclean
 ```
 
-Only the platform supports bash and autotools that can use the standard way to compile this library. If the users use Windows OS, use msys, msys2 or cygwin instead. Users in unix-like OS can use the standard way well.
+Only the platform supports bash and autotools that can use the standard way to compile this library, such as Linux. If the users use Windows OS, use msys, msys2 or cygwin instead. Users in other Unix-like OS can use the standard way well.
 
 ### Custom way
 ______________
@@ -52,6 +50,15 @@ What's more, this library provides ***perl script*** [compile.pl](./script/compi
 In addtion, this library provides some other language scripts, based on jvm, to do the same work, such as ***java script*** [compile.java](./script/compile.java) in ***openjdk11***, ***scala script*** [compile.scala](./script/compile.scala), ***kotlin script*** [compile.kts](./script/compile.kts), ***clojure script*** [compile.clj](./script/compile.clj) and ***groovy script*** [compile.groovy](./script/compile.groovy).
 
 Some compiled languages realized by given compilers with special extension tools can also be used to write scripts, such as ***c script*** [compile.c](./script/compile.c) in ***tcc***, ***go script*** [compile.go](./script/compile.go) in ***go*** with ***gorun***, ***swift script*** [compile.swift](./script/compile.swift), ***haskell script*** [compile.hs](./script/compile.hs) in ***haskell*** with ***runhaskell***, ***rust script*** [compile.rs](./script/compile.rs) in ***rust*** with ***rustx***, ***erlang script*** [compile.escript](./script/compile.escript), ***nims script*** [compile.nims](./script/compile.nims) and ***zig script*** [compile.zig](./script/compile.zig).
+
+All above ways are called with [Makefile.mk](./Makefile.mk) in MSYS, MSYS2, CYGWIN or Linux platform by
+```bash
+make -f Makefile.mk $(TOOL) CMD=$(CMD)  
+```
+or in Windows platform by
+```cmd
+mingw32-make.exe -f Makefile.mk $(TOOL) CMD=$(CMD)  
+```
 
 ### Compiler
 ____________
@@ -70,7 +77,7 @@ __________________
 * [msys](http://www.mingw.org)
 * [msys2](https://www.msys2.org)
 * [cygwin](https://cygwin.com)
-* [wsl](https://docs.microsoft.com/zh-cn/windows/wsl/)
+* [wsl](https://docs.microsoft.com/en-us/windows/wsl/)
 * [linux](https://www.linux.org)
 
 #### Compiler List
@@ -84,7 +91,7 @@ __________________
 
 #### Script List
 ________________
-All the involved compilation scripts in this library are listed as below. User can use [Configure.pl](./Configure.pl) to change their configuration (ongoing...).
+All the involved compilation scripts in this library are listed as below. User can use [Configure.pl](./Configure.pl) to change their default configuration (ongoing...).
 
 * ***CMake*** [CMakeLists.txt](./script/CMakeLists.txt)
 * ***DOS Batch*** [compile.bat](./script/compile.bat)
@@ -119,9 +126,9 @@ All the involved compilation scripts in this library are listed as below. User c
 * ***Swift*** [compile.swift](./script/compile.swift)
 * ***Tcl/Tk*** [compile.tcl](./script/compile.tcl)
 * ***Typescript*** [compile.ts](./script/compile.ts)
-* ***V*** [compile.vsh](./script/compile.vsh)
+* ***V Shell*** [compile.vsh](./script/compile.vsh)
 * ***Zig*** [compile.zig](./script/compile.zig)
-* ***zsh*** [compile.zsh](./script/compile.zsh)
+* ***Z Shell*** [compile.zsh](./script/compile.zsh)
 * ***Meson*** [meson.build](./script/meson.build)
 * ***XMake*** [xmake.lua](./script/compile.lua)
 
