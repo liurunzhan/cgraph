@@ -391,4 +391,13 @@ TYPE *FUNCTION(NAME, zero)(const cgraph_size_t size)
     return cthis;
 }
 
+TYPE *FUNCTION(NAME, pi)(const cgraph_size_t size)
+{
+    TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
+    if (NULL != cthis) {
+    }
+
+    return cthis;
+}
+
 #include "template_off.h"

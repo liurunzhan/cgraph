@@ -1,4 +1,8 @@
 /**DATA TYPE MATHEMATICAL FUNCTIONS */
+#ifndef ASSIGN
+#error undefined needed macro ASSIGN
+#endif
+
 #ifndef ADD
 #error undefined needed macro ADD
 #endif
@@ -93,4 +97,20 @@
 
 #ifndef SWAP
 #error undefined needed macro SWAP
+#endif
+
+#ifndef ROL3
+#error undefined needed macro ROL3
+#endif
+
+#ifndef ROR3
+#error undefined needed macro ROR3
+#endif
+
+#ifndef ROL4
+#error undefined needed macro ROL4
+#endif
+
+#ifndef ROR4
+#error undefined needed macro ROR4
 #endif

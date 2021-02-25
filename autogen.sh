@@ -11,8 +11,9 @@ AUTOCONF=
 GTKDOCIZE= 
 AUTOMAKE=
 TAR=
+DOXYGEN=
 
-# detect whether platform has aclocal or not
+# detect whether platform supports aclocal or not
 env aclocal --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   ACLOCAL=aclocal
@@ -20,7 +21,7 @@ else
   MISSING="aclocal"
 fi
 
-# detect whether platform has autoheader or not
+# detect whether platform supports autoheader or not
 env autoheader --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   AUTOHEADER=autoheader
@@ -28,7 +29,7 @@ else
   MISSING="$MISSING autoheader"
 fi
 
-# detect whether platform has libtoolize/glibtoolize or not
+# detect whether platform supports libtoolize/glibtoolize or not
 env libtoolize --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   LIBTOOL=libtoolize
@@ -41,7 +42,7 @@ else
   fi
 fi
 
-# detect whether platform has autoconf or not
+# detect whether platform supports autoconf or not
 env autoconf --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   AUTOCONF=autoconf
@@ -49,6 +50,7 @@ else
   MISSING="$MISSING autoconf"
 fi
 
+# detect whether platform supports gtkdocize or not
 env gtkdocize --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   GTKDOCIZE=gtkdocize
@@ -56,7 +58,7 @@ else
   MISSING="$MISSING gtkdocize"
 fi
 
-# detect whether platform has automake or not
+# detect whether platform supports automake or not
 env automake --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   AUTOMAKE=automake
@@ -64,12 +66,19 @@ else
   MISSING="$MISSING automake"
 fi
 
-# detect whether platform has tar or not
+# detect whether platform supports tar or not
 env tar --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   TAR=tar
 else
   MISSING="$MISSING tar"
+fi
+
+# detect whether platform supports doxygen or not
+env doxygen --version > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  DOXYGEN=doxygen
+  cp -f Doxyfile.base Doxyfile
 fi
 
 # echo missing tools

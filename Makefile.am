@@ -2,7 +2,7 @@ SUBDIRS=src test doc
 
 EXTRA_DIST = autogen.sh Doxyfile.base README.md
 
-DISTCLEANFILES = autoscan.log aclocal.m4 config.* configure install-sh libtool ltmain.sh gtk-doc.m4 gtk-doc.make Makefile.in Makefile
+DISTCLEANFILES = autoscan.log aclocal.m4 config.* configure install-sh libtool ltmain.sh gtk-doc.m4 gtk-doc.make Makefile.in Makefile Doxyfile
 
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache

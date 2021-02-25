@@ -5,17 +5,23 @@ AC_PREREQ([2.69])
 AC_INIT([cgraph], [0.0.0], [liurunzhan@sina.com])
 AC_CONFIG_SRCDIR([include/cgraph.h])
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_MACRO_DIR([m4])
+PKG_PROG_PKG_CONFIG
 
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
+AC_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
+AM_PROG_AR
+AC_PROG_LIBTOOL
 LT_PREREQ([2.4.0])
 LT_INIT
-GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+
+# Checks for gtk-doc.
+GTK_DOC_CHECK([1.14], [--flavour no-tmpl])
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lm':
@@ -26,14 +32,14 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([float.h limits.h stddef.h stdint.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_INT8_T
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
-AC_TYPE_INT8_T
+AC_TYPE_UINT8_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
-AC_TYPE_UINT8_T
 
 # Checks for library functions.
 AC_FUNC_REALLOC

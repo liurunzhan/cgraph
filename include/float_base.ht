@@ -1,5 +1,10 @@
 #include "data_base.ht"
 
+extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
+extern TYPE FUNCTION(NAME, cube)(const TYPE x);
+extern TYPE FUNCTION(NAME, exp)(const TYPE x);
+extern TYPE FUNCTION(NAME, pi)(void);
+
 extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x);
@@ -8,3 +13,27 @@ extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, fixed_point_iterator)(const TYPE x,
+                                                 FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, fixed_point_lambda_iterator)(const TYPE x,
+                                                        const TYPE lambda,
+                                                        FUNCPTR(NAME, pfunc1)
+                                                            func);
+extern TYPE FUNCTION(NAME, integral_range_trapezoidal)(const TYPE start,
+                                                       const TYPE end,
+                                                       const TYPE step,
+                                                       FUNCPTR(NAME, pfunc1)
+                                                           func);
+extern TYPE FUNCTION(NAME, integral_range_simpson)(const TYPE start,
+                                                   const TYPE end,
+                                                   const TYPE step,
+                                                   FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME,
+                     integral_range_simpson38)(const TYPE start, const TYPE end,
+                                               const TYPE step,
+                                               FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, integral_range_cotes)(const TYPE start,
+                                                 const TYPE end,
+                                                 const TYPE step,
+                                                 FUNCPTR(NAME, pfunc1) func);

@@ -2,9 +2,10 @@
 
 #ifdef TYPE_WITH_DATA
 
-extern TYPE **FUNCTION(NAME, exchange)(TYPE **cthis, const cgraph_size_t startx,
-                                       const cgraph_size_t starty,
-                                       const cgraph_size_t len);
+typedef TYPE *(*FUNCPTR(NAME, pfunc1))(const TYPE *x);
+typedef TYPE *(*FUNCPTR(NAME, pfunc2))(const TYPE *x, const TYPE *y);
+typedef TYPE *(*FUNCPTR(NAME, pfunc3))(const TYPE *x, const TYPE *y,
+                                       const TYPE *z);
 
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
@@ -19,6 +20,31 @@ extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
+
+extern TYPE **FUNCTION(NAME, swap)(TYPE **cthis, const cgraph_size_t startx,
+                                   const cgraph_size_t starty,
+                                   const cgraph_size_t len);
+extern TYPE **FUNCTION(NAME, transpose)(TYPE **cthis, const cgraph_size_t row,
+                                        const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, sub_symmetry)(TYPE **cthis,
+                                           const cgraph_size_t row,
+                                           const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation1I)(TYPE **cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation2I)(TYPE **cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation3I)(TYPE **cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation4I)(TYPE **cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation_1I)(TYPE **cthis, const cgraph_size_t row,
+                                          const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation_2I)(TYPE **cthis, const cgraph_size_t row,
+                                          const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation_3I)(TYPE **cthis, const cgraph_size_t row,
+                                          const cgraph_size_t col);
+extern TYPE **FUNCTION(NAME, rotation_4I)(TYPE **cthis, const cgraph_size_t row,
+                                          const cgraph_size_t col);
 
 extern TYPE *FUNCTION(NAME, det2x2)(const TYPE **cthis, TYPE *res0, TYPE *res1,
                                     TYPE *res);
@@ -36,9 +62,9 @@ extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
 
 #else
 
-extern TYPE *FUNCTION(NAME, exchange)(TYPE *cthis, const cgraph_size_t startx,
-                                      const cgraph_size_t starty,
-                                      const cgraph_size_t len);
+typedef TYPE (*FUNCPTR(NAME, pfunc1))(const TYPE x);
+typedef TYPE (*FUNCPTR(NAME, pfunc2))(const TYPE x, const TYPE y);
+typedef TYPE (*FUNCPTR(NAME, pfunc3))(const TYPE x, const TYPE y, const TYPE z);
 
 #ifndef TYPE_COMPLEX
 extern TYPE FUNCTION(NAME, abs)(TYPE cthis);
@@ -60,6 +86,30 @@ extern TYPE *FUNCTION(NAME, det2x2)(const TYPE *cthis, TYPE *res0, TYPE *res1,
                                     TYPE *res);
 extern TYPE *FUNCTION(NAME, det3x3)(const TYPE *cthis, TYPE *res0, TYPE *res1,
                                     TYPE *res2, TYPE *res);
+
+extern TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t startx,
+                                  const cgraph_size_t starty,
+                                  const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, transpose)(TYPE *cthis, const cgraph_size_t row,
+                                       const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, sub_symmetry)(TYPE *cthis, const cgraph_size_t row,
+                                          const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation1I)(TYPE *cthis, const cgraph_size_t row,
+                                        const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation2I)(TYPE *cthis, const cgraph_size_t row,
+                                        const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation3I)(TYPE *cthis, const cgraph_size_t row,
+                                        const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation4I)(TYPE *cthis, const cgraph_size_t row,
+                                        const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation_1I)(TYPE *cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation_2I)(TYPE *cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation_3I)(TYPE *cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
+extern TYPE *FUNCTION(NAME, rotation_4I)(TYPE *cthis, const cgraph_size_t row,
+                                         const cgraph_size_t col);
 
 extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE x,
                                            const cgraph_char_t *sep);

@@ -88,6 +88,7 @@ Makefile*
 !Makefile.sub
 missing
 stamp-h1
+ar-lib
 
 # Doc/Markdown Files
 Doxyfile
@@ -116,6 +117,3 @@ test/*
 !test/*.csv
 !test/Makefile.mk
 !test/Makefile.am
-
-# Update branches
-update_branch.sh

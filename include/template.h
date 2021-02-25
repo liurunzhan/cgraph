@@ -14,6 +14,7 @@
 #define STRING(a)      CONCAT1(a)
 #define FUNCTION(a, b) CONCAT3(cgraph, a, b)
 #define STRUCT(a)      CONCAT3(_cgraph, a, struct_)
+#define FUNCPTR(a, b)  CONCAT4(cgraph, a, b, t)
 
 /**
  * @brief DATA AND STRUCTURE TYPE TEMPLATE :
@@ -116,6 +117,7 @@
 #define TYPE        cgraph_bool_t
 #define ID          CGRAPH_BOOL_T
 #define NAME        bool
+#define IN_FORMAT   "%s"
 #define OUT_FORMAT  "%s"
 #define UTYPE       cgraph_bool_t
 #define ZERO        CGRAPH_FALSE
@@ -134,6 +136,7 @@
 #define TYPE        cgraph_int_t
 #define ID          CGRAPH_INT_T
 #define NAME        int
+#define IN_FORMAT   "%d"
 #define OUT_FORMAT  "%d"
 #define UTYPE       cgraph_uint_t
 #define ZERO        (0)
@@ -152,6 +155,7 @@
 #define TYPE        cgraph_long_t
 #define ID          CGRAPH_LONG_T
 #define NAME        long
+#define IN_FORMAT   "%ld"
 #define OUT_FORMAT  "%ld"
 #define UTYPE       cgraph_ulong_t
 #define ZERO        (0L)
@@ -248,7 +252,8 @@
 #define TYPE        cgraph_float32_t
 #define ID          CGRAPH_FLOAT32_T
 #define NAME        float32
-#define OUT_FORMAT  "%f"
+#define IN_FORMAT   "%g"
+#define OUT_FORMAT  "%g"
 #define ZERO        (0.0)
 #define ONE         (1.0)
 #define ONES        (1.0)
@@ -264,6 +269,7 @@
 #define TYPE        cgraph_float64_t
 #define ID          CGRAPH_FLOAT64_T
 #define NAME        float64
+#define IN_FORMAT   "%g"
 #define OUT_FORMAT  "%g"
 #define ZERO        (0.0)
 #define ONE         (1.0)
@@ -280,7 +286,8 @@
 #define TYPE        cgraph_float128_t
 #define ID          CGRAPH_FLOAT128_T
 #define NAME        float128
-#define OUT_FORMAT  "%lg"
+#define IN_FORMAT   "%g"
+#define OUT_FORMAT  "%g"
 #define ZERO        (0.0)
 #define ONE         (1.0)
 #define ONES        (1.0)
@@ -752,13 +759,6 @@
 #define LS(a, b) __CGRAPH_UNDEFINED
 #define LE(a, b) __CGRAPH_UNDEFINED
 
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE *tmp = (a);                                                       \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-
 #elif defined(TYPE_BOOL)
 #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
 
@@ -808,14 +808,6 @@
 #define EXP(a, b)   exp((a))
 #define SQRT(a, b)  sqrt((a))
 
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE tmp = (a);                                                        \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) (b)
-
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
     defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
@@ -853,14 +845,6 @@
 #define LOG10(a)  log10((a))
 #define EXP(a)    exp((a))
 #define SQRT(a)   sqrt((a))
-
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE tmp = (a);                                                        \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -915,14 +899,6 @@
 #define EXP(a)    exp((a))
 #define SQRT(a)   sqrt((a))
 
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE tmp = (a);                                                        \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) (b)
-
 #elif defined(TYPE_TIME)
 
 #define EQ(a, b)                                                               \
@@ -959,14 +935,6 @@
 #define DIVF(a, b, c) __CGRAPH_UNDEFINED
 #define INT(a, b, c)  __CGRAPH_UNDEFINED
 #define MOD(a, b, c)  __CGRAPH_UNDEFINED
-
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE tmp = (a);                                                        \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_COMPLEX)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
@@ -1020,14 +988,6 @@
 #define LS(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < (-DATA_EPSILON))
 #define LE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < DATA_EPSILON)
 
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE tmp = a;                                                          \
-        a = b;                                                                 \
-        b = tmp;                                                               \
-    } while (0)
-#define ASSIGN(a, b) (b)
-
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))
 
@@ -1067,14 +1027,6 @@
     ((FRACTION_NUM(a) * FRACTION_DEN(b)) < (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define LE(a, b)                                                               \
     ((FRACTION_NUM(a) * FRACTION_DEN(b)) <= (FRACTION_NUM(b) * FRACTION_DEN(a)))
-
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE tmp = a;                                                          \
-        a = b;                                                                 \
-        b = tmp;                                                               \
-    } while (0)
-#define ASSIGN(a, b) (b)
 
 #elif defined(TYPE_BIGINT)
 
@@ -1116,13 +1068,6 @@
 #define ABS(a)                                                                 \
     FUNCTION(NAME, abs)                                                        \
     ((a))
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE *tmp = (a);                                                       \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_BIGNUM)
 
@@ -1164,13 +1109,6 @@
 #define ABS(a)                                                                 \
     FUNCTION(NAME, abs)                                                        \
     ((a))
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE *tmp = (a);                                                       \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_STRING)
 
@@ -1210,13 +1148,6 @@
     ((a), (b))
 
 #define ABS(a) ((a))
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE *tmp = (a);                                                       \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_BITSET)
 
@@ -1254,13 +1185,6 @@
 #define LE(a, b)                                                               \
     FUNCTION(NAME, le)                                                         \
     ((a), (b))
-#define SWAP(a, b)                                                             \
-    do {                                                                       \
-        TYPE *tmp = (a);                                                       \
-        (a) = (b);                                                             \
-        (b) = tmp;                                                             \
-    } while (0)
-#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) ||  \
     defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) ||                          \
@@ -1284,13 +1208,90 @@
 #define LS(a, b) __CGRAPH_UNDEFINED
 #define LE(a, b) __CGRAPH_UNDEFINED
 
+#else
+#error !!! UNSUPPORTED DATA TYPE !!!
+#endif
+
+#ifdef TYPE_WITH_DATA
+
+#define ASSIGN(a, b) FUNCTION(NAME, init)((a), (b), -1)
+
 #define SWAP(a, b)                                                             \
     do {                                                                       \
         TYPE *tmp = (a);                                                       \
         (a) = (b);                                                             \
         (b) = tmp;                                                             \
     } while (0)
+#define ROL3(a, b, c)                                                          \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = (c);                                                             \
+        (c) = tmp;                                                             \
+    } while (0)
+#define ROR3(a, b, c)                                                          \
+    do {                                                                       \
+        TYPE *tmp = (c);                                                       \
+        (c) = (b);                                                             \
+        (b) = (a);                                                             \
+        (a) = tmp;                                                             \
+    } while (0)
+#define ROL4(a, b, c, d)                                                       \
+    do {                                                                       \
+        TYPE *tmp = (a);                                                       \
+        (a) = (b);                                                             \
+        (b) = (c);                                                             \
+        (c) = (d);                                                             \
+        (d) = tmp;                                                             \
+    } while (0)
+#define ROR4(a, b, c, d)                                                       \
+    do {                                                                       \
+        TYPE *tmp = (d);                                                       \
+        (d) = (c);                                                             \
+        (c) = (b);                                                             \
+        (b) = (a);                                                             \
+        (a) = tmp;                                                             \
+    } while (0)
 
 #else
-#error !!! UNSUPPORTED DATA TYPE !!!
+
+#define ASSIGN(a, b) (b)
+
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        TYPE tmp = a;                                                          \
+        a = b;                                                                 \
+        b = tmp;                                                               \
+    } while (0)
+#define ROL3(a, b, c)                                                          \
+    do {                                                                       \
+        TYPE tmp = (a);                                                        \
+        (a) = (b);                                                             \
+        (b) = (c);                                                             \
+        (c) = tmp;                                                             \
+    } while (0)
+#define ROR3(a, b, c)                                                          \
+    do {                                                                       \
+        TYPE tmp = (c);                                                        \
+        (c) = (b);                                                             \
+        (b) = (a);                                                             \
+        (a) = tmp;                                                             \
+    } while (0)
+#define ROL4(a, b, c, d)                                                       \
+    do {                                                                       \
+        TYPE tmp = (a);                                                        \
+        (a) = (b);                                                             \
+        (b) = (c);                                                             \
+        (c) = (d);                                                             \
+        (d) = tmp;                                                             \
+    } while (0)
+#define ROR4(a, b, c, d)                                                       \
+    do {                                                                       \
+        TYPE tmp = (d);                                                        \
+        (d) = (c);                                                             \
+        (c) = (b);                                                             \
+        (b) = (a);                                                             \
+        (a) = tmp;                                                             \
+    } while (0)
+
 #endif

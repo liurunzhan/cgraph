@@ -42,6 +42,10 @@
 #undef STRUCT
 #endif
 
+#ifdef FUNCPTR
+#undef FUNCPTR
+#endif
+
 /**DATA TYPE */
 
 #ifdef TYPE_OBJECT
@@ -350,7 +354,7 @@
 #undef DATA_ISNEG
 #endif
 
-/** COPYED MEMORY SIZE WITHOUT POINTER MEMORY SIZE */
+/** COPYED MEMORY SIZE WITHOUT FUNCPTR MEMORY SIZE */
 #ifdef COPY_SIZE
 #undef COPY_SIZE
 #endif
@@ -374,6 +378,10 @@
  * ALL TYPES MUST DEFINED FOLLOWING FUNCTIONS
  * CHECKED BY TEMPLATE_CHECK.H
  */
+#ifdef ASSIGN
+#undef ASSIGN
+#endif
+
 #ifdef ADD
 #undef ADD
 #endif
@@ -502,8 +510,20 @@
 #undef SWAP
 #endif
 
-#ifdef ASSIGN
-#undef ASSIGN
+#ifdef ROL3
+#undef ROL3
+#endif
+
+#ifdef ROR3
+#undef ROR3
+#endif
+
+#ifdef ROL4
+#undef ROL4
+#endif
+
+#ifdef ROR4
+#undef ROR4
 #endif
 
 #ifdef HASH_OFFSET
