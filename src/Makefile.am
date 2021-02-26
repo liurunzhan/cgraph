@@ -2,11 +2,16 @@ HEADERS_PUBLIC        = ../include/cgraph.h ../include/cgraph_bigint.h ../includ
 
 SOURCES               = bigint.c bigmat.c bigmat3d.c bignum.c bitset.c bool.c complex.c data.c data_base.ct dframe.c dict.c error.c file.c float32.c float64.c float_base.ct fraction.c gobject.c hobject.c int.c int16.c int32.c int64.c int8.c int_base.ct list.c long.c m3object.c math.c matrix.c matrix3d.c matrix3d_base.ct matrix_base.ct memory.c mobject.c object.c object_base.ct pobject.c spamat.c spamat3d.c string.c struct_base.ct template_base.ct time.c vector.c verilog.c version.c
 
-FLAGS                 = -I$(top_srcdir)/include -I$(top_builddir)/include -Wall
+if DEBUG
+MODE_FLAGS            = -DDEBUG
+else
+MODE_FLAGS            = 
+endif
+FLAGS                 = -I$(top_srcdir)/include -Wall $(MODE_FLAGS)
 lib_LTLIBRARIES       = libcgraph.la
 libcgraph_la_CFLAGS   = $(FLAGS)
 libcgraph_la_CXXFLAGS = $(FLAGS)
-libcgraph_la_LDFLAGS  = -lm -shared -fPIC
+libcgraph_la_LDFLAGS  = -lm -no-undefined
 libcgraph_la_SOURCES  = $(SOURCES)
 
 includedir            = $(prefix)/include/cgraph

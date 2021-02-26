@@ -37,7 +37,7 @@ and cleaned by Makefiles with the following standard steps:
   make distclean
 ```
 
-Only the platform supports bash and autotools that can use the standard way to compile this library, such as Linux. If the users use Windows OS, use msys, msys2 or cygwin instead. Users in other Unix-like OS can use the standard way well.
+Only the platform supports bash and autotools that can use the standard way to compile this library, such as Linux. If the users use Windows OS, use msys, msys2, cygwin or wsl (in Windows 10) instead. Users in other Unix-like OS can use the standard way well.
 
 ### Custom way
 ______________

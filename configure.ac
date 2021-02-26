@@ -17,6 +17,7 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AM_PROG_AR
 AC_PROG_LIBTOOL
+AC_LIBTOOL_WIN32_DLL
 LT_PREREQ([2.4.0])
 LT_INIT
 
@@ -42,8 +43,21 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
 
 # Checks for library functions.
+AC_FUNC_ALLOCA
+AC_FUNC_MEMCMP
+AC_FUNC_MKTIME
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([memset pow sqrt])
+
+# Checks for DEBUG or RELEASE mode
+AC_ARG_ENABLE(debug,
+[  --enable-debug    Turn on debugging],
+[case "${enableval}" in
+  yes) debug=true ;;
+  no)  debug=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
+esac], [debug=false])
+AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile

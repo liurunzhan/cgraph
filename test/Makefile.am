@@ -1,9 +1,16 @@
 
 DISTCLEANFILES = Makefile.in Makefile
 
+if DEBUG
+MODE_FLAGS  = -DDEBUG
+else
+MODE_FLAGS  = 
+endif
+FLAGS       = -I$(top_srcdir)/include -Wall $(MODE_FLAGS)
+
 AM_LDFLAGS  = -L$(top_srcdir)/src -lcgraph
-AM_CFLAGS   = -I$(top_srcdir)/include
-AM_CPPFLAGS = -I$(top_srcdir)/include
+AM_CFLAGS   = $(FLAGS)
+AM_CPPFLAGS = $(FLAGS)
 
 TESTS = bigint cgraph float32 float64 spamat spatmat3d string time vector verilog version
 
