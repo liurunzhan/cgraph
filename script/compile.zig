@@ -5,12 +5,10 @@ const builtin = @import("builtin");
 const Allocator = std.mem.Allocator;
 
 pub fn main() void {
-  const PRO = "cgraph";
-  const DIR = ".";
-  const __INC = std.heap.page_allocator;
-  const _INC = [_]u8{DIR, "include"};
-  const INC = std.fs.path.join(__INC, _INC);
+  const PRO : []const u8 = "cgraph";
+  const DIR : []const u8  = ".";
   const SRC = std.fs.path.join(DIR, "src");
+  const INC = std.fs.path.join(DIR, "include");
   const TST = std.fs.path.join(DIR, "test");
   const LIB = std.fs.path.join(DIR, "lib");
 

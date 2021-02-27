@@ -118,8 +118,8 @@ elsif (@args[0] eq "distclean")
 }
 elsif (@args[0] eq "help")
 {
-  say("$0 <target>\n");
-  say("<target>: \n");
+  say("$*PROGRAM-NAME <target>");
+  say("<target>: ");
   say("                    compile cgraph");
   say("          test      test cgraph");
   say("          clean     clean all the generated files");
@@ -129,5 +129,5 @@ elsif (@args[0] eq "help")
 else
 {
   say("@args[0] is an unsupported command");
-  say("use \"$0 help\" to know all supported commands");
+  say("use \"$*PROGRAM-NAME help\" to know all supported commands");
 }

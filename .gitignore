@@ -66,14 +66,15 @@ lib/
 autom4te.cache/
 m4/
 .deps/
+.libs/
 src/.deps/
 src/.libs/
 test/.deps/
+test/.libs/
 *.log
 aclocal.m4
 config.*
-configure*
-!configure.ac
+configure
 !Configure.pl
 depcomp
 install-sh
@@ -82,10 +83,8 @@ gtk-doc.make
 test-driver
 libtool
 ltmain.sh
-Makefile*
-!Makefile.am
-!Makefile.mk
-!Makefile.sub
+Makefile
+Makefile.in
 missing
 stamp-h1
 ar-lib
@@ -95,8 +94,6 @@ Doxyfile
 doc/*
 !doc/build-gtk-doc.sh
 !doc/*.pl
-!doc/Makefile.mk
-!doc/Makefile.am
 !doc/Introduction.md
 
 # Compile Scripts
@@ -115,5 +112,3 @@ test/*
 !test/*.py
 !test/*.sql
 !test/*.csv
-!test/Makefile.mk
-!test/Makefile.am

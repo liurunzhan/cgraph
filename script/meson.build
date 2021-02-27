@@ -1,6 +1,5 @@
 PRO = "cgraph"
 project(PRO, "c")
-executable(PRO, "cgraph.c")
 library(PRO)
 
 CC = "cc" 
