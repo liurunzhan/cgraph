@@ -286,8 +286,8 @@
 #define TYPE        cgraph_float128_t
 #define ID          CGRAPH_FLOAT128_T
 #define NAME        float128
-#define IN_FORMAT   "%g"
-#define OUT_FORMAT  "%g"
+#define IN_FORMAT   "%Lg"
+#define OUT_FORMAT  "%Lg"
 #define ZERO        (0.0)
 #define ONE         (1.0)
 #define ONES        (1.0)
@@ -848,6 +848,15 @@
 
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
+#if defined(TYPE_FLOAT32)
+#define DATA_TEST(a)   isnormalf((a))
+#define DATA_ISNAN(a)  isnanf((a))
+#define DATA_ISPINF(a) (isinff((a)) > 0)
+#define DATA_ISNINF(a) (isinff((a)) < 0)
+#define DATA_ISINF(a)  isinff((a))
+#define DATA_ISPOS(a)  signbitf((a))
+#define DATA_ISNEG(a)  (!signbitf((a)))
+#elif defined(TYPE_FLOAT64)
 #define DATA_TEST(a)   isnormal((a))
 #define DATA_ISNAN(a)  isnan((a))
 #define DATA_ISPINF(a) (isinf((a)) > 0)
@@ -855,6 +864,15 @@
 #define DATA_ISINF(a)  isinf((a))
 #define DATA_ISPOS(a)  signbit((a))
 #define DATA_ISNEG(a)  (!signbit((a)))
+#elif defined(TYPE_FLOAT128)
+#define DATA_TEST(a)   isnormall((a))
+#define DATA_ISNAN(a)  isnanl((a))
+#define DATA_ISPINF(a) (isinfl((a)) > 0)
+#define DATA_ISNINF(a) (isinfl((a)) < 0)
+#define DATA_ISINF(a)  isinfl((a))
+#define DATA_ISPOS(a)  signbitl((a))
+#define DATA_ISNEG(a)  (!signbitl((a)))
+#endif
 #else
 #define DATA_TEST(a)   ((MIN < (a)) && (MAX > (a)))
 #define DATA_ISNAN(a)  ((a) != (a))
@@ -871,6 +889,36 @@
 #define DIV(a, b, c)  ((a) / (b))
 #define DIVF(a, b, c) ((a) / (b))
 #define INT(a, b, c)  (FUNCTION(NAME, int)((a), (b)))
+
+#if defined(TYPE_FLOAT32)
+#define MOD(a, b, c)  (fmodf((a), (b)))
+
+#define EQ(a, b) (fabsf((a) - (b)) < EPSILON)
+#define NE(a, b) (fabsf((a) - (b)) > EPSILON)
+#define GR(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (((a) - (b)) > (-EPSILON))
+#define LS(a, b) (((a) - (b)) < (-EPSILON))
+#define LE(a, b) (((a) - (b)) < EPSILON)
+
+#define CEIL(a)   ceilf((a))
+#define FLOOR(a)  floorf((a))
+#define POW(a, b) powf((a), (b))
+#define ABS(a)    fabsf((a))
+#define SIN(a)    sinf((a))
+#define COS(a)    cosf((a))
+#define TAN(a)    tanf((a))
+#define ASIN(a)   asinf((a))
+#define ACOS(a)   acosf((a))
+#define ATAN(a)   atan2f((a))
+#define SINH(a)   sinhf((a))
+#define COSH(a)   coshf((a))
+#define TANH(a)   tanhf((a))
+#define LOG(a)    logf((a))
+#define LOG2(a)   (logf((a)) / logf(2.0))
+#define LOG10(a)  log10f((a))
+#define EXP(a)    expf((a))
+#define SQRT(a)   sqrtf((a))
+#elif defined(TYPE_FLOAT64)
 #define MOD(a, b, c)  (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
@@ -898,6 +946,35 @@
 #define LOG10(a)  log10((a))
 #define EXP(a)    exp((a))
 #define SQRT(a)   sqrt((a))
+#elif defined(TYPE_FLOAT128)
+#define MOD(a, b, c)  (fmodl((a), (b)))
+
+#define EQ(a, b) (fabsl((a) - (b)) < EPSILON)
+#define NE(a, b) (fabsl((a) - (b)) > EPSILON)
+#define GR(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (((a) - (b)) > (-EPSILON))
+#define LS(a, b) (((a) - (b)) < (-EPSILON))
+#define LE(a, b) (((a) - (b)) < EPSILON)
+
+#define CEIL(a)   ceill((a))
+#define FLOOR(a)  floorl((a))
+#define POW(a, b) powl((a), (b))
+#define ABS(a)    fabsl((a))
+#define SIN(a)    sinl((a))
+#define COS(a)    cosl((a))
+#define TAN(a)    tanl((a))
+#define ASIN(a)   asinl((a))
+#define ACOS(a)   acosl((a))
+#define ATAN(a)   atan2l((a))
+#define SINH(a)   sinhl((a))
+#define COSH(a)   coshl((a))
+#define TANH(a)   tanhl((a))
+#define LOG(a)    logl((a))
+#define LOG2(a)   (logl((a)) / logl(2.0))
+#define LOG10(a)  log10l((a))
+#define EXP(a)    expl((a))
+#define SQRT(a)   sqrtl((a))
+#endif
 
 #elif defined(TYPE_TIME)
 

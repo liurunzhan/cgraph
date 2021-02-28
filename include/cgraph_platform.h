@@ -300,7 +300,7 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __CGRAPH_TYPE_ELEMENT(type, element) ((type).element)
 #endif
 
-#if (CGRAPH_STDC_VERSION >= 199901L) || defined(__func__)
+#if (CGRAPH_STDC_VERSION >= 199901L) || defined(HAVE_FUNC) || defined(__func__)
 #define __CGRAPH_FUNCTION __func__
 #elif defined(__FUNCTION__)
 #define __CGRAPH_FUNCTION __FUNCTION__

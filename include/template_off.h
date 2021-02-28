@@ -80,6 +80,10 @@
 #undef TYPE_FLOAT64
 #endif
 
+#ifdef TYPE_FLOAT128
+#undef TYPE_FLOAT128
+#endif
+
 #ifdef TYPE_BOOL
 #undef TYPE_BOOL
 #endif

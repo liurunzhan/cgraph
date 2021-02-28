@@ -11,7 +11,6 @@ DISTCLEANFILES = autoscan.log aclocal.m4 config.* configure install-sh libtool l
 
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf $(top_srcdir)/m4
 
 .PHONY: gtkdoc doxygen cloc update branch
 
