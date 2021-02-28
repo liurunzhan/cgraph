@@ -64,7 +64,9 @@ lib/
 
 # Autoconf Files
 autom4te.cache/
-m4/
+m4/*
+!m4/ax*
+include/cgraph_stdint.h
 .deps/
 .libs/
 src/.deps/
@@ -101,9 +103,11 @@ doc/*
 script/compile
 script/compile.exe
 script/compile.hi
+!script/compile.d
 /compile*
 /xmake.lua
 /CMakeLists.txt
+/meson.build
 
 # Test Cases
 test/*

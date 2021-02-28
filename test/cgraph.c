@@ -102,5 +102,7 @@ int main(int argc, char *argv[])
   printf("%ld\n", cgraph_pobject_msize(CGRAPH_POBJECT_T, 10));
   */
 
+    fprintf(stdout, "hello world!\n");
+
     return 0;
 }

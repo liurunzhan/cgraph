@@ -22,17 +22,17 @@ TST = join_path(DIR, "test")
 LIB = join_path(DIR, "lib")
 
 rule compile
+  depfile = $out.d
   command = $CC $CFLAGS $CSFLAGS -c $in -o $out -MD -MF $out.d
   description = compile $in to $out
-  depfile = $out.d
 
 rule link_static
-  command = 
-  description = 
+  command = $AR $ARFLAGS $LIBSTATIC $SRC/*.o
+  description = compile $LIBSTATIC
 
 rule link_shared
-  command = 
-  description = 
+  command = $CC $CSFLAGS -o $LIBSHARED $SRC/*.o
+  description = compile $LIBSHARED
 
 build cgraph: 
 

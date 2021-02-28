@@ -9,6 +9,15 @@ AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_MACRO_DIR([m4])
 PKG_PROG_PKG_CONFIG
 
+# cite from autoconf-archive : 
+# https://www.gnu.org/software/autoconf-archive/The-Macros.html
+m4_include([m4/ax_c_long_long.m4])
+m4_include([m4/ax_c_var_func.m4])
+m4_include([m4/ax_cache_size.m4])
+m4_include([m4/ax_compile_check_sizeof.m4])
+m4_include([m4/ax_create_stdint_h.m4])
+m4_include([m4/ax_valgrind_check.m4])
+
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
@@ -30,9 +39,12 @@ AC_CHECK_LIB([m], [pow])
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([float.h limits.h stddef.h stdint.h stdlib.h string.h])
+AC_HEADER_TIME
+AC_CHECK_HEADERS([float.h inttypes.h limits.h stdarg.h stddef.h stdint.h stdlib.h string.h])
+AX_CREATE_STDINT_H(include/cgraph_stdint.h)
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SIZE_T
 AC_TYPE_INT8_T
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
@@ -41,6 +53,15 @@ AC_TYPE_UINT8_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
+AX_C_LONG_LONG
+AC_CHECK_TYPES(long double)
+
+AC_STRUCT_TM
+
+AC_C_CONST
+AC_C_INLINE
+AX_C_VAR_FUNC
+AC_C_BIGENDIAN
 
 # Checks for library functions.
 AC_FUNC_ALLOCA

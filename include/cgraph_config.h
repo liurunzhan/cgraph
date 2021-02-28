@@ -95,10 +95,10 @@ typedef unsigned int cgraph_uint_t;
 /**
  * @typedef cgraph_long_t
  * @brief 32-bit/64-bit integer number data type in 32-bit/64-bit system
- * @def CGRAPH_BOOL_MAX LONG_MAX
- * @def CGRAPH_BOOL_MIN LONG_MIN
- * @def CGRAPH_BOOL_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
- * @def CGRAPH_BOOL_BIT (32)/(64)
+ * @def CGRAPH_LONG_MAX LONG_MAX
+ * @def CGRAPH_LONG_MIN LONG_MIN
+ * @def CGRAPH_LONG_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
+ * @def CGRAPH_LONG_BIT (32)/(64)
  */
 typedef signed long cgraph_long_t;
 typedef unsigned long cgraph_ulong_t;
@@ -108,7 +108,7 @@ typedef unsigned long cgraph_ulong_t;
 #define CGRAPH_LONG_EPS __CGRAPH_INT64_EPS
 #define CGRAPH_LONG_BIT (64)
 #elif CGRAPH_WORDSIZE == 32
-#define CGRAPH_LONG_EPS (0xFFFFFFFF)
+#define CGRAPH_LONG_EPS __CGRAPH_INT32_EPS
 #define CGRAPH_LONG_BIT (32)
 #endif
 
@@ -127,7 +127,7 @@ typedef unsigned long cgraph_ulong_t;
 #define CGRAPH_ULONG_EPS __CGRAPH_UINT64_EPS
 #define CGRAPH_ULONG_BIT (64)
 #elif CGRAPH_WORDSIZE == 32
-#define CGRAPH_ULONG_EPS (0xFFFFFFFF)
+#define CGRAPH_ULONG_EPS __CGRAPH_UINT32_EPS
 #define CGRAPH_ULONG_BIT (32)
 #endif
 

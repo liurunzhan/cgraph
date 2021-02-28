@@ -6,7 +6,7 @@ const Allocator = std.mem.Allocator;
 
 pub fn main() void {
   const PRO : []const u8 = "cgraph";
-  const DIR : []const u8  = ".";
+  const DIR : []const u8 = ".";
   const SRC = std.fs.path.join(DIR, "src");
   const INC = std.fs.path.join(DIR, "include");
   const TST = std.fs.path.join(DIR, "test");

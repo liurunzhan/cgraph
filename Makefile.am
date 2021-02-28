@@ -1,8 +1,9 @@
 SUBDIRS=src test doc
 
-includedir=$(prefix)/include
-libdir=$(prefix)/lib
-testdir=$(prefix)/test
+# install directories
+includedir = $(prefix)/include
+libdir     = $(prefix)/lib
+testdir    = $(prefix)/test
 
 EXTRA_DIST = autogen.sh Doxyfile.base README.md
 
