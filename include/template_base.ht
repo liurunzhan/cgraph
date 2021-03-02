@@ -34,6 +34,9 @@ extern TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
 extern TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const DATA_TYPE *data,
                                    const cgraph_size_t size);
 
+extern cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis);
+
 extern cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, equal)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis);
@@ -63,6 +66,9 @@ extern TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
                                   const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const TYPE *data,
                                    const cgraph_size_t size);
+
+extern cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE cthis);
+extern cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis);
 
 extern cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis);
 extern cgraph_bool_t FUNCTION(NAME, equal)(const TYPE x, const TYPE y);

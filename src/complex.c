@@ -7,7 +7,7 @@
 #define TYPE_COMPLEX
 #include "template.h"
 
-/**/
+/** template */
 #include "data_base.ct"
 
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE x, const cgraph_char_t *sep) {
@@ -45,7 +45,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   return flag;
 }
 
-/**                         initial function */
+/**                         initial function                                  */
 TYPE FUNCTION(NAME, initwma)(const DATA_TYPE abs, const DATA_TYPE angle) {
   TYPE res;
   COMPLEX_REAL(res) = abs * cos(angle);
@@ -112,7 +112,7 @@ TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i) {
   return res;
 }
 
-/**            functions of complex numbers with one complex number */
+/**            functions of complex numbers with one complex number           */
 DATA_TYPE FUNCTION(NAME, real)(const TYPE x) { return COMPLEX_REAL(x); }
 
 DATA_TYPE FUNCTION(NAME, imag)(const TYPE x) { return COMPLEX_IMAG(x); }
@@ -185,14 +185,12 @@ TYPE FUNCTION(NAME, mul4i)(const TYPE x) {
   return res;
 }
 
-/**                 one complex number and one complex number */
+/**                 one complex number and one complex number                 */
 TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_REAL(x) + COMPLEX_REAL(y);
   COMPLEX_IMAG(res) = COMPLEX_IMAG(x) + COMPLEX_IMAG(y);
-  * /
-
-      return res;
+  return res;
 }
 
 TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
@@ -464,15 +462,16 @@ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return EQ(x, _cgraph_complex_min);
 }
 
-/** functions of complex numbers with one complex number and one data types */
-/**        one complex number and one real part of one complex number */
+/**
+ * @brief functions of complex numbers with one complex number and one data
+ types one complex number and one real part of one complex number
+ */
 TYPE FUNCTION(NAME, addr)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_REAL(x) + y;
-  * / COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
-  * /
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
 
-      return res;
+  return res;
 }
 
 TYPE FUNCTION(NAME, subr)(const TYPE x, const DATA_TYPE y) {
@@ -514,9 +513,8 @@ TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_REAL(x);
   COMPLEX_IMAG(res) = COMPLEX_IMAG(x) + y;
-  * /
 
-      return res;
+  return res;
 }
 
 TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y) {
@@ -548,8 +546,6 @@ TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y) {
   res = FUNCTION(NAME, muli)(res, y);
 
   return FUNCTION(NAME, exp)(res);
-
-  return res;
 }
 
 TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len) {
@@ -578,6 +574,7 @@ TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len) {
       }
     }
   }
+
   return x;
 }
 

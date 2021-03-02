@@ -146,12 +146,14 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
+#if defined(TYPE_FLOAT32) && (CGRAPH_STDC_VERSION >= 199901L)
   TYPE res = 0.0;
-#ifdef TYPE_FLOAT32
   modff(x / y, &res);
-#elif defined(TYPE_FLOAT64)
+#elif defined(TYPE_FLOAT64) || defined(TYPE_FLOAT32)
+  ARG res = 0.0;
   modf(x / y, &res);
 #elif defined(TYPE_FLOAT128)
+  TYPE res = 0.0;
   modfl(x / y, &res);
 #endif
 

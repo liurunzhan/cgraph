@@ -11,6 +11,11 @@
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    if ((0 < MATRIX_ROW(cthis)) && (0 < MATRIX_COLUMN(cthis))) {
+      flag = CGRAPH_TRUE;
+    }
+  }
 
   return flag;
 }

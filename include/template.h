@@ -842,7 +842,7 @@
 #define DIVF(a, b, c) ((a) / (b))
 #define INT(a, b, c) (FUNCTION(NAME, int)((a), (b)))
 
-#if defined(TYPE_FLOAT32)
+#if defined(TYPE_FLOAT32) && (CGRAPH_STDC_VERSION >= 199901L)
 #define MOD(a, b, c) (fmodf((a), (b)))
 
 #define EQ(a, b) (fabsf((a) - (b)) < EPSILON)
@@ -870,7 +870,7 @@
 #define LOG10(a) log10f((a))
 #define EXP(a) expf((a))
 #define SQRT(a) sqrtf((a))
-#elif defined(TYPE_FLOAT64)
+#elif defined(TYPE_FLOAT64) || defined(TYPE_FLOAT32)
 #define MOD(a, b, c) (fmod((a), (b)))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
