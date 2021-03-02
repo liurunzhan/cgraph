@@ -88,7 +88,7 @@ PATH_LIBSHARED = $(LIB)$(SEPARATOR)$(LIBSHARED)
 PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
 DOC = $(DIR)$(SEPARATOR)doc
 
-.PHONY: all test memchk gtkdoc doxygen clean distclean update help
+.PHONY: all test memchk gtkdoc doxygen format clean distclean update help
 
 all:
 	@echo "compile cgraph in Platform $(MY_OS)"
@@ -112,6 +112,9 @@ doxygen:
 	$(CP) $(CPFLAGS) Doxyfile.base Doxyfile
 	doxygen -u
 	doxygen
+
+format:
+	astyle --style=kr $(INC)$(SEPARATOR)*.h $(INC)$(SEPARATOR)*.ht $(SRC)$(SEPARATOR)*.c $(SRC)$(SEPARATOR)*.ct $(TST)$(SEPARATOR)*.c
 
 clean:
 	@echo "clean cgraph in Platform $(MY_OS)"

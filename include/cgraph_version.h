@@ -7,8 +7,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#ifdef VERSION
-#define CGRAPH_VERSION VERSION
+#ifdef __CGRAPH_VERSION
+#define CGRAPH_VERSION __CGRAPH_VERSION
 #else
 #define CGRAPH_VERSION "0.0.0"
 #endif

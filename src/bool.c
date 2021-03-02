@@ -10,5 +10,4 @@ static const cgraph_char_t *__cgraph_false__ = CGRAPH_BOOL_FALSE;
 
 /*template module*/
 #include "int_base.ct"
-
 #include "template_off.h"

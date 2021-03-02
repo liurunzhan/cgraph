@@ -2,16 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void printf_char(char data)
-{
-    printf("debug %x %x\n", 0xFF & data, 0xFF & data);
+void printf_char(char data) {
+  printf("debug %x %x\n", 0xFF & data, 0xFF & data);
 }
 
 cgraph_float64_t function_x(cgraph_float64_t x) { return x * x; }
 
-int main(int argc, char *argv[])
-{
-    /*
+int main(int argc, char *argv[]) {
+  /*
   cgraph_char_t buffer[100];
   cgraph_fraction_t fraction = {-1, INT_MAX};
   cgraph_int_t integer = 123;
@@ -32,43 +30,43 @@ int main(int argc, char *argv[])
   fprintf(stdout, "%x\n", cgraph_int8_ones(pre));
   cgraph_math_primes(primes, numbers, 10000);
   */
-    /*
+  /*
   if(argc == 2)
   {
-    cgraph_string_t *buffer = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
-    char *file = argv[1];
-    FILE *fp = cgraph_file_fopen(file, "r");
-    cgraph_size_t row = cgraph_file_rows(fp);
-    cgraph_size_t column = cgraph_file_columns(fp, ",", buffer);
-    cgraph_object_t *abc;
-    cgraph_int_t i;
-    fprintf(stdout, "row: %ld column : %ld\n", row, column);
-    cgraph_file_fclose(fp);
+  cgraph_string_t *buffer = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
+  char *file = argv[1];
+  FILE *fp = cgraph_file_fopen(file, "r");
+  cgraph_size_t row = cgraph_file_rows(fp);
+  cgraph_size_t column = cgraph_file_columns(fp, ",", buffer);
+  cgraph_object_t *abc;
+  cgraph_int_t i;
+  fprintf(stdout, "row: %ld column : %ld\n", row, column);
+  cgraph_file_fclose(fp);
+  cgraph_string_free(buffer);
+  for(i=CGRAPH_INT_T; i<CGRAPH_FRACTION_T; i++)
+  {
+    abc = cgraph_object_calloc(i, 100);
+    cgraph_object_free(abc);
+  }
+  do
+  {
+    cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INT_T, 2);
+    cgraph_int_t data[2] = {1,1};
+    cgraph_string_t *buffer;
+    cgraph_bigint_initd(big, data, 2);
+    buffer = cgraph_bigint_tostr(big);
+    fprintf(stdout, "%s\n", buffer->data);
     cgraph_string_free(buffer);
-    for(i=CGRAPH_INT_T; i<CGRAPH_FRACTION_T; i++)
-    {
-      abc = cgraph_object_calloc(i, 100);
-      cgraph_object_free(abc);
-    }
-    do
-    {
-      cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INT_T, 2);
-      cgraph_int_t data[2] = {1,1};
-      cgraph_string_t *buffer;
-      cgraph_bigint_initd(big, data, 2);
-      buffer = cgraph_bigint_tostr(big);
-      fprintf(stdout, "%s\n", buffer->data);
-      cgraph_string_free(buffer);
-      cgraph_bigint_free(big);
-    } while (0);
+    cgraph_bigint_free(big);
+  } while (0);
   }
   else
   {
-    fprintf(stdout, "%d arguments input error!\n", argc);
+  fprintf(stdout, "%d arguments input error!\n", argc);
   }
   fprintf(stdout, "end simulation\n");
   */
-    /*
+  /*
   fprintf(stdout, "%d %x\n", 3, cgraph_integer_bits(3, 1, 3));
   fprintf(stdout, "%d %x\n", 0, cgraph_integer_sets(0, 1, 3));
   fprintf(stdout, "%d %x\n", 127, cgraph_integer_clrs(127, 0, 3));
@@ -77,9 +75,9 @@ int main(int argc, char *argv[])
   fprintf(stdout, "crc32 : %02x\n",  cgraph_math_crc(pre, data, poly));
   for(i = 0; i<6; i++)
   {
-    cgraph_float32_t data = real + number;
-    cgraph_float_hash(&data);
-    number = number / 10.0;
+  cgraph_float32_t data = real + number;
+  cgraph_float_hash(&data);
+  number = number / 10.0;
   }
 
   cgraph_file_fgets(NULL, NULL);
@@ -93,16 +91,16 @@ int main(int argc, char *argv[])
   cgraph_fraction_ismin(fraction)); cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */
-    /* cgraph_error_print(2);
-       cgraph_string_test(); */
-    /* cgraph_bigint_test(); */
-    /*
+  /* cgraph_error_print(2);
+     cgraph_string_test(); */
+  /* cgraph_bigint_test(); */
+  /*
   cgraph_version_test();
   cgraph_verilog_test();
   printf("%ld\n", cgraph_pobject_msize(CGRAPH_POBJECT_T, 10));
   */
 
-    fprintf(stdout, "hello world!\n");
+  fprintf(stdout, "hello world!\n");
 
-    return 0;
+  return 0;
 }

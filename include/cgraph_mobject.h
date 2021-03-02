@@ -24,9 +24,9 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(mobject)[];
 #include "template.h"
 
 typedef struct {
-    CGRAPH_OBJECT_BASE
-    CGRAPH_MATRIX_INDEXES
-    CGRAPH_OBJECT_ROOT
+  CGRAPH_OBJECT_BASE
+  CGRAPH_MATRIX_INDEXES
+  CGRAPH_OBJECT_ROOT
 } cgraph_mobject_t;
 
 #include "object_base.ht"

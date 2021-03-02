@@ -92,6 +92,7 @@ stamp-h1
 ar-lib
 
 # Doc/Markdown Files
+*.orig
 Doxyfile
 doc/*
 !doc/build-gtk-doc.sh

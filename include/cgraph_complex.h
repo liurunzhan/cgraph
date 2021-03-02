@@ -11,17 +11,17 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-    DATA_TYPE data[2];
+  DATA_TYPE data[2];
 } cgraph_complex_t;
 
 #define COMPLEX_REAL(x) ((x).data[0])
 #define COMPLEX_IMAG(x) ((x).data[1])
 #define COMPLEX_MOD2(x)                                                        \
-    (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
+  (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
 
 #include "data_base.ht"
 
-/**                             initial function                              */
+/**                             initial function */
 extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE abs, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, initwm)(const DATA_TYPE abs);
 extern TYPE FUNCTION(NAME, initwa)(const DATA_TYPE angle);
@@ -32,7 +32,7 @@ extern TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i);
 extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n,
                                      const cgraph_int_t i);
 
-/**                  complex number mathematical functions                    */
+/**                  complex number mathematical functions */
 extern DATA_TYPE FUNCTION(NAME, real)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, imag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, abs)(const TYPE x);

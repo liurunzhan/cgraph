@@ -12,8 +12,8 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-    CGRAPH_STRUCTURE_BASE
-    CGRAPH_STRUCTURE_ROOT
+  CGRAPH_STRUCTURE_BASE
+  CGRAPH_STRUCTURE_ROOT
 } cgraph_stack_t;
 
 #include "template_off.h"

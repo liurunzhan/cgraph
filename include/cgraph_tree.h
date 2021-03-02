@@ -12,9 +12,9 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-    CGRAPH_STRUCTURE_BASE
-    cgraph_bool_t with_hash;
-    CGRAPH_STRUCTURE_ROOT
+  CGRAPH_STRUCTURE_BASE
+  cgraph_bool_t with_hash;
+  CGRAPH_STRUCTURE_ROOT
 } cgraph_tree_t;
 
 #include "struct_base.ht"

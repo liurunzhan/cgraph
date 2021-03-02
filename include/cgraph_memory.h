@@ -7,7 +7,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-/***************************** memory management ******************************/
+/***************************** memory management
+ * ******************************/
 extern void *cgraph_calloc(const cgraph_size_t size);
 extern void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
                             const cgraph_size_t new_size, cgraph_bool_t *error);

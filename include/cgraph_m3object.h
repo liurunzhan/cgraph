@@ -24,9 +24,9 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(m3object)[];
 #include "template.h"
 
 typedef struct {
-    CGRAPH_OBJECT_BASE
-    CGRAPH_MATRIX3D_INDEXES
-    CGRAPH_OBJECT_ROOT
+  CGRAPH_OBJECT_BASE
+  CGRAPH_MATRIX3D_INDEXES
+  CGRAPH_OBJECT_ROOT
 } cgraph_m3object_t;
 
 #include "object_base.ht"

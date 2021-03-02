@@ -82,6 +82,7 @@ AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile
+                 include/cgraph_stdchk.h
                  src/Makefile
                  test/Makefile])
 AC_OUTPUT

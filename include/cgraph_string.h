@@ -11,13 +11,13 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-    CGRAPH_DATA_BASE
-    CGRAPH_DATA_ROOT
+  CGRAPH_DATA_BASE
+  CGRAPH_DATA_ROOT
 } cgraph_string_t;
 
 #include "data_base.ht"
 
-/**                          string hash functions                            */
+/**                          string hash functions */
 extern cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis);

@@ -11,8 +11,8 @@ extern "C" {
 #include "template.h"
 
 typedef struct {
-    CGRAPH_STRUCTURE_BASE
-    CGRAPH_STRUCTURE_ROOT
+  CGRAPH_STRUCTURE_BASE
+  CGRAPH_STRUCTURE_ROOT
 } cgraph_vector_t;
 
 #include "struct_base.ht"

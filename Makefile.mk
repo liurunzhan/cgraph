@@ -10,7 +10,7 @@ export TOOLS = make cmake xmake\
 
 MAKE ?= make
 
-.PHONY: all test clean distclean help $(TOOLS) gtkdoc doxygen update branch cloc memchk
+.PHONY: all test clean distclean help $(TOOLS) gtkdoc doxygen update branch cloc format memchk
 
 all: CMD =
 

@@ -24,13 +24,13 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(gobject)[];
 #include "template.h"
 
 typedef struct {
-    CGRAPH_OBJECT_BASE
-    cgraph_size_t hash, index;
-    union {
-        cgraph_string_t *names;
-        cgraph_size_t id;
-    } key;
-    CGRAPH_OBJECT_ROOT
+  CGRAPH_OBJECT_BASE
+  cgraph_size_t hash, index;
+  union {
+    cgraph_string_t *names;
+    cgraph_size_t id;
+  } key;
+  CGRAPH_OBJECT_ROOT
 } cgraph_gobject_t;
 
 #include "object_base.ht"

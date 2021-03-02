@@ -1,63 +1,58 @@
 #include "data_base.ct"
 
-cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis)
-{
-    cgraph_size_t hash = 0;
-    if (DATA_ISNAN(cthis)) {
-        hash = CGRAPH_FLOAT_NAN_HASH;
-    } else if (DATA_ISPINF(cthis)) {
-        hash = CGRAPH_FLOAT_PINF_HASH;
-    } else if (DATA_ISNINF(cthis)) {
-        hash = CGRAPH_FLOAT_NINF_HASH;
-    } else {
-        TYPE ipart = floor(cthis), fpart = cthis - ipart;
-        cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
-                      hash_fpart = (cgraph_size_t)(
-                          ((TYPE)ABS(fpart - EPSILON)) * EPSILON_LEN);
-        hash = (hash_ipart << HASH_OFFSET) ^ hash_fpart;
-    }
+cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
+  cgraph_size_t hash = 0;
+  if (DATA_ISNAN(cthis)) {
+    hash = CGRAPH_FLOAT_NAN_HASH;
+  } else if (DATA_ISPINF(cthis)) {
+    hash = CGRAPH_FLOAT_PINF_HASH;
+  } else if (DATA_ISNINF(cthis)) {
+    hash = CGRAPH_FLOAT_NINF_HASH;
+  } else {
+    TYPE ipart = floor(cthis), fpart = cthis - ipart;
+    cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
+                  hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) *
+                                               EPSILON_LEN);
+    hash = (hash_ipart << HASH_OFFSET) ^ hash_fpart;
+  }
 
-    return CGRAPH_ABS(hash);
+  return CGRAPH_ABS(hash);
 }
 
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis)
-{
-    return CGRAPH_TEST(DATA_TEST(cthis));
+cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
+  return CGRAPH_TEST(DATA_TEST(cthis));
 }
 
-cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis, const cgraph_char_t *sep)
-{
-    return fprintf(stdout, OUT_FORMAT, cthis);
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis,
+                                    const cgraph_char_t *sep) {
+  return fprintf(stdout, OUT_FORMAT, cthis);
 }
 
 cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis,
-                                     const cgraph_char_t *sep)
-{
-    return fprintf(fp, OUT_FORMAT, cthis);
+                                     const cgraph_char_t *sep) {
+  return fprintf(fp, OUT_FORMAT, cthis);
 }
 
 cgraph_int_t FUNCTION(NAME,
                       snprintf)(cgraph_char_t *buffer, const cgraph_size_t size,
-                                const TYPE cthis, const cgraph_char_t *sep)
-{
-    return cgraph_file_snprintf(buffer, size, OUT_FORMAT, cthis);
+                                const TYPE cthis, const cgraph_char_t *sep) {
+  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, cthis);
 }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
-                               const TYPE first, ...)
-{
-    if ((NULL != cthis) && (0 < size)) {
-        va_list args;
-        cgraph_size_t i = 1;
-        va_start(args, first);
-        cthis[0] = (TYPE)first;
-        for (i = 1; i < size; i++) {
-            cthis[i] = (TYPE)va_arg(args, ARG);
-        }
-        va_end(args);
+                               const TYPE first, ...) {
+  if ((NULL != cthis) && (0 < size)) {
+    va_list args;
+    cgraph_size_t i = 1;
+    va_start(args, first);
+    cthis[0] = (TYPE)first;
+    for (i = 1; i < size; i++) {
+      cthis[i] = (TYPE)va_arg(args, ARG);
     }
+    va_end(args);
+  }
 
-    return cthis;
+  return cthis;
 }
 
 /**
@@ -65,15 +60,14 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
  *        x(n+1) = 0.5 * (x(n) + a / x(n))
  *        where x(0) = 0.5 * x
  */
-TYPE FUNCTION(NAME, sqrt)(const TYPE x)
-{
-    TYPE _x, _y = 0.5 * x;
-    do {
-        _x = _y;
-        _y = 0.5 * (_x + x / _x);
-    } while (NE(_x, _y));
+TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
+  TYPE _x, _y = 0.5 * x;
+  do {
+    _x = _y;
+    _y = 0.5 * (_x + x / _x);
+  } while (NE(_x, _y));
 
-    return _y;
+  return _y;
 }
 
 /**
@@ -81,137 +75,120 @@ TYPE FUNCTION(NAME, sqrt)(const TYPE x)
  *        x(n+1) = (2 * x(n) + a / (x(n)^2)) / 3
  *        where x(0) = x / 3.0;
  */
-TYPE FUNCTION(NAME, cube)(const TYPE x)
-{
-    TYPE _x, _y = x / 3.0;
-    do {
-        _x = _y;
-        _y = (2.0 * _x + x / _x / _x) / 3.0;
-    } while (NE(_x, _y));
+TYPE FUNCTION(NAME, cube)(const TYPE x) {
+  TYPE _x, _y = x / 3.0;
+  do {
+    _x = _y;
+    _y = (2.0 * _x + x / _x / _x) / 3.0;
+  } while (NE(_x, _y));
 
-    return _y;
+  return _y;
 }
 
-TYPE FUNCTION(NAME, exp)(const TYPE x)
-{
-    TYPE res = 0.0, each = 1.0;
-    cgraph_int_t i = 1;
-    for (i = 1; GR(ABS(each), 0.0); i++) {
-        res += each;
-        each = x / i * each;
-    }
+TYPE FUNCTION(NAME, exp)(const TYPE x) {
+  TYPE res = 0.0, each = 1.0;
+  cgraph_int_t i = 1;
+  for (i = 1; GR(ABS(each), 0.0); i++) {
+    res += each;
+    each = x / i * each;
+  }
 
-    return res;
+  return res;
 }
 
-TYPE FUNCTION(NAME, pi)(void)
-{
-    TYPE res = 0.0, num1 = 3.2, num2 = -4.0 / 239, each = 1.0;
-    cgraph_int_t i = 1;
-    for (i = 1; GR(ABS(each), 0.0); i += 2) {
-        each = (num1 + num2) / i;
-        res += each;
-        num1 /= -25;
-        num2 /= -57121;
-    }
+TYPE FUNCTION(NAME, pi)(void) {
+  TYPE res = 0.0, num1 = 3.2, num2 = -4.0 / 239, each = 1.0;
+  cgraph_int_t i = 1;
+  for (i = 1; GR(ABS(each), 0.0); i += 2) {
+    each = (num1 + num2) / i;
+    res += each;
+    num1 /= -25;
+    num2 /= -57121;
+  }
 
-    return res;
+  return res;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x)
-{
-    return CGRAPH_TEST(DATA_ISNAN(x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNAN(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x)
-{
-    return CGRAPH_TEST(DATA_ISINF(x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISINF(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x)
-{
-    return CGRAPH_TEST(DATA_ISPINF(x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISPINF(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x)
-{
-    return CGRAPH_TEST(DATA_ISNINF(x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x)
-{
-    return CGRAPH_TEST(EQ(x, 0.0));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
+  return CGRAPH_TEST(EQ(x, 0.0));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x)
-{
-    return CGRAPH_TEST(DATA_ISPOS(x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISPOS(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x)
-{
-    return CGRAPH_TEST(DATA_ISNEG(x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNEG(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x)
-{
-    return CGRAPH_TEST(EQ(x, MIN));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
+  return CGRAPH_TEST(EQ(x, MIN));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x)
-{
-    return CGRAPH_TEST(EQ(x, MAX));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
+  return CGRAPH_TEST(EQ(x, MAX));
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y)
-{
-    TYPE res = 0.0;
+CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
+  TYPE res = 0.0;
 #ifdef TYPE_FLOAT32
-    modff(x / y, &res);
+  modff(x / y, &res);
 #elif defined(TYPE_FLOAT64)
-    modf(x / y, &res);
+  modf(x / y, &res);
 #elif defined(TYPE_FLOAT128)
-    modfl(x / y, &res);
+  modfl(x / y, &res);
 #endif
 
-    return res;
+  return res;
 }
 
 TYPE FUNCTION(NAME, fixed_point_iterator)(const TYPE x,
-                                          FUNCPTR(NAME, pfunc1) func)
-{
-    TYPE _x, _y = x;
-    do {
-        _x = _y;
-        _y = func(_x);
-    } while (NE(_x, _y));
+                                          FUNCPTR(NAME, pfunc1) func) {
+  TYPE _x, _y = x;
+  do {
+    _x = _y;
+    _y = func(_x);
+  } while (NE(_x, _y));
 
-    return _y;
+  return _y;
 }
 
 TYPE FUNCTION(NAME, fixed_point_lambda_iterator)(const TYPE x,
                                                  const TYPE lambda,
-                                                 FUNCPTR(NAME, pfunc1) func)
-{
-    TYPE _x, _y = x;
-    do {
-        _x = _y;
-        _y = _x - lambda * func(_x);
-    } while (NE(_x, _y));
+                                                 FUNCPTR(NAME, pfunc1) func) {
+  TYPE _x, _y = x;
+  do {
+    _x = _y;
+    _y = _x - lambda * func(_x);
+  } while (NE(_x, _y));
 
-    return _y;
+  return _y;
 }
 
 TYPE FUNCTION(NAME, differential)(const TYPE x, const TYPE step,
-                                  FUNCPTR(NAME, pfunc1) func)
-{
-    return (func(x + step) - func(x)) / x;
+                                  FUNCPTR(NAME, pfunc1) func) {
+  return (func(x + step) - func(x)) / x;
 }
 
 TYPE FUNCTION(NAME, integral)(const TYPE x, const TYPE step,
-                              FUNCPTR(NAME, pfunc1) func)
-{
-    return 0.5 * x * (func(x) + func(x + step));
+                              FUNCPTR(NAME, pfunc1) func) {
+  return 0.5 * x * (func(x) + func(x + step));
 }
 
 /**
@@ -221,28 +198,27 @@ TYPE FUNCTION(NAME, integral)(const TYPE x, const TYPE step,
  */
 TYPE FUNCTION(NAME, integral_range_trapezoidal)(const TYPE start,
                                                 const TYPE end, const TYPE step,
-                                                FUNCPTR(NAME, pfunc1) func)
-{
-    TYPE _step = 0.5 * step, _res = 0.0;
-    if (EQ(start, end)) {
-        _res = 0.0;
-    } else {
-        cgraph_size_t i = 0;
-        TYPE _start = start, _end = end;
-        if (GR(start, end)) {
-            _start = end;
-            _end = start;
-        }
-        for (i = 0; LS(_start, _end); i++) {
-            _res += _step * (func(_start) + func(_start + step));
-            _start += step;
-        }
-        if (GR(start, end)) {
-            _res = -1.0 * _res;
-        }
+                                                FUNCPTR(NAME, pfunc1) func) {
+  TYPE _step = 0.5 * step, _res = 0.0;
+  if (EQ(start, end)) {
+    _res = 0.0;
+  } else {
+    cgraph_size_t i = 0;
+    TYPE _start = start, _end = end;
+    if (GR(start, end)) {
+      _start = end;
+      _end = start;
     }
+    for (i = 0; LS(_start, _end); i++) {
+      _res += _step * (func(_start) + func(_start + step));
+      _start += step;
+    }
+    if (GR(start, end)) {
+      _res = -1.0 * _res;
+    }
+  }
 
-    return _res;
+  return _res;
 }
 
 /**
@@ -256,29 +232,28 @@ TYPE FUNCTION(NAME, integral_range_trapezoidal)(const TYPE start,
  */
 TYPE FUNCTION(NAME, integral_range_simpson)(const TYPE start, const TYPE end,
                                             const TYPE step,
-                                            FUNCPTR(NAME, pfunc1) func)
-{
-    TYPE _step = step / 6.0, _res = 0.0;
-    if (EQ(start, end)) {
-        _res = 0.0;
-    } else {
-        cgraph_size_t i = 0;
-        TYPE _start = start, _end = end;
-        if (GR(start, end)) {
-            _start = end;
-            _end = start;
-        }
-        for (i = 0; LS(_start, _end); i++) {
-            _res += _step * (func(_start) + 4.0 * func(_start + 0.5 * step) +
-                             func(_start + step));
-            _start += step;
-        }
-        if (GR(start, end)) {
-            _res = -1.0 * _res;
-        }
+                                            FUNCPTR(NAME, pfunc1) func) {
+  TYPE _step = step / 6.0, _res = 0.0;
+  if (EQ(start, end)) {
+    _res = 0.0;
+  } else {
+    cgraph_size_t i = 0;
+    TYPE _start = start, _end = end;
+    if (GR(start, end)) {
+      _start = end;
+      _end = start;
     }
+    for (i = 0; LS(_start, _end); i++) {
+      _res += _step * (func(_start) + 4.0 * func(_start + 0.5 * step) +
+                       func(_start + step));
+      _start += step;
+    }
+    if (GR(start, end)) {
+      _res = -1.0 * _res;
+    }
+  }
 
-    return _res;
+  return _res;
 }
 
 /**
@@ -292,31 +267,31 @@ TYPE FUNCTION(NAME, integral_range_simpson)(const TYPE start, const TYPE end,
  */
 TYPE FUNCTION(NAME, integral_range_simpson38)(const TYPE start, const TYPE end,
                                               const TYPE step,
-                                              FUNCPTR(NAME, pfunc1) func)
-{
-    TYPE _step = 0.125 * step, _res = 0.0;
-    if (EQ(start, end)) {
-        _res = 0.0;
-    } else {
-        cgraph_size_t i = 0;
-        TYPE _start = start, _end = end;
-        if (GR(start, end)) {
-            _start = end;
-            _end = start;
-        }
-        for (i = 0; LS(_start, _end); i++) {
-            _res += _step * (func(_start) +
-                             3.0 * (func(_start + step / 3.0) +
-                                    func(_start + 2.0 / 3.0 * step)) +
-                             func(_start + step));
-            _start += step;
-        }
-        if (GR(start, end)) {
-            _res = -1.0 * _res;
-        }
+                                              FUNCPTR(NAME, pfunc1) func) {
+  TYPE _step = 0.125 * step, _res = 0.0;
+  if (EQ(start, end)) {
+    _res = 0.0;
+  } else {
+    cgraph_size_t i = 0;
+    TYPE _start = start, _end = end;
+    if (GR(start, end)) {
+      _start = end;
+      _end = start;
     }
+    for (i = 0; LS(_start, _end); i++) {
+      _res +=
+          _step *
+          (func(_start) +
+           3.0 * (func(_start + step / 3.0) + func(_start + 2.0 / 3.0 * step)) +
+           func(_start + step));
+      _start += step;
+    }
+    if (GR(start, end)) {
+      _res = -1.0 * _res;
+    }
+  }
 
-    return _res;
+  return _res;
 }
 
 /**
@@ -330,29 +305,29 @@ TYPE FUNCTION(NAME, integral_range_simpson38)(const TYPE start, const TYPE end,
  */
 TYPE FUNCTION(NAME, integral_range_cotes)(const TYPE start, const TYPE end,
                                           const TYPE step,
-                                          FUNCPTR(NAME, pfunc1) func)
-{
-    TYPE _step = step / 90.0, _res = 0.0;
-    if (EQ(start, end)) {
-        _res = 0.0;
-    } else {
-        cgraph_size_t i = 0;
-        TYPE _start = start, _end = end;
-        if (GR(start, end)) {
-            _start = end;
-            _end = start;
-        }
-        for (i = 0; LS(_start, _end); i++) {
-            _res += _step * (7.0 * (func(_start) + func(_start + step)) +
-                             32.0 * (func(_start + 0.25 * step) +
-                                     func(_start + 0.75 * step)) +
-                             12.0 * func(_start + 0.5 * step));
-            _start += step;
-        }
-        if (GR(start, end)) {
-            _res = -1.0 * _res;
-        }
+                                          FUNCPTR(NAME, pfunc1) func) {
+  TYPE _step = step / 90.0, _res = 0.0;
+  if (EQ(start, end)) {
+    _res = 0.0;
+  } else {
+    cgraph_size_t i = 0;
+    TYPE _start = start, _end = end;
+    if (GR(start, end)) {
+      _start = end;
+      _end = start;
     }
+    for (i = 0; LS(_start, _end); i++) {
+      _res +=
+          _step *
+          (7.0 * (func(_start) + func(_start + step)) +
+           32.0 * (func(_start + 0.25 * step) + func(_start + 0.75 * step)) +
+           12.0 * func(_start + 0.5 * step));
+      _start += step;
+    }
+    if (GR(start, end)) {
+      _res = -1.0 * _res;
+    }
+  }
 
-    return _res;
+  return _res;
 }

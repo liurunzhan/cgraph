@@ -17,37 +17,37 @@ extern "C" {
 #define CGRAPH_TIME_TYPE1 (1)
 
 typedef struct {
-    DATA_UTYPE type : 1;
-    union {
-        struct __CGRAPH_TYPE_BEGIN(time_type0_t) {
-            DATA_TYPE time1 : 32;
-            DATA_TYPE time0 : 31;
-        } __CGRAPH_TYPE_END(type0);
-        struct __CGRAPH_TYPE_BEGIN(time_type1_t) {
-            DATA_TYPE year : 32;  /** -2^31-1 ~ 2^31 */
-            DATA_TYPE month : 5;  /**     -12 ~   12 */
-            DATA_TYPE day : 6;    /**     -31 ~   31 */
-            DATA_TYPE hour : 6;   /**     -24 ~   24 */
-            DATA_TYPE minute : 7; /**     -60 ~   60 */
-            DATA_TYPE second : 7; /**     -60 ~   60 */
-        } __CGRAPH_TYPE_END(type1);
-    } __CGRAPH_TYPE_END(data);
+  DATA_UTYPE type : 1;
+  union {
+    struct __CGRAPH_TYPE_BEGIN(time_type0_t) {
+      DATA_TYPE time1 : 32;
+      DATA_TYPE time0 : 31;
+    } __CGRAPH_TYPE_END(type0);
+    struct __CGRAPH_TYPE_BEGIN(time_type1_t) {
+      DATA_TYPE year : 32;  /** -2^31-1 ~ 2^31 */
+      DATA_TYPE month : 5;  /**     -12 ~   12 */
+      DATA_TYPE day : 6;    /**     -31 ~   31 */
+      DATA_TYPE hour : 6;   /**     -24 ~   24 */
+      DATA_TYPE minute : 7; /**     -60 ~   60 */
+      DATA_TYPE second : 7; /**     -60 ~   60 */
+    } __CGRAPH_TYPE_END(type1);
+  } __CGRAPH_TYPE_END(data);
 } cgraph_time_t;
 
 #define TIME_TYPE0(x) __CGRAPH_TYPE_ELEMENT((x), data.type0)
 #define TIME_TYPE1(x) __CGRAPH_TYPE_ELEMENT((x), data.type1)
 
-#define TIME_TYPE(x)    ((x).type)
+#define TIME_TYPE(x) ((x).type)
 #define TIME_ISTYPE0(x) (CGRAPH_TIME_TYPE0 == TIME_TYPE(x))
 #define TIME_ISTYPE1(x) (CGRAPH_TIME_TYPE1 == TIME_TYPE(x))
 
 #define TIME_VALUE0(x) (TIME_TYPE0(x).time0)
 #define TIME_VALUE1(x) (TIME_TYPE0(x).time1)
-#define TIME_VALUE(x)  (((cgraph_int64_t)TIME_VALUE1(x) << 30) + TIME_VALUE0(x))
-#define TIME_YEAR(x)   (TIME_TYPE1(x).year)
-#define TIME_MONTH(x)  (TIME_TYPE1(x).month)
-#define TIME_DAY(x)    (TIME_TYPE1(x).day)
-#define TIME_HOUR(x)   (TIME_TYPE1(x).hour)
+#define TIME_VALUE(x) (((cgraph_int64_t)TIME_VALUE1(x) << 30) + TIME_VALUE0(x))
+#define TIME_YEAR(x) (TIME_TYPE1(x).year)
+#define TIME_MONTH(x) (TIME_TYPE1(x).month)
+#define TIME_DAY(x) (TIME_TYPE1(x).day)
+#define TIME_HOUR(x) (TIME_TYPE1(x).hour)
 #define TIME_MINUTE(x) (TIME_TYPE1(x).minute)
 #define TIME_SECOND(x) (TIME_TYPE1(x).second)
 

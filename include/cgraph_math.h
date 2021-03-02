@@ -9,8 +9,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-/**                const numbers defined and used in this library             */
-#define MATH_ERROR (-1) /**MATH ERROR    */
+/**                const numbers defined and used in this library */
+#define MATH_ERROR (-1) /**MATH ERROR */
 #if defined(M_PI)
 #define MATH_CONST_PI (M_PI)
 #else
@@ -38,7 +38,7 @@ extern "C" {
 #endif /** MATH_CONST_E : e */
 
 #define MATH_CONST_PHI                                                         \
-    (0.61803398874989484820) /** MATH_CONST_PHI : (sqrt(5)-1)/2 */
+  (0.61803398874989484820) /** MATH_CONST_PHI : (sqrt(5)-1)/2 */
 
 #if defined(M_LN2)
 #define MATH_CONST_LOG2 (M_LN2)

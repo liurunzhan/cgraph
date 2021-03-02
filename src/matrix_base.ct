@@ -1,14 +1,11 @@
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis)
-{
-    return MATRIX_ROW(cthis);
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
+  return MATRIX_ROW(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis)
-{
-    return MATRIX_COLUMN(cthis);
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
+  return MATRIX_COLUMN(cthis);
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis)
-{
-    return CGRAPH_TEST(MATRIX_ROW(cthis) == MATRIX_COLUMN(cthis));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
+  return CGRAPH_TEST(MATRIX_ROW(cthis) == MATRIX_COLUMN(cthis));
 }
