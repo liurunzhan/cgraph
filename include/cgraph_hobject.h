@@ -48,13 +48,13 @@ extern cgraph_type_t FUNCTION(NAME, obj_vtype)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, obj_vaccessiable)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, obj_vhashed)(const TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, kaccessible)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unkaccessible)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, ksetaccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unksetaccess)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, khashed)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, vaccessible)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unvaccessible)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, vsetaccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unvsetaccess)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, vhashed)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis);
 

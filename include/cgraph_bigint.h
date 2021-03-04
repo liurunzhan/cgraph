@@ -27,9 +27,8 @@ typedef struct {
 
 #include "data_base.ht"
 
-extern TYPE *FUNCTION(NAME, unit)(const cgraph_size_t size);
-extern TYPE *FUNCTION(NAME, unit_inv)(const cgraph_size_t size);
-extern TYPE *FUNCTION(NAME, zero)(const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t size);
 
 #include "template_off.h"
 

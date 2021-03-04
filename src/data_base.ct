@@ -348,41 +348,22 @@ TYPE FUNCTION(NAME, iter3cvc)(const TYPE x, const TYPE *y, TYPE z,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, swap)(TYPE **cthis, const cgraph_size_t startx,
-                            const cgraph_size_t starty, const cgraph_size_t len)
+TYPE **FUNCTION(NAME, swap)(TYPE **cthis, const cgraph_size_t xstart,
+                            const cgraph_size_t ystart, const cgraph_size_t len)
 #else
-TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t startx,
-                           const cgraph_size_t starty, const cgraph_size_t len)
+TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t xstart,
+                           const cgraph_size_t ystart, const cgraph_size_t len)
 #endif
 {
   return cthis;
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, transpose)(TYPE **cthis, const cgraph_size_t row,
-                                 const cgraph_size_t col)
+TYPE **FUNCTION(NAME, trans)(TYPE **cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, transpose)(TYPE *cthis, const cgraph_size_t row,
-                                const cgraph_size_t col)
-#endif
-{
-  cgraph_size_t i, j;
-  for (i = 0; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
-
-  return cthis;
-}
-
-#ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, sub_symmetry)(TYPE **cthis, const cgraph_size_t row,
-                                    const cgraph_size_t col)
-#else
-TYPE *FUNCTION(NAME, sub_symmetry)(TYPE *cthis, const cgraph_size_t row,
-                                   const cgraph_size_t col)
+TYPE *FUNCTION(NAME, trans)(TYPE *cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #endif
 {
   cgraph_size_t i, j;
@@ -397,11 +378,30 @@ TYPE *FUNCTION(NAME, sub_symmetry)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation1I)(TYPE **cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
+TYPE **FUNCTION(NAME, subsym)(TYPE **cthis, const cgraph_size_t row,
+                              const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rotation1I)(TYPE *cthis, const cgraph_size_t row,
-                                 const cgraph_size_t col)
+TYPE *FUNCTION(NAME, subsym)(TYPE *cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
+#endif
+{
+  cgraph_size_t i, j;
+  for (i = 0; i < row; i++) {
+    cgraph_size_t row_i = i * row;
+    for (j = i + 1; j < col; j++) {
+      SWAP(cthis[row_i + j], cthis[col * j + i]);
+    }
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, rot1I)(TYPE **cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
+#else
+TYPE *FUNCTION(NAME, rot1I)(TYPE *cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #endif
 {
   cgraph_size_t i, j;
@@ -418,11 +418,11 @@ TYPE *FUNCTION(NAME, rotation1I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation2I)(TYPE **cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rot2I)(TYPE **cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rotation2I)(TYPE *cthis, const cgraph_size_t row,
-                                 const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rot2I)(TYPE *cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #endif
 {
   cgraph_size_t i, j;
@@ -437,11 +437,11 @@ TYPE *FUNCTION(NAME, rotation2I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation3I)(TYPE **cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rot3I)(TYPE **cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rotation3I)(TYPE *cthis, const cgraph_size_t row,
-                                 const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rot3I)(TYPE *cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #endif
 {
   cgraph_size_t i, j;
@@ -456,41 +456,22 @@ TYPE *FUNCTION(NAME, rotation3I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation4I)(TYPE **cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rot4I)(TYPE **cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rotation4I)(TYPE *cthis, const cgraph_size_t row,
-                                 const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rot4I)(TYPE *cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #endif
 {
   return cthis;
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation_1I)(TYPE **cthis, const cgraph_size_t row,
-                                   const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rot_1I)(TYPE **cthis, const cgraph_size_t row,
+                              const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rotation_1I)(TYPE *cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
-#endif
-{
-  cgraph_size_t i, j;
-  for (i = 0; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
-
-  return cthis;
-}
-
-#ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation_2I)(TYPE **cthis, const cgraph_size_t row,
-                                   const cgraph_size_t col)
-#else
-TYPE *FUNCTION(NAME, rotation_2I)(TYPE *cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rot_1I)(TYPE *cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #endif
 {
   cgraph_size_t i, j;
@@ -505,11 +486,11 @@ TYPE *FUNCTION(NAME, rotation_2I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation_3I)(TYPE **cthis, const cgraph_size_t row,
-                                   const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rot_2I)(TYPE **cthis, const cgraph_size_t row,
+                              const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rotation_3I)(TYPE *cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rot_2I)(TYPE *cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #endif
 {
   cgraph_size_t i, j;
@@ -524,11 +505,30 @@ TYPE *FUNCTION(NAME, rotation_3I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rotation_4I)(TYPE **cthis, const cgraph_size_t row,
-                                   const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rot_3I)(TYPE **cthis, const cgraph_size_t row,
+                              const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rotation_4I)(TYPE *cthis, const cgraph_size_t row,
-                                  const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rot_3I)(TYPE *cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
+#endif
+{
+  cgraph_size_t i, j;
+  for (i = 0; i < row; i++) {
+    cgraph_size_t row_i = i * row;
+    for (j = i + 1; j < col; j++) {
+      SWAP(cthis[row_i + j], cthis[col * j + i]);
+    }
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, rot_4I)(TYPE **cthis, const cgraph_size_t row,
+                              const cgraph_size_t col)
+#else
+TYPE *FUNCTION(NAME, rot_4I)(TYPE *cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #endif
 {
   return cthis;
@@ -598,6 +598,44 @@ TYPE *FUNCTION(NAME, det3x3)(const TYPE *cthis, TYPE *res0, TYPE *res1,
   *res2 = SUB(*res0, *res1, *res2);
   *res0 = ADD(*res, *res2, *res0);
   *res = ASSIGN(*res0, *res);
+
+  return res;
+}
+#endif
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, conv)(const TYPE **x, const TYPE **y,
+                            const cgraph_size_t xlen, const cgraph_size_t ylen,
+                            TYPE *res0, TYPE **res) {
+  cgraph_size_t i, j;
+  for (i = 0; i < (xlen + ylen - 1); i++) {
+    for (j = 0; (j <= i) && (j < xlen); j++) {
+      if (i < (ylen + j)) {
+        res0 = MUL(x[j], y[i - j], res0);
+        res[i] = ADD(res[i], res0, res[i]);
+      }
+    }
+  }
+
+  return res;
+}
+#else
+
+static const TYPE __zero__ = ZERO;
+
+TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
+                           const cgraph_size_t xlen, const cgraph_size_t ylen,
+                           TYPE *res0, TYPE *res) {
+  cgraph_size_t i, j;
+  for (i = 0; i < (xlen + ylen - 1); i++) {
+    res[i] = __zero__;
+    for (j = 0; (j <= i) && (j < xlen); j++) {
+      if (i < (ylen + j)) {
+        *res0 = MUL(x[j], y[i - j], *res0);
+        res[i] = ADD(res[i], *res0, res[i]);
+      }
+    }
+  }
 
   return res;
 }

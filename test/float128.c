@@ -37,24 +37,24 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "%Lg\n",
           FUNCTION(NAME, integral_range_cotes)(0.2, 0.1, 0.00001, &function_x));
 
-  FUNCTION(NAME, transpose)(data, 2, 2);
-  FUNCTION(NAME, transpose)(data, 1, 2);
-  FUNCTION(NAME, sub_symmetry)(data, 2, 2);
-  FUNCTION(NAME, sub_symmetry)(data, 1, 2);
+  FUNCTION(NAME, trans)(data, 2, 2);
+  FUNCTION(NAME, trans)(data, 1, 2);
+  FUNCTION(NAME, subsym)(data, 2, 2);
+  FUNCTION(NAME, subsym)(data, 1, 2);
   for (i = 0; i < 2; i++) {
     for (j = 0; j < 3; j++) {
       fprintf(stdout, "%Lg ", data[i * 2 + j]);
     }
     fprintf(stdout, "\n");
   }
-  FUNCTION(NAME, rotation1I)(data, 2, 3);
+  FUNCTION(NAME, rot1I)(data, 2, 3);
   for (i = 0; i < 3; i++) {
     for (j = 0; j < 2; j++) {
       fprintf(stdout, "%Lg ", data[i * 2 + j]);
     }
     fprintf(stdout, "\n");
   }
-  FUNCTION(NAME, rotation1I)(data, 1, 2);
+  FUNCTION(NAME, rot1I)(data, 1, 2);
   fprintf(stdout, "%Lg\n", FUNCTION(NAME, exp)(1.0));
   fprintf(stdout, "%Lg\n", FUNCTION(NAME, exp)(2.0));
   fprintf(stdout, "%Lg\n", FUNCTION(NAME, exp)(3.0));

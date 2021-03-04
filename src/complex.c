@@ -46,17 +46,33 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 /**                         initial function                                  */
-TYPE FUNCTION(NAME, initwma)(const DATA_TYPE abs, const DATA_TYPE angle) {
+TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;
-  COMPLEX_REAL(res) = abs * cos(angle);
-  COMPLEX_IMAG(res) = abs * sin(angle);
+  COMPLEX_REAL(res) = 0.0;
+  COMPLEX_IMAG(res) = 0.0;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, initwm)(const DATA_TYPE abs) {
+TYPE FUNCTION(NAME, one)(void) {
   TYPE res;
-  COMPLEX_REAL(res) = abs;
+  COMPLEX_REAL(res) = 1.0;
+  COMPLEX_IMAG(res) = 0.0;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mag, const DATA_TYPE angle) {
+  TYPE res;
+  COMPLEX_REAL(res) = mag * cos(angle);
+  COMPLEX_IMAG(res) = mag * sin(angle);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mag) {
+  TYPE res;
+  COMPLEX_REAL(res) = mag;
   COMPLEX_IMAG(res) = 0.0;
 
   return res;
@@ -117,16 +133,24 @@ DATA_TYPE FUNCTION(NAME, real)(const TYPE x) { return COMPLEX_REAL(x); }
 
 DATA_TYPE FUNCTION(NAME, imag)(const TYPE x) { return COMPLEX_IMAG(x); }
 
-DATA_TYPE FUNCTION(NAME, abs)(const TYPE x) {
+DATA_TYPE FUNCTION(NAME, mag)(const TYPE x) {
 #if CGRAPH_STDC_VERSION >= 199901L && defined(_MATH_H_)
   return hypot(COMPLEX_REAL(x), COMPLEX_IMAG(x));
 #else
-  return sqrt(COMPLEX_MOD2(x));
+  return sqrt(COMPLEX_MAG2(x));
 #endif
 }
 
 DATA_TYPE FUNCTION(NAME, angle)(const TYPE x) {
   return atan2(COMPLEX_IMAG(x), COMPLEX_REAL(x));
+}
+
+TYPE FUNCTION(NAME, abs)(const TYPE x) {
+  TYPE res;
+  COMPLEX_REAL(res) = fabs(COMPLEX_REAL(x));
+  COMPLEX_IMAG(res) = fabs(COMPLEX_IMAG(x));
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, conj)(const TYPE x) {
@@ -147,9 +171,9 @@ TYPE FUNCTION(NAME, opp)(const TYPE x) {
 
 TYPE FUNCTION(NAME, inv)(const TYPE x) {
   TYPE res = FUNCTION(NAME, conj)(x);
-  DATA_TYPE abs_inv = 1.0 / FUNCTION(NAME, abs)(x);
-  COMPLEX_REAL(res) = abs_inv * COMPLEX_REAL(x);
-  COMPLEX_IMAG(res) = abs_inv * COMPLEX_IMAG(x);
+  DATA_TYPE mag_inv = 1.0 / FUNCTION(NAME, mag)(x);
+  COMPLEX_REAL(res) = mag_inv * COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = mag_inv * COMPLEX_IMAG(x);
 
   return res;
 }
@@ -212,7 +236,7 @@ TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
 }
 
 TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
-  DATA_TYPE mod_1 = 1.0 / COMPLEX_MOD2(y);
+  DATA_TYPE mod_1 = 1.0 / COMPLEX_MAG2(y);
   TYPE res;
   COMPLEX_REAL(res) =
       (COMPLEX_REAL(x) * COMPLEX_REAL(y) + COMPLEX_IMAG(x) * COMPLEX_IMAG(y)) *
@@ -226,7 +250,7 @@ TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
 
 TYPE FUNCTION(NAME, log)(const TYPE x) {
   TYPE res;
-  COMPLEX_REAL(res) = log(FUNCTION(NAME, abs)(x));
+  COMPLEX_REAL(res) = log(FUNCTION(NAME, mag)(x));
   COMPLEX_IMAG(res) = FUNCTION(NAME, angle)(x);
 
   return res;
@@ -249,20 +273,20 @@ TYPE FUNCTION(NAME, log10)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, exp)(const TYPE x) {
-  DATA_TYPE abs = exp(COMPLEX_REAL(x));
+  DATA_TYPE mag = exp(COMPLEX_REAL(x));
   TYPE res;
-  COMPLEX_REAL(res) = abs * cos(COMPLEX_IMAG(x));
-  COMPLEX_IMAG(res) = abs * sin(COMPLEX_IMAG(x));
+  COMPLEX_REAL(res) = mag * cos(COMPLEX_IMAG(x));
+  COMPLEX_IMAG(res) = mag * sin(COMPLEX_IMAG(x));
 
   return res;
 }
 
 TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
-  DATA_TYPE abs = sqrt(FUNCTION(NAME, abs)(x)),
+  DATA_TYPE mag = sqrt(FUNCTION(NAME, mag)(x)),
             angle = 0.5 * FUNCTION(NAME, angle)(x);
   TYPE res;
-  COMPLEX_REAL(res) = abs * cos(angle);
-  COMPLEX_IMAG(res) = abs * sin(angle);
+  COMPLEX_REAL(res) = mag * cos(angle);
+  COMPLEX_IMAG(res) = mag * sin(angle);
 
   return res;
 }
@@ -499,11 +523,11 @@ TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y) {
-  DATA_TYPE abs = pow(FUNCTION(NAME, abs)(x), y),
+  DATA_TYPE mag = pow(FUNCTION(NAME, mag)(x), y),
             angle = FUNCTION(NAME, angle)(x) * y;
   TYPE res;
-  COMPLEX_REAL(res) = abs * cos(angle);
-  COMPLEX_IMAG(res) = abs * sin(angle);
+  COMPLEX_REAL(res) = mag * cos(angle);
+  COMPLEX_IMAG(res) = mag * sin(angle);
 
   return res;
 }

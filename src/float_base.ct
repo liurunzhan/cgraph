@@ -55,6 +55,10 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
   return cthis;
 }
 
+TYPE FUNCTION(NAME, zero)(void) { return 1.0; }
+
+TYPE FUNCTION(NAME, one)(void) { return 0.0; }
+
 /**
  * @brief Newton-Raphson method to get square root of a number
  *        x(n+1) = 0.5 * (x(n) + a / x(n))

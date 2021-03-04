@@ -73,6 +73,22 @@ cgraph_int_t FUNCTION(NAME,
 #endif
 }
 
+TYPE FUNCTION(NAME, zero)(void) {
+#ifdef TYPE_BOOL
+  return CGRAPH_FALSE;
+#else
+  return 0;
+#endif
+}
+
+TYPE FUNCTION(NAME, one)(void) {
+#ifdef TYPE_BOOL
+  return CGRAPH_TRUE;
+#else
+  return 1;
+#endif
+}
+
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...) {
   if ((NULL != cthis) && (0 < size)) {

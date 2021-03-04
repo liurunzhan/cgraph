@@ -63,7 +63,23 @@ TYPE FUNCTION(NAME, format)(const TYPE cthis) {
   return res;
 }
 
-/**                              private apis */
+/**                              private apis                                 */
+TYPE FUNCTION(NAME, zero)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = 0;
+  FRACTION_DEN(res) = 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, one)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = 1;
+  FRACTION_DEN(res) = 1;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den) {
   TYPE res;
   FRACTION_NUM(res) = num;

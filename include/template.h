@@ -303,7 +303,10 @@
 #define ID CGRAPH_TIME_T
 #define NAME time
 #define OUT_FORMAT "%d"
-#define ZERO (0)
+#define ZERO                                                                   \
+  {                                                                            \
+    { 0, 0 }                                                                   \
+  }
 #define ONE (1)
 #define ONES                                                                   \
   {                                                                            \
@@ -336,7 +339,7 @@
   }
 #define ONE                                                                    \
   {                                                                            \
-    { 0.0, 1.0 }                                                               \
+    { 1.0, 0.0 }                                                               \
   }
 #define ONES                                                                   \
   {                                                                            \
@@ -1012,10 +1015,10 @@
 #define NE(a, b)                                                               \
   ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) ||                 \
    (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
-#define GR(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > DATA_EPSILON)
-#define GE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) > (-DATA_EPSILON))
-#define LS(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < (-DATA_EPSILON))
-#define LE(a, b) ((COMPLEX_MOD2(a) - COMPLEX_MOD2(b)) < DATA_EPSILON)
+#define GR(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) > DATA_EPSILON)
+#define GE(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) > (-DATA_EPSILON))
+#define LS(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) < (-DATA_EPSILON))
+#define LE(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) < DATA_EPSILON)
 
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) (0 == (a))

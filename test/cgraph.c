@@ -6,6 +6,11 @@ void printf_char(char data) {
   printf("debug %x %x\n", 0xFF & data, 0xFF & data);
 }
 
+#define CGRAPH_ZERO                                                            \
+  {                                                                            \
+    { 0.0, 0.0 }                                                               \
+  }
+
 cgraph_float64_t function_x(cgraph_float64_t x) { return x * x; }
 
 int main(int argc, char *argv[]) {
@@ -99,7 +104,7 @@ int main(int argc, char *argv[]) {
   cgraph_verilog_test();
   printf("%ld\n", cgraph_pobject_msize(CGRAPH_POBJECT_T, 10));
   */
-
+  cgraph_complex_t x = CGRAPH_ZERO;
   fprintf(stdout, "hello world!\n");
 
   return 0;

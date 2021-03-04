@@ -180,15 +180,15 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   return hash;
 }
 
-CGRAPH_INLINE cgraph_type_t FUNCTION(NAME, obj_type)(const TYPE *cthis) {
+CGRAPH_INLINE cgraph_type_t FUNCTION(NAME, objtype)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_KTYPE(cthis) : CGRAPH_FALSE;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, obj_accessiable)(const TYPE *cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, objaccess)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_KACCESS(cthis) : CGRAPH_FALSE;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, obj_hashed)(const TYPE *cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, objhash)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_KHASHED(cthis) : CGRAPH_FALSE;
 }
 
@@ -219,7 +219,7 @@ TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis) {
+CGRAPH_INLINE TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_TRUE;
   }
@@ -227,7 +227,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, accessible)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, unaccessible)(TYPE *cthis) {
+CGRAPH_INLINE TYPE *FUNCTION(NAME, clraccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_FALSE;
   }
