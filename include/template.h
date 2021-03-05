@@ -235,8 +235,8 @@
 #define IN_FORMAT CGRAPH_INT64_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT64_OUT_FORMAT
 #define UTYPE cgraph_uint64_t
-#define ZERO (0LL)
-#define ONE (1LL)
+#define ZERO (0)
+#define ONE (1)
 #define ONES CGRAPH_INT64_MIN
 #define BITS CGRAPH_INT64_BIT
 #define MIN CGRAPH_INT64_MIN
@@ -305,12 +305,21 @@
 #define OUT_FORMAT "%d"
 #define ZERO                                                                   \
   {                                                                            \
-    { 0, 0 }                                                                   \
+    0, {                                                                       \
+      { 0 }                                                                    \
+    }                                                                          \
   }
-#define ONE (1)
+#define ONE                                                                    \
+  {                                                                            \
+    0, {                                                                       \
+      { 1 }                                                                    \
+    }                                                                          \
+  }
 #define ONES                                                                   \
   {                                                                            \
-    { 1 << 26 | 1 << 22 | 1 << 17 || 1 << 12 | 1 << 6 | 1 }                    \
+    1, {                                                                       \
+      { 1 }                                                                    \
+    }                                                                          \
   }
 #define BITS (8 * sizeof(TYPE) - 1)
 #define MIN (0)
@@ -323,8 +332,8 @@
 #define DATA_ONE (1)
 #define DATA_ONES (1)
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
-#define DATA_MIN (CGRAPH_INT32_MIN >> 1)
-#define DATA_MAX (CGRAPH_INT32_MAX >> 1)
+#define DATA_MIN CGRAPH_INT32_MIN
+#define DATA_MAX CGRAPH_INT32_MAX
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
 #define DATA_LSB (DATA_ONE)
 

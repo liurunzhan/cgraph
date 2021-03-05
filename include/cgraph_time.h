@@ -53,6 +53,10 @@ typedef struct {
 
 #include "data_base.ht"
 
+extern TYPE FUNCTION(NAME, zero0)(void);
+extern TYPE FUNCTION(NAME, one0)(void);
+extern TYPE FUNCTION(NAME, ones0)(void);
+
 extern TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, sub0i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, mul0i)(const TYPE x, const DATA_TYPE y);
@@ -63,6 +67,10 @@ extern TYPE FUNCTION(NAME, add0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, zero1)(void);
+extern TYPE FUNCTION(NAME, one1)(void);
+extern TYPE FUNCTION(NAME, ones1)(void);
 
 extern TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y);

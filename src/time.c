@@ -210,6 +210,24 @@ TYPE FUNCTION(NAME, zero0)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, one0)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = 0;
+  TIME_VALUE1(res) = 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ones0)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = DATA_MIN >> 1;
+  TIME_VALUE1(res) = DATA_MIN;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   DATA_TYPE tmp = TIME_VALUE0(x) + y;
@@ -339,6 +357,32 @@ TYPE FUNCTION(NAME, zero1)(void) {
   TIME_HOUR(res) = 0;
   TIME_MINUTE(res) = 0;
   TIME_SECOND(res) = 0;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, one1)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = 0;
+  TIME_MONTH(res) = 0;
+  TIME_DAY(res) = 0;
+  TIME_HOUR(res) = 0;
+  TIME_MINUTE(res) = 0;
+  TIME_SECOND(res) = 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ones1)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = DATA_MAX;
+  TIME_MONTH(res) = 12;
+  TIME_DAY(res) = 31;
+  TIME_HOUR(res) = 24;
+  TIME_MINUTE(res) = 60;
+  TIME_SECOND(res) = 60;
 
   return res;
 }

@@ -7,7 +7,7 @@ MODE_FLAGS            = -DDEBUG
 else
 MODE_FLAGS            = 
 endif
-FLAGS                 = -I$(top_srcdir)/include -Wall $(MODE_FLAGS)
+FLAGS                 = -I$(top_srcdir)/include -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
 lib_LTLIBRARIES       = libcgraph.la
 libcgraph_la_CFLAGS   = $(FLAGS)
 libcgraph_la_CXXFLAGS = $(FLAGS)
