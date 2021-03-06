@@ -423,9 +423,9 @@
 #define ID CGRAPH_BIGINT_T
 #define NAME bigint
 #define OUT_FORMAT "%u"
-#define ZERO (0)
-#define ONE (1)
-#define ONES (1)
+#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
+#define ONE(x) FUNCTION(NAME, one)((x), 0)
+#define ONES(x) FUNCTION(NAME, ones)((x), 0)
 #define MIN (0)
 #define MAX (9)
 #define TYPE_WITH_DATA
@@ -446,9 +446,9 @@
 #define ID CGRAPH_BIGNUM_T
 #define NAME bignum
 #define OUT_FORMAT "%s"
-#define ZERO ("0.0")
-#define ONE ("1.0")
-#define ONES ("1")
+#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
+#define ONE(x) FUNCTION(NAME, one)((x), 0)
+#define ONES(x) FUNCTION(NAME, ones)((x), 0)
 #define BITS (8 * sizeof(TYPE))
 #define MIN ("-inf")
 #define MAX ("+inf")
@@ -467,9 +467,9 @@
 #define ID CGRAPH_STRING_T
 #define NAME string
 #define OUT_FORMAT "%s"
-#define ZERO (0)
-#define ONE (1)
-#define ONES CGRAPH_CHAR_MIN
+#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
+#define ONE(x) FUNCTION(NAME, one)((x), 0)
+#define ONES(x) FUNCTION(NAME, ones)((x), 0)
 #define BITS (8 * sizeof(TYPE))
 #define MIN CGRAPH_CHAR_MIN
 #define MAX CGRAPH_CHAR_MAX
@@ -486,9 +486,9 @@
 #define ID CGRAPH_BITSET_T
 #define NAME bitset
 #define OUT_FORMAT "%02x"
-#define ZERO (0)
-#define ONE (1)
-#define ONES (1)
+#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
+#define ONE(x) FUNCTION(NAME, one)((x), 0)
+#define ONES(x) FUNCTION(NAME, ones)((x), 0)
 #define BITS CGRAPH_UINT8_MIN
 #define MIN (0)
 #define MAX CGRAPH_UINT8_MIN

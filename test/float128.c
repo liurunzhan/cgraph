@@ -14,28 +14,24 @@ int main(int argc, char *argv[]) {
 
   fprintf(stdout, "%Lg\n", FUNCTION(NAME, sqrt)(2));
   fprintf(stdout, "%Lg\n", FUNCTION(NAME, cube)(2));
-  fprintf(stdout, "%Lg\n",
-          FUNCTION(NAME, integral_range_trapezoidal)(0.1, 0.2, 0.00001,
-                                                     &function_x));
-  fprintf(stdout, "%Lg\n",
-          FUNCTION(NAME, integral_range_trapezoidal)(0.2, 0.1, 0.00001,
-                                                     &function_x));
   fprintf(
       stdout, "%Lg\n",
-      FUNCTION(NAME, integral_range_simpson)(0.1, 0.2, 0.00001, &function_x));
+      FUNCTION(NAME, intg_range_trapezoidal)(0.1, 0.2, 0.00001, &function_x));
   fprintf(
       stdout, "%Lg\n",
-      FUNCTION(NAME, integral_range_simpson)(0.2, 0.1, 0.00001, &function_x));
-  fprintf(
-      stdout, "%Lg\n",
-      FUNCTION(NAME, integral_range_simpson38)(0.1, 0.2, 0.00001, &function_x));
-  fprintf(
-      stdout, "%Lg\n",
-      FUNCTION(NAME, integral_range_simpson38)(0.2, 0.1, 0.00001, &function_x));
+      FUNCTION(NAME, intg_range_trapezoidal)(0.2, 0.1, 0.00001, &function_x));
   fprintf(stdout, "%Lg\n",
-          FUNCTION(NAME, integral_range_cotes)(0.1, 0.2, 0.00001, &function_x));
+          FUNCTION(NAME, intg_range_simpson)(0.1, 0.2, 0.00001, &function_x));
   fprintf(stdout, "%Lg\n",
-          FUNCTION(NAME, integral_range_cotes)(0.2, 0.1, 0.00001, &function_x));
+          FUNCTION(NAME, intg_range_simpson)(0.2, 0.1, 0.00001, &function_x));
+  fprintf(stdout, "%Lg\n",
+          FUNCTION(NAME, intg_range_simpson38)(0.1, 0.2, 0.00001, &function_x));
+  fprintf(stdout, "%Lg\n",
+          FUNCTION(NAME, intg_range_simpson38)(0.2, 0.1, 0.00001, &function_x));
+  fprintf(stdout, "%Lg\n",
+          FUNCTION(NAME, intg_range_cotes)(0.1, 0.2, 0.00001, &function_x));
+  fprintf(stdout, "%Lg\n",
+          FUNCTION(NAME, intg_range_cotes)(0.2, 0.1, 0.00001, &function_x));
 
   FUNCTION(NAME, trans)(data, 2, 2);
   FUNCTION(NAME, trans)(data, 1, 2);

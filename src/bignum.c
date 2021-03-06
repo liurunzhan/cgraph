@@ -352,7 +352,7 @@ TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t size) {
 }
 
 TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = (size > 3 ? size : 3);
+  cgraph_size_t _size = CGRAPH_MIN(size, 3);
   if (NULL == cthis) {
     cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
   }
@@ -360,6 +360,22 @@ TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size) {
     cthis->len = 3;
     cthis->point = 1;
     cthis->data[0] = '0';
+    cthis->data[1] = '.';
+    cthis->data[2] = '0';
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size) {
+  cgraph_size_t _size = CGRAPH_MIN(size, 3);
+  if (NULL == cthis) {
+    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+  }
+  if (NULL != cthis) {
+    cthis->len = 3;
+    cthis->point = 1;
+    cthis->data[0] = '1';
     cthis->data[1] = '.';
     cthis->data[2] = '0';
   }

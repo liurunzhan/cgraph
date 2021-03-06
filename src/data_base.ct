@@ -355,6 +355,11 @@ TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t xstart,
                            const cgraph_size_t ystart, const cgraph_size_t len)
 #endif
 {
+  cgraph_size_t i, _xstart = xstart, _ystart = ystart;
+  for (i = 0; i < len; i++, _xstart++, _ystart++) {
+    SWAP(cthis[_xstart], cthis[_ystart]);
+  }
+
   return cthis;
 }
 
@@ -610,6 +615,7 @@ TYPE **FUNCTION(NAME, conv)(const TYPE **x, const TYPE **y,
   cgraph_size_t i, j;
   for (i = 0; i < (xlen + ylen - 1); i++) {
     for (j = 0; (j <= i) && (j < xlen); j++) {
+      ZERO(res[i]);
       if (i < (ylen + j)) {
         res0 = MUL(x[j], y[i - j], res0);
         res[i] = ADD(res[i], res0, res[i]);

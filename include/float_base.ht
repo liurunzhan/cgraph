@@ -14,26 +14,29 @@ extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
 
-extern TYPE FUNCTION(NAME, fixed_point_iterator)(const TYPE x,
-                                                 FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, fixed_point_lambda_iterator)(const TYPE x,
-                                                        const TYPE lambda,
-                                                        FUNCPTR(NAME, pfunc1)
-                                                            func);
-extern TYPE FUNCTION(NAME, integral_range_trapezoidal)(const TYPE start,
-                                                       const TYPE end,
-                                                       const TYPE step,
-                                                       FUNCPTR(NAME, pfunc1)
-                                                           func);
-extern TYPE FUNCTION(NAME, integral_range_simpson)(const TYPE start,
+extern TYPE FUNCTION(NAME, iter_fixed_point)(const TYPE x,
+                                             FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, iter_fixed_point_lambda)(const TYPE x,
+                                                    const TYPE lambda,
+                                                    FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME,
+                     diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                          const TYPE y_start, const TYPE step,
+                                          FUNCPTR(NAME, pfunc2) func);
+extern TYPE FUNCTION(NAME, diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                          const TYPE y_start, const TYPE step,
+                                          FUNCPTR(NAME, pfunc2) func);
+extern TYPE FUNCTION(NAME, intg_range_trapezoidal)(const TYPE start,
                                                    const TYPE end,
                                                    const TYPE step,
                                                    FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME,
-                     integral_range_simpson38)(const TYPE start, const TYPE end,
+extern TYPE FUNCTION(NAME, intg_range_simpson)(const TYPE start, const TYPE end,
                                                const TYPE step,
                                                FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, integral_range_cotes)(const TYPE start,
+extern TYPE FUNCTION(NAME, intg_range_simpson38)(const TYPE start,
                                                  const TYPE end,
                                                  const TYPE step,
                                                  FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, intg_range_cotes)(const TYPE start, const TYPE end,
+                                             const TYPE step,
+                                             FUNCPTR(NAME, pfunc1) func);

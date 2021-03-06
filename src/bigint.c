@@ -386,14 +386,64 @@ TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t size) {
   return FUNCTION(NAME, unit)(cthis, size);
 }
 
+/**
+ * @brief
+ *       cthis == NULL : size > 0 ? size : 1
+ *       cthis != NULL : size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size)
+ */
 TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = (size > 1 ? size : 1);
+  cgraph_size_t _size = 0;
   if (NULL == cthis) {
+    _size = (size > 0 ? size : 1);
     cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+  } else {
+    _size = (size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size));
   }
   if (NULL != cthis) {
     cgraph_memset(cthis->data, _size, 0);
-    cthis->len = 1;
+    cthis->len = _size;
+  }
+
+  return cthis;
+}
+
+/**
+ * @brief
+ *       cthis == NULL : size > 0 ? size : 1
+ *       cthis != NULL : size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size)
+ */
+TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size) {
+  cgraph_size_t _size = 0;
+  if (NULL == cthis) {
+    _size = (size > 0 ? size : 1);
+    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+  } else {
+    _size = (size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size));
+  }
+  if (NULL != cthis) {
+    cgraph_memset(cthis->data, _size, 1);
+    cthis->len = _size;
+  }
+
+  return cthis;
+}
+
+/**
+ * @brief
+ *       cthis == NULL : size > 0 ? size : 1
+ *       cthis != NULL : size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size)
+ */
+TYPE *FUNCTION(NAME, ones)(TYPE *cthis, const cgraph_size_t size) {
+  cgraph_size_t _size = 0;
+  if (NULL == cthis) {
+    _size = (size > 0 ? size : 1);
+    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
+  } else {
+    _size = (size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size));
+  }
+  if (NULL != cthis) {
+    cgraph_memset(cthis->data, _size, DATA_MIN);
+    cthis->len = _size;
   }
 
   return cthis;

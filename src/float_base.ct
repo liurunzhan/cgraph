@@ -164,8 +164,12 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
   return res;
 }
 
-TYPE FUNCTION(NAME, fixed_point_iterator)(const TYPE x,
-                                          FUNCPTR(NAME, pfunc1) func) {
+/**
+ * @brief
+ *   x = f(x)
+ */
+TYPE FUNCTION(NAME, iter_fixed_point)(const TYPE x,
+                                      FUNCPTR(NAME, pfunc1) func) {
   TYPE _x, _y = x;
   do {
     _x = _y;
@@ -175,9 +179,8 @@ TYPE FUNCTION(NAME, fixed_point_iterator)(const TYPE x,
   return _y;
 }
 
-TYPE FUNCTION(NAME, fixed_point_lambda_iterator)(const TYPE x,
-                                                 const TYPE lambda,
-                                                 FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, iter_fixed_point_lambda)(const TYPE x, const TYPE lambda,
+                                             FUNCPTR(NAME, pfunc1) func) {
   TYPE _x, _y = x;
   do {
     _x = _y;
@@ -187,38 +190,93 @@ TYPE FUNCTION(NAME, fixed_point_lambda_iterator)(const TYPE x,
   return _y;
 }
 
-TYPE FUNCTION(NAME, differential)(const TYPE x, const TYPE step,
-                                  FUNCPTR(NAME, pfunc1) func) {
+/**
+ * @brief
+ *
+ */
+TYPE FUNCTION(NAME, diff)(const TYPE x, const TYPE step,
+                          FUNCPTR(NAME, pfunc1) func) {
   return (func(x + step) - func(x)) / x;
 }
 
-TYPE FUNCTION(NAME, integral)(const TYPE x, const TYPE step,
-                              FUNCPTR(NAME, pfunc1) func) {
+/**
+ * @brief s-4 Runge-Kutta
+ *        dy = f(x, y)
+ *        delta = x(n+1) - x(n)
+ *        y(n+1) = y(n) + delta/6.0 * (k1 + 2k2+ 2k3 + k4)
+ *        where :
+ *        k1 = f(x(n), y(n))
+ *        k2 = f(x(n)+delta/2, y(n)+delta/2*k1)
+ *        k3 = f(x(n)+delta/2, y(n)+delta/2*k2)
+ *        k4 = f(x(n)+delta, y(n)+delta*k3)
+ */
+TYPE FUNCTION(NAME, diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                         const TYPE y_start, const TYPE step,
+                                         FUNCPTR(NAME, pfunc2) func) {
+  TYPE _step_2 = 0.5 * step, _step_6 = step / 6.0, _step_3 = step / 3.0;
+  TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
+  do {
+    k1 = func(_x, _y);
+    _x += _step_2;
+    k2 = func(_x, _y + _step_2 * k1);
+    k3 = func(_x, _y + _step_2 * k2);
+    _x += _step_2;
+    k4 = func(_x, _y + _step_2 * k3);
+    _y += (_step_6 * (k1 + k4) + _step_3 * (k2 + k3));
+  } while (LS(_x, x_end));
+
+  return _y;
+}
+
+TYPE FUNCTION(NAME, diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                   const TYPE y_start, const TYPE step,
+                                   FUNCPTR(NAME, pfunc2) func) {
+  TYPE _step_3 = step / 3.0, _step_8 = 0.125 * step, _step3_8 = 0.375 * step;
+  TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
+  do {
+    k1 = func(_x, _y);
+    _x += _step_3;
+    k2 = func(_x, _y + _step_3 * k1);
+    _x += _step_3;
+    k3 = func(_x, _y - _step_3 * k1 + step * k2);
+    _x += _step_3;
+    k4 = func(_x, _y + step * (k1 - k2 + k3));
+    _y += (_step_8 * (k1 + k4) + _step3_8 * (k2 + k3));
+  } while (LS(_x, x_end));
+
+  return _y;
+}
+
+/**
+ * @brief
+ *
+ */
+TYPE FUNCTION(NAME, intg)(const TYPE x, const TYPE step,
+                          FUNCPTR(NAME, pfunc1) func) {
   return 0.5 * x * (func(x) + func(x + step));
 }
 
 /**
- * @brief trapezoidal integral operation
+ * @brief trapezoidal intg operation
  *        delta = x(n+1) - x(n)
  *        df = 0.5 * delta * (f(x(n)) + f(x(n+1)))
  */
-TYPE FUNCTION(NAME, integral_range_trapezoidal)(const TYPE start,
-                                                const TYPE end, const TYPE step,
-                                                FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, intg_range_trapezoidal)(const TYPE start, const TYPE end,
+                                            const TYPE step,
+                                            FUNCPTR(NAME, pfunc1) func) {
   TYPE _step = 0.5 * step, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
   } else {
-    cgraph_size_t i = 0;
     TYPE _start = start, _end = end;
     if (GR(start, end)) {
       _start = end;
       _end = start;
     }
-    for (i = 0; LS(_start, _end); i++) {
+    do {
       _res += _step * (func(_start) + func(_start + step));
       _start += step;
-    }
+    } while (LS(_start, _end));
     if (GR(start, end)) {
       _res = -1.0 * _res;
     }
@@ -228,7 +286,7 @@ TYPE FUNCTION(NAME, integral_range_trapezoidal)(const TYPE start,
 }
 
 /**
- * @brief simpson integral operation
+ * @brief simpson intg operation
  *        delta = x(n+1) - x(n)
  *        df = (delta / 6.0 * (
  *             f(x(n)) +
@@ -236,24 +294,23 @@ TYPE FUNCTION(NAME, integral_range_trapezoidal)(const TYPE start,
  *             f(x(n+1))
  *             )
  */
-TYPE FUNCTION(NAME, integral_range_simpson)(const TYPE start, const TYPE end,
-                                            const TYPE step,
-                                            FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, intg_range_simpson)(const TYPE start, const TYPE end,
+                                        const TYPE step,
+                                        FUNCPTR(NAME, pfunc1) func) {
   TYPE _step = step / 6.0, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
   } else {
-    cgraph_size_t i = 0;
     TYPE _start = start, _end = end;
     if (GR(start, end)) {
       _start = end;
       _end = start;
     }
-    for (i = 0; LS(_start, _end); i++) {
+    do {
       _res += _step * (func(_start) + 4.0 * func(_start + 0.5 * step) +
                        func(_start + step));
       _start += step;
-    }
+    } while (LS(_start, _end));
     if (GR(start, end)) {
       _res = -1.0 * _res;
     }
@@ -263,7 +320,7 @@ TYPE FUNCTION(NAME, integral_range_simpson)(const TYPE start, const TYPE end,
 }
 
 /**
- * @brief 3/8 rule simpson integral operation
+ * @brief 3/8 rule simpson intg operation
  *        delta = x(n+1) - x(n)
  *        df = 0.125 * delta * (
  *             f(x(n)) +
@@ -271,27 +328,26 @@ TYPE FUNCTION(NAME, integral_range_simpson)(const TYPE start, const TYPE end,
  *             f(x(n+1))
  *             )
  */
-TYPE FUNCTION(NAME, integral_range_simpson38)(const TYPE start, const TYPE end,
-                                              const TYPE step,
-                                              FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, intg_range_simpson38)(const TYPE start, const TYPE end,
+                                          const TYPE step,
+                                          FUNCPTR(NAME, pfunc1) func) {
   TYPE _step = 0.125 * step, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
   } else {
-    cgraph_size_t i = 0;
     TYPE _start = start, _end = end;
     if (GR(start, end)) {
       _start = end;
       _end = start;
     }
-    for (i = 0; LS(_start, _end); i++) {
+    do {
       _res +=
           _step *
           (func(_start) +
            3.0 * (func(_start + step / 3.0) + func(_start + 2.0 / 3.0 * step)) +
            func(_start + step));
       _start += step;
-    }
+    } while (LS(_start, _end));
     if (GR(start, end)) {
       _res = -1.0 * _res;
     }
@@ -301,7 +357,7 @@ TYPE FUNCTION(NAME, integral_range_simpson38)(const TYPE start, const TYPE end,
 }
 
 /**
- * @brief cotes integral operation
+ * @brief cotes intg operation
  *        delta = x(n+1) - x(n)
  *        df = delta / 90.0 * (
  *             7.0 * (f(x(n)) + f(x(n+1))) +
@@ -309,9 +365,9 @@ TYPE FUNCTION(NAME, integral_range_simpson38)(const TYPE start, const TYPE end,
  *             12.0 * f(x(n) + delta * 0.5))
  *             )
  */
-TYPE FUNCTION(NAME, integral_range_cotes)(const TYPE start, const TYPE end,
-                                          const TYPE step,
-                                          FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, intg_range_cotes)(const TYPE start, const TYPE end,
+                                      const TYPE step,
+                                      FUNCPTR(NAME, pfunc1) func) {
   TYPE _step = step / 90.0, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;

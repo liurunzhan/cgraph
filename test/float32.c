@@ -5,6 +5,7 @@
 #include "template.h"
 
 TYPE function_x(const TYPE x) { return x * x; }
+TYPE function_xy(const TYPE x, const TYPE y) { return -1.0 * x * y * y; }
 
 #define ZERO (0.0)
 
@@ -18,28 +19,24 @@ int main(int argc, char *argv[]) {
 
   fprintf(stdout, "%g\n", FUNCTION(NAME, sqrt)(2));
   fprintf(stdout, "%g\n", FUNCTION(NAME, cube)(2));
-  fprintf(stdout, "%g\n",
-          FUNCTION(NAME, integral_range_trapezoidal)(0.1, 0.2, 0.00001,
-                                                     &function_x));
-  fprintf(stdout, "%g\n",
-          FUNCTION(NAME, integral_range_trapezoidal)(0.2, 0.1, 0.00001,
-                                                     &function_x));
   fprintf(
       stdout, "%g\n",
-      FUNCTION(NAME, integral_range_simpson)(0.1, 0.2, 0.00001, &function_x));
+      FUNCTION(NAME, intg_range_trapezoidal)(0.1, 0.2, 0.00001, &function_x));
   fprintf(
       stdout, "%g\n",
-      FUNCTION(NAME, integral_range_simpson)(0.2, 0.1, 0.00001, &function_x));
-  fprintf(
-      stdout, "%g\n",
-      FUNCTION(NAME, integral_range_simpson38)(0.1, 0.2, 0.00001, &function_x));
-  fprintf(
-      stdout, "%g\n",
-      FUNCTION(NAME, integral_range_simpson38)(0.2, 0.1, 0.00001, &function_x));
+      FUNCTION(NAME, intg_range_trapezoidal)(0.2, 0.1, 0.00001, &function_x));
   fprintf(stdout, "%g\n",
-          FUNCTION(NAME, integral_range_cotes)(0.1, 0.2, 0.00001, &function_x));
+          FUNCTION(NAME, intg_range_simpson)(0.1, 0.2, 0.00001, &function_x));
   fprintf(stdout, "%g\n",
-          FUNCTION(NAME, integral_range_cotes)(0.2, 0.1, 0.00001, &function_x));
+          FUNCTION(NAME, intg_range_simpson)(0.2, 0.1, 0.00001, &function_x));
+  fprintf(stdout, "%g\n",
+          FUNCTION(NAME, intg_range_simpson38)(0.1, 0.2, 0.00001, &function_x));
+  fprintf(stdout, "%g\n",
+          FUNCTION(NAME, intg_range_simpson38)(0.2, 0.1, 0.00001, &function_x));
+  fprintf(stdout, "%g\n",
+          FUNCTION(NAME, intg_range_cotes)(0.1, 0.2, 0.00001, &function_x));
+  fprintf(stdout, "%g\n",
+          FUNCTION(NAME, intg_range_cotes)(0.2, 0.1, 0.00001, &function_x));
 
   FUNCTION(NAME, trans)(data, 2, 2);
   FUNCTION(NAME, trans)(data, 1, 2);
@@ -68,6 +65,11 @@ int main(int argc, char *argv[]) {
   for (k = 0; k < 8; k++) {
     fprintf(stdout, "%g\n", zdata[k]);
   }
+  fprintf(
+      stdout, "%g\n",
+      FUNCTION(NAME, diff_runge_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
+  fprintf(stdout, "%g\n",
+          FUNCTION(NAME, diff_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
 
   return 0;
 }
