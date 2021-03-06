@@ -14,11 +14,13 @@ extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
 
-extern TYPE FUNCTION(NAME, iter_fixed_point)(const TYPE x,
-                                             FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, iter_fixed_point_lambda)(const TYPE x,
-                                                    const TYPE lambda,
-                                                    FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, eqt_binary_search)(const TYPE start, const TYPE end,
+                                              FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, eqt_fixed_point)(const TYPE x,
+                                            FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, eqt_fixed_point_lambda)(const TYPE x,
+                                                   const TYPE lambda,
+                                                   FUNCPTR(NAME, pfunc1) func);
 extern TYPE FUNCTION(NAME,
                      diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
                                           const TYPE y_start, const TYPE step,

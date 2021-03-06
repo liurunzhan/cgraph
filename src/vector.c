@@ -9,12 +9,6 @@
 /**/
 #include "struct_base.ct"
 
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-
-  return flag;
-}
-
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_TRUE;
   if ((NULL != x) && (NULL != y)) {

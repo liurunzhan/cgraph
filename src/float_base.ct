@@ -153,23 +153,44 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
 #if defined(TYPE_FLOAT32) && (CGRAPH_STDC_VERSION >= 199901L)
   TYPE res = 0.0;
   modff(x / y, &res);
-#elif defined(TYPE_FLOAT64) || defined(TYPE_FLOAT32)
-  ARG res = 0.0;
-  modf(x / y, &res);
-#elif defined(TYPE_FLOAT128)
+#elif defined(TYPE_FLOAT128) && defined(CGRAPH_WITH_FLOAT128)
   TYPE res = 0.0;
   modfl(x / y, &res);
+#else
+  ARG res = 0.0;
+  modf(x / y, &res);
 #endif
 
   return res;
+}
+
+TYPE FUNCTION(NAME, eqt_binary_search)(const TYPE start, const TYPE end,
+                                       FUNCPTR(NAME, pfunc1) func) {
+  TYPE _start = start, _end = end, _middle;
+  TYPE _start_res = func(start), _end_res = func(end), _middle_res;
+  if (DATA_ISPOS(_start_res * _end_res)) {
+    return CGRAPH_MIN(_start, _end);
+  }
+  do {
+    _middle = 0.5 * (_start + _end);
+    _middle_res = func(_middle);
+    if (DATA_ISNEG(_start_res * _middle_res)) {
+      _end = _middle;
+      _end_res = _middle_res;
+    } else {
+      _start = _middle;
+      _start_res = _middle_res;
+    }
+  } while (NE(_start, _end));
+
+  return _middle;
 }
 
 /**
  * @brief
  *   x = f(x)
  */
-TYPE FUNCTION(NAME, iter_fixed_point)(const TYPE x,
-                                      FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, eqt_fixed_point)(const TYPE x, FUNCPTR(NAME, pfunc1) func) {
   TYPE _x, _y = x;
   do {
     _x = _y;
@@ -179,8 +200,8 @@ TYPE FUNCTION(NAME, iter_fixed_point)(const TYPE x,
   return _y;
 }
 
-TYPE FUNCTION(NAME, iter_fixed_point_lambda)(const TYPE x, const TYPE lambda,
-                                             FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, eqt_fixed_point_lambda)(const TYPE x, const TYPE lambda,
+                                            FUNCPTR(NAME, pfunc1) func) {
   TYPE _x, _y = x;
   do {
     _x = _y;

@@ -364,6 +364,26 @@ TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t xstart,
 }
 
 #ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, swap_jump)(TYPE **cthis, const cgraph_size_t xoffset,
+                                 const cgraph_size_t yoffset,
+                                 const cgraph_size_t unit,
+                                 const cgraph_size_t len)
+#else
+TYPE *FUNCTION(NAME, swap_jump)(TYPE *cthis, const cgraph_size_t xoffset,
+                                const cgraph_size_t yoffset,
+                                const cgraph_size_t unit,
+                                const cgraph_size_t len)
+#endif
+{
+  cgraph_size_t i, _xindex = xoffset, _yindex = yoffset;
+  for (i = 0; i < len; i++, _xindex += unit, _yindex += unit) {
+    SWAP(cthis[_xindex], cthis[_yindex]);
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
 TYPE **FUNCTION(NAME, trans)(TYPE **cthis, const cgraph_size_t row,
                              const cgraph_size_t col)
 #else

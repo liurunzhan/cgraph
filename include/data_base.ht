@@ -27,6 +27,11 @@ extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 extern TYPE **FUNCTION(NAME, swap)(TYPE **cthis, const cgraph_size_t xstart,
                                    const cgraph_size_t ystart,
                                    const cgraph_size_t len);
+extern TYPE **FUNCTION(NAME, swap_jump)(TYPE **cthis,
+                                        const cgraph_size_t xoffset,
+                                        const cgraph_size_t yoffset,
+                                        const cgraph_size_t unit,
+                                        const cgraph_size_t len);
 extern TYPE **FUNCTION(NAME, trans)(TYPE **cthis, const cgraph_size_t row,
                                     const cgraph_size_t col);
 extern TYPE **FUNCTION(NAME, subsym)(TYPE **cthis, const cgraph_size_t row,
@@ -92,6 +97,10 @@ extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
 extern TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t xstart,
                                   const cgraph_size_t ystart,
                                   const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, swap_jump)(TYPE *cthis, const cgraph_size_t xoffset,
+                                       const cgraph_size_t yoffset,
+                                       const cgraph_size_t unit,
+                                       const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, trans)(TYPE *cthis, const cgraph_size_t row,
                                    const cgraph_size_t col);
 extern TYPE *FUNCTION(NAME, subsym)(TYPE *cthis, const cgraph_size_t row,

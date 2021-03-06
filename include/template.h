@@ -286,8 +286,8 @@
 #define TYPE cgraph_float128_t
 #define ID CGRAPH_FLOAT128_T
 #define NAME float128
-#define IN_FORMAT "%Lg"
-#define OUT_FORMAT "%Lg"
+#define IN_FORMAT CGRAPH_FLOAT128_IN_FORMAT
+#define OUT_FORMAT CGRAPH_FLOAT128_OUT_FORMAT
 #define ZERO (0.0)
 #define ONE (1.0)
 #define ONES (1.0)
@@ -296,7 +296,7 @@
 #define MAX CGRAPH_FLOAT128_MAX
 #define EPSILON CGRAPH_FLOAT128_EPS
 #define EPSILON_LEN CGRAPH_FLOAT128_BIT
-#define HASH_OFFSET (12)
+#define HASH_OFFSET CGRAPH_FLOAT128_HASH_OFFSET
 
 #elif defined(TYPE_TIME)
 #define TYPE cgraph_time_t
@@ -882,35 +882,7 @@
 #define LOG10(a) log10f((a))
 #define EXP(a) expf((a))
 #define SQRT(a) sqrtf((a))
-#elif defined(TYPE_FLOAT64) || defined(TYPE_FLOAT32)
-#define MOD(a, b, c) (fmod((a), (b)))
-
-#define EQ(a, b) (fabs((a) - (b)) < EPSILON)
-#define NE(a, b) (fabs((a) - (b)) > EPSILON)
-#define GR(a, b) (((a) - (b)) > EPSILON)
-#define GE(a, b) (((a) - (b)) > (-EPSILON))
-#define LS(a, b) (((a) - (b)) < (-EPSILON))
-#define LE(a, b) (((a) - (b)) < EPSILON)
-
-#define CEIL(a) ceil((a))
-#define FLOOR(a) floor((a))
-#define POW(a, b) pow((a), (b))
-#define ABS(a) fabs((a))
-#define SIN(a) sin((a))
-#define COS(a) cos((a))
-#define TAN(a) tan((a))
-#define ASIN(a) asin((a))
-#define ACOS(a) acos((a))
-#define ATAN(a) atan2((a))
-#define SINH(a) sinh((a))
-#define COSH(a) cosh((a))
-#define TANH(a) tanh((a))
-#define LOG(a) log((a))
-#define LOG2(a) (log((a)) / log(2.0))
-#define LOG10(a) log10((a))
-#define EXP(a) exp((a))
-#define SQRT(a) sqrt((a))
-#elif defined(TYPE_FLOAT128)
+#elif defined(TYPE_FLOAT128) && defined(CGRAPH_WITH_FLOAT128)
 #define MOD(a, b, c) (fmodl((a), (b)))
 
 #define EQ(a, b) (fabsl((a) - (b)) < EPSILON)
@@ -938,6 +910,34 @@
 #define LOG10(a) log10l((a))
 #define EXP(a) expl((a))
 #define SQRT(a) sqrtl((a))
+#else
+#define MOD(a, b, c) (fmod((a), (b)))
+
+#define EQ(a, b) (fabs((a) - (b)) < EPSILON)
+#define NE(a, b) (fabs((a) - (b)) > EPSILON)
+#define GR(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (((a) - (b)) > (-EPSILON))
+#define LS(a, b) (((a) - (b)) < (-EPSILON))
+#define LE(a, b) (((a) - (b)) < EPSILON)
+
+#define CEIL(a) ceil((a))
+#define FLOOR(a) floor((a))
+#define POW(a, b) pow((a), (b))
+#define ABS(a) fabs((a))
+#define SIN(a) sin((a))
+#define COS(a) cos((a))
+#define TAN(a) tan((a))
+#define ASIN(a) asin((a))
+#define ACOS(a) acos((a))
+#define ATAN(a) atan2((a))
+#define SINH(a) sinh((a))
+#define COSH(a) cosh((a))
+#define TANH(a) tanh((a))
+#define LOG(a) log((a))
+#define LOG2(a) (log((a)) / log(2.0))
+#define LOG10(a) log10((a))
+#define EXP(a) exp((a))
+#define SQRT(a) sqrt((a))
 #endif
 
 #elif defined(TYPE_TIME)
