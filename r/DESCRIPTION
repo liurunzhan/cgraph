@@ -1,0 +1,11 @@
+Package: cgraph
+Type: Package
+Title: The R apis of a C library for graph and mathematical analysis
+Version: 0.0.0
+Date: 2021-03-07
+Author: liurunzhan
+Maintainer: liurunzhan@sina.com
+Description: 
+License: GPL-3
+encoding: UTF-8
+LazyData: true
