@@ -2,8 +2,9 @@
 #include <stdio.h>
 
 #define TYPE_SPAMAT3D
+
 #include "template.h"
 
-int main(int argc, char *argv[]) { return 0; }
+#include "matrix3d.ct"
 
 #include "template_off.h"

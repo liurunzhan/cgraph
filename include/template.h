@@ -672,7 +672,7 @@
 #endif
 
 #else
-#error !!! UNSUPPORTED DATA TYPE !!!
+#error "template.h" can not be included directly without supported macro TYPE_* defined
 #endif
 
 /**property inheritance of object types */
@@ -1246,9 +1246,6 @@
 #define GE(a, b) __CGRAPH_UNDEFINED
 #define LS(a, b) __CGRAPH_UNDEFINED
 #define LE(a, b) __CGRAPH_UNDEFINED
-
-#else
-#error !!! UNSUPPORTED DATA TYPE !!!
 #endif
 
 #ifdef TYPE_WITH_DATA

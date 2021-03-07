@@ -6,7 +6,8 @@
 #include "template.h"
 
 /**/
-#include "matrix3d_base.ct"
 #include "struct_base.ct"
+
+#include "matrix3d_base.ct"
 
 #include "template_off.h"

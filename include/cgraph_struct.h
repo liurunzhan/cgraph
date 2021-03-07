@@ -5,9 +5,11 @@
 extern "C" {
 #endif
 
-/*
-  structure with integer index:
-  --> vector
+/** vector type: */
+#include "cgraph_vector.h"
+
+/**
+  2D and 3D matrix types:
   --> matrix
   --> bigmat
   --> spamat
@@ -18,13 +20,12 @@ extern "C" {
 #include "cgraph_bigmat.h"
 #include "cgraph_matrix.h"
 #include "cgraph_spamat.h"
-#include "cgraph_vector.h"
 
 #include "cgraph_bigmat3d.h"
 #include "cgraph_matrix3d.h"
 #include "cgraph_spamat3d.h"
 
-/*
+/**
   structure with multiple index:
   --> set
   --> directory
@@ -34,7 +35,7 @@ extern "C" {
 #include "cgraph_dict.h"
 #include "cgraph_set.h"
 
-/*
+/**
   structure with node pointers:
   --> queue
   --> stack
@@ -46,7 +47,7 @@ extern "C" {
 #include "cgraph_stack.h"
 #include "cgraph_tree.h"
 
-/*
+/**
   multiple structure:
   --> graph
 */

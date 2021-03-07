@@ -150,6 +150,10 @@
 #undef TYPE_MATRIX
 #endif
 
+#ifdef TYPE_BIGMAT
+#undef TYPE_BIGMAT
+#endif
+
 #ifdef TYPE_SPAMAT
 #undef TYPE_SPAMAT
 #endif
@@ -158,12 +162,8 @@
 #undef TYPE_MATRIX3D
 #endif
 
-#ifdef TYPE_BIGMAT
-#undef TYPE_BIGMAT
-#endif
-
-#ifdef TYPE_BIGMAT3
-#undef TYPE_BIGMAT3
+#ifdef TYPE_BIGMAT3D
+#undef TYPE_BIGMAT3D
 #endif
 
 #ifdef TYPE_SPAMAT3D

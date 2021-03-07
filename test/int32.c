@@ -1,10 +1,9 @@
 #include "cgraph.h"
-#include <stdio.h>
 
-#define TYPE_SPAMAT
+#define TYPE_INT32
 #include "template.h"
 
 /** template test */
-#include "matrix.ct"
+#include "int.ct"
 
 #include "template_off.h"

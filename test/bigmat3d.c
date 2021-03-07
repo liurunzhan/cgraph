@@ -1,7 +1,6 @@
 #include "cgraph.h"
-#include <stdio.h>
 
-#define TYPE_SPAMAT
+#define TYPE_BIGMAT3D
 #include "template.h"
 
 /** template test */

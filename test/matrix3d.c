@@ -1,10 +1,9 @@
 #include "cgraph.h"
-#include <stdio.h>
 
-#define TYPE_SPAMAT
+#define TYPE_MATRIX3D
 #include "template.h"
 
 /** template test */
-#include "matrix.ct"
+#include "matrix3d.ct"
 
 #include "template_off.h"
