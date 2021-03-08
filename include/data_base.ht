@@ -53,6 +53,26 @@ extern TYPE **FUNCTION(NAME, rot_3I)(TYPE **cthis, const cgraph_size_t row,
 extern TYPE **FUNCTION(NAME, rot_4I)(TYPE **cthis, const cgraph_size_t row,
                                      const cgraph_size_t col);
 
+extern TYPE **FUNCTION(NAME, ext2d)(TYPE **cthis, const cgraph_size_t old_row,
+                                    const cgraph_size_t old_col,
+                                    const cgraph_size_t ext_row,
+                                    const cgraph_size_t ext_col);
+extern TYPE **FUNCTION(NAME, ext2d_zero)(TYPE **cthis,
+                                         const cgraph_size_t old_row,
+                                         const cgraph_size_t old_col,
+                                         const cgraph_size_t ext_row,
+                                         const cgraph_size_t ext_col);
+extern TYPE **FUNCTION(NAME, ext3d)(TYPE **cthis, const cgraph_size_t old_x,
+                                    const cgraph_size_t old_y,
+                                    const cgraph_size_t old_z,
+                                    const cgraph_size_t ext_x,
+                                    const cgraph_size_t ext_y,
+                                    const cgraph_size_t ext_z);
+extern TYPE **FUNCTION(NAME, ext3d_zero)(
+    TYPE **cthis, const cgraph_size_t old_x, const cgraph_size_t old_y,
+    const cgraph_size_t old_z, const cgraph_size_t ext_x,
+    const cgraph_size_t ext_y, const cgraph_size_t ext_z);
+
 extern TYPE *FUNCTION(NAME, det2x2)(const TYPE **cthis, TYPE *res0, TYPE *res1,
                                     TYPE *res);
 extern TYPE *FUNCTION(NAME, det3x3)(const TYPE **cthis, TYPE *res0, TYPE *res1,
@@ -62,14 +82,11 @@ extern TYPE **FUNCTION(NAME, conv)(const TYPE **x, const TYPE **y,
                                    const cgraph_size_t ylen, TYPE *res0,
                                    TYPE **res);
 
-extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE *x,
-                                           const cgraph_char_t *sep);
-extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x,
-                                            const cgraph_char_t *sep);
+extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE *x);
+extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x);
 extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
                                              const cgraph_size_t size,
-                                             const TYPE *x,
-                                             const cgraph_char_t *sep);
+                                             const TYPE *x);
 
 #else
 
@@ -122,6 +139,28 @@ extern TYPE *FUNCTION(NAME, rot_3I)(TYPE *cthis, const cgraph_size_t row,
 extern TYPE *FUNCTION(NAME, rot_4I)(TYPE *cthis, const cgraph_size_t row,
                                     const cgraph_size_t col);
 
+extern TYPE *FUNCTION(NAME, ext2d)(TYPE *cthis, const cgraph_size_t old_row,
+                                   const cgraph_size_t old_col,
+                                   const cgraph_size_t ext_row,
+                                   const cgraph_size_t ext_col);
+extern TYPE *FUNCTION(NAME, ext2d_zero)(TYPE *cthis,
+                                        const cgraph_size_t old_row,
+                                        const cgraph_size_t old_col,
+                                        const cgraph_size_t ext_row,
+                                        const cgraph_size_t ext_col);
+extern TYPE *FUNCTION(NAME, ext3d)(TYPE *cthis, const cgraph_size_t old_x,
+                                   const cgraph_size_t old_y,
+                                   const cgraph_size_t old_z,
+                                   const cgraph_size_t ext_x,
+                                   const cgraph_size_t ext_y,
+                                   const cgraph_size_t ext_z);
+extern TYPE *FUNCTION(NAME, ext3d_zero)(TYPE *cthis, const cgraph_size_t old_x,
+                                        const cgraph_size_t old_y,
+                                        const cgraph_size_t old_z,
+                                        const cgraph_size_t ext_x,
+                                        const cgraph_size_t ext_y,
+                                        const cgraph_size_t ext_z);
+
 extern TYPE *FUNCTION(NAME, det2x2)(const TYPE *cthis, TYPE *res0, TYPE *res1,
                                     TYPE *res);
 extern TYPE *FUNCTION(NAME, det3x3)(const TYPE *cthis, TYPE *res0, TYPE *res1,
@@ -131,13 +170,10 @@ extern TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
                                   const cgraph_size_t ylen, TYPE *res0,
                                   TYPE *res);
 
-extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE x,
-                                           const cgraph_char_t *sep);
-extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x,
-                                            const cgraph_char_t *sep);
+extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x);
 extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
                                              const cgraph_size_t size,
-                                             const TYPE x,
-                                             const cgraph_char_t *sep);
+                                             const TYPE x);
 
 #endif

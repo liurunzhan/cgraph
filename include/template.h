@@ -302,7 +302,8 @@
 #define TYPE cgraph_time_t
 #define ID CGRAPH_TIME_T
 #define NAME time
-#define OUT_FORMAT "%d"
+#define OUT_FORMAT0 "%d%d"
+#define OUT_FORMAT1 "%d-%d-%d %d-%d-%d"
 #define ZERO                                                                   \
   {                                                                            \
     0, {                                                                       \
@@ -341,7 +342,7 @@
 #define TYPE cgraph_complex_t
 #define ID CGRAPH_COMPLEX_T
 #define NAME complex
-#define OUT_FORMAT "%g"
+#define OUT_FORMAT "%g + i%g"
 #define ZERO                                                                   \
   {                                                                            \
     { 0.0, 0.0 }                                                               \
@@ -379,7 +380,7 @@
 #define TYPE cgraph_fraction_t
 #define ID CGRAPH_FRACTION_T
 #define NAME fraction
-#define OUT_FORMAT "%d"
+#define OUT_FORMAT "%d/%d"
 #define ZERO                                                                   \
   {                                                                            \
     { 0, 1 }                                                                   \

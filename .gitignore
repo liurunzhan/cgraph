@@ -116,6 +116,7 @@ script/compile.hi
 # Test Cases
 test/*
 !test/*.c
+!test/*.ct
 !test/*.r
 !test/*.py
 !test/*.sql

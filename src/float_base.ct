@@ -23,19 +23,17 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   return CGRAPH_TEST(DATA_TEST(cthis));
 }
 
-cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis,
-                                    const cgraph_char_t *sep) {
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
   return fprintf(stdout, OUT_FORMAT, cthis);
 }
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis,
-                                     const cgraph_char_t *sep) {
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
   return fprintf(fp, OUT_FORMAT, cthis);
 }
 
-cgraph_int_t FUNCTION(NAME,
-                      snprintf)(cgraph_char_t *buffer, const cgraph_size_t size,
-                                const TYPE cthis, const cgraph_char_t *sep) {
+cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE cthis) {
   return cgraph_file_snprintf(buffer, size, OUT_FORMAT, cthis);
 }
 

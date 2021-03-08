@@ -9,8 +9,7 @@
 /*template module*/
 #include "data_base.ct"
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis,
-                                     const cgraph_char_t *sep) {
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
   cgraph_int_t size = 0;
   if (NULL != cthis) {
     cgraph_size_t i;

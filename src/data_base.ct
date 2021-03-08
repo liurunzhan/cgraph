@@ -559,6 +559,102 @@ TYPE *FUNCTION(NAME, rot_4I)(TYPE *cthis, const cgraph_size_t row,
   return cthis;
 }
 
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, ext2d)(TYPE **cthis, const cgraph_size_t old_row,
+                             const cgraph_size_t old_col,
+                             const cgraph_size_t ext_row,
+                             const cgraph_size_t ext_col)
+#else
+TYPE *FUNCTION(NAME, ext2d)(TYPE *cthis, const cgraph_size_t old_row,
+                            const cgraph_size_t old_col,
+                            const cgraph_size_t ext_row,
+                            const cgraph_size_t ext_col)
+#endif
+{
+  cgraph_size_t old_size = old_row * old_col * FUNCTION(NAME, tptrsize)(),
+                new_size = (old_row + ext_row) * (old_col + ext_col) *
+                           FUNCTION(NAME, tptrsize)();
+  cgraph_bool_t error = CGRAPH_FALSE;
+  cthis = cgraph_realloc(cthis, old_size, new_size, &error);
+  if (CGRAPH_FALSE == error) {
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, ext2d_zero)(TYPE **cthis, const cgraph_size_t old_row,
+                                  const cgraph_size_t old_col,
+                                  const cgraph_size_t ext_row,
+                                  const cgraph_size_t ext_col)
+#else
+TYPE *FUNCTION(NAME, ext2d_zero)(TYPE *cthis, const cgraph_size_t old_row,
+                                 const cgraph_size_t old_col,
+                                 const cgraph_size_t ext_row,
+                                 const cgraph_size_t ext_col)
+#endif
+{
+  cgraph_size_t old_size = old_row * old_col * FUNCTION(NAME, tptrsize)(),
+                new_size = (old_row + ext_row) * (old_col + ext_col) *
+                           FUNCTION(NAME, tptrsize)();
+  cgraph_bool_t error = CGRAPH_FALSE;
+  cthis = cgraph_realloc(cthis, old_size, new_size, &error);
+  if (CGRAPH_FALSE == error) {
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME,
+                ext3d)(TYPE **cthis, const cgraph_size_t old_x,
+                       const cgraph_size_t old_y, const cgraph_size_t old_z,
+                       const cgraph_size_t ext_x, const cgraph_size_t ext_y,
+                       const cgraph_size_t ext_z)
+#else
+TYPE *FUNCTION(NAME,
+               ext3d)(TYPE *cthis, const cgraph_size_t old_x,
+                      const cgraph_size_t old_y, const cgraph_size_t old_z,
+                      const cgraph_size_t ext_x, const cgraph_size_t ext_y,
+                      const cgraph_size_t ext_z)
+#endif
+{
+  cgraph_size_t old_size = old_x * old_y * old_z * FUNCTION(NAME, tptrsize)(),
+                new_size = (old_x + ext_x) * (old_y + ext_y) * (old_z + ext_z) *
+                           FUNCTION(NAME, tptrsize)();
+  cgraph_bool_t error = CGRAPH_FALSE;
+  cthis = cgraph_realloc(cthis, old_size, new_size, &error);
+  if (CGRAPH_FALSE == error) {
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **
+FUNCTION(NAME, ext3d_zero)(TYPE **cthis, const cgraph_size_t old_x,
+                           const cgraph_size_t old_y, const cgraph_size_t old_z,
+                           const cgraph_size_t ext_x, const cgraph_size_t ext_y,
+                           const cgraph_size_t ext_z)
+#else
+TYPE *FUNCTION(NAME,
+               ext3d_zero)(TYPE *cthis, const cgraph_size_t old_x,
+                           const cgraph_size_t old_y, const cgraph_size_t old_z,
+                           const cgraph_size_t ext_x, const cgraph_size_t ext_y,
+                           const cgraph_size_t ext_z)
+#endif
+{
+  cgraph_size_t old_size = old_x * old_y * old_z * FUNCTION(NAME, tptrsize)(),
+                new_size = (old_x + ext_x) * (old_y + ext_y) * (old_z + ext_z) *
+                           FUNCTION(NAME, tptrsize)();
+  cgraph_bool_t error = CGRAPH_FALSE;
+  cthis = cgraph_realloc(cthis, old_size, new_size, &error);
+  if (CGRAPH_FALSE == error) {
+  }
+
+  return cthis;
+}
+
 /**
  * A = [[0 1] [2 3]]
  * det A = 0 x 3 - 1 x 2

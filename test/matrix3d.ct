@@ -1,0 +1,13 @@
+int main(int argc, char *argv[]) {
+  /*
+TYPE *matrix = FUNCTION(NAME, calloc)(CGRAPH_INT8_T, 200);
+fprintf(stdout, "len : %ld size : %ld\n", matrix->len, matrix->size);
+fprintf(stdout, "index_i : %ld index_j : %ld index_k : %ld\n",
+    matrix->index_i, matrix->index_j, matrix->index_k);
+FUNCTION(NAME, free)(matrix);
+*/
+  fprintf(stdout, "name : %s\n", STRING(TYPE));
+  fprintf(stdout, "name : %d\n", ID);
+
+  return 0;
+}

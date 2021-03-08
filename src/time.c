@@ -14,35 +14,38 @@
 
 #include "data_base.ct"
 
-cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis,
-                                    const cgraph_char_t *sep) {
-  return fprintf(stdout,
-                 OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT
-                            "%s" OUT_FORMAT "%s" OUT_FORMAT,
-                 TIME_YEAR(cthis), sep, TIME_MONTH(cthis), sep, TIME_DAY(cthis),
-                 sep, TIME_HOUR(cthis), sep, TIME_MINUTE(cthis), sep,
-                 TIME_SECOND(cthis));
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
+  if (TIME_ISTYPE1(cthis)) {
+    return fprintf(stdout, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
+                   TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
+                   TIME_SECOND(cthis));
+  } else {
+    return fprintf(stdout, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
+  }
 }
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis,
-                                     const cgraph_char_t *sep) {
-  return fprintf(fp,
-                 OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT
-                            "%s" OUT_FORMAT "%s" OUT_FORMAT,
-                 TIME_YEAR(cthis), sep, TIME_MONTH(cthis), sep, TIME_DAY(cthis),
-                 sep, TIME_HOUR(cthis), sep, TIME_MINUTE(cthis), sep,
-                 TIME_SECOND(cthis));
+cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
+  if (TIME_ISTYPE1(cthis)) {
+    return fprintf(fp, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
+                   TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
+                   TIME_SECOND(cthis));
+  } else {
+    return fprintf(fp, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
+  }
 }
 
-cgraph_int_t FUNCTION(NAME,
-                      snprintf)(cgraph_char_t *buffer, const cgraph_size_t size,
-                                const TYPE cthis, const cgraph_char_t *sep) {
-  return cgraph_file_snprintf(
-      buffer, size,
-      OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT "%s" OUT_FORMAT
-                 "%s" OUT_FORMAT,
-      TIME_YEAR(cthis), sep, TIME_MONTH(cthis), sep, TIME_DAY(cthis), sep,
-      TIME_HOUR(cthis), sep, TIME_MINUTE(cthis), sep, TIME_SECOND(cthis));
+cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE cthis) {
+  if (TIME_ISTYPE1(cthis)) {
+    return cgraph_file_snprintf(buffer, size, OUT_FORMAT1, TIME_YEAR(cthis),
+                                TIME_MONTH(cthis), TIME_DAY(cthis),
+                                TIME_HOUR(cthis), TIME_MINUTE(cthis),
+                                TIME_SECOND(cthis));
+  } else {
+    return cgraph_file_snprintf(buffer, size, OUT_FORMAT0, TIME_VALUE1(cthis),
+                                TIME_VALUE0(cthis));
+  }
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {

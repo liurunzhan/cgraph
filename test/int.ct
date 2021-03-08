@@ -1,0 +1,6 @@
+int main(int argc, char *argv[]) {
+  fprintf(stdout, "name : %s\n", STRING(TYPE));
+  fprintf(stdout, "size : %ld\n", sizeof(TYPE));
+
+  return 0;
+}
