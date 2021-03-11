@@ -34,7 +34,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if (DATA_TEST(COMPLEX_REAL(cthis)) && DATA_TEST(COMPLEX_IMAG(cthis))) {
+  if (DATA_TEST(cthis)) {
     flag = CGRAPH_TRUE;
   }
 
@@ -444,24 +444,28 @@ TYPE FUNCTION(NAME, atan)(const TYPE x) {
   return res;
 }
 
-cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISNAN(COMPLEX_REAL(x)) ||
-                     DATA_ISNAN(COMPLEX_IMAG(x)));
-}
-
-cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISINF(COMPLEX_REAL(x)) ||
-                     DATA_ISINF(COMPLEX_IMAG(x)));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNAN(x));
 }
 
 cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISPINF(COMPLEX_REAL(x)) ||
-                     DATA_ISPINF(COMPLEX_IMAG(x)));
+  return CGRAPH_TEST(DATA_ISPINF(x));
 }
 
 cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISNINF(COMPLEX_REAL(x)) ||
-                     DATA_ISPINF(COMPLEX_IMAG(x)));
+  return CGRAPH_TEST(DATA_ISNINF(x));
+}
+
+cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISINF(x));
+}
+
+cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISPOS(x));
+}
+
+cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNEG(x));
 }
 
 static const TYPE _cgraph_complex_zero = ZERO;

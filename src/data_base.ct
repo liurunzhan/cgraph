@@ -156,6 +156,26 @@ TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const TYPE *data,
 }
 
 #ifdef TYPE_WITH_DATA
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
+  return CGRAPH_TEST((NULL == cthis) || (0 == cthis->len));
+}
+#else
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE cthis) {
+  return CGRAPH_TRUE;
+}
+#endif
+
+#ifdef TYPE_WITH_DATA
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
+  return CGRAPH_FALSE;
+}
+#else
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis) {
+  return CGRAPH_FALSE;
+}
+#endif
+
+#ifdef TYPE_WITH_DATA
 void FUNCTION(NAME, ascsort)(TYPE **cthis, const cgraph_size_t start,
                              const cgraph_size_t end) {
   cgraph_size_t left = start, right = end;

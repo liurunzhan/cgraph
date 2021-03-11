@@ -52,23 +52,24 @@ extern "C" {
 #define MATH_CONST_LOG10 (2.30258509299404568402)
 #endif /** MATH_CONST_LOG10 : log_e 10 */
 
-extern cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata,
-                                     const cgraph_uint_t data,
-                                     const cgraph_uint_t poly);
+#define MATH_CONST_RAND_MAX CGRAPH_INT32_MAX
 
-extern cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data);
-
+/* package of functions in <ctype.h> */
 extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
-
-extern cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_islower(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_toupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
 
-extern cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data);
+
+extern cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
+                                           const cgraph_size_t start);
 
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data);
@@ -78,15 +79,17 @@ extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
                                           cgraph_bool_t *error);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
                                           cgraph_bool_t *error);
-extern cgraph_size_t cgraph_math_baseoflen(const cgraph_int_t data,
+extern cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
                                            const cgraph_int_t base);
+
+extern cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
+                                       const cgraph_uint64_t data,
+                                       const cgraph_uint64_t poly);
 
 extern cgraph_bool_t cgraph_math_prime(const cgraph_int_t data);
 extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
                                         cgraph_int_t *isprime,
                                         const cgraph_int_t data);
-
-#define CGRAPH_RANDOM_MAX 2147483647
 
 extern cgraph_int_t cgraph_random(void);
 extern cgraph_int_t cgraph_random_uniform(const cgraph_int_t min,

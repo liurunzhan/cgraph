@@ -228,6 +228,30 @@
 #undef OUT_FORMAT
 #endif
 
+#ifdef ZERO0
+#undef ZERO0
+#endif
+
+#ifdef ONE0
+#undef ONE0
+#endif
+
+#ifdef ONES0
+#undef ONES0
+#endif
+
+#ifdef ZERO1
+#undef ZERO1
+#endif
+
+#ifdef ONE1
+#undef ONE1
+#endif
+
+#ifdef ONES1
+#undef ONES1
+#endif
+
 #ifdef ZERO
 #undef ZERO
 #endif
@@ -328,6 +352,30 @@
 
 #ifdef DATA_EPSILON_LEN
 #undef DATA_EPSILON_LEN
+#endif
+
+#ifdef DATA_EQ
+#undef DATA_EQ
+#endif
+
+#ifdef DATA_NE
+#undef DATA_NE
+#endif
+
+#ifdef DATA_GR
+#undef DATA_GR
+#endif
+
+#ifdef DATA_GE
+#undef DATA_GE
+#endif
+
+#ifdef DATA_LS
+#undef DATA_LS
+#endif
+
+#ifdef DATA_LE
+#undef DATA_LE
 #endif
 
 #ifdef DATA_TEST

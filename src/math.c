@@ -1,29 +1,6 @@
 #include <ctype.h>
 
 #include "cgraph_math.h"
-#include "cgraph_memory.h"
-
-cgraph_uint_t cgraph_math_crc(const cgraph_uint_t predata,
-                              const cgraph_uint_t data,
-                              const cgraph_uint_t poly) {
-  cgraph_uint_t res = predata, temp = (data & res), ones = 0xFFFFFFFF, msb = 0;
-  cgraph_size_t i = 0, bits = 32;
-  for (i = 0; i < bits; i++) {
-    msb = ((res ^ temp) >> (bits - 1) & 0x01);
-    if (msb == 0x01) {
-      res = (((res << 1) ^ ones) & poly);
-    } else {
-      res = (res << 1);
-    }
-    temp = (temp << 1);
-  }
-
-  return res;
-}
-
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data) {
-  return CGRAPH_TEST(isprint(data));
-}
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data) {
   return CGRAPH_TEST(isalnum(data));
@@ -33,12 +10,28 @@ CGRAPH_INLINE cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data) {
   return CGRAPH_TEST(isalpha(data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data) {
-  return CGRAPH_TEST(isupper(data));
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
+#if CGRAPH_STDC_VERSION >= 199901L
+  return CGRAPH_TEST(isblank(data));
+#else
+  return CGRAPH_TEST((' ' == data) || ('\t' == data));
+#endif
 }
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {
   return CGRAPH_TEST(islower(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data) {
+  return CGRAPH_TEST(isprint(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data));
+}
+
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data) {
+  return CGRAPH_TEST(isupper(data));
 }
 
 CGRAPH_INLINE cgraph_char_t cgraph_math_toupper(const cgraph_char_t data) {
@@ -49,16 +42,51 @@ CGRAPH_INLINE cgraph_char_t cgraph_math_tolower(const cgraph_char_t data) {
   return islower(data) ? tolower(data) : MATH_ERROR;
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data) {
-  return CGRAPH_TEST(isspace(data));
-}
-
 CGRAPH_INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
   return CGRAPH_TEST(CGRAPH_PLAT_PSPLIT_C == data);
 }
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data) {
   return CGRAPH_TEST(CGRAPH_PLAT_NLINE_C == data);
+}
+
+cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != data) {
+    cgraph_char_t *name = (cgraph_char_t *)data;
+    if (isalpha(*name) || ('_' == *name)) {
+      for (name++; '\0' != *name; name++) {
+        if (!isalnum(*name) && ('_' != *name)) {
+          break;
+        }
+      }
+      if ('\0' == *name) {
+        res = CGRAPH_TRUE;
+      }
+    }
+  }
+
+  return res;
+}
+
+cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
+                                    const cgraph_size_t start) {
+  cgraph_size_t len = 0;
+  if (NULL != data) {
+    cgraph_char_t *name = (cgraph_char_t *)(data + start);
+    while (isspace(*name) && ('\0' != *name)) {
+      name++;
+    }
+    if ((isalpha(*name) || ('_' == *name)) && ('\0' != *name)) {
+      for (name++, len++; '\0' != *name; name++, len++) {
+        if (!isalnum(*name) && ('_' != *name)) {
+          break;
+        }
+      }
+    }
+  }
+
+  return len;
 }
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
@@ -151,7 +179,7 @@ cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
   return ch;
 }
 
-cgraph_size_t cgraph_math_baseoflen(const cgraph_int_t data,
+cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
                                     const cgraph_int_t base) {
   cgraph_size_t len = 0;
   cgraph_int_t new_data = data;
@@ -161,6 +189,25 @@ cgraph_size_t cgraph_math_baseoflen(const cgraph_int_t data,
   }
 
   return len;
+}
+
+cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
+                                const cgraph_uint64_t data,
+                                const cgraph_uint64_t poly) {
+  cgraph_uint64_t res = predata, temp = (data & res), ones = CGRAPH_UINT64_MAX,
+                  msb = 0;
+  cgraph_size_t i = 0, bits = CGRAPH_UINT64_BIT;
+  for (i = 0; i < bits; i++) {
+    msb = ((res ^ temp) >> (bits - 1) & 0x01);
+    if (msb == 0x01) {
+      res = (((res << 1) ^ ones) & poly);
+    } else {
+      res = (res << 1);
+    }
+    temp = (temp << 1);
+  }
+
+  return res;
 }
 
 cgraph_bool_t cgraph_math_prime(const cgraph_int_t data) {
@@ -218,13 +265,13 @@ void cgraph_random_seed(cgraph_int_t seed) { __cgraph_math_seed = seed; }
         Author  : Park,  Miller
         Methode : X(n+1) <- (a * X(n) + b) % m
         a = 16807 or 48271
-        m = 2147483647 (CGRAPH_RANDOM_MAX, 2^31 - 1 or 2 << 31 - 1)
+        m = 2147483647 (MATH_CONST_RAND_MAX, 2^31 - 1 or 2 << 31 - 1)
         b = 0
         returning a 32bit integer [1, 2147483647]
         X(0) = 1
 */
 cgraph_int_t cgraph_random(void) {
-  const cgraph_int_t a = 48271, m = CGRAPH_RANDOM_MAX;
+  const cgraph_int_t a = 48271, m = MATH_CONST_RAND_MAX;
   const cgraph_int_t m_div_a = m / a, m_mod_a = m % a;
   cgraph_int_t hi = __cgraph_math_seed / m_div_a,
                lo = __cgraph_math_seed % m_div_a;
@@ -248,8 +295,8 @@ cgraph_float64_t cgraph_random_normal(const cgraph_float64_t mu,
   static cgraph_float64_t U, V, Z;
   static cgraph_bool_t phase = CGRAPH_FALSE;
   if (!phase) {
-    U = (1.0 * cgraph_random() + 1.0) / (CGRAPH_RANDOM_MAX + 2.0);
-    V = 1.0 * cgraph_random() / (CGRAPH_RANDOM_MAX + 1.0);
+    U = (1.0 * cgraph_random() + 1.0) / (MATH_CONST_RAND_MAX + 2.0);
+    V = 1.0 * cgraph_random() / (MATH_CONST_RAND_MAX + 1.0);
     Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
   } else {
     Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V);

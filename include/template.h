@@ -303,25 +303,46 @@
 #define ID CGRAPH_TIME_T
 #define NAME time
 #define OUT_FORMAT0 "%d%d"
-#define OUT_FORMAT1 "%d-%d-%d %d-%d-%d"
-#define ZERO                                                                   \
+#define ZERO0                                                                  \
   {                                                                            \
     0, {                                                                       \
-      { 0 }                                                                    \
+      { 0, 0 }                                                                 \
     }                                                                          \
   }
-#define ONE                                                                    \
+#define ONE0                                                                   \
   {                                                                            \
     0, {                                                                       \
-      { 1 }                                                                    \
+      { 0, 1 }                                                                 \
     }                                                                          \
   }
-#define ONES                                                                   \
+#define ONES0                                                                  \
   {                                                                            \
     1, {                                                                       \
-      { 1 }                                                                    \
+      { 1, 1 }                                                                 \
     }                                                                          \
   }
+#define OUT_FORMAT1 "%d-%d-%d %d-%d-%d"
+#define ZERO1                                                                  \
+  {                                                                            \
+    0, {                                                                       \
+      { 0, 0, 0, 0, 0, 0 }                                                     \
+    }                                                                          \
+  }
+#define ONE1                                                                   \
+  {                                                                            \
+    0, {                                                                       \
+      { 0, 0, 0, 0, 0, 1 }                                                     \
+    }                                                                          \
+  }
+#define ONES1                                                                  \
+  {                                                                            \
+    1, {                                                                       \
+      { 1, 1, 1, 1, 1, 1 }                                                     \
+    }                                                                          \
+  }
+#define ZERO ZERO0
+#define ONE ONE0
+#define ONES ONE0
 #define BITS (8 * sizeof(TYPE) - 1)
 #define MIN (0)
 #define MAX (1)
@@ -979,23 +1000,40 @@
 #define MOD(a, b, c) __CGRAPH_UNDEFINED
 
 #elif defined(TYPE_COMPLEX)
+#define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
+#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
+#define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
+#define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
+#define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
+#define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
+
 #if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
-#define DATA_TEST(a) isnormal((a))
-#define DATA_ISNAN(a) isnan((a))
-#define DATA_ISPINF(a) (isinf((a)) > 0)
-#define DATA_ISNINF(a) (isinf((a)) < 0)
-#define DATA_ISINF(a) isinf((a))
-#define DATA_ISPOS(a) signbit((a))
-#define DATA_ISNEG(a) (!signbit((a)))
+#define DATA_TEST(a) (isnormal(COMPLEX_REAL(a)) && isnormal(COMPLEX_IMAG(a)))
+#define DATA_ISNAN(a) (isnan(COMPLEX_REAL(a)) || isnan(COMPLEX_IMAG(a)))
+#define DATA_ISPINF(a)                                                         \
+  ((0 < isinf(COMPLEX_REAL(a))) || (0 < isinf(COMPLEX_IMAG(a))))
+#define DATA_ISNINF(a)                                                         \
+  ((0 > isinf(COMPLEX_REAL(a))) || (0 > isinf(COMPLEX_IMAG(a))))
+#define DATA_ISINF(a) ((!isinf(COMPLEX_REAL(a))) || (!isinf(COMPLEX_IMAG(a))))
+#define DATA_ISPOS(a) (signbit(COMPLEX_REAL(a)) && signbit(COMPLEX_IMAG(a)))
+#define DATA_ISNEG(a)                                                          \
+  ((!signbit(COMPLEX_REAL(a))) && (!signbit(COMPLEX_IMAG(a))))
 #else
-#define DATA_TEST(a) ((DATA_MIN < (a)) && (DATA_MAX > (a)))
-#define DATA_ISNAN(a) ((a) != (a))
-#define DATA_ISPINF(a) (DATA_MAX < (a))
-#define DATA_ISNINF(a) (DATA_MIN > (a))
+#define DATA_TEST(a)                                                           \
+  ((DATA_MIN < COMPLEX_REAL(a)) && (DATA_MAX > COMPLEX_REAL(a)) &&             \
+   (DATA_MIN < COMPLEX_IMAG(a)) && (DATA_MAX > COMPLEX_IMAG(a)))
+#define DATA_ISNAN(a)                                                          \
+  ((COMPLEX_REAL(a) != COMPLEX_REAL(a)) || (COMPLEX_IMAG(a) != COMPLEX_IMAG(a)))
+#define DATA_ISPINF(a)                                                         \
+  ((DATA_MAX < COMPLEX_REAL(a)) || (DATA_MAX < COMPLEX_IMAG(a)))
+#define DATA_ISNINF(a)                                                         \
+  ((DATA_MIN > COMPLEX_REAL(a)) || (DATA_MIN > COMPLEX_IMAG(a)))
 #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
-#define DATA_ISPOS(a) GR((a), 0.0)
-#define DATA_ISNEG(a) LS((a), 0.0)
-#endif /**CGRAPH_STDC_VERSION */
+#define DATA_ISPOS(a)                                                          \
+  (DATA_GR(COMPLEX_REAL(a), 0.0) && DATA_GR(COMPLEX_IMAG(a), 0.0))
+#define DATA_ISNEG(a)                                                          \
+  (DATA_LS(COMPLEX_REAL(a), 0.0) && DATA_LS(COMPLEX_IMAG(a), 0.0))
+#endif
 
 #define ADD(a, b, c)                                                           \
   FUNCTION(NAME, add)                                                          \
@@ -1020,18 +1058,28 @@
   ((a), (b))
 
 #define EQ(a, b)                                                               \
-  ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) < DATA_EPSILON) &&                 \
-   (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) < DATA_EPSILON))
+  (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                                \
+   DATA_EQ(COMPLEX_IMAG(a), COMPLEX_IMAG(b)))
 #define NE(a, b)                                                               \
-  ((fabs(COMPLEX_REAL(a) - COMPLEX_REAL(b)) > DATA_EPSILON) ||                 \
-   (fabs(COMPLEX_IMAG(a) - COMPLEX_IMAG(b)) > DATA_EPSILON))
-#define GR(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) > DATA_EPSILON)
-#define GE(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) > (-DATA_EPSILON))
-#define LS(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) < (-DATA_EPSILON))
-#define LE(a, b) ((COMPLEX_MAG2(a) - COMPLEX_MAG2(b)) < DATA_EPSILON)
+  (DATA_NE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
+   DATA_NE(COMPLEX_IMAG(a), COMPLEX_IMAG(b)))
+#define GR(a, b) DATA_GR(COMPLEX_MAG2(a), COMPLEX_MAG2(b))
+#define GE(a, b) DATA_GE(COMPLEX_MAG2(a), COMPLEX_MAG2(b))
+#define LS(a, b) DATA_LS(COMPLEX_MAG2(a), COMPLEX_MAG2(b))
+#define LE(a, b) DATA_LE(COMPLEX_MAG2(a), COMPLEX_MAG2(b))
 
 #elif defined(TYPE_FRACTION)
-#define DATA_TEST(a) (0 == (a))
+#define DATA_TEST(a) ((0 != FRACTION_DEN(a)))
+#define DATA_ISNAN(a) ((0 == FRACTION_DEN(a)) && (0 == FRACTION_NUM(a)))
+#define DATA_ISPINF(a) ((0 == FRACTION_DEN(a)) && (0 < FRACTION_NUM(a)))
+#define DATA_ISNINF(a) ((0 == FRACTION_DEN(a)) && (0 > FRACTION_NUM(a)))
+#define DATA_ISINF(a) (0 == FRACTION_DEN(a))
+#define DATA_ISPOS(a)                                                          \
+  (((0 < FRACTION_DEN(a)) && (0 < FRACTION_NUM(a))) ||                         \
+   ((0 > FRACTION_DEN(a)) && (0 > FRACTION_NUM(a))))
+#define DATA_ISNEG(a)                                                          \
+  (((0 < FRACTION_DEN(a)) && (0 > FRACTION_NUM(a))) ||                         \
+   ((0 > FRACTION_DEN(a)) && (0 < FRACTION_NUM(a))))
 
 #define ADD(a, b, c)                                                           \
   FUNCTION(NAME, add)                                                          \

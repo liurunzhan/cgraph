@@ -26,10 +26,17 @@ extern cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format,
                                    ...);
 
-extern cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, isnewline)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isalnum)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isalpha)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isblank)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isdigit)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, islower)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isprint)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isspace)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, isblankspace)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isupper)(const TYPE *cthis);
+
+extern cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_int_t y, TYPE *z);
 
