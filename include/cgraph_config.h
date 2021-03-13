@@ -35,29 +35,29 @@ extern "C" {
  * @def CGRAPH_CHAR_MAX CHAR_MAX
  * @def CGRAPH_CHAR_MIN CHAR_MIN
  * @def CGRAPH_CHAR_EPS (0xFF)
- * @def CGRAPH_CHAR_BIT (8)
+ * @def CGRAPH_CHAR_BITS (8)
  */
 typedef char cgraph_char_t;
 #define CGRAPH_CHAR_MAX CHAR_MAX
 #define CGRAPH_CHAR_MIN CHAR_MIN
 #define CGRAPH_CHAR_EPS (0xFF)
-#define CGRAPH_CHAR_BIT (8)
+#define CGRAPH_CHAR_BITS (8 * sizeof(cgraph_char_t))
 
 /**
  * @typedef cgraph_bool_t
  * @brief 1-bit integer number data type
  * @def CGRAPH_BOOL_MAX CGRAPH_TRUE  (1)
  * @def CGRAPH_BOOL_MIN CGRAPH_FALSE (0)
- * @def CGRAPH_BOOL_EPS (0x01)
- * @def CGRAPH_BOOL_BIT (1)
+ * @def CGRAPH_BOOL_EPS (1)
+ * @def CGRAPH_BOOL_BITS (1)
  */
 typedef signed int cgraph_bool_t;
 #define CGRAPH_TRUE (1)
 #define CGRAPH_FALSE (0)
 #define CGRAPH_BOOL_MAX CGRAPH_TRUE
 #define CGRAPH_BOOL_MIN CGRAPH_FALSE
-#define CGRAPH_BOOL_EPS (0x01)
-#define CGRAPH_BOOL_BIT (1)
+#define CGRAPH_BOOL_EPS (1)
+#define CGRAPH_BOOL_BITS (1)
 
 #define CGRAPH_BOOL_TRUE "true"
 #define CGRAPH_BOOL_TRUE_LEN (4)
@@ -70,14 +70,13 @@ typedef signed int cgraph_bool_t;
  * @def CGRAPH_INT_MAX INT_MAX
  * @def CGRAPH_INT_MIN INT_MIN
  * @def CGRAPH_INT_EPS (0xFFFFFFFF)
- * @def CGRAPH_INT_BIT (32)
+ * @def CGRAPH_INT_BITS (32)
  */
 typedef signed int cgraph_int_t;
-typedef unsigned int cgraph_uint_t;
 #define CGRAPH_INT_MAX INT_MAX
 #define CGRAPH_INT_MIN INT_MIN
 #define CGRAPH_INT_EPS (0xFFFFFFFF)
-#define CGRAPH_INT_BIT (32)
+#define CGRAPH_INT_BITS (8 * sizeof(cgraph_int_t))
 
 /**
  * @typedef cgraph_uint_t
@@ -85,12 +84,13 @@ typedef unsigned int cgraph_uint_t;
  * @def CGRAPH_UINT_MAX UINT_MAX
  * @def CGRAPH_UINT_MIN UINT_MIN
  * @def CGRAPH_UINT_EPS (0xFFFFFFFF)
- * @def CGRAPH_UINT_BIT (32)
+ * @def CGRAPH_UINT_BITS (32)
  */
+typedef unsigned int cgraph_uint_t;
 #define CGRAPH_UINT_MAX UINT_MAX
 #define CGRAPH_UINT_MIN UINT_MIN
 #define CGRAPH_UINT_EPS (0xFFFFFFFF)
-#define CGRAPH_UINT_BIT (32)
+#define CGRAPH_UINT_BITS (8 * sizeof(cgraph_uint_t))
 
 /**
  * @typedef cgraph_long_t
@@ -98,19 +98,13 @@ typedef unsigned int cgraph_uint_t;
  * @def CGRAPH_LONG_MAX LONG_MAX
  * @def CGRAPH_LONG_MIN LONG_MIN
  * @def CGRAPH_LONG_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
- * @def CGRAPH_LONG_BIT (32)/(64)
+ * @def CGRAPH_LONG_BITS (32)/(64)
  */
 typedef signed long cgraph_long_t;
-typedef unsigned long cgraph_ulong_t;
 #define CGRAPH_LONG_MAX LONG_MAX
 #define CGRAPH_LONG_MIN LONG_MIN
-#if CGRAPH_WORDSIZE == 64
-#define CGRAPH_LONG_EPS __CGRAPH_INT64_EPS
-#define CGRAPH_LONG_BIT (64)
-#elif CGRAPH_WORDSIZE == 32
-#define CGRAPH_LONG_EPS __CGRAPH_INT32_EPS
-#define CGRAPH_LONG_BIT (32)
-#endif
+#define CGRAPH_LONG_EPS CGRAPH_WORDSIZE
+#define CGRAPH_LONG_BITS (8 * sizeof(cgraph_long_t))
 
 /**
  * @typedef cgraph_ulong_t
@@ -119,17 +113,13 @@ typedef unsigned long cgraph_ulong_t;
  * @def CGRAPH_ULONG_MAX ULONG_MAX
  * @def CGRAPH_ULONG_MIN ULONG_MIN
  * @def CGRAPH_ULONG_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
- * @def CGRAPH_ULONG_BIT (32)/(64)
+ * @def CGRAPH_ULONG_BITS (32)/(64)
  */
+typedef unsigned long cgraph_ulong_t;
 #define CGRAPH_ULONG_MAX ULONG_MAX
 #define CGRAPH_ULONG_MIN ULONG_MIN
-#if CGRAPH_WORDSIZE == 64
-#define CGRAPH_ULONG_EPS __CGRAPH_UINT64_EPS
-#define CGRAPH_ULONG_BIT (64)
-#elif CGRAPH_WORDSIZE == 32
-#define CGRAPH_ULONG_EPS __CGRAPH_UINT32_EPS
-#define CGRAPH_ULONG_BIT (32)
-#endif
+#define CGRAPH_ULONG_EPS CGRAPH_WORDSIZE
+#define CGRAPH_ULONG_BITS (8 * sizeof(cgraph_ulong_t))
 
 /**
  * @typedef cgraph_size_t
@@ -137,118 +127,118 @@ typedef unsigned long cgraph_ulong_t;
  * @def CGRAPH_SIZE_MAX LONG_MAX
  * @def CGRAPH_SIZE_MIN LONG_MIN
  * @def CGRAPH_SIZE_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
- * @def CGRAPH_SIZE_BIT (32)/(64)
+ * @def CGRAPH_SIZE_BITS (32)/(64)
  */
-#define CGRAPH_SIZE_OUT_FORMAT "%ld"
 typedef cgraph_long_t cgraph_size_t;
 #define CGRAPH_SIZE_MAX CGRAPH_LONG_MAX
 #define CGRAPH_SIZE_MIN CGRAPH_LONG_MIN
 #define CGRAPH_SIZE_EPS CGRAPH_LONG_EPS
-#define CGRAPH_SIZE_BIT CGRAPH_LONG_BIT
+#define CGRAPH_SIZE_BITS CGRAPH_LONG_BITS
+#define CGRAPH_SIZE_OUT_FORMAT "%ld"
 
 /**
  * @typedef cgraph_int8_t
  * @brief 8-bit integer number
  * @def CGRAPH_INT8_MIN
  */
+typedef __cgraph_int8 cgraph_int8_t;
 #define CGRAPH_INT8_MAX __CGRAPH_INT8_MAX
 #define CGRAPH_INT8_MIN __CGRAPH_INT8_MIN
 #define CGRAPH_INT8_EPS __CGRAPH_INT8_EPS
-#define CGRAPH_INT8_BIT __CGRAPH_INT8_BIT
+#define CGRAPH_INT8_BITS __CGRAPH_INT8_BITS
 #define CGRAPH_INT8_IN_FORMAT __CGRAPH_INT8_IN_FORMAT
 #define CGRAPH_INT8_OUT_FORMAT __CGRAPH_INT8_OUT_FORMAT
-typedef __cgraph_int8 cgraph_int8_t;
 
 /**
  * @typedef cgraph_uint8_t
  * @brief 8-bit unsigned integer number
  * @def CGRAPH_UINT8_MIN
  */
+typedef __cgraph_uint8 cgraph_uint8_t;
 #define CGRAPH_UINT8_MAX __CGRAPH_UINT8_MAX
 #define CGRAPH_UINT8_MIN __CGRAPH_UINT8_MIN
 #define CGRAPH_UINT8_EPS __CGRAPH_UINT8_EPS
-#define CGRAPH_UINT8_BIT __CGRAPH_UINT8_BIT
+#define CGRAPH_UINT8_BITS __CGRAPH_UINT8_BITS
 #define CGRAPH_UINT8_IN_FORMAT __CGRAPH_UINT8_IN_FORMAT
 #define CGRAPH_UINT8_OUT_FORMAT __CGRAPH_UINT8_OUT_FORMAT
-typedef __cgraph_uint8 cgraph_uint8_t;
 
 /**
  * @typedef cgraph_int16_t
  * @brief 16-bit integer number
  * @def CGRAPH_INT16_MIN
  */
+typedef __cgraph_int16 cgraph_int16_t;
 #define CGRAPH_INT16_MIN __CGRAPH_INT16_MIN
 #define CGRAPH_INT16_MAX __CGRAPH_INT16_MAX
 #define CGRAPH_INT16_EPS __CGRAPH_INT16_EPS
-#define CGRAPH_INT16_BIT __CGRAPH_INT16_BIT
+#define CGRAPH_INT16_BITS __CGRAPH_INT16_BITS
 #define CGRAPH_INT16_IN_FORMAT __CGRAPH_INT16_IN_FORMAT
 #define CGRAPH_INT16_OUT_FORMAT __CGRAPH_INT16_OUT_FORMAT
-typedef __cgraph_int16 cgraph_int16_t;
 
 /**
  * @typedef cgraph_uint16_t
  * @brief 16-bit unsigned integer number
  * @def CGRAPH_UINT16_MIN
  */
+typedef __cgraph_uint16 cgraph_uint16_t;
 #define CGRAPH_UINT16_MIN __CGRAPH_UINT16_MIN
 #define CGRAPH_UINT16_MAX __CGRAPH_UINT16_MAX
 #define CGRAPH_UINT16_EPS __CGRAPH_UINT16_EPS
-#define CGRAPH_UINT16_BIT __CGRAPH_UINT16_BIT
+#define CGRAPH_UINT16_BITS __CGRAPH_UINT16_BITS
 #define CGRAPH_UINT16_IN_FORMAT __CGRAPH_UINT16_IN_FORMAT
 #define CGRAPH_UINT16_OUT_FORMAT __CGRAPH_UINT16_OUT_FORMAT
-typedef __cgraph_uint16 cgraph_uint16_t;
 
 /**
  * @typedef cgraph_int32_t
  * @brief 32-bit integer number
  * @def CGRAPH_INT32_MIN
  */
+typedef __cgraph_int32 cgraph_int32_t;
 #define CGRAPH_INT32_MIN __CGRAPH_INT32_MIN
 #define CGRAPH_INT32_MAX __CGRAPH_INT32_MAX
 #define CGRAPH_INT32_EPS __CGRAPH_INT32_EPS
-#define CGRAPH_INT32_BIT __CGRAPH_INT32_BIT
+#define CGRAPH_INT32_BITS __CGRAPH_INT32_BITS
 #define CGRAPH_INT32_IN_FORMAT __CGRAPH_INT32_IN_FORMAT
 #define CGRAPH_INT32_OUT_FORMAT __CGRAPH_INT32_OUT_FORMAT
-typedef __cgraph_int32 cgraph_int32_t;
 
 /**
  * @typedef cgraph_uint32_t
  * @brief 32-bit unsigned integer number
  * @def CGRAPH_UINT32_MIN
  */
+typedef __cgraph_uint32 cgraph_uint32_t;
 #define CGRAPH_UINT32_MIN __CGRAPH_UINT32_MIN
 #define CGRAPH_UINT32_MAX __CGRAPH_UINT32_MAX
 #define CGRAPH_UINT32_EPS __CGRAPH_UINT32_EPS
-#define CGRAPH_UINT32_BIT __CGRAPH_UINT32_BIT
+#define CGRAPH_UINT32_BITS __CGRAPH_UINT32_BITS
 #define CGRAPH_UINT32_IN_FORMAT __CGRAPH_UINT32_IN_FORMAT
 #define CGRAPH_UINT32_OUT_FORMAT __CGRAPH_UINT32_OUT_FORMAT
-typedef __cgraph_uint32 cgraph_uint32_t;
 
 /**
  * @typedef cgraph_int64_t
  * @brief 64-bit integer number
  * @def CGRAPH_INT64_MIN
  */
+typedef __cgraph_int64 cgraph_int64_t;
 #define CGRAPH_INT64_MAX __CGRAPH_INT64_MAX
 #define CGRAPH_INT64_MIN __CGRAPH_INT64_MIN
 #define CGRAPH_INT64_EPS __CGRAPH_INT64_EPS
-#define CGRAPH_INT64_BIT __CGRAPH_INT64_BIT
+#define CGRAPH_INT64_BITS __CGRAPH_INT64_BITS
 #define CGRAPH_INT64_IN_FORMAT __CGRAPH_INT64_IN_FORMAT
 #define CGRAPH_INT64_OUT_FORMAT __CGRAPH_INT64_OUT_FORMAT
-typedef __cgraph_int64 cgraph_int64_t;
 
 /**
  * @typedef cgraph_uint64_t
  * @brief 64-bit unsigned integer number
  * @def CGRAPH_UINT64_MIN
  */
+typedef __cgraph_uint64 cgraph_uint64_t;
 #define CGRAPH_UINT64_MAX __CGRAPH_UINT64_MAX
 #define CGRAPH_UINT64_MIN __CGRAPH_UINT64_MIN
 #define CGRAPH_UINT64_EPS __CGRAPH_UINT64_EPS
-#define CGRAPH_UINT64_BIT __CGRAPH_UINT64_BIT
+#define CGRAPH_UINT64_BITS __CGRAPH_UINT64_BITS
 #define CGRAPH_UINT64_IN_FORMAT __CGRAPH_UINT64_IN_FORMAT
 #define CGRAPH_UINT64_OUT_FORMAT __CGRAPH_UINT64_OUT_FORMAT
-typedef __cgraph_uint64 cgraph_uint64_t;
 
 /**
  * @typedef cgraph_float32_t
@@ -256,13 +246,14 @@ typedef __cgraph_uint64 cgraph_uint64_t;
  * @def CGRAPH_FLOAT32_MAX FLT_MAX
  * @def CGRAPH_FLOAT32_MIN FLT_MIN
  * @def CGRAPH_FLOAT32_EPS FLT_EPSILON
- * @def CGRAPH_FLOAT32_BIT FLT_DIG
+ * @def CGRAPH_FLOAT32_BITS FLT_DIG
  */
 typedef float cgraph_float32_t;
 #define CGRAPH_FLOAT32_MAX FLT_MAX
 #define CGRAPH_FLOAT32_MIN FLT_MIN
 #define CGRAPH_FLOAT32_EPS FLT_EPSILON
-#define CGRAPH_FLOAT32_BIT FLT_DIG
+#define CGRAPH_FLOAT32_DIG FLT_DIG
+#define CGRAPH_FLOAT32_BITS (32)
 
 /**
  * @typedef cgraph_float64_t
@@ -270,19 +261,21 @@ typedef float cgraph_float32_t;
  * @def CGRAPH_FLOAT64_MAX DBL_MAX
  * @def CGRAPH_FLOAT64_MIN DBL_MIN
  * @def CGRAPH_FLOAT64_EPS DBL_EPSILON
- * @def CGRAPH_FLOAT64_BIT DBL_DIG
+ * @def CGRAPH_FLOAT64_BITS DBL_DIG
  */
 typedef double cgraph_float64_t;
 #define CGRAPH_FLOAT64_MAX DBL_MAX
 #define CGRAPH_FLOAT64_MIN DBL_MIN
 #define CGRAPH_FLOAT64_EPS DBL_EPSILON
-#define CGRAPH_FLOAT64_BIT DBL_DIG
+#define CGRAPH_FLOAT64_BIG DBL_DIG
+#define CGRAPH_FLOAT64_BITS (64)
 
 typedef __CGRAPH_FLOAT128 cgraph_float128_t;
 #define CGRAPH_FLOAT128_MAX __CGRAPH_FLOAT128_MIN
 #define CGRAPH_FLOAT128_MIN __CGRAPH_FLOAT128_MAX
 #define CGRAPH_FLOAT128_EPS __CGRAPH_FLOAT128_EPS
-#define CGRAPH_FLOAT128_BIT __CGRAPH_FLOAT128_BIT
+#define CGRAPH_FLOAT128_BIG __CGRAPH_FLOAT128_BIG
+#define CGRAPH_FLOAT128_BITS __CGRAPH_FLOAT128_BITS
 #define CGRAPH_FLOAT128_IN_FORMAT __CGRAPH_FLOAT128_IN_FORMAT
 #define CGRAPH_FLOAT128_OUT_FORMAT __CGRAPH_FLOAT128_OUT_FORMAT
 #define CGRAPH_FLOAT128_HASH_OFFSET __CGRAPH_FLOAT128_HASH_OFFSET
@@ -319,9 +312,9 @@ typedef cgraph_uint8_t cgraph_addr8_t;
 #define CGRAPH_XOR(x, y) ((x) ^ (y))
 #define CGRAPH_NOT(x) (~(x))
 #define CGRAPH_XNOR(x, y) CGRAPH_NOT(CGRAPH_XOR(x, y))
-#define CGRAPH_BIT(x, pos) (((x) >> (pos)) & 0x01)
-#define CGRAPH_BSET(x, pos) ((x) | (0x01 << (pos)))
-#define CGRAPH_BCLR(x, pos) ((x) & (~(0x01 << (pos))))
+#define CGRAPH_BIT(x, pos) (((x) >> (pos)) & 1)
+#define CGRAPH_BSET(x, pos) ((x) | (1 << (pos)))
+#define CGRAPH_BCLR(x, pos) ((x) & (~(1 << (pos))))
 #define CGRAPH_BITS(x, from, to)                                               \
   (((x) >> (from)) & (~(ONES << ((to) - (from)))))
 #define CGRAPH_BSETS(x, from, to)                                              \

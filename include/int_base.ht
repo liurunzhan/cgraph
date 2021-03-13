@@ -21,11 +21,21 @@ extern UTYPE FUNCTION(NAME, sets)(const UTYPE x, const cgraph_size_t from,
 extern UTYPE FUNCTION(NAME, clrs)(const UTYPE x, const cgraph_size_t from,
                                   const cgraph_size_t to);
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, ones)(const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, zeros)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE x);
 
 extern UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly);
 extern UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
                                  const UTYPE poly);
+
+extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mul_mod)(const TYPE x, const TYPE y, const TYPE mod);
+extern TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE n);
+extern TYPE FUNCTION(NAME, pow_mod)(const TYPE x, const TYPE n, const TYPE mod);
+extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
+extern TYPE FUNCTION(NAME, sqrt_mod)(const TYPE x);

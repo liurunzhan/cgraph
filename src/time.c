@@ -71,6 +71,22 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
     } else if ((-60 > TIME_SECOND(cthis)) || (60 < TIME_SECOND(cthis))) {
       flag = CGRAPH_FALSE;
     }
+  } else {
+    if ((TIME_VALUE0(cthis) | (TIME_VALUE0(cthis) >> 31)) !=
+        (TIME_VALUE1(cthis) | (TIME_VALUE1(cthis) >> 30))) {
+      flag = CGRAPH_FALSE;
+    }
+  }
+
+  return flag;
+}
+
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+  cgraph_int_t flag;
+  if (TIME_ISTYPE1(x)) {
+    flag = TIME_VALUE0(x) | (TIME_VALUE0(x) >> 31);
+  } else {
+    flag = TIME_SECOND(x) | (TIME_SECOND(x) >> 6);
   }
 
   return flag;

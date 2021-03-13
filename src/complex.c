@@ -41,6 +41,10 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   return flag;
 }
 
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+  return CGRAPH_TRUE;
+}
+
 /**                         initial function                                  */
 TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;

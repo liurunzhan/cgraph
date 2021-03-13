@@ -176,6 +176,16 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis) {
 #endif
 
 #ifdef TYPE_WITH_DATA
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE *x,
+                                                       const TYPE *y) {
+#else
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE x,
+                                                       const TYPE y) {
+#endif
+  return CGRAPH_TEST(FUNCTION(NAME, signbit)(x) == FUNCTION(NAME, signbit)(y));
+}
+
+#ifdef TYPE_WITH_DATA
 void FUNCTION(NAME, ascsort)(TYPE **cthis, const cgraph_size_t start,
                              const cgraph_size_t end) {
   cgraph_size_t left = start, right = end;

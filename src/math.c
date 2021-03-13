@@ -196,10 +196,10 @@ cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                 const cgraph_uint64_t poly) {
   cgraph_uint64_t res = predata, temp = (data & res), ones = CGRAPH_UINT64_MAX,
                   msb = 0;
-  cgraph_size_t i = 0, bits = CGRAPH_UINT64_BIT;
+  cgraph_size_t i = 0, bits = CGRAPH_UINT64_BITS;
   for (i = 0; i < bits; i++) {
-    msb = ((res ^ temp) >> (bits - 1) & 0x01);
-    if (msb == 0x01) {
+    msb = ((res ^ temp) >> (bits - 1) & 1);
+    if (msb == 1) {
       res = (((res << 1) ^ ones) & poly);
     } else {
       res = (res << 1);
@@ -326,7 +326,7 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
 }
 
 CGRAPH_INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) {
-  return (x & 0x01);
+  return (x & 1);
 }
 
 CGRAPH_INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data) {
@@ -339,11 +339,11 @@ CGRAPH_INLINE cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data) {
 
 cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n) {
   cgraph_int_t res = 1, _x = x, _n = n;
-  while (_n != 0) {
-    if (1 == (_n & 0x01)) {
+  while (_n > 0) {
+    if (_n & 1) {
       res *= _x;
     }
-    _n = _n >> 1;
+    _n >>= 1;
     _x *= _x;
   }
 
@@ -353,11 +353,11 @@ cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n) {
 cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n,
                                  const cgraph_int_t mod) {
   cgraph_int_t res = 1, _x = x, _n = n;
-  while (_n != 0) {
-    if (1 == (_n & 0x01)) {
+  while (_n > 0) {
+    if (_n & 1) {
       res = (res * _x) % mod;
     }
-    _n = _n >> 1;
+    _n >>= 1;
     _x = (_x * _x) % mod;
   }
 
@@ -366,12 +366,12 @@ cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n,
 
 cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y) {
   cgraph_int_t res = 0, _x = x, _y = y;
-  while (_y != 0) {
-    if ((_y & 0x01) == 1) {
+  while (_y > 0) {
+    if (_y & 1) {
       res += _x;
     }
-    _x = _x << 1;
-    _y = _y >> 1;
+    _x <<= 1;
+    _y >>= 1;
   }
 
   return res;
@@ -380,12 +380,12 @@ cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y) {
 cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y,
                                  const cgraph_int_t mod) {
   cgraph_int_t res = 0, _x = x, _y = y;
-  while (_y != 0) {
-    if ((_y & 0x01) == 1) {
+  while (_y > 0) {
+    if (_y & 1) {
       res = (res + _x) % mod;
     }
     _x = (_x << 1) % mod;
-    _y = _y >> 1;
+    _y >>= 1;
   }
 
   return res % mod;

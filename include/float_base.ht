@@ -16,6 +16,8 @@ extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, eqt_binary_search)(const TYPE start, const TYPE end,
                                               FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, eqt_secant_method)(const TYPE start, const TYPE end,
+                                              FUNCPTR(NAME, pfunc1) func);
 extern TYPE FUNCTION(NAME, eqt_fixed_point)(const TYPE x,
                                             FUNCPTR(NAME, pfunc1) func);
 extern TYPE FUNCTION(NAME, eqt_fixed_point_lambda)(const TYPE x,

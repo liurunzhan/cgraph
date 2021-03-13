@@ -1,6 +1,10 @@
 #ifndef _CGRAPH_STDCHK_H_
 #define _CGRAPH_STDCHK_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** package details */
 #define __CGRAPH_VERSION "@VERSION@"
 
@@ -27,6 +31,10 @@
 
 #ifdef STDC_HEADERS
 #define __CGRAPH_STDC_HEADERS
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif /** _CGRAPH_STDCHK_H_ */

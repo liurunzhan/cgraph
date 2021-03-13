@@ -7,6 +7,8 @@ typedef TYPE *(*FUNCPTR(NAME, pfunc2))(const TYPE *x, const TYPE *y);
 typedef TYPE *(*FUNCPTR(NAME, pfunc3))(const TYPE *x, const TYPE *y,
                                        const TYPE *z);
 
+extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE *x, const TYPE *y);
 extern TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size);
 
@@ -94,6 +96,8 @@ typedef TYPE (*FUNCPTR(NAME, pfunc1))(const TYPE x);
 typedef TYPE (*FUNCPTR(NAME, pfunc2))(const TYPE x, const TYPE y);
 typedef TYPE (*FUNCPTR(NAME, pfunc3))(const TYPE x, const TYPE y, const TYPE z);
 
+extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, zero)(void);
 extern TYPE FUNCTION(NAME, one)(void);
 

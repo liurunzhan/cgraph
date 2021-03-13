@@ -1,6 +1,11 @@
 int main(int argc, char *argv[]) {
   fprintf(stdout, "name : %s\n", STRING(TYPE));
   fprintf(stdout, "size : %ld\n", sizeof(TYPE));
+#ifndef TYPE_BOOL
+  fprintf(stdout, OUT_FORMAT " : " OUT_FORMAT "\n", 4, FUNCTION(NAME, sqrt)(4));
+  fprintf(stdout, OUT_FORMAT " : " OUT_FORMAT "\n", 64,
+          FUNCTION(NAME, sqrt)(64));
+#endif
 
   return 0;
 }

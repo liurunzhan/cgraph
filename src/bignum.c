@@ -39,24 +39,26 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   return CGRAPH_ABS(hash);
 }
 
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
+  return CGRAPH_TEST(cthis->data[0] != '-');
+}
+
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
+    cgraph_size_t i = 0, point_cnt = 0;
     flag = CGRAPH_TRUE;
     if (('+' == cthis->data[i]) || ('-' == cthis->data[i])) {
       i++;
-    } else {
-      cgraph_bool_t point_cnt = 0;
-      for (; i < cthis->len; i++) {
-        if ('0' > cthis->data[i] || '9' < cthis->data[i]) {
-          if ('.' == cthis->data[i]) {
-            point_cnt++;
-          }
-          if (1 < point_cnt) {
-            flag = CGRAPH_FALSE;
-            break;
-          }
+    }
+    for (; i < cthis->len; i++) {
+      if ('0' > cthis->data[i] || '9' < cthis->data[i]) {
+        if ('.' == cthis->data[i]) {
+          point_cnt++;
+        }
+        if (1 < point_cnt) {
+          flag = CGRAPH_FALSE;
+          break;
         }
       }
     }

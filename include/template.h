@@ -123,13 +123,13 @@
 #define ZERO CGRAPH_FALSE
 #define ONE CGRAPH_TRUE
 #define ONES CGRAPH_TRUE
-#define BITS CGRAPH_BOOL_BIT
+#define BITS CGRAPH_BOOL_BITS
 #define MIN CGRAPH_FALSE
 #define MAX CGRAPH_TRUE
 #define MSB (ONE)
 #define LSB (ONE)
 #define EPSILON CGRAPH_BOOL_EPS
-#define EPSILON_LEN CGRAPH_BOOL_BIT
+#define EPSILON_LEN CGRAPH_BOOL_BITS
 
 #elif defined(TYPE_INT)
 #define ARG cgraph_long_t
@@ -142,13 +142,13 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT_MIN
-#define BITS CGRAPH_INT_BIT
+#define BITS CGRAPH_INT_BITS
 #define MIN CGRAPH_INT_MIN
 #define MAX CGRAPH_INT_MAX
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPSILON CGRAPH_INT_EPS
-#define EPSILON_LEN CGRAPH_INT_BIT
+#define EPSILON_LEN CGRAPH_INT_BITS
 
 #elif defined(TYPE_LONG)
 #define ARG cgraph_long_t
@@ -161,13 +161,13 @@
 #define ZERO (0L)
 #define ONE (1L)
 #define ONES CGRAPH_LONG_MIN
-#define BITS CGRAPH_LONG_BIT
+#define BITS CGRAPH_LONG_BITS
 #define MIN CGRAPH_LONG_MIN
 #define MAX CGRAPH_LONG_MAX
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPSILON CGRAPH_LONG_EPS
-#define EPSILON_LEN CGRAPH_LONG_BIT
+#define EPSILON_LEN CGRAPH_LONG_BITS
 
 #elif defined(TYPE_INT8)
 #define ARG cgraph_long_t
@@ -180,13 +180,13 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT8_MIN
-#define BITS CGRAPH_INT8_BIT
+#define BITS CGRAPH_INT8_BITS
 #define MIN CGRAPH_INT8_MIN
 #define MAX CGRAPH_INT8_MAX
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPSILON CGRAPH_INT8_EPS
-#define EPSILON_LEN CGRAPH_INT8_BIT
+#define EPSILON_LEN CGRAPH_INT8_BITS
 
 #elif defined(TYPE_INT16)
 #define ARG cgraph_long_t
@@ -199,13 +199,13 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT16_MIN
-#define BITS CGRAPH_INT16_BIT
+#define BITS CGRAPH_INT16_BITS
 #define MIN CGRAPH_INT16_MIN
 #define MAX CGRAPH_INT16_MAX
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPSILON CGRAPH_INT16_EPS
-#define EPSILON_LEN CGRAPH_INT16_BIT
+#define EPSILON_LEN CGRAPH_INT16_BITS
 
 #elif defined(TYPE_INT32)
 #define ARG cgraph_long_t
@@ -218,13 +218,13 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT32_MIN
-#define BITS CGRAPH_INT32_BIT
+#define BITS CGRAPH_INT32_BITS
 #define MIN CGRAPH_INT32_MIN
 #define MAX CGRAPH_INT32_MAX
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPSILON CGRAPH_INT32_EPS
-#define EPSILON_LEN CGRAPH_INT32_BIT
+#define EPSILON_LEN CGRAPH_INT32_BITS
 #define HASH_OFFSET (4)
 
 #elif defined(TYPE_INT64)
@@ -238,13 +238,13 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT64_MIN
-#define BITS CGRAPH_INT64_BIT
+#define BITS CGRAPH_INT64_BITS
 #define MIN CGRAPH_INT64_MIN
 #define MAX CGRAPH_INT64_MAX
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPSILON CGRAPH_INT64_EPS
-#define EPSILON_LEN CGRAPH_INT64_BIT
+#define EPSILON_LEN CGRAPH_INT64_BITS
 #define HASH_OFFSET (8)
 
 #elif defined(TYPE_FLOAT32)
@@ -257,11 +257,11 @@
 #define ZERO (0.0)
 #define ONE (1.0)
 #define ONES (1.0)
-#define BITS CGRAPH_FLOAT32_BIT
+#define BITS CGRAPH_FLOAT32_BITS
 #define MIN CGRAPH_FLOAT32_MIN
 #define MAX CGRAPH_FLOAT32_MAX
 #define EPSILON CGRAPH_FLOAT32_EPS
-#define EPSILON_LEN CGRAPH_FLOAT32_BIT
+#define EPSILON_LEN CGRAPH_FLOAT32_BITS
 #define HASH_OFFSET (4)
 
 #elif defined(TYPE_FLOAT64)
@@ -274,11 +274,11 @@
 #define ZERO (0.0)
 #define ONE (1.0)
 #define ONES (1.0)
-#define BITS CGRAPH_FLOAT64_BIT
+#define BITS CGRAPH_FLOAT64_BITS
 #define MIN CGRAPH_FLOAT64_MIN
 #define MAX CGRAPH_FLOAT64_MAX
 #define EPSILON CGRAPH_FLOAT64_EPS
-#define EPSILON_LEN CGRAPH_FLOAT64_BIT
+#define EPSILON_LEN CGRAPH_FLOAT64_BITS
 #define HASH_OFFSET (8)
 
 #elif defined(TYPE_FLOAT128)
@@ -291,11 +291,11 @@
 #define ZERO (0.0)
 #define ONE (1.0)
 #define ONES (1.0)
-#define BITS CGRAPH_FLOAT128_BIT
+#define BITS CGRAPH_FLOAT128_BITS
 #define MIN CGRAPH_FLOAT128_MIN
 #define MAX CGRAPH_FLOAT128_MAX
 #define EPSILON CGRAPH_FLOAT128_EPS
-#define EPSILON_LEN CGRAPH_FLOAT128_BIT
+#define EPSILON_LEN CGRAPH_FLOAT128_BITS
 #define HASH_OFFSET CGRAPH_FLOAT128_HASH_OFFSET
 
 #elif defined(TYPE_TIME)
@@ -376,7 +376,7 @@
   {                                                                            \
     { 1.0, 1.0 }                                                               \
   }
-#define BITS (CGRAPH_FLOAT64_BIT * 2)
+#define BITS (CGRAPH_FLOAT64_BITS * 2)
 #define MIN                                                                    \
   {                                                                            \
     { CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN }                                 \
@@ -391,11 +391,11 @@
 #define DATA_ZERO 0.0
 #define DATA_ONE 1.0
 #define DATA_ONES 1.0
-#define DATA_BITS CGRAPH_FLOAT64_BIT
+#define DATA_BITS CGRAPH_FLOAT64_BITS
 #define DATA_MIN CGRAPH_FLOAT64_MIN
 #define DATA_MAX CGRAPH_FLOAT64_MAX
 #define DATA_EPSILON CGRAPH_FLOAT64_EPS
-#define DATA_EPSILON_LEN CGRAPH_FLOAT64_BIT
+#define DATA_EPSILON_LEN CGRAPH_FLOAT64_BITS
 
 #elif defined(TYPE_FRACTION)
 #define TYPE cgraph_fraction_t
@@ -865,8 +865,8 @@
 #define DATA_ISPINF(a) (MAX < (a))
 #define DATA_ISNINF(a) (MIN > (a))
 #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
-#define DATA_ISPOS(a) GR((a), 0.0)
-#define DATA_ISNEG(a) LS((a), 0.0)
+#define DATA_ISPOS(a) (!FUNCTION(NAME, signbit)((a)))
+#define DATA_ISNEG(a) FUNCTION(NAME, signbit)((a))
 #endif /**CGRAPH_STDC_VERSION */
 
 #define ADD(a, b, c) ((a) + (b))

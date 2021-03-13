@@ -51,6 +51,10 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   return flag;
 }
 
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
+  return CGRAPH_TRUE;
+}
+
 /**                          string hash functions */
 cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis) {
   cgraph_size_t hash = 1315423911L, i;
@@ -83,9 +87,9 @@ cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis) {
   cgraph_size_t hash = 0, hbyte = 0, i;
 
   for (i = 0; i < cthis->len; i++) {
-    hash = (hash << (CGRAPH_SIZE_BIT / 8)) + cthis->data[i];
-    if (0 != (hbyte = hash & (0xFUL << (7 * CGRAPH_SIZE_BIT / 8)))) {
-      hash ^= (hbyte >> (3 * CGRAPH_SIZE_BIT / 4));
+    hash = (hash << (CGRAPH_SIZE_BITS / 8)) + cthis->data[i];
+    if (0 != (hbyte = hash & (0xFUL << (7 * CGRAPH_SIZE_BITS / 8)))) {
+      hash ^= (hbyte >> (3 * CGRAPH_SIZE_BITS / 4));
       hash &= ~hbyte;
     }
   }

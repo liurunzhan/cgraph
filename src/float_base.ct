@@ -53,9 +53,11 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
   return cthis;
 }
 
-TYPE FUNCTION(NAME, zero)(void) { return 1.0; }
+TYPE FUNCTION(NAME, zero)(void) { return 0.0; }
 
-TYPE FUNCTION(NAME, one)(void) { return 0.0; }
+TYPE FUNCTION(NAME, one)(void) { return 1.0; }
+
+TYPE FUNCTION(NAME, ones)(void) { return 1.1; }
 
 /**
  * @brief Newton-Raphson method to get square root of a number
@@ -109,6 +111,14 @@ TYPE FUNCTION(NAME, pi)(void) {
   }
 
   return res;
+}
+
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE cthis) {
+#if CGRAPH_PLAT_ENDIAN == 0
+  return ((cgraph_int8_t *)&cthis)[sizeof(TYPE) - 1] >> 7;
+#else
+  return ((cgraph_int8_t *)&cthis)[0] >> 7;
+#endif
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
@@ -166,13 +176,51 @@ TYPE FUNCTION(NAME, eqt_binary_search)(const TYPE start, const TYPE end,
                                        FUNCPTR(NAME, pfunc1) func) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
-  if (DATA_ISPOS(_start_res * _end_res)) {
+  if (FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
     return CGRAPH_MIN(_start, _end);
   }
   do {
     _middle = 0.5 * (_start + _end);
     _middle_res = func(_middle);
-    if (DATA_ISNEG(_start_res * _middle_res)) {
+    if (!FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
+      _end = _middle;
+      _end_res = _middle_res;
+    } else {
+      _start = _middle;
+      _start_res = _middle_res;
+    }
+  } while (NE(_start, _end));
+
+  return _middle;
+}
+
+TYPE FUNCTION(NAME, eqt_secant_method)(const TYPE start, const TYPE end,
+                                       FUNCPTR(NAME, pfunc1) func) {
+  TYPE _x0 = start, _x1 = end, _x2;
+  TYPE _x0_res = func(start), _x1_res = func(end), _x2_res;
+  do {
+    _x2 = _x1 - (_x1 - _x0) / (_x1_res - _x0_res) * _x1_res;
+    _x2_res = func(_x2);
+    _x0 = _x1;
+    _x0_res = _x1_res;
+    _x1 = _x2;
+    _x1 = _x2_res;
+  } while (NE(_x2_res, 0.0));
+
+  return _x2;
+}
+
+TYPE FUNCTION(NAME, eqt_inverse_interpolation)(const TYPE start, const TYPE end,
+                                               FUNCPTR(NAME, pfunc1) func) {
+  TYPE _start = start, _end = end, _middle;
+  TYPE _start_res = func(start), _end_res = func(end), _middle_res;
+  if (FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
+    return CGRAPH_MIN(_start, _end);
+  }
+  do {
+    _middle = (_start * _end_res - _end * _start_res) / (_end_res - _start_res);
+    _middle_res = func(_middle);
+    if (!FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
       _end = _middle;
       _end_res = _middle_res;
     } else {

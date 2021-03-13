@@ -140,6 +140,10 @@ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, cgraph_fraction_max));
 }
 
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+  return CGRAPH_TEST((FRACTION_NUM(x)) && (FRACTION_DEN(x)));
+}
+
 TYPE FUNCTION(NAME, abs)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = CGRAPH_ABS(FRACTION_NUM(x));

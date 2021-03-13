@@ -67,12 +67,10 @@ typedef enum {
 #endif
 
 /** Self-defined features in different structures */
-#if defined(__LITTLE_ENDIAN__)
-#define CGRAPH_PLAT_ENDIAN 0
-#elif defined(__BIG_ENDIAN__) || defined(__CGRAPH_WORDS_BIGENDIAN)
+#if defined(__BIG_ENDIAN__) || defined(__CGRAPH_WORDS_BIGENDIAN)
 #define CGRAPH_PLAT_ENDIAN 1
-#else
-#define CGRAPH_PLAT_ENDIAN 2
+#else /* defined __LITTLE_ENDIAN__ or not */
+#define CGRAPH_PLAT_ENDIAN 0
 #endif
 
 #if (__WORDSIZE == 64) || defined(_WIN64) || defined(_M_X64) ||                \
@@ -264,21 +262,21 @@ typedef unsigned __int64 __cgraph_uint64;
 #endif
 
 #define __CGRAPH_INT8_EPS __CGRAPH_INT8_MIN
-#define __CGRAPH_INT8_BIT (8)
+#define __CGRAPH_INT8_BITS (8)
 #define __CGRAPH_UINT8_EPS __CGRAPH_INT8_MAX
-#define __CGRAPH_UINT8_BIT (8)
+#define __CGRAPH_UINT8_BITS (8)
 #define __CGRAPH_INT16_EPS __CGRAPH_INT16_MIN
-#define __CGRAPH_INT16_BIT (16)
+#define __CGRAPH_INT16_BITS (16)
 #define __CGRAPH_UINT16_EPS __CGRAPH_INT16_MAX
-#define __CGRAPH_UINT16_BIT (16)
+#define __CGRAPH_UINT16_BITS (16)
 #define __CGRAPH_INT32_EPS __CGRAPH_INT32_MIN
-#define __CGRAPH_INT32_BIT (32)
+#define __CGRAPH_INT32_BITS (32)
 #define __CGRAPH_UINT32_EPS __CGRAPH_INT32_MAX
-#define __CGRAPH_UINT32_BIT (32)
+#define __CGRAPH_UINT32_BITS (32)
 #define __CGRAPH_INT64_EPS __CGRAPH_INT64_MIN
-#define __CGRAPH_INT64_BIT (64)
+#define __CGRAPH_INT64_BITS (64)
 #define __CGRAPH_UINT64_EPS __CGRAPH_UINT64_MAX
-#define __CGRAPH_UINT64_BIT (64)
+#define __CGRAPH_UINT64_BITS (64)
 
 /**< 128-bit float number details */
 #if CGRAPH_STDC_VERSION >= 199901L || defined(__CGRAPH_HAVE_LONG_DOUBLE)
@@ -287,7 +285,8 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __CGRAPH_FLOAT128_MIN LDBL_MIN
 #define __CGRAPH_FLOAT128_MAX LDBL_MAX
 #define __CGRAPH_FLOAT128_EPS LDBL_EPSILON
-#define __CGRAPH_FLOAT128_BIT LDBL_DIG
+#define __CGRAPH_FLOAT128_DIG LDBL_DIG
+#define __CGRAPH_FLOAT128_BITS (128)
 #define __CGRAPH_FLOAT128_IN_FORMAT "%Lg"
 #define __CGRAPH_FLOAT128_OUT_FORMAT "%Lg"
 #define __CGRAPH_FLOAT128_HASH_OFFSET (12)
@@ -296,7 +295,8 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __CGRAPH_FLOAT128_MIN DBL_MIN
 #define __CGRAPH_FLOAT128_MAX DBL_MAX
 #define __CGRAPH_FLOAT128_EPS DBL_EPSILON
-#define __CGRAPH_FLOAT128_BIT DBL_DIG
+#define __CGRAPH_FLOAT128_DIG DBL_DIG
+#define __CGRAPH_FLOAT128_BITS (64)
 #define __CGRAPH_FLOAT128_IN_FORMAT "%g"
 #define __CGRAPH_FLOAT128_OUT_FORMAT "%g"
 #define __CGRAPH_FLOAT128_HASH_OFFSET (8)
