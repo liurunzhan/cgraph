@@ -81,6 +81,7 @@ esac], [debug=false])
 AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
 
 AC_CONFIG_FILES([Makefile
+                 cgraph.pc
                  doc/Makefile
                  include/cgraph_stdchk.h
                  src/Makefile

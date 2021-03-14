@@ -1,6 +1,8 @@
 #include "data_base.ct"
 
-cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) { return CGRAPH_TRUE; }
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
+  return CGRAPH_TRUE;
+}
 
 /**
  * Fowler，Landon Curt Noll and Phong Vo in 1991) :
@@ -43,8 +45,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
 
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
 #ifdef TYPE_BOOL
-  return fprintf(stdout, "%s",
-                 (CGRAPH_FALSE == cthis) ? __cgraph_false__ : __cgraph_true__);
+  return fprintf(stdout, "%s", FUNCTION(NAME, bool2str)(cthis));
 #else
   return __extension__ fprintf(stdout, OUT_FORMAT, cthis);
 #endif
@@ -52,8 +53,7 @@ cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
 
 cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
 #ifdef TYPE_BOOL
-  return fprintf(fp, "%s",
-                 (CGRAPH_FALSE == cthis) ? __cgraph_false__ : __cgraph_true__);
+  return fprintf(fp, "%s", FUNCTION(NAME, bool2str)(cthis));
 #else
   return __extension__ fprintf(fp, OUT_FORMAT, cthis);
 #endif
@@ -64,8 +64,7 @@ cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
                                       const TYPE cthis) {
 #ifdef TYPE_BOOL
   return cgraph_file_snprintf(buffer, size, "%s",
-                              (CGRAPH_FALSE == cthis) ? __cgraph_false__
-                                                      : __cgraph_true__);
+                              FUNCTION(NAME, bool2str)(cthis));
 #else
   return cgraph_file_snprintf(buffer, size, OUT_FORMAT, cthis);
 #endif
@@ -323,20 +322,34 @@ TYPE FUNCTION(NAME, pow_mod)(const TYPE x, const TYPE n, const TYPE mod) {
   return res % mod;
 }
 
-TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
-  TYPE rem = 0, root = 0, divisor = 0, _x = CGRAPH_ABS(x);
+UTYPE FUNCTION(NAME, fact)(const UTYPE x) {
+  UTYPE i = 1, res = 1;
+  for (i = 1; i <= x; i++) {
+    res *= i;
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, comb)(const UTYPE x) {
+  UTYPE res = 1;
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, sqrt)(const UTYPE x) {
+  UTYPE each = 0, res = 0, _x = x, y = 0;
   cgraph_size_t i;
-  for (i = 0; i < 16; i++) {
-    root <<= 1;
-    rem = ((rem << 2) + (_x >> 30));
-    _x <<= 2;
-    if (rem >= (divisor = (root << 1) + 1)) {
-      rem -= divisor;
-      root++;
+  for (i = 0; i < (BITS >> 1); i++, _x <<= 2) {
+    res <<= 1;
+    each = ((each << 2) + (_x >> (BITS - 2)));
+    if (each >= (y = (res << 1) + 1)) {
+      each -= y;
+      res++;
     }
   }
 
-  return root;
+  return res;
 }
 
-TYPE FUNCTION(NAME, sqrt_mod)(const TYPE x) { return 0; }
+UTYPE FUNCTION(NAME, sqrt_mod)(const UTYPE x) { return 0; }

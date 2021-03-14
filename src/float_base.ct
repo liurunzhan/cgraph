@@ -460,3 +460,23 @@ TYPE FUNCTION(NAME, intg_range_cotes)(const TYPE start, const TYPE end,
 
   return _res;
 }
+
+/**
+ * @brief logistic function
+ *        f(x) = 1 / (1 + exp(-x))
+ */
+TYPE FUNCTION(NAME, logistic)(const TYPE x) {
+  return 1.0 / (1.0 + exp(-1.0 * x));
+}
+
+TYPE FUNCTION(NAME, gamma)(const TYPE x, const TYPE step) {
+  TYPE res;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, beta)(const TYPE x, const TYPE step) {
+  TYPE res;
+
+  return res;
+}

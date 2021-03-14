@@ -5,7 +5,10 @@ includedir = $(prefix)/include
 libdir     = $(prefix)/lib
 testdir    = $(prefix)/test
 
-EXTRA_DIST = autogen.sh Doxyfile.base README.md
+pkgconfigdir = @libdir@/pkgconfig
+pkgconfig_DATA = cgraph.pc
+
+EXTRA_DIST = autogen.sh cgraph.pc Doxyfile.base README.md
 
 DISTCLEANFILES = autoscan.log aclocal.m4 config.* configure install-sh libtool ltmain.sh gtk-doc.m4 gtk-doc.make Makefile.in Makefile Doxyfile
 

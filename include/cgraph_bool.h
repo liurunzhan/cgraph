@@ -22,6 +22,9 @@ extern "C" {
 
 #include "data_base.ht"
 
+extern cgraph_char_t *FUNCTION(NAME, bool2str)(const TYPE x);
+extern TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *x);
+
 #include "template_off.h"
 
 #ifdef __cplusplus

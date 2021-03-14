@@ -80,6 +80,7 @@ confdefs.*
 conftest.*
 config.*
 configure
+cgraph.pc
 !Configure.pl
 depcomp
 install-sh

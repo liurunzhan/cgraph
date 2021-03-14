@@ -44,3 +44,7 @@ extern TYPE FUNCTION(NAME, intg_range_simpson38)(const TYPE start,
 extern TYPE FUNCTION(NAME, intg_range_cotes)(const TYPE start, const TYPE end,
                                              const TYPE step,
                                              FUNCPTR(NAME, pfunc1) func);
+
+extern TYPE FUNCTION(NAME, logistic)(const TYPE x);
+extern TYPE FUNCTION(NAME, gamma)(const TYPE x, const TYPE step);
+extern TYPE FUNCTION(NAME, beta)(const TYPE x, const TYPE step);

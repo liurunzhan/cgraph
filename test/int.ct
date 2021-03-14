@@ -3,8 +3,10 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "size : %ld\n", sizeof(TYPE));
 #ifndef TYPE_BOOL
   fprintf(stdout, OUT_FORMAT " : " OUT_FORMAT "\n", 4, FUNCTION(NAME, sqrt)(4));
-  fprintf(stdout, OUT_FORMAT " : " OUT_FORMAT "\n", 64,
-          FUNCTION(NAME, sqrt)(64));
+  fprintf(stdout, OUT_FORMAT " : " OUT_FORMAT "\n", MAX,
+          FUNCTION(NAME, sqrt)(MAX));
+  fprintf(stdout, OUT_FORMAT "\n", FUNCTION(NAME, mul)(-64, 64));
+  fprintf(stdout, OUT_FORMAT "\n", FUNCTION(NAME, fact)(4));
 #endif
 
   return 0;
