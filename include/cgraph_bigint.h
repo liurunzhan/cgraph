@@ -29,10 +29,6 @@ typedef struct {
 
 extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t size);
-extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *x);
-extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *x);
-extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE *x);
-extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *x);
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *x);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *x);
 

@@ -41,6 +41,9 @@ extern TYPE *FUNCTION(NAME, xor)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, xnor)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y);
 
+extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis);
+
 #include "template_off.h"
 
 #ifdef __cplusplus

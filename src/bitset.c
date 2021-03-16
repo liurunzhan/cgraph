@@ -357,4 +357,17 @@ TYPE *FUNCTION(NAME, ones)(TYPE *cthis, const cgraph_size_t size) {
   return cthis;
 }
 
+cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_size_t i;
+  for (i = 0; i < cthis->len; i++) {
+    if (cthis->data[i] != 0) {
+      flag = CGRAPH_FALSE;
+      break;
+    }
+  }
+
+  return flag;
+}
+
 #include "template_off.h"

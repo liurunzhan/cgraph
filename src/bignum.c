@@ -382,6 +382,16 @@ TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size) {
   return cthis;
 }
 
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  return flag;
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  return flag;
+}
+
 TYPE *FUNCTION(NAME, pi)(const cgraph_size_t size) {
   TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
   if (NULL != cthis) {

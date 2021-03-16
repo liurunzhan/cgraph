@@ -1,5 +1,10 @@
 #include "template_base.ct"
 
+#ifndef TYPE_WITH_DATA
+static const TYPE __zero__ = ZERO;
+static const TYPE __one__ = ONE;
+#endif
+
 CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
                                                    const cgraph_type_t type,
                                                    const cgraph_size_t len,
@@ -452,6 +457,75 @@ TYPE *FUNCTION(NAME, subsym)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, issubsym)(TYPE **cthis, const cgraph_size_t row,
+                                       const cgraph_size_t col)
+#else
+cgraph_bool_t FUNCTION(NAME, issubsym)(TYPE *cthis, const cgraph_size_t row,
+                                       const cgraph_size_t col)
+#endif
+{
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_size_t i, j;
+  for (i = 0; i < row; i++) {
+    cgraph_size_t row_i = i * row;
+    for (j = 0; j < col; j++) {
+      /*if (NE(cthis[row_i + j], cthis[col * j + i])) {
+        flag = CGRAPH_FALSE;
+        break;
+      }*/
+    }
+  }
+
+  return flag;
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, isupptri)(TYPE **cthis, const cgraph_size_t row,
+                                       const cgraph_size_t col)
+#else
+cgraph_bool_t FUNCTION(NAME, isupptri)(TYPE *cthis, const cgraph_size_t row,
+                                       const cgraph_size_t col)
+#endif
+{
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_size_t i, j;
+  for (i = 0; i < row; i++) {
+    cgraph_size_t row_i = i * row;
+    for (j = 0; j < i; j++) {
+      if (!FUNCTION(NAME, iszero)(cthis[row_i + j])) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return flag;
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, islowtri)(TYPE **cthis, const cgraph_size_t row,
+                                       const cgraph_size_t col)
+#else
+cgraph_bool_t FUNCTION(NAME, islowtri)(TYPE *cthis, const cgraph_size_t row,
+                                       const cgraph_size_t col)
+#endif
+{
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_size_t i, j;
+  for (i = 0; i < row; i++) {
+    cgraph_size_t row_i = i * row;
+    for (j = i + 1; j < col; j++) {
+      if (!FUNCTION(NAME, iszero)(cthis[row_i + j])) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return flag;
+}
+
+#ifdef TYPE_WITH_DATA
 TYPE **FUNCTION(NAME, rot1I)(TYPE **cthis, const cgraph_size_t row,
                              const cgraph_size_t col)
 #else
@@ -772,9 +846,6 @@ TYPE **FUNCTION(NAME, conv)(const TYPE **x, const TYPE **y,
   return res;
 }
 #else
-
-static const TYPE __zero__ = ZERO;
-
 TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
                            const cgraph_size_t xlen, const cgraph_size_t ylen,
                            TYPE *res0, TYPE *res) {

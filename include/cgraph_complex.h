@@ -78,14 +78,6 @@ extern TYPE FUNCTION(NAME, asin)(const TYPE x);
 extern TYPE FUNCTION(NAME, acos)(const TYPE x);
 extern TYPE FUNCTION(NAME, atan)(const TYPE x);
 
-extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
-
 extern TYPE FUNCTION(NAME, addr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, mulr)(const TYPE x, const DATA_TYPE y);

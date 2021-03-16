@@ -3,7 +3,6 @@
 #include <time.h>
 
 #include "cgraph_file.h"
-#include "cgraph_int.h"
 #include "cgraph_memory.h"
 #include "cgraph_time.h"
 
@@ -14,37 +13,30 @@
 
 #include "data_base.ct"
 
+/** common apis */
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
-  if (TIME_ISTYPE1(cthis)) {
-    return fprintf(stdout, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
-                   TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
-                   TIME_SECOND(cthis));
+  if (TIME_ISTYPE0(cthis)) {
+    return FUNCTION(NAME, printf0)(cthis);
   } else {
-    return fprintf(stdout, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
+    return FUNCTION(NAME, printf1)(cthis);
   }
 }
 
 cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
-  if (TIME_ISTYPE1(cthis)) {
-    return fprintf(fp, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
-                   TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
-                   TIME_SECOND(cthis));
+  if (TIME_ISTYPE0(cthis)) {
+    return FUNCTION(NAME, fprintf0)(fp, cthis);
   } else {
-    return fprintf(fp, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
+    return FUNCTION(NAME, fprintf1)(fp, cthis);
   }
 }
 
 cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  if (TIME_ISTYPE1(cthis)) {
-    return cgraph_file_snprintf(buffer, size, OUT_FORMAT1, TIME_YEAR(cthis),
-                                TIME_MONTH(cthis), TIME_DAY(cthis),
-                                TIME_HOUR(cthis), TIME_MINUTE(cthis),
-                                TIME_SECOND(cthis));
+  if (TIME_ISTYPE0(cthis)) {
+    return FUNCTION(NAME, snprintf0)(buffer, size, cthis);
   } else {
-    return cgraph_file_snprintf(buffer, size, OUT_FORMAT0, TIME_VALUE1(cthis),
-                                TIME_VALUE0(cthis));
+    return FUNCTION(NAME, snprintf1)(buffer, size, cthis);
   }
 }
 
@@ -57,25 +49,10 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   cgraph_bool_t flag = CGRAPH_TRUE;
-  if (TIME_ISTYPE1(cthis)) {
-    if (0 == TIME_YEAR(cthis)) {
-      flag = CGRAPH_FALSE;
-    } else if ((-12 > TIME_MONTH(cthis)) || (12 < TIME_MONTH(cthis))) {
-      flag = CGRAPH_FALSE;
-    } else if (-31 > TIME_DAY(cthis)) {
-      flag = CGRAPH_FALSE;
-    } else if ((-24 > TIME_HOUR(cthis)) || (24 < TIME_HOUR(cthis))) {
-      flag = CGRAPH_FALSE;
-    } else if ((-60 > TIME_MINUTE(cthis)) || (60 < TIME_MINUTE(cthis))) {
-      flag = CGRAPH_FALSE;
-    } else if ((-60 > TIME_SECOND(cthis)) || (60 < TIME_SECOND(cthis))) {
-      flag = CGRAPH_FALSE;
-    }
+  if (TIME_ISTYPE0(cthis)) {
+    flag = FUNCTION(NAME, check0)(cthis);
   } else {
-    if ((TIME_VALUE0(cthis) | (TIME_VALUE0(cthis) >> 31)) !=
-        (TIME_VALUE1(cthis) | (TIME_VALUE1(cthis) >> 30))) {
-      flag = CGRAPH_FALSE;
-    }
+    flag = FUNCTION(NAME, check1)(cthis);
   }
 
   return flag;
@@ -83,10 +60,10 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 
 CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   cgraph_int_t flag;
-  if (TIME_ISTYPE1(x)) {
-    flag = TIME_VALUE0(x) | (TIME_VALUE0(x) >> 31);
+  if (TIME_ISTYPE0(x)) {
+    flag = FUNCTION(NAME, signbit0)(x);
   } else {
-    flag = TIME_SECOND(x) | (TIME_SECOND(x) >> 6);
+    flag = FUNCTION(NAME, signbit1)(x);
   }
 
   return flag;
@@ -94,9 +71,12 @@ CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((TIME_TYPE(x) == TIME_TYPE(y)) && (TIME_VALUE0(x) == TIME_VALUE0(y)) &&
-      (TIME_VALUE1(x) == TIME_VALUE1(y))) {
-    flag = CGRAPH_TRUE;
+  if (TIME_TYPE(x) == TIME_TYPE(y)) {
+    if (TIME_ISTYPE0(x)) {
+      flag = FUNCTION(NAME, eq0)(x, y);
+    } else {
+      flag = FUNCTION(NAME, eq1)(x, y);
+    }
   }
 
   return flag;
@@ -104,9 +84,12 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
 
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((TIME_TYPE(x) == TIME_TYPE(y)) || (TIME_VALUE0(x) != TIME_VALUE0(y)) ||
-      (TIME_VALUE1(x) != TIME_VALUE1(y))) {
-    flag = CGRAPH_TRUE;
+  if (TIME_TYPE(x) != TIME_TYPE(y)) {
+    if (TIME_ISTYPE0(x)) {
+      flag = FUNCTION(NAME, ne0)(x, y);
+    } else {
+      flag = FUNCTION(NAME, ne1)(x, y);
+    }
   }
 
   return flag;
@@ -114,8 +97,12 @@ cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y) {
 
 cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((TIME_VALUE0(x) > TIME_VALUE0(y)) || (TIME_VALUE1(x) > TIME_VALUE1(y))) {
-    flag = CGRAPH_TRUE;
+  if (TIME_TYPE(x) == TIME_TYPE(y)) {
+    if (TIME_ISTYPE0(x)) {
+      flag = FUNCTION(NAME, gr0)(x, y);
+    } else {
+      flag = FUNCTION(NAME, gr1)(x, y);
+    }
   }
 
   return flag;
@@ -123,9 +110,12 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
 
 cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((TIME_VALUE0(x) >= TIME_VALUE0(y)) ||
-      (TIME_VALUE1(x) >= TIME_VALUE1(y))) {
-    flag = CGRAPH_TRUE;
+  if (TIME_TYPE(x) == TIME_TYPE(y)) {
+    if (TIME_ISTYPE0(x)) {
+      flag = FUNCTION(NAME, ge0)(x, y);
+    } else {
+      flag = FUNCTION(NAME, ge1)(x, y);
+    }
   }
 
   return flag;
@@ -133,8 +123,12 @@ cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y) {
 
 cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((TIME_VALUE0(x) < TIME_VALUE0(y)) || (TIME_VALUE1(x) < TIME_VALUE1(y))) {
-    flag = CGRAPH_TRUE;
+  if (TIME_TYPE(x) == TIME_TYPE(y)) {
+    if (TIME_ISTYPE0(x)) {
+      flag = FUNCTION(NAME, ls0)(x, y);
+    } else {
+      flag = FUNCTION(NAME, ls1)(x, y);
+    }
   }
 
   return flag;
@@ -142,12 +136,59 @@ cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y) {
 
 cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((TIME_VALUE0(x) <= TIME_VALUE0(y)) ||
-      (TIME_VALUE1(x) <= TIME_VALUE1(y))) {
-    flag = CGRAPH_TRUE;
+  if (TIME_TYPE(x) == TIME_TYPE(y)) {
+    if (TIME_ISTYPE0(x)) {
+      flag = FUNCTION(NAME, le0)(x, y);
+    } else {
+      flag = FUNCTION(NAME, le1)(x, y);
+    }
   }
 
   return flag;
+}
+
+/** apis of TYPE 0 in cgraph_time_t  */
+cgraph_int_t FUNCTION(NAME, printf0)(const TYPE cthis) {
+  return fprintf(stdout, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
+}
+
+cgraph_int_t FUNCTION(NAME, fprintf0)(FILE *fp, const TYPE cthis) {
+  return fprintf(fp, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
+}
+
+cgraph_int_t FUNCTION(NAME, snprintf0)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE cthis) {
+  return cgraph_file_snprintf(buffer, size, OUT_FORMAT0, TIME_VALUE1(cthis),
+                              TIME_VALUE0(cthis));
+}
+
+TYPE FUNCTION(NAME, localtime0)(void) {
+  TYPE res;
+  time_t current_time;
+  time(&current_time);
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = current_time;
+  TIME_VALUE1(res) = 0;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initc0)(cgraph_char_t *cthis, const cgraph_char_t *sep) {
+  TYPE res;
+  cgraph_size_t i = 0;
+  DATA_TYPE res_tmp[2] = {0};
+  if ((NULL != cthis) && (NULL != sep)) {
+    char *p = NULL;
+    while ((NULL != (p = strtok(cthis, sep))) && (2 > i)) {
+      res_tmp[i++] = atoi(p);
+    }
+  }
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = res_tmp[0];
+  TIME_VALUE1(res) = res_tmp[1];
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1) {
@@ -155,58 +196,6 @@ TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1) {
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
   TIME_VALUE0(res) = time0;
   TIME_VALUE1(res) = time1;
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
-                           const DATA_TYPE day, const DATA_TYPE hour,
-                           const DATA_TYPE minute, const DATA_TYPE second) {
-  TYPE res;
-  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
-  TIME_YEAR(res) = year;
-  TIME_MONTH(res) = month;
-  TIME_DAY(res) = day;
-  TIME_HOUR(res) = hour;
-  TIME_MINUTE(res) = minute;
-  TIME_SECOND(res) = second;
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, localtime)(void) {
-  TYPE res;
-  time_t current_time;
-  struct tm *pt;
-  time(&current_time);
-  pt = localtime(&current_time);
-  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
-  TIME_YEAR(res) = pt->tm_year + 1900;
-  TIME_MONTH(res) = pt->tm_mon;
-  TIME_DAY(res) = pt->tm_mday;
-  TIME_HOUR(res) = pt->tm_hour;
-  TIME_MINUTE(res) = pt->tm_min;
-  TIME_SECOND(res) = pt->tm_sec;
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis, const cgraph_char_t *sep) {
-  TYPE res;
-  cgraph_size_t i = 0;
-  DATA_TYPE res_tmp[6] = {0};
-  if ((NULL != cthis) && (NULL != sep)) {
-    char *p = NULL;
-    while ((NULL != (p = strtok(cthis, sep))) && (6 > i)) {
-      res_tmp[i++] = atoi(p);
-    }
-  }
-  TIME_YEAR(res) = res_tmp[0];
-  TIME_MONTH(res) = res_tmp[1];
-  TIME_DAY(res) = res_tmp[2];
-  TIME_HOUR(res) = res_tmp[3];
-  TIME_MINUTE(res) = res_tmp[4];
-  TIME_SECOND(res) = res_tmp[5];
 
   return res;
 }
@@ -245,6 +234,114 @@ TYPE FUNCTION(NAME, ones0)(void) {
   TIME_VALUE1(res) = DATA_MIN;
 
   return res;
+}
+
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE x) {
+  return TIME_VALUE0(x) | (TIME_VALUE0(x) >> 31);
+}
+
+cgraph_bool_t FUNCTION(NAME, check0)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  if ((TIME_VALUE0(cthis) | (TIME_VALUE0(cthis) >> 31)) !=
+      (TIME_VALUE1(cthis) | (TIME_VALUE1(cthis) >> 30))) {
+    flag = CGRAPH_FALSE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, iszero0)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((0 == TIME_SECOND(cthis)) && (0 == TIME_MINUTE(cthis))) {
+    if ((0 == TIME_HOUR(cthis)) && (0 == TIME_DAY(cthis))) {
+      if ((0 == TIME_MONTH(cthis)) && (0 == TIME_YEAR(cthis))) {
+        flag = CGRAPH_TRUE;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isone0)(const TYPE cthis) {
+  cgraph_bool_t flag;
+  if ((1 == TIME_SECOND(cthis)) && (0 == TIME_MINUTE(cthis))) {
+    if ((0 == TIME_HOUR(cthis)) && (0 == TIME_DAY(cthis))) {
+      if ((0 == TIME_MONTH(cthis)) && (0 == TIME_YEAR(cthis))) {
+        flag = CGRAPH_TRUE;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, eq0)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_VALUE0(x) == TIME_VALUE0(y)) &&
+      (TIME_VALUE1(x) == TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ne0)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_VALUE0(x) != TIME_VALUE0(y)) ||
+      (TIME_VALUE1(x) != TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, gr0)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (TIME_VALUE1(x) > TIME_VALUE1(y)) {
+    flag = CGRAPH_TRUE;
+  } else if ((TIME_VALUE1(x) == TIME_VALUE1(y)) &&
+             (TIME_VALUE0(x) > TIME_VALUE0(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ge0)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (TIME_VALUE1(x) > TIME_VALUE1(y)) {
+    flag = CGRAPH_TRUE;
+  } else if ((TIME_VALUE1(x) == TIME_VALUE1(y)) &&
+             (TIME_VALUE0(x) >= TIME_VALUE0(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ls0)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (TIME_VALUE1(x) < TIME_VALUE1(y)) {
+    flag = CGRAPH_TRUE;
+  } else if ((TIME_VALUE1(x) == TIME_VALUE1(y)) &&
+             (TIME_VALUE0(x) < TIME_VALUE0(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, le0)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (TIME_VALUE1(x) < TIME_VALUE1(y)) {
+    flag = CGRAPH_TRUE;
+  } else if ((TIME_VALUE1(x) == TIME_VALUE1(y)) &&
+             (TIME_VALUE0(x) <= TIME_VALUE0(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
 }
 
 TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y) {
@@ -354,6 +451,81 @@ TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y) {
   return res;
 }
 
+/** apis of TYPE 1 in cgraph_time_t */
+cgraph_int_t FUNCTION(NAME, printf1)(const TYPE cthis) {
+  return fprintf(stdout, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
+                 TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
+                 TIME_SECOND(cthis));
+}
+
+cgraph_int_t FUNCTION(NAME, fprintf1)(FILE *fp, const TYPE cthis) {
+  return fprintf(fp, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
+                 TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
+                 TIME_SECOND(cthis));
+}
+
+cgraph_int_t FUNCTION(NAME, snprintf1)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE cthis) {
+  return cgraph_file_snprintf(buffer, size, OUT_FORMAT1, TIME_YEAR(cthis),
+                              TIME_MONTH(cthis), TIME_DAY(cthis),
+                              TIME_HOUR(cthis), TIME_MINUTE(cthis),
+                              TIME_SECOND(cthis));
+}
+
+TYPE FUNCTION(NAME, localtime1)(void) {
+  TYPE res;
+  time_t current_time;
+  struct tm *pt;
+  time(&current_time);
+  pt = localtime(&current_time);
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = pt->tm_year + 1900;
+  TIME_MONTH(res) = pt->tm_mon;
+  TIME_DAY(res) = pt->tm_mday;
+  TIME_HOUR(res) = pt->tm_hour;
+  TIME_MINUTE(res) = pt->tm_min;
+  TIME_SECOND(res) = pt->tm_sec;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initc1)(cgraph_char_t *cthis, const cgraph_char_t *sep) {
+  TYPE res;
+  cgraph_size_t i = 0;
+  DATA_TYPE res_tmp[6] = {0};
+  if ((NULL != cthis) && (NULL != sep)) {
+    char *p = NULL;
+    while ((NULL != (p = strtok(cthis, sep))) && (6 > i)) {
+      res_tmp[i++] = atoi(p);
+    }
+  }
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = res_tmp[0];
+  TIME_MONTH(res) = res_tmp[1];
+  TIME_DAY(res) = res_tmp[2];
+  TIME_HOUR(res) = res_tmp[3];
+  TIME_MINUTE(res) = res_tmp[4];
+  TIME_SECOND(res) = res_tmp[5];
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
+                           const DATA_TYPE day, const DATA_TYPE hour,
+                           const DATA_TYPE minute, const DATA_TYPE second) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = year;
+  TIME_MONTH(res) = month;
+  TIME_DAY(res) = day;
+  TIME_HOUR(res) = hour;
+  TIME_MINUTE(res) = minute;
+  TIME_SECOND(res) = second;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, unit1)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
@@ -399,11 +571,118 @@ TYPE FUNCTION(NAME, ones1)(void) {
   TIME_YEAR(res) = DATA_MAX;
   TIME_MONTH(res) = 12;
   TIME_DAY(res) = 31;
-  TIME_HOUR(res) = 24;
-  TIME_MINUTE(res) = 60;
-  TIME_SECOND(res) = 60;
+  TIME_HOUR(res) = 23;
+  TIME_MINUTE(res) = 59;
+  TIME_SECOND(res) = 59;
 
   return res;
+}
+
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE x) {
+  return TIME_SECOND(x) | (TIME_SECOND(x) >> 6);
+}
+
+cgraph_bool_t FUNCTION(NAME, check1)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  if (0 == TIME_YEAR(cthis)) {
+    flag = CGRAPH_FALSE;
+  } else if ((-12 > TIME_MONTH(cthis)) || (12 < TIME_MONTH(cthis))) {
+    flag = CGRAPH_FALSE;
+  } else if (-31 > TIME_DAY(cthis)) {
+    flag = CGRAPH_FALSE;
+  } else if ((-24 > TIME_HOUR(cthis)) || (24 < TIME_HOUR(cthis))) {
+    flag = CGRAPH_FALSE;
+  } else if ((-60 > TIME_MINUTE(cthis)) || (60 < TIME_MINUTE(cthis))) {
+    flag = CGRAPH_FALSE;
+  } else if ((-60 > TIME_SECOND(cthis)) || (60 < TIME_SECOND(cthis))) {
+    flag = CGRAPH_FALSE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, iszero1)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((0 == TIME_SECOND(cthis)) && (0 == TIME_MINUTE(cthis))) {
+    if ((0 == TIME_HOUR(cthis)) && (0 == TIME_DAY(cthis))) {
+      if ((0 == TIME_MONTH(cthis)) && (0 == TIME_YEAR(cthis))) {
+        flag = CGRAPH_TRUE;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isone1)(const TYPE cthis) {
+  cgraph_bool_t flag;
+  if ((1 == TIME_SECOND(cthis)) && (0 == TIME_MINUTE(cthis))) {
+    if ((0 == TIME_HOUR(cthis)) && (0 == TIME_DAY(cthis))) {
+      if ((0 == TIME_MONTH(cthis)) && (0 == TIME_YEAR(cthis))) {
+        flag = CGRAPH_TRUE;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, eq1)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_TYPE(x) == TIME_TYPE(y)) && (TIME_VALUE0(x) == TIME_VALUE0(y)) &&
+      (TIME_VALUE1(x) == TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ne1)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_TYPE(x) == TIME_TYPE(y)) || (TIME_VALUE0(x) != TIME_VALUE0(y)) ||
+      (TIME_VALUE1(x) != TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, gr1)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_VALUE0(x) > TIME_VALUE0(y)) || (TIME_VALUE1(x) > TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ge1)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_VALUE0(x) >= TIME_VALUE0(y)) ||
+      (TIME_VALUE1(x) >= TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ls1)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_VALUE0(x) < TIME_VALUE0(y)) || (TIME_VALUE1(x) < TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, le1)(const TYPE x, const TYPE y) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((TIME_VALUE0(x) <= TIME_VALUE0(y)) ||
+      (TIME_VALUE1(x) <= TIME_VALUE1(y))) {
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
 }
 
 TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y) {
@@ -507,6 +786,18 @@ TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y) {
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
 
   return res;
+}
+
+cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+
+  return flag;
 }
 
 #include "template_off.h"

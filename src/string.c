@@ -301,6 +301,18 @@ TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size) {
   return cthis;
 }
 
+cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+
+  return flag;
+}
+
 TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...) {
   cgraph_size_t len;
   if ((NULL != cthis) && (NULL != format)) {

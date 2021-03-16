@@ -32,4 +32,5 @@ TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *x) {
 }
 
 #include "int_base.ct"
+
 #include "template_off.h"

@@ -20,8 +20,8 @@ typedef struct {
   DATA_UTYPE type : 1;
   union {
     struct __CGRAPH_TYPE_BEGIN(time_type0_t) {
-      DATA_TYPE time1 : 32;
-      DATA_TYPE time0 : 31;
+      DATA_TYPE time1 : 31;
+      DATA_TYPE time0 : 32;
     } __CGRAPH_TYPE_END(type0);
     struct __CGRAPH_TYPE_BEGIN(time_type1_t) {
       DATA_TYPE year : 32;  /** -2^31-1 ~ 2^31 */
@@ -53,9 +53,32 @@ typedef struct {
 
 #include "data_base.ht"
 
+/** apis of TYPE 0 in cgraph_time_t */
+extern cgraph_int_t FUNCTION(NAME, printf0)(const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, fprintf0)(FILE *fp, const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, snprintf0)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE x);
+
+extern TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1);
+
+extern TYPE FUNCTION(NAME, unit0)(void);
 extern TYPE FUNCTION(NAME, zero0)(void);
 extern TYPE FUNCTION(NAME, one0)(void);
 extern TYPE FUNCTION(NAME, ones0)(void);
+
+extern cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE x);
+
+extern cgraph_bool_t FUNCTION(NAME, check0)(const TYPE cthis);
+extern cgraph_bool_t FUNCTION(NAME, iszero0)(const TYPE cthis);
+extern cgraph_bool_t FUNCTION(NAME, isone0)(const TYPE cthis);
+
+extern cgraph_bool_t FUNCTION(NAME, eq0)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ne0)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, gr0)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ge0)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ls0)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, le0)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, add0i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, sub0i)(const TYPE x, const DATA_TYPE y);
@@ -68,9 +91,34 @@ extern TYPE FUNCTION(NAME, sub0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y);
 
+/** apis of TYPE 1 in cgraph_time_t */
+extern cgraph_int_t FUNCTION(NAME, printf1)(const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, fprintf1)(FILE *fp, const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, snprintf1)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE x);
+extern TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
+                                  const DATA_TYPE day, const DATA_TYPE hour,
+                                  const DATA_TYPE minute,
+                                  const DATA_TYPE second);
+
+extern TYPE FUNCTION(NAME, unit1)(void);
 extern TYPE FUNCTION(NAME, zero1)(void);
 extern TYPE FUNCTION(NAME, one1)(void);
 extern TYPE FUNCTION(NAME, ones1)(void);
+
+extern cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE x);
+
+extern cgraph_bool_t FUNCTION(NAME, check1)(const TYPE cthis);
+extern cgraph_bool_t FUNCTION(NAME, iszero1)(const TYPE cthis);
+extern cgraph_bool_t FUNCTION(NAME, isone1)(const TYPE cthis);
+
+extern cgraph_bool_t FUNCTION(NAME, eq1)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ne1)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, gr1)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ge1)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, ls1)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, le1)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y);
@@ -83,14 +131,12 @@ extern TYPE FUNCTION(NAME, sub1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y);
 
-extern TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1);
-extern TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
-                                  const DATA_TYPE day, const DATA_TYPE hour,
-                                  const DATA_TYPE minute,
-                                  const DATA_TYPE second);
 extern TYPE FUNCTION(NAME, localtime)(void);
 extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,
                                   const cgraph_char_t *sep);
+
+extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis);
+extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis);
 
 #include "template_off.h"
 

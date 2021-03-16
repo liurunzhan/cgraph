@@ -182,15 +182,27 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, clrs)(const UTYPE x,
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
+#ifdef TYPE_BOOL
+  return CGRAPH_TEST((CGRAPH_FALSE == x));
+#else
   return CGRAPH_TEST((0 == x));
+#endif
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x) {
+#ifdef TYPE_BOOL
+  return CGRAPH_TEST((CGRAPH_TRUE == x));
+#else
   return CGRAPH_TEST((1 == x));
+#endif
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
   return CGRAPH_TEST(x & 1);
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
+  return CGRAPH_TEST((~x) & 1);
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
@@ -211,6 +223,18 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return CGRAPH_TEST((MAX == x));
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+  return CGRAPH_FALSE;
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+  return CGRAPH_FALSE;
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+  return CGRAPH_FALSE;
 }
 
 cgraph_size_t FUNCTION(NAME, cntones)(const TYPE x) {

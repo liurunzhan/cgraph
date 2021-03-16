@@ -20,12 +20,6 @@ extern UTYPE FUNCTION(NAME, sets)(const UTYPE x, const cgraph_size_t from,
                                   const cgraph_size_t to);
 extern UTYPE FUNCTION(NAME, clrs)(const UTYPE x, const cgraph_size_t from,
                                   const cgraph_size_t to);
-extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE x);
 

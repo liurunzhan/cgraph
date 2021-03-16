@@ -12,6 +12,20 @@ extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE *x, const TYPE *y);
 extern TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size);
 
+extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE *x);
+extern cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE *x);
+
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
@@ -38,6 +52,15 @@ extern TYPE **FUNCTION(NAME, trans)(TYPE **cthis, const cgraph_size_t row,
                                     const cgraph_size_t col);
 extern TYPE **FUNCTION(NAME, subsym)(TYPE **cthis, const cgraph_size_t row,
                                      const cgraph_size_t col);
+extern cgraph_bool_t FUNCTION(NAME, issubsym)(TYPE **cthis,
+                                              const cgraph_size_t row,
+                                              const cgraph_size_t col);
+extern cgraph_bool_t FUNCTION(NAME, isupptri)(TYPE **cthis,
+                                              const cgraph_size_t row,
+                                              const cgraph_size_t col);
+extern cgraph_bool_t FUNCTION(NAME, islowtri)(TYPE **cthis,
+                                              const cgraph_size_t row,
+                                              const cgraph_size_t col);
 extern TYPE **FUNCTION(NAME, rot1I)(TYPE **cthis, const cgraph_size_t row,
                                     const cgraph_size_t col);
 extern TYPE **FUNCTION(NAME, rot2I)(TYPE **cthis, const cgraph_size_t row,
@@ -101,6 +124,20 @@ extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, zero)(void);
 extern TYPE FUNCTION(NAME, one)(void);
 
+extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x);
+
 extern TYPE FUNCTION(NAME, abs)(TYPE cthis);
 extern TYPE FUNCTION(NAME, format)(TYPE cthis);
 extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y);
@@ -126,6 +163,15 @@ extern TYPE *FUNCTION(NAME, trans)(TYPE *cthis, const cgraph_size_t row,
                                    const cgraph_size_t col);
 extern TYPE *FUNCTION(NAME, subsym)(TYPE *cthis, const cgraph_size_t row,
                                     const cgraph_size_t col);
+extern cgraph_bool_t FUNCTION(NAME, issubsym)(TYPE *cthis,
+                                              const cgraph_size_t row,
+                                              const cgraph_size_t col);
+extern cgraph_bool_t FUNCTION(NAME, isupptri)(TYPE *cthis,
+                                              const cgraph_size_t row,
+                                              const cgraph_size_t col);
+extern cgraph_bool_t FUNCTION(NAME, islowtri)(TYPE *cthis,
+                                              const cgraph_size_t row,
+                                              const cgraph_size_t col);
 extern TYPE *FUNCTION(NAME, rot1I)(TYPE *cthis, const cgraph_size_t row,
                                    const cgraph_size_t col);
 extern TYPE *FUNCTION(NAME, rot2I)(TYPE *cthis, const cgraph_size_t row,

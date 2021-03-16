@@ -121,24 +121,12 @@ CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE cthis) {
 #endif
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISNAN(x));
-}
-
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISINF(x));
-}
-
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISPINF(x));
-}
-
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISNINF(x));
-}
-
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, 0.0));
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x) {
+  return CGRAPH_TEST(EQ(x, 1.0));
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
@@ -155,6 +143,22 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, MAX));
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNAN(x));
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISINF(x));
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISPINF(x));
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
 CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {

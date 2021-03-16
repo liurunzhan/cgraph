@@ -20,7 +20,7 @@ extern "C" {
 
 /* */
 
-#include "data_base.ht"
+#include "int_base.ht"
 
 extern cgraph_char_t *FUNCTION(NAME, bool2str)(const TYPE x);
 extern TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *x);
