@@ -3,8 +3,9 @@
 #include "cgraph_memory.h"
 
 #define TYPE_INT8
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "int_base.ct"
-#include "template_off.h"
+#include "template_int.ct"
+
+#include "cgraph_template_off.h"

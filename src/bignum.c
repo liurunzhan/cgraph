@@ -5,10 +5,10 @@
 #include "cgraph_memory.h"
 
 #define TYPE_BIGNUM
-#include "template.h"
+#include "cgraph_template.h"
 
 /**template module*/
-#include "data_base.ct"
+#include "template_data.ct"
 
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE *cthis) {
   return fprintf(stdout, OUT_FORMAT, cthis->data);
@@ -400,4 +400,4 @@ TYPE *FUNCTION(NAME, pi)(const cgraph_size_t size) {
   return cthis;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

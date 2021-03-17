@@ -5,10 +5,10 @@
 #include "cgraph_memory.h"
 
 #define TYPE_COMPLEX
-#include "template.h"
+#include "cgraph_template.h"
 
 /** template */
-#include "data_base.ct"
+#include "template_data.ct"
 
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE x) {
   return fprintf(stdout, OUT_FORMAT, COMPLEX_REAL(x), COMPLEX_IMAG(x));
@@ -623,4 +623,4 @@ TYPE *FUNCTION(NAME, ifft)(TYPE *x, const cgraph_size_t len) {
   return x;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

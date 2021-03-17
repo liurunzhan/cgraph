@@ -1,4 +1,4 @@
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 extern cgraph_type_t FUNCTION(NAME, objtype)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, objaccess)(const TYPE *cthis);

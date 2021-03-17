@@ -1,4 +1,4 @@
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                       const TYPE first, ...);

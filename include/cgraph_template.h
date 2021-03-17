@@ -1,5 +1,5 @@
 #if defined(TYPE)
-#error before <template.h> is included, no other <template.h> is included without <template_off.h>
+#error before <cgraph_template.h> is included, no other <cgraph_template.h> is included without <cgraph_template_off.h>
 #endif
 
 #define CONCAT1V(a) #a
@@ -694,7 +694,7 @@
 #endif
 
 #else
-#error "template.h" can not be included directly without supported macro TYPE_* defined
+#error "cgraph_template.h" can not be included directly without supported macro TYPE_* defined
 #endif
 
 /**property inheritance of object types */

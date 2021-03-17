@@ -8,15 +8,16 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_DICT
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
 } cgraph_dict_t;
 
-#include "struct_base.ht"
-#include "template_off.h"
+#include "cgraph_template_struct.ht"
+
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

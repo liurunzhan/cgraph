@@ -1,4 +1,4 @@
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
 extern TYPE FUNCTION(NAME, cube)(const TYPE x);

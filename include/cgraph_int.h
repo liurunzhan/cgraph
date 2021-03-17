@@ -8,11 +8,11 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_INT
-#include "template.h"
+#include "cgraph_template.h"
 /* */
 
-#include "int_base.ht"
-#include "template_off.h"
+#include "cgraph_template_int.ht"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

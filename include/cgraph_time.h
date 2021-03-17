@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_TIME
-#include "template.h"
+#include "cgraph_template.h"
 
 /*
  */
@@ -51,7 +51,7 @@ typedef struct {
 #define TIME_MINUTE(x) (TIME_TYPE1(x).minute)
 #define TIME_SECOND(x) (TIME_TYPE1(x).second)
 
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 /** apis of TYPE 0 in cgraph_time_t */
 extern cgraph_int_t FUNCTION(NAME, printf0)(const TYPE x);
@@ -138,7 +138,7 @@ extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis);
 extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

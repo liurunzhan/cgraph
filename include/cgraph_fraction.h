@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_FRACTION
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   DATA_TYPE data[2];
@@ -18,7 +18,7 @@ typedef struct {
 #define FRACTION_DEN(x) ((x).data[1])
 #define FRACTION_VALUE(x) (1.0 * FRACTION_NUM(x) / FRACTION_DEN(x))
 
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 /**                            initial functions */
 extern TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den);
@@ -44,7 +44,7 @@ extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);
 extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

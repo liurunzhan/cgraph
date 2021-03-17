@@ -1,4 +1,4 @@
-#include "template_base.ht"
+#include "cgraph_template.ht"
 
 extern cgraph_bool_t FUNCTION(NAME, find)(TYPE *cthis, void *x);
 extern TYPE *FUNCTION(NAME, push)(TYPE *cthis, void *x);

@@ -5,10 +5,10 @@
 #include "cgraph_memory.h"
 
 #define TYPE_FRACTION
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "data_base.ct"
+#include "template_data.ct"
 
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE x) {
   return fprintf(stdout, OUT_FORMAT, FRACTION_NUM(x), FRACTION_DEN(x));
@@ -351,4 +351,4 @@ TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x) {
   return res;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

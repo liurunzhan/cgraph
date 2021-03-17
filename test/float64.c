@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 #define TYPE_FLOAT64
-#include "template.h"
+#include "cgraph_template.h"
 
 /** template*/
 #include "float.ct"
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

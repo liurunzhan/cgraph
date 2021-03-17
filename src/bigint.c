@@ -5,10 +5,10 @@
 #include "cgraph_memory.h"
 
 #define TYPE_BIGINT
-#include "template.h"
+#include "cgraph_template.h"
 
 /** template module */
-#include "data_base.ct"
+#include "template_data.ct"
 
 cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
   cgraph_int_t size = 0;
@@ -428,4 +428,4 @@ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *x) { return CGRAPH_TRUE; }
 cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *x) { return CGRAPH_TRUE; }
 cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *x) { return CGRAPH_TRUE; }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

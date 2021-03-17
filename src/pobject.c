@@ -5,8 +5,9 @@
 #include "cgraph_struct.h"
 
 #define TYPE_POBJECT
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "object_base.ct"
-#include "template_off.h"
+#include "template_object.ct"
+
+#include "cgraph_template_off.h"

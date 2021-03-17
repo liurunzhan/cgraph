@@ -6,10 +6,10 @@
 #include "cgraph_string.h"
 
 #define TYPE_STRING
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "data_base.ct"
+#include "template_data.ct"
 
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE *cthis) {
   return fprintf(stdout, OUT_FORMAT, cthis->data);
@@ -493,4 +493,4 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y) {
   return flag;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

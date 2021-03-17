@@ -1,3 +1,5 @@
+#include "cgraph_template_struct.ht"
+
 extern cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis);

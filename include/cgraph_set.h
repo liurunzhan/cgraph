@@ -8,14 +8,14 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_SET
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
 } cgraph_set_t;
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

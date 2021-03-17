@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_BITSET
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_DATA_BASE
@@ -22,7 +22,7 @@ typedef struct {
     BITSET_BIT_POSTION(postion)) ^                                             \
    0x1)
 
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis,
                                  const cgraph_size_t postion);
@@ -44,7 +44,7 @@ extern TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

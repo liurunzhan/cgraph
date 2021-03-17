@@ -3,8 +3,8 @@
 
 #define TYPE_SPAMAT3D
 
-#include "template.h"
+#include "cgraph_template.h"
 
 #include "matrix3d.ct"
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

@@ -8,7 +8,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_COMPLEX
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   DATA_TYPE data[2];
@@ -19,7 +19,7 @@ typedef struct {
 #define COMPLEX_MAG2(x)                                                        \
   (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
 
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 /**                             initial function */
 extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mag, const DATA_TYPE angle);
@@ -93,7 +93,7 @@ extern TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y);
 extern TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, ifft)(TYPE *x, const cgraph_size_t len);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

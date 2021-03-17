@@ -7,11 +7,11 @@
 #include "cgraph_time.h"
 
 #define TYPE_TIME
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
 
-#include "data_base.ct"
+#include "template_data.ct"
 
 /** common apis */
 cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
@@ -800,4 +800,4 @@ cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis) {
   return flag;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

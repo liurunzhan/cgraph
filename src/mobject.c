@@ -5,10 +5,10 @@
 #include "cgraph_struct.h"
 
 #define TYPE_MOBJECT
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "object_base.ct"
+#include "template_object.ct"
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
   return MATRIX_ROW(cthis);
@@ -18,4 +18,4 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
   return MATRIX_COLUMN(cthis);
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

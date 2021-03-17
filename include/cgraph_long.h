@@ -9,11 +9,11 @@ extern "C" {
 
 #define TYPE_LONG
 
-#include "template.h"
+#include "cgraph_template.h"
 
 /* */
-#include "int_base.ht"
-#include "template_off.h"
+#include "cgraph_template_int.ht"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

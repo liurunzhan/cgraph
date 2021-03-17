@@ -21,15 +21,15 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(object)[];
 #define CGRAPH_OBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(object)[type])->opt)
 
 #define TYPE_OBJECT
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_OBJECT_BASE
   CGRAPH_OBJECT_ROOT
 } cgraph_object_t;
 
-#include "object_base.ht"
-#include "template_off.h"
+#include "cgraph_template_object.ht"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

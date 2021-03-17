@@ -3,10 +3,9 @@
 #include "cgraph_object.h"
 
 #define TYPE_BIGMAT
-#include "template.h"
+#include "cgraph_template.h"
 
 /*template module*/
-#include "matrix_base.ct"
-#include "struct_base.ct"
+#include "template_matrix.ct"
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

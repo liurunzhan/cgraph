@@ -5,10 +5,10 @@
 #include "cgraph_struct.h"
 
 #define TYPE_M3OBJECT
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "object_base.ct"
+#include "template_object.ct"
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis) {
   return MATRIX3D_INDEX_I(cthis);
@@ -22,4 +22,4 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis) {
   return MATRIX3D_INDEX_K(cthis);
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

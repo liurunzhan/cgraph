@@ -9,7 +9,7 @@ extern "C" {
 #include "cgraph_pobject.h"
 
 #define TYPE_LIST
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_STRUCTURE_BASE
@@ -17,8 +17,9 @@ typedef struct {
   CGRAPH_STRUCTURE_ROOT
 } cgraph_list_t;
 
-#include "struct_base.ht"
-#include "template_off.h"
+#include "cgraph_template_struct.ht"
+
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

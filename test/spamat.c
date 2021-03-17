@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 #define TYPE_SPAMAT
-#include "template.h"
+#include "cgraph_template.h"
 
 /** template test */
 #include "matrix.ct"
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

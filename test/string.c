@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define TYPE_STRING
-#include "template.h"
+#include "cgraph_template.h"
 
 int main(int argc, char *argv[]) {
   TYPE *string = FUNCTION(NAME, calloc)(ID, 10000);
@@ -39,4 +39,4 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

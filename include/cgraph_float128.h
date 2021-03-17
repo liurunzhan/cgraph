@@ -8,12 +8,12 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_FLOAT128
-#include "template.h"
+#include "cgraph_template.h"
 
 /* */
 
-#include "float_base.ht"
-#include "template_off.h"
+#include "cgraph_template_float.ht"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

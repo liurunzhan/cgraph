@@ -1,4 +1,4 @@
-#include "template_base.ht"
+#include "cgraph_template.ht"
 
 #ifdef TYPE_WITH_DATA
 

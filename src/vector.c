@@ -4,10 +4,10 @@
 #include "cgraph_vector.h"
 
 #define TYPE_VECTOR
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "struct_base.ct"
+#include "template_struct.ct"
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_TRUE;
@@ -122,4 +122,4 @@ TYPE *FUNCTION(NAME, primes)(const cgraph_int_t data) {
   return primes;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

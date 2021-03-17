@@ -5,10 +5,10 @@
 #include "cgraph_struct.h"
 
 #define TYPE_HOBJECT
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "object_base.ct"
+#include "template_object.ct"
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, ksetaccess)(TYPE *cthis) {
   if (NULL != cthis) {
@@ -76,4 +76,4 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis) {
   return cthis;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

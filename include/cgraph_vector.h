@@ -8,18 +8,18 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_VECTOR
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT
 } cgraph_vector_t;
 
-#include "struct_base.ht"
+#include "cgraph_template_struct.ht"
 
 extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

@@ -17,7 +17,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_BIGINT
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_DATA_BASE
@@ -25,14 +25,14 @@ typedef struct {
   CGRAPH_DATA_ROOT
 } cgraph_bigint_t;
 
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t size);
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *x);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *x);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

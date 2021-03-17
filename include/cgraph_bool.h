@@ -16,16 +16,16 @@ extern "C" {
 #define BOOL_XNOR(x, y) ((x == y) ? CGRAPH_TRUE : CGRAPH_FALSE)
 
 #define TYPE_BOOL
-#include "template.h"
+#include "cgraph_template.h"
 
 /* */
 
-#include "int_base.ht"
+#include "cgraph_template_int.ht"
 
 extern cgraph_char_t *FUNCTION(NAME, bool2str)(const TYPE x);
 extern TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *x);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

@@ -9,16 +9,17 @@ extern "C" {
 #include "cgraph_m3object.h"
 
 #define TYPE_SPAMAT3D
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_MATRIX3D_INDEXES
   CGRAPH_STRUCTURE_ROOT
 } cgraph_spamat3d_t;
-#include "matrix3d_base.ht"
-#include "struct_base.ht"
-#include "template_off.h"
+
+#include "cgraph_template_matrix3d.ht"
+
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

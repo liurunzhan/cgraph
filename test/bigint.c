@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #define TYPE_BIGINT
-#include "template.h"
+#include "cgraph_template.h"
 
 int main(int argc, char *argv[]) {
   TYPE *bigint1 = FUNCTION(NAME, calloc)(DATA_ID, 20);
@@ -33,4 +33,4 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

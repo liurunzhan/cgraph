@@ -4,8 +4,9 @@
 #include "cgraph_memory.h"
 
 #define TYPE_FLOAT128
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "float_base.ct"
-#include "template_off.h"
+#include "template_float.ct"
+
+#include "cgraph_template_off.h"

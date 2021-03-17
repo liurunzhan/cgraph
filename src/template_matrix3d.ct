@@ -1,3 +1,5 @@
+#include "template_struct.ct"
+
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
   return CGRAPH_TEST((0 == MATRIX3D_INDEX_I(cthis)) &&
                      (0 == MATRIX3D_INDEX_J(cthis)) &&

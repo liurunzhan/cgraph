@@ -21,7 +21,7 @@ extern CGVTable *CGRAPH_OBJECTS_NAME(m3object)[];
 #define CGRAPH_M3OBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(m3object)[type])->opt)
 
 #define TYPE_M3OBJECT
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_OBJECT_BASE
@@ -29,13 +29,13 @@ typedef struct {
   CGRAPH_OBJECT_ROOT
 } cgraph_m3object_t;
 
-#include "object_base.ht"
+#include "cgraph_template_object.ht"
 
 extern cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

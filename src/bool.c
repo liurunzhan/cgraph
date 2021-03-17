@@ -3,7 +3,7 @@
 #include "cgraph_memory.h"
 
 #define TYPE_BOOL
-#include "template.h"
+#include "cgraph_template.h"
 
 static const cgraph_char_t *__cgraph_true__ = CGRAPH_BOOL_TRUE;
 static const cgraph_char_t *__cgraph_false__ = CGRAPH_BOOL_FALSE;
@@ -31,6 +31,6 @@ TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *x) {
   return res;
 }
 
-#include "int_base.ct"
+#include "template_int.ct"
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

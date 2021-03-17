@@ -1,4 +1,4 @@
-#include "data_base.ct"
+#include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   cgraph_size_t hash = 0;

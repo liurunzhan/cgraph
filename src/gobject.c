@@ -5,10 +5,10 @@
 #include "cgraph_struct.h"
 
 #define TYPE_GOBJECT
-#include "template.h"
+#include "cgraph_template.h"
 
 /**/
-#include "object_base.ct"
+#include "template_object.ct"
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, keyisid)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_GTYPE_GKEYISID(cthis) : CGRAPH_FALSE;
@@ -34,4 +34,4 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, dynamic)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_GTYPE_GDYNAMIC(cthis) : CGRAPH_FALSE;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

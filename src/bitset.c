@@ -4,10 +4,10 @@
 #include "cgraph_memory.h"
 
 #define TYPE_BITSET
-#include "template.h"
+#include "cgraph_template.h"
 
 /*template module*/
-#include "data_base.ct"
+#include "template_data.ct"
 
 cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
   cgraph_int_t size = 0;
@@ -370,4 +370,4 @@ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
   return flag;
 }
 
-#include "template_off.h"
+#include "cgraph_template_off.h"

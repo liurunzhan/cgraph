@@ -8,14 +8,14 @@ extern "C" {
 #include "cgraph_config.h"
 
 #define TYPE_STRING
-#include "template.h"
+#include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_DATA_BASE
   CGRAPH_DATA_ROOT
 } cgraph_string_t;
 
-#include "data_base.ht"
+#include "cgraph_template_data.ht"
 
 /**                          string hash functions */
 extern cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis);
@@ -43,7 +43,7 @@ extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_int_t y, TYPE *z);
 
-#include "template_off.h"
+#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,5 @@
+#include "template_struct.ct"
+
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
   return CGRAPH_TEST((0 == MATRIX_ROW(cthis)) && (0 == MATRIX_COLUMN(cthis)));
 }

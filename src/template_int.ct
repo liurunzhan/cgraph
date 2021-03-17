@@ -1,4 +1,4 @@
-#include "data_base.ct"
+#include "template_data.ct"
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   return CGRAPH_TRUE;
