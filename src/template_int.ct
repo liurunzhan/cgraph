@@ -355,7 +355,7 @@ UTYPE FUNCTION(NAME, fact)(const UTYPE x) {
   return res;
 }
 
-UTYPE FUNCTION(NAME, comb)(const UTYPE x) {
+UTYPE FUNCTION(NAME, comb)(const UTYPE x, const UTYPE y) {
   UTYPE res = 1;
 
   return res;

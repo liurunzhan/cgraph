@@ -106,9 +106,9 @@ CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
                    (FRACTION_NUM(x) | (FRACTION_NUM(x) >> (DATA_BITS - 1))),
                den_flag =
                    (FRACTION_NUM(x) | (FRACTION_NUM(x) >> (DATA_BITS - 1)));
-  if ((0 == num_flag) || (0 == num_flag)) {
+  if ((0 == num_flag) || (0 == den_flag)) {
     flag = 0;
-  } else if (num_flag == num_flag) {
+  } else if (num_flag == den_flag) {
     flag = 1;
   }
 
@@ -120,11 +120,11 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
-  return CGRAPH_TRUE;
+  return CGRAPH_TEST((1 == FRACTION_DEN(x)) && (FRACTION_NUM(x) & 1));
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
-  return CGRAPH_TRUE;
+  return CGRAPH_TEST((1 == FRACTION_DEN(x)) && ((~FRACTION_NUM(x)) & 1));
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {

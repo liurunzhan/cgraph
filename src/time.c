@@ -42,7 +42,11 @@ cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   cgraph_size_t hash = 0;
-  hash = (TIME_YEAR(cthis) << 13) + (TIME_MONTH(cthis) << 7) + TIME_DAY(cthis);
+  if (TIME_ISTYPE0(cthis)) {
+    hash = FUNCTION(NAME, hash0)(cthis);
+  } else {
+    hash = FUNCTION(NAME, hash1)(cthis);
+  }
 
   return CGRAPH_ABS(hash);
 }
@@ -148,6 +152,13 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y) {
 }
 
 /** apis of TYPE 0 in cgraph_time_t  */
+cgraph_size_t FUNCTION(NAME, hash0)(const TYPE cthis) {
+  cgraph_size_t hash = TIME_TYPE(cthis);
+  hash += (TIME_VALUE0(cthis) << 13) + (TIME_VALUE1(cthis) << 7);
+
+  return CGRAPH_ABS(hash);
+}
+
 cgraph_int_t FUNCTION(NAME, printf0)(const TYPE cthis) {
   return fprintf(stdout, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
 }
@@ -230,8 +241,26 @@ TYPE FUNCTION(NAME, one0)(void) {
 TYPE FUNCTION(NAME, ones0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
-  TIME_VALUE0(res) = DATA_MIN >> 1;
-  TIME_VALUE1(res) = DATA_MIN;
+  TIME_VALUE0(res) = DATA_MIN;
+  TIME_VALUE1(res) = DATA_MIN >> 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, min0)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = DATA_MIN;
+  TIME_VALUE1(res) = DATA_MIN >> 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, max0)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = DATA_MAX;
+  TIME_VALUE1(res) = DATA_MAX >> 1;
 
   return res;
 }
@@ -452,6 +481,14 @@ TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y) {
 }
 
 /** apis of TYPE 1 in cgraph_time_t */
+cgraph_size_t FUNCTION(NAME, hash1)(const TYPE cthis) {
+  cgraph_size_t hash = TIME_TYPE(cthis);
+  hash += (TIME_YEAR(cthis) << 13) + (TIME_MONTH(cthis) << 7) + TIME_DAY(cthis);
+  hash += TIME_HOUR(cthis) + TIME_MINUTE(cthis) + TIME_SECOND(cthis);
+
+  return CGRAPH_ABS(hash);
+}
+
 cgraph_int_t FUNCTION(NAME, printf1)(const TYPE cthis) {
   return fprintf(stdout, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
                  TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
@@ -578,6 +615,32 @@ TYPE FUNCTION(NAME, ones1)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, min1)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = DATA_MIN;
+  TIME_MONTH(res) = 1;
+  TIME_DAY(res) = 1;
+  TIME_HOUR(res) = 0;
+  TIME_MINUTE(res) = 0;
+  TIME_SECOND(res) = 0;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, max1)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = DATA_MAX;
+  TIME_MONTH(res) = 12;
+  TIME_DAY(res) = 31;
+  TIME_HOUR(res) = 23;
+  TIME_MINUTE(res) = 59;
+  TIME_SECOND(res) = 59;
+
+  return res;
+}
+
 CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE x) {
   return TIME_SECOND(x) | (TIME_SECOND(x) >> 6);
 }
@@ -615,10 +678,36 @@ cgraph_bool_t FUNCTION(NAME, iszero1)(const TYPE cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, isone1)(const TYPE cthis) {
-  cgraph_bool_t flag;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if ((1 == TIME_SECOND(cthis)) && (0 == TIME_MINUTE(cthis))) {
     if ((0 == TIME_HOUR(cthis)) && (0 == TIME_DAY(cthis))) {
       if ((0 == TIME_MONTH(cthis)) && (0 == TIME_YEAR(cthis))) {
+        flag = CGRAPH_TRUE;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ismin0)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((0 == TIME_SECOND(cthis)) && (0 == TIME_MINUTE(cthis))) {
+    if ((0 == TIME_HOUR(cthis)) && (1 == TIME_DAY(cthis))) {
+      if ((1 == TIME_MONTH(cthis)) && (DATA_MIN == TIME_YEAR(cthis))) {
+        flag = CGRAPH_TRUE;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ismax0)(const TYPE cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((59 == TIME_SECOND(cthis)) && (59 == TIME_MINUTE(cthis))) {
+    if ((23 == TIME_HOUR(cthis)) && (31 == TIME_DAY(cthis))) {
+      if ((12 == TIME_MONTH(cthis)) && (DATA_MAX == TIME_YEAR(cthis))) {
         flag = CGRAPH_TRUE;
       }
     }

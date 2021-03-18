@@ -129,7 +129,7 @@ typedef enum {
 #define __CGRAPH_INT8_OUT_FORMAT "%" PRId8
 typedef int8_t __cgraph_int8;
 #define __CGRAPH_UINT8_MAX UINT8_MAX
-#define __CGRAPH_UINT8_MIN UINT8_MIN
+#define __CGRAPH_UINT8_MIN (0U)
 #define __CGRAPH_UINT8_IN_FORMAT "%" SCNu8
 #define __CGRAPH_UINT8_OUT_FORMAT "%" PRIu8
 typedef uint8_t __cgraph_uint8;
@@ -139,7 +139,7 @@ typedef uint8_t __cgraph_uint8;
 #define __CGRAPH_INT16_OUT_FORMAT "%" PRId16
 typedef int16_t __cgraph_int16;
 #define __CGRAPH_UINT16_MAX UINT16_MAX
-#define __CGRAPH_UINT16_MIN UINT16_MIN
+#define __CGRAPH_UINT16_MIN (0U)
 #define __CGRAPH_UINT16_IN_FORMAT "%" SCNu16
 #define __CGRAPH_UINT16_OUT_FORMAT "%" PRIu16
 typedef uint16_t __cgraph_uint16;
@@ -149,7 +149,7 @@ typedef uint16_t __cgraph_uint16;
 #define __CGRAPH_INT32_OUT_FORMAT "%" PRId32
 typedef int32_t __cgraph_int32;
 #define __CGRAPH_UINT32_MAX UINT32_MAX
-#define __CGRAPH_UINT32_MIN UINT32_MIN
+#define __CGRAPH_UINT32_MIN (0U)
 #define __CGRAPH_UINT32_IN_FORMAT "%" SCNu32
 #define __CGRAPH_UINT32_OUT_FORMAT "%" PRIu32
 typedef uint32_t __cgraph_uint32;
@@ -159,7 +159,7 @@ typedef uint32_t __cgraph_uint32;
 #define __CGRAPH_INT64_OUT_FORMAT "%" PRId64
 typedef int64_t __cgraph_int64;
 #define __CGRAPH_UINT64_MAX UINT64_MAX
-#define __CGRAPH_UINT64_MIN UINT64_MIN
+#define __CGRAPH_UINT64_MIN (0ULL)
 #define __CGRAPH_UINT64_IN_FORMAT "%" SCNu64
 #define __CGRAPH_UINT64_OUT_FORMAT "%" PRIu64
 typedef uint64_t __cgraph_uint64;
@@ -170,44 +170,44 @@ typedef uint64_t __cgraph_uint64;
 #define __CGRAPH_INT8_MIN INT8_MIN
 typedef int8_t __cgraph_int8;
 #define __CGRAPH_UINT8_MAX UINT8_MAX
-#define __CGRAPH_UINT8_MIN UINT8_MIN
+#define __CGRAPH_UINT8_MIN (0U)
 typedef uint8_t __cgraph_uint8;
 #define __CGRAPH_INT16_MAX INT16_MAX
 #define __CGRAPH_INT16_MIN INT16_MIN
 typedef int16_t __cgraph_int16;
 #define __CGRAPH_UINT16_MAX UINT16_MAX
-#define __CGRAPH_UINT16_MIN UINT16_MIN
+#define __CGRAPH_UINT16_MIN (0U)
 typedef uint16_t __cgraph_uint16;
 #define __CGRAPH_INT32_MAX INT32_MAX
 #define __CGRAPH_INT32_MIN INT32_MIN
 typedef int32_t __cgraph_int32;
 #define __CGRAPH_UINT32_MAX UINT32_MAX
-#define __CGRAPH_UINT32_MIN UINT32_MIN
+#define __CGRAPH_UINT32_MIN (0U)
 typedef uint32_t __cgraph_uint32;
 #define __CGRAPH_INT64_MAX INT64_MAX
 #define __CGRAPH_INT64_MIN INT64_MIN
 typedef int64_t __cgraph_int64;
 #define __CGRAPH_UINT64_MAX UINT64_MAX
-#define __CGRAPH_UINT64_MIN UINT64_MIN
+#define __CGRAPH_UINT64_MIN (0ULL)
 typedef uint64_t __cgraph_uint64;
 #else
 #define __CGRAPH_INT8_MAX (127)
 #define __CGRAPH_INT8_MIN (-128)
 typedef signed char __cgraph_int8;
-#define __CGRAPH_UINT8_MAX (255)
-#define __CGRAPH_UINT8_MIN (0)
+#define __CGRAPH_UINT8_MAX (255U)
+#define __CGRAPH_UINT8_MIN (0U)
 typedef unsigned char __cgraph_uint8;
 #define __CGRAPH_INT16_MAX (32767)
 #define __CGRAPH_INT16_MIN (-32768)
 typedef signed short __cgraph_int16;
-#define __CGRAPH_UINT16_MAX (65535)
-#define __CGRAPH_UINT16_MIN (0)
+#define __CGRAPH_UINT16_MAX (65535U)
+#define __CGRAPH_UINT16_MIN (0U)
 typedef unsigned short __cgraph_uint16;
 #define __CGRAPH_INT32_MAX (2147483647)
 #define __CGRAPH_INT32_MIN (-2147483648)
 typedef signed int __cgraph_int32;
-#define __CGRAPH_UINT32_MAX (4294967295)
-#define __CGRAPH_UINT32_MIN (0)
+#define __CGRAPH_UINT32_MAX (4294967295U)
+#define __CGRAPH_UINT32_MIN (0U)
 typedef unsigned int __cgraph_uint32;
 #if defined(__GNUC__) || defined(__clang__) || defined(__CGRAPH_HAVE_LONG_LONG)
 #define __CGRAPH_INT64_MAX __extension__(9223372036854775807LL)
@@ -263,15 +263,15 @@ typedef unsigned __int64 __cgraph_uint64;
 
 #define __CGRAPH_INT8_EPS __CGRAPH_INT8_MIN
 #define __CGRAPH_INT8_BITS (8)
-#define __CGRAPH_UINT8_EPS __CGRAPH_INT8_MAX
+#define __CGRAPH_UINT8_EPS __CGRAPH_UINT8_MAX
 #define __CGRAPH_UINT8_BITS (8)
 #define __CGRAPH_INT16_EPS __CGRAPH_INT16_MIN
 #define __CGRAPH_INT16_BITS (16)
-#define __CGRAPH_UINT16_EPS __CGRAPH_INT16_MAX
+#define __CGRAPH_UINT16_EPS __CGRAPH_UINT16_MAX
 #define __CGRAPH_UINT16_BITS (16)
 #define __CGRAPH_INT32_EPS __CGRAPH_INT32_MIN
 #define __CGRAPH_INT32_BITS (32)
-#define __CGRAPH_UINT32_EPS __CGRAPH_INT32_MAX
+#define __CGRAPH_UINT32_EPS __CGRAPH_UINT32_MAX
 #define __CGRAPH_UINT32_BITS (32)
 #define __CGRAPH_INT64_EPS __CGRAPH_INT64_MIN
 #define __CGRAPH_INT64_BITS (64)
@@ -286,7 +286,7 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __CGRAPH_FLOAT128_MAX LDBL_MAX
 #define __CGRAPH_FLOAT128_EPS LDBL_EPSILON
 #define __CGRAPH_FLOAT128_DIG LDBL_DIG
-#define __CGRAPH_FLOAT128_BITS (128)
+#define __CGRAPH_FLOAT128_BITS (8 * sizeof(__CGRAPH_FLOAT128))
 #define __CGRAPH_FLOAT128_IN_FORMAT "%Lg"
 #define __CGRAPH_FLOAT128_OUT_FORMAT "%Lg"
 #define __CGRAPH_FLOAT128_HASH_OFFSET (12)
@@ -296,10 +296,18 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __CGRAPH_FLOAT128_MAX DBL_MAX
 #define __CGRAPH_FLOAT128_EPS DBL_EPSILON
 #define __CGRAPH_FLOAT128_DIG DBL_DIG
-#define __CGRAPH_FLOAT128_BITS (64)
+#define __CGRAPH_FLOAT128_BITS (8 * sizeof(__CGRAPH_FLOAT128))
 #define __CGRAPH_FLOAT128_IN_FORMAT "%g"
 #define __CGRAPH_FLOAT128_OUT_FORMAT "%g"
 #define __CGRAPH_FLOAT128_HASH_OFFSET (8)
+#endif
+
+#if CGRAPH_WORDSIZE == 64
+#define __CGRAPH_LONG_EPS (0xFFFFFFFFFFFFFFFFUL)
+#define __CGRAPH_ULONG_EPS (0xFFFFFFFFFFFFFFFFUL)
+#else
+#define __CGRAPH_LONG_EPS (0xFFFFFFFFUL)
+#define __CGRAPH_ULONG_EPS (0xFFFFFFFFUL)
 #endif
 
 #if (CGRAPH_STDC_VERSION >= 201112L)

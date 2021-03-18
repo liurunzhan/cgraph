@@ -54,6 +54,7 @@ typedef struct {
 #include "cgraph_template_data.ht"
 
 /** apis of TYPE 0 in cgraph_time_t */
+extern cgraph_size_t FUNCTION(NAME, hash0)(const TYPE cthis);
 extern cgraph_int_t FUNCTION(NAME, printf0)(const TYPE x);
 extern cgraph_int_t FUNCTION(NAME, fprintf0)(FILE *fp, const TYPE x);
 extern cgraph_int_t FUNCTION(NAME, snprintf0)(cgraph_char_t *buffer,
@@ -92,6 +93,7 @@ extern TYPE FUNCTION(NAME, mul0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y);
 
 /** apis of TYPE 1 in cgraph_time_t */
+extern cgraph_size_t FUNCTION(NAME, hash1)(const TYPE cthis);
 extern cgraph_int_t FUNCTION(NAME, printf1)(const TYPE x);
 extern cgraph_int_t FUNCTION(NAME, fprintf1)(FILE *fp, const TYPE x);
 extern cgraph_int_t FUNCTION(NAME, snprintf1)(cgraph_char_t *buffer,

@@ -448,20 +448,20 @@
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
 #define ONES(x) FUNCTION(NAME, ones)((x), 0)
-#define MIN (0)
-#define MAX (9)
+#define MIN(x) FUNCTION(NAME, min)((x)), 0)
+#define MAX(x) FUNCTION(NAME, max)((x), 0)
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_uint8_t
 #define DATA_ID CGRAPH_UINT8_T
 #define DATA_UTYPE cgraph_uint8_t
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
-#define DATA_ONES (1)
-#define DATA_BITS (4)
-#define DATA_MIN (0)
-#define DATA_MAX (9)
+#define DATA_ONES CGRAPH_UINT8_MAX
+#define DATA_BITS CGRAPH_UINT8_BITS
+#define DATA_MIN CGRAPH_UINT8_MIN
+#define DATA_MAX CGRAPH_UINT8_MAX
 #define DATA_MSB (1)
-#define DATA_LSB (1)
+#define DATA_LSB (1 << (CGRAPH_UINT8_BITS-1))
 
 #elif defined(TYPE_BIGNUM)
 #define TYPE cgraph_bignum_t

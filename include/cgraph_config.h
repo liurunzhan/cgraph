@@ -40,7 +40,7 @@ extern "C" {
 typedef char cgraph_char_t;
 #define CGRAPH_CHAR_MAX CHAR_MAX
 #define CGRAPH_CHAR_MIN CHAR_MIN
-#define CGRAPH_CHAR_EPS (0xFF)
+#define CGRAPH_CHAR_EPS (0xFFU)
 #define CGRAPH_CHAR_BITS (8 * sizeof(cgraph_char_t))
 
 /**
@@ -48,7 +48,7 @@ typedef char cgraph_char_t;
  * @brief 1-bit integer number data type
  * @def CGRAPH_BOOL_MAX CGRAPH_TRUE  (1)
  * @def CGRAPH_BOOL_MIN CGRAPH_FALSE (0)
- * @def CGRAPH_BOOL_EPS (1)
+ * @def CGRAPH_BOOL_EPS (1U)
  * @def CGRAPH_BOOL_BITS (1)
  */
 typedef signed int cgraph_bool_t;
@@ -56,7 +56,7 @@ typedef signed int cgraph_bool_t;
 #define CGRAPH_FALSE (0)
 #define CGRAPH_BOOL_MAX CGRAPH_TRUE
 #define CGRAPH_BOOL_MIN CGRAPH_FALSE
-#define CGRAPH_BOOL_EPS (1)
+#define CGRAPH_BOOL_EPS (1U)
 #define CGRAPH_BOOL_BITS (1)
 
 #define CGRAPH_BOOL_TRUE "true"
@@ -69,13 +69,13 @@ typedef signed int cgraph_bool_t;
  * @brief 32-bit integer number data type
  * @def CGRAPH_INT_MAX INT_MAX
  * @def CGRAPH_INT_MIN INT_MIN
- * @def CGRAPH_INT_EPS (0xFFFFFFFF)
+ * @def CGRAPH_INT_EPS (0xFFFFFFFFU)
  * @def CGRAPH_INT_BITS (32)
  */
 typedef signed int cgraph_int_t;
 #define CGRAPH_INT_MAX INT_MAX
 #define CGRAPH_INT_MIN INT_MIN
-#define CGRAPH_INT_EPS (0xFFFFFFFF)
+#define CGRAPH_INT_EPS (0xFFFFFFFFU)
 #define CGRAPH_INT_BITS (8 * sizeof(cgraph_int_t))
 
 /**
@@ -83,13 +83,13 @@ typedef signed int cgraph_int_t;
  * @brief 32-bit unsigned integer number data type
  * @def CGRAPH_UINT_MAX UINT_MAX
  * @def CGRAPH_UINT_MIN UINT_MIN
- * @def CGRAPH_UINT_EPS (0xFFFFFFFF)
+ * @def CGRAPH_UINT_EPS (0xFFFFFFFFU)
  * @def CGRAPH_UINT_BITS (32)
  */
 typedef unsigned int cgraph_uint_t;
 #define CGRAPH_UINT_MAX UINT_MAX
 #define CGRAPH_UINT_MIN UINT_MIN
-#define CGRAPH_UINT_EPS (0xFFFFFFFF)
+#define CGRAPH_UINT_EPS (0xFFFFFFFFU)
 #define CGRAPH_UINT_BITS (8 * sizeof(cgraph_uint_t))
 
 /**
@@ -97,14 +97,14 @@ typedef unsigned int cgraph_uint_t;
  * @brief 32-bit/64-bit integer number data type in 32-bit/64-bit system
  * @def CGRAPH_LONG_MAX LONG_MAX
  * @def CGRAPH_LONG_MIN LONG_MIN
- * @def CGRAPH_LONG_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
+ * @def CGRAPH_LONG_EPS (0xFFFFFFFFU)/(0xFFFFFFFFFFFFFFFFULL)
  * @def CGRAPH_LONG_BITS (32)/(64)
  */
 typedef signed long cgraph_long_t;
 #define CGRAPH_LONG_MAX LONG_MAX
 #define CGRAPH_LONG_MIN LONG_MIN
-#define CGRAPH_LONG_EPS CGRAPH_WORDSIZE
-#define CGRAPH_LONG_BITS (8 * sizeof(cgraph_long_t))
+#define CGRAPH_LONG_EPS __CGRAPH_LONG_EPS
+#define CGRAPH_LONG_BITS CGRAPH_WORDSIZE
 
 /**
  * @typedef cgraph_ulong_t
@@ -118,8 +118,8 @@ typedef signed long cgraph_long_t;
 typedef unsigned long cgraph_ulong_t;
 #define CGRAPH_ULONG_MAX ULONG_MAX
 #define CGRAPH_ULONG_MIN ULONG_MIN
-#define CGRAPH_ULONG_EPS CGRAPH_WORDSIZE
-#define CGRAPH_ULONG_BITS (8 * sizeof(cgraph_ulong_t))
+#define CGRAPH_ULONG_EPS __CGRAPH_ULONG_EPS
+#define CGRAPH_ULONG_BITS CGRAPH_WORDSIZE
 
 /**
  * @typedef cgraph_size_t

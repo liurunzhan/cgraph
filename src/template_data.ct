@@ -469,10 +469,10 @@ cgraph_bool_t FUNCTION(NAME, issubsym)(TYPE *cthis, const cgraph_size_t row,
   for (i = 0; i < row; i++) {
     cgraph_size_t row_i = i * row;
     for (j = 0; j < col; j++) {
-      /*if (NE(cthis[row_i + j], cthis[col * j + i])) {
+      if (NE(cthis[row_i + j], cthis[col * j + i])) {
         flag = CGRAPH_FALSE;
         break;
-      }*/
+      }
     }
   }
 
