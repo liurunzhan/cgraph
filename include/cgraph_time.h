@@ -67,6 +67,7 @@ extern TYPE FUNCTION(NAME, unit0)(void);
 extern TYPE FUNCTION(NAME, zero0)(void);
 extern TYPE FUNCTION(NAME, one0)(void);
 extern TYPE FUNCTION(NAME, ones0)(void);
+extern TYPE FUNCTION(NAME, random0)(void);
 
 extern cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE x);
 
@@ -108,6 +109,7 @@ extern TYPE FUNCTION(NAME, unit1)(void);
 extern TYPE FUNCTION(NAME, zero1)(void);
 extern TYPE FUNCTION(NAME, one1)(void);
 extern TYPE FUNCTION(NAME, ones1)(void);
+extern TYPE FUNCTION(NAME, random1)(void);
 
 extern cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE x);
 
@@ -136,9 +138,6 @@ extern TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, localtime)(void);
 extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,
                                   const cgraph_char_t *sep);
-
-extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis);
-extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis);
 
 #include "cgraph_template_off.h"
 

@@ -52,8 +52,6 @@ extern "C" {
 #define MATH_CONST_LOG10 (2.30258509299404568402)
 #endif /** MATH_CONST_LOG10 : log_e 10 */
 
-#define MATH_CONST_RAND_MAX CGRAPH_INT32_MAX
-
 /* package of functions in <ctype.h> */
 extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
@@ -91,11 +89,26 @@ extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
                                         cgraph_int_t *isprime,
                                         const cgraph_int_t data);
 
-extern cgraph_int_t cgraph_random(void);
-extern cgraph_int_t cgraph_random_uniform(const cgraph_int_t min,
-                                          const cgraph_int_t max);
-extern cgraph_float64_t cgraph_random_normal(const cgraph_float64_t mu,
-                                             const cgraph_float64_t sigma);
+#define MATH_CONST_RANDOM32_MAX CGRAPH_INT32_MAX
+typedef cgraph_int32_t (*cgraph_random32_intptr_t)(void);
+extern void cgraph_random32_intptr(cgraph_random32_intptr_t ptr);
+extern void cgraph_random32_seed(const cgraph_int32_t seed);
+extern cgraph_int32_t cgraph_random32(void);
+extern cgraph_int32_t cgraph_random32_mt19937(void);
+extern cgraph_int32_t cgraph_random32_uniform(const cgraph_int32_t min,
+                                              const cgraph_int32_t max);
+
+#define MATH_CONST_RANDOM64_MAX CGRAPH_INT64_MAX
+typedef cgraph_int64_t (*cgraph_random64_intptr_t)(void);
+extern void cgraph_random64_intptr(cgraph_random64_intptr_t ptr);
+extern void cgraph_random64_seed(const cgraph_int64_t seed);
+extern cgraph_int64_t cgraph_random64(void);
+extern cgraph_int64_t cgraph_random64_mt19937(void);
+extern cgraph_int64_t cgraph_random64_uniform(const cgraph_int64_t min,
+                                              const cgraph_int64_t max);
+
+extern cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
+                                               const cgraph_float64_t sigma);
 
 extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                          const cgraph_float64_t x);

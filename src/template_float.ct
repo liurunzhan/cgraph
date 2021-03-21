@@ -59,6 +59,11 @@ TYPE FUNCTION(NAME, one)(void) { return 1.0; }
 
 TYPE FUNCTION(NAME, ones)(void) { return 1.1; }
 
+TYPE FUNCTION(NAME, random)(void) {
+  TYPE res;
+  return res;
+}
+
 /**
  * @brief Newton-Raphson method to get square root of a number
  *        x(n+1) = 0.5 * (x(n) + a / x(n))

@@ -191,13 +191,70 @@ CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE x,
 }
 
 #ifdef TYPE_WITH_DATA
-void FUNCTION(NAME, ascsort)(TYPE **cthis, const cgraph_size_t start,
-                             const cgraph_size_t end) {
+TYPE **FUNCTION(NAME, zeros1v)(TYPE **cthis, const cgraph_size_t size) {
+#else
+TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t size) {
+#endif
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < size; i++) {
+#ifdef TYPE_WITH_DATA
+      cthis[i] = FUNCTION(NAME, zero)(cthis[i], 0);
+#else
+      cthis[i] = FUNCTION(NAME, zero)();
+#endif
+    }
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, ones1v)(TYPE **cthis, const cgraph_size_t size) {
+#else
+TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t size) {
+#endif
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < size; i++) {
+#ifdef TYPE_WITH_DATA
+      cthis[i] = FUNCTION(NAME, one)(cthis[i], 0);
+#else
+      cthis[i] = FUNCTION(NAME, one)();
+#endif
+    }
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, randoms1v)(TYPE **cthis, const cgraph_size_t size) {
+#else
+TYPE *FUNCTION(NAME, randoms1v)(TYPE *cthis, const cgraph_size_t size) {
+#endif
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < size; i++) {
+#ifdef TYPE_WITH_DATA
+      cthis[i] = FUNCTION(NAME, random)(cthis[i], 0);
+#else
+      cthis[i] = FUNCTION(NAME, random)();
+#endif
+    }
+  }
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+void FUNCTION(NAME, ascsort1v)(TYPE **cthis, const cgraph_size_t start,
+                               const cgraph_size_t end) {
   cgraph_size_t left = start, right = end;
   TYPE *key = cthis[left];
 #else
-void FUNCTION(NAME, ascsort)(TYPE *cthis, const cgraph_size_t start,
-                             const cgraph_size_t end) {
+void FUNCTION(NAME, ascsort1v)(TYPE *cthis, const cgraph_size_t start,
+                               const cgraph_size_t end) {
   cgraph_size_t left = start, right = end;
   TYPE key = cthis[left];
 #endif
@@ -213,20 +270,20 @@ void FUNCTION(NAME, ascsort)(TYPE *cthis, const cgraph_size_t start,
     cthis[right] = cthis[left];
   }
   cthis[left] = key;
-  FUNCTION(NAME, ascsort)
+  FUNCTION(NAME, ascsort1v)
   (cthis, start, left - 1);
-  FUNCTION(NAME, ascsort)
+  FUNCTION(NAME, ascsort1v)
   (cthis, left + 1, end);
 }
 
 #ifdef TYPE_WITH_DATA
-void FUNCTION(NAME, descsort)(TYPE **cthis, const cgraph_size_t start,
-                              const cgraph_size_t end) {
+void FUNCTION(NAME, descsort1v)(TYPE **cthis, const cgraph_size_t start,
+                                const cgraph_size_t end) {
   cgraph_size_t left = start, right = end;
   TYPE *key = cthis[left];
 #else
-void FUNCTION(NAME, descsort)(TYPE *cthis, const cgraph_size_t start,
-                              const cgraph_size_t end) {
+void FUNCTION(NAME, descsort1v)(TYPE *cthis, const cgraph_size_t start,
+                                const cgraph_size_t end) {
   cgraph_size_t left = start, right = end;
   TYPE key = cthis[left];
 #endif
@@ -241,19 +298,19 @@ void FUNCTION(NAME, descsort)(TYPE *cthis, const cgraph_size_t start,
     cthis[right] = cthis[left];
   }
   cthis[left] = key;
-  FUNCTION(NAME, descsort)
+  FUNCTION(NAME, descsort1v)
   (cthis, start, left - 1);
-  FUNCTION(NAME, descsort)
+  FUNCTION(NAME, descsort1v)
   (cthis, left + 1, end);
 }
 
 #ifdef TYPE_WITH_DATA
-cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE **x, const TYPE **y,
-                                  const cgraph_size_t len,
-                                  cgraph_pfunc3_t iter) {
+cgraph_bool_t FUNCTION(NAME, cmp1v)(const TYPE **x, const TYPE **y,
+                                    const cgraph_size_t len,
+                                    cgraph_pfunc3_t iter) {
   TYPE **_x = (TYPE **)x, **_y = (TYPE **)y;
 #else
-cgraph_bool_t FUNCTION(NAME, cmp)(const TYPE *x, const TYPE *y,
+cgraph_bool_t FUNCTION(NAME, cmp1v)(const TYPE *x, const TYPE *y,
                                   const cgraph_size_t len,
                                   cgraph_pfunc3_t iter) {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;

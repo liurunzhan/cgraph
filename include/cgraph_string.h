@@ -38,10 +38,8 @@ extern cgraph_bool_t FUNCTION(NAME, isupper)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
 
-extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis);
-
-extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_int_t y, TYPE *z);
+extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,
+                                  TYPE *z);
 
 #include "cgraph_template_off.h"
 

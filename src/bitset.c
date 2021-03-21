@@ -100,8 +100,15 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
   if (CGRAPH_FALSE == error) {
     DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
     cgraph_size_t i = 0;
+    z->len = len;
     for (i = 0; i < len; i++, xd++, yd++, zd++) {
       *zd = (*xd) + (*yd);
+    }
+    for (; i < x->len; xd++, zd++) {
+      *zd = *xd;
+    }
+    for (; i < y->len; yd++, zd++) {
+      *zd = *yd;
     }
   }
 
@@ -115,8 +122,15 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
   if (CGRAPH_FALSE == error) {
     DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
     cgraph_size_t i = 0;
+    z->len = len;
     for (i = 0; i < len; i++, xd++, yd++, zd++) {
       *zd = (*xd) - (*yd);
+    }
+    for (; i < x->len; xd++, zd++) {
+      *zd = *xd;
+    }
+    for (; i < y->len; yd++, zd++) {
+      *zd = ~(*yd);
     }
   }
 
@@ -155,12 +169,36 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != x) && (NULL != y) && (x->len == y->len)) {
+    DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]);
+    cgraph_size_t i;
+    for (flag = CGRAPH_TRUE, i = 0; i < x->len; i++, xd++, yd++) {
+      if (*xd != *yd) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  } else if ((NULL == x) && (NULL == y)) {
+    flag = CGRAPH_TRUE;
+  }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  if ((NULL != x) && (NULL != y) && (x->len == y->len)) {
+    DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
+    cgraph_size_t i;
+    for (flag = CGRAPH_FALSE, i = 0; i < x->len; i++, xd--, yd--) {
+      if (*xd != *yd) {
+        flag = CGRAPH_TRUE;
+        break;
+      }
+    }
+  } else if ((NULL == x) && (NULL == y)) {
+    flag = CGRAPH_FALSE;
+  }
 
   return flag;
 }
@@ -352,6 +390,13 @@ TYPE *FUNCTION(NAME, ones)(TYPE *cthis, const cgraph_size_t size) {
   if (NULL != cthis) {
     cgraph_memset(cthis->data, _size, 255);
     cthis->len = size;
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t size) {
+  if (NULL != cthis) {
   }
 
   return cthis;

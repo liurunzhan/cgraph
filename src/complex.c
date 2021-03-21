@@ -62,6 +62,11 @@ TYPE FUNCTION(NAME, one)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, random)(void) {
+  TYPE res;
+  return res;
+}
+
 TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mag, const DATA_TYPE angle) {
   TYPE res;
   COMPLEX_REAL(res) = mag * cos(angle);

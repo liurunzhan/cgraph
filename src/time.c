@@ -3,6 +3,7 @@
 #include <time.h>
 
 #include "cgraph_file.h"
+#include "cgraph_math.h"
 #include "cgraph_memory.h"
 #include "cgraph_time.h"
 
@@ -61,6 +62,14 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 
   return flag;
 }
+
+TYPE FUNCTION(NAME, zero)(void) { return FUNCTION(NAME, zero0)(); }
+
+TYPE FUNCTION(NAME, one)(void) { return FUNCTION(NAME, one0)(); }
+
+TYPE FUNCTION(NAME, ones)(void) { return FUNCTION(NAME, ones0)(); }
+
+TYPE FUNCTION(NAME, random)(void) { return FUNCTION(NAME, random0)(); }
 
 CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   cgraph_int_t flag;
@@ -261,6 +270,15 @@ TYPE FUNCTION(NAME, max0)(void) {
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
   TIME_VALUE0(res) = DATA_MAX;
   TIME_VALUE1(res) = DATA_MAX >> 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, random0)(void) {
+  TYPE res;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
+  TIME_VALUE0(res) = DATA_MAX & cgraph_random32();
+  TIME_VALUE1(res) = (DATA_MAX >> 1) & cgraph_random32();
 
   return res;
 }
@@ -637,6 +655,20 @@ TYPE FUNCTION(NAME, max1)(void) {
   TIME_HOUR(res) = 23;
   TIME_MINUTE(res) = 59;
   TIME_SECOND(res) = 59;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, random1)(void) {
+  TYPE res;
+  DATA_TYPE tmp;
+  TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_YEAR(res) = DATA_MAX & cgraph_random32();
+  TIME_MONTH(res) = cgraph_random32_uniform(-12, 12);
+  TIME_DAY(res) = cgraph_random32_uniform(-31, 31);
+  TIME_HOUR(res) = cgraph_random32_uniform(-23, 23);
+  TIME_MINUTE(res) = cgraph_random32_uniform(-59, 59);
+  TIME_SECOND(res) = cgraph_random32_uniform(-59, 59);
 
   return res;
 }

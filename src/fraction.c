@@ -76,6 +76,11 @@ TYPE FUNCTION(NAME, one)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, random)(void) {
+  TYPE res;
+  return res;
+}
+
 TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den) {
   TYPE res;
   FRACTION_NUM(res) = num;

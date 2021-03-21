@@ -11,6 +11,10 @@ extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE *x, const TYPE *y);
 extern TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t size);
+extern TYPE **FUNCTION(NAME, zeros1v)(TYPE **cthis, const cgraph_size_t size);
+extern TYPE **FUNCTION(NAME, ones1v)(TYPE **cthis, const cgraph_size_t size);
+extern TYPE **FUNCTION(NAME, randoms1v)(TYPE **cthis, const cgraph_size_t size);
 
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *x);
 extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *x);
@@ -123,6 +127,10 @@ extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, zero)(void);
 extern TYPE FUNCTION(NAME, one)(void);
+extern TYPE FUNCTION(NAME, random)(void);
+extern TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, randoms1v)(TYPE *cthis, const cgraph_size_t size);
 
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x);

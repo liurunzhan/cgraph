@@ -94,6 +94,7 @@ Makefile.in
 missing
 stamp-h1
 ar-lib
+*.tar.gz
 
 # Doc/Markdown Files
 *.orig

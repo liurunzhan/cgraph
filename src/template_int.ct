@@ -98,6 +98,11 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, ones)(void) {
 #endif
 }
 
+TYPE FUNCTION(NAME, random)(void) {
+  TYPE res;
+  return res;
+}
+
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...) {
   if ((NULL != cthis) && (0 < size)) {

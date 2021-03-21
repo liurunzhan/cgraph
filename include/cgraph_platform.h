@@ -163,6 +163,9 @@ typedef int64_t __cgraph_int64;
 #define __CGRAPH_UINT64_IN_FORMAT "%" SCNu64
 #define __CGRAPH_UINT64_OUT_FORMAT "%" PRIu64
 typedef uint64_t __cgraph_uint64;
+#define __CGRAPH_RANDOM64_A (6364136223846793005ULL)
+#define __CGRAPH_RANDOM64_B (1442695040888963407ULL)
+#define __CGRAPH_RANDOM64_M (18446744073709551615ULL)
 #else
 #ifdef HAVE_CONFIG_H
 #include "cgraph_stdint.h"
@@ -213,16 +216,22 @@ typedef unsigned int __cgraph_uint32;
 #define __CGRAPH_INT64_MAX __extension__(9223372036854775807LL)
 #define __CGRAPH_INT64_MIN __extension__(-9223372036854775808LL)
 __extension__ typedef signed long long __cgraph_int64;
-#define __CGRAPH_UINT64_MAX __extension__(1844674407370955161ULL)
+#define __CGRAPH_UINT64_MAX __extension__(18446744073709551615ULL)
 #define __CGRAPH_UINT64_MIN __extension__(0LL)
 __extension__ typedef unsigned long long __cgraph_uint64;
+#define __CGRAPH_RANDOM64_A __extension__(6364136223846793005ULL)
+#define __CGRAPH_RANDOM64_B __extension__(1442695040888963407ULL)
+#define __CGRAPH_RANDOM64_M __extension__(18446744073709551615ULL)
 #elif defined(_MSC_VER)
 #define __CGRAPH_INT64_MAX (9223372036854775807LL)
 #define __CGRAPH_INT64_MIN (-9223372036854775808LL)
 typedef signed __int64 __cgraph_int64;
 #define __CGRAPH_UINT64_MIN (0LL)
-#define __CGRAPH_UINT64_MAX (1844674407370955161ULL)
+#define __CGRAPH_UINT64_MAX (18446744073709551615ULL)
 typedef unsigned __int64 __cgraph_uint64;
+#define __CGRAPH_RANDOM64_A (6364136223846793005ULL)
+#define __CGRAPH_RANDOM64_B (1442695040888963407ULL)
+#define __CGRAPH_RANDOM64_M (18446744073709551615ULL)
 #else
 #error unsupported C compiler in 32-bit/64-bit system
 #endif

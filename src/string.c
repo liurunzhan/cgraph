@@ -301,6 +301,13 @@ TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size) {
   return cthis;
 }
 
+TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t size) {
+  if (NULL != cthis) {
+  }
+
+  return cthis;
+}
+
 cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
 
@@ -360,14 +367,14 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
 
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
 
-TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_int_t y, TYPE *z) {
+TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y, TYPE *z) {
   if ((NULL != x) && (0 < y)) {
     cgraph_bool_t error = CGRAPH_FALSE;
     cgraph_size_t _len = y * x->len;
     _len = (_len >= 0) ? _len : CGRAPH_SIZE_MAX;
     z = FUNCTION(NAME, realloc)(z, CGRAPH_CHAR_T, x->len, _len, &error);
     if (CGRAPH_FALSE == error) {
-      DATA_TYPE *zd = z->data;
+      DATA_TYPE *zd = &(z->data[0]);
       cgraph_size_t i = 0;
       for (i = 0; i < y; i++) {
         zd = cgraph_memcpy(zd, x->data, x->len);
