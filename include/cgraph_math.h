@@ -67,7 +67,8 @@ extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data);
 
 extern cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
-                                           const cgraph_size_t start);
+                                           cgraph_bool_t *flag);
+extern cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data);
 
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data);

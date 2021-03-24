@@ -5,7 +5,7 @@ AC_PREREQ([2.69])
 AC_INIT([cgraph], [0.0.0], [liurunzhan@sina.com])
 AC_CONFIG_SRCDIR([include/cgraph.h])
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([-Wall])
+AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_CONFIG_MACRO_DIR([m4])
 PKG_PROG_PKG_CONFIG
 
@@ -35,7 +35,7 @@ GTK_DOC_CHECK([1.14], [--flavour no-tmpl])
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lm':
-AC_CHECK_LIB([m], [pow])
+AC_CHECK_LIB([m], [pow sqrt log sin cos tan atan2])
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -68,7 +68,7 @@ AC_FUNC_ALLOCA
 AC_FUNC_MEMCMP
 AC_FUNC_MKTIME
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([memset pow sqrt])
+AC_CHECK_FUNCS([memset memcpy strcpy srand rand])
 
 # Checks for DEBUG or RELEASE mode
 AC_ARG_ENABLE(debug,

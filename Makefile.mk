@@ -40,13 +40,13 @@ define push-branch
 	@echo push branch master to branch $(1)
 	git checkout $(1)
 	git rebase master
-	git push --force origin $(1)
+	-git push --force origin $(1)
 	git checkout master
 endef
 
 branch:
-	$(call push-branch, dist)
-	$(call push-branch, julia)
-	$(call push-branch, perl)
-	$(call call push-branch, python)
-	$(call push-branch, r)
+	$(call push-branch,dist)
+	$(call push-branch,julia)
+	$(call push-branch,perl)
+	$(call call push-branch,python)
+	$(call push-branch,r)

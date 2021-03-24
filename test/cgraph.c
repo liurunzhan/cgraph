@@ -105,9 +105,10 @@ int main(int argc, char *argv[]) {
   printf("%ld\n", cgraph_pobject_msize(CGRAPH_POBJECT_T, 10));
   */
   cgraph_complex_t x = CGRAPH_ZERO;
-  cgraph_char_t *data = " abc | _abc123";
+  cgraph_char_t *data = " abc[20] | _abc123", *name = &data[1];
+  cgraph_bool_t flag;
   fprintf(stdout, "hello world!\n");
-  fprintf(stdout, "%s %ld\n", data, cgraph_math_lenofname(data, 2));
+  fprintf(stdout, "%s %ld\n", name, cgraph_math_lenofname(name, &flag));
 
   return 0;
 }

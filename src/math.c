@@ -50,44 +50,44 @@ CGRAPH_INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data) {
   return CGRAPH_TEST(CGRAPH_PLAT_NLINE_C == data);
 }
 
-cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data) {
-  cgraph_bool_t res = CGRAPH_FALSE;
-  if (NULL != data) {
-    cgraph_char_t *name = (cgraph_char_t *)data;
-    if (isalpha(*name) || ('_' == *name)) {
-      for (name++; '\0' != *name; name++) {
-        if (!isalnum(*name) && ('_' != *name)) {
-          break;
-        }
-      }
-      if ('\0' == *name) {
-        res = CGRAPH_TRUE;
-      }
-    }
-  }
-
-  return res;
-}
-
 cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
-                                    const cgraph_size_t start) {
+                                    cgraph_bool_t *flag) {
   cgraph_size_t len = 0;
-  if (NULL != data) {
-    cgraph_char_t *name = (cgraph_char_t *)(data + start);
-    while (isspace(*name) && ('\0' != *name)) {
-      name++;
+  if ((NULL != data) && (NULL != flag)) {
+    cgraph_char_t *name = (cgraph_char_t *)data;
+    cgraph_bool_t bracket_flag = CGRAPH_FALSE;
+    *flag = CGRAPH_TRUE;
+    if (!isalpha(*name)) {
+      *flag = CGRAPH_FALSE;
+      if (!isdigit(*name)) {
+        return len;
+      }
     }
-    if ((isalpha(*name) || ('_' == *name)) && ('\0' != *name)) {
-      for (name++, len++; '\0' != *name; name++, len++) {
-        if (!isalnum(*name) && ('_' != *name) && ('[' != *name) &&
-            (']' != *name)) {
+    for (name++, len++; '\0' != *name; name++, len++) {
+      if (!isalnum(*name) && ('_' != *name) && ('.' != *name) &&
+          (CGRAPH_FALSE == bracket_flag)) {
+        if ('[' == *name) {
+          bracket_flag = CGRAPH_TRUE;
+        } else if (('-' == *name) && ('>' == *(name + 1))) {
+          name++;
+          len++;
+        } else {
           break;
         }
+      } else if (']' == *name) {
+        bracket_flag = CGRAPH_FALSE;
       }
     }
   }
 
   return len;
+}
+
+cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  cgraph_math_lenofname(data, &flag);
+
+  return flag;
 }
 
 CGRAPH_INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
