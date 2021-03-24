@@ -1,6 +1,5 @@
+#include "cgraph_base.h"
 #include "cgraph_bool.h"
-#include "cgraph_file.h"
-#include "cgraph_memory.h"
 
 #define TYPE_BOOL
 #include "cgraph_template.h"

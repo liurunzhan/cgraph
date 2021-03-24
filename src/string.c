@@ -1,8 +1,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "cgraph_file.h"
-#include "cgraph_memory.h"
+#include "cgraph_base.h"
 #include "cgraph_string.h"
 
 #define TYPE_STRING

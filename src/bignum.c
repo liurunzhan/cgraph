@@ -1,8 +1,7 @@
 #include <ctype.h>
 
+#include "cgraph_base.h"
 #include "cgraph_bignum.h"
-#include "cgraph_file.h"
-#include "cgraph_memory.h"
 
 #define TYPE_BIGNUM
 #include "cgraph_template.h"

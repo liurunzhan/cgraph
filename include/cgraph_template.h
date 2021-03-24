@@ -461,7 +461,7 @@
 #define DATA_MIN CGRAPH_UINT8_MIN
 #define DATA_MAX CGRAPH_UINT8_MAX
 #define DATA_MSB (1)
-#define DATA_LSB (1 << (CGRAPH_UINT8_BITS-1))
+#define DATA_LSB (1 << (CGRAPH_UINT8_BITS - 1))
 
 #elif defined(TYPE_BIGNUM)
 #define TYPE cgraph_bignum_t

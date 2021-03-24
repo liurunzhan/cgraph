@@ -1,8 +1,7 @@
-#include "cgraph_file.h"
-#include "cgraph_fraction.h"
+#include "cgraph_base.h"
 #include "cgraph_int.h"
-#include "cgraph_math.h"
-#include "cgraph_memory.h"
+
+#include "cgraph_fraction.h"
 
 #define TYPE_FRACTION
 #include "cgraph_template.h"

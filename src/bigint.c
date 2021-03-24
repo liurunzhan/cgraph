@@ -1,8 +1,7 @@
-#include "cgraph_bigint.h"
-#include "cgraph_file.h"
+#include "cgraph_base.h"
 #include "cgraph_int8.h"
-#include "cgraph_math.h"
-#include "cgraph_memory.h"
+
+#include "cgraph_bigint.h"
 
 #define TYPE_BIGINT
 #include "cgraph_template.h"
@@ -49,7 +48,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  return CGRAPH_TEST(NULL != cthis);
+  return CGRAPH_TEST((NULL != cthis) && (0 < cthis->len));
 }
 
 CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {

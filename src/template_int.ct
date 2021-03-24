@@ -99,8 +99,11 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, ones)(void) {
 }
 
 TYPE FUNCTION(NAME, random)(void) {
-  TYPE res;
-  return res;
+#ifdef TYPE_INT64
+  return cgraph_random64();
+#else
+  return cgraph_random32() & EPSILON;
+#endif
 }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,

@@ -1,7 +1,5 @@
+#include "cgraph_base.h"
 #include "cgraph_bitset.h"
-#include "cgraph_file.h"
-#include "cgraph_int8.h"
-#include "cgraph_memory.h"
 
 #define TYPE_BITSET
 #include "cgraph_template.h"

@@ -2,9 +2,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "cgraph_file.h"
-#include "cgraph_math.h"
-#include "cgraph_memory.h"
+#include "cgraph_base.h"
 #include "cgraph_time.h"
 
 #define TYPE_TIME

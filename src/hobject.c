@@ -1,8 +1,9 @@
 #include "cgraph_data.h"
 #include "cgraph_error.h"
-#include "cgraph_hobject.h"
 #include "cgraph_memory.h"
 #include "cgraph_struct.h"
+
+#include "cgraph_hobject.h"
 
 #define TYPE_HOBJECT
 #include "cgraph_template.h"

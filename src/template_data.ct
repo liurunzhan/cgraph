@@ -311,8 +311,8 @@ cgraph_bool_t FUNCTION(NAME, cmp1v)(const TYPE **x, const TYPE **y,
   TYPE **_x = (TYPE **)x, **_y = (TYPE **)y;
 #else
 cgraph_bool_t FUNCTION(NAME, cmp1v)(const TYPE *x, const TYPE *y,
-                                  const cgraph_size_t len,
-                                  cgraph_pfunc3_t iter) {
+                                    const cgraph_size_t len,
+                                    cgraph_pfunc3_t iter) {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
 #endif
   cgraph_bool_t flag = CGRAPH_FALSE;
