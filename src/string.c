@@ -263,62 +263,6 @@ cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis) {
   return flag;
 }
 
-/**
- * @brief
- *       cthis == NULL : size > 0 ? size : 1
- *       cthis != NULL : size <= 0 ? cthis->size : min{cthis->size, size}
- */
-TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = 0;
-  if (NULL == cthis) {
-    _size = (size > 0 ? size : 1);
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  } else {
-    _size = (size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size));
-  }
-  if (NULL != cthis) {
-    cgraph_memset(cthis->data, _size, '0');
-    cthis->len = size;
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = 0;
-  if (NULL == cthis) {
-    _size = (size > 0 ? size : 1);
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  } else {
-    _size = (size <= 0 ? cthis->size : CGRAPH_MIN(cthis->size, size));
-  }
-  if (NULL != cthis) {
-    cgraph_memset(cthis->data, _size, '1');
-    cthis->len = size;
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t size) {
-  if (NULL != cthis) {
-  }
-
-  return cthis;
-}
-
-cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-
-  return flag;
-}
-
-cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-
-  return flag;
-}
-
 TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...) {
   cgraph_size_t len;
   if ((NULL != cthis) && (NULL != format)) {

@@ -1,5 +1,5 @@
-#ifndef _CGRAPH_INTEGER_H_
-#define _CGRAPH_INTEGER_H_
+#ifndef _CGRAPH_INT_H_
+#define _CGRAPH_INT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,13 +9,14 @@ extern "C" {
 
 #define TYPE_INT
 #include "cgraph_template.h"
-/* */
 
+/* */
 #include "cgraph_template_int.ht"
+
 #include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /** _CGRAPH_INTEGER_H_ */
+#endif /** _CGRAPH_INT_H_ */

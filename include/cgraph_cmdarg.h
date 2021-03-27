@@ -1,5 +1,5 @@
-#ifndef __CGRAPH_CMDARG_H__
-#define __CGRAPH_CMDARG_H__
+#ifndef _CGRAPH_CMDARG_H_
+#define _CGRAPH_CMDARG_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,4 +21,4 @@ cgraph_cmdarg_t cgraph_cmdarg_parser(int argc, char *args);
 }
 #endif
 
-#endif /** __CGRAPH_CMDARG_H__ */
+#endif /** _CGRAPH_CMDARG_H_ */

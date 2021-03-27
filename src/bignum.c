@@ -92,10 +92,8 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis) {
 
 TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
   if (NULL != cthis) {
-    DATA_TYPE *data = cthis->data;
-    while (((' ' == *data) || ('0' == *data)) && (0 < cthis->len)) {
-      cthis->len -= 1;
-      data++;
+    DATA_TYPE *data = &(cthis->data[0]);
+    for (; ('0' == *data) && (0 < cthis->len); data++, cthis->len--) {
     }
     cthis->data = data;
   }
@@ -329,13 +327,10 @@ cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE *cthis) {
   return flag;
 }
 
-TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = (size > 3 ? size : 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
+TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t len) {
+  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
   if (NULL != cthis) {
-    cthis->len = 3;
+    cthis->len = _len;
     cthis->point = 1;
     cthis->data[0] = '1';
     cthis->data[1] = '.';
@@ -345,112 +340,8 @@ TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t size) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t size) {
-  return FUNCTION(NAME, unit)(cthis, size);
-}
-
-TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = CGRAPH_MIN(size, 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
-  if (NULL != cthis) {
-    cthis->len = 3;
-    cthis->point = 1;
-    cthis->data[0] = '0';
-    cthis->data[1] = '.';
-    cthis->data[2] = '0';
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = CGRAPH_MIN(size, 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
-  if (NULL != cthis) {
-    cthis->len = 3;
-    cthis->point = 1;
-    cthis->data[0] = '1';
-    cthis->data[1] = '.';
-    cthis->data[2] = '0';
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, min)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = CGRAPH_MIN(size, 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
-  if (NULL != cthis) {
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, max)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = CGRAPH_MIN(size, 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
-  if (NULL != cthis) {
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, pinf)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = CGRAPH_MIN(size, 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
-  if (NULL != cthis) {
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = CGRAPH_MIN(size, 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
-  if (NULL != cthis) {
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, nan)(TYPE *cthis, const cgraph_size_t size) {
-  cgraph_size_t _size = CGRAPH_MIN(size, 3);
-  if (NULL == cthis) {
-    cthis = FUNCTION(NAME, calloc)(DATA_ID, _size);
-  }
-  if (NULL != cthis) {
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t size) {
-  if (NULL != cthis) {
-  }
-
-  return cthis;
-}
-
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  return flag;
-}
-
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  return flag;
+TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len) {
+  return FUNCTION(NAME, unit)(cthis, len);
 }
 
 TYPE *FUNCTION(NAME, pi)(const cgraph_size_t size) {

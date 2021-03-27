@@ -90,8 +90,8 @@ extern TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len);
-extern TYPE *FUNCTION(NAME, ifft)(TYPE *x, const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, ifft)(TYPE *cthis, const cgraph_size_t len);
 
 #include "cgraph_template_off.h"
 

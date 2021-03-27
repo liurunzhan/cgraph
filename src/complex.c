@@ -64,6 +64,9 @@ TYPE FUNCTION(NAME, one)(void) {
 
 TYPE FUNCTION(NAME, random)(void) {
   TYPE res;
+  COMPLEX_REAL(res) = 1.0 * cgraph_random64();
+  COMPLEX_IMAG(res) = 1.0 * cgraph_random64();
+
   return res;
 }
 
@@ -581,12 +584,12 @@ TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y) {
   return FUNCTION(NAME, exp)(res);
 }
 
-TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len) {
+TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len) {
   cgraph_size_t i, j, k, times = cgraph_math_log2(len);
   for (i = 0, j = len / 2; i < (len - 2); i++) {
     cgraph_size_t k = len / 2;
     if (i < j) {
-      SWAP(x[i], x[j]);
+      SWAP(cthis[i], cthis[j]);
     }
     while (k <= j) {
       j = j - k;
@@ -601,31 +604,31 @@ TYPE *FUNCTION(NAME, fft)(TYPE *x, const cgraph_size_t len) {
       for (k = i; k < len; j += group0) {
         cgraph_size_t group2 = k + group1;
         TYPE wn = FUNCTION(NAME, unit)(len, n),
-             xwn = FUNCTION(NAME, mul)(x[group2], wn);
-        x[group2] = FUNCTION(NAME, sub)(x[k], xwn);
-        x[k] = FUNCTION(NAME, add)(x[k], xwn);
+             xwn = FUNCTION(NAME, mul)(cthis[group2], wn);
+        cthis[group2] = FUNCTION(NAME, sub)(cthis[k], xwn);
+        cthis[k] = FUNCTION(NAME, add)(cthis[k], xwn);
       }
     }
   }
 
-  return x;
+  return cthis;
 }
 
-TYPE *FUNCTION(NAME, ifft)(TYPE *x, const cgraph_size_t len) {
+TYPE *FUNCTION(NAME, ifft)(TYPE *cthis, const cgraph_size_t len) {
   cgraph_size_t i = 0;
   for (i = 0; i < len; i++) {
-    x[i] = FUNCTION(NAME, conj)(x[i]);
+    cthis[i] = FUNCTION(NAME, conj)(cthis[i]);
   }
-  x = FUNCTION(NAME, fft)(x, len);
+  cthis = FUNCTION(NAME, fft)(cthis, len);
   for (i = 0; i < len; i++) {
-    x[i] = FUNCTION(NAME, conj)(x[i]);
+    cthis[i] = FUNCTION(NAME, conj)(cthis[i]);
   }
   for (i = 0; i < len; i++) {
-    COMPLEX_REAL(x[i]) = COMPLEX_REAL(x[i]) / len;
-    COMPLEX_IMAG(x[i]) = COMPLEX_IMAG(x[i]) / len;
+    COMPLEX_REAL(cthis[i]) = COMPLEX_REAL(cthis[i]) / len;
+    COMPLEX_IMAG(cthis[i]) = COMPLEX_IMAG(cthis[i]) / len;
   }
 
-  return x;
+  return cthis;
 }
 
 #include "cgraph_template_off.h"

@@ -1,10 +1,11 @@
-#ifndef __CGRAPH_BASE_H__
-#define __CGRAPH_BASE_H__
+#ifndef _CGRAPH_BASE_H_
+#define _CGRAPH_BASE_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include "cgraph_error.h"
 #include "cgraph_file.h"
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
@@ -13,4 +14,4 @@ extern "C" {
 }
 #endif
 
-#endif /** __CGRAPH_BASE_H__ */
+#endif /** _CGRAPH_BASE_H_ */

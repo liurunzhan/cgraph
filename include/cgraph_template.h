@@ -261,7 +261,7 @@
 #define MIN CGRAPH_FLOAT32_MIN
 #define MAX CGRAPH_FLOAT32_MAX
 #define EPSILON CGRAPH_FLOAT32_EPS
-#define EPSILON_LEN CGRAPH_FLOAT32_BITS
+#define EPSILON_LEN CGRAPH_FLOAT32_DIG
 #define HASH_OFFSET (4)
 
 #elif defined(TYPE_FLOAT64)
@@ -278,7 +278,7 @@
 #define MIN CGRAPH_FLOAT64_MIN
 #define MAX CGRAPH_FLOAT64_MAX
 #define EPSILON CGRAPH_FLOAT64_EPS
-#define EPSILON_LEN CGRAPH_FLOAT64_BITS
+#define EPSILON_LEN CGRAPH_FLOAT64_DIG
 #define HASH_OFFSET (8)
 
 #elif defined(TYPE_FLOAT128)
@@ -295,7 +295,7 @@
 #define MIN CGRAPH_FLOAT128_MIN
 #define MAX CGRAPH_FLOAT128_MAX
 #define EPSILON CGRAPH_FLOAT128_EPS
-#define EPSILON_LEN CGRAPH_FLOAT128_BITS
+#define EPSILON_LEN CGRAPH_FLOAT128_DIG
 #define HASH_OFFSET CGRAPH_FLOAT128_HASH_OFFSET
 
 #elif defined(TYPE_TIME)
@@ -472,8 +472,8 @@
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
 #define ONES(x) FUNCTION(NAME, ones)((x), 0)
 #define BITS (8 * sizeof(TYPE))
-#define MIN ("-inf")
-#define MAX ("+inf")
+#define MIN FUNCTION(NAME, min)((x), 0)
+#define MAX FUNCTION(NAME, max)((x), 0)
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_char_t
 #define DATA_ID CGRAPH_CHAR_T
@@ -498,10 +498,12 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_char_t
 #define DATA_ID CGRAPH_CHAR_T
-#define DATA_MIN CGRAPH_CHAR_MIN
-#define DATA_MAX CGRAPH_CHAR_MAX
-#define DATA_BITS (8 * sizeof(DATA_TYPE))
+#define DATA_ZERO ('0')
+#define DATA_ONE ('1')
 #define DATA_ONES ('1')
+#define DATA_MIN (' ')
+#define DATA_MAX ('~')
+#define DATA_BITS (8 * sizeof(DATA_TYPE))
 
 #elif defined(TYPE_BITSET)
 #define TYPE cgraph_bitset_t

@@ -190,14 +190,189 @@ CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE x,
   return CGRAPH_TEST(FUNCTION(NAME, signbit)(x) == FUNCTION(NAME, signbit)(y));
 }
 
+/**
+ * @brief
+ *
+ */
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, zeros1v)(TYPE **cthis, const cgraph_size_t size) {
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
+                                                     const cgraph_size_t len) {
+  cgraph_size_t _len = 0;
+  if (NULL != cthis) {
+    _len = (len <= 0) ? (cthis->len <= 0 ? cthis->size : cthis->len)
+                      : CGRAPH_MIN(cthis->len, len);
+  }
+
+  return _len;
+}
 #else
-TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t size) {
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE cthis,
+                                                     const cgraph_size_t len) {
+  return 1;
+}
+#endif
+
+#ifdef TYPE_WITH_DATA
+TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t len) {
+  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
+  if (NULL != cthis) {
+    cgraph_memset(cthis->data, _len, '0');
+    cthis->len = _len;
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t len) {
+  cthis = FUNCTION(NAME, zero)(cthis, len);
+  if (NULL != cthis) {
+    cthis->data[cthis->len - 1] = '1';
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t len) {
+  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
+  if (NULL != cthis) {
+#if defined(TYPE_STRING)
+    cgraph_size_t point = cgraph_random32_uniform(0, _len), i;
+    for (i = 0; i < _len; i++) {
+      cthis->data[i] =
+          (i != point) ? cgraph_random32_uniform(0, 10) + DATA_MIN : '.';
+    }
+#else
+    cgraph_size_t i;
+    for (i = 0; i < _len; i++) {
+      cthis->data[i] = cgraph_random32_uniform(DATA_MIN, DATA_MAX + 1);
+    }
+#endif
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, min)(TYPE *cthis, const cgraph_size_t len) {
+  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
+  if (NULL != cthis) {
+    cgraph_memset(cthis->data, _len, '9');
+    cthis->data[0] = '-';
+    cthis->len = _len;
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, max)(TYPE *cthis, const cgraph_size_t len) {
+  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
+  if (NULL != cthis) {
+    cgraph_memset(cthis->data, _len, '9');
+    cthis->len = _len;
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, pinf)(TYPE *cthis, const cgraph_size_t size) {
+  if (NULL != cthis) {
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
+  if (NULL != cthis) {
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, nan)(TYPE *cthis, const cgraph_size_t size) {
+  if (NULL != cthis) {
+  }
+
+  return cthis;
+}
+
+cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (flag = CGRAPH_TRUE, i = 0; i < cthis->len; i++) {
+      if (DATA_ZERO != cthis->data[i]) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return flag;
+}
+cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (DATA_ONE == cthis->data[0])) {
+    cgraph_size_t i;
+    for (flag = CGRAPH_TRUE, i = 1; i < cthis->len; i++) {
+      if (DATA_ZERO != cthis->data[i]) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    cgraph_size_t i = 0;
+    for (flag = CGRAPH_TRUE, i = 0; i < cthis->len; i++) {
+      if (DATA_MAX != cthis->data[i]) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+#if defined(TYPE_BIGINT)
+    if ((CGRAPH_TRUE == flag) && (CGRAPH_FALSE != cthis->postive)) {
+      flag = CGRAPH_FALSE;
+    }
+#endif
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    cgraph_size_t i = 0;
+    for (flag = CGRAPH_TRUE, i = 0; i < cthis->len; i++) {
+      if (DATA_MAX != cthis->data[i]) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+#if defined(TYPE_BIGINT)
+    if ((CGRAPH_TRUE == flag) && (CGRAPH_TRUE != cthis->postive)) {
+      flag = CGRAPH_FALSE;
+    }
+#endif
+  }
+
+  return flag;
+}
+
+#endif
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, zeros1v)(TYPE **cthis, const cgraph_size_t len) {
+#else
+TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t len) {
 #endif
   if (NULL != cthis) {
     cgraph_size_t i;
-    for (i = 0; i < size; i++) {
+    for (i = 0; i < len; i++) {
 #ifdef TYPE_WITH_DATA
       cthis[i] = FUNCTION(NAME, zero)(cthis[i], 0);
 #else
@@ -210,13 +385,13 @@ TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t size) {
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, ones1v)(TYPE **cthis, const cgraph_size_t size) {
+TYPE **FUNCTION(NAME, ones1v)(TYPE **cthis, const cgraph_size_t len) {
 #else
-TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t len) {
 #endif
   if (NULL != cthis) {
     cgraph_size_t i;
-    for (i = 0; i < size; i++) {
+    for (i = 0; i < len; i++) {
 #ifdef TYPE_WITH_DATA
       cthis[i] = FUNCTION(NAME, one)(cthis[i], 0);
 #else
@@ -229,13 +404,13 @@ TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t size) {
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, randoms1v)(TYPE **cthis, const cgraph_size_t size) {
+TYPE **FUNCTION(NAME, randoms1v)(TYPE **cthis, const cgraph_size_t len) {
 #else
-TYPE *FUNCTION(NAME, randoms1v)(TYPE *cthis, const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, randoms1v)(TYPE *cthis, const cgraph_size_t len) {
 #endif
   if (NULL != cthis) {
     cgraph_size_t i;
-    for (i = 0; i < size; i++) {
+    for (i = 0; i < len; i++) {
 #ifdef TYPE_WITH_DATA
       cthis[i] = FUNCTION(NAME, random)(cthis[i], 0);
 #else

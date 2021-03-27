@@ -27,10 +27,10 @@ typedef struct {
 
 #include "cgraph_template_data.ht"
 
-extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t size);
-extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t size);
-extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *x);
-extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *x);
+extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len);
+extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
 
 #include "cgraph_template_off.h"
 

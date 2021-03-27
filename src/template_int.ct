@@ -78,7 +78,7 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, zero)(void) {
 #ifdef TYPE_BOOL
   return CGRAPH_FALSE;
 #else
-  return 0;
+  return ZERO;
 #endif
 }
 
@@ -86,7 +86,7 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, one)(void) {
 #ifdef TYPE_BOOL
   return CGRAPH_TRUE;
 #else
-  return 1;
+  return ONE;
 #endif
 }
 
@@ -94,7 +94,7 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, ones)(void) {
 #ifdef TYPE_BOOL
   return CGRAPH_TRUE;
 #else
-  return MIN;
+  return ONES;
 #endif
 }
 
@@ -189,83 +189,92 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, clrs)(const UTYPE x,
   return (to > from) ? CGRAPH_BCLRS(x, from, to) : 0;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis) {
 #ifdef TYPE_BOOL
-  return CGRAPH_TEST((CGRAPH_FALSE == x));
+  return CGRAPH_TEST((CGRAPH_FALSE == cthis));
 #else
-  return CGRAPH_TEST((0 == x));
+  return CGRAPH_TEST((ZERO == cthis));
 #endif
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis) {
 #ifdef TYPE_BOOL
-  return CGRAPH_TEST((CGRAPH_TRUE == x));
+  return CGRAPH_TEST((CGRAPH_TRUE == cthis));
 #else
-  return CGRAPH_TEST((1 == x));
+  return CGRAPH_TEST((ONE == cthis));
 #endif
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
-  return CGRAPH_TEST(x & 1);
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE cthis) {
+  return CGRAPH_TEST(cthis & 1);
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
-  return CGRAPH_TEST((~x) & 1);
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE cthis) {
+  return CGRAPH_TEST((~cthis) & 1);
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
-  return CGRAPH_TEST((0 < x) && (!(x & (x - 1))));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE cthis) {
+  return CGRAPH_TEST((0 < cthis) && (!(cthis & (cthis - 1))));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
-  return CGRAPH_TEST((~x) >> (BITS - 1));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE cthis) {
+  return CGRAPH_TEST((~cthis) >> (BITS - 1));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
-  return CGRAPH_TEST(x >> (BITS - 1));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE cthis) {
+  return CGRAPH_TEST(cthis >> (BITS - 1));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
-  return CGRAPH_TEST((MIN == x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE cthis) {
+  return CGRAPH_TEST((MIN == cthis));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
-  return CGRAPH_TEST((MAX == x));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE cthis) {
+  return CGRAPH_TEST((MAX == cthis));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE cthis) {
   return CGRAPH_FALSE;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE cthis) {
   return CGRAPH_FALSE;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE cthis) {
   return CGRAPH_FALSE;
 }
 
-cgraph_size_t FUNCTION(NAME, cntones)(const TYPE x) {
-  TYPE _x = x;
+cgraph_size_t FUNCTION(NAME, cntones)(const TYPE cthis) {
+#ifdef TYPE_BOOL
+  return cthis;
+#else
+  TYPE _cthis = cthis;
   cgraph_size_t cnt = 0;
-  for (cnt = 0; _x; cnt++) {
-    _x &= _x - 1;
+  for (cnt = 0; _cthis; cnt++) {
+    _cthis &= _cthis - 1;
   }
 
   return cnt;
+#endif
 }
 
-cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE x) {
-  TYPE _x = x;
-  cgraph_size_t cnt = 0;
-  for (cnt = 0; _x; _x = _x >> 1) {
-    cnt += 1 & (1 ^ _x);
-  }
-  if (0 == x) {
+cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE cthis) {
+#ifdef TYPE_BOOL
+  return cthis;
+#else
+  TYPE _cthis = cthis;
+  cgraph_size_t cnt;
+  if (0 == _cthis) {
     cnt = 1;
+  } else {
+    for (cnt = 0; _cthis; _cthis >>= 1) {
+      cnt += 1 & (1 ^ _cthis);
+    }
   }
 
   return cnt;
+#endif
 }
 
 UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly) {
@@ -329,6 +338,9 @@ TYPE FUNCTION(NAME, mul_mod)(const TYPE x, const TYPE y, const TYPE mod) {
 }
 
 TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE n) {
+#ifdef TYPE_BOOL
+  return x;
+#else
   TYPE res = 1, _x = x, _n = n;
   while (_n > 0) {
     if (_n & 1) {
@@ -339,6 +351,7 @@ TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE n) {
   }
 
   return res;
+#endif
 }
 
 TYPE FUNCTION(NAME, pow_mod)(const TYPE x, const TYPE n, const TYPE mod) {
@@ -355,12 +368,16 @@ TYPE FUNCTION(NAME, pow_mod)(const TYPE x, const TYPE n, const TYPE mod) {
 }
 
 UTYPE FUNCTION(NAME, fact)(const UTYPE x) {
+#ifdef TYPE_BOOL
+  return x;
+#else
   UTYPE i = 1, res = 1;
   for (i = 1; i <= x; i++) {
     res *= i;
   }
 
   return res;
+#endif
 }
 
 UTYPE FUNCTION(NAME, comb)(const UTYPE x, const UTYPE y) {
@@ -370,6 +387,9 @@ UTYPE FUNCTION(NAME, comb)(const UTYPE x, const UTYPE y) {
 }
 
 UTYPE FUNCTION(NAME, sqrt)(const UTYPE x) {
+#ifdef TYPE_BOOL
+  return x;
+#else
   UTYPE each = 0, res = 0, _x = x, y = 0;
   cgraph_size_t i;
   for (i = 0; i < (BITS >> 1); i++, _x <<= 2) {
@@ -382,6 +402,7 @@ UTYPE FUNCTION(NAME, sqrt)(const UTYPE x) {
   }
 
   return res;
+#endif
 }
 
 UTYPE FUNCTION(NAME, sqrt_mod)(const UTYPE x) { return 0; }
