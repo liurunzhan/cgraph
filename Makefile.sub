@@ -66,7 +66,7 @@ SEPARATOR = /
 SPLIT = ;
 endif
 
-SCRDIR = .$(SEPARATOR)script$(SEPARATOR)
+SCRDIR = .$(SEPARATOR)tools$(SEPARATOR)script$(SEPARATOR)
 
 ifeq ($(MAKELEVEL), 0)
 $(ALL):

@@ -9,24 +9,70 @@
 /** template module */
 #include "template_data.ct"
 
+static cgraph_char_t __buffer__[CGRAPH_FILE_BUFFER_SIZE];
+
+void FUNCTION(NAME, clrbuffer)(void) {
+  cgraph_memset(__buffer__, CGRAPH_FILE_BUFFER_SIZE, 0);
+}
+
+CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
+  return CGRAPH_FILE_BUFFER_SIZE;
+}
+
+cgraph_int_t FUNCTION(NAME, printf)(const TYPE *cthis) {
+  return FUNCTION(NAME, fprintf)(stdout, cthis);
+}
+
 cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
-  cgraph_int_t size = 0;
+  cgraph_int_t len = 0;
   if (NULL != cthis) {
-    cgraph_size_t i = cthis->len - 1;
-    cgraph_int_t tmp = cthis->data[i];
-    for (i--; i >= 0; i--) {
-      tmp = cthis->data[i] * 256 + tmp;
-      fprintf(fp, "%d\n", tmp);
-      fprintf(fp, "%c\n", (tmp % 10) + '0');
-      tmp = tmp / 10;
-      fprintf(fp, "%c\n", (tmp % 10) + '0');
-      tmp = tmp / 10;
+    cgraph_size_t size = cthis->len * 3 + 1;
+    if (size <= CGRAPH_FILE_BUFFER_SIZE) {
+      len = FUNCTION(NAME, snprintf)(__buffer__, size, cthis);
+      cgraph_file_rputc(fp, __buffer__, len);
     }
-    fprintf(fp, "%c\n", (tmp % 10) + '0');
-    size = cthis->len;
+#ifdef DEBUG
+    else {
+      fprintf(stderr, "out of %s buffer size %ld\n", FUNCTION(NAME, tname)(),
+              CGRAPH_FILE_BUFFER_SIZE);
+    }
+#endif
   }
 
-  return size;
+  return len;
+}
+
+cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE *cthis) {
+  cgraph_int_t len = 0, _size = size;
+  if ((NULL != buffer) && (0 < _size) && (NULL != cthis)) {
+    TYPE *copy = FUNCTION(NAME, copy)(cthis, cthis->len);
+    if (NULL != copy) {
+      cgraph_size_t i;
+      cgraph_int_t num, res, start = copy->len - 1;
+      if (CGRAPH_FALSE == cthis->postive) {
+        _size -= 1;
+      }
+      while ((0 <= start) && (len < _size)) {
+        for (res = 0, i = start; i >= 0; i--) {
+          num = copy->data[i] + res * (DATA_MAX + 1);
+          res = num % 10;
+          copy->data[i] = num / 10;
+        }
+        buffer[len++] = res + '0';
+        if (copy->data[start] == 0) {
+          start--;
+        }
+      }
+      if (CGRAPH_FALSE == cthis->postive) {
+        buffer[len++] = '-';
+      }
+    }
+    FUNCTION(NAME, free)(copy);
+  }
+
+  return len;
 }
 
 /**

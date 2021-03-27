@@ -106,10 +106,10 @@ doc/*
 
 # Compile Scripts
 [0-9]*
-script/compile
-script/compile.exe
-script/compile.hi
-!script/compile.d
+tools/script/compile
+tools/script/compile.exe
+tools/script/compile.hi
+!tools/script/compile.d
 /compile*
 /xmake.lua
 /CMakeLists.txt

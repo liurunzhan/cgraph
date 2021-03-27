@@ -107,8 +107,16 @@ int main(int argc, char *argv[]) {
   cgraph_complex_t x = CGRAPH_ZERO;
   cgraph_char_t *data = " abc[20] | _abc123", *name = &data[1];
   cgraph_bool_t flag;
+  cgraph_int_t old[10], new[20], old_base = 10, new_base = 16;
+  cgraph_size_t old_len = 10, new_len = 20, len;
   fprintf(stdout, "hello world!\n");
   fprintf(stdout, "%s %ld\n", name, cgraph_math_lenofname(name, &flag));
+  old[0] = 1;
+  old[1] = 1;
+  old[2] = 2;
+  fprintf(stdout, "old number : %d%d%d\n", old[0], old[1], old[2]);
+  len = cgraph_math_chgbase(old, 3, old_base, new, new_len, new_base);
+  fprintf(stdout, "new number %ld : %d%d%d\n", len, new[2], new[1], new[0]);
 
   return 0;
 }

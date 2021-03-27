@@ -8,6 +8,12 @@ extern "C" {
 #include "cgraph_config.h"
 #include "cgraph_string.h"
 
+#define CGRAPH_FILE_BUFFER_SIZE (4096)
+
+extern cgraph_int_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
+                                     const cgraph_size_t len);
+extern cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
+                                      const cgraph_size_t len);
 extern cgraph_int_t cgraph_file_println(const cgraph_char_t *format, ...);
 extern cgraph_int_t cgraph_file_fprintln(FILE *fp, const cgraph_char_t *format,
                                          ...);

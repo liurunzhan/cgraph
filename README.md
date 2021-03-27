@@ -41,15 +41,15 @@ Only the platform supports bash and autotools that can use the standard way to c
 
 ### Custom way
 ______________
-This library supports ***mingw32-make*** ([compile.mk](./script/compile.mk)), ***make*** ([compile.mk](./script/compile.mk)), ***cmake*** ([CMakeLists.txt](./script/CMakeLists.txt)), ***xmake*** ([xmake.lua](./script/xmake.lua)), ***meson*** ([meson.build](./script/meson.build)) and ***ninja*** ([compile.ninja](./script/compile.ninja)) to compile all the source files with the version of debug (with the addtional compilation flags of "-g -DDEBUG") and release (with the addtional compilation flags of "-static -O2"), cross different platforms of ***mingw***, ***msys***, ***msys2***, ***cygwin***, ***wsl*** and ***linux***.
+This library supports ***mingw32-make*** ([compile.mk](./tools/script/compile.mk)), ***make*** ([compile.mk](./tools/script/compile.mk)), ***cmake*** ([CMakeLists.txt](./tools/script/CMakeLists.txt)), ***xmake*** ([xmake.lua](./tools/script/xmake.lua)), ***meson*** ([meson.build](./tools/script/meson.build)) and ***ninja*** ([compile.ninja](./tools/script/compile.ninja)) to compile all the source files with the version of debug (with the addtional compilation flags of "-g -DDEBUG") and release (with the addtional compilation flags of "-static -O2"), cross different platforms of ***mingw***, ***msys***, ***msys2***, ***cygwin***, ***wsl*** and ***linux***.
 
-This library also provides ***bash shell script*** [compile.sh](./script/compile.sh), ***z shell script*** [compile.zsh](./script/compile.zsh), ***fish shell script*** [compile.fish](./script/compile.fish), ***c shell script*** [compile.csh](./script/compile.csh) and ***v shell script*** [compile.vsh](./script/compile.vsh) in ***msys***, ***msys2***, ***cygwin***, ***wsl*** and ***linux***, ***batch script*** [compile.bat](./script/compile.bat) and ***powershell script*** [compile.ps1](./script/compile.ps1) in ***mingw*** to directly compile this library by C compiler without make tools in special platforms(notice that incremental compilation is unsupported). All the compile scripts provide the same command-line arguments, without any argument or with the arguments of ***test***, ***clean***, ***distclean*** and ***help***.
+This library also provides ***bash shell script*** [compile.sh](./tools/script/compile.sh), ***z shell script*** [compile.zsh](./tools/script/compile.zsh), ***fish shell script*** [compile.fish](./tools/script/compile.fish), ***c shell script*** [compile.csh](./tools/script/compile.csh) and ***v shell script*** [compile.vsh](./tools/script/compile.vsh) in ***msys***, ***msys2***, ***cygwin***, ***wsl*** and ***linux***, ***batch script*** [compile.bat](./tools/script/compile.bat) and ***powershell script*** [compile.ps1](./tools/script/compile.ps1) in ***mingw*** to directly compile this library by C compiler without make tools in special platforms(notice that incremental compilation is unsupported). All the compile scripts provide the same command-line arguments, without any argument or with the arguments of ***test***, ***clean***, ***distclean*** and ***help***.
 
-What's more, this library provides ***perl script*** [compile.pl](./script/compile.pl), ***perl6/raku*** script [compile.raku](./script/compile.raku), ***ruby script*** [compile.rb](./script/compile.rb), ***python script*** [compile.py](./script/compile.py), ***lua script*** [compile.lua](./script/compile.lua), ***r script*** [compile.r](./script/compile.r), ***julia script*** [compile.jl](./script/compile.jl), ***tcl script*** [compile.tcl](./script/compile.tcl), ***ocaml script*** [compile.ml](./script/compile.ml), ***lisp script*** [compile.lisp](./script/compile.lisp) in ***clisp***, ***elixir script*** [compile.exs](./script/compile.exs) and ***io script*** [compile.io](./script/compile.io) to compile this library(where incremental compilation is also unsupported here). Make tools and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
+What's more, this library provides ***perl script*** [compile.pl](./tools/script/compile.pl), ***perl6/raku*** script [compile.raku](./tools/script/compile.raku), ***ruby script*** [compile.rb](./tools/script/compile.rb), ***crystal script*** [compile.cr](./tools/script/compile.cr), ***python script*** [compile.py](./tools/script/compile.py), ***lua script*** [compile.lua](./tools/script/compile.lua), ***r script*** [compile.r](./tools/script/compile.r), ***julia script*** [compile.jl](./tools/script/compile.jl), ***tcl script*** [compile.tcl](./tools/script/compile.tcl), ***ocaml script*** [compile.ml](./tools/script/compile.ml), ***lisp script*** [compile.lisp](./tools/script/compile.lisp) in ***clisp***, ***elixir script*** [compile.exs](./tools/script/compile.exs) and ***io script*** [compile.io](./tools/script/compile.io) to compile this library(where incremental compilation is also unsupported here). Make tools and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
 
-In addtion, this library provides some other language scripts, based on jvm, to do the same work, such as ***java script*** [compile.java](./script/compile.java) in ***openjdk11***, ***scala script*** [compile.scala](./script/compile.scala), ***kotlin script*** [compile.kts](./script/compile.kts), ***clojure script*** [compile.clj](./script/compile.clj) and ***groovy script*** [compile.groovy](./script/compile.groovy).
+In addtion, this library provides some other language scripts, based on jvm, to do the same work, such as ***java script*** [compile.java](./tools/script/compile.java) in ***openjdk11***, ***scala script*** [compile.scala](./tools/script/compile.scala), ***kotlin script*** [compile.kts](./tools/script/compile.kts), ***clojure script*** [compile.clj](./tools/script/compile.clj) and ***groovy script*** [compile.groovy](./tools/script/compile.groovy).
 
-Some compiled languages realized by given compilers with special extension tools can also be used to write scripts, such as ***c script*** [compile.c](./script/compile.c) in ***tcc***, ***go script*** [compile.go](./script/compile.go) in ***go*** with ***gorun***, ***swift script*** [compile.swift](./script/compile.swift), ***haskell script*** [compile.hs](./script/compile.hs) in ***haskell*** with ***runhaskell***, ***rust script*** [compile.rs](./script/compile.rs) in ***rust*** with ***rustx***, ***erlang script*** [compile.escript](./script/compile.escript), ***nims script*** [compile.nims](./script/compile.nims) and ***zig script*** [compile.zig](./script/compile.zig).
+Some compiled languages realized by given compilers with special extension tools can also be used to write scripts, such as ***c script*** [compile.c](./tools/script/compile.c) in ***tcc***, ***go script*** [compile.go](./tools/script/compile.go) in ***go*** with ***gorun***, ***swift script*** [compile.swift](./tools/script/compile.swift), ***haskell script*** [compile.hs](./tools/script/compile.hs) in ***haskell*** with ***runhaskell***, ***rust script*** [compile.rs](./tools/script/compile.rs) in ***rust*** with ***rustx***, ***erlang script*** [compile.escript](./tools/script/compile.escript), ***nims script*** [compile.nims](./tools/script/compile.nims) and ***zig script*** [compile.zig](./tools/script/compile.zig).
 
 All above ways are called with [Makefile.mk](./Makefile.mk) in MSYS, MSYS2, CYGWIN or Linux platform by
 ```bash
@@ -93,44 +93,45 @@ __________________
 ________________
 All the involved compilation scripts in this library are listed as below. User can use [Configure.pl](./Configure.pl) to change their default configuration (ongoing...).
 
-* ***CMake*** [CMakeLists.txt](./script/CMakeLists.txt)
-* ***DOS Batch*** [compile.bat](./script/compile.bat)
-* ***C*** [compile.c](./script/compile.c)
-* ***Clojure*** [compile.clj](./script/compile.clj)
-* ***C Shell*** [compile.csh](./script/compile.csh)
-* ***Erlang*** [compile.escript](./script/compile.escript)
-* ***Elixir*** [compile.exs](./script/compile.exs)
-* ***Fish Shell*** [compile.fish](./script/compile.fish)
-* ***Go*** [compile.go](./script/compile.go)
-* ***Groovy*** [compile.groovy](./script/compile.groovy)
-* ***Haskell*** [compile.hs](./script/compile.hs)
-* ***IO*** [compile.io](./script/compile.io)
-* ***Java*** [compile.java](./script/compile.java)
-* ***Julia*** [compile.jl](./script/compile.jl)
-* ***Kotlin*** [compile.kts](./script/compile.kts)
-* ***Lisp*** [compile.lisp](./script/compile.lisp)
-* ***Lua*** [compile.lua](./script/compile.lua)
-* ***make*** [compile.mk](./script/compile.mk)
-* ***Ocaml*** [compile.ml](./script/compile.ml)
-* ***Nim*** [compile.nims](./script/compile.nims)
-* ***Ninja*** [compile.ninja](./script/compile.ninja)
-* ***Perl*** [compile.pl](./script/compile.pl)
-* ***Perl6/Raku*** [compile.raku](./script/compile.raku)
-* ***Powershell*** [compile.ps1](./script/compile.ps1)
-* ***Python*** [compile.py](./script/compile.py)
-* ***R*** [compile.r](./script/compile.r)
-* ***Ruby*** [compile.rb](./script/compile.rb)
-* ***Rust*** [compile.rs](./script/compile.rs)
-* ***Scala*** [compile.scala](./script/compile.scala)
-* ***Bourne Shell*** [compile.sh](./script/compile.sh)
-* ***Swift*** [compile.swift](./script/compile.swift)
-* ***Tcl/Tk*** [compile.tcl](./script/compile.tcl)
-* ***Typescript*** [compile.ts](./script/compile.ts)
-* ***V Shell*** [compile.vsh](./script/compile.vsh)
-* ***Zig*** [compile.zig](./script/compile.zig)
-* ***Z Shell*** [compile.zsh](./script/compile.zsh)
-* ***Meson*** [meson.build](./script/meson.build)
-* ***XMake*** [xmake.lua](./script/compile.lua)
+* ***CMake*** [CMakeLists.txt](./tools/script/CMakeLists.txt)
+* ***DOS Batch*** [compile.bat](./tools/script/compile.bat)
+* ***C*** [compile.c](./tools/script/compile.c)
+* ***Crystal*** [compile.cr](./tools/script/compile.cr)
+* ***Clojure*** [compile.clj](./tools/script/compile.clj)
+* ***C Shell*** [compile.csh](./tools/script/compile.csh)
+* ***Erlang*** [compile.escript](./tools/script/compile.escript)
+* ***Elixir*** [compile.exs](./tools/script/compile.exs)
+* ***Fish Shell*** [compile.fish](./tools/script/compile.fish)
+* ***Go*** [compile.go](./tools/script/compile.go)
+* ***Groovy*** [compile.groovy](./tools/script/compile.groovy)
+* ***Haskell*** [compile.hs](./tools/script/compile.hs)
+* ***IO*** [compile.io](./tools/script/compile.io)
+* ***Java*** [compile.java](./tools/script/compile.java)
+* ***Julia*** [compile.jl](./tools/script/compile.jl)
+* ***Kotlin*** [compile.kts](./tools/script/compile.kts)
+* ***Lisp*** [compile.lisp](./tools/script/compile.lisp)
+* ***Lua*** [compile.lua](./tools/script/compile.lua)
+* ***make*** [compile.mk](./tools/script/compile.mk)
+* ***Ocaml*** [compile.ml](./tools/script/compile.ml)
+* ***Nim*** [compile.nims](./tools/script/compile.nims)
+* ***Ninja*** [compile.ninja](./tools/script/compile.ninja)
+* ***Perl*** [compile.pl](./tools/script/compile.pl)
+* ***Perl6/Raku*** [compile.raku](./tools/script/compile.raku)
+* ***Powershell*** [compile.ps1](./tools/script/compile.ps1)
+* ***Python*** [compile.py](./tools/script/compile.py)
+* ***R*** [compile.r](./tools/script/compile.r)
+* ***Ruby*** [compile.rb](./tools/script/compile.rb)
+* ***Rust*** [compile.rs](./tools/script/compile.rs)
+* ***Scala*** [compile.scala](./tools/script/compile.scala)
+* ***Bourne Shell*** [compile.sh](./tools/script/compile.sh)
+* ***Swift*** [compile.swift](./tools/script/compile.swift)
+* ***Tcl/Tk*** [compile.tcl](./tools/script/compile.tcl)
+* ***Typescript*** [compile.ts](./tools/script/compile.ts)
+* ***V Shell*** [compile.vsh](./tools/script/compile.vsh)
+* ***Zig*** [compile.zig](./tools/script/compile.zig)
+* ***Z Shell*** [compile.zsh](./tools/script/compile.zsh)
+* ***Meson*** [meson.build](./tools/script/meson.build)
+* ***XMake*** [xmake.lua](./tools/script/compile.lua)
 
 ## Overview
 ___________

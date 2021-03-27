@@ -192,6 +192,30 @@ cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
   return len;
 }
 
+cgraph_int_t cgraph_math_chgbase(cgraph_int_t *old, const cgraph_size_t old_len,
+                                 cgraph_int_t old_base, cgraph_int_t *new,
+                                 const cgraph_size_t new_len,
+                                 cgraph_int_t new_base) {
+  cgraph_size_t len = 0;
+  if ((NULL != old) && (NULL != new)) {
+    cgraph_size_t start = 0, i;
+    cgraph_int_t num, res;
+    while ((start < old_len) && (len < new_len)) {
+      for (res = 0, i = start; i < old_len; i++) {
+        num = old[i] + res * old_base;
+        res = num % new_base;
+        old[i] = num / new_base;
+      }
+      new[len++] = res;
+      if (old[start] == 0) {
+        start++;
+      }
+    }
+  }
+
+  return (0 == new[len - 1]) ? len - 1 : len;
+}
+
 cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                 const cgraph_uint64_t data,
                                 const cgraph_uint64_t poly) {

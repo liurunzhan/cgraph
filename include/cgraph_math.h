@@ -80,6 +80,10 @@ extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
                                           cgraph_bool_t *error);
 extern cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
                                            const cgraph_int_t base);
+extern cgraph_int_t
+cgraph_math_chgbase(cgraph_int_t *old, const cgraph_size_t old_len,
+                    cgraph_int_t old_base, cgraph_int_t *new,
+                    const cgraph_size_t new_len, cgraph_int_t new_base);
 
 extern cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                        const cgraph_uint64_t data,

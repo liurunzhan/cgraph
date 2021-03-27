@@ -7,6 +7,28 @@
 #include "cgraph_platform.h"
 #include "cgraph_string.h"
 
+cgraph_int_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
+                              const cgraph_size_t len) {
+  if ((NULL != buffer) && (0 < len)) {
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+      fputc(buffer[i], fp);
+    }
+  }
+  return len;
+}
+
+cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
+                               const cgraph_size_t len) {
+  if ((NULL != buffer) && (0 < len)) {
+    cgraph_size_t i;
+    for (i = len - 1; i >= 0; i--) {
+      fputc(buffer[i], fp);
+    }
+  }
+  return len;
+}
+
 cgraph_int_t cgraph_file_println(const cgraph_char_t *format, ...) {
   cgraph_int_t _size = 0;
   va_list args;
