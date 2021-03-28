@@ -13,7 +13,7 @@
 #include "template_data.ct"
 
 /** common apis */
-cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, printf)(const TYPE cthis) {
   if (TIME_ISTYPE0(cthis)) {
     return FUNCTION(NAME, printf0)(cthis);
   } else {
@@ -21,7 +21,7 @@ cgraph_int_t FUNCTION(NAME, printf)(const TYPE cthis) {
   }
 }
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
   if (TIME_ISTYPE0(cthis)) {
     return FUNCTION(NAME, fprintf0)(fp, cthis);
   } else {
@@ -29,9 +29,9 @@ cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
   }
 }
 
-cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                      const cgraph_size_t size,
-                                      const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE cthis) {
   if (TIME_ISTYPE0(cthis)) {
     return FUNCTION(NAME, snprintf0)(buffer, size, cthis);
   } else {

@@ -180,6 +180,26 @@ cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
   return ch;
 }
 
+cgraph_size_t cgraph_math_lenofdec(const cgraph_char_t *data,
+                                   cgraph_char_t **res) {
+  cgraph_size_t len = 0;
+  if ((NULL != data)) {
+    cgraph_char_t *cthis = (cgraph_char_t *)data;
+    for (; ('\t' == *cthis) || (' ' == *cthis) || ('0' == *cthis); cthis++) {
+    }
+    if (NULL != res) {
+      *res = cthis;
+    }
+    if (('-' == *cthis) || ('+' == *cthis)) {
+      cthis++;
+    }
+    for (; ('\0' != *cthis) && isdigit(*cthis); cthis++, len++) {
+    }
+  }
+
+  return len;
+}
+
 cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
                                     const cgraph_int_t base) {
   cgraph_size_t len = 0;
@@ -207,13 +227,13 @@ cgraph_int_t cgraph_math_chgbase(cgraph_int_t *old, const cgraph_size_t old_len,
         old[i] = num / new_base;
       }
       new[len++] = res;
-      if (old[start] == 0) {
+      while (0 == old[start]) {
         start++;
       }
     }
   }
 
-  return (0 == new[len - 1]) ? len - 1 : len;
+  return len;
 }
 
 cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,

@@ -78,6 +78,8 @@ extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
                                           cgraph_bool_t *error);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
                                           cgraph_bool_t *error);
+extern cgraph_size_t cgraph_math_lenofdec(const cgraph_char_t *data,
+                                          cgraph_char_t **res);
 extern cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
                                            const cgraph_int_t base);
 extern cgraph_int_t

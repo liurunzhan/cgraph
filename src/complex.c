@@ -10,16 +10,16 @@
 /** template */
 #include "template_data.ct"
 
-cgraph_int_t FUNCTION(NAME, printf)(const TYPE x) {
+cgraph_size_t FUNCTION(NAME, printf)(const TYPE x) {
   return fprintf(stdout, OUT_FORMAT, COMPLEX_REAL(x), COMPLEX_IMAG(x));
 }
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x) {
+cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x) {
   return fprintf(fp, OUT_FORMAT, COMPLEX_REAL(x), COMPLEX_IMAG(x));
 }
 
-cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                      const cgraph_size_t size, const TYPE x) {
+cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size, const TYPE x) {
   return cgraph_file_snprintf(buffer, size, OUT_FORMAT, COMPLEX_REAL(x),
                               COMPLEX_IMAG(x));
 }

@@ -113,11 +113,11 @@ extern TYPE **FUNCTION(NAME, conv)(const TYPE **x, const TYPE **y,
                                    const cgraph_size_t ylen, TYPE *res0,
                                    TYPE **res);
 
-extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE *cthis);
-extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x);
-extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                             const cgraph_size_t size,
-                                             const TYPE *x);
+extern cgraph_size_t FUNCTION(NAME, printf)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *x);
+extern cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE *x);
 
 #else
 
@@ -232,10 +232,10 @@ extern TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
                                   const cgraph_size_t ylen, TYPE *res0,
                                   TYPE *res);
 
-extern cgraph_int_t FUNCTION(NAME, printf)(const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                             const cgraph_size_t size,
-                                             const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, printf)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE x);
 
 #endif

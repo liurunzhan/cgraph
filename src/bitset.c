@@ -7,8 +7,8 @@
 /*template module*/
 #include "template_data.ct"
 
-cgraph_int_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
-  cgraph_int_t size = 0;
+cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
+  cgraph_size_t size = 0;
   if (NULL != cthis) {
     cgraph_size_t i;
     DATA_TYPE *data = &(cthis->data[0]);

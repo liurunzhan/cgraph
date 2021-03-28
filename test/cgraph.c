@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
   old[2] = 2;
   fprintf(stdout, "old number : %d%d%d\n", old[0], old[1], old[2]);
   len = cgraph_math_chgbase(old, 3, old_base, new, new_len, new_base);
-  fprintf(stdout, "new number %ld : %d%d%d\n", len, new[2], new[1], new[0]);
+  fprintf(stdout, "new number %ld : %d%d\n", len, new[1], new[0]);
 
   return 0;
 }
