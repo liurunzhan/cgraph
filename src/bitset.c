@@ -7,21 +7,42 @@
 /*template module*/
 #include "template_data.ct"
 
+cgraph_size_t FUNCTION(NAME, printf)(const TYPE *cthis) {
+  return FUNCTION(NAME, fprintf)(stdout, cthis);
+}
+
 cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
-  cgraph_size_t size = 0;
+  cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t i;
     DATA_TYPE *data = &(cthis->data[0]);
     for (i = 0; i < cthis->len; i++, data++) {
-      fprintf(fp, OUT_FORMAT, *data);
+      fputc(cgraph_math_dec2lhex((*data >> 4) & 0xF, NULL), fp);
+      fputc(cgraph_math_dec2lhex(*data & 0xF, NULL), fp);
     }
-    size = cthis->len;
+    len = cthis->len;
   }
 
-  return size;
+  return len;
 }
 
-static const cgraph_uint8_t cgraph_uint8_bits[8] = {1,    0x02, 0x04, 0x08,
+cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if ((NULL != buffer) && (NULL != cthis)) {
+    cgraph_size_t i = 0, _len = CGRAPH_MIN(size >> 1, cthis->len);
+    DATA_TYPE *data = &(cthis->data[0]);
+    for (i = 0; i < _len; data++) {
+      buffer[i++] = cgraph_math_dec2lhex((*data >> 4) & 0xF, NULL);
+      buffer[i++] = cgraph_math_dec2lhex(*data & 0xF, NULL);
+    }
+  }
+
+  return len;
+}
+
+static const cgraph_uint8_t cgraph_uint8_bits[8] = {0x01, 0x02, 0x04, 0x08,
                                                     0x10, 0x20, 0x40, 0x80};
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
@@ -38,7 +59,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  return CGRAPH_TEST(NULL != cthis);
+  return CGRAPH_TEST((NULL != cthis) && (0 < cthis->len));
 }
 
 CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {

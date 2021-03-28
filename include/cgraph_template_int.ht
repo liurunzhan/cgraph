@@ -6,11 +6,11 @@ extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
 extern TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y);
 
-extern TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, not )(const TYPE x);
-extern TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y);
+extern UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, or)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, not )(const UTYPE x);
+extern UTYPE FUNCTION(NAME, xor)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, xnor)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, bit)(const UTYPE x, const cgraph_size_t position);
 extern UTYPE FUNCTION(NAME, set)(const UTYPE x, const cgraph_size_t position);
 extern UTYPE FUNCTION(NAME, clr)(const UTYPE x, const cgraph_size_t position);
@@ -20,6 +20,7 @@ extern UTYPE FUNCTION(NAME, sets)(const UTYPE x, const cgraph_size_t from,
                                   const cgraph_size_t to);
 extern UTYPE FUNCTION(NAME, clrs)(const UTYPE x, const cgraph_size_t from,
                                   const cgraph_size_t to);
+extern UTYPE FUNCTION(NAME, rebits)(const UTYPE x);
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE x);
 

@@ -24,6 +24,7 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
     _cthis->data[_cthis->len] = 0;
   }
 #endif
+
   return _cthis;
 }
 

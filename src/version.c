@@ -7,7 +7,9 @@ void cgraph_version(cgraph_char_t **version, cgraph_int_t *major,
   cgraph_int_t cgraph_major, cgraph_minor, cgraph_subminor;
   sscanf(cgraph_version_string, "%d.%d.%d", &cgraph_major, &cgraph_minor,
          &cgraph_subminor);
-  *version = (cgraph_char_t *)cgraph_version_string;
+  if (NULL != version) {
+    *version = (cgraph_char_t *)cgraph_version_string;
+  }
   if (NULL != major) {
     *major = cgraph_major;
   }

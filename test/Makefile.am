@@ -12,13 +12,14 @@ AM_LDFLAGS  = -L$(top_srcdir)/src -lcgraph
 AM_CFLAGS   = $(FLAGS)
 AM_CPPFLAGS = $(FLAGS)
 
-TESTS = bigint bigmat bigmat3d bool cgraph float32 float64 float128 int int8 int16 int32 int64 long matrix matrix3d spamat spamat3d string time vector verilog version
+TESTS = bigint bigmat bigmat3d bitset bool cgraph float32 float64 float128 int int8 int16 int32 int64 long matrix matrix3d spamat spamat3d string time vector verilog version
 
 noinst_PROGRAMS = $(TESTS)
 
 bigint_SOURCES    = bigint.c
 bigmat_SOURCES    = bigmat.c
 bigmat3d_SOURCES  = bigmat3d.c
+bitset_SOURCES    = bitset.c
 bool_SOURCES      = bool.c
 cgraph_SOURCES    = cgraph.c
 float32_SOURCES   = float32.c

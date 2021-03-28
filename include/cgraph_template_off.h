@@ -581,3 +581,27 @@
 #ifdef HASH_OFFSET
 #undef HASH_OFFSET
 #endif
+
+#ifdef EPSILON1
+#undef EPSILON1
+#endif
+
+#ifdef EPSILON2
+#undef EPSILON2
+#endif
+
+#ifdef EPSILON4
+#undef EPSILON4
+#endif
+
+#ifdef EPSILON8
+#undef EPSILON8
+#endif
+
+#ifdef EPSILON16
+#undef EPSILON16
+#endif
+
+#ifdef EPSILON32
+#undef EPSILON32
+#endif

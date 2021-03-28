@@ -53,12 +53,16 @@ CGRAPH_INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data) {
 cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
                                     cgraph_bool_t *flag) {
   cgraph_size_t len = 0;
-  if ((NULL != data) && (NULL != flag)) {
+  if (NULL != data) {
     cgraph_char_t *name = (cgraph_char_t *)data;
     cgraph_bool_t bracket_flag = CGRAPH_FALSE;
-    *flag = CGRAPH_TRUE;
+    if (NULL != flag) {
+      *flag = CGRAPH_TRUE;
+    }
     if (!isalpha(*name)) {
-      *flag = CGRAPH_FALSE;
+      if (NULL != flag) {
+        *flag = CGRAPH_FALSE;
+      }
       if (!isdigit(*name)) {
         return len;
       }
@@ -100,45 +104,42 @@ CGRAPH_INLINE cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data) {
 
 cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error) {
   cgraph_int_t res = 0;
-  if (NULL != error) {
-    *error = CGRAPH_FALSE;
-    switch (data) {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9': {
-      res = data - '0';
-      break;
-    }
-    case 'A':
-    case 'B':
-    case 'C':
-    case 'D':
-    case 'E':
-    case 'F': {
-      res = data - 'A' + 10;
-      break;
-    }
-    case 'a':
-    case 'b':
-    case 'c':
-    case 'd':
-    case 'e':
-    case 'f': {
-      res = data - 'a' + 10;
-      break;
-    }
-    default: {
-      *error = CGRAPH_TRUE;
-      break;
-    }
-    }
+  switch (data) {
+  case '0':
+  case '1':
+  case '2':
+  case '3':
+  case '4':
+  case '5':
+  case '6':
+  case '7':
+  case '8':
+  case '9': {
+    res = data - '0';
+    break;
+  }
+  case 'A':
+  case 'B':
+  case 'C':
+  case 'D':
+  case 'E':
+  case 'F': {
+    res = data - 'A' + 10;
+    break;
+  }
+  case 'a':
+  case 'b':
+  case 'c':
+  case 'd':
+  case 'e':
+  case 'f': {
+    res = data - 'a' + 10;
+    break;
+  }
+  default: {
+    *error = CGRAPH_TRUE;
+    break;
+  }
   }
 
   return res;
@@ -169,10 +170,9 @@ static const cgraph_char_t __cgraph_math_dec2hex_lower__[16] = {
 cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
                                    cgraph_bool_t *error) {
   cgraph_char_t ch = 0;
-  if (NULL != error) {
-    *error = CGRAPH_TRUE;
-    if (data >= 0 && data < 16) {
-      ch = __cgraph_math_dec2hex_lower__[data];
+  if (data >= 0 && data < 16) {
+    ch = __cgraph_math_dec2hex_lower__[data];
+    if (NULL != error) {
       *error = CGRAPH_FALSE;
     }
   }

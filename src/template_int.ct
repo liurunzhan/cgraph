@@ -138,21 +138,23 @@ TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y) {
   return x / FUNCTION(NAME, gcd)(x, y) * y;
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, and)(const TYPE x, const TYPE y) {
+CGRAPH_INLINE UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y) {
   return CGRAPH_AND(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, or)(const TYPE x, const TYPE y) {
+CGRAPH_INLINE UTYPE FUNCTION(NAME, or)(const UTYPE x, const UTYPE y) {
   return CGRAPH_OR(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, not )(const TYPE x) { return CGRAPH_NOT(x); }
+CGRAPH_INLINE UTYPE FUNCTION(NAME, not )(const UTYPE x) {
+  return CGRAPH_NOT(x);
+}
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, xor)(const TYPE x, const TYPE y) {
+CGRAPH_INLINE UTYPE FUNCTION(NAME, xor)(const UTYPE x, const UTYPE y) {
   return CGRAPH_XOR(x, y);
 }
 
-CGRAPH_INLINE TYPE FUNCTION(NAME, xnor)(const TYPE x, const TYPE y) {
+CGRAPH_INLINE UTYPE FUNCTION(NAME, xnor)(const UTYPE x, const UTYPE y) {
   return CGRAPH_XNOR(x, y);
 }
 
@@ -187,6 +189,29 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, clrs)(const UTYPE x,
                                          const cgraph_size_t from,
                                          const cgraph_size_t to) {
   return (to > from) ? CGRAPH_BCLRS(x, from, to) : 0;
+}
+
+CGRAPH_INLINE UTYPE FUNCTION(NAME, rebits)(const UTYPE x) {
+#if defined(TYPE_BOOL)
+  return x;
+#else
+  UTYPE res = x;
+  res = ((res & EPSILON1) >> 1) | ((res & ~EPSILON1) << 1);
+  res = ((res & EPSILON2) >> 2) | ((res & ~EPSILON2) << 2);
+  res = ((res & EPSILON4) >> 4) | ((res & ~EPSILON4) << 4);
+#if defined(TYPE_INT16)
+  res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
+#endif
+#if defined(TYPE_INT32) || defined(TYPE_INT) ||                                \
+    (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 32))
+  res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
+#endif
+#if defined(TYPE_INT64) || (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 64))
+  res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
+#endif
+
+  return res;
+#endif
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis) {
