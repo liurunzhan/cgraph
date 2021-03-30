@@ -26,40 +26,41 @@ cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x) {
   return cthis;
 }
 
-cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis) {
-  cgraph_string_t *str = NULL;
+cgraph_bool_t cgraph_string_to_bool(const cgraph_string_t *cthis) {
+  cgraph_bool_t res = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t len = cthis->postive ? cthis->len : (cthis->len + 1);
-    str = cgraph_string_calloc(CGRAPH_CHAR_T, len);
-    if (NULL != str) {
-      cgraph_size_t i = 0;
-      if (CGRAPH_FALSE == cthis->postive) {
-        str->data[i++] = '-';
-      }
-      for (; i < len; i++) {
-        str->data[i] = cthis->data[i] + '0';
-      }
+    res = cgraph_bool_str2bool(cthis->data, cthis->len);
+  }
+
+  return res;
+}
+
+cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis) {
+  cgraph_string_t *string = NULL;
+  if (NULL != cthis) {
+    cgraph_size_t size = cthis->len * 3 + 2;
+    string = cgraph_string_calloc(CGRAPH_CHAR_T, size);
+    if (NULL != string) {
+      cgraph_bigint_snprintf(string->data, string->size, cthis);
     }
   }
 
-  return str;
+  return string;
 }
 
 cgraph_bigint_t *cgraph_string_to_bigint(const cgraph_string_t *cthis) {
-  cgraph_size_t len = ('-' == cthis->data[0] ? (cthis->len - 1) : cthis->len);
-  cgraph_bigint_t *object = cgraph_bigint_calloc(1, len);
-  if (NULL != object) {
-    cgraph_size_t i = 0;
-    if ('-' == cthis->data[i]) {
-      object->postive = CGRAPH_FALSE;
-      i++;
+  cgraph_bigint_t *bigint = NULL;
+  if (NULL != cthis) {
+    cgraph_string_t *tmp = cgraph_string_copy(cthis, cthis->len);
+    cgraph_size_t size = cthis->len / 3 + 2;
+    bigint = cgraph_bigint_calloc(CGRAPH_INT8_T, size);
+    if ((NULL != tmp) && (NULL != bigint)) {
+      bigint = cgraph_bigint_initc(bigint, tmp->data, tmp->size, cthis->data);
     }
-    for (; i < len; i++) {
-      object->data[i] = cthis->data[i] - '0';
-    }
+    cgraph_string_free(tmp);
   }
 
-  return object;
+  return bigint;
 }
 
 const cgraph_char_t _cgraph_base64_array_[64] = {

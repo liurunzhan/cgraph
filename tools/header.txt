@@ -1,4 +1,8 @@
 /**
- * SECTION: ${SECTION}
- * @
+ * @file  ${FILE}
+ * @author ${AUTHOR}
+ * @email ${EMAIL}
+ * @date  ${DATE}
+ * @lisence ${LISENCE}
+ * @brief ${BRIEF}
  */

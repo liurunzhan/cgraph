@@ -137,7 +137,9 @@ cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error) {
     break;
   }
   default: {
-    *error = CGRAPH_TRUE;
+    if (NULL != error) {
+      *error = CGRAPH_TRUE;
+    }
     break;
   }
   }
@@ -152,10 +154,9 @@ static const cgraph_char_t __cgraph_math_dec2hex_upper__[16] = {
 cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
                                    cgraph_bool_t *error) {
   cgraph_char_t ch = 0;
-  if (NULL != error) {
-    *error = CGRAPH_TRUE;
-    if (data >= 0 && data < 16) {
-      ch = __cgraph_math_dec2hex_upper__[data];
+  if (data >= 0 && data < 16) {
+    ch = __cgraph_math_dec2hex_upper__[data];
+    if (NULL != error) {
       *error = CGRAPH_FALSE;
     }
   }

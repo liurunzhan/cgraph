@@ -27,8 +27,7 @@ void *cgraph_calloc(const cgraph_size_t size) {
 void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
                      const cgraph_size_t new_size, cgraph_bool_t *error) {
   void *_cthis = cthis;
-  if ((NULL != error) && (0 < new_size)) {
-    *error = CGRAPH_FALSE;
+  if (0 < new_size) {
     /** memory lazy release */
     if (new_size > old_size) {
       _cthis = realloc(cthis, new_size);
@@ -43,7 +42,9 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
         fflush(stderr);
 #endif
         _cthis = cthis;
-        *error = CGRAPH_TRUE;
+        if (NULL != error) {
+          *error = CGRAPH_TRUE;
+        }
       }
     }
   }

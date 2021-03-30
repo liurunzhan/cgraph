@@ -155,10 +155,13 @@ cgraph_bool_t cgraph_file_fgets(cgraph_string_t *buffer, FILE *fp) {
 
 cgraph_string_t *cgraph_file_header(FILE *fp, cgraph_string_t *buffer,
                                     cgraph_bool_t *error) {
-  if ((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) &&
-      (NULL != error)) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer)) {
     rewind(fp);
-    *error = cgraph_file_fgets(buffer, fp);
+    flag = cgraph_file_fgets(buffer, fp);
+    if (NULL != error) {
+      *error = flag;
+    }
   }
 #ifdef DEBUG
   else {
