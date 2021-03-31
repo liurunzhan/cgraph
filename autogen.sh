@@ -78,7 +78,8 @@ fi
 env doxygen --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   DOXYGEN=doxygen
-  cp -f Doxyfile.base Doxyfile
+else
+  MISSING="$MISSING doxygen"
 fi
 
 # echo missing tools

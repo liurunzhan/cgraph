@@ -12,9 +12,6 @@ EXTRA_DIST = autogen.sh cgraph.pc Doxyfile README.md
 
 DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure cgraph.pc Doxyfile depcomp gtk-doc.m4 gtk-doc.make install-sh libtool ltmain.sh Makefile.in Makefile missing test-driver
 
-all-local:
-	-cp -f Doxyfile.base Doxyfile
-
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache
 
@@ -24,7 +21,6 @@ gtkdoc:
 	$(MAKE) -C $(top_srcdir)/doc
 
 doxygen:
-	-cp -f Doxyfile.base Doxyfile
 	doxygen -u
 	doxygen
 

@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_time.h
+ * @brief the apis of DATA TYPE cgraph_time_t
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifndef _CGRAPH_TIME_H_
 #define _CGRAPH_TIME_H_
 

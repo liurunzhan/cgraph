@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_version.h
+ * @brief the version solution of cgraph
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifndef _CGRAPH_VERSION_H_
 #define _CGRAPH_VERSION_H_
 

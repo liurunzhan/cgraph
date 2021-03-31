@@ -41,7 +41,7 @@ cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis) {
     cgraph_size_t size = cthis->len * 3 + 2;
     string = cgraph_string_calloc(CGRAPH_CHAR_T, size);
     if (NULL != string) {
-      cgraph_bigint_snprintf(string->data, string->size, cthis);
+      string->len = cgraph_bigint_snprintf(string->data, string->size, cthis);
     }
   }
 

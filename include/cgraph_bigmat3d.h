@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_bigmat3d.h
+ * @brief the apis of STRUCTURE TYPE cgraph_bigmat3d_t
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifndef _CGRAPH_BIGMAT3D_H_
 #define _CGRAPH_BIGMAT3D_H_
 

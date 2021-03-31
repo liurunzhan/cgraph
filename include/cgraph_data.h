@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_data.h
+ * @brief the apis of data types in cgraph
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifndef _CGRAPH_DATA_H_
 #define _CGRAPH_DATA_H_
 

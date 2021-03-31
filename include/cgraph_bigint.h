@@ -1,10 +1,12 @@
 /**
- * @file  cgraph_bigint.h
- * @brief
- * @author       Liurunzhan
- * @date     2021-02-06
- * @version  0.0.0
- * @copyright GPL 3.0
+ * @file cgraph_bigint.h
+ * @brief the apis of DATA TYPE cgraph_bigint_t
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
  */
 
 #ifndef _CGRAPH_BIGINT_H_

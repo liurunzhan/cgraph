@@ -1,0 +1,8 @@
+{
+	"package" : "@PACKAGE@",
+	"version" : "@VERSION@",
+	"author" : "liurunzhan",
+	"email" : "liurunzhan@sina.com",
+	"date" : "",
+	"lisence" : "GPL-3.0"
+}

@@ -1,11 +1,14 @@
 /**
  * @file cgraph_config.h
- * @author liurunzhan (liurunzhan@sina.com)
- * @brief common definitions in cgraph
+ * @brief the configuration of cgraph
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
  * @version 0.0.0
- * @date 2020-12-12
- * @copyright Copyright (c) 2020
+ * @date 2021-03-31
+ * @lisence GPL-3.0
  */
+
 #ifndef _CGRAPH_CONFIG_H_
 #define _CGRAPH_CONFIG_H_
 

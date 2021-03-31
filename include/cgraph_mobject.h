@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_mobject.h
+ * @brief the apis of DATA TYPE cgraph_mobject_t
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifndef _CGRAPH_MOBJECT_H_
 #define _CGRAPH_MOBJECT_H_
 

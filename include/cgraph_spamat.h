@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_spamat.h
+ * @brief the apis of STRUCTURE TYPE cgraph_spamat_t
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifndef _CGRAPH_SPAMAT_H_
 #define _CGRAPH_SPAMAT_H_
 

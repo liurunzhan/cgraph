@@ -1,8 +1,10 @@
 /**
- * @file  ${FILE}
+ * @file ${FILE}
+ * @brief ${BRIEF}
  * @author ${AUTHOR}
  * @email ${EMAIL}
- * @date  ${DATE}
+ * @package ${PACKAGE}
+ * @version ${VERSION}
+ * @date ${DATE}
  * @lisence ${LISENCE}
- * @brief ${BRIEF}
  */

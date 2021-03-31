@@ -198,10 +198,14 @@ CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE x,
 #ifdef TYPE_WITH_DATA
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
                                                      const cgraph_size_t len) {
-  cgraph_size_t _len = 0;
+#ifdef TYPE_BIGNUM
+  cgraph_size_t _len = len;
+#else
+  cgraph_size_t _len = ((3 <= len) ? len : 3);
+#endif
   if (NULL != cthis) {
-    _len = (len <= 0) ? (cthis->len <= 0 ? cthis->size : cthis->len)
-                      : CGRAPH_MIN(cthis->len, len);
+    _len = (_len <= 0) ? (cthis->len <= 0 ? cthis->size : cthis->len)
+                       : CGRAPH_MIN(cthis->size, _len);
   }
 
   return _len;

@@ -94,7 +94,7 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
     for (; j < len; i++, j++) {
       buffer[j] = data[i] - '0';
     }
-    while (start < len) {
+    while ((start < len) && (cthis->len < cthis->size)) {
       for (res = 0, i = start; i < len; i++) {
         num = buffer[i] + res * 10;
         res = num % (DATA_MAX + 1);
