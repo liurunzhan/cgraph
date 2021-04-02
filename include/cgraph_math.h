@@ -67,6 +67,7 @@ extern "C" {
 extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_islower(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data);

@@ -23,12 +23,15 @@ extern "C" {
 
 typedef struct {
   CGRAPH_DATA_BASE
+  cgraph_bool_t postive;
   cgraph_size_t point;
   CGRAPH_DATA_ROOT
 } cgraph_bignum_t;
 
 #include "cgraph_template_data.ht"
 
+extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
+                                   const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len);
 

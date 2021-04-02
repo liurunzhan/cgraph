@@ -18,6 +18,10 @@ CGRAPH_INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
 #endif
 }
 
+CGRAPH_INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
+  return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
+}
+
 CGRAPH_INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {
   return CGRAPH_TEST(islower(data));
 }
