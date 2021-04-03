@@ -182,6 +182,22 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis) {
 #endif
 
 #ifdef TYPE_WITH_DATA
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_TRUE;
+  if ((NULL != cthis) && (cthis->root != cthis->data) &&
+      (cthis->len < cthis->size)) {
+    res = CGRAPH_FALSE;
+  }
+
+  return res;
+}
+#else
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE cthis) {
+  return CGRAPH_FALSE;
+}
+#endif
+
+#ifdef TYPE_WITH_DATA
 CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE *x,
                                                        const TYPE *y) {
 #else

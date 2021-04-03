@@ -362,16 +362,16 @@ TYPE FUNCTION(NAME, mul_mod)(const TYPE x, const TYPE y, const TYPE mod) {
   return res % mod;
 }
 
-TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE n) {
+TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
 #ifdef TYPE_BOOL
   return x;
 #else
-  TYPE res = 1, _x = x, _n = n;
-  while (_n > 0) {
-    if (_n & 1) {
+  TYPE res = 1, _x = x, _y = y;
+  while (_y > 0) {
+    if (_y & 1) {
       res *= _x;
     }
-    _n >>= 1;
+    _y >>= 1;
     _x *= _x;
   }
 
@@ -392,7 +392,7 @@ TYPE FUNCTION(NAME, pow_mod)(const TYPE x, const TYPE n, const TYPE mod) {
   return res % mod;
 }
 
-UTYPE FUNCTION(NAME, fact)(const UTYPE x) {
+UTYPE FUNCTION(NAME, ufact)(const UTYPE x) {
 #ifdef TYPE_BOOL
   return x;
 #else
@@ -405,13 +405,13 @@ UTYPE FUNCTION(NAME, fact)(const UTYPE x) {
 #endif
 }
 
-UTYPE FUNCTION(NAME, comb)(const UTYPE x, const UTYPE y) {
+UTYPE FUNCTION(NAME, ucomb)(const UTYPE x, const UTYPE y) {
   UTYPE res = 1;
 
   return res;
 }
 
-UTYPE FUNCTION(NAME, sqrt)(const UTYPE x) {
+UTYPE FUNCTION(NAME, usqrt)(const UTYPE x) {
 #ifdef TYPE_BOOL
   return x;
 #else
@@ -430,4 +430,4 @@ UTYPE FUNCTION(NAME, sqrt)(const UTYPE x) {
 #endif
 }
 
-UTYPE FUNCTION(NAME, sqrt_mod)(const UTYPE x) { return 0; }
+UTYPE FUNCTION(NAME, usqrt_mod)(const UTYPE x) { return 0; }

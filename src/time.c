@@ -158,6 +158,39 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y) {
   return flag;
 }
 
+TYPE FUNCTION(NAME, ceil)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, floor)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) { return x; }
+
+TYPE FUNCTION(NAME, sin)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, cos)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, tan)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, asin)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, acos)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, atan)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, sinh)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, cosh)(const TYPE x) { return x; }
+TYPE FUNCTION(NAME, tanh)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, log)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, log2)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, log10)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, exp)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, sqrt)(const TYPE x) { return x; }
+
 /** apis of TYPE 0 in cgraph_time_t  */
 cgraph_size_t FUNCTION(NAME, hash0)(const TYPE cthis) {
   cgraph_size_t hash = TIME_TYPE(cthis);

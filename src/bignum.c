@@ -418,4 +418,94 @@ TYPE *FUNCTION(NAME, pi)(const cgraph_size_t size) {
   return cthis;
 }
 
+TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {
+  if ((NULL != x) && (NULL != y)) {
+    cgraph_size_t i, len = CGRAPH_MIN(x->len, y->size - 1);
+    for (i = 0; i < len; i++) {
+      y->data[i] = x->data[i];
+      if ('.' == x->data[i]) {
+        y->point = i;
+        break;
+      }
+    }
+    for (; i < x->len; i++) {
+      if ('.' == x->data[i]) {
+        break;
+      }
+    }
+    for (; i < x->len; i++) {
+      if ('0' != x->data[i]) {
+        break;
+      }
+    }
+    if (i < x->len) {
+      y->len = y->point + 1;
+      y->data[y->len] = '0';
+      y->len += 1;
+    }
+  }
+
+  return y;
+}
+
+TYPE *FUNCTION(NAME, floor)(const TYPE *x, TYPE *y) {
+  if ((NULL != x) && (NULL != y)) {
+    cgraph_size_t i, len = CGRAPH_MIN(x->len, y->size - 1);
+    for (i = 0; i < len; i++) {
+      y->data[i] = x->data[i];
+      if ('.' == x->data[i]) {
+        y->point = i;
+        break;
+      }
+    }
+    for (; i < x->len; i++) {
+      if ('.' == x->data[i]) {
+        break;
+      }
+    }
+    for (; i < x->len; i++) {
+      if ('0' != x->data[i]) {
+        break;
+      }
+    }
+    if (i < x->len) {
+      y->len = y->point + 1;
+      y->data[y->len] = '0';
+      y->len += 1;
+    }
+  }
+
+  return y;
+}
+
+TYPE *FUNCTION(NAME, pow)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
+
+TYPE *FUNCTION(NAME, sin)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, cos)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, tan)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, asin)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, acos)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, atan)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, sinh)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, cosh)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, tanh)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, log)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, log2)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) { return y; }
+
 #include "cgraph_template_off.h"

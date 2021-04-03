@@ -330,8 +330,6 @@ TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y, TYPE *z) {
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
 
-TYPE *FUNCTION(NAME, abs)(TYPE *cthis) { return cthis; }
-
 TYPE *FUNCTION(NAME, format)(TYPE *cthis) { return cthis; }
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
@@ -441,6 +439,76 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y) {
   }
 
   return flag;
+}
+
+TYPE *FUNCTION(NAME, abs)(TYPE *cthis) { return cthis; }
+
+TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, floor)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, pow)(const TYPE *x, const TYPE *y, TYPE *z) {
+  return FUNCTION(NAME, init)(z, x, 0);
+}
+
+TYPE *FUNCTION(NAME, sin)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, cos)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, tan)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, asin)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, acos)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, atan)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, sinh)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, cosh)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, tanh)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, log)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, log2)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
+}
+
+TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) {
+  return FUNCTION(NAME, init)(y, x, 0);
 }
 
 #include "cgraph_template_off.h"

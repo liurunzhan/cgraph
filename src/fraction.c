@@ -254,6 +254,53 @@ TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
   return res;
 }
 
+TYPE FUNCTION(NAME, ceil)(const TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = FRACTION_NUM(x) / FRACTION_DEN(x) * FRACTION_DEN(x);
+  if (FRACTION_NUM(res) != FRACTION_NUM(x)) {
+    FRACTION_NUM(res) += FRACTION_DEN(x);
+  }
+  FRACTION_DEN(res) = FRACTION_DEN(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, floor)(const TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = FRACTION_NUM(x) / FRACTION_DEN(x) * FRACTION_DEN(x);
+  FRACTION_DEN(res) = FRACTION_DEN(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, sin)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, cos)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, tan)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, asin)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, acos)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, atan)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, sinh)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, cosh)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, tanh)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, log)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, log2)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, log10)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, exp)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, sqrt)(const TYPE x) { return x; }
+
 TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) + FRACTION_DEN(x) * y;

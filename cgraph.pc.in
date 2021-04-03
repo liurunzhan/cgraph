@@ -4,7 +4,7 @@ includedir=@includedir@
 libdir=@libdir@
 
 Name: libcgraph
-Description: The cgraph library
+Description: A C library for graph and mathematical analysis
 Version: @VERSION@
 Cflags: -I${includedir}/cgraph
 Libs: -L${libdir} -lcgraph

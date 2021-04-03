@@ -800,6 +800,25 @@
 #define LS(a, b) __CGRAPH_UNDEFINED
 #define LE(a, b) __CGRAPH_UNDEFINED
 
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+
 #elif defined(TYPE_BOOL)
 #define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
 
@@ -1030,6 +1049,25 @@
 #define INT(a, b, c) __CGRAPH_UNDEFINED
 #define MOD(a, b, c) __CGRAPH_UNDEFINED
 
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+
 #elif defined(TYPE_COMPLEX)
 #define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
 #define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
@@ -1099,6 +1137,25 @@
 #define LS(a, b) DATA_LS(COMPLEX_MAG2(a), COMPLEX_MAG2(b))
 #define LE(a, b) DATA_LE(COMPLEX_MAG2(a), COMPLEX_MAG2(b))
 
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) ((0 != FRACTION_DEN(a)))
 #define DATA_ISNAN(a) ((0 == FRACTION_DEN(a)) && (0 == FRACTION_NUM(a)))
@@ -1147,6 +1204,25 @@
 #define LE(a, b)                                                               \
   ((FRACTION_NUM(a) * FRACTION_DEN(b)) <= (FRACTION_NUM(b) * FRACTION_DEN(a)))
 
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+
 #elif defined(TYPE_BIGINT)
 
 #define ADD(a, b, c)                                                           \
@@ -1184,9 +1260,24 @@
   FUNCTION(NAME, le)                                                           \
   ((a), (b))
 
-#define ABS(a)                                                                 \
-  FUNCTION(NAME, abs)                                                          \
-  ((a))
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #elif defined(TYPE_BIGNUM)
 
@@ -1225,9 +1316,24 @@
   FUNCTION(NAME, le)                                                           \
   ((a), (b))
 
-#define ABS(a)                                                                 \
-  FUNCTION(NAME, abs)                                                          \
-  ((a))
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #elif defined(TYPE_STRING)
 
@@ -1266,7 +1372,24 @@
   FUNCTION(NAME, le)                                                           \
   ((a), (b))
 
-#define ABS(a) ((a))
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #elif defined(TYPE_BITSET)
 
@@ -1304,6 +1427,25 @@
 #define LE(a, b)                                                               \
   FUNCTION(NAME, le)                                                           \
   ((a), (b))
+
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) ||  \
     defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) ||                          \

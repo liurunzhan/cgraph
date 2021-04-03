@@ -42,6 +42,7 @@
 	"cgraph_spamat.h" : "the apis of STRUCTURE TYPE cgraph_spamat_t",
 	"cgraph_spamat3d.h" : "the apis of STRUCTURE TYPE cgraph_spamat3d_t",
 	"cgraph_stack.h" : "the apis of STRUCTURE TYPE cgraph_stack_t",
+	"cgraph_stdchk.h.in" : "the platform standard check macro definitions",
 	"cgraph_string.h" : "the apis of DATA TYPE cgraph_string_t",
 	"cgraph_struct.h" : "the apis of structure types in cgraph",
 	"cgraph_time.h" : "the apis of DATA TYPE cgraph_time_t",

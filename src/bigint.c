@@ -536,4 +536,50 @@ cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis) {
   return CGRAPH_TRUE;
 }
 
+TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {
+  if ((NULL != x) && (NULL != y)) {
+    y = FUNCTION(NAME, init)(y, x, CGRAPH_MIN(x->len, y->size));
+  }
+
+  return y;
+}
+
+TYPE *FUNCTION(NAME, floor)(const TYPE *x, TYPE *y) {
+  if ((NULL != x) && (NULL != y)) {
+    y = FUNCTION(NAME, init)(y, x, CGRAPH_MIN(x->len, y->size));
+  }
+
+  return y;
+}
+
+TYPE *FUNCTION(NAME, pow)(const TYPE *x, const TYPE *y, TYPE *z) { return z; }
+
+TYPE *FUNCTION(NAME, sin)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, cos)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, tan)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, asin)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, acos)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, atan)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, sinh)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, cosh)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, tanh)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, log)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, log2)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y) { return y; }
+
+TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) { return y; }
+
 #include "cgraph_template_off.h"
