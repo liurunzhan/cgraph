@@ -25,7 +25,7 @@ doxygen:
 	doxygen
 
 cloc:
-	cloc include src tools test --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=d,o,Po,in,md --not-match-f="/Makefile$$/"
+	cloc include src/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht
 
 update:
 	git clean -xf

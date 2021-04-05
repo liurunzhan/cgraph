@@ -102,6 +102,12 @@ cmake: TOOL = cmake
 xmake: SCRIPT = xmake.lua
 xmake: COMPILE = xmake -F
 
+meson: SCRIPT = meson.build
+meson: COMPILE = meson build; python3
+
+ninja: SCRIPT = compile.ninja
+ninja: COMPILE = ninja
+
 sh: SCRIPT = compile.sh
 sh: COMPILE = sh
 

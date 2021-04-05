@@ -82,6 +82,22 @@ TYPE FUNCTION(NAME, random)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t data) {
+  TYPE res;
+  FRACTION_NUM(res) = 1;
+  FRACTION_DEN(res) = 0;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t data) {
+  TYPE res;
+  FRACTION_NUM(res) = 1;
+  FRACTION_DEN(res) = 0;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den) {
   TYPE res;
   FRACTION_NUM(res) = num;
@@ -301,6 +317,22 @@ TYPE FUNCTION(NAME, exp)(const TYPE x) { return x; }
 
 TYPE FUNCTION(NAME, sqrt)(const TYPE x) { return x; }
 
+TYPE FUNCTION(NAME, unit)(const DATA_TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = x;
+  FRACTION_DEN(res) = 1;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = 1;
+  FRACTION_DEN(res) = x;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) + FRACTION_DEN(x) * y;
@@ -384,22 +416,6 @@ TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y) {
   FRACTION_DEN(res) = FRACTION_DEN(x) == 1
                           ? FRACTION_DEN(x)
                           : (DATA_TYPE)pow(FRACTION_DEN(x), 1.0 / y);
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, unit)(const DATA_TYPE x) {
-  TYPE res;
-  FRACTION_NUM(res) = x;
-  FRACTION_DEN(res) = 1;
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x) {
-  TYPE res;
-  FRACTION_NUM(res) = 1;
-  FRACTION_DEN(res) = x;
 
   return res;
 }
