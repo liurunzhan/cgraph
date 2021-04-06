@@ -8,8 +8,7 @@
 #define TYPE_TIME
 #include "cgraph_template.h"
 
-/**/
-
+/** template module */
 #include "template_data.ct"
 
 /** common apis */

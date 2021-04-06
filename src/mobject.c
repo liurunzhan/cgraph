@@ -7,7 +7,7 @@
 #define TYPE_MOBJECT
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_object.ct"
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {

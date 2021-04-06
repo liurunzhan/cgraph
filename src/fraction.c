@@ -6,7 +6,7 @@
 #define TYPE_FRACTION
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, printf)(const TYPE x) {
@@ -75,6 +75,14 @@ TYPE FUNCTION(NAME, one)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, ones)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_MIN;
+  FRACTION_DEN(res) = 1;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, random)(void) {
   TYPE res;
   FRACTION_NUM(res) = cgraph_random32();
@@ -84,16 +92,44 @@ TYPE FUNCTION(NAME, random)(void) {
 
 TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t data) {
   TYPE res;
-  FRACTION_NUM(res) = 1;
-  FRACTION_DEN(res) = 0;
+  DATA_TYPE int_part = floor(data), gcd;
+  cgraph_float32_t float_part = data - int_part;
+  cgraph_size_t i;
+  FRACTION_NUM(res) = 0;
+  FRACTION_DEN(res) = 1;
+  for (i = 0; i < CGRAPH_FLOAT32_DIG; i++) {
+    float_part *= 10;
+    gcd = floor(float_part);
+    float_part -= gcd;
+    FRACTION_NUM(res) = FRACTION_NUM(res) * 10 + gcd;
+    FRACTION_DEN(res) *= 10;
+  }
+  gcd = cgraph_int_gcd(FRACTION_NUM(res), FRACTION_DEN(res));
+  FRACTION_NUM(res) /= gcd;
+  FRACTION_DEN(res) /= gcd;
+  FRACTION_NUM(res) += int_part * FRACTION_DEN(res);
 
   return res;
 }
 
 TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t data) {
   TYPE res;
-  FRACTION_NUM(res) = 1;
-  FRACTION_DEN(res) = 0;
+  DATA_TYPE int_part = floor(data), gcd;
+  cgraph_float64_t float_part = data - int_part;
+  cgraph_size_t i;
+  FRACTION_NUM(res) = 0;
+  FRACTION_DEN(res) = 1;
+  for (i = 0; i < CGRAPH_FLOAT64_DIG; i++) {
+    float_part *= 10;
+    gcd = floor(float_part);
+    float_part -= gcd;
+    FRACTION_NUM(res) = FRACTION_NUM(res) * 10 + gcd;
+    FRACTION_DEN(res) *= 10;
+  }
+  gcd = cgraph_int_gcd(FRACTION_NUM(res), FRACTION_DEN(res));
+  FRACTION_NUM(res) /= gcd;
+  FRACTION_DEN(res) /= gcd;
+  FRACTION_NUM(res) += int_part * FRACTION_DEN(res);
 
   return res;
 }

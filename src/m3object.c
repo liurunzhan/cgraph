@@ -7,7 +7,7 @@
 #define TYPE_M3OBJECT
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_object.ct"
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis) {

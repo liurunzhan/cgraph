@@ -8,7 +8,7 @@
 #define TYPE_GOBJECT
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_object.ct"
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, keyisid)(const TYPE *cthis) {

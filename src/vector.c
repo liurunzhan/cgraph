@@ -6,7 +6,7 @@
 #define TYPE_VECTOR
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_struct.ct"
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {

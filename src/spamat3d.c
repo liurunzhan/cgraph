@@ -5,7 +5,7 @@
 #define TYPE_SPAMAT3D
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_matrix3d.ct"
 
 #include "cgraph_template_off.h"

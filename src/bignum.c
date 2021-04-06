@@ -6,7 +6,7 @@
 #define TYPE_BIGNUM
 #include "cgraph_template.h"
 
-/**template module*/
+/** template module */
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, printf)(const TYPE *cthis) {

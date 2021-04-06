@@ -7,11 +7,11 @@
 #define TYPE_COMPLEX
 #include "cgraph_template.h"
 
-/** template */
+/** template module */
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, printf)(const TYPE x) {
-  return fprintf(stdout, OUT_FORMAT, COMPLEX_REAL(x), COMPLEX_IMAG(x));
+  return FUNCTION(NAME, fprintf)(stdout, x);
 }
 
 cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x) {

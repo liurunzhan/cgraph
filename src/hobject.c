@@ -8,7 +8,7 @@
 #define TYPE_HOBJECT
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_object.ct"
 
 CGRAPH_INLINE TYPE *FUNCTION(NAME, ksetaccess)(TYPE *cthis) {

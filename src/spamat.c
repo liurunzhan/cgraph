@@ -5,7 +5,7 @@
 #define TYPE_SPAMAT
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_matrix.ct"
 
 #include "cgraph_template_off.h"

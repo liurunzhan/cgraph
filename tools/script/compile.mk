@@ -109,7 +109,9 @@ gtkdoc:
 	$(MAKE) -C $(DOC) -f Makefile.mk doc
 
 doxygen:
+ifneq (Doxyfile, $(wildcard Doxyfile))
 	$(CP) $(CPFLAGS) Doxyfile.base Doxyfile
+endif
 	doxygen -u
 	doxygen
 

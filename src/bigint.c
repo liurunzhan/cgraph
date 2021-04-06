@@ -9,10 +9,10 @@
 /** template module */
 #include "template_data.ct"
 
-static cgraph_char_t __buffer__[CGRAPH_FILE_BUFFER_SIZE];
+static cgraph_char_t __bigint_buffer__[CGRAPH_FILE_BUFFER_SIZE];
 
 void FUNCTION(NAME, clrbuffer)(void) {
-  cgraph_memset(__buffer__, CGRAPH_FILE_BUFFER_SIZE, 0);
+  cgraph_memset(__bigint_buffer__, CGRAPH_FILE_BUFFER_SIZE, 0);
 }
 
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
@@ -28,8 +28,8 @@ cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t size = cthis->len * 3 + 1;
     if (size <= CGRAPH_FILE_BUFFER_SIZE) {
-      len = FUNCTION(NAME, snprintf)(__buffer__, size, cthis);
-      cgraph_file_rputc(fp, __buffer__, len);
+      len = FUNCTION(NAME, snprintf)(__bigint_buffer__, size, cthis);
+      cgraph_file_rputc(fp, __bigint_buffer__, len);
     }
 #ifdef DEBUG
     else {

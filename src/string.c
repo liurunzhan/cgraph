@@ -7,21 +7,38 @@
 #define TYPE_STRING
 #include "cgraph_template.h"
 
-/**/
+/** template module */
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, printf)(const TYPE *cthis) {
-  return fprintf(stdout, OUT_FORMAT, cthis->data);
+  return FUNCTION(NAME, fprintf)(stdout, cthis);
 }
 
 cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
-  return fprintf(fp, OUT_FORMAT, cthis->data);
+  cgraph_size_t len = 0;
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < cthis->len; i++) {
+      fputc(cthis->data[i], fp);
+    }
+  }
+
+  return len;
 }
 
 cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, cthis->data);
+  cgraph_size_t len = 0;
+  if ((NULL != buffer) && (NULL != cthis)) {
+    cgraph_size_t i;
+    len = CGRAPH_MIN(size, cthis->len);
+    for (i = 0; i < len; i++) {
+      buffer[i] = cthis->data[i];
+    }
+  }
+
+  return len;
 }
 
 /**
