@@ -21,8 +21,7 @@ extern "C" {
 #define TYPE_FLOAT32
 #include "cgraph_template.h"
 
-/* */
-
+/** template module */
 #include "cgraph_template_float.ht"
 
 #include "cgraph_template_off.h"

@@ -16,17 +16,17 @@
 extern "C" {
 #endif
 
-#include "cgraph_config.h"
+#include "cgraph_string.h"
 
 typedef struct {
   cgraph_size_t len;
-  cgraph_char_t *proname;
-  cgraph_char_t arguments;
+  cgraph_string_t *name;
+  cgraph_string_t **args;
 } cgraph_cmdarg_t;
 
 int cgraph_cmdarg_lenofargs(int argc);
 char *cgraph_cmdarg_nameofpro(char *argv[]);
-cgraph_cmdarg_t cgraph_cmdarg_parser(int argc, char *args);
+cgraph_cmdarg_t *cgraph_cmdarg_parser(int argc, char *argv[]);
 
 #ifdef __cplusplus
 }

@@ -27,6 +27,7 @@ typedef struct {
   CGRAPH_DATA_ROOT
 } cgraph_bigint_t;
 
+/** template module */
 #include "cgraph_template_data.ht"
 
 extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,

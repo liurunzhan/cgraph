@@ -27,6 +27,7 @@ typedef struct {
   CGRAPH_STRUCTURE_ROOT
 } cgraph_bigmat3d_t;
 
+/** template module */
 #include "cgraph_template_matrix3d.ht"
 
 #include "cgraph_template_off.h"

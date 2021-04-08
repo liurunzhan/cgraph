@@ -40,6 +40,7 @@ typedef struct {
   CGRAPH_OBJECT_ROOT
 } cgraph_m3object_t;
 
+/** template module */
 #include "cgraph_template_object.ht"
 
 extern cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis);

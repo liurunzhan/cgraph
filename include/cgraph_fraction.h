@@ -29,9 +29,10 @@ typedef struct {
 #define FRACTION_DEN(x) ((x).data[1])
 #define FRACTION_VALUE(x) (1.0 * FRACTION_NUM(x) / FRACTION_DEN(x))
 
+/** template module */
 #include "cgraph_template_data.ht"
 
-/**                            initial functions */
+/** initial functions */
 extern TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t data);
 extern TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t data);
 extern TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den);

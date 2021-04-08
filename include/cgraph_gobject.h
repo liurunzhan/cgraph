@@ -44,6 +44,7 @@ typedef struct {
   CGRAPH_OBJECT_ROOT
 } cgraph_gobject_t;
 
+/** template module */
 #include "cgraph_template_object.ht"
 
 extern cgraph_bool_t FUNCTION(NAME, keyisid)(const TYPE *cthis);

@@ -26,9 +26,10 @@ typedef struct {
   CGRAPH_DATA_ROOT
 } cgraph_string_t;
 
+/** template module */
 #include "cgraph_template_data.ht"
 
-/**                          string hash functions */
+/** string hash functions */
 extern cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis);

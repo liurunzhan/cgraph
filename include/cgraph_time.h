@@ -21,9 +21,6 @@ extern "C" {
 #define TYPE_TIME
 #include "cgraph_template.h"
 
-/*
- */
-
 #define CGRAPH_TIME_TYPE0 (0)
 #define CGRAPH_TIME_TYPE1 (1)
 
@@ -62,6 +59,7 @@ typedef struct {
 #define TIME_MINUTE(x) (TIME_TYPE1(x).minute)
 #define TIME_SECOND(x) (TIME_TYPE1(x).second)
 
+/** template module */
 #include "cgraph_template_data.ht"
 
 /** apis of TYPE 0 in cgraph_time_t */

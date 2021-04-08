@@ -26,6 +26,7 @@ typedef struct {
   CGRAPH_STRUCTURE_ROOT
 } cgraph_dict_t;
 
+/** template module */
 #include "cgraph_template_struct.ht"
 
 #include "cgraph_template_off.h"

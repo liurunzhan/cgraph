@@ -30,9 +30,10 @@ typedef struct {
 #define COMPLEX_MAG2(x)                                                        \
   (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
 
+/** template module */
 #include "cgraph_template_data.ht"
 
-/**                             initial function */
+/** initial function */
 extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mag, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mag);
 extern TYPE FUNCTION(NAME, initwa)(const DATA_TYPE angle);
@@ -43,7 +44,7 @@ extern TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i);
 extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n,
                                      const cgraph_int_t i);
 
-/**                  complex number mathematical functions */
+/** complex number mathematical functions */
 extern DATA_TYPE FUNCTION(NAME, real)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, imag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);

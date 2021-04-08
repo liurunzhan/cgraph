@@ -20,8 +20,10 @@ extern "C" {
 
 #define TYPE_INT8
 #include "cgraph_template.h"
-/* */
+
+/** template module */
 #include "cgraph_template_int.ht"
+
 #include "cgraph_template_off.h"
 
 #ifdef __cplusplus

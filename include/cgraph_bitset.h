@@ -33,6 +33,7 @@ typedef struct {
     BITSET_BIT_POSTION(postion)) ^                                             \
    0x1)
 
+/** template module */
 #include "cgraph_template_data.ht"
 
 extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis,

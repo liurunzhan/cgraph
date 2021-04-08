@@ -18,19 +18,16 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define BOOL_AND(x, y)                                                         \
-  (((x == CGRAPH_FALSE) || (y == CGRAPH_FALSE)) ? CGRAPH_FALSE : CGRAPH_TRUE)
-#define BOOL_OR(x, y)                                                          \
-  (((x == CGRAPH_TRUE) || (y == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define BOOL_NOT(x) ((x == CGRAPH_TRUE) ? CGRAPH_FALSE : CGRAPH_TRUE)
-#define BOOL_XOR(x, y) ((x != y) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define BOOL_XNOR(x, y) ((x == y) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define BOOL_AND(x, y) (x & y)
+#define BOOL_OR(x, y) (x | y)
+#define BOOL_NOT(x) ((~x) & 0x01)
+#define BOOL_XOR(x, y) (x ^ y)
+#define BOOL_XNOR(x, y) (~BOOL_XOR(x, y))
 
 #define TYPE_BOOL
 #include "cgraph_template.h"
 
-/* */
-
+/** template module */
 #include "cgraph_template_int.ht"
 
 extern cgraph_char_t *FUNCTION(NAME, bool2str)(const TYPE x);

@@ -44,6 +44,7 @@ typedef struct {
   CGRAPH_OBJECT_ROOT
 } cgraph_hobject_t;
 
+/** template module */
 #include "cgraph_template_object.ht"
 
 #define HOBJECT_EXT(x) __CGRAPH_TYPE_ELEMENT((x), ext)

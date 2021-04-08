@@ -28,6 +28,7 @@ typedef struct {
   CGRAPH_STRUCTURE_ROOT
 } cgraph_spamat_t;
 
+/** template module */
 #include "cgraph_template_matrix.ht"
 
 #include "cgraph_template_off.h"

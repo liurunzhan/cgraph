@@ -26,6 +26,7 @@ typedef struct {
   CGRAPH_STRUCTURE_ROOT
 } cgraph_vector_t;
 
+/** template module */
 #include "cgraph_template_struct.ht"
 
 extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data);

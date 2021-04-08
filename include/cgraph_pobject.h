@@ -39,7 +39,9 @@ typedef struct {
   CGRAPH_OBJECT_ROOT
 } cgraph_pobject_t;
 
+/** template module */
 #include "cgraph_template_object.ht"
+
 #include "cgraph_template_off.h"
 
 #ifdef __cplusplus
