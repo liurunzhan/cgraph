@@ -202,17 +202,28 @@ TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
     cthis = cgraph_calloc(FUNCTION(NAME, tsize)());
   }
   if (NULL != cthis) {
+    if (NULL == cthis->data) {
+      _data = OBJECT(_type, calloc)(_type, size);
+      if (NULL != _data) {
+        CGRAPH_DTYPE_TYPE(cthis) = _type;
+        cthis->data = _data;
+      }
+    }
     if (NULL != cthis->data) {
-      if (_type == type) {
+      if (_type != type) {
+        _data = OBJECT(_type, calloc)(_type, size);
+        if (NULL != _data) {
+          OBJECT(_type, free)(cthis->data);
+          CGRAPH_DTYPE_TYPE(cthis) = _type;
+          cthis->data = _data;
+        }
+      } else {
         cgraph_bool_t error = CGRAPH_FALSE;
         _data = OBJECT(_type, realloc)(_data, _type, 0, size, &error);
         if (CGRAPH_FALSE == error) {
+          cthis->data = _data;
         }
-      } else {
-        _data = OBJECT(_type, calloc)(_type, size);
       }
-    } else {
-      cthis->data = _data;
     }
   }
 

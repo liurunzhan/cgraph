@@ -17,22 +17,22 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, OUT_FORMAT "\n", FUNCTION(NAME, cube)(2));
   fprintf(
       stdout, OUT_FORMAT "\n",
-      FUNCTION(NAME, intg_range_trapezoidal)(0.1, 0.2, 0.00001, &function_x));
+      FUNCTION(NAME, Int_range_trapezoidal)(0.1, 0.2, 0.00001, &function_x));
   fprintf(
       stdout, OUT_FORMAT "\n",
-      FUNCTION(NAME, intg_range_trapezoidal)(0.2, 0.1, 0.00001, &function_x));
+      FUNCTION(NAME, Int_range_trapezoidal)(0.2, 0.1, 0.00001, &function_x));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, intg_range_simpson)(0.1, 0.2, 0.00001, &function_x));
+          FUNCTION(NAME, Int_range_simpson)(0.1, 0.2, 0.00001, &function_x));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, intg_range_simpson)(0.2, 0.1, 0.00001, &function_x));
+          FUNCTION(NAME, Int_range_simpson)(0.2, 0.1, 0.00001, &function_x));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, intg_range_simpson38)(0.1, 0.2, 0.00001, &function_x));
+          FUNCTION(NAME, Int_range_simpson38)(0.1, 0.2, 0.00001, &function_x));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, intg_range_simpson38)(0.2, 0.1, 0.00001, &function_x));
+          FUNCTION(NAME, Int_range_simpson38)(0.2, 0.1, 0.00001, &function_x));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, intg_range_cotes)(0.1, 0.2, 0.00001, &function_x));
+          FUNCTION(NAME, Int_range_cotes)(0.1, 0.2, 0.00001, &function_x));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, intg_range_cotes)(0.2, 0.1, 0.00001, &function_x));
+          FUNCTION(NAME, Int_range_cotes)(0.2, 0.1, 0.00001, &function_x));
 
   FUNCTION(NAME, trans)(data, 2, 2);
   FUNCTION(NAME, trans)(data, 1, 2);
@@ -63,11 +63,11 @@ int main(int argc, char *argv[]) {
   }
   fprintf(
       stdout, OUT_FORMAT "\n",
-      FUNCTION(NAME, diff_runge_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
+      FUNCTION(NAME, Diff_runge_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, diff_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
+          FUNCTION(NAME, Diff_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
   fprintf(stdout, OUT_FORMAT "\n",
-          FUNCTION(NAME, eqt_binary_search)(1.0, 2.0, function_x2));
+          FUNCTION(NAME, Eqt_binary_search)(1.0, 2.0, function_x2));
   fprintf(stdout, "%d\n", FUNCTION(NAME, issubsym)(matrix1, 2, 2));
   fprintf(stdout, "%d\n", FUNCTION(NAME, issubsym)(matrix2, 2, 2));
 

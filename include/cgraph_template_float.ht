@@ -7,36 +7,42 @@ extern TYPE FUNCTION(NAME, pi)(void);
 
 extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
 
-extern TYPE FUNCTION(NAME, eqt_binary_search)(const TYPE start, const TYPE end,
+extern TYPE FUNCTION(NAME, Eqt_binary_search)(const TYPE start, const TYPE end,
                                               FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, eqt_secant_method)(const TYPE start, const TYPE end,
+extern TYPE FUNCTION(NAME, Eqt_secant_method)(const TYPE start, const TYPE end,
                                               FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, eqt_fixed_point)(const TYPE x,
+extern TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start,
+                                                      const TYPE end,
+                                                      FUNCPTR(NAME, pfunc1)
+                                                          func);
+extern TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x,
                                             FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, eqt_fixed_point_lambda)(const TYPE x,
+extern TYPE FUNCTION(NAME, Eqt_fixed_point_lambda)(const TYPE x,
                                                    const TYPE lambda,
                                                    FUNCPTR(NAME, pfunc1) func);
+
+extern TYPE FUNCTION(NAME, Diff)(const TYPE x, const TYPE step,
+                                 FUNCPTR(NAME, pfunc1) func);
 extern TYPE FUNCTION(NAME,
-                     diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                     Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
                                           const TYPE y_start, const TYPE step,
                                           FUNCPTR(NAME, pfunc2) func);
-extern TYPE FUNCTION(NAME, diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
+extern TYPE FUNCTION(NAME, Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
                                           const TYPE y_start, const TYPE step,
                                           FUNCPTR(NAME, pfunc2) func);
-extern TYPE FUNCTION(NAME, intg_range_trapezoidal)(const TYPE start,
-                                                   const TYPE end,
-                                                   const TYPE step,
-                                                   FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, intg_range_simpson)(const TYPE start, const TYPE end,
-                                               const TYPE step,
-                                               FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, intg_range_simpson38)(const TYPE start,
-                                                 const TYPE end,
-                                                 const TYPE step,
-                                                 FUNCPTR(NAME, pfunc1) func);
-extern TYPE FUNCTION(NAME, intg_range_cotes)(const TYPE start, const TYPE end,
-                                             const TYPE step,
-                                             FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start,
+                                                  const TYPE end,
+                                                  const TYPE step,
+                                                  FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
+                                              const TYPE step,
+                                              FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start,
+                                                const TYPE end, const TYPE step,
+                                                FUNCPTR(NAME, pfunc1) func);
+extern TYPE FUNCTION(NAME, Int_range_cotes)(const TYPE start, const TYPE end,
+                                            const TYPE step,
+                                            FUNCPTR(NAME, pfunc1) func);
 
 extern TYPE FUNCTION(NAME, logistic)(const TYPE x);
 extern TYPE FUNCTION(NAME, gamma)(const TYPE x, const TYPE step);

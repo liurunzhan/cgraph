@@ -392,7 +392,7 @@
 #define TYPE cgraph_complex_t
 #define ID CGRAPH_COMPLEX_T
 #define NAME complex
-#define OUT_FORMAT "%g + i%g"
+#define OUT_FORMAT "%g+i%g"
 #define ZERO                                                                   \
   {                                                                            \
     { 0.0, 0.0 }                                                               \
@@ -496,7 +496,7 @@
 #define TYPE cgraph_bignum_t
 #define ID CGRAPH_BIGNUM_T
 #define NAME bignum
-#define OUT_FORMAT "%s"
+#define OUT_FORMAT "%c"
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
 #define ONES(x) FUNCTION(NAME, ones)((x), 0)
@@ -1511,6 +1511,13 @@
     (c) = (b);                                                                 \
     (b) = (a);                                                                 \
     (a) = tmp;                                                                 \
+  } while (0)
+
+#define DATA_SWAP(a, b)                                                        \
+  do {                                                                         \
+    DATA_TYPE tmp = (a);                                                       \
+    (a) = (b);                                                                 \
+    (b) = tmp;                                                                 \
   } while (0)
 
 #else

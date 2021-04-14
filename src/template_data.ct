@@ -56,6 +56,9 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
 TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type,
                              const cgraph_size_t size) {
   TYPE *cthis = (TYPE *)cgraph_calloc(FUNCTION(NAME, msize)(type, size));
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
+  cthis->postive = CGRAPH_TRUE;
+#endif
 
   return FUNCTION(NAME, _update)(cthis, type, 0, size);
 }
@@ -237,7 +240,7 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE cthis,
 TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t len) {
   cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
   if (NULL != cthis) {
-    cgraph_memset(cthis->data, _len, '0');
+    cgraph_memset(cthis->data, _len, DATA_ZERO);
     cthis->len = _len;
   }
 
@@ -247,7 +250,7 @@ TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t len) {
   cthis = FUNCTION(NAME, zero)(cthis, len);
   if (NULL != cthis) {
-    cthis->data[cthis->len - 1] = '1';
+    cthis->data[0] = DATA_ONE;
   }
 
   return cthis;
@@ -256,7 +259,7 @@ TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t len) {
   cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
   if (NULL != cthis) {
-#if defined(TYPE_STRING)
+#if defined(TYPE_STRING) || defined(TYPE_BIGNUM)
     cgraph_size_t point = cgraph_random32_uniform(0, _len), i;
     for (i = 0; i < _len; i++) {
       cthis->data[i] =
@@ -276,8 +279,7 @@ TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, min)(TYPE *cthis, const cgraph_size_t len) {
   cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
   if (NULL != cthis) {
-    cgraph_memset(cthis->data, _len, '9');
-    cthis->data[0] = '-';
+    cgraph_memset(cthis->data, _len, DATA_MIN);
     cthis->len = _len;
   }
 
@@ -287,7 +289,7 @@ TYPE *FUNCTION(NAME, min)(TYPE *cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, max)(TYPE *cthis, const cgraph_size_t len) {
   cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
   if (NULL != cthis) {
-    cgraph_memset(cthis->data, _len, '9');
+    cgraph_memset(cthis->data, _len, DATA_MAX);
     cthis->len = _len;
   }
 
@@ -383,7 +385,6 @@ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *cthis) {
 
   return flag;
 }
-
 #endif
 
 #ifdef TYPE_WITH_DATA

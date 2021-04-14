@@ -2,6 +2,8 @@
 
 #include "cgraph_base.h"
 #include "cgraph_bignum.h"
+#include "cgraph_float32.h"
+#include "cgraph_float64.h"
 
 #define TYPE_BIGNUM
 #include "cgraph_template.h"
@@ -92,9 +94,18 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
 TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
                             const cgraph_size_t len) {
   if (NULL != cthis) {
-    cgraph_size_t _len = CGRAPH_MIN(cthis->size, len), i = 0, position = 0;
+    cgraph_size_t _len = CGRAPH_MIN(cthis->size, len), position = 0;
     cgraph_char_t *xd = (cgraph_char_t *)&(data[len - 1]);
-    for (cthis->len = 0, i = _len - 1; i > 0; i--, cthis->len++, xd--) {
+    if ('-' == *data) {
+      cthis->postive = CGRAPH_FALSE;
+      _len -= 1;
+    } else {
+      cthis->postive = CGRAPH_TRUE;
+      if ('+' == *data) {
+        _len -= 1;
+      }
+    }
+    for (cthis->len = 0; cthis->len < _len; cthis->len++, xd--) {
       cthis->data[cthis->len] = *xd;
       if ('.' == *xd) {
         cthis->point = cthis->len;
@@ -103,12 +114,32 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
       }
     }
     cthis->len = position + 1;
-    if ('-' == *xd) {
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data) {
+  if (NULL != cthis) {
+    cgraph_size_t i, j;
+    DATA_TYPE tmp;
+    if (0.0 > data) {
       cthis->postive = CGRAPH_FALSE;
+      cthis->len =
+          snprintf(cthis->data, cthis->size, "%g", cgraph_float32_abs(data));
     } else {
       cthis->postive = CGRAPH_TRUE;
-      if (('+' != *xd) && (!cgraph_math_isnumst(*xd))) {
-        cthis->data[cthis->len++] = *xd;
+      cthis->len = snprintf(cthis->data, cthis->size, "%g", data);
+    }
+    for (i = 0, j = cthis->len - 1; i < (cthis->len >> 1); i++, j--) {
+      tmp = cthis->data[i];
+      cthis->data[i] = cthis->data[j];
+      cthis->data[j] = tmp;
+      if ('.' == cthis->data[i]) {
+        cthis->point = i;
+      }
+      if ('.' == cthis->data[j]) {
+        cthis->point = j;
       }
     }
   }
@@ -116,30 +147,28 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, cgraph_float32_t data) {
+TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     DATA_TYPE tmp;
-    cthis->len = snprintf(cthis->data, cthis->size, "%g", data);
-    for (i = 0, j = cthis->len - 1; i < (cthis->len >> 1); i++, j--) {
-      tmp = cthis->data[i];
-      cthis->data[i] = cthis->data[j];
-      cthis->data[j] = tmp;
+    if (0.0 > data) {
+      cthis->postive = CGRAPH_FALSE;
+      cthis->len =
+          snprintf(cthis->data, cthis->size, "%g", cgraph_float64_abs(data));
+    } else {
+      cthis->postive = CGRAPH_TRUE;
+      cthis->len = snprintf(cthis->data, cthis->size, "%g", data);
     }
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, cgraph_float64_t data) {
-  if (NULL != cthis) {
-    cgraph_size_t i, j;
-    DATA_TYPE tmp;
-    cthis->len = snprintf(cthis->data, cthis->size, "%g", data);
     for (i = 0, j = cthis->len - 1; i < (cthis->len >> 1); i++, j--) {
       tmp = cthis->data[i];
       cthis->data[i] = cthis->data[j];
       cthis->data[j] = tmp;
+      if ('.' == cthis->data[i]) {
+        cthis->point = i;
+      }
+      if ('.' == cthis->data[j]) {
+        cthis->point = j;
+      }
     }
   }
 
@@ -175,29 +204,143 @@ TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
-  cgraph_size_t floatx_len = x->len - x->point + 1, intx_len = x->point - 1,
-                floaty_len = y->len - y->point + 1, inty_len = y->point - 1;
-  cgraph_size_t float_min = CGRAPH_MIN(floatx_len, floaty_len),
-                int_min = CGRAPH_MIN(x->point, y->point), i;
-  DATA_TYPE *floatx = &(x->data[x->point + 1]), *intx = &(x->data[intx_len]),
-            *floaty = &(y->data[y->point + 1]), *inty = &(y->data[inty_len]);
-  if (x->postive == y->postive) {
-    z->postive = x->postive;
-    for (i = 0; i < float_min; i++) {
+  if ((NULL != x) && (NULL != y)) {
+    cgraph_size_t floatx_len = x->point, intx_len = x->len - x->point - 1,
+                  floaty_len = y->point, inty_len = y->len - y->point - 1;
+    cgraph_size_t float_min = CGRAPH_MIN(floatx_len, floaty_len),
+                  int_min = CGRAPH_MIN(intx_len, inty_len), i,
+                  floatx_start = floatx_len - float_min,
+                  floaty_start = floaty_len - float_min;
+    DATA_TYPE carry;
+    DATA_TYPE *floatx = &(x->data[0]), *intx = &(x->data[x->point + 1]),
+              *floaty = &(y->data[0]), *inty = &(y->data[y->point + 1]),
+              *zd = &(z->data[0]);
+    z->len =
+        CGRAPH_MAX(floatx_len, floaty_len) + 1 + CGRAPH_MAX(intx_len, inty_len);
+    if (x->postive == y->postive) {
+      z->postive = x->postive;
+      for (i = 0; i < floatx_start; i++, zd++, floatx++) {
+        *zd = *floatx;
+      }
+      for (i = 0; i < floaty_start; i++, zd++, floaty++) {
+        *zd = *floaty;
+      }
+      for (i = 0, carry = 0; i < float_min; i++, zd++, floatx++, floaty++) {
+        *zd = *floatx - '0' + *floaty + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = *zd - 10;
+        } else {
+          carry = 0;
+        }
+      }
+      *zd = '.';
+      zd++;
+      for (i = 0; i < int_min; i++, intx++, inty++, zd++) {
+        *zd = *intx - '0' + *inty + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = *zd - 10;
+        } else {
+          carry = 0;
+        }
+      }
+      for (; i < intx_len; i++, intx++, zd++) {
+        *zd = *intx + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = '0';
+        } else {
+          carry = 0;
+        }
+      }
+      for (; i < inty_len; i++, inty++, zd++) {
+        *zd = *inty + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = '0';
+        } else {
+          carry = 0;
+        }
+      }
+      if (1 == carry) {
+        *zd = '1';
+        z->len += 1;
+      }
+    } else {
     }
-  } else {
   }
 
   return z;
 }
 
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
-  cgraph_size_t floatx_len = x->len - x->point + 1, intx_len = x->point - 1,
-                floaty_len = y->len - y->point + 1, inty_len = y->point - 1;
-  cgraph_size_t float_min = CGRAPH_MIN(floatx_len, floaty_len),
-                int_min = CGRAPH_MIN(x->point, y->point), i;
-  DATA_TYPE *floatx = &(x->data[x->point + 1]), *intx = &(x->data[intx_len]),
-            *floaty = &(y->data[y->point + 1]), *inty = &(y->data[inty_len]);
+  if ((NULL != x) && (NULL != y)) {
+    cgraph_size_t floatx_len = x->point, intx_len = x->len - x->point - 1,
+                  floaty_len = y->point, inty_len = y->len - y->point - 1;
+    cgraph_size_t float_min = CGRAPH_MIN(floatx_len, floaty_len),
+                  int_min = CGRAPH_MIN(intx_len, inty_len), i,
+                  floatx_start = floatx_len - float_min,
+                  floaty_start = floaty_len - float_min;
+    DATA_TYPE carry;
+    DATA_TYPE *floatx = &(x->data[0]), *intx = &(x->data[x->point + 1]),
+              *floaty = &(y->data[0]), *inty = &(y->data[y->point + 1]),
+              *zd = &(z->data[0]);
+    z->len =
+        CGRAPH_MAX(floatx_len, floaty_len) + 1 + CGRAPH_MAX(intx_len, inty_len);
+    if (x->postive != y->postive) {
+      z->postive = x->postive;
+      for (i = 0; i < floatx_start; i++, zd++, floatx++) {
+        *zd = *floatx;
+      }
+      for (i = 0; i < floaty_start; i++, zd++, floaty++) {
+        *zd = *floaty;
+      }
+      for (i = 0, carry = 0; i < float_min; i++, zd++, floatx++, floaty++) {
+        *zd = *floatx - '0' + *floaty + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = *zd - 10;
+        } else {
+          carry = 0;
+        }
+      }
+      *zd = '.';
+      zd++;
+      for (i = 0; i < int_min; i++, intx++, inty++, zd++) {
+        *zd = *intx - '0' + *inty + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = *zd - 10;
+        } else {
+          carry = 0;
+        }
+      }
+      for (; i < intx_len; i++, intx++, zd++) {
+        *zd = *intx + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = '0';
+        } else {
+          carry = 0;
+        }
+      }
+      for (; i < inty_len; i++, inty++, zd++) {
+        *zd = *inty + carry;
+        if (*zd > '9') {
+          carry = 1;
+          *zd = '0';
+        } else {
+          carry = 0;
+        }
+      }
+      if (1 == carry) {
+        *zd = '1';
+        z->len += 1;
+      }
+    } else {
+    }
+  }
 
   return z;
 }
@@ -521,6 +664,9 @@ TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {
           carry = 0;
         }
       }
+      if (carry == 1) {
+        y->data[y->len++] = '1';
+      }
     }
   }
 
@@ -551,6 +697,9 @@ TYPE *FUNCTION(NAME, floor)(const TYPE *x, TYPE *y) {
         } else {
           carry = 0;
         }
+      }
+      if (carry == 1) {
+        y->data[y->len++] = '1';
       }
     }
   }

@@ -578,6 +578,10 @@
 #undef ROR4
 #endif
 
+#ifdef DATA_SWAP
+#undef DATA_SWAP
+#endif
+
 #ifdef HASH_OFFSET
 #undef HASH_OFFSET
 #endif

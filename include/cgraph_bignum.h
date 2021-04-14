@@ -33,8 +33,8 @@ typedef struct {
 
 extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
                                    const cgraph_size_t len);
-extern TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, cgraph_float32_t data);
-extern TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, cgraph_float64_t data);
+extern TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data);
+extern TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data);
 extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len);
 

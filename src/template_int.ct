@@ -138,6 +138,14 @@ TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y) {
   return x / FUNCTION(NAME, gcd)(x, y) * y;
 }
 
+CGRAPH_INLINE TYPE FUNCTION(NAME, mod2)(const TYPE x, const TYPE y) {
+#if defined(TYPE_BOOL)
+  return 0 == y ? CGRAPH_TRUE : x;
+#else
+  return ((y < BITS) && (y >= 0)) ? (x & (~(MIN << y))) : x;
+#endif
+}
+
 CGRAPH_INLINE UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y) {
   return CGRAPH_AND(x, y);
 }
@@ -191,7 +199,7 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, clrs)(const UTYPE x,
   return (to > from) ? CGRAPH_BCLRS(x, from, to) : 0;
 }
 
-CGRAPH_INLINE UTYPE FUNCTION(NAME, rebits)(const UTYPE x) {
+CGRAPH_INLINE UTYPE FUNCTION(NAME, swapbit)(const UTYPE x) {
 #if defined(TYPE_BOOL)
   return x;
 #else
@@ -201,11 +209,63 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, rebits)(const UTYPE x) {
   res = ((res & EPSILON4) >> 4) | ((res & ~EPSILON4) << 4);
 #if defined(TYPE_INT16)
   res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
+#elif defined(TYPE_INT32) || defined(TYPE_INT) ||                              \
+    (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 32))
+  res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
+  res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
+#elif defined(TYPE_INT64) || (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 64))
+  res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
+  res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
+  res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
 #endif
+
+  return res;
+#endif
+}
+
+CGRAPH_INLINE UTYPE FUNCTION(NAME, swapbyte)(const UTYPE x) {
+#if defined(TYPE_BOOL)
+  return x;
+#else
+  UTYPE res = x;
+#if defined(TYPE_INT16)
+  res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
+#elif defined(TYPE_INT32) || defined(TYPE_INT) ||                              \
+    (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 32))
+  res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
+  res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
+#elif defined(TYPE_INT64) || (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 64))
+  res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
+  res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
+  res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
+#endif
+
+  return res;
+#endif
+}
+
+CGRAPH_INLINE UTYPE FUNCTION(NAME, swaphfwd)(const UTYPE x) {
+#if defined(TYPE_BOOL)
+  return x;
+#else
+  UTYPE res = x;
 #if defined(TYPE_INT32) || defined(TYPE_INT) ||                                \
     (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 32))
   res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
+#elif defined(TYPE_INT64) || (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 64))
+  res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
+  res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
 #endif
+
+  return res;
+#endif
+}
+
+CGRAPH_INLINE UTYPE FUNCTION(NAME, swapword)(const UTYPE x) {
+#if defined(TYPE_BOOL)
+  return x;
+#else
+  UTYPE res = x;
 #if defined(TYPE_INT64) || (defined(TYPE_LONG) && (CGRAPH_WORDSIZE == 64))
   res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
 #endif
@@ -231,11 +291,11 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis) {
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE cthis) {
-  return CGRAPH_TEST(cthis & 1);
+  return CGRAPH_TEST(cthis & 0x01);
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE cthis) {
-  return CGRAPH_TEST((~cthis) & 1);
+  return CGRAPH_TEST((~cthis) & 0x01);
 }
 
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE cthis) {
@@ -270,9 +330,9 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE cthis) {
   return CGRAPH_FALSE;
 }
 
-cgraph_size_t FUNCTION(NAME, cntones)(const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE cthis) {
 #ifdef TYPE_BOOL
-  return cthis;
+  return CGRAPH_TEST(cthis);
 #else
   TYPE _cthis = cthis;
   cgraph_size_t cnt = 0;
@@ -284,9 +344,9 @@ cgraph_size_t FUNCTION(NAME, cntones)(const TYPE cthis) {
 #endif
 }
 
-cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, cntzeros)(const UTYPE cthis) {
 #ifdef TYPE_BOOL
-  return cthis;
+  return CGRAPH_TEST(CGRAPH_FALSE == cthis);
 #else
   TYPE _cthis = cthis;
   cgraph_size_t cnt;

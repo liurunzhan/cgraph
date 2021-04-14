@@ -65,6 +65,9 @@ cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
           start--;
         }
       }
+      if (0 >= cthis->len) {
+        buffer[len++] = '0';
+      }
       if (CGRAPH_FALSE == cthis->postive) {
         buffer[len++] = '-';
       }
@@ -114,9 +117,8 @@ TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data) {
   cgraph_char_t *digit;
   cgraph_size_t len = cgraph_math_lenofdec(data, &digit);
   TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, len / 3 + 1);
-  cgraph_char_t *buffer = cgraph_calloc(len);
-  cthis = FUNCTION(NAME, initc)(cthis, buffer, len, digit);
-  cgraph_free(buffer);
+  cthis = FUNCTION(NAME, initc)(cthis, __bigint_buffer__,
+                                CGRAPH_FILE_BUFFER_SIZE, digit);
 
   return cthis;
 }
@@ -177,7 +179,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
                   size = CGRAPH_MAX(x->len, y->len) + 1;
     cgraph_bool_t error = CGRAPH_FALSE;
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, z->size, size, &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), size, &error);
     if (CGRAPH_FALSE == error) {
       cgraph_size_t i;
       DATA_TYPE carry = 0;
@@ -249,7 +251,7 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_size_t len = CGRAPH_MIN(x->len, y->len),
                   size = CGRAPH_MAX(x->len, y->len) + 1;
     cgraph_bool_t error = CGRAPH_FALSE;
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, z->size, size, &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), size, &error);
     if (CGRAPH_FALSE == error) {
       cgraph_size_t i;
       DATA_TYPE carry = 0;
@@ -298,15 +300,26 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
 
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
-    cgraph_size_t len = CGRAPH_MIN(x->len, y->len), size = x->len + y->len;
+    cgraph_size_t size = x->len + y->len;
     cgraph_bool_t error = CGRAPH_FALSE;
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, z->size, size, &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), size, &error);
     if (CGRAPH_FALSE == error) {
-      cgraph_size_t i;
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+      cgraph_size_t i, j;
+      cgraph_int_t tmp, carry;
+      DATA_TYPE *xd = &(x->data[0]), *yd, *zd;
       z->postive = CGRAPH_TEST(x->postive == y->postive);
-      for (i = 0; i < len; i++, xd++, yd++, zd++) {
-        *zd = ((*xd) * (*yd));
+      z->len = size;
+      for (i = 0, carry = 0; i < x->len; i++, xd++) {
+        for (j = 0, yd = &(y->data[0]), zd = &(z->data[i]); j < y->len;
+             j++, yd++, zd++) {
+          tmp = *zd + (*xd) * (*yd) + carry;
+          *zd = tmp % (DATA_MAX + 1);
+          carry = tmp / (DATA_MAX + 1);
+        }
+        for (; 0 != carry; zd++) {
+          *zd = carry % (DATA_MAX + 1);
+          carry /= (DATA_MAX + 1);
+        }
       }
     }
   }
@@ -315,20 +328,46 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
 }
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
-  cgraph_size_t _len = z->size;
-  cgraph_size_t len = CGRAPH_MAX(x->len, y->len);
-  cgraph_bool_t error = CGRAPH_FALSE;
-  z = FUNCTION(NAME, realloc)(z, DATA_ID, _len, len, &error);
-  if (CGRAPH_FALSE == error) {
-    if (x->postive == y->postive) {
-      cgraph_size_t i;
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
-      z->postive = CGRAPH_TEST(x->postive == y->postive);
-      for (i = 0; i < x->len; i++, xd++, yd++, zd++) {
-        *zd = ((*xd) / (*yd));
+  if ((NULL != x) && (NULL != y)) {
+    cgraph_size_t len = x->len - y->len;
+    cgraph_bool_t error = CGRAPH_FALSE;
+    TYPE *copyx = FUNCTION(NAME, copy)(x, x->len);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), len, &error);
+    if (CGRAPH_FALSE == error) {
+      if (x->postive == y->postive) {
+        cgraph_size_t i;
+        DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+        z->postive = CGRAPH_TEST(x->postive == y->postive);
+        for (i = 0; i < x->len; i++, xd++, yd++, zd++) {
+          *zd = ((*xd) / (*yd));
+        }
+        for (; i < len; i++, xd++, zd++) {
+          *zd = 0;
+        }
       }
-      for (; i < len; i++, xd++, zd++) {
-        *zd = 0;
+    }
+    FUNCTION(NAME, free)(copyx);
+  }
+
+  return z;
+}
+
+TYPE *FUNCTION(NAME, mod)(const TYPE *x, const TYPE *y, TYPE *z) {
+  if ((NULL != x) && (NULL != y)) {
+    cgraph_size_t len = y->len;
+    cgraph_bool_t error = CGRAPH_FALSE;
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), len, &error);
+    if (CGRAPH_FALSE == error) {
+      if (x->postive == y->postive) {
+        cgraph_size_t i;
+        DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+        z->postive = CGRAPH_TEST(x->postive == y->postive);
+        for (i = 0; i < x->len; i++, xd++, yd++, zd++) {
+          *zd = ((*xd) / (*yd));
+        }
+        for (; i < len; i++, xd++, zd++) {
+          *zd = 0;
+        }
       }
     }
   }
@@ -534,13 +573,71 @@ TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len) {
 }
 
 cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis) {
-  cgraph_size_t size = 0;
+  cgraph_size_t cnt = 0;
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < cthis->len; i++) {
+      cnt += cgraph_int8_cntones(cthis->data[i]);
+    }
+  }
 
-  return size;
+  return cnt;
 }
 
 cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis) {
-  return CGRAPH_TRUE;
+  cgraph_size_t cnt = 0;
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < cthis->len; i++) {
+      cnt += cgraph_int8_cntzeros(cthis->data[i]);
+    }
+  }
+
+  return cnt;
+}
+
+TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis) {
+  if (NULL != cthis) {
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis) {
+  if (NULL != cthis) {
+    cgraph_size_t i, j;
+    for (i = 0, j = cthis->len - 1; i < j; i++, j--) {
+      DATA_SWAP(cthis->data[i], cthis->data[j]);
+    }
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis) {
+  if (NULL != cthis) {
+    cgraph_size_t i, j;
+    for (i = 0, j = cthis->len - 1; i < j; i += 2, j -= 2) {
+      DATA_SWAP(cthis->data[i], cthis->data[j - 1]);
+      DATA_SWAP(cthis->data[i + 1], cthis->data[j]);
+    }
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, swapword)(TYPE *cthis) {
+  if (NULL != cthis) {
+    cgraph_size_t i, j;
+    for (i = 0, j = cthis->len - 1; i < j; i += 4, j -= 4) {
+      DATA_SWAP(cthis->data[i], cthis->data[j - 3]);
+      DATA_SWAP(cthis->data[i + 1], cthis->data[j - 2]);
+      DATA_SWAP(cthis->data[i + 2], cthis->data[j - 1]);
+      DATA_SWAP(cthis->data[i + 3], cthis->data[j]);
+    }
+  }
+
+  return cthis;
 }
 
 TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {
