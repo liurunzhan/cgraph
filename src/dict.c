@@ -1,6 +1,6 @@
+#include "cgraph_base.h"
 #include "cgraph_dict.h"
 #include "cgraph_hobject.h"
-#include "cgraph_memory.h"
 
 #define TYPE_DICT
 #include "cgraph_template.h"

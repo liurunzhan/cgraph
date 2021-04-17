@@ -30,8 +30,8 @@ extern "C" {
 /** template module */
 #include "cgraph_template_int.ht"
 
-extern cgraph_char_t *FUNCTION(NAME, bool2str)(const TYPE x);
-extern TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *x,
+extern cgraph_char_t *FUNCTION(NAME, bool2str)(const TYPE str);
+extern TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *str,
                                      const cgraph_size_t len);
 
 #include "cgraph_template_off.h"

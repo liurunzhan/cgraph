@@ -285,7 +285,7 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...) {
   if ((NULL != cthis) && (NULL != format)) {
     va_list args;
     va_start(args, format);
-    len = __cgraph_vsnprintf(cthis->data, cthis->size, format, args);
+    len = cgraph_file_snprintf(cthis->data, cthis->size, format, args);
     va_end(args);
     if (0 < len) {
       cthis->len = len;

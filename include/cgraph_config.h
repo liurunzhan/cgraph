@@ -51,21 +51,49 @@ typedef char cgraph_char_t;
  * @brief 1-bit integer number data type
  * @def CGRAPH_BOOL_MAX CGRAPH_TRUE  (1)
  * @def CGRAPH_BOOL_MIN CGRAPH_FALSE (0)
- * @def CGRAPH_BOOL_EPS (1U)
+ * @def CGRAPH_BOOL_EPS (0x01U)
  * @def CGRAPH_BOOL_BITS (1)
  */
-typedef signed int cgraph_bool_t;
-#define CGRAPH_TRUE (1)
 #define CGRAPH_FALSE (0)
+#define CGRAPH_TRUE (1)
+typedef signed int cgraph_bool_t;
 #define CGRAPH_BOOL_MAX CGRAPH_TRUE
 #define CGRAPH_BOOL_MIN CGRAPH_FALSE
-#define CGRAPH_BOOL_EPS (1U)
+#define CGRAPH_BOOL_EPS (0x01U)
 #define CGRAPH_BOOL_BITS (1)
 
 #define CGRAPH_BOOL_TRUE "true"
 #define CGRAPH_BOOL_TRUE_LEN (4)
 #define CGRAPH_BOOL_FALSE "false"
 #define CGRAPH_BOOL_FALSE_LEN (5)
+
+/**
+ * @typedef cgraph_logic_t
+ * @brief 2-bit integer number data type, equals to logic in system verilog with
+ * 4 states---0, 1, Z and X
+ * @def CGRAPH_LOGIC_MAX CGRAPH_LX  (3)
+ * @def CGRAPH_LOGIC_MIN CGRAPH_L0 (0)
+ * @def CGRAPH_LOGIC_EPS (0x03U)
+ * @def CGRAPH_LOGIC_BITS (2)
+ */
+#define CGRAPH_L0 (0)
+#define CGRAPH_L1 (1)
+#define CGRAPH_LZ (2)
+#define CGRAPH_LX (3)
+typedef signed int cgraph_logic_t;
+#define CGRAPH_LOGIC_MAX CGRAPH_LX
+#define CGRAPH_LOGIC_MIN CGRAPH_L0
+#define CGRAPH_LOGIC_EPS (0x03U)
+#define CGRAPH_LOGIC_BITS (2)
+
+#define CGRAPH_LOGIC_L0 "0"
+#define CGRAPH_LOGIC_L0_LEN (1)
+#define CGRAPH_LOGIC_L1 "1"
+#define CGRAPH_LOGIC_L1_LEN (1)
+#define CGRAPH_LOGIC_LZ "Z"
+#define CGRAPH_LOGIC_LZ_LEN (1)
+#define CGRAPH_LOGIC_LX "X"
+#define CGRAPH_LOGIC_LX_LEN (1)
 
 /**
  * @typedef cgraph_int_t
@@ -367,37 +395,38 @@ typedef enum {
   CGRAPH_MOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_MOBJECT_T */
   CGRAPH_POBJECT_T = 0,   /**< TYPE  0 : CGRAPH_POBJECT_T */
   CGRAPH_BOOL_T = 1,      /**< TYPE  1 : CGRAPH_BOOL_T */
-  CGRAPH_INT_T = 2,       /**< TYPE  2 : CGRAPH_INT_T */
-  CGRAPH_LONG_T = 3,      /**< TYPE  3 : CGRAPH_LONG_T */
-  CGRAPH_INT8_T = 4,      /**< TYPE  4 : CGRAPH_INT8_T */
-  CGRAPH_UINT8_T = 4,     /**< TYPE  4 : CGRAPH_UINT8_T */
-  CGRAPH_CHAR_T = 4,      /**< TYPE  4 : CGRAPH_CHAR_T */
-  CGRAPH_INT16_T = 5,     /**< TYPE  5 : CGRAPH_INT16_T */
-  CGRAPH_INT32_T = 6,     /**< TYPE  6 : CGRAPH_INT32_T */
-  CGRAPH_INT64_T = 7,     /**< TYPE  7 : CGRAPH_INT64_T */
-  CGRAPH_FLOAT32_T = 8,   /**< TYPE  8 : CGRAPH_FLOAT32_T */
-  CGRAPH_FLOAT64_T = 9,   /**< TYPE  9 : CGRAPH_FLOAT64_T */
-  CGRAPH_FLOAT128_T = 10, /**< TYPE 10 : CGRAPH_FLOAT64_T */
-  CGRAPH_TIME_T = 11,     /**< TYPE 11 : CGRAPH_TIME_T */
-  CGRAPH_COMPLEX_T = 12,  /**< TYPE 12 : CGRAPH_COMPLEX_T */
-  CGRAPH_FRACTION_T = 13, /**< TYPE 13 : CGRAPH_FRACTION_T */
-  CGRAPH_BITSET_T = 14,   /**< TYPE 14 : CGRAPH_BITSET_T */
-  CGRAPH_BIGINT_T = 15,   /**< TYPE 15 : CGRAPH_BIGINT_T */
-  CGRAPH_BIGNUM_T = 16,   /**< TYPE 16 : CGRAPH_BIGNUM_T */
-  CGRAPH_STRING_T = 17,   /**< TYPE 17 : CGRAPH_STRING_T */
-  CGRAPH_VECTOR_T = 18,   /**< TYPE 18 : CGRAPH_VECTOR_T */
-  CGRAPH_MATRIX_T = 19,   /**< TYPE 19 : CGRAPH_MATRIX_T */
-  CGRAPH_MATRIX3D_T = 20, /**< TYPE 20 : CGRAPH_MATRIX3D_T */
-  CGRAPH_BIGMAT_T = 21,   /**< TYPE 21 : CGRAPH_BIGMAT_T */
-  CGRAPH_BIGMAT3D_T = 22, /**< TYPE 22 : CGRAPH_BIGMAT3D_T */
-  CGRAPH_SPAMAT_T = 23,   /**< TYPE 23 : CGRAPH_SPAMAT_T */
-  CGRAPH_SPAMAT3D_T = 24, /**< TYPE 24 : CGRAPH_SPAMAT3D_T */
-  CGRAPH_DFRAME_T = 25,   /**< TYPE 25 : CGRAPH_DFRAME_T */
-  CGRAPH_DICT_T = 26,     /**< TYPE 26 : CGRAPH_DICT_T */
-  CGRAPH_SET_T = 27,      /**< TYPE 27 : CGRAPH_SET_T */
-  CGRAPH_LIST_T = 28,     /**< TYPE 28 : CGRAPH_LIST_T */
-  CGRAPH_TREE_T = 29,     /**< TYPE 29 : CGRAPH_TREE_T */
-  CGRAPH_NULL_T = 30      /**< TYPE 30 : CGRAPH_NULL_T */
+  CGRAPH_LOGIC_T = 2,     /**< TYPE  2 : CGRAPH_LOGIC_T */
+  CGRAPH_INT_T = 3,       /**< TYPE  3 : CGRAPH_INT_T */
+  CGRAPH_LONG_T = 4,      /**< TYPE  4 : CGRAPH_LONG_T */
+  CGRAPH_INT8_T = 5,      /**< TYPE  5 : CGRAPH_INT8_T */
+  CGRAPH_UINT8_T = 5,     /**< TYPE  5 : CGRAPH_UINT8_T */
+  CGRAPH_CHAR_T = 5,      /**< TYPE  5 : CGRAPH_CHAR_T */
+  CGRAPH_INT16_T = 6,     /**< TYPE  6 : CGRAPH_INT16_T */
+  CGRAPH_INT32_T = 7,     /**< TYPE  7 : CGRAPH_INT32_T */
+  CGRAPH_INT64_T = 8,     /**< TYPE  8 : CGRAPH_INT64_T */
+  CGRAPH_FLOAT32_T = 9,   /**< TYPE  9 : CGRAPH_FLOAT32_T */
+  CGRAPH_FLOAT64_T = 10,  /**< TYPE 10 : CGRAPH_FLOAT64_T */
+  CGRAPH_FLOAT128_T = 11, /**< TYPE 11 : CGRAPH_FLOAT128_T */
+  CGRAPH_TIME_T = 12,     /**< TYPE 12 : CGRAPH_TIME_T */
+  CGRAPH_COMPLEX_T = 13,  /**< TYPE 13 : CGRAPH_COMPLEX_T */
+  CGRAPH_FRACTION_T = 14, /**< TYPE 14 : CGRAPH_FRACTION_T */
+  CGRAPH_BITSET_T = 15,   /**< TYPE 15 : CGRAPH_BITSET_T */
+  CGRAPH_BIGINT_T = 16,   /**< TYPE 16 : CGRAPH_BIGINT_T */
+  CGRAPH_BIGNUM_T = 17,   /**< TYPE 17 : CGRAPH_BIGNUM_T */
+  CGRAPH_STRING_T = 18,   /**< TYPE 18 : CGRAPH_STRING_T */
+  CGRAPH_VECTOR_T = 19,   /**< TYPE 19 : CGRAPH_VECTOR_T */
+  CGRAPH_MATRIX_T = 20,   /**< TYPE 20 : CGRAPH_MATRIX_T */
+  CGRAPH_MATRIX3D_T = 21, /**< TYPE 21 : CGRAPH_MATRIX3D_T */
+  CGRAPH_BIGMAT_T = 22,   /**< TYPE 22 : CGRAPH_BIGMAT_T */
+  CGRAPH_BIGMAT3D_T = 23, /**< TYPE 23 : CGRAPH_BIGMAT3D_T */
+  CGRAPH_SPAMAT_T = 24,   /**< TYPE 24 : CGRAPH_SPAMAT_T */
+  CGRAPH_SPAMAT3D_T = 25, /**< TYPE 25 : CGRAPH_SPAMAT3D_T */
+  CGRAPH_DFRAME_T = 26,   /**< TYPE 26 : CGRAPH_DFRAME_T */
+  CGRAPH_DICT_T = 27,     /**< TYPE 27 : CGRAPH_DICT_T */
+  CGRAPH_SET_T = 28,      /**< TYPE 28 : CGRAPH_SET_T */
+  CGRAPH_LIST_T = 29,     /**< TYPE 29 : CGRAPH_LIST_T */
+  CGRAPH_TREE_T = 30,     /**< TYPE 30 : CGRAPH_TREE_T */
+  CGRAPH_NULL_T = 31      /**< TYPE 31 : CGRAPH_NULL_T */
 } cgraph_type_t;
 
 /**

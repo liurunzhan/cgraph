@@ -281,7 +281,7 @@ TYPE FUNCTION(NAME, ones0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
   TIME_VALUE0(res) = DATA_MIN;
-  TIME_VALUE1(res) = DATA_MIN >> 1;
+  TIME_VALUE1(res) = DATA_MIN1;
 
   return res;
 }
@@ -290,7 +290,7 @@ TYPE FUNCTION(NAME, min0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
   TIME_VALUE0(res) = DATA_MIN;
-  TIME_VALUE1(res) = DATA_MIN >> 1;
+  TIME_VALUE1(res) = DATA_MIN1;
 
   return res;
 }
@@ -299,7 +299,7 @@ TYPE FUNCTION(NAME, max0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
   TIME_VALUE0(res) = DATA_MAX;
-  TIME_VALUE1(res) = DATA_MAX >> 1;
+  TIME_VALUE1(res) = DATA_MAX1;
 
   return res;
 }
@@ -307,8 +307,8 @@ TYPE FUNCTION(NAME, max0)(void) {
 TYPE FUNCTION(NAME, random0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
-  TIME_VALUE0(res) = DATA_MAX & cgraph_random32();
-  TIME_VALUE1(res) = (DATA_MAX >> 1) & cgraph_random32();
+  TIME_VALUE0(res) = DATA_MIN & cgraph_random32();
+  TIME_VALUE1(res) = DATA_MIN1 & cgraph_random32();
 
   return res;
 }
@@ -691,7 +691,6 @@ TYPE FUNCTION(NAME, max1)(void) {
 
 TYPE FUNCTION(NAME, random1)(void) {
   TYPE res;
-  DATA_TYPE tmp;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
   TIME_YEAR(res) = DATA_MAX & cgraph_random32();
   TIME_MONTH(res) = cgraph_random32_uniform(-12, 12);
@@ -839,6 +838,12 @@ cgraph_bool_t FUNCTION(NAME, le1)(const TYPE x, const TYPE y) {
 TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_SECOND(res) = TIME_SECOND(x) + y;
+  TIME_MINUTE(res) = TIME_MINUTE(x);
+  TIME_HOUR(res) = TIME_HOUR(x);
+  TIME_DAY(res) = TIME_DAY(x);
+  TIME_MONTH(res) = TIME_MONTH(x);
+  TIME_YEAR(res) = TIME_YEAR(x);
 
   return res;
 }
@@ -846,6 +851,12 @@ TYPE FUNCTION(NAME, add1i)(const TYPE x, const DATA_TYPE y) {
 TYPE FUNCTION(NAME, sub1i)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_SECOND(res) = TIME_SECOND(x) - y;
+  TIME_MINUTE(res) = TIME_MINUTE(x);
+  TIME_HOUR(res) = TIME_HOUR(x);
+  TIME_DAY(res) = TIME_DAY(x);
+  TIME_MONTH(res) = TIME_MONTH(x);
+  TIME_YEAR(res) = TIME_YEAR(x);
 
   return res;
 }
@@ -867,12 +878,12 @@ TYPE FUNCTION(NAME, div1i)(const TYPE x, const DATA_TYPE y) {
 TYPE FUNCTION(NAME, opp1)(const TYPE x) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
-  TIME_YEAR(res) = -TIME_YEAR(x);
-  TIME_MONTH(res) = -TIME_MONTH(x);
-  TIME_DAY(res) = -TIME_DAY(x);
-  TIME_HOUR(res) = -TIME_HOUR(x);
-  TIME_MINUTE(res) = -TIME_MINUTE(x);
   TIME_SECOND(res) = -TIME_SECOND(x);
+  TIME_MINUTE(res) = -TIME_MINUTE(x);
+  TIME_HOUR(res) = -TIME_HOUR(x);
+  TIME_DAY(res) = -TIME_DAY(x);
+  TIME_MONTH(res) = -TIME_MONTH(x);
+  TIME_YEAR(res) = -TIME_YEAR(x);
 
   return res;
 }
@@ -928,6 +939,12 @@ TYPE FUNCTION(NAME, sub1)(const TYPE x, const TYPE y) {
 TYPE FUNCTION(NAME, mul1)(const TYPE x, const TYPE y) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_SECOND(res) = TIME_SECOND(x);
+  TIME_MINUTE(res) = TIME_MINUTE(x);
+  TIME_HOUR(res) = TIME_HOUR(x);
+  TIME_DAY(res) = TIME_DAY(x);
+  TIME_MONTH(res) = TIME_MONTH(x);
+  TIME_YEAR(res) = TIME_YEAR(x);
 
   return res;
 }
@@ -935,6 +952,12 @@ TYPE FUNCTION(NAME, mul1)(const TYPE x, const TYPE y) {
 TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
+  TIME_SECOND(res) = TIME_SECOND(x);
+  TIME_MINUTE(res) = TIME_MINUTE(x);
+  TIME_HOUR(res) = TIME_HOUR(x);
+  TIME_DAY(res) = TIME_DAY(x);
+  TIME_MONTH(res) = TIME_MONTH(x);
+  TIME_YEAR(res) = TIME_YEAR(x);
 
   return res;
 }

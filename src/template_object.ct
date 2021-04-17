@@ -5,6 +5,7 @@
  */
 CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {&STRUCT(NAME),
                                          &STRUCT(bool),
+                                         &STRUCT(logic),
                                          &STRUCT(int),
                                          &STRUCT(long),
                                          &STRUCT(int8),

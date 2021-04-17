@@ -88,6 +88,10 @@
 #undef TYPE_BOOL
 #endif
 
+#ifdef TYPE_LOGIC
+#undef TYPE_LOGIC
+#endif
+
 #ifdef TYPE_FLOAT32
 #undef TYPE_FLOAT32
 #endif
@@ -336,6 +340,14 @@
 
 #ifdef DATA_MIN
 #undef DATA_MIN
+#endif
+
+#ifdef DATA_MAX1
+#undef DATA_MAX1
+#endif
+
+#ifdef DATA_MIN1
+#undef DATA_MIN1
 #endif
 
 #ifdef DATA_MSB

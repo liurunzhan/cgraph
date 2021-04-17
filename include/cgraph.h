@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-#include "cgraph_config.h"
+#include "cgraph_cmdarg.h"
 #include "cgraph_data.h"
 #include "cgraph_error.h"
 #include "cgraph_file.h"

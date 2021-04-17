@@ -1,5 +1,5 @@
+#include "cgraph_base.h"
 #include "cgraph_bigmat.h"
-#include "cgraph_memory.h"
 #include "cgraph_object.h"
 
 #define TYPE_BIGMAT

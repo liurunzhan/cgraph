@@ -1,4 +1,4 @@
-#include "cgraph_memory.h"
+#include "cgraph_base.h"
 #include "cgraph_mobject.h"
 #include "cgraph_spamat.h"
 

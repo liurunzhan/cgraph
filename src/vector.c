@@ -1,5 +1,4 @@
-#include "cgraph_math.h"
-#include "cgraph_memory.h"
+#include "cgraph_base.h"
 #include "cgraph_object.h"
 #include "cgraph_vector.h"
 

@@ -122,13 +122,13 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
       cgraph_size_t i = 0;
       z->len = len;
       for (i = 0; i < len; i++, xd++, yd++, zd++) {
-        *zd = (*xd) + (*yd);
+        *zd = (*xd) ^ (*yd);
       }
       for (; i < x->len; xd++, zd++) {
-        *zd = *xd;
+        *zd = 0x00 ^ (*xd);
       }
       for (; i < y->len; yd++, zd++) {
-        *zd = *yd;
+        *zd = 0x00 ^ (*yd);
       }
     }
   }
@@ -146,13 +146,13 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
       cgraph_size_t i = 0;
       z->len = len;
       for (i = 0; i < len; i++, xd++, yd++, zd++) {
-        *zd = (*xd) - (*yd);
+        *zd = (*xd) ^ (*yd);
       }
       for (; i < x->len; xd++, zd++) {
-        *zd = *xd;
+        *zd = 0x00 ^ (*xd);
       }
       for (; i < y->len; yd++, zd++) {
-        *zd = -(*yd);
+        *zd = 0x00 ^ (*yd);
       }
     }
   }

@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include "cgraph_error.h"
+#include "cgraph_file.h"
 
 static cgraph_char_t *__cgraph_error_strings__[] = {"NO ERROR",
                                                     "ERROR",
@@ -87,8 +88,8 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
   if ((NULL != fp) && (0 == ferror(fp)) && (NULL != format)) {
     va_list args;
     va_start(args, format);
-    __cgraph_vsnprintf(__cgraph_log_buffer__, CGRAPH_LOG_BUFFER_SIZE, format,
-                       args);
+    cgraph_file_snprintf(__cgraph_log_buffer__, CGRAPH_LOG_BUFFER_SIZE, format,
+                         args);
     va_end(args);
     cgraph_error_time();
     if (NULL != function) {
@@ -120,7 +121,7 @@ void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer,
       (NULL != format)) {
     va_list args;
     va_start(args, format);
-    __cgraph_vsnprintf(buffer, size, format, args);
+    cgraph_file_snprintf(buffer, size, format, args);
     va_end(args);
     cgraph_error_time();
     fprintf(fp, "%s: %s\n", __cgraph_time_buffer__, buffer);

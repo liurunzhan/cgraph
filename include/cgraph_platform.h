@@ -35,6 +35,15 @@ typedef enum {
   CGRAPH_PLAT_UNDEFINED = 5 /**< TYPE 5 : CGRAPH_PLAT_UNDEFINED */
 } cgraph_plat_t;
 
+typedef enum {
+  CGRAPH_PLAT_FEND_UNIX = 0,  /**< TYPE 0 : '\n' */
+  CGRAPH_PLAT_FEND_MACOS = 1, /**< TYPE 1 : '\r' */
+  CGRAPH_PLAT_FEND_WIN = 2    /**< TYPE 2 : '\r\n' */
+} cgraph_plat_fend_t;
+
+#define CGRAPH_PLAT_FEND_TYPE0 '\n'
+#define CGRAPH_PLAT_FEND_TYPE1 '\r'
+
 /** Self-defined features in different platforms */
 #if defined(__CYGWIN__)
 #define CGRAPH_PLAT_NAME "cygwin"
@@ -42,36 +51,41 @@ typedef enum {
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_PSPLIT_C '/'
 #define CGRAPH_PLAT_NLINE "\n"
-#define CGRAPH_PLAT_NLINE_C '\n'
+#define CGRAPH_PLAT_NLINE_C CGRAPH_PLAT_FEND_TYPE0
+#define CGRAPH_PLAT_FEND CGRAPH_PLAT_FEND_UNIX
 #elif (defined(_WIN32) || defined(_WIN64))
 #define CGRAPH_PLAT_NAME "windows"
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_WINDOWS
 #define CGRAPH_PLAT_PSPLIT "\\"
 #define CGRAPH_PLAT_PSPLIT_C '\\'
 #define CGRAPH_PLAT_NLINE "\r\n"
-#define CGRAPH_PLAT_NLINE_C '\n'
+#define CGRAPH_PLAT_NLINE_C CGRAPH_PLAT_FEND_TYPE0
 #define __CGRAPH_PLAT_WINDOWS
+#define CGRAPH_PLAT_FEND CGRAPH_PLAT_FEND_WIN
 #elif defined(__APPLE__)
 #define CGRAPH_PLAT_NAME "macos"
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_MACOS
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_PSPLIT_C '/'
 #define CGRAPH_PLAT_NLINE "\r"
-#define CGRAPH_PLAT_NLINE_C '\r'
+#define CGRAPH_PLAT_NLINE_C CGRAPH_PLAT_FEND_TYPE1
+#define CGRAPH_PLAT_FEND CGRAPH_PLAT_FEND_MACOS
 #elif defined(__linux__)
 #define CGRAPH_PLAT_NAME "linux"
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_LINUX
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_PSPLIT_C '/'
 #define CGRAPH_PLAT_NLINE "\n"
-#define CGRAPH_PLAT_NLINE_C '\n'
+#define CGRAPH_PLAT_NLINE_C CGRAPH_PLAT_FEND_TYPE0
+#define CGRAPH_PLAT_FEND CGRAPH_PLAT_FEND_UNIX
 #elif defined(__unix__)
 #define CGRAPH_PLAT_NAME "unix"
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_UNIX
 #define CGRAPH_PLAT_PSPLIT "/"
 #define CGRAPH_PLAT_PSPLIT_C '/'
 #define CGRAPH_PLAT_NLINE "\n"
-#define CGRAPH_PLAT_NLINE_C '\n'
+#define CGRAPH_PLAT_NLINE_C CGRAPH_PLAT_FEND_TYPE0
+#define CGRAPH_PLAT_FEND CGRAPH_PLAT_FEND_UNIX
 #else
 #define CGRAPH_PLAT_MODE CGRAPH_PLAT_UNDEFINED
 #error unsupported platforms!!
@@ -112,20 +126,6 @@ typedef enum {
 #define CGRAPH_INLINE __extension__ __inline__
 #elif defined(_MSC_VER)
 #define CGRAPH_INLINE __inline
-#else
-#error unsupported C compiler in 32-bit/64-bit system
-#endif
-
-/** vsnprintf function or macro function */
-#if CGRAPH_STDC_VERSION >= 199901L
-#define __cgraph_vsnprintf(buffer, size, format, args)                         \
-  vsnprintf(buffer, size, format, args)
-#elif defined(__GNUC__) || defined(__clang__)
-#define __cgraph_vsnprintf(buffer, size, format, args)                         \
-  __extension__ vsprintf(buffer, format, args)
-#elif defined(_MSC_VER)
-#define __cgraph_vsnprintf(buffer, size, format, args)                         \
-  vsprintf(buffer, format, args)
 #else
 #error unsupported C compiler in 32-bit/64-bit system
 #endif

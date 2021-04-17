@@ -1,5 +1,5 @@
 #if defined(TYPE)
-#error before <cgraph_template.h> is included, no other <cgraph_template.h> is included without <cgraph_template_off.h>
+#error before <cgraph_template.h> is included, no other <cgraph_template.h> is included without <cgraph_template_off.h> included
 #endif
 
 #define CONCAT1V(a) #a
@@ -124,12 +124,31 @@
 #define ONE CGRAPH_TRUE
 #define ONES CGRAPH_TRUE
 #define BITS CGRAPH_BOOL_BITS
-#define MIN CGRAPH_FALSE
-#define MAX CGRAPH_TRUE
+#define MIN CGRAPH_BOOL_MIN
+#define MAX CGRAPH_BOOL_MAX
 #define MSB (ONE)
 #define LSB (ONE)
 #define EPSILON CGRAPH_BOOL_EPS
 #define EPSILON_LEN CGRAPH_BOOL_BITS
+
+#elif defined(TYPE_LOGIC)
+#define ARG cgraph_long_t
+#define TYPE cgraph_logic_t
+#define ID CGRAPH_LOGIC_T
+#define NAME logic
+#define IN_FORMAT "%s"
+#define OUT_FORMAT "%s"
+#define UTYPE cgraph_logic_t
+#define ZERO CGRAPH_L0
+#define ONE CGRAPH_L1
+#define ONES CGRAPH_L1
+#define BITS CGRAPH_LOGIC_BITS
+#define MIN CGRAPH_LOGIC_MIN
+#define MAX CGRAPH_LOGIC_MAX
+#define MSB CGRAPH_L1
+#define LSB CGRAPH_LZ
+#define EPSILON CGRAPH_LOGIC_EPS
+#define EPSILON_LEN CGRAPH_LOGIC_BITS
 
 #elif defined(TYPE_INT)
 #define ARG cgraph_long_t
@@ -385,6 +404,9 @@
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
 #define DATA_MIN CGRAPH_INT32_MIN
 #define DATA_MAX CGRAPH_INT32_MAX
+#define DATA_MIN1 CGRAPH_INT32_MAX
+#define DATA_MAX1 (CGRAPH_INT32_MIN & 0x3FFFFFFF)
+
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
 #define DATA_LSB (DATA_ONE)
 
@@ -845,7 +867,50 @@
 
 #define CEIL(a, b) ceil((a))
 #define FLOOR(a, b) floor((a))
-#define POW(a, b) (((a) == CGRAPH_TRUE) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define POW(a, b) (((b) == CGRAPH_FALSE) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define ABS(a, b) ((a))
+#define SIN(a, b) sin((a))
+#define COS(a, b) cos((a))
+#define TAN(a, b) tan((a))
+#define ASIN(a, b) asin((a))
+#define ACOS(a, b) acos((a))
+#define ATAN(a, b) atan2((a))
+#define SINH(a, b) sinh((a))
+#define COSH(a, b) cosh((a))
+#define TANH(a, b) tanh((a))
+#define LOG(a, b) log((a))
+#define LOG2(a, b) (log((a)) / log(2.0))
+#define LOG10(a, b) log10((a))
+#define EXP(a, b) exp((a))
+#define SQRT(a, b) sqrt((a))
+
+#elif defined(TYPE_LOGIC)
+#define DATA_TEST(a) ((CGRAPH_L0 <= (a)) || (CGRAPH_LX >= (a)))
+
+#define ADD(a, b, c)                                                           \
+  ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define SUB(a, b, c)                                                           \
+  ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_FALSE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define MUL(a, b, c)                                                           \
+  ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define DIV(a, b, c)                                                           \
+  ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define DIVF(a, b, c)                                                          \
+  ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define INT(a, b, c)                                                           \
+  ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define MOD(a, b, c) (SUB((a), INT(a, b)))
+
+#define EQ(a, b) ((a) == (b))
+#define NE(a, b) ((a) != (b))
+#define GR(a, b) ((a) > (b))
+#define GE(a, b) ((a) >= (b))
+#define LS(a, b) ((a) < (b))
+#define LE(a, b) ((a) <= (b))
+
+#define CEIL(a, b) ceil((a))
+#define FLOOR(a, b) floor((a))
+#define POW(a, b) (((b) == CGRAPH_FALSE) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define ABS(a, b) ((a))
 #define SIN(a, b) sin((a))
 #define COS(a, b) cos((a))
