@@ -1,9 +1,9 @@
 #include "cgraph_template.ht"
 
-extern cgraph_bool_t FUNCTION(NAME, find)(TYPE *cthis, void *x);
-extern TYPE *FUNCTION(NAME, push)(TYPE *cthis, void *x);
-extern TYPE *FUNCTION(NAME, pop)(TYPE *cthis, void *x);
-extern TYPE *FUNCTION(NAME, delete)(TYPE *cthis, void *x);
+extern cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x);
+extern TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x);
+extern TYPE *FUNCTION(NAME, pop)(TYPE *cthis, const void *x);
+extern TYPE *FUNCTION(NAME, delete)(TYPE *cthis, const void *x);
 
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);

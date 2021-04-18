@@ -300,87 +300,103 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, swapword)(const UTYPE x) {
 #endif
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TEST((CGRAPH_FALSE == cthis));
+  return CGRAPH_TEST((CGRAPH_FALSE == x));
 #else
-  return CGRAPH_TEST((ZERO == cthis));
+  return CGRAPH_TEST((ZERO == x));
 #endif
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TEST((CGRAPH_TRUE == cthis));
+  return CGRAPH_TEST((CGRAPH_TRUE == x));
 #else
-  return CGRAPH_TEST((ONE == cthis));
+  return CGRAPH_TEST((ONE == x));
 #endif
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE cthis) {
-  return CGRAPH_TEST(cthis & 0x01);
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
+  return CGRAPH_TEST(x & 0x01);
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE cthis) {
-  return CGRAPH_TEST((~cthis) & 0x01);
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
+  return CGRAPH_TEST((~x) & 0x01);
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE cthis) {
-  return CGRAPH_TEST((0 < cthis) && (!(cthis & (cthis - 1))));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
+  return CGRAPH_TEST(!(x & (x - 1)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE cthis) {
-  return CGRAPH_TEST((~cthis) >> (BITS - 1));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
+  return CGRAPH_TEST((~x) >> (BITS - 1));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE cthis) {
-  return CGRAPH_TEST(cthis >> (BITS - 1));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
+  return CGRAPH_TEST(x >> (BITS - 1));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE cthis) {
-  return CGRAPH_TEST((MIN == cthis));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
+  return CGRAPH_TEST((MIN == x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE cthis) {
-  return CGRAPH_TEST((MAX == cthis));
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
+  return CGRAPH_TEST((MAX == x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
   return CGRAPH_FALSE;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
   return CGRAPH_FALSE;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_FALSE;
 }
 
-cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE cthis) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TEST(cthis);
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isX)(const TYPE x) {
+#if defined(TYPE_LOGIC)
+  return CGRAPH_TEST((CGRAPH_LX == x));
 #else
-  TYPE _cthis = cthis;
+  return CGRAPH_FALSE;
+#endif
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x) {
+#if defined(TYPE_LOGIC)
+  return CGRAPH_TEST((CGRAPH_LZ == x));
+#else
+  return CGRAPH_FALSE;
+#endif
+}
+
+cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return CGRAPH_TEST(x);
+#else
+  TYPE _x = x;
   cgraph_size_t cnt = 0;
-  for (cnt = 0; _cthis; cnt++) {
-    _cthis &= _cthis - 1;
+  for (cnt = 0; _x; cnt++) {
+    _x &= _x - 1;
   }
 
   return cnt;
 #endif
 }
 
-cgraph_size_t FUNCTION(NAME, cntzeros)(const UTYPE cthis) {
+cgraph_size_t FUNCTION(NAME, cntzeros)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TEST(CGRAPH_FALSE == cthis);
+  return CGRAPH_TEST(CGRAPH_FALSE == x);
 #else
-  TYPE _cthis = cthis;
+  TYPE _x = x;
   cgraph_size_t cnt;
-  if (0 == _cthis) {
+  if (0 == _x) {
     cnt = 1;
   } else {
-    for (cnt = 0; _cthis; _cthis >>= 1) {
-      cnt += 1 & (1 ^ _cthis);
+    for (cnt = 0; _x; _x >>= 1) {
+      cnt += 1 & (1 ^ _x);
     }
   }
 

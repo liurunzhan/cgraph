@@ -1,6 +1,111 @@
 #include "cgraph_math.h"
 #include "cgraph_verilog.h"
 
+void cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
+  if ((NULL != fp) && (!ferror(fp))) {
+    cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max - 1,
+                     len_1 = len - 1;
+    fprintf(fp, "module clkgen (" CGRAPH_PLAT_NLINE "   rstn," CGRAPH_PLAT_NLINE
+                "   clki," CGRAPH_PLAT_NLINE "   cnten," CGRAPH_PLAT_NLINE
+                "   clken," CGRAPH_PLAT_NLINE "   br," CGRAPH_PLAT_NLINE
+                "   clko" CGRAPH_PLAT_NLINE ");" CGRAPH_PLAT_NLINE
+                "input              rstn;" CGRAPH_PLAT_NLINE
+                "input              clki;" CGRAPH_PLAT_NLINE
+                "input              cnten;" CGRAPH_PLAT_NLINE
+                "input              clken;" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "input      [%ld:0] br;" CGRAPH_PLAT_NLINE, len_1);
+    fprintf(fp, "output reg         clko;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+    fprintf(fp, "reg [%ld:0] clk_cnt;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE,
+            max_1);
+    fprintf(fp, "always @(posedge clki or negedge rstn)" CGRAPH_PLAT_NLINE
+                "  begin" CGRAPH_PLAT_NLINE "    if(!rstn)" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "      clk_cnt <= {%ld{1'b0}};" CGRAPH_PLAT_NLINE, max);
+    fprintf(fp, "    else if(cnten)" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "      clk_cnt <= (clk_cnt + %ld'b1);" CGRAPH_PLAT_NLINE, max);
+    fprintf(fp, "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+    fprintf(fp,
+            "always @(*)" CGRAPH_PLAT_NLINE "  begin" CGRAPH_PLAT_NLINE
+            "    if(clken)" CGRAPH_PLAT_NLINE "      begin" CGRAPH_PLAT_NLINE
+            "        case(dr)" CGRAPH_PLAT_NLINE);
+    for (i = 0; i < max; i++) {
+      fprintf(fp, "        0x%lx : clko = clk_cnt[%ld];" CGRAPH_PLAT_NLINE, i,
+              i);
+    }
+    fprintf(fp,
+            "        default : clko = 1'bx;" CGRAPH_PLAT_NLINE
+            "        endcase" CGRAPH_PLAT_NLINE "      end" CGRAPH_PLAT_NLINE
+            "    else" CGRAPH_PLAT_NLINE "      clko = 1'b0;" CGRAPH_PLAT_NLINE
+            "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
+            "endmodule" CGRAPH_PLAT_NLINE);
+  }
+}
+
+void cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
+  if ((NULL != fp) && (!ferror(fp))) {
+    cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max - 1,
+                     len_1 = len - 1;
+    fprintf(fp, "module clkgen (" CGRAPH_PLAT_NLINE "   rstn," CGRAPH_PLAT_NLINE
+                "   clki," CGRAPH_PLAT_NLINE "   cnten," CGRAPH_PLAT_NLINE
+                "   clken," CGRAPH_PLAT_NLINE "   br," CGRAPH_PLAT_NLINE
+                "   clko" CGRAPH_PLAT_NLINE ");" CGRAPH_PLAT_NLINE
+                "input          rstn;" CGRAPH_PLAT_NLINE
+                "input          clki;" CGRAPH_PLAT_NLINE
+                "input          cnten;" CGRAPH_PLAT_NLINE
+                "input          clken;" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "input  [%ld:0] br;" CGRAPH_PLAT_NLINE, len_1);
+    fprintf(fp, "output         clko;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+    fprintf(fp, "reg [%ld:0] clk_cnt_p;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE,
+            max_1);
+    fprintf(fp, "always @(posedge clki or negedge rstn)" CGRAPH_PLAT_NLINE
+                "  begin" CGRAPH_PLAT_NLINE "    if(!rstn)" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "      clk_cnt_p <= {%ld{1'b0}};" CGRAPH_PLAT_NLINE, max);
+    fprintf(fp, "    else if(cnten)" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "      clk_cnt_p <= (clk_cnt_p + %ld'b1);" CGRAPH_PLAT_NLINE,
+            max);
+    fprintf(fp, "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+    fprintf(fp,
+            "reg clko_p;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
+            "always @(*)" CGRAPH_PLAT_NLINE "  begin" CGRAPH_PLAT_NLINE
+            "    if(clken)" CGRAPH_PLAT_NLINE "      begin" CGRAPH_PLAT_NLINE
+            "        case(dr)" CGRAPH_PLAT_NLINE);
+    for (i = 0; i < max; i++) {
+      fprintf(fp, "        0x%lx : clko_p = clk_cnt_p[%ld];" CGRAPH_PLAT_NLINE,
+              i, i);
+    }
+    fprintf(fp, "        default : clko_p = 1'bx;" CGRAPH_PLAT_NLINE
+                "        endcase" CGRAPH_PLAT_NLINE
+                "      end" CGRAPH_PLAT_NLINE "    else" CGRAPH_PLAT_NLINE
+                "      clko_p = 1'b0;" CGRAPH_PLAT_NLINE
+                "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+    fprintf(fp, "reg [%ld:0] clk_cnt_n;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE,
+            max_1);
+    fprintf(fp, "always @(negedge clki or negedge rstn)" CGRAPH_PLAT_NLINE
+                "  begin" CGRAPH_PLAT_NLINE "    if(!rstn)" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "      clk_cnt_n <= {%ld{1'b0}};" CGRAPH_PLAT_NLINE, max);
+    fprintf(fp, "    else if(cnten)" CGRAPH_PLAT_NLINE);
+    fprintf(fp, "      clk_cnt_n <= (clk_cnt_n + %ld'b1);" CGRAPH_PLAT_NLINE,
+            max);
+    fprintf(fp, "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+    fprintf(fp,
+            "reg clko_n;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
+            "always @(*)" CGRAPH_PLAT_NLINE "  begin" CGRAPH_PLAT_NLINE
+            "    if(clken)" CGRAPH_PLAT_NLINE "      begin" CGRAPH_PLAT_NLINE
+            "        case(dr)" CGRAPH_PLAT_NLINE);
+    for (i = 0; i < max; i++) {
+      fprintf(fp, "        0x%lx : clko_n = clk_cnt_n[%ld];" CGRAPH_PLAT_NLINE,
+              i, i);
+    }
+    fprintf(fp,
+            "        default : clko_n = 1'bx;" CGRAPH_PLAT_NLINE
+            "        endcase" CGRAPH_PLAT_NLINE "      end" CGRAPH_PLAT_NLINE
+            "    else" CGRAPH_PLAT_NLINE
+            "      clko_n = 1'b0;" CGRAPH_PLAT_NLINE
+            "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
+            "assign clko = clko_p | clk_n;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
+            "endmodule" CGRAPH_PLAT_NLINE);
+  }
+}
+
 void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
   if ((NULL != fp) && (!ferror(fp))) {
     cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max - 1,
@@ -22,13 +127,14 @@ void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
     fprintf(fp, "      clk_cnt <= {%ld{1'b0}};" CGRAPH_PLAT_NLINE, max);
     fprintf(fp, "    else if(cnten)" CGRAPH_PLAT_NLINE);
     fprintf(fp, "      clk_cnt <= (clk_cnt + %ld'b1);" CGRAPH_PLAT_NLINE, max);
+    fprintf(fp, "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
     fprintf(fp,
-            "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
             "always @(*)" CGRAPH_PLAT_NLINE "  begin" CGRAPH_PLAT_NLINE
             "    if(clken)" CGRAPH_PLAT_NLINE "      begin" CGRAPH_PLAT_NLINE
             "        case(dr)" CGRAPH_PLAT_NLINE);
     for (i = 0; i < max; i++) {
-      fprintf(fp, "        %ld : clko = clk_cnt[%ld];" CGRAPH_PLAT_NLINE, i, i);
+      fprintf(fp, "        0x%lx : clko = clk_cnt[%ld];" CGRAPH_PLAT_NLINE, i,
+              i);
     }
     fprintf(fp,
             "        default : clko = 1'bx;" CGRAPH_PLAT_NLINE
@@ -230,9 +336,9 @@ void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len) {
     fprintf(fp, "            reg_shift[%ld:0] <= din[%ld:0];" CGRAPH_PLAT_NLINE,
             len_1, len_1);
     fprintf(fp, "        else" CGRAPH_PLAT_NLINE);
-    fprintf(fp, "            reg_shift[%ld:0] <= {reg_shift[0]", len_1);
+    fprintf(fp, "            reg_shift[%ld:0] <= {din[0]", len_1);
     for (i = 1; i < len; i++) {
-      fprintf(fp, ", reg_shift[%ld]", i);
+      fprintf(fp, ", din[%ld]", i);
     }
     fprintf(fp, "};" CGRAPH_PLAT_NLINE "      end" CGRAPH_PLAT_NLINE
                 "    else if(read)" CGRAPH_PLAT_NLINE);
@@ -250,41 +356,67 @@ void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len) {
 
 void cgraph_verilog_crc(FILE *fp, const cgraph_size_t len) {
   if (NULL != fp && !ferror(fp)) {
-    cgraph_size_t len_1 = len - 1;
+    cgraph_size_t len_1 = len - 1, len_2 = len - 2, i;
     fprintf(fp, "module crc (" CGRAPH_PLAT_NLINE "  rstn," CGRAPH_PLAT_NLINE
                 "  clk," CGRAPH_PLAT_NLINE "  write," CGRAPH_PLAT_NLINE
                 "  read," CGRAPH_PLAT_NLINE "  msb," CGRAPH_PLAT_NLINE
-                "  din," CGRAPH_PLAT_NLINE "  dout" CGRAPH_PLAT_NLINE
-                ");" CGRAPH_PLAT_NLINE);
+                "  din," CGRAPH_PLAT_NLINE "  poly" CGRAPH_PLAT_NLINE
+                "  dout" CGRAPH_PLAT_NLINE ");" CGRAPH_PLAT_NLINE);
     fprintf(fp,
             "input  rstn;" CGRAPH_PLAT_NLINE "input  clki;" CGRAPH_PLAT_NLINE
             "input  write;" CGRAPH_PLAT_NLINE "input  read;" CGRAPH_PLAT_NLINE
             "input  msb;" CGRAPH_PLAT_NLINE);
-    fprintf(fp, "input  [%ld:0] din;" CGRAPH_PLAT_NLINE, len_1);
-    fprintf(fp, "output dout;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+    fprintf(fp, "input   [%ld:0] din;" CGRAPH_PLAT_NLINE, len_1);
+    fprintf(fp, "input   [%ld:0] poly;" CGRAPH_PLAT_NLINE, len_1);
+    fprintf(fp, "output  [%ld:0] dout;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE,
+            len_1);
     fprintf(fp, "reg [%ld:0] reg_crc;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE,
             len_1);
-    fprintf(fp, "always @(posedge clki or negedge rstn)" CGRAPH_PLAT_NLINE
-                "  begin" CGRAPH_PLAT_NLINE "    if(!rstn)" CGRAPH_PLAT_NLINE
-                "    else" CGRAPH_PLAT_NLINE "  end" CGRAPH_PLAT_NLINE
-                "endmodule" CGRAPH_PLAT_NLINE);
+    fprintf(fp,
+            "always @(posedge clki or negedge rstn)" CGRAPH_PLAT_NLINE
+            "  begin" CGRAPH_PLAT_NLINE "    if(!rstn)" CGRAPH_PLAT_NLINE
+            "        reg_crc[%ld:0] <= {%ld{1'b1}};" CGRAPH_PLAT_NLINE
+            "    else if(write)" CGRAPH_PLAT_NLINE
+            "      begin" CGRAPH_PLAT_NLINE "        if(msb)" CGRAPH_PLAT_NLINE
+            "            reg_crc[%ld:0] <= reg_crc[%ld:0] ^ "
+            "din[%ld:0];" CGRAPH_PLAT_NLINE "        else" CGRAPH_PLAT_NLINE
+            "            reg_crc[%ld:0] <= reg_crc[%ld:0] ^ "
+            "{din[0]",
+            len_1, len, len_1, len_1, len_1, len_1, len_1);
+    for (i = 1; i < len; i++) {
+      fprintf(fp, ", din[%ld]", i);
+    }
+    fprintf(fp, "};" CGRAPH_PLAT_NLINE "      end" CGRAPH_PLAT_NLINE);
+    fprintf(fp,
+            "    else" CGRAPH_PLAT_NLINE
+            "        reg_crc[%ld:0] <= ({reg_crc[%ld:0], 1'b0} ^ "
+            "{%ld{reg_crc[%ld]}}) & poly[%ld:0];" CGRAPH_PLAT_NLINE
+            "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE,
+            len_1, len_2, len, len_1, len_1);
+    fprintf(fp,
+            "assign dout[%ld:0] = (read ? reg_crc[%ld:0] : "
+            "{%ld{1'b0}});" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
+            "endmodule" CGRAPH_PLAT_NLINE,
+            len_1, len_1, len);
   }
 }
 
 void cgraph_verilog_tbench(FILE *fp, const cgraph_size_t delay_time) {
   fprintf(fp, "`timescale 1ns/1ps" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE
               "module tbench();" CGRAPH_PLAT_NLINE "reg clk;" CGRAPH_PLAT_NLINE
-              "reg rstn;" CGRAPH_PLAT_NLINE);
-  fprintf(fp,
-          "always @(*)" CGRAPH_PLAT_NLINE "  begin" CGRAPH_PLAT_NLINE
-          "    if(!rstn)" CGRAPH_PLAT_NLINE
-          "      clk = 1'b0;" CGRAPH_PLAT_NLINE "    else" CGRAPH_PLAT_NLINE
-          "      #50 clk = ~clk;" CGRAPH_PLAT_NLINE "  end" CGRAPH_PLAT_NLINE);
+              "reg rstn;" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
+  fprintf(fp, "always @(*)" CGRAPH_PLAT_NLINE "  begin" CGRAPH_PLAT_NLINE
+              "    if(!rstn)" CGRAPH_PLAT_NLINE
+              "      clk = 1'b0;" CGRAPH_PLAT_NLINE "    else" CGRAPH_PLAT_NLINE
+              "      #50 clk = ~clk;" CGRAPH_PLAT_NLINE
+              "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE);
   fprintf(fp,
           "initial" CGRAPH_PLAT_NLINE "  begin" CGRAPH_PLAT_NLINE
           "    rstn = 1'b0;" CGRAPH_PLAT_NLINE
           "    #100 rstn = 1'b1;" CGRAPH_PLAT_NLINE
-          "    #%ld $finish;" CGRAPH_PLAT_NLINE "  end" CGRAPH_PLAT_NLINE,
+          "    #%ld rstn = 1'b0;" CGRAPH_PLAT_NLINE
+          "    #100 $finish;" CGRAPH_PLAT_NLINE
+          "  end" CGRAPH_PLAT_NLINE CGRAPH_PLAT_NLINE,
           delay_time);
   fprintf(fp, "endmodule" CGRAPH_PLAT_NLINE);
 }

@@ -55,12 +55,4 @@ TYPE FUNCTION(NAME, str2logic)(const cgraph_char_t *str,
   return res;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isX)(const TYPE cthis) {
-  return CGRAPH_TEST((CGRAPH_LX == cthis));
-}
-
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE cthis) {
-  return CGRAPH_TEST((CGRAPH_LZ == cthis));
-}
-
 #include "cgraph_template_off.h"

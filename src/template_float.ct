@@ -67,7 +67,7 @@ TYPE FUNCTION(NAME, random)(void) {
 #endif
 }
 
-TYPE FUNCTION(NAME, abs)(const TYPE cthis) { return ABS(cthis); }
+TYPE FUNCTION(NAME, abs)(const TYPE x) { return ABS(x); }
 
 /**
  * @brief Newton-Raphson method to get square root of a number
@@ -167,17 +167,24 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isX)(const TYPE x) {
+  return FUNCTION(NAME, isnan)(x);
+}
+
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x) {
+  return FUNCTION(NAME, isinf)(x);
+}
+
 CGRAPH_INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
-#if defined(TYPE_FLOAT32) && (CGRAPH_STDC_VERSION >= 199901L)
-  TYPE res = 0.0;
-  modff(x / y, &res);
-#elif defined(TYPE_FLOAT128) && defined(CGRAPH_WITH_FLOAT128)
-  TYPE res = 0.0;
-  modfl(x / y, &res);
-#else
-  ARG res = 0.0;
-  modf(x / y, &res);
-#endif
+  TYPE_PTR res = 0.0;
+  MODF(x / y, &res, NULL);
+
+  return res;
+}
+
+CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, fexp)(const TYPE x) {
+  cgraph_int_t res = 0;
+  FREXP(x, &res, NULL);
 
   return res;
 }

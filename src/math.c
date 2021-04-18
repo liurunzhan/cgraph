@@ -435,7 +435,12 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
 }
 
 CGRAPH_INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) {
-  return (x & 1);
+  return (x & 0x01);
+}
+
+CGRAPH_INLINE cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
+                                             const cgraph_int_t n) {
+  return (x & (~(CGRAPH_INT_MIN << n)));
 }
 
 CGRAPH_INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data) {

@@ -1,6 +1,6 @@
 /**
- * @file cgraph_bool.h
- * @brief the apis of DATA TYPE cgraph_bool_t
+ * @file cgraph_logic.h
+ * @brief the apis of DATA TYPE cgraph_logic_t
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph
@@ -33,8 +33,6 @@ extern "C" {
 extern cgraph_char_t *FUNCTION(NAME, logic2str)(const TYPE str);
 extern TYPE FUNCTION(NAME, str2logic)(const cgraph_char_t *str,
                                       const cgraph_size_t len);
-extern cgraph_bool_t FUNCTION(NAME, isX)(const TYPE cthis);
-extern cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE cthis);
 
 #include "cgraph_template_off.h"
 

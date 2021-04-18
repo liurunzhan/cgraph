@@ -212,6 +212,10 @@
 #undef TYPE
 #endif
 
+#ifdef TYPE_PTR
+#undef TYPE_PTR
+#endif
+
 #ifdef ID
 #undef ID
 #endif
@@ -468,6 +472,22 @@
 
 #ifdef INT
 #undef INT
+#endif
+
+#ifdef FEXP
+#undef FEXP
+#endif
+
+#ifdef FREXP
+#undef FREXP
+#endif
+
+#ifdef FMOD
+#undef FMOD
+#endif
+
+#ifdef MODF
+#undef MODF
 #endif
 
 #ifdef MOD

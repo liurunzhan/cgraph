@@ -28,6 +28,9 @@ cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
     for (i = 0; i < cthis->len; i++, data--) {
       fputc(*data, fp);
     }
+    if (0 == cthis->point) {
+      fputc('0', fp);
+    }
   }
 
   return len;
@@ -45,9 +48,15 @@ cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
       _size--;
       len++;
     }
+    if (0 == cthis->point) {
+      _size--;
+    }
     len += (_size = CGRAPH_MIN(_size, cthis->len));
     for (i = 0; i < _size; i++, data--, buffer++) {
       *buffer = *data;
+    }
+    if (0 == cthis->point) {
+      *buffer = '0';
     }
   }
 

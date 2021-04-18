@@ -6,6 +6,7 @@ extern TYPE FUNCTION(NAME, exp)(const TYPE x);
 extern TYPE FUNCTION(NAME, pi)(void);
 
 extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
+extern cgraph_int_t FUNCTION(NAME, fexp)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, Eqt_binary_search)(const TYPE start, const TYPE end,
                                               FUNCPTR(NAME, pfunc1) func);

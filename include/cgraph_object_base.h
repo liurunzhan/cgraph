@@ -1,6 +1,6 @@
 /**
- * @file cgraph_base.h
- * @brief the basic data type apis
+ * @file cgraph_object_base.h
+ * @brief the basic object type apis
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

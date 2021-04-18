@@ -180,7 +180,7 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
 }
 #else
 CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis) {
-  return CGRAPH_FALSE;
+  return FUNCTION(NAME, check)(cthis);
 }
 #endif
 
@@ -261,9 +261,12 @@ TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t len) {
   if (NULL != cthis) {
 #if defined(TYPE_STRING) || defined(TYPE_BIGNUM)
     cgraph_size_t point = cgraph_random32_uniform(0, _len), i;
-    for (i = 0; i < _len; i++) {
-      cthis->data[i] =
-          (i != point) ? cgraph_random32_uniform(0, 10) + DATA_MIN : '.';
+    for (i = 0; i < point; i++) {
+      cthis->data[i] = cgraph_random32_uniform(DATA_MIN, DATA_MAX + 1);
+    }
+    cthis->data[i] = '.';
+    for (i += 1; i < _len; i++) {
+      cthis->data[i] = cgraph_random32_uniform(DATA_MIN, DATA_MAX + 1);
     }
 #else
     cgraph_size_t i;
@@ -279,7 +282,12 @@ TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, min)(TYPE *cthis, const cgraph_size_t len) {
   cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
   if (NULL != cthis) {
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
+    cgraph_memset(cthis->data, _len, DATA_MAX);
+    cthis->postive = CGRAPH_FALSE;
+#else
     cgraph_memset(cthis->data, _len, DATA_MIN);
+#endif
     cthis->len = _len;
   }
 
@@ -291,28 +299,53 @@ TYPE *FUNCTION(NAME, max)(TYPE *cthis, const cgraph_size_t len) {
   if (NULL != cthis) {
     cgraph_memset(cthis->data, _len, DATA_MAX);
     cthis->len = _len;
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
+    cthis->postive = CGRAPH_TRUE;
+#endif
   }
 
   return cthis;
 }
 
 TYPE *FUNCTION(NAME, pinf)(TYPE *cthis, const cgraph_size_t size) {
+#if defined(TYPE_BIGNUM)
   if (NULL != cthis) {
+    cthis->postive = CGRAPH_TRUE;
+    cgraph_memcpy(cthis->data, "fni", 3);
   }
+#elif defined(TYPE_BIGNUM)
+  if (NULL != cthis) {
+    cthis->postive = CGRAPH_TRUE;
+    cgraph_memcpy(cthis->data, "inf", 3);
+  }
+#endif
 
   return cthis;
 }
 
 TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
+#if defined(TYPE_BIGNUM)
   if (NULL != cthis) {
+    cthis->postive = CGRAPH_FALSE;
+    cgraph_memcpy(cthis->data, "fni", 3);
   }
+#elif defined(TYPE_BIGNUM)
+  if (NULL != cthis) {
+    cthis->postive = CGRAPH_FALSE;
+    cgraph_memcpy(cthis->data, "inf", 3);
+  }
+#endif
 
   return cthis;
 }
 
 TYPE *FUNCTION(NAME, nan)(TYPE *cthis, const cgraph_size_t size) {
+#if defined(TYPE_BIGNUM) || defined(TYPE_BIGNUM)
   if (NULL != cthis) {
+    cthis->postive = CGRAPH_FALSE;
+    cgraph_memcpy(cthis->data, "nan", 3);
   }
+#endif
 
   return cthis;
 }
@@ -331,6 +364,7 @@ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
 
   return flag;
 }
+
 cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != cthis) && (DATA_ONE == cthis->data[0])) {
@@ -356,7 +390,7 @@ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE *cthis) {
         break;
       }
     }
-#if defined(TYPE_BIGINT)
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
     if ((CGRAPH_TRUE == flag) && (CGRAPH_FALSE != cthis->postive)) {
       flag = CGRAPH_FALSE;
     }
@@ -376,7 +410,7 @@ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *cthis) {
         break;
       }
     }
-#if defined(TYPE_BIGINT)
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
     if ((CGRAPH_TRUE == flag) && (CGRAPH_TRUE != cthis->postive)) {
       flag = CGRAPH_FALSE;
     }
@@ -384,6 +418,28 @@ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *cthis) {
   }
 
   return flag;
+}
+#endif
+
+#ifdef TYPE_WITH_DATA
+TYPE *FUNCTION(NAME, index)(const TYPE **cthis, const cgraph_size_t len,
+                            const cgraph_size_t index) {
+  TYPE *res = NULL;
+  if ((NULL != cthis) && (len > index)) {
+    res = (TYPE *)cthis[index];
+  }
+
+  return res;
+}
+#else
+TYPE FUNCTION(NAME, index)(const TYPE *cthis, const cgraph_size_t len,
+                           const cgraph_size_t index) {
+  TYPE res = ZERO;
+  if ((NULL != cthis) && (len > index)) {
+    res = cthis[index];
+  }
+
+  return res;
 }
 #endif
 

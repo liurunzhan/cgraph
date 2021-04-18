@@ -989,10 +989,15 @@
 #define MUL(a, b, c) ((a) * (b))
 #define DIV(a, b, c) ((a) / (b))
 #define DIVF(a, b, c) ((a) / (b))
-#define INT(a, b, c) (FUNCTION(NAME, int)((a), (b)))
+#define INT(a, b, c) FUNCTION(NAME, int)((a), (b))
+#define FEXP(a) FUNCTION(NAME, fexp)((a))
 
 #if defined(TYPE_FLOAT32) && (CGRAPH_STDC_VERSION >= 199901L)
-#define MOD(a, b, c) (fmodf((a), (b)))
+#define TYPE_PTR TYPE
+#define FREXP(a, b, c) frexpf((a), (b))
+#define FMOD(a, b, c) fmodf((a), (b))
+#define MODF(a, b, c) modff((a), (b))
+#define MOD(a, b, c) fmodf((a), (b))
 
 #define EQ(a, b) (fabsf((a) - (b)) < EPSILON)
 #define NE(a, b) (fabsf((a) - (b)) > EPSILON)
@@ -1020,7 +1025,11 @@
 #define EXP(a) expf((a))
 #define SQRT(a) sqrtf((a))
 #elif defined(TYPE_FLOAT128) && defined(CGRAPH_WITH_FLOAT128)
-#define MOD(a, b, c) (fmodl((a), (b)))
+#define TYPE_PTR TYPE
+#define FREXP(a, b, c) frexpl((a), (b))
+#define FMOD(a, b, c) fmodl((a), (b))
+#define MODF(a, b, c) modfl((a), (b))
+#define MOD(a, b, c) fmodl((a), (b))
 
 #define EQ(a, b) (fabsl((a) - (b)) < EPSILON)
 #define NE(a, b) (fabsl((a) - (b)) > EPSILON)
@@ -1048,7 +1057,11 @@
 #define EXP(a) expl((a))
 #define SQRT(a) sqrtl((a))
 #else
-#define MOD(a, b, c) (fmod((a), (b)))
+#define TYPE_PTR ARG
+#define FREXP(a, b, c) frexp((a), (b))
+#define FMOD(a, b, c) fmod((a), (b))
+#define MODF(a, b, c) modf((a), (b))
+#define MOD(a, b, c) fmod((a), (b))
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
 #define NE(a, b) (fabs((a) - (b)) > EPSILON)

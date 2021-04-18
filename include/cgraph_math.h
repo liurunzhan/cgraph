@@ -133,7 +133,9 @@ extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                          const cgraph_float64_t x);
 extern cgraph_int_t cgraph_math_pow2(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_log2(const cgraph_int_t n);
-extern cgraph_int_t cgraph_math_mod2(const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_mod2(const cgraph_int_t x);
+extern cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
+                                      const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data);
 
