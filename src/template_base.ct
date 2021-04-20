@@ -9,6 +9,7 @@ This is a data template file defined in GRAPH library.
 
 /** functions defined with void * arguments to implement polymorphism and
  * virtual table */
+static void *FUNCTION(NAME, _data)(const void *cthis);
 static cgraph_size_t FUNCTION(NAME, _len)(const void *cthis);
 static cgraph_size_t FUNCTION(NAME, _size)(const void *cthis);
 static void *FUNCTION(NAME, _update)(void *cthis, const cgraph_type_t type,
@@ -76,6 +77,7 @@ CGVTable STRUCT(NAME) = {
     FUNCTION(NAME, tbmat3dsize), /**< cgraph_size_t (*tbmat3dsize)(void); */
     FUNCTION(NAME, tdatsize),    /**< cgraph_size_t (*tdatsize)(void); */
     FUNCTION(NAME, thasdata),    /**< cgraph_bool_t (*thasdata)(void); */
+    FUNCTION(NAME, _data),       /**< void *(*data)(const void *cthis); */
     FUNCTION(NAME, _len),  /**< cgraph_size_t (*len)(const void *cthis); */
     FUNCTION(NAME, _size), /**< cgraph_size_t (*size)(const void *cthis); */
     FUNCTION(NAME, msize), /**< cgraph_size_t (*msize)(const cgraph_type_t type,
@@ -158,6 +160,10 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, thasdata)(void) {
 #else
   return CGRAPH_FALSE;
 #endif
+}
+
+static void *FUNCTION(NAME, _data)(const void *cthis) {
+  return FUNCTION(NAME, data)((TYPE *)cthis);
 }
 
 static cgraph_size_t FUNCTION(NAME, _len)(const void *cthis) {

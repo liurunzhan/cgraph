@@ -842,7 +842,7 @@
 #define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #elif defined(TYPE_BOOL)
-#define DATA_TEST(a) (((a) == CGRAPH_TRUE) || ((a) == CGRAPH_FALSE))
+#define DATA_TEST(a) (!((~EPSILON) & (a)))
 
 #define ADD(a, b, c)                                                           \
   ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
@@ -885,7 +885,8 @@
 #define SQRT(a, b) sqrt((a))
 
 #elif defined(TYPE_LOGIC)
-#define DATA_TEST(a) ((CGRAPH_L0 <= (a)) || (CGRAPH_LX >= (a)))
+#define DATA_TEST(a) (!((~EPSILON) & (a)))
+#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_EPS) & (a)))
 
 #define ADD(a, b, c)                                                           \
   ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
@@ -901,12 +902,12 @@
   ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define MOD(a, b, c) (SUB((a), INT(a, b)))
 
-#define EQ(a, b) ((a) == (b))
-#define NE(a, b) ((a) != (b))
-#define GR(a, b) ((a) > (b))
-#define GE(a, b) ((a) >= (b))
-#define LS(a, b) ((a) < (b))
-#define LE(a, b) ((a) <= (b))
+#define EQ(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) == (b) : CGRAPH_LX)
+#define NE(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) != (b) : CGRAPH_LX)
+#define GR(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) > (b) : CGRAPH_LX)
+#define GE(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) >= (b) : CGRAPH_LX)
+#define LS(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) < (b) : CGRAPH_LX)
+#define LE(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) <= (b) : CGRAPH_LX)
 
 #define CEIL(a, b) ceil((a))
 #define FLOOR(a, b) floor((a))

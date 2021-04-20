@@ -25,19 +25,7 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
 }
 
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((NULL != x) && (NULL != y)) {
-    if (CGRAPH_DTYPE_TYPE(x) == CGRAPH_DTYPE_TYPE(y)) {
-      cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
-      cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
-      OBJECT(type, cmp)
-      (x->data, y->data, &flag, len, OBJECT(type, ne));
-    } else {
-      flag = CGRAPH_TRUE;
-    }
-  }
-
-  return flag;
+  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
@@ -113,9 +101,12 @@ cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x) {
   if ((NULL != cthis) && (NULL != x)) {
     cgraph_size_t i;
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-    for (i = 0; i < cthis->len; i++) {
-      res = CGRAPH_TRUE;
-      break;
+    cgraph_addr_t data = OBJECT(type, data)(cthis);
+    for (i = 0; i < cthis->len; i++, data += OBJECT(type, tstrusize)()) {
+      OBJECT(type, eq)(data, (void *)x, &res);
+      if (CGRAPH_TRUE == res) {
+        break;
+      }
     }
   }
 
@@ -124,9 +115,9 @@ cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x) {
 
 TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x) {
   if ((NULL != cthis) && (NULL != x)) {
-    cthis->len += 1;
+    cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
     if (NULL != x) {
-      /* cthis->root = x; */
+      cthis->len += 1;
     }
   }
 
@@ -135,10 +126,11 @@ TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x) {
 
 TYPE *FUNCTION(NAME, pop)(TYPE *cthis, const void *x) {
   if ((NULL != cthis) && (0 < cthis->len)) {
-    cthis->len -= 1;
+    cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
     if (NULL != x) {
-      x = cthis->data;
+      x = (cgraph_int8_t *)cthis->data + cthis->len * OBJECT(type, tstrusize)();
     }
+    cthis->len -= 1;
   }
 
   return cthis;

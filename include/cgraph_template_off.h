@@ -398,6 +398,10 @@
 #undef DATA_TEST
 #endif
 
+#ifdef DATA_ISBOOL
+#undef DATA_ISBOOL
+#endif
+
 #ifdef DATA_ISNAN
 #undef DATA_ISNAN
 #endif

@@ -388,7 +388,7 @@ cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
 
 cgraph_size_t FUNCTION(NAME, cntzeros)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TEST(CGRAPH_FALSE == x);
+  return CGRAPH_NTEST(x);
 #else
   TYPE _x = x;
   cgraph_size_t cnt;

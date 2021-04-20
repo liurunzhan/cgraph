@@ -29,6 +29,7 @@ extern TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y,
                                     const cgraph_size_t size);
 
 #ifdef TYPE_WITH_DATA
+extern DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
                                   const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const DATA_TYPE *data,
@@ -62,6 +63,7 @@ extern TYPE *FUNCTION(NAME, iter3cvc)(const TYPE *x, const TYPE **y, TYPE *z,
                                       const cgraph_size_t len,
                                       cgraph_pfunc3_t iter);
 #else
+extern TYPE *FUNCTION(NAME, data)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
                                   const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const TYPE *data,

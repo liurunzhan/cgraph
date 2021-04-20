@@ -28,6 +28,15 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
   return _cthis;
 }
 
+#ifdef TYPE_WITH_DATA
+CGRAPH_INLINE DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
+  return ((TYPE *)cthis)->data;
+#else
+CGRAPH_INLINE TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
+  return (TYPE *)cthis;
+#endif
+}
+
 CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
 #ifdef TYPE_WITH_DATA
   return CGRAPH_LEN(cthis);

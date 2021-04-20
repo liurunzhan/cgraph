@@ -347,18 +347,19 @@ typedef __CGRAPH_FLOAT128 cgraph_float128_t;
 #endif
 
 typedef void *cgraph_stl_t;
-typedef cgraph_uint8_t cgraph_addr8_t;
+typedef cgraph_uint8_t *cgraph_addr_t;
 
 #define CGRAPH_VARADDR(x) (&(x))
-#define CGRAPH_VARADDR1V(x) ((cgraph_addr8_t *)(&(x)))
-#define CGRAPH_VARADDR2V(x, y) ((cgraph_addr8_t *)(&(x)) + (y))
+#define CGRAPH_VARADDR1V(x) ((cgraph_addr_t)(&(x)))
+#define CGRAPH_VARADDR2V(x, y) ((cgraph_addr_t)(&(x)) + (y))
 
 #define CGRAPH_PTRADDR_OUT_FORMAT "%p"
 #define CGRAPH_PTRADDR(x) ((void *)(x))
-#define CGRAPH_PTRADDR1V(x) ((cgraph_addr8_t *)(x))
-#define CGRAPH_PTRADDR2V(x, y) ((cgraph_addr8_t *)(x) + (y))
+#define CGRAPH_PTRADDR1V(x) ((cgraph_addr_t)(x))
+#define CGRAPH_PTRADDR2V(x, y) ((cgraph_addr_t)(x) + (y))
 
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
+#define CGRAPH_NTEST(x) ((x) ? CGRAPH_FALSE : CGRAPH_TRUE)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define CGRAPH_ABS(x) (((x) < 0) ? (-(x)) : (x))
@@ -519,6 +520,7 @@ excludes data pointer size */
   cgraph_size_t (*tbmat3dsize)(void);
   cgraph_size_t (*datsize)(void);
   cgraph_bool_t (*hasdata)(void);
+  void *(*data)(const void *cthis);
   cgraph_size_t (*len)(const void *cthis);
   cgraph_size_t (*size)(const void *cthis);
   cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);
@@ -548,6 +550,20 @@ excludes data pointer size */
   void (*ge)(void *x, void *y, void *z);
   void (*ls)(void *x, void *y, void *z);
   void (*le)(void *x, void *y, void *z);
+  void (*sin)(void *x, void *y);
+  void (*cos)(void *x, void *y);
+  void (*tan)(void *x, void *y);
+  void (*asin)(void *x, void *y);
+  void (*acos)(void *x, void *y);
+  void (*atan)(void *x, void *y);
+  void (*sinh)(void *x, void *y);
+  void (*cosh)(void *x, void *y);
+  void (*tanh)(void *x, void *y);
+  void (*log)(void *x, void *y);
+  void (*log2)(void *x, void *y);
+  void (*log10)(void *x, void *y);
+  void (*exp)(void *x, void *y);
+  void (*sqrt)(void *x, void *y);
   void *(*cmp)(void *x, void *y, void *z, const cgraph_size_t len,
                cgraph_pfunc3_t iter);
   void *(*iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
