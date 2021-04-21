@@ -20,9 +20,8 @@ extern "C" {
 #error <cgraph_m3object.h> can not be included in the same file together with \
 <cgraph_object.h>, \
 <cgraph_hobject.h>, \
-<cgraph_gobject.h>, \
-<cgraph_mobject.h> or \
-<cgraph_pobject.h>, \
+<cgraph_gobject.h> or \
+<cgraph_mobject.h>, \
 except in <cgraph.h> and <cgraph_struct.h>
 #endif
 

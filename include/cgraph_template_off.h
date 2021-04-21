@@ -30,20 +30,20 @@
 #undef CONCAT4
 #endif
 
-#ifdef STRING
-#undef STRING
-#endif
-
-#ifdef FUNCTION
-#undef FUNCTION
-#endif
-
 #ifdef STRUCT
 #undef STRUCT
 #endif
 
+#ifdef STRING
+#undef STRING
+#endif
+
 #ifdef FUNCPTR
 #undef FUNCPTR
+#endif
+
+#ifdef FUNCTION
+#undef FUNCTION
 #endif
 
 /**DATA TYPE */
@@ -398,8 +398,20 @@
 #undef DATA_TEST
 #endif
 
+#ifdef DATA_TOBOOL
+#undef DATA_TOBOOL
+#endif
+
+#ifdef DATA_TOLOGIC
+#undef DATA_TOLOGIC
+#endif
+
 #ifdef DATA_ISBOOL
 #undef DATA_ISBOOL
+#endif
+
+#ifdef DATA_ISLOGIC
+#undef DATA_ISLOGIC
 #endif
 
 #ifdef DATA_ISNAN
@@ -432,6 +444,7 @@
 #endif
 
 /**OBJECT TYPE */
+
 #ifdef OBJECT
 #undef OBJECT
 #endif

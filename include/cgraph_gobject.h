@@ -20,7 +20,6 @@ extern "C" {
 #error <cgraph_gobject.h> can not be included in the same file together with \
 <cgraph_object.h>, \
 <cgraph_hobject.h>, \
-<cgraph_pobject.h>, \
 <cgraph_mobject.h> or \
 <cgraph_m3object.h>, \
 except in <cgraph.h> and <cgraph_struct.h>
@@ -38,8 +37,8 @@ typedef struct {
   CGRAPH_OBJECT_BASE
   cgraph_size_t hash, index;
   union {
-    cgraph_string_t *names;
     cgraph_size_t id;
+    cgraph_string_t *names;
   } key;
   CGRAPH_OBJECT_ROOT
 } cgraph_gobject_t;

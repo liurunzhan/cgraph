@@ -11,10 +11,10 @@
 #define CONCAT4V(a, b, c, d) a##_##b##_##c##_##d
 #define CONCAT4(a, b, c, d) CONCAT4V(a, b, c, d)
 
-#define STRING(a) CONCAT1(a)
-#define FUNCTION(a, b) CONCAT3(cgraph, a, b)
 #define STRUCT(a) CONCAT3(_cgraph, a, struct_)
+#define STRING(a) CONCAT1(a)
 #define FUNCPTR(a, b) CONCAT4(cgraph, a, b, t)
+#define FUNCTION(a, b) CONCAT3(cgraph, a, b)
 
 /**
  * @brief DATA AND STRUCTURE TYPE TEMPLATE :
@@ -100,17 +100,6 @@
 #define DATA_TYPE cgraph_stl_t
 
 #define OBJECT(type, opt) CGRAPH_MOBJECT(type, opt)
-
-#elif defined(TYPE_POBJECT)
-#define TYPE cgraph_pobject_t
-#define ID CGRAPH_POBJECT_T
-#define NAME pobject
-#define OUT_FORMAT "ld"
-#define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
-
-#define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
 
 #elif defined(TYPE_BOOL)
 #define ARG cgraph_long_t
@@ -586,10 +575,6 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_OBJECT)
-#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
-#endif
-
 #elif defined(TYPE_MATRIX)
 #define TYPE cgraph_matrix_t
 #define ID CGRAPH_MATRIX_T
@@ -597,10 +582,6 @@
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_OBJECT)
-#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
-#endif
 
 #elif defined(TYPE_MATRIX3D)
 #define TYPE cgraph_matrix3d_t
@@ -610,10 +591,6 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_OBJECT)
-#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
-#endif
-
 #elif defined(TYPE_BIGMAT)
 #define TYPE cgraph_bigmat_t
 #define ID CGRAPH_BIGMAT_T
@@ -621,10 +598,6 @@
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_OBJECT)
-#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
-#endif
 
 #elif defined(TYPE_BIGMAT3D)
 #define TYPE cgraph_bigmat3d_t
@@ -634,10 +607,6 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_OBJECT)
-#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
-#endif
-
 #elif defined(TYPE_SPAMAT)
 #define TYPE cgraph_spamat_t
 #define ID CGRAPH_SPAMAT_T
@@ -645,10 +614,6 @@
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_MOBJECT)
-#define OBJECT(type, opt) CGRAPH_MOBJECT(type, opt)
-#endif
 
 #elif defined(TYPE_SPAMAT3D)
 #define TYPE cgraph_spamat3d_t
@@ -658,10 +623,6 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_M3OBJECT)
-#define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
-#endif
-
 #elif defined(TYPE_DFRAME)
 #define TYPE cgraph_dframe_t
 #define ID CGRAPH_DFRAME_T
@@ -669,10 +630,6 @@
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_OBJECT)
-#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
-#endif
 
 #elif defined(TYPE_DICT)
 #define TYPE cgraph_dict_t
@@ -682,10 +639,6 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_HOBJECT)
-#define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
-#endif
-
 #elif defined(TYPE_SET)
 #define TYPE cgraph_set_t
 #define ID CGRAPH_SET_T
@@ -693,10 +646,6 @@
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_HOBJECT)
-#define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
-#endif
 
 #elif defined(TYPE_LIST)
 #define TYPE cgraph_list_t
@@ -706,10 +655,6 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_POBJECT)
-#define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
-#endif
-
 #elif defined(TYPE_TREE)
 #define TYPE cgraph_tree_t
 #define ID CGRAPH_TREE_T
@@ -717,10 +662,6 @@
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
-
-#if defined(CGRAPH_POBJECT)
-#define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
-#endif
 
 #elif defined(TYPE_QUEUE)
 #define TYPE cgraph_queue_t
@@ -730,10 +671,6 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_POBJECT)
-#define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
-#endif
-
 #elif defined(TYPE_STACK)
 #define TYPE cgraph_stack_t
 #define ID CGRAPH_STACK_T
@@ -742,12 +679,8 @@
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
-#if defined(CGRAPH_POBJECT)
-#define OBJECT(type, opt) CGRAPH_POBJECT(type, opt)
-#endif
-
 #else
-#error "cgraph_template.h" can not be included directly without supported macro TYPE_* defined
+#error <cgraph_template.h> can not be included directly without supported macro TYPE_* defined
 #endif
 
 /**property inheritance of object types */
@@ -790,13 +723,8 @@
 /**copyed memory size without pointer memory size */
 #ifndef TYPE_WITH_DATA
 #define COPY_SIZE (sizeof(TYPE))
-#elif defined(TYPE_OBJECT)
-#define COPY_SIZE (sizeof(TYPE) - sizeof(DATA_TYPE *))
-#elif defined(TYPE_HOBJECT)
-#define COPY_SIZE (sizeof(TYPE) - sizeof(TYPE *) - 2 * sizeof(DATA_TYPE *))
-#elif defined(TYPE_POBJECT)
-#define COPY_SIZE (sizeof(TYPE) - 2 * sizeof(TYPE *) - sizeof(DATA_TYPE *))
-#elif defined(TYPE_SOBJECT)
+#elif defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) ||                         \
+    defined(TYPE_GOBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT)
 #define COPY_SIZE (sizeof(TYPE) - sizeof(DATA_TYPE *))
 #elif ID <= CGRAPH_DTYPE_PTR_MAX
 #define COPY_SIZE (sizeof(TYPE) - __CGRAPH_TYPE_PTRSIZE * sizeof(DATA_TYPE *))
@@ -805,7 +733,7 @@
 #endif
 
 #if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT) ||  \
-    defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || defined(TYPE_POBJECT)
+    defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT)
 
 #define ADD(a, b, c) __CGRAPH_UNDEFINED
 #define SUB(a, b, c) __CGRAPH_UNDEFINED
@@ -843,6 +771,10 @@
 
 #elif defined(TYPE_BOOL)
 #define DATA_TEST(a) (!((~EPSILON) & (a)))
+#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
+#define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
+#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_EPS) & (a)))
+#define DATA_ISLOGIC(a) (!((~CGRAPH_LOGIC_EPS) & (a)))
 
 #define ADD(a, b, c)                                                           \
   ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
@@ -886,7 +818,10 @@
 
 #elif defined(TYPE_LOGIC)
 #define DATA_TEST(a) (!((~EPSILON) & (a)))
+#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
+#define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
 #define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_EPS) & (a)))
+#define DATA_ISLOGIC(a) (!((~CGRAPH_LOGIC_EPS) & (a)))
 
 #define ADD(a, b, c)                                                           \
   ((((a) == CGRAPH_TRUE) || ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
@@ -931,6 +866,10 @@
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
     defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
+#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
+#define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
+#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_EPS) & (a)))
+#define DATA_ISLOGIC(a) (!((~CGRAPH_LOGIC_EPS) & (a)))
 
 #define ADD(a, b, c) ((a) + (b))
 #define SUB(a, b, c) ((a) - (b))
@@ -1532,6 +1471,16 @@
     defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_SET) ||         \
     defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_QUEUE) ||         \
     defined(TYPE_STACK)
+
+#if defined(CGRAPH_OBJECT)
+#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
+#elif defined(CGRAPH_HOBJECT)
+#define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
+#elif defined(CGRAPH_MOBJECT)
+#define OBJECT(type, opt) CGRAPH_MOBJECT(type, opt)
+#elif defined(CGRAPH_M3OBJECT)
+#define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
+#endif
 
 #define ADD(a, b, c) __CGRAPH_UNDEFINED
 #define SUB(a, b, c) __CGRAPH_UNDEFINED

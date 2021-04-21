@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include "cgraph_pobject.h"
+#include "cgraph_object.h"
 
 #define TYPE_TREE
 #include "cgraph_template.h"

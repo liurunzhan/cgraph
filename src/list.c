@@ -1,6 +1,6 @@
 #include "cgraph_base.h"
 #include "cgraph_list.h"
-#include "cgraph_pobject.h"
+#include "cgraph_object.h"
 
 #define TYPE_LIST
 

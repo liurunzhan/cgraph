@@ -193,7 +193,7 @@ CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, objaccess)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_KACCESS(cthis) : CGRAPH_FALSE;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, objhash)(const TYPE *cthis) {
+CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, objhashed)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_KHASHED(cthis) : CGRAPH_FALSE;
 }
 
@@ -246,6 +246,22 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis) {
 CGRAPH_INLINE TYPE *FUNCTION(NAME, clraccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_FALSE;
+  }
+
+  return cthis;
+}
+
+CGRAPH_INLINE TYPE *FUNCTION(NAME, sethashed)(TYPE *cthis) {
+  if (NULL != cthis) {
+    CGRAPH_DTYPE_KHASHED(cthis) = CGRAPH_TRUE;
+  }
+
+  return cthis;
+}
+
+CGRAPH_INLINE TYPE *FUNCTION(NAME, clrhashed)(TYPE *cthis) {
+  if (NULL != cthis) {
+    CGRAPH_DTYPE_KHASHED(cthis) = CGRAPH_FALSE;
   }
 
   return cthis;

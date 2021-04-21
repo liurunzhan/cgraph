@@ -2,9 +2,11 @@
 
 extern cgraph_type_t FUNCTION(NAME, objtype)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, objaccess)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, objhash)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, objhashed)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
                                      const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, clraccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, sethashed)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, clrhashed)(TYPE *cthis);
