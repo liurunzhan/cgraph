@@ -6,7 +6,7 @@ int cgraph_cmdarg_lenofargs(int argc) { return argc - 1; }
 
 char *cgraph_cmdarg_nameofpro(char *argv[]) { return argv[0]; }
 
-cgraph_cmdarg_t *cgraph_cmdarg_parser(int argc, char *argv[]) {
+cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]) {
   cgraph_cmdarg_t *cmdarg = cgraph_calloc(sizeof(cgraph_cmdarg_t));
   if (NULL != cmdarg) {
     cgraph_size_t i;

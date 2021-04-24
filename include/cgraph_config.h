@@ -436,8 +436,9 @@ typedef enum {
   CGRAPH_DICT_T = 27,     /**< TYPE 27 : CGRAPH_DICT_T */
   CGRAPH_SET_T = 28,      /**< TYPE 28 : CGRAPH_SET_T */
   CGRAPH_LIST_T = 29,     /**< TYPE 29 : CGRAPH_LIST_T */
-  CGRAPH_TREE_T = 30,     /**< TYPE 30 : CGRAPH_TREE_T */
-  CGRAPH_NULL_T = 31      /**< TYPE 31 : CGRAPH_NULL_T */
+  CGRAPH_QUEUE_T = 30,    /**< TYPE 30 : CGRAPH_QUEUE_T */
+  CGRAPH_TREE_T = 31,     /**< TYPE 31 : CGRAPH_TREE_T */
+  CGRAPH_NULL_T = 32      /**< TYPE 32 : CGRAPH_NULL_T */
 } cgraph_type_t;
 
 /**

@@ -24,25 +24,17 @@ int main(int argc, char *argv[]) {
   bigint2->data[3] = 254;
   bigint2->len = 4;
 
-  FUNCTION(NAME, fprint)(stdout, bigint1);
-  fprintf(stdout, "\n");
-  FUNCTION(NAME, fprint)(stdout, bigint2);
-  fprintf(stdout, "\n");
-  FUNCTION(NAME, fprint)(stdout, bigint3);
-  fprintf(stdout, "\n");
+  FUNCTION(NAME, fprintln)(stdout, bigint1);
+  FUNCTION(NAME, fprintln)(stdout, bigint2);
+  FUNCTION(NAME, fprintln)(stdout, bigint3);
   /*FUNCTION(NAME, add)(bigint1, bigint2, bigint3);
-  FUNCTION(NAME, fprint)(stdout, bigint1);
-  fprintf(stdout, "\n");
-  FUNCTION(NAME, fprint)(stdout, bigint2);
-  fprintf(stdout, "\n");
-  FUNCTION(NAME, fprint)(stdout, bigint3);
-  fprintf(stdout, "\n"); */
+  FUNCTION(NAME, fprintln)(stdout, bigint1);
+  FUNCTION(NAME, fprintln)(stdout, bigint2);
+  FUNCTION(NAME, fprintln)(stdout, bigint3); */
   bigint4 = FUNCTION(NAME, atoi)(data);
-  FUNCTION(NAME, fprint)(stdout, bigint4);
-  fprintf(stdout, "\n");
+  FUNCTION(NAME, fprintln)(stdout, bigint4);
   FUNCTION(NAME, mul)(bigint1, bigint2, bigint5);
-  FUNCTION(NAME, fprint)(stdout, bigint5);
-  fprintf(stdout, "\n");
+  FUNCTION(NAME, fprintln)(stdout, bigint5);
 
   FUNCTION(NAME, free)(bigint1);
   FUNCTION(NAME, free)(bigint2);

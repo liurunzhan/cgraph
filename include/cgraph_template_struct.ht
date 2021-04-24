@@ -3,6 +3,7 @@
 extern cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x);
 extern TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x);
 extern TYPE *FUNCTION(NAME, pop)(TYPE *cthis, const void *x);
+extern TYPE *FUNCTION(NAME, disable)(TYPE *cthis, const void *x);
 extern TYPE *FUNCTION(NAME, delete)(TYPE *cthis, const void *x);
 
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);

@@ -17,15 +17,19 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include "cgraph_object.h"
+#include "cgraph_snode.h"
 
 #define TYPE_STACK
 #include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_STRUCTURE_BASE
+  CGRAPH_STRUCTURE_PTR2
   CGRAPH_STRUCTURE_ROOT
 } cgraph_stack_t;
+
+/** template module */
+#include "cgraph_template_struct.ht"
 
 #include "cgraph_template_off.h"
 

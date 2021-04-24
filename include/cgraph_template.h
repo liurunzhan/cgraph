@@ -11,6 +11,8 @@
 #define CONCAT4V(a, b, c, d) a##_##b##_##c##_##d
 #define CONCAT4(a, b, c, d) CONCAT4V(a, b, c, d)
 
+#define TYPE_T(a) CONCAT3(cgraph, a, t)
+#define ID_T(a) CONCAT3(CGRAPH, a, T)
 #define STRUCT(a) CONCAT3(_cgraph, a, struct_)
 #define STRING(a) CONCAT1(a)
 #define FUNCPTR(a, b) CONCAT4(cgraph, a, b, t)
@@ -18,9 +20,9 @@
 
 /**
  * @brief DATA AND STRUCTURE TYPE TEMPLATE :
+ * @def NAME
  * @def TYPE
  * @def ID
- * @def NAME
  * @def OUT_FORMAT
  * @def UTYPE
  * @def ZERO
@@ -47,9 +49,9 @@
  */
 
 #if defined(TYPE_OBJECT)
-#define TYPE cgraph_object_t
-#define ID CGRAPH_OBJECT_T
 #define NAME object
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(OBJECT)
 #define OUT_FORMAT "ld"
 #define ZERO NULL
 #define TYPE_WITH_DATA
@@ -58,9 +60,9 @@
 #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
 
 #elif defined(TYPE_HOBJECT)
-#define TYPE cgraph_hobject_t
-#define ID CGRAPH_HOBJECT_T
 #define NAME hobject
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(HOBJECT)
 #define OUT_FORMAT "ld"
 #define ZERO NULL
 #define TYPE_WITH_DATA
@@ -69,9 +71,9 @@
 #define OBJECT(type, opt) CGRAPH_HOBJECT(type, opt)
 
 #elif defined(TYPE_GOBJECT)
-#define TYPE cgraph_gobject_t
-#define ID CGRAPH_GOBJECT_T
 #define NAME gobject
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(GOBJECT)
 #define OUT_FORMAT "ld"
 #define ZERO NULL
 #define TYPE_WITH_DATA
@@ -80,9 +82,9 @@
 #define OBJECT(type, opt) CGRAPH_GOBJECT(type, opt)
 
 #elif defined(TYPE_M3OBJECT)
-#define TYPE cgraph_m3object_t
-#define ID CGRAPH_M3OBJECT_T
 #define NAME m3object
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(M3OBJECT)
 #define OUT_FORMAT "ld"
 #define ZERO NULL
 #define TYPE_WITH_DATA
@@ -91,9 +93,9 @@
 #define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
 
 #elif defined(TYPE_MOBJECT)
-#define TYPE cgraph_mobject_t
-#define ID CGRAPH_MOBJECT_T
 #define NAME mobject
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(MOBJECT)
 #define OUT_FORMAT "ld"
 #define ZERO NULL
 #define TYPE_WITH_DATA
@@ -103,9 +105,9 @@
 
 #elif defined(TYPE_BOOL)
 #define ARG cgraph_long_t
-#define TYPE cgraph_bool_t
-#define ID CGRAPH_BOOL_T
 #define NAME bool
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BOOL)
 #define IN_FORMAT "%s"
 #define OUT_FORMAT "%s"
 #define UTYPE cgraph_bool_t
@@ -122,9 +124,9 @@
 
 #elif defined(TYPE_LOGIC)
 #define ARG cgraph_long_t
-#define TYPE cgraph_logic_t
-#define ID CGRAPH_LOGIC_T
 #define NAME logic
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(LOGIC)
 #define IN_FORMAT "%s"
 #define OUT_FORMAT "%s"
 #define UTYPE cgraph_logic_t
@@ -141,9 +143,9 @@
 
 #elif defined(TYPE_INT)
 #define ARG cgraph_long_t
-#define TYPE cgraph_int_t
-#define ID CGRAPH_INT_T
 #define NAME int
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(INT)
 #define IN_FORMAT "%d"
 #define OUT_FORMAT "%d"
 #define UTYPE cgraph_uint_t
@@ -165,9 +167,9 @@
 
 #elif defined(TYPE_LONG)
 #define ARG cgraph_long_t
-#define TYPE cgraph_long_t
-#define ID CGRAPH_LONG_T
 #define NAME long
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(LONG)
 #define IN_FORMAT "%ld"
 #define OUT_FORMAT "%ld"
 #define UTYPE cgraph_ulong_t
@@ -190,9 +192,9 @@
 
 #elif defined(TYPE_INT8)
 #define ARG cgraph_long_t
-#define TYPE cgraph_int8_t
-#define ID CGRAPH_INT8_T
 #define NAME int8
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(INT8)
 #define IN_FORMAT CGRAPH_INT8_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT8_OUT_FORMAT
 #define UTYPE cgraph_uint8_t
@@ -213,9 +215,9 @@
 
 #elif defined(TYPE_INT16)
 #define ARG cgraph_long_t
-#define TYPE cgraph_int16_t
-#define ID CGRAPH_INT16_T
 #define NAME int16
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(INT16)
 #define IN_FORMAT CGRAPH_INT16_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT16_OUT_FORMAT
 #define UTYPE cgraph_uint16_t
@@ -237,9 +239,9 @@
 
 #elif defined(TYPE_INT32)
 #define ARG cgraph_long_t
-#define TYPE cgraph_int32_t
-#define ID CGRAPH_INT32_T
 #define NAME int32
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(INT32)
 #define IN_FORMAT CGRAPH_INT32_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT32_OUT_FORMAT
 #define UTYPE cgraph_uint32_t
@@ -263,9 +265,9 @@
 
 #elif defined(TYPE_INT64)
 #define ARG cgraph_long_t
-#define TYPE cgraph_int64_t
-#define ID CGRAPH_INT64_T
 #define NAME int64
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(INT64)
 #define IN_FORMAT CGRAPH_INT64_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT64_OUT_FORMAT
 #define UTYPE cgraph_uint64_t
@@ -290,9 +292,9 @@
 
 #elif defined(TYPE_FLOAT32)
 #define ARG cgraph_float64_t
-#define TYPE cgraph_float32_t
-#define ID CGRAPH_FLOAT32_T
 #define NAME float32
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FLOAT32)
 #define IN_FORMAT "%g"
 #define OUT_FORMAT "%g"
 #define ZERO (0.0)
@@ -307,9 +309,9 @@
 
 #elif defined(TYPE_FLOAT64)
 #define ARG cgraph_float64_t
-#define TYPE cgraph_float64_t
-#define ID CGRAPH_FLOAT64_T
 #define NAME float64
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FLOAT64)
 #define IN_FORMAT "%g"
 #define OUT_FORMAT "%g"
 #define ZERO (0.0)
@@ -324,9 +326,9 @@
 
 #elif defined(TYPE_FLOAT128)
 #define ARG cgraph_float128_t
-#define TYPE cgraph_float128_t
-#define ID CGRAPH_FLOAT128_T
 #define NAME float128
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FLOAT128)
 #define IN_FORMAT CGRAPH_FLOAT128_IN_FORMAT
 #define OUT_FORMAT CGRAPH_FLOAT128_OUT_FORMAT
 #define ZERO (0.0)
@@ -340,9 +342,9 @@
 #define HASH_OFFSET CGRAPH_FLOAT128_HASH_OFFSET
 
 #elif defined(TYPE_TIME)
-#define TYPE cgraph_time_t
-#define ID CGRAPH_TIME_T
 #define NAME time
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(TIME)
 #define OUT_FORMAT0 "%d%d"
 #define ZERO0                                                                  \
   {                                                                            \
@@ -387,9 +389,9 @@
 #define BITS (8 * sizeof(TYPE) - 1)
 #define MIN (0)
 #define MAX (1)
-#define DATA_TYPE cgraph_int32_t
-#define DATA_ID CGRAPH_INT32_T
 #define DATA_NAME int32
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(INT32)
 #define DATA_UTYPE cgraph_uint32_t
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
@@ -404,9 +406,9 @@
 #define DATA_EPSILON CGRAPH_INT32_EPS
 
 #elif defined(TYPE_COMPLEX)
-#define TYPE cgraph_complex_t
-#define ID CGRAPH_COMPLEX_T
 #define NAME complex
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(COMPLEX)
 #define OUT_FORMAT "%g+i%g"
 #define ZERO                                                                   \
   {                                                                            \
@@ -429,9 +431,9 @@
   {                                                                            \
     { CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX }                                 \
   }
-#define DATA_TYPE cgraph_float64_t
-#define DATA_ID CGRAPH_FLOAT64_T
 #define DATA_NAME float64
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(FLOAT64)
 #define DATA_ZERO 0.0
 #define DATA_ONE 1.0
 #define DATA_ONES 1.0
@@ -442,9 +444,9 @@
 #define DATA_EPSILON_LEN CGRAPH_FLOAT64_BITS
 
 #elif defined(TYPE_FRACTION)
-#define TYPE cgraph_fraction_t
-#define ID CGRAPH_FRACTION_T
 #define NAME fraction
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FRACTION)
 #define OUT_FORMAT "%d/%d"
 #define ZERO                                                                   \
   {                                                                            \
@@ -472,9 +474,9 @@
     { 1, CGRAPH_INT_MAX }                                                      \
   }
 #define EPSILON_LEN (8 * sizeof(TYPE))
-#define DATA_TYPE cgraph_int_t
-#define DATA_ID CGRAPH_INT_T
 #define DATA_NAME int
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(INT)
 #define DATA_ZERO 0
 #define DATA_ONE 1
 #define DATA_ONES CGRAPH_INT_MIN
@@ -486,9 +488,9 @@
 #define DATA_EPSILON CGRAPH_INT_EPS
 
 #elif defined(TYPE_BIGINT)
-#define TYPE cgraph_bigint_t
-#define ID CGRAPH_BIGINT_T
 #define NAME bigint
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BIGINT)
 #define OUT_FORMAT "%u"
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
@@ -496,8 +498,9 @@
 #define MIN(x) FUNCTION(NAME, min)((x)), 0)
 #define MAX(x) FUNCTION(NAME, max)((x), 0)
 #define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_uint8_t
-#define DATA_ID CGRAPH_UINT8_T
+#define DATA_NAME uint8
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(UINT8)
 #define DATA_UTYPE cgraph_uint8_t
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
@@ -511,9 +514,9 @@
 #define DATA_EPSILON CGRAPH_UINT8_EPS
 
 #elif defined(TYPE_BIGNUM)
-#define TYPE cgraph_bignum_t
-#define ID CGRAPH_BIGNUM_T
 #define NAME bignum
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BIGNUM)
 #define OUT_FORMAT "%c"
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
@@ -522,8 +525,9 @@
 #define MIN FUNCTION(NAME, min)((x), 0)
 #define MAX FUNCTION(NAME, max)((x), 0)
 #define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_char_t
-#define DATA_ID CGRAPH_CHAR_T
+#define DATA_NAME char
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(CHAR)
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
 #define DATA_ZERO ('0')
 #define DATA_ONE ('1')
@@ -532,9 +536,9 @@
 #define DATA_MAX ('9')
 
 #elif defined(TYPE_STRING)
-#define TYPE cgraph_string_t
-#define ID CGRAPH_STRING_T
 #define NAME string
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(STRING)
 #define OUT_FORMAT "%s"
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
@@ -543,8 +547,9 @@
 #define MIN CGRAPH_CHAR_MIN
 #define MAX CGRAPH_CHAR_MAX
 #define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_char_t
-#define DATA_ID CGRAPH_CHAR_T
+#define DATA_NAME char
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(CHAR)
 #define DATA_ZERO ('0')
 #define DATA_ONE ('1')
 #define DATA_ONES ('1')
@@ -553,9 +558,9 @@
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
 
 #elif defined(TYPE_BITSET)
-#define TYPE cgraph_bitset_t
-#define ID CGRAPH_BITSET_T
 #define NAME bitset
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BITSET)
 #define OUT_FORMAT "%02x"
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
@@ -564,9 +569,10 @@
 #define MIN (0)
 #define MAX CGRAPH_UINT8_MIN
 #define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_uint8_t
+#define DATA_NAME uint8
+#define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_UTYPE cgraph_uint8_t
-#define DATA_ID CGRAPH_UINT8_T
+#define DATA_ID ID_T(UINT8)
 #define DATA_ZERO 0
 #define DATA_ONE 1
 #define DATA_ONES CGRAPH_UINT8_MAX
@@ -577,113 +583,113 @@
 #define DATA_EPSILON CGRAPH_UINT8_EPS
 
 #elif defined(TYPE_VECTOR)
-#define TYPE cgraph_vector_t
-#define ID CGRAPH_VECTOR_T
 #define NAME vector
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(VECTOR)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_MATRIX)
-#define TYPE cgraph_matrix_t
-#define ID CGRAPH_MATRIX_T
 #define NAME matrix
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(MATRIX)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_MATRIX3D)
-#define TYPE cgraph_matrix3d_t
-#define ID CGRAPH_MATRIX3D_T
 #define NAME matrix3d
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(MATRIX3D)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_BIGMAT)
-#define TYPE cgraph_bigmat_t
-#define ID CGRAPH_BIGMAT_T
 #define NAME bigmat
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BIGMAT)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_BIGMAT3D)
-#define TYPE cgraph_bigmat3d_t
-#define ID CGRAPH_BIGMAT3D_T
 #define NAME bigmat3d
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BIGMAT3D)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_SPAMAT)
-#define TYPE cgraph_spamat_t
-#define ID CGRAPH_SPAMAT_T
 #define NAME spamat
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(SPAMAT)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_SPAMAT3D)
-#define TYPE cgraph_spamat3d_t
-#define ID CGRAPH_SPAMAT3D_T
 #define NAME spamat3d
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(SPAMAT3D)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_DFRAME)
-#define TYPE cgraph_dframe_t
-#define ID CGRAPH_DFRAME_T
 #define NAME dframe
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(DFRAME)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_DICT)
-#define TYPE cgraph_dict_t
-#define ID CGRAPH_DICT_T
 #define NAME dict
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(DICT)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_SET)
-#define TYPE cgraph_set_t
-#define ID CGRAPH_SET_T
-#define NAME tree
+#define NAME set
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(SET)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_LIST)
-#define TYPE cgraph_list_t
-#define ID CGRAPH_LIST_T
 #define NAME list
-#define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
-
-#elif defined(TYPE_TREE)
-#define TYPE cgraph_tree_t
-#define ID CGRAPH_TREE_T
-#define NAME tree
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(LIST)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_QUEUE)
-#define TYPE cgraph_queue_t
-#define ID CGRAPH_QUEUE_T
-#define NAME tree
+#define NAME queue
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(QUEUE)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
 
 #elif defined(TYPE_STACK)
-#define TYPE cgraph_stack_t
-#define ID CGRAPH_STACK_T
+#define NAME stack
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(STACK)
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#elif defined(TYPE_TREE)
 #define NAME tree
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(TREE)
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t
@@ -711,6 +717,9 @@
 #define CGRAPH_STRUCTURE_BASE                                                  \
   CGRAPH_DATA_BASE                                                             \
   cgraph_element_t element;
+
+#define CGRAPH_STRUCTURE_PTR1 cgraph_snode1_t *header, *tail;
+#define CGRAPH_STRUCTURE_PTR2 cgraph_snode2_t *header, *tail;
 
 #define CGRAPH_STRUCTURE_ROOT DATA_TYPE data, root;
 
@@ -1478,8 +1487,8 @@
     defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) ||                          \
     defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D) ||                        \
     defined(TYPE_DFRAME) || defined(TYPE_DICT) || defined(TYPE_SET) ||         \
-    defined(TYPE_LIST) || defined(TYPE_TREE) || defined(TYPE_QUEUE) ||         \
-    defined(TYPE_STACK)
+    defined(TYPE_LIST) || defined(TYPE_QUEUE) || defined(TYPE_STACK) ||        \
+    defined(TYPE_TREE)
 
 #if defined(CGRAPH_OBJECT)
 #define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)

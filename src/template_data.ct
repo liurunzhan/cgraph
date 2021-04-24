@@ -452,7 +452,7 @@ cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE *cthis) {
 cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE cthis) {
 #endif
   cgraph_size_t len = FUNCTION(NAME, fprint)(fp, cthis);
-  if (len > 0) {
+  if (0 < len) {
     len += cgraph_file_printnl(fp);
   }
 

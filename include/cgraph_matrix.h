@@ -20,6 +20,7 @@ extern "C" {
 
 #define TYPE_MATRIX
 #include "cgraph_template.h"
+
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_MATRIX_INDEXES

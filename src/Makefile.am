@@ -6,7 +6,7 @@ DATA_SOURCES = template_data.ct template_float.ct template_int.ct bigint.c bignu
 
 OBJECT_SOURCES = template_object.ct gobject.c hobject.c m3object.c mobject.c object.c snode.c
 
-STRUCTURE_SOURCES = template_struct.ct template_matrix.ct template_matrix3d.ct bigmat.c bigmat3d.c dframe.c dict.c list.c matrix.c matrix3d.c spamat.c spamat3d.c vector.c
+STRUCTURE_SOURCES = template_struct.ct template_matrix.ct template_matrix3d.ct bigmat.c bigmat3d.c dframe.c dict.c list.c matrix.c matrix3d.c queue.c spamat.c spamat3d.c tree.c vector.c
 
 ALGORITHM_SOURCES = cmdarg.c error.c file.c math.c memory.c verilog.c version.c
 

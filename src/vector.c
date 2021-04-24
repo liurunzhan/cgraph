@@ -9,15 +9,15 @@
 #include "template_struct.ct"
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
     if (CGRAPH_DTYPE_TYPE(x) == CGRAPH_DTYPE_TYPE(y)) {
       cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
       cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
       OBJECT(type, cmp)
       (x->data, y->data, &flag, len, OBJECT(type, eq));
-    } else {
-      flag = CGRAPH_FALSE;
+    } else if ((NULL == x) && (NULL == y)) {
+      flag = CGRAPH_TRUE;
     }
   }
 

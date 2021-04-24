@@ -17,14 +17,14 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include "cgraph_object.h"
+#include "cgraph_snode.h"
 
 #define TYPE_LIST
 #include "cgraph_template.h"
 
 typedef struct {
   CGRAPH_STRUCTURE_BASE
-  cgraph_object_t *header, *tail;
+  CGRAPH_STRUCTURE_PTR2
   CGRAPH_STRUCTURE_ROOT
 } cgraph_list_t;
 

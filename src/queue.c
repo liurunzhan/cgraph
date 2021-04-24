@@ -1,8 +1,8 @@
 #include "cgraph_base.h"
-#include "cgraph_list.h"
 #include "cgraph_object.h"
+#include "cgraph_queue.h"
 
-#define TYPE_LIST
+#define TYPE_QUEUE
 #include "cgraph_template.h"
 
 /** template module */

@@ -26,7 +26,7 @@ typedef struct {
 
 int cgraph_cmdarg_lenofargs(int argc);
 char *cgraph_cmdarg_nameofpro(char *argv[]);
-cgraph_cmdarg_t *cgraph_cmdarg_parser(int argc, char *argv[]);
+cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]);
 
 #ifdef __cplusplus
 }

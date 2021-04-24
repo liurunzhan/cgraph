@@ -30,6 +30,14 @@
 #undef CONCAT4
 #endif
 
+#ifdef TYPE_T
+#undef TYPE_T
+#endif
+
+#ifdef ID_T
+#undef ID_T
+#endif
+
 #ifdef STRUCT
 #undef STRUCT
 #endif
