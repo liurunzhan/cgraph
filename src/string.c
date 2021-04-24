@@ -10,11 +10,7 @@
 /** template module */
 #include "template_data.ct"
 
-cgraph_size_t FUNCTION(NAME, printf)(const TYPE *cthis) {
-  return FUNCTION(NAME, fprintf)(stdout, cthis);
-}
-
-cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t i;
@@ -26,9 +22,9 @@ cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                       const cgraph_size_t size,
-                                       const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE *cthis) {
   cgraph_size_t len = 0;
   if ((NULL != buffer) && (NULL != cthis)) {
     cgraph_size_t i;

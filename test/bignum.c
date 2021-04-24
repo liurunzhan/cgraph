@@ -15,30 +15,31 @@ int main(int argc, char *argv[]) {
 
   FUNCTION(NAME, initc)(bignum1, num, strlen(num));
   FUNCTION(NAME, initc)(bignum3, num2, strlen(num2));
-  FUNCTION(NAME, fprintf)(stdout, bignum1);
+  FUNCTION(NAME, fprint)(stdout, bignum1);
   fprintf(stdout, "\n");
   FUNCTION(NAME, ceil)(bignum1, bignum2);
-  FUNCTION(NAME, fprintf)(stdout, bignum2);
+  FUNCTION(NAME, fprint)(stdout, bignum2);
   fprintf(stdout, "\n");
   fprintf(stdout, "compare : %d\n", FUNCTION(NAME, eq)(bignum2, bignum3));
   FUNCTION(NAME, floor)(bignum1, bignum2);
-  FUNCTION(NAME, fprintf)(stdout, bignum2);
+  FUNCTION(NAME, fprint)(stdout, bignum2);
   fprintf(stdout, "\n");
   FUNCTION(NAME, initf64)(bignum1, 0.234567890);
-  FUNCTION(NAME, fprintf)(stdout, bignum1);
+  FUNCTION(NAME, fprint)(stdout, bignum1);
+  fprintf(stdout, "\n");
   if (bignum1->postive) {
     fprintf(stdout, "bignum1 is postive!\n");
   }
   fprintf(stdout, "\n");
-  FUNCTION(NAME, initf32)(bignum2, -0.234567);
-  FUNCTION(NAME, fprintf)(stdout, bignum2);
+  FUNCTION(NAME, initf32)(bignum2, 0.234567);
+  FUNCTION(NAME, fprint)(stdout, bignum1);
   fprintf(stdout, "\n");
-  FUNCTION(NAME, fprintf)(stdout, bignum3);
+  FUNCTION(NAME, fprint)(stdout, bignum2);
   fprintf(stdout, "\n");
-  FUNCTION(NAME, sub)(bignum1, bignum2, bignum4);
-  FUNCTION(NAME, fprintf)(stdout, bignum4);
+  FUNCTION(NAME, add)(bignum1, bignum2, bignum4);
+  FUNCTION(NAME, fprint)(stdout, bignum4);
   fprintf(stdout, "\n");
-  FUNCTION(NAME, fprintf)(stdout, bignum5);
+  FUNCTION(NAME, fprint)(stdout, bignum5);
   fprintf(stdout, "\n");
 
   FUNCTION(NAME, free)(bignum1);

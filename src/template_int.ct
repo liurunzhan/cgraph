@@ -47,11 +47,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   return hash;
 }
 
-cgraph_size_t FUNCTION(NAME, printf)(const TYPE cthis) {
-  return FUNCTION(NAME, fprintf)(stdout, cthis);
-}
-
-cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   return cgraph_file_fprintf(fp, OUT_FORMAT,
 #if defined(TYPE_BOOL)
                              FUNCTION(NAME, bool2str)(cthis));
@@ -62,9 +58,9 @@ cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE cthis) {
 #endif
 }
 
-cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                       const cgraph_size_t size,
-                                       const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE cthis) {
 
   return cgraph_file_snprintf(buffer, size, OUT_FORMAT,
 #if defined(TYPE_BOOL)
@@ -154,7 +150,7 @@ CGRAPH_INLINE TYPE FUNCTION(NAME, mod2)(const TYPE x, const TYPE y) {
 
 CGRAPH_INLINE UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y) {
 #ifdef TYPE_LOGIC
-  return x > 1 ? x : (y > 1 ? y : CGRAPH_AND(x, y));
+  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_AND(x, y) : CGRAPH_LX;
 #else
   return CGRAPH_AND(x, y);
 #endif
@@ -162,7 +158,7 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y) {
 
 CGRAPH_INLINE UTYPE FUNCTION(NAME, or)(const UTYPE x, const UTYPE y) {
 #ifdef TYPE_LOGIC
-  return x > 1 ? x : (y > 1 ? y : CGRAPH_OR(x, y));
+  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_OR(x, y) : CGRAPH_LX;
 #else
   return CGRAPH_OR(x, y);
 #endif
@@ -170,7 +166,7 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, or)(const UTYPE x, const UTYPE y) {
 
 CGRAPH_INLINE UTYPE FUNCTION(NAME, not )(const UTYPE x) {
 #ifdef TYPE_LOGIC
-  return x > 1 ? x : CGRAPH_NOT(x);
+  return DATA_ISBOOL(x) ? CGRAPH_NOT(x) : CGRAPH_LX;
 #else
   return CGRAPH_NOT(x);
 #endif
@@ -178,7 +174,7 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, not )(const UTYPE x) {
 
 CGRAPH_INLINE UTYPE FUNCTION(NAME, xor)(const UTYPE x, const UTYPE y) {
 #ifdef TYPE_LOGIC
-  return x > 1 ? x : (y > 1 ? y : CGRAPH_XOR(x, y));
+  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_XOR(x, y) : CGRAPH_LX;
 #else
   return CGRAPH_XOR(x, y);
 #endif
@@ -186,7 +182,7 @@ CGRAPH_INLINE UTYPE FUNCTION(NAME, xor)(const UTYPE x, const UTYPE y) {
 
 CGRAPH_INLINE UTYPE FUNCTION(NAME, xnor)(const UTYPE x, const UTYPE y) {
 #ifdef TYPE_LOGIC
-  return x > 1 ? x : (y > 1 ? y : CGRAPH_XNOR(x, y));
+  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_XNOR(x, y) : CGRAPH_LX;
 #else
   return CGRAPH_XNOR(x, y);
 #endif

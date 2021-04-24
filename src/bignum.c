@@ -11,11 +11,7 @@
 /** template module */
 #include "template_data.ct"
 
-cgraph_size_t FUNCTION(NAME, printf)(const TYPE *cthis) {
-  return FUNCTION(NAME, fprintf)(stdout, cthis);
-}
-
-cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t i;
@@ -36,9 +32,9 @@ cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                       const cgraph_size_t size,
-                                       const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE *cthis) {
   cgraph_size_t _size = size, len = 0;
   if ((NULL != buffer) && (0 < _size) && (NULL != cthis)) {
     cgraph_size_t i;
@@ -216,25 +212,23 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
     cgraph_size_t floatx_len = x->point, intx_len = x->len - x->point - 1,
                   floaty_len = y->point, inty_len = y->len - y->point - 1;
-    cgraph_size_t float_min = CGRAPH_MIN(floatx_len, floaty_len),
-                  int_min = CGRAPH_MIN(intx_len, inty_len), i,
-                  floatx_start = floatx_len - float_min,
-                  floaty_start = floaty_len - float_min;
+    cgraph_size_t float_max = CGRAPH_MAX(floatx_len, floaty_len),
+                  int_min = CGRAPH_MIN(intx_len, inty_len), i;
     DATA_TYPE carry;
     DATA_TYPE *floatx = &(x->data[0]), *intx = &(x->data[x->point + 1]),
               *floaty = &(y->data[0]), *inty = &(y->data[y->point + 1]),
               *zd = &(z->data[0]);
-    z->len =
-        CGRAPH_MAX(floatx_len, floaty_len) + 1 + CGRAPH_MAX(intx_len, inty_len);
+    z->len = float_max + 1 + CGRAPH_MAX(intx_len, inty_len);
+    z->point = float_max;
     if (x->postive == y->postive) {
       z->postive = x->postive;
-      for (i = 0; i < floatx_start; i++, zd++, floatx++) {
+      for (i = float_max; i > floaty_len; i--, zd++, floatx++) {
         *zd = *floatx;
       }
-      for (i = 0; i < floaty_start; i++, zd++, floaty++) {
+      for (; i > floatx_len; i--, zd++, floaty++) {
         *zd = *floaty;
       }
-      for (i = 0, carry = 0; i < float_min; i++, zd++, floatx++, floaty++) {
+      for (carry = 0; i > 0; i--, zd++, floatx++, floaty++) {
         *zd = *floatx - '0' + *floaty + carry;
         if (*zd > '9') {
           carry = 1;
@@ -243,9 +237,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
           carry = 0;
         }
       }
-      *zd = '.';
-      zd++;
-      for (i = 0; i < int_min; i++, intx++, inty++, zd++) {
+      for (*(zd++) = '.', i = 0; i < int_min; i++, intx++, inty++, zd++) {
         *zd = *intx - '0' + *inty + carry;
         if (*zd > '9') {
           carry = 1;

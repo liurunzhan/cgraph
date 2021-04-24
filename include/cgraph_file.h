@@ -24,12 +24,13 @@ extern cgraph_int_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
                                      const cgraph_size_t size);
 extern cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
                                       const cgraph_size_t size);
+extern cgraph_int_t cgraph_file_printnl(FILE *fp);
 extern cgraph_int_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format,
                                         ...);
 extern cgraph_int_t cgraph_file_printf(const cgraph_char_t *format, ...);
-extern cgraph_int_t cgraph_file_fprintln(FILE *fp, const cgraph_char_t *format,
-                                         ...);
-extern cgraph_int_t cgraph_file_println(const cgraph_char_t *format, ...);
+extern cgraph_int_t cgraph_file_fprintfln(FILE *fp, const cgraph_char_t *format,
+                                          ...);
+extern cgraph_int_t cgraph_file_printfln(const cgraph_char_t *format, ...);
 extern cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
                                          const cgraph_size_t size,
                                          const cgraph_char_t *format, ...);
@@ -40,18 +41,23 @@ extern cgraph_size_t cgraph_file_fgetc(FILE *fp, cgraph_char_t *buffer,
                                        const cgraph_size_t size);
 extern cgraph_size_t cgraph_file_fgets(FILE *fp, cgraph_char_t *buffer,
                                        const cgraph_size_t size);
-extern cgraph_size_t cgraph_file_line(FILE *fp, cgraph_char_t *buffer,
-                                      const cgraph_size_t size,
-                                      const cgraph_size_t line);
+extern cgraph_size_t cgraph_file_row(FILE *fp, cgraph_char_t *buffer,
+                                     const cgraph_size_t size,
+                                     const cgraph_size_t line);
 extern cgraph_size_t cgraph_file_header(FILE *fp, cgraph_char_t *buffer,
                                         const cgraph_size_t size);
+extern cgraph_size_t cgraph_file_row(FILE *fp, cgraph_char_t *buffer,
+                                     const cgraph_size_t size,
+                                     const cgraph_size_t row);
 extern cgraph_size_t cgraph_file_rows(FILE *fp);
 extern cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep,
                                          cgraph_char_t *buffer,
                                          const cgraph_size_t size);
+extern cgraph_int64_t cgraph_file_bytes(FILE *fp);
 
-extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **sep,
-                           cgraph_char_t **end, cgraph_bool_t *isbigendian);
+extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
+                           cgraph_char_t **file_end,
+                           cgraph_bool_t *isbigendian);
 
 #ifdef __cplusplus
 }

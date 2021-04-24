@@ -431,6 +431,35 @@ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *cthis) {
 #endif
 
 #ifdef TYPE_WITH_DATA
+cgraph_size_t FUNCTION(NAME, print)(const TYPE *cthis) {
+#else
+cgraph_size_t FUNCTION(NAME, print)(const TYPE cthis) {
+#endif
+  return FUNCTION(NAME, fprint)(stdout, cthis);
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_size_t FUNCTION(NAME, println)(const TYPE *cthis) {
+#else
+cgraph_size_t FUNCTION(NAME, println)(const TYPE cthis) {
+#endif
+  return FUNCTION(NAME, fprintln)(stdout, cthis);
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE *cthis) {
+#else
+cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE cthis) {
+#endif
+  cgraph_size_t len = FUNCTION(NAME, fprint)(fp, cthis);
+  if (len > 0) {
+    len += cgraph_file_printnl(fp);
+  }
+
+  return len;
+}
+
+#ifdef TYPE_WITH_DATA
 TYPE *FUNCTION(NAME, index)(const TYPE **cthis, const cgraph_size_t len,
                             const cgraph_size_t index) {
   TYPE *res = NULL;

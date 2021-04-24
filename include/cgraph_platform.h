@@ -35,11 +35,12 @@ typedef enum {
   CGRAPH_PLAT_UNDEFINED = 5 /**< TYPE 5 : CGRAPH_PLAT_UNDEFINED */
 } cgraph_plat_t;
 
-typedef enum {
-  CGRAPH_PLAT_FEND_UNIX = 0,  /**< TYPE 0 : '\n' */
-  CGRAPH_PLAT_FEND_MACOS = 1, /**< TYPE 1 : '\r' */
-  CGRAPH_PLAT_FEND_WIN = 2    /**< TYPE 2 : '\r\n' */
-} cgraph_plat_fend_t;
+/**< TYPE 0 : '\n' */
+#define CGRAPH_PLAT_FEND_UNIX (0)
+/**< TYPE 1 : '\r' */
+#define CGRAPH_PLAT_FEND_MACOS (1)
+/**< TYPE 2 : '\r\n' */
+#define CGRAPH_PLAT_FEND_WIN (2)
 
 #define CGRAPH_PLAT_FEND_TYPE0 '\n'
 #define CGRAPH_PLAT_FEND_TYPE1 '\r'
@@ -60,6 +61,8 @@ typedef enum {
 #define CGRAPH_PLAT_PSPLIT_C '\\'
 #define CGRAPH_PLAT_NLINE "\r\n"
 #define CGRAPH_PLAT_NLINE_C CGRAPH_PLAT_FEND_TYPE0
+#define CGRAPH_PLAT_NLINE_C0 CGRAPH_PLAT_FEND_TYPE1
+#define CGRAPH_PLAT_NLINE_C1 CGRAPH_PLAT_FEND_TYPE0
 #define __CGRAPH_PLAT_WINDOWS
 #define CGRAPH_PLAT_FEND CGRAPH_PLAT_FEND_WIN
 #elif defined(__APPLE__)
@@ -319,20 +322,28 @@ typedef unsigned __int64 __cgraph_uint64;
 
 #define __CGRAPH_INT8_EPS __CGRAPH_INT8_MIN
 #define __CGRAPH_INT8_BITS (8)
+#define __CGRAPH_INT8_BITS_LOG2 (3)
 #define __CGRAPH_UINT8_EPS __CGRAPH_UINT8_MAX
 #define __CGRAPH_UINT8_BITS (8)
+#define __CGRAPH_UINT8_BITS_LOG2 (3)
 #define __CGRAPH_INT16_EPS __CGRAPH_INT16_MIN
 #define __CGRAPH_INT16_BITS (16)
+#define __CGRAPH_INT16_BITS_LOG2 (4)
 #define __CGRAPH_UINT16_EPS __CGRAPH_UINT16_MAX
 #define __CGRAPH_UINT16_BITS (16)
+#define __CGRAPH_UINT16_BITS_LOG2 (4)
 #define __CGRAPH_INT32_EPS __CGRAPH_INT32_MIN
 #define __CGRAPH_INT32_BITS (32)
+#define __CGRAPH_INT32_BITS_LOG2 (5)
 #define __CGRAPH_UINT32_EPS __CGRAPH_UINT32_MAX
 #define __CGRAPH_UINT32_BITS (32)
+#define __CGRAPH_UINT32_BITS_LOG2 (5)
 #define __CGRAPH_INT64_EPS __CGRAPH_INT64_MIN
 #define __CGRAPH_INT64_BITS (64)
+#define __CGRAPH_INT64_BITS_LOG (6)
 #define __CGRAPH_UINT64_EPS __CGRAPH_UINT64_MAX
 #define __CGRAPH_UINT64_BITS (64)
+#define __CGRAPH_UINT64_BITS_LOG (6)
 
 /**< 128-bit float number details */
 #if CGRAPH_STDC_VERSION >= 199901L || defined(__CGRAPH_HAVE_LONG_DOUBLE)

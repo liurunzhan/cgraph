@@ -276,6 +276,10 @@
 #undef BITS
 #endif
 
+#ifdef BITS_LOG2
+#undef BITS_LOG2
+#endif
+
 #ifdef MIN
 #undef MIN
 #endif
@@ -336,6 +340,10 @@
 
 #ifdef DATA_BITS
 #undef DATA_BITS
+#endif
+
+#ifdef DATA_BITS_LOG2
+#undef DATA_BITS_LOG2
 #endif
 
 #ifdef DATA_MAX

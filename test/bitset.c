@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   bitset1->data[1] = 0x20;
   bitset1->data[2] = 0x20;
   bitset1->len = 3;
-  FUNCTION(NAME, fprintf)(stdout, bitset1);
+  FUNCTION(NAME, fprint)(stdout, bitset1);
 
   FUNCTION(NAME, free)(bitset1);
   FUNCTION(NAME, free)(bitset2);

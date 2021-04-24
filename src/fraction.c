@@ -9,18 +9,15 @@
 /** template module */
 #include "template_data.ct"
 
-cgraph_size_t FUNCTION(NAME, printf)(const TYPE x) {
-  return fprintf(stdout, OUT_FORMAT, FRACTION_NUM(x), FRACTION_DEN(x));
+cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
+  return fprintf(fp, OUT_FORMAT, FRACTION_NUM(cthis), FRACTION_DEN(cthis));
 }
 
-cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x) {
-  return fprintf(fp, OUT_FORMAT, FRACTION_NUM(x), FRACTION_DEN(x));
-}
-
-cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                       const cgraph_size_t size, const TYPE x) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, FRACTION_NUM(x),
-                              FRACTION_DEN(x));
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE cthis) {
+  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, FRACTION_NUM(cthis),
+                              FRACTION_DEN(cthis));
 }
 
 /**                               public apis */

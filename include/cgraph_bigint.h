@@ -36,13 +36,12 @@ extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
 extern TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data);
 extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len);
-extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
-
 extern TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapword)(TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
 
 #include "cgraph_template_off.h"
 

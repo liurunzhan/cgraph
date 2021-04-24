@@ -1,7 +1,6 @@
 #include "cgraph_base.h"
-#include "cgraph_int8.h"
-
 #include "cgraph_bigint.h"
+#include "cgraph_int8.h"
 
 #define TYPE_BIGINT
 #include "cgraph_template.h"
@@ -19,16 +18,12 @@ CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
   return CGRAPH_FILE_BUFFER_SIZE;
 }
 
-cgraph_size_t FUNCTION(NAME, printf)(const TYPE *cthis) {
-  return FUNCTION(NAME, fprintf)(stdout, cthis);
-}
-
-cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t size = cthis->len * 3 + 1;
     if (size <= CGRAPH_FILE_BUFFER_SIZE) {
-      len = FUNCTION(NAME, snprintf)(__bigint_buffer__, size, cthis);
+      len = FUNCTION(NAME, snprint)(__bigint_buffer__, size, cthis);
       cgraph_file_rputc(fp, __bigint_buffer__, len);
     }
 #ifdef DEBUG
@@ -42,9 +37,9 @@ cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                       const cgraph_size_t size,
-                                       const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size;
   if ((NULL != buffer) && (0 < _size) && (NULL != cthis)) {
     TYPE *copy = FUNCTION(NAME, copy)(cthis, cthis->len);
@@ -56,7 +51,7 @@ cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
       }
       while ((0 <= start) && (len < _size)) {
         for (res = 0, i = start; i >= 0; i--) {
-          num = copy->data[i] + res * (DATA_MAX + 1);
+          num = copy->data[i] + (res << DATA_BITS);
           res = num % 10;
           copy->data[i] = num / 10;
         }
@@ -100,8 +95,8 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
     while ((start < len) && (cthis->len < cthis->size)) {
       for (res = 0, i = start; i < len; i++) {
         num = buffer[i] + res * 10;
-        res = num % (DATA_MAX + 1);
-        buffer[i] = num / (DATA_MAX + 1);
+        res = num & DATA_MAX;
+        buffer[i] = num >> DATA_BITS;
       }
       cthis->data[cthis->len++] = res;
       while (0 == buffer[start]) {
@@ -206,7 +201,6 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
         }
       } else {
         DATA_TYPE *_xd = xd, *_yd = yd;
-        size--;
         if ((x->len < y->len) ||
             ((x->len == y->len) &&
              (x->data[x->len - 1] < y->data[y->len - 1]))) {
@@ -228,15 +222,13 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
         } else {
           z->postive = x->postive;
         }
-        for (; i < size; i++, _xd++, zd++) {
+        for (size--; i < size; i++, _xd++, zd++) {
           *zd = *_xd - carry;
           carry = ((*zd < *_xd) ? 1 : 0);
         }
         z->len = i;
-        zd--;
-        while (0 == *zd) {
-          zd--;
-          z->len--;
+        while (0 == *(--zd)) {
+          z->len -= 1;
         }
       }
     }
@@ -268,12 +260,12 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
         for (j = 0, yd = &(y->data[0]), zd = &(z->data[i]); j < y->len;
              j++, yd++, zd++) {
           tmp = *zd + (*xd) * (*yd) + carry;
-          *zd = tmp % (DATA_MAX + 1);
-          carry = tmp / (DATA_MAX + 1);
+          *zd = tmp & DATA_MAX;
+          carry = tmp >> DATA_BITS;
         }
         for (; 0 != carry; zd++) {
-          *zd = carry % (DATA_MAX + 1);
-          carry /= (DATA_MAX + 1);
+          *zd = carry & DATA_MAX;
+          carry = carry >> DATA_BITS;
         }
       }
     }
@@ -411,32 +403,18 @@ TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len) {
   return FUNCTION(NAME, unit)(cthis, len);
 }
 
-cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis) {
-  cgraph_size_t cnt = 0;
-  if (NULL != cthis) {
-    cgraph_size_t i;
-    for (i = 0; i < cthis->len; i++) {
-      cnt += cgraph_int8_cntones(cthis->data[i]);
-    }
-  }
-
-  return cnt;
-}
-
-cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis) {
-  cgraph_size_t cnt = 0;
-  if (NULL != cthis) {
-    cgraph_size_t i;
-    for (i = 0; i < cthis->len; i++) {
-      cnt += cgraph_int8_cntzeros(cthis->data[i]);
-    }
-  }
-
-  return cnt;
-}
-
 TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis) {
   if (NULL != cthis) {
+    cgraph_size_t i, j;
+    DATA_TYPE byte;
+    for (i = 0, j = cthis->len - 1; i < j; i++, j--) {
+      byte = cthis->data[i];
+      cthis->data[i] = cgraph_int8_swapbit(cthis->data[j]);
+      cthis->data[j] = cgraph_int8_swapbit(byte);
+    }
+    if (i == j) {
+      cthis->data[i] = cgraph_int8_swapbit(cthis->data[i]);
+    }
   }
 
   return cthis;
@@ -477,6 +455,30 @@ TYPE *FUNCTION(NAME, swapword)(TYPE *cthis) {
   }
 
   return cthis;
+}
+
+cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis) {
+  cgraph_size_t cnt = 0;
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < cthis->len; i++) {
+      cnt += cgraph_int8_cntones(cthis->data[i]);
+    }
+  }
+
+  return cnt;
+}
+
+cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis) {
+  cgraph_size_t cnt = 0;
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    for (i = 0; i < cthis->len; i++) {
+      cnt += cgraph_int8_cntzeros(cthis->data[i]);
+    }
+  }
+
+  return cnt;
 }
 
 TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {

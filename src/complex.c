@@ -10,18 +10,15 @@
 /** template module */
 #include "template_data.ct"
 
-cgraph_size_t FUNCTION(NAME, printf)(const TYPE x) {
-  return FUNCTION(NAME, fprintf)(stdout, x);
+cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
+  return fprintf(fp, OUT_FORMAT, COMPLEX_REAL(cthis), COMPLEX_IMAG(cthis));
 }
 
-cgraph_size_t FUNCTION(NAME, fprintf)(FILE *fp, const TYPE x) {
-  return fprintf(fp, OUT_FORMAT, COMPLEX_REAL(x), COMPLEX_IMAG(x));
-}
-
-cgraph_size_t FUNCTION(NAME, snprintf)(cgraph_char_t *buffer,
-                                       const cgraph_size_t size, const TYPE x) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, COMPLEX_REAL(x),
-                              COMPLEX_IMAG(x));
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+                                      const cgraph_size_t size,
+                                      const TYPE cthis) {
+  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, COMPLEX_REAL(cthis),
+                              COMPLEX_IMAG(cthis));
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
