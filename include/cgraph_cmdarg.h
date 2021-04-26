@@ -24,9 +24,10 @@ typedef struct {
   cgraph_string_t **args;
 } cgraph_cmdarg_t;
 
-int cgraph_cmdarg_lenofargs(int argc);
-char *cgraph_cmdarg_nameofpro(char *argv[]);
-cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]);
+extern int cgraph_cmdarg_lenofargs(int argc);
+extern char *cgraph_cmdarg_nameofpro(char *argv[]);
+extern cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]);
+extern void cgraph_cmdarg_free(cgraph_cmdarg_t *cthis);
 
 #ifdef __cplusplus
 }

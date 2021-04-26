@@ -64,13 +64,13 @@ typedef struct {
 
 /** apis of TYPE 0 in cgraph_time_t */
 extern cgraph_size_t FUNCTION(NAME, hash0)(const TYPE cthis);
-extern cgraph_int_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, print0)(const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, println0)(const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, snprint0)(cgraph_char_t *buffer,
-                                             const cgraph_size_t size,
-                                             const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, print0)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, println0)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE x);
 
 extern TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1);
 
@@ -106,13 +106,13 @@ extern TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y);
 
 /** apis of TYPE 1 in cgraph_time_t */
 extern cgraph_size_t FUNCTION(NAME, hash1)(const TYPE cthis);
-extern cgraph_int_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, print1)(const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, println1)(const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, snprint1)(cgraph_char_t *buffer,
-                                             const cgraph_size_t size,
-                                             const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, print1)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, println1)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE x);
 extern TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
                                   const DATA_TYPE day, const DATA_TYPE hour,
                                   const DATA_TYPE minute,

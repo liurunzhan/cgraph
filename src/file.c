@@ -31,18 +31,18 @@
 #define vsprintf vsprintf
 #define vsnprintf vsnprintf
 #else
-#define __NO_VSNPRINTF
 #if defined(__GNUC__) || defined(__clang__)
 #define fprintf __extension__ fprintf
 #define vfprintf __extension__ vfprintf
 #define vsprintf __extension__ vsprintf
-#define vsnprintf __extension__ vsprintf
+#define vsnprintf __extension__ vsnprintf
 #elif defined(_MSC_VER)
 #define fprintf fprintf
 #define vfprintf vfprintf
 #define vsprintf _vsprintf
-#define vsnprintf _vsprintf
+#define vsnprintf _vsnprintf
 #else
+#define __NO_VSNPRINTF
 #define fprintf fprintf
 #define vfprintf vfprintf
 #define vsprintf vsprintf
@@ -51,8 +51,8 @@
 #endif
 
 /** output functions */
-cgraph_int_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
-                              const cgraph_size_t size) {
+cgraph_size_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
+                               const cgraph_size_t size) {
   if ((NULL != buffer) && (0 < size)) {
     cgraph_size_t i;
     cgraph_char_t *data = (cgraph_char_t *)buffer;
@@ -63,8 +63,8 @@ cgraph_int_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
   return size;
 }
 
-cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
-                               const cgraph_size_t size) {
+cgraph_size_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
+                                const cgraph_size_t size) {
   if ((NULL != buffer) && (0 < size)) {
     cgraph_size_t i;
     cgraph_char_t *data = (cgraph_char_t *)&buffer[size - 1];
@@ -75,7 +75,7 @@ cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
   return size;
 }
 
-__INLINE cgraph_int_t cgraph_file_printnl(FILE *fp) {
+__INLINE cgraph_size_t cgraph_file_fprintnl(FILE *fp) {
 #if __PLAT_FEND < __PLAT_FEND_WIN
   fputc(__PLAT_NLINE_C, fp);
   return 1;
@@ -86,13 +86,15 @@ __INLINE cgraph_int_t cgraph_file_printnl(FILE *fp) {
 #endif
 }
 
-cgraph_int_t cgraph_file_vfprintf(FILE *fp, const cgraph_char_t *format,
-                                  va_list args) {
+cgraph_size_t cgraph_file_printnl(void) { return cgraph_file_fprintnl(stdout); }
+
+cgraph_size_t cgraph_file_vfprintf(FILE *fp, const cgraph_char_t *format,
+                                   va_list args) {
   return vfprintf(fp, format, args);
 }
 
-cgraph_int_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format, ...) {
-  cgraph_int_t _size = 0;
+cgraph_size_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format, ...) {
+  cgraph_size_t _size = 0;
   va_list args;
   va_start(args, format);
   _size = vfprintf(fp, format, args);
@@ -101,8 +103,8 @@ cgraph_int_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format, ...) {
   return _size;
 }
 
-cgraph_int_t cgraph_file_printf(const cgraph_char_t *format, ...) {
-  cgraph_int_t _size = 0;
+cgraph_size_t cgraph_file_printf(const cgraph_char_t *format, ...) {
+  cgraph_size_t _size = 0;
   va_list args;
   va_start(args, format);
   _size = vfprintf(stdout, format, args);
@@ -111,35 +113,36 @@ cgraph_int_t cgraph_file_printf(const cgraph_char_t *format, ...) {
   return _size;
 }
 
-cgraph_int_t cgraph_file_fprintfln(FILE *fp, const cgraph_char_t *format, ...) {
-  cgraph_int_t _size = 0;
+cgraph_size_t cgraph_file_fprintfln(FILE *fp, const cgraph_char_t *format,
+                                    ...) {
+  cgraph_size_t _size = 0;
   va_list args;
   va_start(args, format);
   _size = vfprintf(fp, format, args);
   va_end(args);
   if (_size > 0) {
-    _size += cgraph_file_printnl(fp);
+    _size += cgraph_file_fprintnl(fp);
   }
 
   return _size;
 }
 
-cgraph_int_t cgraph_file_printfln(const cgraph_char_t *format, ...) {
-  cgraph_int_t _size = 0;
+cgraph_size_t cgraph_file_printfln(const cgraph_char_t *format, ...) {
+  cgraph_size_t _size = 0;
   va_list args;
   va_start(args, format);
   _size = vfprintf(stdout, format, args);
   va_end(args);
   if (_size > 0) {
-    _size += cgraph_file_printnl(stdout);
+    _size += cgraph_file_fprintnl(stdout);
   }
 
   return _size;
 }
 
-cgraph_int_t cgraph_file_vsnprintf(cgraph_char_t *buffer,
-                                   const cgraph_size_t size,
-                                   const cgraph_char_t *format, va_list args) {
+cgraph_size_t cgraph_file_vsnprintf(cgraph_char_t *buffer,
+                                    const cgraph_size_t size,
+                                    const cgraph_char_t *format, va_list args) {
 #if defined(DEBUG) && defined(__NO_VSNPRINTF)
   if (BUFSIZ < size) {
     fprintf(stderr,
@@ -155,10 +158,10 @@ cgraph_int_t cgraph_file_vsnprintf(cgraph_char_t *buffer,
                    format, args);
 }
 
-cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
-                                  const cgraph_size_t size,
-                                  const cgraph_char_t *format, ...) {
-  cgraph_int_t _size = 0;
+cgraph_size_t cgraph_file_snprintf(cgraph_char_t *buffer,
+                                   const cgraph_size_t size,
+                                   const cgraph_char_t *format, ...) {
+  cgraph_size_t _size = 0;
   if ((NULL != buffer) && (0 < size)) {
     va_list args;
     va_start(args, format);
@@ -377,7 +380,7 @@ cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep,
 cgraph_int64_t cgraph_file_bytes(FILE *fp) {
   cgraph_int64_t len = 0;
   if ((NULL != fp) && (0 == ferror(fp))) {
-#if WORD_SIZE == 32
+#if __WORDSIZE == 32
     fpos_t pos_init, pos_end;
     fgetops(fp, &pos_init);
     fseek(fp, 0, SEEK_END);

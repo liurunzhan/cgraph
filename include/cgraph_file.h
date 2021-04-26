@@ -20,26 +20,27 @@ extern "C" {
 
 #define CGRAPH_FILE_BUFFER_SIZE (4096L)
 
-extern cgraph_int_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
-                                     const cgraph_size_t size);
-extern cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
+extern cgraph_size_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
                                       const cgraph_size_t size);
-extern cgraph_int_t cgraph_file_printnl(FILE *fp);
-extern cgraph_int_t cgraph_file_vfprintf(FILE *fp, const cgraph_char_t *format,
-                                         va_list args);
-extern cgraph_int_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format,
-                                        ...);
-extern cgraph_int_t cgraph_file_printf(const cgraph_char_t *format, ...);
-extern cgraph_int_t cgraph_file_fprintfln(FILE *fp, const cgraph_char_t *format,
-                                          ...);
-extern cgraph_int_t cgraph_file_printfln(const cgraph_char_t *format, ...);
-extern cgraph_int_t cgraph_file_vsnprintf(cgraph_char_t *buffer,
-                                          const cgraph_size_t size,
-                                          const cgraph_char_t *format,
+extern cgraph_size_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
+                                       const cgraph_size_t size);
+extern cgraph_size_t cgraph_file_fprintnl(FILE *fp);
+extern cgraph_size_t cgraph_file_printnl(void);
+extern cgraph_size_t cgraph_file_vfprintf(FILE *fp, const cgraph_char_t *format,
                                           va_list args);
-extern cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
-                                         const cgraph_size_t size,
-                                         const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format,
+                                         ...);
+extern cgraph_size_t cgraph_file_printf(const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_file_fprintfln(FILE *fp,
+                                           const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_file_printfln(const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_file_vsnprintf(cgraph_char_t *buffer,
+                                           const cgraph_size_t size,
+                                           const cgraph_char_t *format,
+                                           va_list args);
+extern cgraph_size_t cgraph_file_snprintf(cgraph_char_t *buffer,
+                                          const cgraph_size_t size,
+                                          const cgraph_char_t *format, ...);
 
 extern FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode);
 extern cgraph_bool_t cgraph_file_fclose(FILE *fp);

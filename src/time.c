@@ -178,30 +178,30 @@ cgraph_size_t FUNCTION(NAME, hash0)(const TYPE cthis) {
   return CGRAPH_ABS(hash);
 }
 
-cgraph_int_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE cthis) {
   return fprintf(fp, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
 }
 
-cgraph_int_t FUNCTION(NAME, print0)(const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, print0)(const TYPE cthis) {
   return FUNCTION(NAME, fprint0)(stdout, cthis);
 }
 
-cgraph_int_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE cthis) {
-  cgraph_int_t len = FUNCTION(NAME, fprint0)(fp, cthis);
+cgraph_size_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE cthis) {
+  cgraph_size_t len = FUNCTION(NAME, fprint0)(fp, cthis);
   if (0 < len) {
-    len += cgraph_file_printnl(fp);
+    len += cgraph_file_fprintnl(fp);
   }
 
   return len;
 }
 
-cgraph_int_t FUNCTION(NAME, println0)(const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, println0)(const TYPE cthis) {
   return FUNCTION(NAME, fprintln0)(stdout, cthis);
 }
 
-cgraph_int_t FUNCTION(NAME, snprint0)(cgraph_char_t *buffer,
-                                      const cgraph_size_t size,
-                                      const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE cthis) {
   return cgraph_file_snprintf(buffer, size, OUT_FORMAT0, TIME_VALUE1(cthis),
                               TIME_VALUE0(cthis));
 }
@@ -500,32 +500,32 @@ cgraph_size_t FUNCTION(NAME, hash1)(const TYPE cthis) {
   return CGRAPH_ABS(hash);
 }
 
-cgraph_int_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE cthis) {
   return fprintf(fp, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
                  TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
                  TIME_SECOND(cthis));
 }
 
-cgraph_int_t FUNCTION(NAME, print1)(const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, print1)(const TYPE cthis) {
   return FUNCTION(NAME, fprint1)(stdout, cthis);
 }
 
-cgraph_int_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE cthis) {
-  cgraph_int_t len = FUNCTION(NAME, fprint1)(fp, cthis);
+cgraph_size_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE cthis) {
+  cgraph_size_t len = FUNCTION(NAME, fprint1)(fp, cthis);
   if (0 < len) {
-    len += cgraph_file_printnl(fp);
+    len += cgraph_file_fprintnl(fp);
   }
 
   return len;
 }
 
-cgraph_int_t FUNCTION(NAME, println1)(const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, println1)(const TYPE cthis) {
   return FUNCTION(NAME, fprintln1)(stdout, cthis);
 }
 
-cgraph_int_t FUNCTION(NAME, snprint1)(cgraph_char_t *buffer,
-                                      const cgraph_size_t size,
-                                      const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE cthis) {
   return cgraph_file_snprintf(buffer, size, OUT_FORMAT1, TIME_YEAR(cthis),
                               TIME_MONTH(cthis), TIME_DAY(cthis),
                               TIME_HOUR(cthis), TIME_MINUTE(cthis),
