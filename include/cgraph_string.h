@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_STRING_H_
-#define _CGRAPH_STRING_H_
+#ifndef __CGRAPH_STRING_H__
+#define __CGRAPH_STRING_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,6 +50,9 @@ extern cgraph_bool_t FUNCTION(NAME, isupper)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
 
+extern TYPE *FUNCTION(NAME, tolower)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, toupper)(TYPE *cthis);
+
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,
                                   TYPE *z);
 
@@ -59,4 +62,4 @@ extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,
 }
 #endif
 
-#endif /** _CGRAPH_STRING_H_ */
+#endif /** __CGRAPH_STRING_H__ */

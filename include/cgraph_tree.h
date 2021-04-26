@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_TREE_H_
-#define _CGRAPH_TREE_H_
+#ifndef __CGRAPH_TREE_H__
+#define __CGRAPH_TREE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,4 +37,4 @@ typedef struct {
 }
 #endif
 
-#endif /** _CGRAPH_TREE_H_ */
+#endif /** __CGRAPH_TREE_H__ */

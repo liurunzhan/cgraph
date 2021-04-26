@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_FRACTION_H_
-#define _CGRAPH_FRACTION_H_
+#ifndef __CGRAPH_FRACTION_H__
+#define __CGRAPH_FRACTION_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,4 +64,4 @@ extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
 }
 #endif
 
-#endif /** _CGRAPH_FRACTION_H_ */
+#endif /** __CGRAPH_FRACTION_H__ */

@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_MATRIX_H_
-#define _CGRAPH_MATRIX_H_
+#ifndef __CGRAPH_MATRIX_H__
+#define __CGRAPH_MATRIX_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,4 +36,4 @@ typedef struct {
 }
 #endif
 
-#endif /** _CGRAPH_MATRIX_H_ */
+#endif /** __CGRAPH_MATRIX_H__ */

@@ -8,7 +8,7 @@
 /** template module */
 #include "template_object.ct"
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, ksetaccess)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, ksetaccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_TRUE;
     CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_TRUE;
@@ -17,7 +17,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, ksetaccess)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, unksetaccess)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, unksetaccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_KACCESS(cthis) = CGRAPH_FALSE;
     CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_FALSE;
@@ -26,7 +26,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unksetaccess)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, khashed)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, khashed)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_KHASHED(cthis) = CGRAPH_TRUE;
   }
@@ -34,7 +34,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, khashed)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_KHASHED(cthis) = CGRAPH_FALSE;
   }
@@ -42,7 +42,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, vsetaccess)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, vsetaccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_TRUE;
   }
@@ -50,7 +50,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, vsetaccess)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, unvsetaccess)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, unvsetaccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_VACCESS(cthis) = CGRAPH_FALSE;
   }
@@ -58,7 +58,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, unvsetaccess)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, vhashed)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, vhashed)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_VHASHED(cthis) = CGRAPH_TRUE;
   }
@@ -66,7 +66,7 @@ CGRAPH_INLINE TYPE *FUNCTION(NAME, vhashed)(TYPE *cthis) {
   return cthis;
 }
 
-CGRAPH_INLINE TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis) {
+__INLINE TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_VHASHED(cthis) = CGRAPH_FALSE;
   }

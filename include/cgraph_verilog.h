@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_VERILOG_H_
-#define _CGRAPH_VERILOG_H_
+#ifndef __CGRAPH_VERILOG_H__
+#define __CGRAPH_VERILOG_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,4 +40,4 @@ extern void cgraph_verilog_tbench(FILE *fp, const cgraph_size_t delay_time);
 }
 #endif
 
-#endif /** _CGRAPH_VERILOG_H_ */
+#endif /** __CGRAPH_VERILOG_H__ */

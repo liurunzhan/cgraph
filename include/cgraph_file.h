@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_FILE_H_
-#define _CGRAPH_FILE_H_
+#ifndef __CGRAPH_FILE_H__
+#define __CGRAPH_FILE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,12 +25,18 @@ extern cgraph_int_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
 extern cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
                                       const cgraph_size_t size);
 extern cgraph_int_t cgraph_file_printnl(FILE *fp);
+extern cgraph_int_t cgraph_file_vfprintf(FILE *fp, const cgraph_char_t *format,
+                                         va_list args);
 extern cgraph_int_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format,
                                         ...);
 extern cgraph_int_t cgraph_file_printf(const cgraph_char_t *format, ...);
 extern cgraph_int_t cgraph_file_fprintfln(FILE *fp, const cgraph_char_t *format,
                                           ...);
 extern cgraph_int_t cgraph_file_printfln(const cgraph_char_t *format, ...);
+extern cgraph_int_t cgraph_file_vsnprintf(cgraph_char_t *buffer,
+                                          const cgraph_size_t size,
+                                          const cgraph_char_t *format,
+                                          va_list args);
 extern cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
                                          const cgraph_size_t size,
                                          const cgraph_char_t *format, ...);
@@ -63,4 +69,4 @@ extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
 }
 #endif
 
-#endif /** _CGRAPH_FILE_H_ */
+#endif /** __CGRAPH_FILE_H__ */

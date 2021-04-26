@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_BIGINT_H_
-#define _CGRAPH_BIGINT_H_
+#ifndef __CGRAPH_BIGINT_H__
+#define __CGRAPH_BIGINT_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,4 +49,4 @@ extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
 }
 #endif
 
-#endif /** _CGRAPH_BIGINT_H_ */
+#endif /** __CGRAPH_BIGINT_H__ */

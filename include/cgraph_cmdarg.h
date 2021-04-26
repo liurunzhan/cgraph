@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_CMDARG_H_
-#define _CGRAPH_CMDARG_H_
+#ifndef __CGRAPH_CMDARG_H__
+#define __CGRAPH_CMDARG_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,4 +32,4 @@ cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]);
 }
 #endif
 
-#endif /** _CGRAPH_CMDARG_H_ */
+#endif /** __CGRAPH_CMDARG_H__ */

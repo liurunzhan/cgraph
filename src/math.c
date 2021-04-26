@@ -2,56 +2,56 @@
 
 #include "cgraph_math.h"
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data) {
   return CGRAPH_TEST(isalnum(data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data) {
   return CGRAPH_TEST(isalpha(data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
-#if CGRAPH_STDC_VERSION >= 199901L
+__INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
+#if __STDC_VERSION__ >= 199901L
   return CGRAPH_TEST(isblank(data));
 #else
   return CGRAPH_TEST((' ' == data) || ('\t' == data));
 #endif
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
   return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {
   return CGRAPH_TEST(islower(data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data) {
   return CGRAPH_TEST(isprint(data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data) {
   return CGRAPH_TEST(isupper(data));
 }
 
-CGRAPH_INLINE cgraph_char_t cgraph_math_toupper(const cgraph_char_t data) {
+__INLINE cgraph_char_t cgraph_math_toupper(const cgraph_char_t data) {
   return toupper(data);
 }
 
-CGRAPH_INLINE cgraph_char_t cgraph_math_tolower(const cgraph_char_t data) {
+__INLINE cgraph_char_t cgraph_math_tolower(const cgraph_char_t data) {
   return tolower(data);
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
-  return CGRAPH_TEST(CGRAPH_PLAT_PSPLIT_C == data);
+__INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
+  return CGRAPH_TEST(__PLAT_PSPLIT_C == data);
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data) {
-  return CGRAPH_TEST(CGRAPH_PLAT_NLINE_C == data);
+__INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data) {
+  return CGRAPH_TEST(__PLAT_NLINE_C == data);
 }
 
 cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
@@ -98,11 +98,11 @@ cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data) {
   return flag;
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
   return CGRAPH_TEST(isdigit(data));
 }
 
-CGRAPH_INLINE cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data) {
   return CGRAPH_TEST(isxdigit(data));
 }
 
@@ -373,8 +373,7 @@ void cgraph_random64_seed(const cgraph_int64_t seed) {
   X(0) = 1
 */
 cgraph_int64_t cgraph_random64(void) {
-  const cgraph_int64_t a = __CGRAPH_RANDOM64_A, b = __CGRAPH_RANDOM64_B,
-                       m = __CGRAPH_RANDOM64_M;
+  const cgraph_int64_t a = __RANDOM64_A, b = __RANDOM64_B, m = __RANDOM64_M;
   const cgraph_int64_t a_mod_m = a % m, b_mod_m = b % m;
   cgraph_int64_t seed_mod_m = __cgraph_random64_seed % m;
   __cgraph_random64_seed = ((a_mod_m * seed_mod_m) % m + b_mod_m) % m;
@@ -420,7 +419,7 @@ cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
   return log(x) / log(n);
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_math_pow2(const cgraph_int_t n) {
+__INLINE cgraph_int_t cgraph_math_pow2(const cgraph_int_t n) {
   return (1 << n);
 }
 
@@ -434,20 +433,20 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
   return res;
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) {
+__INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) {
   return (x & 0x01);
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
-                                             const cgraph_int_t n) {
+__INLINE cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
+                                        const cgraph_int_t n) {
   return (x & (~(CGRAPH_INT_MIN << n)));
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data) {
+__INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data) {
   return (data ^ (data >> 1));
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data) {
+__INLINE cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data) {
   return (data ^ (data << 1));
 }
 

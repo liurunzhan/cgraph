@@ -8,11 +8,11 @@
 /** template module */
 #include "template_object.ct"
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
   return MATRIX_ROW(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
   return MATRIX_COLUMN(cthis);
 }
 

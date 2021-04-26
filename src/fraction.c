@@ -155,7 +155,7 @@ TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den) {
   return res;
 }
 
-CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   cgraph_int_t flag = -1,
                num_flag =
                    (FRACTION_NUM(x) | (FRACTION_NUM(x) >> (DATA_BITS - 1))),
@@ -170,57 +170,57 @@ CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return flag;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
   return CGRAPH_TEST((!FRACTION_NUM(x)) && FRACTION_DEN(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
   return CGRAPH_TEST((1 == FRACTION_DEN(x)) && (FRACTION_NUM(x) & 1));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
   return CGRAPH_TEST((1 == FRACTION_DEN(x)) && ((~FRACTION_NUM(x)) & 1));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
   return CGRAPH_TEST(
       ((0 < FRACTION_NUM(x)) && (!(FRACTION_NUM(x) & (FRACTION_NUM(x) - 1)))) &&
       ((0 < FRACTION_DEN(x)) && (!(FRACTION_DEN(x) & (FRACTION_DEN(x) - 1)))));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
   return CGRAPH_TEST(1 == FUNCTION(NAME, signbit)(x));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST(-1 == FUNCTION(NAME, signbit)(x));
 }
 
 static const TYPE cgraph_fraction_min = MIN;
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, cgraph_fraction_min));
 }
 
 static const TYPE cgraph_fraction_max = MAX;
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return CGRAPH_TEST(EQ(x, cgraph_fraction_max));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
   return CGRAPH_TEST((!FRACTION_NUM(x)) && (!FRACTION_DEN(x)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
   return CGRAPH_TEST(FRACTION_NUM(x) && (!FRACTION_DEN(x)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
   return CGRAPH_TEST((1 == FUNCTION(NAME, signbit)(x)) && (!FRACTION_DEN(x)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST((-1 == FUNCTION(NAME, signbit)(x)) && (!FRACTION_DEN(x)));
 }
 

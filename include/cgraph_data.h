@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_DATA_H_
-#define _CGRAPH_DATA_H_
+#ifndef __CGRAPH_DATA_H__
+#define __CGRAPH_DATA_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,4 +43,4 @@ extern cgraph_bigint_t *cgraph_string_to_bigint(const cgraph_string_t *cthis);
 }
 #endif
 
-#endif /** _CGRAPH_DATA_H_ */
+#endif /** __CGRAPH_DATA_H__ */

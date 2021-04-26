@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef _CGRAPH_H_
-#define _CGRAPH_H_
+#ifndef __CGRAPH_H__
+#define __CGRAPH_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,4 +41,4 @@ extern "C" {
 }
 #endif
 
-#endif /** _CGRAPH_H_ */
+#endif /** __CGRAPH_H__ */

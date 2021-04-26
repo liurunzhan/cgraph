@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_VERSION_H_
-#define _CGRAPH_VERSION_H_
+#ifndef __CGRAPH_VERSION_H__
+#define __CGRAPH_VERSION_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,8 +18,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#ifdef __CGRAPH_VERSION
-#define CGRAPH_VERSION __CGRAPH_VERSION
+#ifdef __VERSION
+#define CGRAPH_VERSION __VERSION
 #else
 #define CGRAPH_VERSION "0.0.0"
 #endif
@@ -33,4 +33,4 @@ extern void cgraph_version_fprintf(FILE *fp);
 }
 #endif
 
-#endif /** _CGRAPH_VERSION_H_ */
+#endif /** __CGRAPH_VERSION_H__ */

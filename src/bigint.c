@@ -14,7 +14,7 @@ void FUNCTION(NAME, clrbuffer)(void) {
   cgraph_memset(__bigint_buffer__, CGRAPH_FILE_BUFFER_SIZE, 0);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
   return CGRAPH_FILE_BUFFER_SIZE;
 }
 
@@ -140,7 +140,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   return CGRAPH_TEST((NULL != cthis) && (0 < cthis->len));
 }
 
-CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
+__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
   return ((NULL != cthis) ? cthis->postive : CGRAPH_FALSE);
 }
 

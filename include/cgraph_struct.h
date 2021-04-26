@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_STRUCT_H_
-#define _CGRAPH_STRUCT_H_
+#ifndef __CGRAPH_STRUCT_H__
+#define __CGRAPH_STRUCT_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -68,4 +68,4 @@ extern "C" {
 }
 #endif
 
-#endif /** _CGRAPH_STRUCT_H_ */
+#endif /** __CGRAPH_STRUCT_H__ */

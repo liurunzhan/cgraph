@@ -74,7 +74,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   return CGRAPH_ABS(hash);
 }
 
-CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
+__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
   return ((NULL != cthis) ? cthis->postive : CGRAPH_FALSE);
 }
 

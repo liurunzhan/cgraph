@@ -1,86 +1,86 @@
 #include "template_struct.ct"
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
   return CGRAPH_TEST((0 == MATRIX3D_INDEX_I(cthis)) &&
                      (0 == MATRIX3D_INDEX_J(cthis)) &&
                      (0 == MATRIX3D_INDEX_K(cthis)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
   return CGRAPH_TEST((1 == MATRIX3D_INDEX_I(cthis)) &&
                      (1 == MATRIX3D_INDEX_J(cthis)) &&
                      (1 == MATRIX3D_INDEX_K(cthis)));
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis) {
   return MATRIX3D_INDEX_I(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis) {
   return MATRIX3D_INDEX_J(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis) {
   return MATRIX3D_INDEX_K(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size_ijk)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size_ijk)(const TYPE *cthis) {
   return MATRIX3D_INDEX_I(cthis) * MATRIX3D_INDEX_J(cthis) *
          MATRIX3D_INDEX_K(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size_ij)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size_ij)(const TYPE *cthis) {
   return MATRIX3D_INDEX_I(cthis) * MATRIX3D_INDEX_J(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size_ik)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size_ik)(const TYPE *cthis) {
   return MATRIX3D_INDEX_I(cthis) * MATRIX3D_INDEX_K(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size_jk)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size_jk)(const TYPE *cthis) {
   return MATRIX3D_INDEX_J(cthis) * MATRIX3D_INDEX_K(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size_i)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size_i)(const TYPE *cthis) {
   return MATRIX3D_INDEX_I(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size_j)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size_j)(const TYPE *cthis) {
   return MATRIX3D_INDEX_J(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size_k)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size_k)(const TYPE *cthis) {
   return MATRIX3D_INDEX_K(cthis);
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
   return CGRAPH_TEST((MATRIX3D_INDEX_I(cthis) == MATRIX3D_INDEX_J(cthis)) &&
                      (MATRIX3D_INDEX_I(cthis) == MATRIX3D_INDEX_K(cthis)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isixj)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isixj)(const TYPE *cthis) {
   return CGRAPH_TEST(1 == MATRIX3D_INDEX_K(cthis));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isixk)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isixk)(const TYPE *cthis) {
   return CGRAPH_TEST(1 == MATRIX3D_INDEX_J(cthis));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isjxk)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isjxk)(const TYPE *cthis) {
   return CGRAPH_TEST(1 == MATRIX3D_INDEX_I(cthis));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isi)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isi)(const TYPE *cthis) {
   return CGRAPH_TEST((1 == MATRIX3D_INDEX_J(cthis)) &&
                      (1 == MATRIX3D_INDEX_K(cthis)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isj)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isj)(const TYPE *cthis) {
   return CGRAPH_TEST((1 == MATRIX3D_INDEX_I(cthis)) &&
                      (1 == MATRIX3D_INDEX_K(cthis)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isk)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isk)(const TYPE *cthis) {
   return CGRAPH_TEST((1 == MATRIX3D_INDEX_I(cthis)) &&
                      (1 == MATRIX3D_INDEX_J(cthis)));
 }

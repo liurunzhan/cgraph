@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_BIGNUM_H_
-#define _CGRAPH_BIGNUM_H_
+#ifndef __CGRAPH_BIGNUM_H__
+#define __CGRAPH_BIGNUM_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,4 +44,4 @@ extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len);
 }
 #endif
 
-#endif /** _CGRAPH_BIGNUM_H_ */
+#endif /** __CGRAPH_BIGNUM_H__ */

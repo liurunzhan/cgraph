@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_GRAPH_H_
-#define _CGRAPH_GRAPH_H_
+#ifndef __CGRAPH_GRAPH_H__
+#define __CGRAPH_GRAPH_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,7 +25,7 @@ typedef struct {
   union {
     cgraph_string_t *names;
     cgraph_size_t id;
-  } __CGRAPH_TYPE_END(key);
+  } __TYPE_END(key);
 } cgraph_keyval_t;
 
 typedef struct {
@@ -59,16 +59,16 @@ typedef struct {
     union {
       cgraph_bool_t **unweighted_adjmatrix;
       cgraph_float64_t **weighted_adjmatrix;
-    } __CGRAPH_TYPE_END(adjmatrix);
+    } __TYPE_END(adjmatrix);
     union {
       cgraph_size_t **id_edgelist;
       cgraph_string_t ***name_edgelist;
-    } __CGRAPH_TYPE_END(edgelist);
-  } __CGRAPH_TYPE_END(data);
+    } __TYPE_END(edgelist);
+  } __TYPE_END(data);
 } cgraph_graph_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /** _CGRAPH_GRAPH_H_ */
+#endif /** __CGRAPH_GRAPH_H__ */

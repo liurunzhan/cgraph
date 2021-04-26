@@ -9,14 +9,14 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_MOBJECT_H_
-#define _CGRAPH_MOBJECT_H_
+#ifndef __CGRAPH_MOBJECT_H__
+#define __CGRAPH_MOBJECT_H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#if !(defined(_CGRAPH_H_) || defined(_CGRAPH_STRUCT_H_)) && defined(OBJECT)
+#if !(defined(__CGRAPH_H__) || defined(__CGRAPH_STRUCT_H__)) && defined(OBJECT)
 #error <cgraph_mobject.h> can not be included in the same file together with \
 <cgraph_object.h>, \
 <cgraph_hobject.h>, \
@@ -51,4 +51,4 @@ extern cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis);
 }
 #endif
 
-#endif /** _CGRAPH_MOBJECT_H_ */
+#endif /** __CGRAPH_MOBJECT_H__ */

@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_BOOL_H_
-#define _CGRAPH_BOOL_H_
+#ifndef __CGRAPH_BOOL_H__
+#define __CGRAPH_BOOL_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,4 +40,4 @@ extern TYPE FUNCTION(NAME, str2bool)(const cgraph_char_t *str,
 }
 #endif
 
-#endif /** _CGRAPH_BOOL_H_ */
+#endif /** __CGRAPH_BOOL_H__ */

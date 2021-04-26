@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_VECTOR_H_
-#define _CGRAPH_VECTOR_H_
+#ifndef __CGRAPH_VECTOR_H__
+#define __CGRAPH_VECTOR_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,4 +37,4 @@ extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data);
 }
 #endif
 
-#endif /** _CGRAPH_VECTOR_H_ */
+#endif /** __CGRAPH_VECTOR_H__ */

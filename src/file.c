@@ -25,7 +25,7 @@
 #endif
 
 /** vsnprintf function or macro function */
-#if CGRAPH_STDC_VERSION >= 199901L
+#if __STDC_VERSION__ >= 199901L
 #define fprintf fprintf
 #define vfprintf vfprintf
 #define vsprintf vsprintf
@@ -75,15 +75,20 @@ cgraph_int_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
   return size;
 }
 
-CGRAPH_INLINE cgraph_int_t cgraph_file_printnl(FILE *fp) {
-#if CGRAPH_PLAT_FEND < CGRAPH_PLAT_FEND_WIN
-  fputc(CGRAPH_PLAT_NLINE_C, fp);
+__INLINE cgraph_int_t cgraph_file_printnl(FILE *fp) {
+#if __PLAT_FEND < __PLAT_FEND_WIN
+  fputc(__PLAT_NLINE_C, fp);
   return 1;
 #else
-  fputc(CGRAPH_PLAT_NLINE_C0, fp);
-  fputc(CGRAPH_PLAT_NLINE_C1, fp);
+  fputc(__PLAT_NLINE_C0, fp);
+  fputc(__PLAT_NLINE_C1, fp);
   return 2;
 #endif
+}
+
+cgraph_int_t cgraph_file_vfprintf(FILE *fp, const cgraph_char_t *format,
+                                  va_list args) {
+  return vfprintf(fp, format, args);
 }
 
 cgraph_int_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format, ...) {
@@ -132,6 +137,24 @@ cgraph_int_t cgraph_file_printfln(const cgraph_char_t *format, ...) {
   return _size;
 }
 
+cgraph_int_t cgraph_file_vsnprintf(cgraph_char_t *buffer,
+                                   const cgraph_size_t size,
+                                   const cgraph_char_t *format, va_list args) {
+#if defined(DEBUG) && defined(__NO_VSNPRINTF)
+  if (BUFSIZ < size) {
+    fprintf(stderr,
+            "buffer size %ld is bigger than default size %d for vsnprintf "
+            "undefined!\n",
+            size, BUFSIZ);
+  }
+#endif
+  return vsnprintf(buffer,
+#ifndef __NO_VSNPRINTF
+                   size,
+#endif
+                   format, args);
+}
+
 cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
                                   const cgraph_size_t size,
                                   const cgraph_char_t *format, ...) {
@@ -139,16 +162,12 @@ cgraph_int_t cgraph_file_snprintf(cgraph_char_t *buffer,
   if ((NULL != buffer) && (0 < size)) {
     va_list args;
     va_start(args, format);
-    _size = vsnprintf(buffer,
-#ifndef __NO_VSNPRINTF
-                      size,
-#endif
-                      format, args);
+    _size = cgraph_file_vsnprintf(buffer, size, format, args);
     va_end(args);
   }
 #ifdef DEBUG
   if ((NULL == buffer) || (0 >= size)) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file buffer is empty");
   }
   if (0 >= size) {
@@ -162,7 +181,7 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode) {
   FILE *fp = fopen(file, mode);
   if (NULL == fp) {
 #ifdef DEBUG
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "%s in style %s is opened error", file, mode);
 #endif
     abort();
@@ -174,7 +193,7 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode) {
 cgraph_bool_t cgraph_file_fclose(FILE *fp) {
   if ((NULL == fp) || (0 != ferror(fp))) {
 #ifdef DEBUG
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error before closed");
 #endif
     clearerr(fp);
@@ -196,11 +215,11 @@ cgraph_size_t cgraph_file_fgetc(FILE *fp, cgraph_char_t *buffer,
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error");
   }
   if ((NULL == buffer) || (0 >= size)) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file buffer is empty");
   }
 #endif
@@ -214,8 +233,8 @@ cgraph_size_t cgraph_file_fgets(FILE *fp, cgraph_char_t *buffer,
   if ((NULL != buffer) && (0 < size)) {
     cgraph_char_t *data = buffer, ch;
     for (_size -= 1; (len < _size) && 0 != feof(fp); len++, data++) {
-#if CGRAPH_PLAT_FEND < CGRAPH_PLAT_FEND_WIN
-      if (CGRAPH_PLAT_NLINE_C == (ch = fgetc(fp))) {
+#if __PLAT_FEND < __PLAT_FEND_WIN
+      if (__PLAT_NLINE_C == (ch = fgetc(fp))) {
         break;
       }
 #else
@@ -233,11 +252,11 @@ cgraph_size_t cgraph_file_fgets(FILE *fp, cgraph_char_t *buffer,
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error");
   }
   if ((NULL == buffer) || (0 >= size)) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file buffer is empty");
   }
 #endif
@@ -257,11 +276,11 @@ cgraph_size_t cgraph_file_header(FILE *fp, cgraph_char_t *buffer,
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error");
   }
   if ((NULL == buffer) || (0 >= size)) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file buffer is empty");
   }
 #endif
@@ -281,15 +300,15 @@ cgraph_size_t cgraph_file_row(FILE *fp, cgraph_char_t *buffer,
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error");
   }
   if ((NULL == buffer) || (0 >= size)) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file buffer is empty");
   }
   if (0 > row) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "row number %ld is a negative number", row);
   }
 #endif
@@ -304,8 +323,8 @@ cgraph_size_t cgraph_file_rows(FILE *fp) {
     fpos_t fp_init;
     fgetpos(fp, &fp_init);
     while (0 != feof(fp)) {
-#if CGRAPH_PLAT_FEND < CGRAPH_PLAT_FEND_WIN
-      if (CGRAPH_PLAT_NLINE_C == (ch = fgetc(fp))) {
+#if __PLAT_FEND < __PLAT_FEND_WIN
+      if (__PLAT_NLINE_C == (ch = fgetc(fp))) {
 #else
       if (('\r' == (ch = fgetc(fp))) && ('\n' == (ch = fgetc(fp)))) {
 #endif
@@ -316,7 +335,7 @@ cgraph_size_t cgraph_file_rows(FILE *fp) {
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error");
   }
 #endif
@@ -339,15 +358,15 @@ cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep,
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error");
   }
   if (NULL == sep) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "line seperator is error");
   }
   if ((NULL == buffer) || (0 >= size)) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file buffer is empty");
   }
 #endif
@@ -371,7 +390,7 @@ cgraph_int64_t cgraph_file_bytes(FILE *fp) {
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __CGRAPH_FUNCTION,
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "file handle is error");
   }
 #endif
@@ -379,9 +398,9 @@ cgraph_int64_t cgraph_file_bytes(FILE *fp) {
   return len;
 }
 
-static const cgraph_char_t *_platform = CGRAPH_PLAT_NAME;
-static const cgraph_char_t *_path_split = CGRAPH_PLAT_PSPLIT;
-static const cgraph_char_t *_new_line = CGRAPH_PLAT_NLINE;
+static const cgraph_char_t *_platform = __PLAT_NAME;
+static const cgraph_char_t *_path_split = __PLAT_PSPLIT;
+static const cgraph_char_t *_new_line = __PLAT_NLINE;
 
 const static union cgraph_endian_t {
   cgraph_int32_t num;

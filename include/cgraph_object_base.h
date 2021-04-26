@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_OBJECT_BASE_H_
-#define _CGRAPH_OBJECT_BASE_H_
+#ifndef __CGRAPH_OBJECT_BASE_H__
+#define __CGRAPH_OBJECT_BASE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,4 +24,4 @@ extern "C" {
 }
 #endif
 
-#endif /** _CGRAPH_OBJECT_BASE_H_ */
+#endif /** __CGRAPH_OBJECT_BASE_H__ */

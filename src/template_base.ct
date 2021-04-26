@@ -118,43 +118,41 @@ const cgraph_size_t size); */
     NULL /** void (*tend)(void); */
 };
 
-CGRAPH_INLINE cgraph_type_t FUNCTION(NAME, tid)(void) {
-  return STRUCT(NAME).t_id;
-}
+__INLINE cgraph_type_t FUNCTION(NAME, tid)(void) { return STRUCT(NAME).t_id; }
 
-CGRAPH_INLINE cgraph_char_t *FUNCTION(NAME, tname)(void) {
+__INLINE cgraph_char_t *FUNCTION(NAME, tname)(void) {
   return STRUCT(NAME).t_name;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tsize)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, tsize)(void) {
   return STRUCT(NAME).t_size;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tptrsize)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, tptrsize)(void) {
   return STRUCT(NAME).t_ptrsize;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tcpysize)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, tcpysize)(void) {
   return STRUCT(NAME).t_cpysize;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tstrusize)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, tstrusize)(void) {
   return STRUCT(NAME).t_strusize;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tbmatsize)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, tbmatsize)(void) {
   return STRUCT(NAME).t_bmatsize;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tbmat3dsize)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, tbmat3dsize)(void) {
   return STRUCT(NAME).t_bmat3dsize;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, tdatsize)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, tdatsize)(void) {
   return STRUCT(NAME).t_datsize;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, thasdata)(void) {
+__INLINE cgraph_bool_t FUNCTION(NAME, thasdata)(void) {
 #ifdef TYPE_WITH_DATA
   return CGRAPH_TRUE;
 #else

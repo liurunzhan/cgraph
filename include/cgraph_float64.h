@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_FLOAT64_H_
-#define _CGRAPH_FLOAT64_H_
+#ifndef __CGRAPH_FLOAT64_H__
+#define __CGRAPH_FLOAT64_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,4 +30,4 @@ extern "C" {
 }
 #endif
 
-#endif /** _CGRAPH_FLOAT64_H_ */
+#endif /** __CGRAPH_FLOAT64_H__ */

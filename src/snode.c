@@ -25,11 +25,11 @@ void cgraph_snode1_free(cgraph_snode1_t *cthis) {
   }
 }
 
-CGRAPH_INLINE void *cgraph_snode1_data(const cgraph_snode1_t *cthis) {
+__INLINE void *cgraph_snode1_data(const cgraph_snode1_t *cthis) {
   return NULL != cthis ? cthis->data : NULL;
 }
 
-CGRAPH_INLINE cgraph_snode1_t *cgraph_snode1_p1(const cgraph_snode1_t *cthis) {
+__INLINE cgraph_snode1_t *cgraph_snode1_p1(const cgraph_snode1_t *cthis) {
   return NULL != cthis ? cthis->p1 : NULL;
 }
 
@@ -60,14 +60,14 @@ void cgraph_snode2_free(cgraph_snode2_t *cthis) {
   }
 }
 
-CGRAPH_INLINE void *cgraph_snode2_data(const cgraph_snode2_t *cthis) {
+__INLINE void *cgraph_snode2_data(const cgraph_snode2_t *cthis) {
   return NULL != cthis ? cthis->data : NULL;
 }
 
-CGRAPH_INLINE cgraph_snode2_t *cgraph_snode2_p1(const cgraph_snode2_t *cthis) {
+__INLINE cgraph_snode2_t *cgraph_snode2_p1(const cgraph_snode2_t *cthis) {
   return NULL != cthis ? cthis->p1 : NULL;
 }
 
-CGRAPH_INLINE cgraph_snode2_t *cgraph_snode2_p2(const cgraph_snode2_t *cthis) {
+__INLINE cgraph_snode2_t *cgraph_snode2_p2(const cgraph_snode2_t *cthis) {
   return NULL != cthis ? cthis->p2 : NULL;
 }

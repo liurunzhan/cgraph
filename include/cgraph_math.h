@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_MATH_H_
-#define _CGRAPH_MATH_H_
+#ifndef __CGRAPH_MATH_H__
+#define __CGRAPH_MATH_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -152,4 +152,4 @@ extern cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x,
 }
 #endif
 
-#endif /** _CGRAPH_MATH_H_ */
+#endif /** __CGRAPH_MATH_H__ */

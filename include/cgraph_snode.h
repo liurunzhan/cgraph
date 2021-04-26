@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_SNODE_H_
-#define _CGRAPH_SNODE_H_
+#ifndef __CGRAPH_SNODE_H__
+#define __CGRAPH_SNODE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,4 +48,4 @@ extern cgraph_snode2_t *cgraph_snode2_p2(const cgraph_snode2_t *cthis);
 }
 #endif
 
-#endif /** _CGRAPH_SNODE_H_ */
+#endif /** __CGRAPH_SNODE_H__ */

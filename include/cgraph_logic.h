@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_LOGIC_H_
-#define _CGRAPH_LOGIC_H_
+#ifndef __CGRAPH_LOGIC_H__
+#define __CGRAPH_LOGIC_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,4 +40,4 @@ extern TYPE FUNCTION(NAME, str2logic)(const cgraph_char_t *str,
 }
 #endif
 
-#endif /** _CGRAPH_LOGIC_H_ */
+#endif /** __CGRAPH_LOGIC_H__ */

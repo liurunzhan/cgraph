@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_ERROR_H_
-#define _CGRAPH_ERROR_H_
+#ifndef __CGRAPH_ERROR_H__
+#define __CGRAPH_ERROR_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,7 +37,7 @@ typedef enum {
 
 #if defined(DEBUG)
 #define cgraph_error_print(reason)                                             \
-  cgraph_error((reason), (__LINE__), (__FILE__), (__CGRAPH_FUNCTION))
+  cgraph_error((reason), (__LINE__), (__FILE__), (__FUNCTION))
 #else
 #define cgraph_error_print(reason) ((void)0)
 #endif
@@ -65,4 +65,4 @@ extern void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer,
 }
 #endif
 
-#endif /** _CGRAPH_ERROR_H_ */
+#endif /** __CGRAPH_ERROR_H__ */

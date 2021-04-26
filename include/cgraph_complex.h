@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_COMPLEX_H_
-#define _CGRAPH_COMPLEX_H_
+#ifndef __CGRAPH_COMPLEX_H__
+#define __CGRAPH_COMPLEX_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -111,4 +111,4 @@ extern TYPE *FUNCTION(NAME, ifft)(TYPE *cthis, const cgraph_size_t len);
 }
 #endif
 
-#endif /** _CGRAPH_COMPLEX_H_ */
+#endif /** __CGRAPH_COMPLEX_H__ */

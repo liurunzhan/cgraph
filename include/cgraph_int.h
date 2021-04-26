@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_INT_H_
-#define _CGRAPH_INT_H_
+#ifndef __CGRAPH_INT_H__
+#define __CGRAPH_INT_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,4 +30,4 @@ extern "C" {
 }
 #endif
 
-#endif /** _CGRAPH_INT_H_ */
+#endif /** __CGRAPH_INT_H__ */

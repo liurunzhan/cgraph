@@ -9,14 +9,14 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_HOBJECT_H_
-#define _CGRAPH_HOBJECT_H_
+#ifndef __CGRAPH_HOBJECT_H__
+#define __CGRAPH_HOBJECT_H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#if !(defined(_CGRAPH_H_) || defined(_CGRAPH_STRUCT_H_)) && defined(OBJECT)
+#if !(defined(__CGRAPH_H__) || defined(__CGRAPH_STRUCT_H__)) && defined(OBJECT)
 #error <cgraph_hobject.h> can not be included in the same file together with \
 <cgraph_object.h>, \
 <cgraph_gobject.h>, \
@@ -39,14 +39,14 @@ typedef struct {
   union {
     cgraph_size_t id;
     DATA_TYPE *value;
-  } __CGRAPH_TYPE_END(ext);
+  } __TYPE_END(ext);
   CGRAPH_OBJECT_ROOT
 } cgraph_hobject_t;
 
 /** template module */
 #include "cgraph_template_object.ht"
 
-#define HOBJECT_EXT(x) __CGRAPH_TYPE_ELEMENT((x), ext)
+#define HOBJECT_EXT(x) __TYPE_ELEMENT((x), ext)
 #define HOBJECT_INDEX(x) (HOBJECT_EXT(x).index)
 #define HOBJECT_VALUE(x) (HOBJECT_EXT(x).value)
 
@@ -74,4 +74,4 @@ extern TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis);
 }
 #endif
 
-#endif /** _CGRAPH_HOBJECT_H_ */
+#endif /** __CGRAPH_HOBJECT_H__ */

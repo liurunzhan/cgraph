@@ -1,9 +1,9 @@
 #include "template_base.ct"
 
-CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
-                                                   const cgraph_type_t type,
-                                                   const cgraph_size_t len,
-                                                   const cgraph_size_t size) {
+__INLINE static void *FUNCTION(NAME, _update)(void *cthis,
+                                              const cgraph_type_t type,
+                                              const cgraph_size_t len,
+                                              const cgraph_size_t size) {
   TYPE *_cthis = (TYPE *)cthis;
   if (NULL != _cthis) {
     CGRAPH_DTYPE_TYPE(_cthis) = type;
@@ -26,20 +26,20 @@ CGRAPH_INLINE static void *FUNCTION(NAME, _update)(void *cthis,
   return _cthis;
 }
 
-CGRAPH_INLINE DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
+__INLINE DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
   return ((TYPE *)cthis)->data;
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
   return CGRAPH_LEN(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
   return CGRAPH_SIZE(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
-                                                  const cgraph_size_t size) {
+__INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
+                                             const cgraph_size_t size) {
 #if defined(TYPE_BIGMAT)
   return FUNCTION(NAME, tsize)() +
          (size + CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tbmatsize)();

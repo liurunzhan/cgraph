@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_MEMORY_H_
-#define _CGRAPH_MEMORY_H_
+#ifndef __CGRAPH_MEMORY_H__
+#define __CGRAPH_MEMORY_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,4 +36,4 @@ extern cgraph_bool_t cgraph_strcmp(const char *x, const char *y);
 }
 #endif
 
-#endif /** _CGRAPH_MEMORY_H_ */
+#endif /** __CGRAPH_MEMORY_H__ */

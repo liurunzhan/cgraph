@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_BITSET_H_
-#define _CGRAPH_BITSET_H_
+#ifndef __CGRAPH_BITSET_H__
+#define __CGRAPH_BITSET_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,4 +64,4 @@ extern TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y);
 }
 #endif
 
-#endif /** _CGRAPH_BITSET_H_ */
+#endif /** __CGRAPH_BITSET_H__ */

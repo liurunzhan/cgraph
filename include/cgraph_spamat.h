@@ -9,8 +9,8 @@
  * @lisence GPL-3.0
  */
 
-#ifndef _CGRAPH_SPAMAT_H_
-#define _CGRAPH_SPAMAT_H_
+#ifndef __CGRAPH_SPAMAT_H__
+#define __CGRAPH_SPAMAT_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,4 +37,4 @@ typedef struct {
 }
 #endif
 
-#endif /** _CGRAPH_SPAMAT_H_ */
+#endif /** __CGRAPH_SPAMAT_H__ */

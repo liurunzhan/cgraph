@@ -38,7 +38,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   return flag;
 }
 
-CGRAPH_INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return CGRAPH_TRUE;
 }
 
@@ -139,7 +139,7 @@ DATA_TYPE FUNCTION(NAME, real)(const TYPE x) { return COMPLEX_REAL(x); }
 DATA_TYPE FUNCTION(NAME, imag)(const TYPE x) { return COMPLEX_IMAG(x); }
 
 DATA_TYPE FUNCTION(NAME, mag)(const TYPE x) {
-#if CGRAPH_STDC_VERSION >= 199901L && defined(_MATH_H_)
+#if __STDC_VERSION__ >= 199901L && defined(_MATH_H__)
   return hypot(COMPLEX_REAL(x), COMPLEX_IMAG(x));
 #else
   return sqrt(COMPLEX_MAG2(x));
@@ -453,7 +453,7 @@ TYPE FUNCTION(NAME, atan)(const TYPE x) {
   return res;
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNAN(x));
 }
 

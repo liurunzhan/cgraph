@@ -708,11 +708,11 @@
 #define CGRAPH_SIZE(x) ((NULL != (x)) ? (x)->size : 0)
 #define CGRAPH_LEN(x) ((NULL != (x)) ? (x)->len : 0)
 
-#if (CGRAPH_STDC_VERSION >= 199901L)
+#if (__STDC_VERSION__ >= 199901L)
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, root[];
 #else
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, *root;
-#endif /**CGRAPH_STDC_VERSION */
+#endif /**__STDC_VERSION__ */
 
 #define CGRAPH_STRUCTURE_BASE                                                  \
   CGRAPH_DATA_BASE                                                             \
@@ -745,7 +745,7 @@
     defined(TYPE_GOBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT)
 #define COPY_SIZE (sizeof(TYPE) - sizeof(DATA_TYPE *))
 #elif ID <= CGRAPH_DTYPE_PTR_MAX
-#define COPY_SIZE (sizeof(TYPE) - __CGRAPH_TYPE_PTRSIZE * sizeof(DATA_TYPE *))
+#define COPY_SIZE (sizeof(TYPE) - __TYPE_PTRSIZE * sizeof(DATA_TYPE *))
 #else
 #define COPY_SIZE (sizeof(TYPE) - 2 * sizeof(DATA_TYPE *))
 #endif
@@ -753,20 +753,20 @@
 #if defined(TYPE_OBJECT) || defined(TYPE_HOBJECT) || defined(TYPE_GOBJECT) ||  \
     defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT)
 
-#define ADD(a, b, c) __CGRAPH_UNDEFINED
-#define SUB(a, b, c) __CGRAPH_UNDEFINED
-#define MUL(a, b, c) __CGRAPH_UNDEFINED
-#define DIV(a, b, c) __CGRAPH_UNDEFINED
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c) __CGRAPH_UNDEFINED
-#define MOD(a, b, c) __CGRAPH_UNDEFINED
+#define ADD(a, b, c) __UNDEFINED
+#define SUB(a, b, c) __UNDEFINED
+#define MUL(a, b, c) __UNDEFINED
+#define DIV(a, b, c) __UNDEFINED
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
 
-#define EQ(a, b) __CGRAPH_UNDEFINED
-#define NE(a, b) __CGRAPH_UNDEFINED
-#define GR(a, b) __CGRAPH_UNDEFINED
-#define GE(a, b) __CGRAPH_UNDEFINED
-#define LS(a, b) __CGRAPH_UNDEFINED
-#define LE(a, b) __CGRAPH_UNDEFINED
+#define EQ(a, b) __UNDEFINED
+#define NE(a, b) __UNDEFINED
+#define GR(a, b) __UNDEFINED
+#define GE(a, b) __UNDEFINED
+#define LS(a, b) __UNDEFINED
+#define LE(a, b) __UNDEFINED
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -924,7 +924,7 @@
 #define SQRT(a) sqrt((a))
 
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
-#if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
+#if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
 #define DATA_TEST(a) isnormal((a))
 #define DATA_ISNAN(a) isnan((a))
 #define DATA_ISPINF(a) (isinf((a)) > 0)
@@ -940,7 +940,7 @@
 #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
 #define DATA_ISPOS(a) (!FUNCTION(NAME, signbit)((a)))
 #define DATA_ISNEG(a) FUNCTION(NAME, signbit)((a))
-#endif /**CGRAPH_STDC_VERSION */
+#endif /**__STDC_VERSION__ */
 
 #define ADD(a, b, c) ((a) + (b))
 #define SUB(a, b, c) ((a) - (b))
@@ -950,7 +950,7 @@
 #define INT(a, b, c) FUNCTION(NAME, int)((a), (b))
 #define FEXP(a) FUNCTION(NAME, fexp)((a))
 
-#if defined(TYPE_FLOAT32) && (CGRAPH_STDC_VERSION >= 199901L)
+#if defined(TYPE_FLOAT32) && (__STDC_VERSION__ >= 199901L)
 #define TYPE_PTR TYPE
 #define FREXP(a, b, c) frexpf((a), (b))
 #define FMOD(a, b, c) fmodf((a), (b))
@@ -982,7 +982,7 @@
 #define LOG10(a) log10f((a))
 #define EXP(a) expf((a))
 #define SQRT(a) sqrtf((a))
-#elif defined(TYPE_FLOAT128) && defined(CGRAPH_WITH_FLOAT128)
+#elif defined(TYPE_FLOAT128) && defined(__WITH_FLOAT128)
 #define TYPE_PTR TYPE
 #define FREXP(a, b, c) frexpl((a), (b))
 #define FMOD(a, b, c) fmodl((a), (b))
@@ -1081,9 +1081,9 @@
 #define DIV(a, b, c)                                                           \
   FUNCTION(NAME, div1)                                                         \
   ((a), (b))
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c) __CGRAPH_UNDEFINED
-#define MOD(a, b, c) __CGRAPH_UNDEFINED
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -1112,7 +1112,7 @@
 #define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
 #define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
 
-#if (CGRAPH_STDC_VERSION >= 199901L) && defined(_MATH_H_)
+#if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
 #define DATA_TEST(a) (isnormal(COMPLEX_REAL(a)) && isnormal(COMPLEX_IMAG(a)))
 #define DATA_ISNAN(a) (isnan(COMPLEX_REAL(a)) || isnan(COMPLEX_IMAG(a)))
 #define DATA_ISPINF(a)                                                         \
@@ -1273,9 +1273,9 @@
 #define DIV(a, b, c)                                                           \
   FUNCTION(NAME, div)                                                          \
   ((a), (b), (c))
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c) __CGRAPH_UNDEFINED
-#define MOD(a, b, c) __CGRAPH_UNDEFINED
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
 
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
@@ -1329,9 +1329,9 @@
 #define DIV(a, b, c)                                                           \
   FUNCTION(NAME, div)                                                          \
   ((a), (b), (c))
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c) __CGRAPH_UNDEFINED
-#define MOD(a, b, c) __CGRAPH_UNDEFINED
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
 
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
@@ -1385,9 +1385,9 @@
 #define DIV(a, b, c)                                                           \
   FUNCTION(NAME, div)                                                          \
   ((a), (b), (c))
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c) __CGRAPH_UNDEFINED
-#define MOD(a, b, c) __CGRAPH_UNDEFINED
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
 
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
@@ -1441,9 +1441,9 @@
 #define DIV(a, b, c)                                                           \
   FUNCTION(NAME, div)                                                          \
   ((a), (b), (c))
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c) __CGRAPH_UNDEFINED
-#define MOD(a, b, c) __CGRAPH_UNDEFINED
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
 
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
@@ -1500,20 +1500,20 @@
 #define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
 #endif
 
-#define ADD(a, b, c) __CGRAPH_UNDEFINED
-#define SUB(a, b, c) __CGRAPH_UNDEFINED
-#define MUL(a, b, c) __CGRAPH_UNDEFINED
-#define DIV(a, b, c) __CGRAPH_UNDEFINED
-#define DIVF(a, b, c) __CGRAPH_UNDEFINED
-#define INT(a, b, c) __CGRAPH_UNDEFINED
-#define MOD(a, b, c) __CGRAPH_UNDEFINED
+#define ADD(a, b, c) __UNDEFINED
+#define SUB(a, b, c) __UNDEFINED
+#define MUL(a, b, c) __UNDEFINED
+#define DIV(a, b, c) __UNDEFINED
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
 
-#define EQ(a, b) __CGRAPH_UNDEFINED
-#define NE(a, b) __CGRAPH_UNDEFINED
-#define GR(a, b) __CGRAPH_UNDEFINED
-#define GE(a, b) __CGRAPH_UNDEFINED
-#define LS(a, b) __CGRAPH_UNDEFINED
-#define LE(a, b) __CGRAPH_UNDEFINED
+#define EQ(a, b) __UNDEFINED
+#define NE(a, b) __UNDEFINED
+#define GR(a, b) __UNDEFINED
+#define GE(a, b) __UNDEFINED
+#define LS(a, b) __UNDEFINED
+#define LE(a, b) __UNDEFINED
 #endif
 
 #ifdef TYPE_WITH_DATA

@@ -1,29 +1,29 @@
 #include "template_struct.ct"
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
   return CGRAPH_TEST((0 == MATRIX_ROW(cthis)) && (0 == MATRIX_COLUMN(cthis)));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
   return CGRAPH_TEST((1 == MATRIX_ROW(cthis)) && (1 == MATRIX_COLUMN(cthis)));
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
   return MATRIX_ROW(cthis);
 }
 
-CGRAPH_INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
   return MATRIX_COLUMN(cthis);
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
   return CGRAPH_TEST(MATRIX_ROW(cthis) == MATRIX_COLUMN(cthis));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, isrow)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isrow)(const TYPE *cthis) {
   return CGRAPH_TEST(1 == MATRIX_COLUMN(cthis));
 }
 
-CGRAPH_INLINE cgraph_bool_t FUNCTION(NAME, iscolumn)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, iscolumn)(const TYPE *cthis) {
   return CGRAPH_TEST(1 == MATRIX_ROW(cthis));
 }
