@@ -2258,8 +2258,14 @@ PREDEFINED             = definition
 # definition found in the source code.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-EXPAND_AS_DEFINED      = CGRAPH_DATA_BASE \
-                         CGRAPH_STRUCTURE_BASE
+EXPAND_AS_DEFINED      = CGRAPH_OBJECT_BASE \
+												 CGRAPH_OBJECT_ROOT \
+												 CGRAPH_DATA_BASE \
+												 CGRAPH_DATA_ROOT \
+                         CGRAPH_STRUCTURE_BASE \
+												 CGRAPH_STRUCTURE_PTR1 \
+												 CGRAPH_STRUCTURE_PTR2 \
+												 CGRAPH_STRUCTURE_ROOT
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES then doxygen's preprocessor will
 # remove all references to function-like macros that are alone on a line, have

@@ -95,10 +95,83 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size) {
   return _object;
 }
 
-void *cgraph_strcpy(void *object, const void *cthis) {
-  void *_object = object;
+cgraph_char_t *cgraph_strcpy(cgraph_char_t *object,
+                             const cgraph_char_t *cthis) {
+  cgraph_char_t *_object = object;
   if ((NULL != object) && (NULL != cthis) && (object != cthis)) {
     _object = strcpy(object, cthis);
+  }
+#ifdef DEBUG
+  if (NULL == object) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "target pointer is empty");
+  }
+  if (NULL == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is empty");
+  }
+  if (object == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is equal to target pointer");
+  }
+#endif
+
+  return _object;
+}
+
+cgraph_char_t *cgraph_strncpy(cgraph_char_t *object, const cgraph_char_t *cthis,
+                              const cgraph_size_t len) {
+  cgraph_char_t *_object = object;
+  if ((NULL != object) && (NULL != cthis) && (object != cthis)) {
+    _object = strncpy(object, cthis, len);
+  }
+#ifdef DEBUG
+  if (NULL == object) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "target pointer is empty");
+  }
+  if (NULL == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is empty");
+  }
+  if (object == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is equal to target pointer");
+  }
+#endif
+
+  return _object;
+}
+
+cgraph_char_t *cgraph_strcat(cgraph_char_t *object,
+                             const cgraph_char_t *cthis) {
+  cgraph_char_t *_object = object;
+  if ((NULL != object) && (NULL != cthis) && (object != cthis)) {
+    _object = strcat(object, cthis);
+  }
+#ifdef DEBUG
+  if (NULL == object) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "target pointer is empty");
+  }
+  if (NULL == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is empty");
+  }
+  if (object == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is equal to target pointer");
+  }
+#endif
+
+  return _object;
+}
+
+cgraph_char_t *cgraph_strncat(cgraph_char_t *object, const cgraph_char_t *cthis,
+                              const cgraph_size_t len) {
+  cgraph_char_t *_object = object;
+  if ((NULL != object) && (NULL != cthis) && (object != cthis)) {
+    _object = strncat(object, cthis, len);
   }
 #ifdef DEBUG
   if (NULL == object) {
@@ -159,7 +232,7 @@ cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
   return flag;
 }
 
-cgraph_bool_t cgraph_strcmp(const char *x, const char *y) {
+cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x, const cgraph_char_t *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
     if (0 == strcmp(x, y)) {

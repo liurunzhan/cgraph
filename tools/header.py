@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import sys
 import getopt
@@ -38,7 +38,7 @@ def parse_template(template, file, project, brief):
 		for line in fin.readlines():
 			line = line.replace("\r", "").replace("\n", "")
 			if "@file" in line:
-				line = line.replace("${FILE}", file)
+				line = line.replace("${FILE}", file if not file.endswith(".in") else file.rstrip(".in"))
 			if "@package" in line:
 				line = line.replace("${PACKAGE}", project["package"])
 			if "@version" in line:

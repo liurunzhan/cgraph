@@ -1,6 +1,15 @@
 #!/bin/sh
 
-for file in `ls ./include/*`; do
+root="."
+tool="$root/tools"
+inc="$root/include"
+
+if [ ! -d $inc ]; then
+  echo "$inc does not exist"
+	exit 0
+fi
+
+for file in `ls $inc/*`; do
 	echo "add header template to $file"
-	./tools/header.py -i $file -t ./tools/header.txt -b ./tools/brief.json -p ./tools/cgraph.json
+	$tool/header.py -i $file -t $tool/header.txt -b $tool/brief.json -p $tool/cgraph.json
 done

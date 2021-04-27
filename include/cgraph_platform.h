@@ -36,14 +36,14 @@ typedef enum {
 } cgraph_plat_t;
 
 /**< TYPE 0 : '\n' */
-#define __PLAT_FEND_UNIX (0)
+#define __PLAT_NLINE_UNIX (0)
 /**< TYPE 1 : '\r' */
-#define __PLAT_FEND_MACOS (1)
+#define __PLAT_NLINE_MACOS (1)
 /**< TYPE 2 : '\r\n' */
-#define __PLAT_FEND_WIN (2)
+#define __PLAT_NLINE_WIN (2)
 
-#define __PLAT_FEND_TYPE0 '\n'
-#define __PLAT_FEND_TYPE1 '\r'
+#define __PLAT_NLINE_TYPE0 '\n'
+#define __PLAT_NLINE_TYPE1 '\r'
 
 /** Self-defined features in different platforms */
 #if defined(__CYGWIN__)
@@ -52,51 +52,51 @@ typedef enum {
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_C __PLAT_FEND_TYPE0
-#define __PLAT_FEND __PLAT_FEND_UNIX
+#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
+#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
 #elif (defined(_WIN32) || defined(_WIN64))
 #define __PLAT_NAME "windows"
 #define __PLAT_MODE CGRAPH_PLAT_WINDOWS
 #define __PLAT_PSPLIT "\\"
 #define __PLAT_PSPLIT_C '\\'
 #define __PLAT_NLINE "\r\n"
-#define __PLAT_NLINE_C __PLAT_FEND_TYPE0
-#define __PLAT_NLINE_C0 __PLAT_FEND_TYPE1
-#define __PLAT_NLINE_C1 __PLAT_FEND_TYPE0
+#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
+#define __PLAT_NLINE_C0 __PLAT_NLINE_TYPE1
+#define __PLAT_NLINE_C1 __PLAT_NLINE_TYPE0
 #define __PLAT_WINDOWS
-#define __PLAT_FEND __PLAT_FEND_WIN
+#define __PLAT_NLINE_TYPE __PLAT_NLINE_WIN
 #elif defined(__APPLE__)
 #define __PLAT_NAME "macos"
 #define __PLAT_MODE CGRAPH_PLAT_MACOS
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\r"
-#define __PLAT_NLINE_C __PLAT_FEND_TYPE1
-#define __PLAT_FEND __PLAT_FEND_MACOS
+#define __PLAT_NLINE_C __PLAT_NLINE_TYPE1
+#define __PLAT_NLINE_TYPE __PLAT_NLINE_MACOS
 #elif defined(__linux__)
 #define __PLAT_NAME "linux"
 #define __PLAT_MODE CGRAPH_PLAT_LINUX
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_C __PLAT_FEND_TYPE0
-#define __PLAT_FEND __PLAT_FEND_UNIX
+#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
+#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
 #elif defined(__unix__)
 #define __PLAT_NAME "unix"
 #define __PLAT_MODE CGRAPH_PLAT_UNIX
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_C __PLAT_FEND_TYPE0
-#define __PLAT_FEND __PLAT_FEND_UNIX
+#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
+#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
 #else
 #define __PLAT_NAME "undefined"
 #define __PLAT_MODE CGRAPH_PLAT_UNDEFINED
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_C __PLAT_FEND_TYPE0
-#define __PLAT_FEND __PLAT_FEND_UNIX
+#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
+#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
 #endif
 
 /** Self-defined features in different structures */

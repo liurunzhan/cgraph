@@ -1,5 +1,5 @@
 /**
- * @file cgraph_stdchk.h.in
+ * @file cgraph_stdchk.h
  * @brief the platform standard check macro definitions
  * @author liurunzhan
  * @email liurunzhan@sina.com

@@ -20,6 +20,15 @@ extern "C" {
 
 #define CGRAPH_FILE_BUFFER_SIZE (4096L)
 
+extern cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path);
+extern cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path);
+extern cgraph_bool_t cgraph_file_isrfile(const cgraph_char_t *path);
+extern cgraph_bool_t cgraph_file_isdir(const cgraph_char_t *path);
+
+extern cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *buffer,
+                                           const cgraph_size_t size,
+                                           const cgraph_char_t *path);
+
 extern cgraph_size_t cgraph_file_putc(FILE *fp, const cgraph_char_t *buffer,
                                       const cgraph_size_t size);
 extern cgraph_size_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,

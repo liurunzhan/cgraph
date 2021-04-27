@@ -4,6 +4,89 @@
 #include "cgraph_error.h"
 #include "cgraph_file.h"
 
+#if __PLAT_NLINE_TYPE == __PLAT_NLINE_UNIX
+#include <dirent.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#define access access
+#else
+#include <direct.h>
+#include <io.h>
+#define access _access
+#endif
+
+#ifndef F_OK
+#define F_OK 0
+#endif
+
+__INLINE cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != path) {
+    res = CGRAPH_TEST(0 == access(path, F_OK));
+  }
+
+  return res;
+}
+
+__INLINE cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != path) {
+  }
+
+  return res;
+}
+
+__INLINE cgraph_bool_t cgraph_file_isrfile(const cgraph_char_t *path) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != path) {
+    FILE *fp = fopen(path, "r");
+    if (NULL != fp) {
+      res = CGRAPH_TRUE;
+      fclose(fp);
+    }
+  }
+
+  return res;
+}
+
+__INLINE cgraph_bool_t cgraph_file_isdir(const cgraph_char_t *path) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != path) {
+  }
+
+  return res;
+}
+
+cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *buffer,
+                                    const cgraph_size_t size,
+                                    const cgraph_char_t *path) {
+  if ((NULL != buffer) && (0 < size)) {
+    strcat(buffer, __PLAT_NLINE);
+    strcat(buffer, path);
+  }
+
+  return buffer;
+}
+
+#if 0
+cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
+  DIR *dptr;
+  struct dirent *eptr;
+  cgraph_char_t **ext = NULL;
+  if (NULL == (dptr = opendir(path))) {
+    fprintf(stderr, "read directory %s error!\n", path);
+    exit(-1);
+  }
+  while (NULL != (eptr = readdir(dptr))) {
+    char *file = eptr->d_name;
+  }
+  closedir(dptr);
+
+  return ext;
+}
+
+#endif
+
 #ifdef __NO_VSNPRINTF
 #undef __NO_VSNPRINTF
 #endif
@@ -31,18 +114,19 @@
 #define vsprintf vsprintf
 #define vsnprintf vsnprintf
 #else
+#define __NO_VSNPRINTF
 #if defined(__GNUC__) || defined(__clang__)
 #define fprintf __extension__ fprintf
 #define vfprintf __extension__ vfprintf
 #define vsprintf __extension__ vsprintf
-#define vsnprintf __extension__ vsnprintf
+#define vsnprintf __extension__ vsprintf
 #elif defined(_MSC_VER)
+#undef __NO_VSNPRINTF
 #define fprintf fprintf
 #define vfprintf vfprintf
 #define vsprintf _vsprintf
 #define vsnprintf _vsnprintf
 #else
-#define __NO_VSNPRINTF
 #define fprintf fprintf
 #define vfprintf vfprintf
 #define vsprintf vsprintf
@@ -76,7 +160,7 @@ cgraph_size_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
 }
 
 __INLINE cgraph_size_t cgraph_file_fprintnl(FILE *fp) {
-#if __PLAT_FEND < __PLAT_FEND_WIN
+#if __PLAT_NLINE_TYPE < __PLAT_NLINE_WIN
   fputc(__PLAT_NLINE_C, fp);
   return 1;
 #else
@@ -236,7 +320,7 @@ cgraph_size_t cgraph_file_fgets(FILE *fp, cgraph_char_t *buffer,
   if ((NULL != buffer) && (0 < size)) {
     cgraph_char_t *data = buffer, ch;
     for (_size -= 1; (len < _size) && 0 != feof(fp); len++, data++) {
-#if __PLAT_FEND < __PLAT_FEND_WIN
+#if __PLAT_NLINE_TYPE < __PLAT_NLINE_WIN
       if (__PLAT_NLINE_C == (ch = fgetc(fp))) {
         break;
       }
@@ -326,7 +410,7 @@ cgraph_size_t cgraph_file_rows(FILE *fp) {
     fpos_t fp_init;
     fgetpos(fp, &fp_init);
     while (0 != feof(fp)) {
-#if __PLAT_FEND < __PLAT_FEND_WIN
+#if __PLAT_NLINE_TYPE < __PLAT_NLINE_WIN
       if (__PLAT_NLINE_C == (ch = fgetc(fp))) {
 #else
       if (('\r' == (ch = fgetc(fp))) && ('\n' == (ch = fgetc(fp)))) {
@@ -382,9 +466,9 @@ cgraph_int64_t cgraph_file_bytes(FILE *fp) {
   if ((NULL != fp) && (0 == ferror(fp))) {
 #if __WORDSIZE == 32
     fpos_t pos_init, pos_end;
-    fgetops(fp, &pos_init);
+    fgetpos(fp, &pos_init);
     fseek(fp, 0, SEEK_END);
-    fgetops(fp, &pos_end);
+    fgetpos(fp, &pos_end);
     len = pos_end - pos_init;
 #else
     fseek(fp, 0, SEEK_END);
@@ -422,7 +506,11 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
     *file_end = (cgraph_char_t *)_new_line;
   }
   if (NULL != isbigendian) {
+#if __PLAT_ENDIAN == 1
+    *isbigendian = CGRAPH_TRUE;
+#else
     *isbigendian = (cgraph_file_endian.byte[3] ? CGRAPH_FALSE : CGRAPH_TRUE);
+#endif
   }
 }
 

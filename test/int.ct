@@ -1,12 +1,13 @@
 int main(int argc, char *argv[]) {
-  fprintf(stdout, "name : %s\n", STRING(TYPE));
-  fprintf(stdout, "size : %ld\n", sizeof(TYPE));
+  fprintf(stdout, "name : %s", STRING(TYPE));
+  cgraph_file_fprintfln(stdout, "size : %ld", sizeof(TYPE));
 #ifndef TYPE_BOOL
-  fprintf(stdout, "%d : " OUT_FORMAT "\n", 4, FUNCTION(NAME, usqrt)(4));
-  fprintf(stdout, OUT_FORMAT " : " OUT_FORMAT "\n", MAX,
-          FUNCTION(NAME, usqrt)(MAX));
-  fprintf(stdout, OUT_FORMAT "\n", FUNCTION(NAME, mul)(-64, 64));
-  fprintf(stdout, OUT_FORMAT "\n", FUNCTION(NAME, ufact)(4));
+  cgraph_file_fprintfln(stdout, "%d : " OUT_FORMAT, 4,
+                        FUNCTION(NAME, usqrt)(4));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT " : " OUT_FORMAT, MAX,
+                        FUNCTION(NAME, usqrt)(MAX));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, mul)(-64, 64));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, ufact)(4));
 #endif
 
   return 0;
