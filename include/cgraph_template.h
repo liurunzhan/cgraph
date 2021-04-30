@@ -290,6 +290,57 @@
 #define EPSILON16 CGRAPH_INT64_EPSILON16
 #define EPSILON32 CGRAPH_INT64_EPSILON32
 
+#elif defined(TYPE_FLOAT8)
+#define ARG cgraph_float64_t
+#define NAME float8
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FLOAT8)
+#define IN_FORMAT "%g"
+#define OUT_FORMAT "%g"
+#define ZERO (0.0)
+#define ONE (1.0)
+#define ONES (1.0)
+#define BITS CGRAPH_FLOAT8_BITS
+#define MIN CGRAPH_FLOAT8_MIN
+#define MAX CGRAPH_FLOAT8_MAX
+#define EPSILON CGRAPH_FLOAT8_EPS
+#define EPSILON_LEN CGRAPH_FLOAT8_DIG
+#define HASH_OFFSET (1)
+
+#elif defined(TYPE_FLOAT16)
+#define ARG cgraph_float64_t
+#define NAME float16
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FLOAT16)
+#define IN_FORMAT "%g"
+#define OUT_FORMAT "%g"
+#define ZERO (0.0)
+#define ONE (1.0)
+#define ONES (1.0)
+#define BITS CGRAPH_FLOAT16_BITS
+#define MIN CGRAPH_FLOAT16_MIN
+#define MAX CGRAPH_FLOAT16_MAX
+#define EPSILON CGRAPH_FLOAT16_EPS
+#define EPSILON_LEN CGRAPH_FLOAT16_DIG
+#define HASH_OFFSET (2)
+
+#elif defined(TYPE_FLOAT32)
+#define ARG cgraph_float64_t
+#define NAME float32
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FLOAT32)
+#define IN_FORMAT "%g"
+#define OUT_FORMAT "%g"
+#define ZERO (0.0)
+#define ONE (1.0)
+#define ONES (1.0)
+#define BITS CGRAPH_FLOAT32_BITS
+#define MIN CGRAPH_FLOAT32_MIN
+#define MAX CGRAPH_FLOAT32_MAX
+#define EPSILON CGRAPH_FLOAT32_EPS
+#define EPSILON_LEN CGRAPH_FLOAT32_DIG
+#define HASH_OFFSET (4)
+
 #elif defined(TYPE_FLOAT32)
 #define ARG cgraph_float64_t
 #define NAME float32
@@ -923,6 +974,54 @@
 #define EXP(a) exp((a))
 #define SQRT(a) sqrt((a))
 
+#elif defined(TYPE_FLOAT8) || defined(TYPE_FLOAT16)
+#define DATA_TEST(a) ((MIN < (a)) && (MAX > (a)))
+#define DATA_ISNAN(a) ((a) != (a))
+#define DATA_ISPINF(a) (MAX < (a))
+#define DATA_ISNINF(a) (MIN > (a))
+#define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
+#define DATA_ISPOS(a) (!FUNCTION(NAME, signbit)((a)))
+#define DATA_ISNEG(a) FUNCTION(NAME, signbit)((a))
+
+#define ADD(a, b, c) ((a) + (b))
+#define SUB(a, b, c) ((a) - (b))
+#define MUL(a, b, c) ((a) * (b))
+#define DIV(a, b, c) ((a) / (b))
+#define DIVF(a, b, c) ((a) / (b))
+#define INT(a, b, c) FUNCTION(NAME, int)((a), (b))
+#define FEXP(a) FUNCTION(NAME, fexp)((a))
+
+#define TYPE_PTR TYPE
+#define FREXP(a, b, c) FUNCTION(NAME, frexp_s)((a), (b))
+#define FMOD(a, b, c) FUNCTION(NAME, fmod_s)((a), (b))
+#define MODF(a, b, c) FUNCTION(NAME, modf_s)((a), (b))
+#define MOD(a, b, c) FUNCTION(NAME, mod_s)((a), (b))
+
+#define EQ(a, b) (fabsf((a) - (b)) < EPSILON)
+#define NE(a, b) (fabsf((a) - (b)) > EPSILON)
+#define GR(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (((a) - (b)) > (-EPSILON))
+#define LS(a, b) (((a) - (b)) < (-EPSILON))
+#define LE(a, b) (((a) - (b)) < EPSILON)
+
+#define CEIL(a) FUNCTION(NAME, ceil_s)((a))
+#define FLOOR(a) FUNCTION(NAME, floor_s)((a))
+#define POW(a, b) FUNCTION(NAME, pow_s)((a), (b))
+#define ABS(a) FUNCTION(NAME, abs_s)((a))
+#define SIN(a) FUNCTION(NAME, sin_s)((a))
+#define COS(a) FUNCTION(NAME, cos_s)((a))
+#define TAN(a) FUNCTION(NAME, tan_s)((a))
+#define ASIN(a) FUNCTION(NAME, asin_s)((a))
+#define ACOS(a) FUNCTION(NAME, acos_s)((a))
+#define ATAN(a) FUNCTION(NAME, atan_s)((a))
+#define SINH(a) FUNCTION(NAME, sinh_s)((a))
+#define COSH(a) FUNCTION(NAME, cosh_s)((a))
+#define TANH(a) FUNCTION(NAME, tanh_s)((a))
+#define LOG(a) FUNCTION(NAME, log_s)((a))
+#define LOG2(a) (FUNCTION(NAME, log_s)((a)) / FUNCTION(NAME, log_s)(2.0))
+#define LOG10(a) FUNCTION(NAME, log10_s)((a))
+#define EXP(a) FUNCTION(NAME, exp_s)((a))
+#define SQRT(a) FUNCTION(NAME, sqrt_s)((a))
 #elif defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64) || defined(TYPE_FLOAT128)
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
 #define DATA_TEST(a) isnormal((a))

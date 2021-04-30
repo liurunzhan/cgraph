@@ -53,24 +53,22 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
 }
 
 void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data) {
-  void *_cthis = cthis;
-  if (NULL != _cthis) {
-    _cthis = memset(cthis, data & 0xFF, size);
+  if (NULL != cthis) {
+    memset(cthis, data & 0xFF, size);
   }
 #ifdef DEBUG
-  if (NULL == _cthis) {
+  if (NULL == cthis) {
     cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "source pointer is empty");
   }
 #endif
 
-  return _cthis;
+  return cthis;
 }
 
 void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size) {
-  void *_object = object;
   if ((NULL != object) && (NULL != cthis) && (object != cthis) && (0 < size)) {
-    _object = memcpy(object, cthis, size);
+    memcpy(object, cthis, size);
   }
 #ifdef DEBUG
   if (NULL == object) {
@@ -92,7 +90,41 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size) {
   }
 #endif
 
-  return _object;
+  return object;
+}
+
+void *cgraph_memscpy(void *object, const cgraph_size_t size,
+                     const cgraph_size_t old_len, const void *cthis,
+                     const cgraph_size_t new_len) {
+  if ((NULL != object) && (NULL != cthis) && (object != cthis) && (0 < size)) {
+    cgraph_char_t *_object = ((cgraph_char_t *)object) + old_len,
+                  *_cthis = (cgraph_char_t *)cthis;
+    cgraph_size_t i = old_len, j = 0;
+    for (; (j < new_len) && (i < size); i++) {
+      *_object = *_cthis;
+    }
+  }
+#ifdef DEBUG
+  if (NULL == object) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "target pointer is empty");
+  }
+  if (NULL == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is empty");
+  }
+  if (object == cthis) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is equal to target pointer");
+  }
+  if (0 >= size) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "memory size %ld is a negative number or equal to zero",
+                     size);
+  }
+#endif
+
+  return object;
 }
 
 cgraph_char_t *cgraph_strcpy(cgraph_char_t *object,
@@ -143,6 +175,20 @@ cgraph_char_t *cgraph_strncpy(cgraph_char_t *object, const cgraph_char_t *cthis,
   return _object;
 }
 
+cgraph_char_t *cgraph_strscpy(cgraph_char_t *object, const cgraph_size_t size,
+                              const cgraph_char_t *cthis) {
+  if ((NULL != object) && (NULL != cthis)) {
+    cgraph_size_t _size = size - 1;
+    cgraph_char_t *_object = object, *_cthis = (cgraph_char_t *)cthis;
+    for (; (0 < _size) && ('\0' != *_cthis); _size--, _object++, _cthis++) {
+      *_object = *_cthis;
+    }
+    *_object = '\0';
+  }
+
+  return object;
+}
+
 cgraph_char_t *cgraph_strcat(cgraph_char_t *object,
                              const cgraph_char_t *cthis) {
   cgraph_char_t *_object = object;
@@ -189,6 +235,22 @@ cgraph_char_t *cgraph_strncat(cgraph_char_t *object, const cgraph_char_t *cthis,
 #endif
 
   return _object;
+}
+
+cgraph_char_t *cgraph_strscat(cgraph_char_t *object, const cgraph_size_t size,
+                              const cgraph_char_t *cthis) {
+  if ((NULL != object) && (NULL != cthis)) {
+    cgraph_size_t _size = size - 1;
+    cgraph_char_t *_object = object, *_cthis = (cgraph_char_t *)cthis;
+    for (; (0 < _size) && ('\0' != *_object); _size--, _object++) {
+    }
+    for (; (0 < _size) && ('\0' != *_cthis); _size--, _object++, _cthis++) {
+      *_object = *_cthis;
+    }
+    *_object = '\0';
+  }
+
+  return object;
 }
 
 void cgraph_free(void *cthis) {

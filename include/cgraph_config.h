@@ -19,7 +19,7 @@ extern "C" {
 /**
  * @brief
  * basic c-type definitions:
- * integer number types : char int long int8_t int16_t int32_t
+ * integer number types : char int long int8_t int16_t int32_t int64_t
  * float number types   : float double
  * c-type string type   : char *
  */
@@ -306,6 +306,36 @@ typedef __cgraph_uint64 cgraph_uint64_t;
 #define CGRAPH_UINT64_EPSILON32 __INT64_EPSILON32
 
 /**
+ * @typedef cgraph_float8_t
+ * @brief 8-bit floating point number data type
+ * @def CGRAPH_FLOAT8_MAX FLT_MAX
+ * @def CGRAPH_FLOAT8_MIN FLT_MIN
+ * @def CGRAPH_FLOAT8_EPS 1
+ * @def CGRAPH_FLOAT8_BITS FLT_DIG
+ */
+typedef cgraph_uint8_t cgraph_float8_t;
+#define CGRAPH_FLOAT8_MAX FLT_MAX
+#define CGRAPH_FLOAT8_MIN FLT_MIN
+#define CGRAPH_FLOAT8_EPS FLT_EPSILON
+#define CGRAPH_FLOAT8_DIG 1
+#define CGRAPH_FLOAT8_BITS CGRAPH_UINT8_BITS
+
+/**
+ * @typedef cgraph_float16_t
+ * @brief 16-bit floating point number data type
+ * @def CGRAPH_FLOAT16_MAX FLT_MAX
+ * @def CGRAPH_FLOAT16_MIN FLT_MIN
+ * @def CGRAPH_FLOAT16_EPS FLT_EPSILON
+ * @def CGRAPH_FLOAT16_BITS FLT_DIG
+ */
+typedef cgraph_uint16_t cgraph_float16_t;
+#define CGRAPH_FLOAT16_MAX FLT_MAX
+#define CGRAPH_FLOAT16_MIN FLT_MIN
+#define CGRAPH_FLOAT16_EPS FLT_EPSILON
+#define CGRAPH_FLOAT16_DIG 3
+#define CGRAPH_FLOAT16_BITS CGRAPH_UINT16_BITS
+
+/**
  * @typedef cgraph_float32_t
  * @brief 32-bit floating point number data type
  * @def CGRAPH_FLOAT32_MAX FLT_MAX
@@ -415,30 +445,32 @@ typedef enum {
   CGRAPH_INT16_T = 6,     /**< TYPE  6 : CGRAPH_INT16_T */
   CGRAPH_INT32_T = 7,     /**< TYPE  7 : CGRAPH_INT32_T */
   CGRAPH_INT64_T = 8,     /**< TYPE  8 : CGRAPH_INT64_T */
-  CGRAPH_FLOAT32_T = 9,   /**< TYPE  9 : CGRAPH_FLOAT32_T */
-  CGRAPH_FLOAT64_T = 10,  /**< TYPE 10 : CGRAPH_FLOAT64_T */
-  CGRAPH_FLOAT128_T = 11, /**< TYPE 11 : CGRAPH_FLOAT128_T */
-  CGRAPH_TIME_T = 12,     /**< TYPE 12 : CGRAPH_TIME_T */
-  CGRAPH_COMPLEX_T = 13,  /**< TYPE 13 : CGRAPH_COMPLEX_T */
-  CGRAPH_FRACTION_T = 14, /**< TYPE 14 : CGRAPH_FRACTION_T */
-  CGRAPH_BITSET_T = 15,   /**< TYPE 15 : CGRAPH_BITSET_T */
-  CGRAPH_BIGINT_T = 16,   /**< TYPE 16 : CGRAPH_BIGINT_T */
-  CGRAPH_BIGNUM_T = 17,   /**< TYPE 17 : CGRAPH_BIGNUM_T */
-  CGRAPH_STRING_T = 18,   /**< TYPE 18 : CGRAPH_STRING_T */
-  CGRAPH_VECTOR_T = 19,   /**< TYPE 19 : CGRAPH_VECTOR_T */
-  CGRAPH_MATRIX_T = 20,   /**< TYPE 20 : CGRAPH_MATRIX_T */
-  CGRAPH_MATRIX3D_T = 21, /**< TYPE 21 : CGRAPH_MATRIX3D_T */
-  CGRAPH_BIGMAT_T = 22,   /**< TYPE 22 : CGRAPH_BIGMAT_T */
-  CGRAPH_BIGMAT3D_T = 23, /**< TYPE 23 : CGRAPH_BIGMAT3D_T */
-  CGRAPH_SPAMAT_T = 24,   /**< TYPE 24 : CGRAPH_SPAMAT_T */
-  CGRAPH_SPAMAT3D_T = 25, /**< TYPE 25 : CGRAPH_SPAMAT3D_T */
-  CGRAPH_DFRAME_T = 26,   /**< TYPE 26 : CGRAPH_DFRAME_T */
-  CGRAPH_DICT_T = 27,     /**< TYPE 27 : CGRAPH_DICT_T */
-  CGRAPH_SET_T = 28,      /**< TYPE 28 : CGRAPH_SET_T */
-  CGRAPH_LIST_T = 29,     /**< TYPE 29 : CGRAPH_LIST_T */
-  CGRAPH_QUEUE_T = 30,    /**< TYPE 30 : CGRAPH_QUEUE_T */
-  CGRAPH_TREE_T = 31,     /**< TYPE 31 : CGRAPH_TREE_T */
-  CGRAPH_NULL_T = 32      /**< TYPE 32 : CGRAPH_NULL_T */
+  CGRAPH_FLOAT8_T = 9,    /**< TYPE  9 : CGRAPH_FLOAT8_T */
+  CGRAPH_FLOAT16_T = 10,  /**< TYPE 10 : CGRAPH_FLOAT16_T */
+  CGRAPH_FLOAT32_T = 11,  /**< TYPE 11 : CGRAPH_FLOAT32_T */
+  CGRAPH_FLOAT64_T = 12,  /**< TYPE 12 : CGRAPH_FLOAT64_T */
+  CGRAPH_FLOAT128_T = 13, /**< TYPE 13 : CGRAPH_FLOAT128_T */
+  CGRAPH_TIME_T = 14,     /**< TYPE 14 : CGRAPH_TIME_T */
+  CGRAPH_COMPLEX_T = 15,  /**< TYPE 15 : CGRAPH_COMPLEX_T */
+  CGRAPH_FRACTION_T = 16, /**< TYPE 16 : CGRAPH_FRACTION_T */
+  CGRAPH_BITSET_T = 17,   /**< TYPE 17 : CGRAPH_BITSET_T */
+  CGRAPH_BIGINT_T = 18,   /**< TYPE 18 : CGRAPH_BIGINT_T */
+  CGRAPH_BIGNUM_T = 19,   /**< TYPE 19 : CGRAPH_BIGNUM_T */
+  CGRAPH_STRING_T = 20,   /**< TYPE 20 : CGRAPH_STRING_T */
+  CGRAPH_VECTOR_T = 21,   /**< TYPE 21 : CGRAPH_VECTOR_T */
+  CGRAPH_MATRIX_T = 22,   /**< TYPE 22 : CGRAPH_MATRIX_T */
+  CGRAPH_MATRIX3D_T = 23, /**< TYPE 23 : CGRAPH_MATRIX3D_T */
+  CGRAPH_BIGMAT_T = 24,   /**< TYPE 24 : CGRAPH_BIGMAT_T */
+  CGRAPH_BIGMAT3D_T = 25, /**< TYPE 25 : CGRAPH_BIGMAT3D_T */
+  CGRAPH_SPAMAT_T = 26,   /**< TYPE 26 : CGRAPH_SPAMAT_T */
+  CGRAPH_SPAMAT3D_T = 27, /**< TYPE 27 : CGRAPH_SPAMAT3D_T */
+  CGRAPH_DFRAME_T = 28,   /**< TYPE 28 : CGRAPH_DFRAME_T */
+  CGRAPH_DICT_T = 29,     /**< TYPE 29 : CGRAPH_DICT_T */
+  CGRAPH_SET_T = 30,      /**< TYPE 30 : CGRAPH_SET_T */
+  CGRAPH_LIST_T = 31,     /**< TYPE 31 : CGRAPH_LIST_T */
+  CGRAPH_QUEUE_T = 32,    /**< TYPE 32 : CGRAPH_QUEUE_T */
+  CGRAPH_TREE_T = 33,     /**< TYPE 33 : CGRAPH_TREE_T */
+  CGRAPH_NULL_T = 34      /**< TYPE 34 : CGRAPH_NULL_T */
 } cgraph_type_t;
 
 /**

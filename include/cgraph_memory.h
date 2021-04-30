@@ -26,16 +26,25 @@ extern void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
 extern void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data);
 extern void *cgraph_memcpy(void *object, const void *cthis,
                            const cgraph_size_t size);
+extern void *cgraph_memscpy(void *object, const cgraph_size_t size,
+                            const cgraph_size_t old_len, const void *cthis,
+                            const cgraph_size_t new_len);
 extern cgraph_char_t *cgraph_strcpy(cgraph_char_t *object,
                                     const cgraph_char_t *cthis);
 extern cgraph_char_t *cgraph_strncpy(cgraph_char_t *object,
                                      const cgraph_char_t *cthis,
                                      const cgraph_size_t len);
+extern cgraph_char_t *cgraph_strscpy(cgraph_char_t *object,
+                                     const cgraph_size_t size,
+                                     const cgraph_char_t *cthis);
 extern cgraph_char_t *cgraph_strcat(cgraph_char_t *object,
                                     const cgraph_char_t *cthis);
 extern cgraph_char_t *cgraph_strncat(cgraph_char_t *object,
                                      const cgraph_char_t *cthis,
                                      const cgraph_size_t len);
+extern cgraph_char_t *cgraph_strscat(cgraph_char_t *object,
+                                     const cgraph_size_t size,
+                                     const cgraph_char_t *cthis);
 extern void cgraph_free(void *cthis);
 extern cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
                                    const cgraph_size_t size);

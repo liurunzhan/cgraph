@@ -10,8 +10,8 @@
 #include <unistd.h>
 #define access access
 #else
-#include <direct.h>
 #include <io.h>
+#include <windows.h>
 #define access _access
 #endif
 
@@ -68,11 +68,11 @@ cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *buffer,
   return buffer;
 }
 
-#if 0
 cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
+  cgraph_char_t **ext = NULL;
+#if __PLAT_NLINE_TYPE == __PLAT_NLINE_UNIX
   DIR *dptr;
   struct dirent *eptr;
-  cgraph_char_t **ext = NULL;
   if (NULL == (dptr = opendir(path))) {
     fprintf(stderr, "read directory %s error!\n", path);
     exit(-1);
@@ -82,10 +82,22 @@ cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
   }
   closedir(dptr);
 
+#else
+  if (strcmp(path, "/") == 0 || strcmp(path, "\\") == 0) {
+    DWORD dwSize = MAX_PATH;
+    char szLogicalDrives[MAX_PATH] = {0};
+    DWORD dwResult = GetLogicalDriveStringsA(dwSize, szLogicalDrives);
+    if (dwResult > 0 && dwResult <= MAX_PATH) {
+      char *szSingleDrive = szLogicalDrives;
+      while (*szSingleDrive) {
+        szSingleDrive += strlen(szSingleDrive) + 1;
+      }
+    }
+  }
+#endif
+
   return ext;
 }
-
-#endif
 
 #ifdef __NO_VSNPRINTF
 #undef __NO_VSNPRINTF
@@ -157,6 +169,27 @@ cgraph_size_t cgraph_file_rputc(FILE *fp, const cgraph_char_t *buffer,
     }
   }
   return size;
+}
+
+__INLINE cgraph_size_t cgraph_file_sprintnl(cgraph_char_t *buffer,
+                                            const cgraph_size_t len,
+                                            const cgraph_size_t size) {
+#if __PLAT_NLINE_TYPE < __PLAT_NLINE_WIN
+  if ((NULL != buffer) && ((len + 1) < size)) {
+    buffer += len;
+    *(buffer++) = __PLAT_NLINE_C;
+  }
+
+  return len + 1;
+#else
+  if ((NULL != buffer) && ((len + 2) < size)) {
+    buffer += len;
+    *(buffer++) = __PLAT_NLINE_C0;
+    *(buffer++) = __PLAT_NLINE_C1;
+  }
+
+  return len + 2;
+#endif
 }
 
 __INLINE cgraph_size_t cgraph_file_fprintnl(FILE *fp) {

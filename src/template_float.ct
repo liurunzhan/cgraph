@@ -120,7 +120,7 @@ TYPE FUNCTION(NAME, pi)(void) {
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return (x > 0.0);
+  return CGRAPH_TEST(x > 0.0);
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {

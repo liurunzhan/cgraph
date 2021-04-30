@@ -5,8 +5,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #else
-#include <direct.h>
 #include <io.h>
+#include <windows.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>

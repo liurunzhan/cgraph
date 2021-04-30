@@ -1,0 +1,37 @@
+extern TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y);
+extern cgraph_int_t FUNCTION(NAME, frexp_s)(const TYPE x, cgraph_int_t *y);
+extern TYPE FUNCTION(NAME, int_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mod_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, fmod_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, modf_s)(const TYPE x, const TYPE *y);
+
+extern TYPE FUNCTION(NAME, abs_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, log_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, log2_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, log10_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, exp_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, sqrt_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, sin_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, cos_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, tan_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, cot_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, sec_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, csc_s)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, sinh_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, cosh_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, tanh_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, coth_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, sech_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, csch_s)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, asin_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, acos_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, atan_s)(const TYPE x);
+
+#include "cgraph_template_float.ht"
