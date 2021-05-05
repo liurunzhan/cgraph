@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_template_int.ht
+ * @brief the template apis of integers
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #include "cgraph_template_data.ht"
 
 extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,

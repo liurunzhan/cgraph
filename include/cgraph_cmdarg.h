@@ -1,6 +1,6 @@
 /**
  * @file cgraph_cmdarg.h
- * @brief the command line arguments
+ * @brief the apis of the command line arguments
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

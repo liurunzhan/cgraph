@@ -33,8 +33,20 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, fprintln)(stdout, bigint3); */
   bigint4 = FUNCTION(NAME, atoi)(data);
   FUNCTION(NAME, fprintln)(stdout, bigint4);
+  FUNCTION(NAME, fprintln)(stdout, bigint1);
+  FUNCTION(NAME, fprintln)(stdout, bigint2);
   FUNCTION(NAME, mul)(bigint1, bigint2, bigint5);
   FUNCTION(NAME, fprintln)(stdout, bigint5);
+  FUNCTION(NAME, fprintln)(stdout, bigint2);
+  FUNCTION(NAME, fprintln)(stdout, bigint1);
+  FUNCTION(NAME, div)(bigint5, bigint2, bigint1);
+  FUNCTION(NAME, fprintln)(stdout, bigint5);
+  FUNCTION(NAME, fprintln)(stdout, bigint2);
+  FUNCTION(NAME, fprintln)(stdout, bigint1);
+  FUNCTION(NAME, mod)(bigint5, bigint2, bigint1);
+  FUNCTION(NAME, fprintln)(stdout, bigint5);
+  FUNCTION(NAME, fprintln)(stdout, bigint2);
+  FUNCTION(NAME, fprintln)(stdout, bigint1);
 
   FUNCTION(NAME, free)(bigint1);
   FUNCTION(NAME, free)(bigint2);

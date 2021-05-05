@@ -66,6 +66,7 @@ lib/
 autom4te.cache/
 m4/*
 !m4/ax*
+!m4/m4_ax*
 .deps/
 .libs/
 include/cgraph_stdint.h

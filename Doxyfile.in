@@ -2260,7 +2260,7 @@ PREDEFINED             = definition
 
 EXPAND_AS_DEFINED      = CGRAPH_OBJECT_BASE \
 												 CGRAPH_OBJECT_ROOT \
-												 CGRAPH_DATA_BASE \
+												 CGRAPH_BASE \
 												 CGRAPH_DATA_ROOT \
                          CGRAPH_STRUCTURE_BASE \
 												 CGRAPH_STRUCTURE_PTR1 \

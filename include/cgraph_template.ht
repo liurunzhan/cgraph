@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_template.ht
+ * @brief the template apis of DATA TYPE and STRUCTURE TYPE
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 extern CGVTable STRUCT(NAME);
 
 extern cgraph_type_t FUNCTION(NAME, tid)(void);

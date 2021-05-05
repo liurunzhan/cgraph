@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_template_off.h
+ * @brief undefine the common defined macros
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifdef CONCAT1V
 #undef CONCAT1V
 #endif
@@ -466,8 +477,8 @@
 #endif
 
 /**DATA AND STRUCTURE ASSIGN */
-#ifdef CGRAPH_DATA_BASE
-#undef CGRAPH_DATA_BASE
+#ifdef CGRAPH_BASE
+#undef CGRAPH_BASE
 #endif
 
 #ifdef CGRAPH_STRUCTURE_BASE

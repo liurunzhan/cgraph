@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_template_object.ht
+ * @brief the template apis of objects
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #include "cgraph_template_data.ht"
 
 extern cgraph_type_t FUNCTION(NAME, objtype)(const TYPE *cthis);

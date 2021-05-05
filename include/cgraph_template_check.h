@@ -1,4 +1,14 @@
-/**DATA TYPE MATHEMATICAL FUNCTIONS */
+/**
+ * @file cgraph_template_check.h
+ * @brief the checker of common defined macros
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #ifndef ASSIGN
 #error undefined needed macro ASSIGN
 #endif

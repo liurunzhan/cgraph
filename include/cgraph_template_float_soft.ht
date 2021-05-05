@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_template_float_soft.ht
+ * @brief the template apis of software float point numbers
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 extern TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y);

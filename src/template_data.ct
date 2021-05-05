@@ -134,7 +134,7 @@ TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
 #ifdef TYPE_WITH_DATA
   if (NULL != data) {
     cgraph_size_t _size = CGRAPH_SIZE(cthis),
-                  _dsize = (size > 0 ? size : CGRAPH_SIZE(data));
+                  _dsize = (size > 0 ? size : CGRAPH_LEN(data));
     cgraph_bool_t error = CGRAPH_FALSE;
     cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, _size, _dsize, &error);
     if (CGRAPH_FALSE == error) {

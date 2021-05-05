@@ -17,6 +17,12 @@ m4_include([m4/ax_cache_size.m4])
 m4_include([m4/ax_compile_check_sizeof.m4])
 m4_include([m4/ax_create_stdint_h.m4])
 m4_include([m4/ax_valgrind_check.m4])
+m4_include([m4/m4_ax_c___attribute__.m4])
+m4_include([m4/m4_ax_c_compile_value.m4])
+m4_include([m4/m4_ax_c_var_func.m4])
+m4_include([m4/m4_ax_printf_size_t.m4])
+m4_include([m4/m4_ax_prog_cc_for_build.m4])
+m4_include([m4/m4_ax_prog_cxx_for_build.m4])
 
 # Checks for programs.
 AC_PROG_CXX
@@ -29,6 +35,8 @@ AC_PROG_LIBTOOL
 AC_LIBTOOL_WIN32_DLL
 LT_PREREQ([2.4.0])
 LT_INIT
+AX_VALGRIND_DFLT([memcheck], [on])
+AX_VALGRIND_CHECK
 
 # Checks for gtk-doc.
 GTK_DOC_CHECK([1.14], [--flavour no-tmpl])
@@ -57,11 +65,16 @@ AX_C_LONG_LONG
 AC_CHECK_TYPES(long double)
 
 AC_STRUCT_TM
+AX_PRINTF_SIZE_T
+AX_C_REFERENCEABLE_PASSED_VA_LIST
+AX_PROG_CC_FOR_BUILD
+AX_PROG_CXX_FOR_BUILD
 
 AC_C_CONST
 AC_C_INLINE
 AX_C_VAR_FUNC
 AC_C_BIGENDIAN
+
 
 # Checks for library functions.
 AC_FUNC_ALLOCA

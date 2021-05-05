@@ -22,7 +22,7 @@ extern "C" {
 #include "cgraph_template.h"
 
 typedef struct {
-  CGRAPH_DATA_BASE
+  CGRAPH_BASE
   cgraph_bool_t postive;
   CGRAPH_DATA_ROOT
 } cgraph_bigint_t;

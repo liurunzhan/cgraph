@@ -256,6 +256,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
       DATA_TYPE *xd = &(x->data[0]), *yd, *zd;
       z->postive = CGRAPH_TEST(x->postive == y->postive);
       z->len = size;
+      cgraph_memset(z->data, z->len, 0);
       for (i = 0, carry = 0; i < x->len; i++, xd++) {
         for (j = 0, yd = &(y->data[0]), zd = &(z->data[i]); j < y->len;
              j++, yd++, zd++) {
@@ -280,7 +281,14 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, size, &error);
     if (CGRAPH_FALSE == error) {
-      cgraph_memcmp(z->data, x->data, x->len);
+      z->postive = CGRAPH_TEST(x->postive == y->postive);
+      if (x->len >= y->len) {
+        cgraph_size_t i;
+        DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]);
+      } else {
+        z->data[0] = 0;
+        z->len = 1;
+      }
     }
   }
 
@@ -293,7 +301,11 @@ TYPE *FUNCTION(NAME, mod)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, size, &error);
     if (CGRAPH_FALSE == error) {
-      cgraph_memcmp(z->data, x->data, x->len);
+      z->postive = CGRAPH_TEST(x->postive == y->postive);
+      cgraph_memcpy(z->data, x->data, size);
+      z->len = size;
+      if (x->len >= y->len) {
+      }
     }
   }
 

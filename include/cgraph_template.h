@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_template.h
+ * @brief define the common defined macros
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #if defined(TYPE)
 #error before <cgraph_template.h> is included, no other <cgraph_template.h> is included without <cgraph_template_off.h> included
 #endif
@@ -753,11 +764,14 @@
 #define CGRAPH_OBJECT_BASE cgraph_element_t element;
 
 #define CGRAPH_OBJECT_ROOT DATA_TYPE data;
+#define CGRAPH_OBJECT_DATA_ST(a) (&((a)->data[0]))
 
 /**property inheritance of data and structure types */
-#define CGRAPH_DATA_BASE cgraph_size_t size, len;
+#define CGRAPH_BASE cgraph_size_t size, len;
 #define CGRAPH_SIZE(x) ((NULL != (x)) ? (x)->size : 0)
 #define CGRAPH_LEN(x) ((NULL != (x)) ? (x)->len : 0)
+#define CGRAPH_DATA_ST(a) (&((a)->data[0]))
+#define CGRAPH_DATA_ED(a) (&((a)->data[(a)->len-1]))
 
 #if (__STDC_VERSION__ >= 199901L)
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, root[];
@@ -766,7 +780,7 @@
 #endif /**__STDC_VERSION__ */
 
 #define CGRAPH_STRUCTURE_BASE                                                  \
-  CGRAPH_DATA_BASE                                                             \
+  CGRAPH_BASE                                                                  \
   cgraph_element_t element;
 
 #define CGRAPH_STRUCTURE_PTR1 cgraph_snode1_t *header, *tail;

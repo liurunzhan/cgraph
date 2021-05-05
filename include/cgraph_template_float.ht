@@ -1,3 +1,14 @@
+/**
+ * @file cgraph_template_float.ht
+ * @brief the template apis of float point numbers
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ */
+
 #include "cgraph_template_data.ht"
 
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
