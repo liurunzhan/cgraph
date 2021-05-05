@@ -100,7 +100,6 @@ ar-lib
 # Doc/Markdown Files
 *.orig
 Doxyfile
-Doxyfile.bak
 doc/*
 !doc/build-gtk-doc.sh
 !doc/*.pl
