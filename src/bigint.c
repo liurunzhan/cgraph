@@ -285,6 +285,8 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
       if (x->len >= y->len) {
         cgraph_size_t i;
         DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]);
+        z->postive = CGRAPH_TEST(x->postive == y->postive);
+        cgraph_memcpy(z->data, x->data, size);
       } else {
         z->data[0] = 0;
         z->len = 1;
@@ -344,27 +346,34 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
-}
-
 cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
     if (x->postive == y->postive) {
       cgraph_size_t len = CGRAPH_MIN(x->len, y->len), i;
       DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
-      if (CGRAPH_FALSE == x->postive) {
-        xd = &(y->data[y->len - 1]);
-        yd = &(x->data[x->len - 1]);
-      }
-      for (i = 0, flag = CGRAPH_FALSE; i < len; i++, xd--, yd--) {
-        if (*xd <= *yd) {
+      for (i = x->len; i > len; i--, xd--) {
+        if (0 != *xd) {
           flag = CGRAPH_TRUE;
           break;
         }
       }
-      if (CGRAPH_FALSE == flag) {
+      for (i = y->len; i > len; i--, yd--) {
+        if (0 != *yd) {
+          flag = CGRAPH_FALSE;
+          break;
+        }
+      }
+      if (CGRAPH_TRUE == flag) {
+        for (; i >= 0; i--, xd--, yd--) {
+          if (*xd <= *yd) {
+            flag = CGRAPH_FALSE;
+            break;
+          }
+        }
+      }
+      if (CGRAPH_FALSE == x->postive) {
+        flag = CGRAPH_XOR(flag, 0x01);
       }
     } else if (CGRAPH_TRUE == x->postive) {
       flag = CGRAPH_TRUE;
@@ -374,18 +383,6 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
   }
 
   return flag;
-}
-
-cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, ls)(x, y));
-}
-
-cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y) {
-  return FUNCTION(NAME, gr)(y, x);
-}
-
-cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, gr)(x, y));
 }
 
 TYPE *FUNCTION(NAME, format)(TYPE *cthis) {

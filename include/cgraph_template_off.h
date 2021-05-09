@@ -662,6 +662,90 @@
 #undef HASH_OFFSET
 #endif
 
+#ifdef FRA_BITS
+#undef FRA_BITS
+#endif
+
+#ifdef FRA_EPSILON
+#undef FRA_EPSILON
+#endif
+
+#ifdef FRA_OFFSET
+#undef FRA_OFFSET
+#endif
+
+#ifdef FLOAT_SOFT_TOFRA
+#undef FLOAT_SOFT_TOFRA
+#endif
+
+#ifdef FLOAT_SOFT_FRA
+#undef FLOAT_SOFT_FRA
+#endif
+
+#ifdef FLOAT_SOFT_FRA_CLR
+#undef FLOAT_SOFT_FRA_CLR
+#endif
+
+#ifdef FLOAT_SOFT_FRA_SET
+#undef FLOAT_SOFT_FRA_SET
+#endif
+
+#ifdef EXP_BITS
+#undef EXP_BITS
+#endif
+
+#ifdef EXP_EPSILON
+#undef EXP_EPSILON
+#endif
+
+#ifdef EXP_OFFSET
+#undef EXP_OFFSET
+#endif
+
+#ifdef FLOAT_SOFT_TOEXP
+#undef FLOAT_SOFT_TOEXP
+#endif
+
+#ifdef FLOAT_SOFT_EXP
+#undef FLOAT_SOFT_EXP
+#endif
+
+#ifdef FLOAT_SOFT_EXP_CLR
+#undef FLOAT_SOFT_EXP_CLR
+#endif
+
+#ifdef FLOAT_SOFT_EXP_SET
+#undef FLOAT_SOFT_EXP_SET
+#endif
+
+#ifdef SIG_BITS
+#undef SIG_BITS
+#endif
+
+#ifdef SIG_EPSILON
+#undef SIG_EPSILON
+#endif
+
+#ifdef SIG_OFFSET
+#undef SIG_OFFSET
+#endif
+
+#ifdef FLOAT_SOFT_TOSIG
+#undef FLOAT_SOFT_TOSIG
+#endif
+
+#ifdef FLOAT_SOFT_SIG
+#undef FLOAT_SOFT_SIG
+#endif
+
+#ifdef FLOAT_SOFT_SIG_CLR
+#undef FLOAT_SOFT_SIG_CLR
+#endif
+
+#ifdef FLOAT_SOFT_SIG_SET
+#undef FLOAT_SOFT_SIG_SET
+#endif
+
 #ifdef EPSILON1
 #undef EPSILON1
 #endif

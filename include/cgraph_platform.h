@@ -163,6 +163,8 @@ typedef enum {
 #if __STDC_VERSION__ >= 199901L
 #include <inttypes.h>
 #include <stdint.h>
+#define __SIZE_IN_FORMAT "%z"
+#define __SIZE_OUT_FORMAT "%z"
 #define __INT8_MAX INT8_MAX
 #define __INT8_MIN INT8_MIN
 #define __INT8_IN_FORMAT "%" SCNd8
@@ -221,6 +223,8 @@ typedef uint64_t __cgraph_uint64;
 #else
 #ifdef HAVE_CONFIG_H
 #include "cgraph_stdint.h"
+#define __SIZE_IN_FORMAT "%" PRI_SIZE_T_MODIFIER
+#define __SIZE_OUT_FORMAT "%" PRI_SIZE_T_MODIFIER
 #define __INT8_MAX INT8_MAX
 #define __INT8_MIN INT8_MIN
 typedef int8_t __cgraph_int8;
@@ -246,6 +250,8 @@ typedef int64_t __cgraph_int64;
 #define __UINT64_MIN (0ULL)
 typedef uint64_t __cgraph_uint64;
 #else
+#define __SIZE_IN_FORMAT "%ld"
+#define __SIZE_OUT_FORMAT "%ld"
 #define __INT8_MAX (127L)
 #define __INT8_MIN (-128L)
 typedef signed char __cgraph_int8;
@@ -383,6 +389,12 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __FLOAT128_IN_FORMAT "%Lg"
 #define __FLOAT128_OUT_FORMAT "%Lg"
 #define __FLOAT128_HASH_OFFSET (12)
+#define __FLOAT128_FRA_BITS (15)
+#define __FLOAT128_FRA_OFFSET (0)
+#define __FLOAT128_FRA_EPSILON (0x7FFF)
+#define __FLOAT128_EXP_BITS (64)
+#define __FLOAT128_EXP_OFFSET __FLOAT128_FRA_BITS
+#define __FLOAT128_EXP_EPSILON __UINT64_EPS
 #else
 #define __FLOAT128 double
 #define __FLOAT128_MIN DBL_MIN
@@ -393,6 +405,12 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __FLOAT128_IN_FORMAT "%g"
 #define __FLOAT128_OUT_FORMAT "%g"
 #define __FLOAT128_HASH_OFFSET (8)
+#define __FLOAT128_FRA_BITS (11)
+#define __FLOAT128_FRA_OFFSET (0)
+#define __FLOAT128_FRA_EPSILON (0x7FFF)
+#define __FLOAT128_EXP_BITS (52)
+#define __FLOAT128_EXP_OFFSET __FLOAT128_FRA_BITS
+#define __FLOAT128_EXP_EPSILON (0xFFFFFFFFFFFFF)
 #endif
 
 #if __WORDSIZE == 64

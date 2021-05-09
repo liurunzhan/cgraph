@@ -9,6 +9,19 @@
  * @lisence GPL-3.0
  */
 
+extern TYPE FUNCTION(NAME, setfra_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, clrfra_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, shlfra_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, shrfra_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, shlexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, rortexp_s)(const TYPE x, const cgraph_int_t y);
+
+extern TYPE FUNCTION(NAME, opp_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, fabs_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, inv_s)(const TYPE x);
+
 extern TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y);
@@ -16,6 +29,8 @@ extern TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y);
 extern cgraph_int_t FUNCTION(NAME, frexp_s)(const TYPE x, cgraph_int_t *y);
 extern TYPE FUNCTION(NAME, int_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod_s)(const TYPE x, const TYPE y);
+extern cgraph_int_t FUNCTION(NAME, floor_s)(const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, ceil_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, fmod_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, modf_s)(const TYPE x, const TYPE *y);
 

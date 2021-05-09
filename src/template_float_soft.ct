@@ -1,185 +1,283 @@
-TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {
+/**
+ *   x = fra * 2 ^ (exp - bias)
+ *          [sig] [exp] [bias] [fra]
+ * float8      1     3      3     4
+ * float16     1     7     63     8
+ * float32     1     8    127    23
+ * float64     1    11   1023    52
+ * float128    1
+ */
+
+TYPE FUNCTION(NAME, setfra_s)(const TYPE x, const cgraph_int_t y) {
+  return (TYPE)(x | (((1U << y) & FRA_EPSILON) << FRA_OFFSET));
+}
+
+TYPE FUNCTION(NAME, clrfra_s)(const TYPE x, const cgraph_int_t y) {
+  return (TYPE)(x & ((~((1U << y) & FRA_EPSILON)) << FRA_OFFSET));
+}
+
+TYPE FUNCTION(NAME, clrfras_s)(const TYPE x) { return FLOAT_SOFT_FRA_CLR(x); }
+
+TYPE FUNCTION(NAME, shlfra_s)(const TYPE x, const cgraph_int_t y) {
+  TYPE res = FLOAT_SOFT_FRA_CLR(x);
+  res += FLOAT_SOFT_TOFRA(FLOAT_SOFT_FRA(x) << y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, shrfra_s)(const TYPE x, const cgraph_int_t y) {
+  TYPE res = FLOAT_SOFT_FRA_CLR(x);
+  res += FLOAT_SOFT_TOFRA(FLOAT_SOFT_FRA(x) >> y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y) {
+  return (TYPE)(x | (((1U << y) & EXP_EPSILON) << EXP_OFFSET));
+}
+
+TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y) {
+  return (TYPE)(x & ((~((1U << y) & EXP_EPSILON)) << EXP_OFFSET));
+}
+
+TYPE FUNCTION(NAME, clrexps_s)(const TYPE x) { return FLOAT_SOFT_EXP_CLR(x); }
+
+TYPE FUNCTION(NAME, shlexp_s)(const TYPE x, const cgraph_int_t y) {
+  TYPE res = FLOAT_SOFT_EXP_CLR(x);
+  res += FLOAT_SOFT_TOEXP(FLOAT_SOFT_EXP(x) << y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, shrexp_s)(const TYPE x, const cgraph_int_t y) {
+  TYPE res = FLOAT_SOFT_EXP_CLR(x);
+  res += FLOAT_SOFT_TOEXP(FLOAT_SOFT_EXP(x) >> y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, opp_s)(const TYPE x) {
+  return (TYPE)(x ^ (SIG_EPSILON << SIG_OFFSET));
+}
+
+TYPE FUNCTION(NAME, fabs_s)(const TYPE x) {
+  return (TYPE)(x & (~(SIG_EPSILON << SIG_OFFSET)));
+}
+
+TYPE FUNCTION(NAME, inv_s)(const TYPE x) {
   TYPE res;
+  return res;
+}
+
+TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {
+  TYPE res, _x = x, _y = y;
+  while (1) {
+    if (FLOAT_SOFT_EXP(_x) > FLOAT_SOFT_EXP(_y)) {
+      _x = FUNCTION(NAME, shrexp_s)(_x, 1);
+      _x = FUNCTION(NAME, shlfra_s)(_x, 1);
+    } else if (FLOAT_SOFT_EXP(_x) < FLOAT_SOFT_EXP(_y)) {
+      _y = FUNCTION(NAME, shrexp_s)(_y, 1);
+      _y = FUNCTION(NAME, shlfra_s)(_y, 1);
+    } else {
+      break;
+    }
+  }
+  res = FLOAT_SOFT_TOFRA(FLOAT_SOFT_FRA(_x) + FLOAT_SOFT_FRA(_y));
+  res += FLOAT_SOFT_TOEXP(FLOAT_SOFT_EXP(_x));
 
   return res;
 }
 
 TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y) {
-  TYPE res;
-
-  return res;
+  return FUNCTION(NAME, add_s)(x, FUNCTION(NAME, opp_s)(y));
 }
 
 TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = FLOAT_SOFT_TOEXP(FLOAT_SOFT_EXP(x) + FLOAT_SOFT_EXP(y));
+  res += FLOAT_SOFT_TOFRA(FLOAT_SOFT_FRA(x) * FLOAT_SOFT_FRA(y));
+  res = (FLOAT_SOFT_SIG(x) == FLOAT_SOFT_SIG(y)) ? FUNCTION(NAME, fabs_s)(res)
+                                                 : FUNCTION(NAME, opp_s)(res);
 
   return res;
 }
 
 TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
-  TYPE res;
-
-  return res;
+  return FUNCTION(NAME, mul_s)(x, FUNCTION(NAME, inv_s)(y));
 }
 
 cgraph_int_t FUNCTION(NAME, frexp_s)(const TYPE x, cgraph_int_t *y) {
-  TYPE res;
+  TYPE res = FLOAT_SOFT_FRA(x);
+  if (NULL != y) {
+    *y = FLOAT_SOFT_EXP(x);
+  }
 
   return res;
 }
 
 TYPE FUNCTION(NAME, int_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, mod_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
+
+  return res;
+}
+
+cgraph_int_t FUNCTION(NAME, floor_s)(const TYPE x) {
+  cgraph_int_t res = 0;
+
+  return res;
+}
+
+cgraph_int_t FUNCTION(NAME, ceil_s)(const TYPE x) {
+  cgraph_int_t res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, fmod_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, modf_s)(const TYPE x, const TYPE *y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, abs_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, log_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, log2_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, log10_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, exp_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, sqrt_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE y) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, sin_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, cos_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, tan_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, cot_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, sec_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, csc_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, sinh_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, cosh_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, tanh_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, coth_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, sech_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, csch_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, asin_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, acos_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, atan_s)(const TYPE x) {
-  TYPE res;
+  TYPE res = 0;
 
   return res;
 }

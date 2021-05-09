@@ -25,6 +25,8 @@ m4_include([m4/m4_ax_prog_cc_for_build.m4])
 m4_include([m4/m4_ax_prog_cxx_for_build.m4])
 
 # Checks for programs.
+AC_LANG(C)
+AC_LANG(C++)
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_CC_STDC

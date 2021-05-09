@@ -430,6 +430,38 @@ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE *cthis) {
 #endif
 
 #ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
+#else
+cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y) {
+#endif
+  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y) {
+#else
+cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y) {
+#endif
+  return CGRAPH_NTEST(FUNCTION(NAME, ls)(x, y));
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y) {
+#else
+cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y) {
+#endif
+  return FUNCTION(NAME, gr)(y, x);
+}
+
+#ifdef TYPE_WITH_DATA
+cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y) {
+#else
+cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y) {
+#endif
+  return CGRAPH_NTEST(FUNCTION(NAME, gr)(x, y));
+}
+
+#ifdef TYPE_WITH_DATA
 cgraph_size_t FUNCTION(NAME, print)(const TYPE *cthis) {
 #else
 cgraph_size_t FUNCTION(NAME, print)(const TYPE cthis) {

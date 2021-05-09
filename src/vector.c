@@ -11,21 +11,17 @@
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
-    if (CGRAPH_DTYPE_TYPE(x) == CGRAPH_DTYPE_TYPE(y)) {
-      cgraph_size_t len = CGRAPH_MIN(x->len, y->len);
-      cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
+    cgraph_type_t type = CGRAPH_DTYPE_TYPE(x);
+    cgraph_size_t len = x->len;
+    if ((type == CGRAPH_DTYPE_TYPE(y)) && (len == y->len)) {
       OBJECT(type, cmp)
       (x->data, y->data, &flag, len, OBJECT(type, eq));
-    } else if ((NULL == x) && (NULL == y)) {
-      flag = CGRAPH_TRUE;
     }
+  } else if ((NULL == x) && (NULL == y)) {
+    flag = CGRAPH_TRUE;
   }
 
   return flag;
-}
-
-cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
 }
 
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {

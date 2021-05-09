@@ -171,6 +171,14 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x) {
   return FUNCTION(NAME, isinf)(x);
 }
 
+cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+  return EQ(x, y);
+}
+
+cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+  return GR(x, y);
+}
+
 __INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
   TYPE_PTR res = 0.0;
   MODF(x / y, &res, NULL);
@@ -483,13 +491,13 @@ TYPE FUNCTION(NAME, logistic)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, gamma)(const TYPE x, const TYPE step) {
-  TYPE res;
+  TYPE res = 0.0;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, beta)(const TYPE x, const TYPE step) {
-  TYPE res;
+  TYPE res = 0.0;
 
   return res;
 }

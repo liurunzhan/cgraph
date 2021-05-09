@@ -143,3 +143,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
 
   return flag;
 }
+
+cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
+  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
+}

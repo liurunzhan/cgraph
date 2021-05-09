@@ -8,6 +8,8 @@ int main(int argc, char *argv[]) {
                         FUNCTION(NAME, usqrt)(MAX));
   cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, mul)(-64, 64));
   cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, ufact)(4));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT, -64 >> 2);
+  cgraph_file_fprintfln(stdout, OUT_FORMAT, -127 >> 2);
 #endif
 
   return 0;

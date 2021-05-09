@@ -224,6 +224,14 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST((-1 == FUNCTION(NAME, signbit)(x)) && (!FRACTION_DEN(x)));
 }
 
+cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+  return EQ(x, y);
+}
+
+cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+  return GR(x, y);
+}
+
 TYPE FUNCTION(NAME, abs)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = CGRAPH_ABS(FRACTION_NUM(x));

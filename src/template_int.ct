@@ -365,6 +365,14 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x) {
 #endif
 }
 
+cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+  return EQ(x, y);
+}
+
+cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+  return GR(x, y);
+}
+
 cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return CGRAPH_TEST(x);

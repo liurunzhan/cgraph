@@ -107,10 +107,6 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
-}
-
 cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (TIME_TYPE(x) == TIME_TYPE(y)) {
@@ -122,18 +118,6 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   }
 
   return flag;
-}
-
-cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, ls)(x, y));
-}
-
-cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, gr)(y, x);
-}
-
-cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, gr)(x, y));
 }
 
 TYPE FUNCTION(NAME, ceil)(const TYPE x) { return x; }

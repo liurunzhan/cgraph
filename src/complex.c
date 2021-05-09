@@ -495,6 +495,14 @@ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return EQ(x, _cgraph_complex_min);
 }
 
+cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+  return EQ(x, y);
+}
+
+cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+  return GR(x, y);
+}
+
 /**
  * @brief functions of complex numbers with one complex number and one data
  types one complex number and one real part of one complex number

@@ -130,11 +130,11 @@ TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data) {
     DATA_TYPE tmp;
     if (0.0 > data) {
       cthis->postive = CGRAPH_FALSE;
-      cthis->len =
-          snprintf(cthis->data, cthis->size, "%g", cgraph_float32_abs(data));
+      cthis->len = cgraph_file_snprintf(cthis->data, cthis->size, "%g",
+                                        cgraph_float32_abs(data));
     } else {
       cthis->postive = CGRAPH_TRUE;
-      cthis->len = snprintf(cthis->data, cthis->size, "%g", data);
+      cthis->len = cgraph_file_snprintf(cthis->data, cthis->size, "%g", data);
     }
     for (i = 0, j = cthis->len - 1; i < (cthis->len >> 1); i++, j--) {
       tmp = cthis->data[i];
@@ -158,11 +158,11 @@ TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data) {
     DATA_TYPE tmp;
     if (0.0 > data) {
       cthis->postive = CGRAPH_FALSE;
-      cthis->len =
-          snprintf(cthis->data, cthis->size, "%g", cgraph_float64_abs(data));
+      cthis->len = cgraph_file_snprintf(cthis->data, cthis->size, "%g",
+                                        cgraph_float64_abs(data));
     } else {
       cthis->postive = CGRAPH_TRUE;
-      cthis->len = snprintf(cthis->data, cthis->size, "%g", data);
+      cthis->len = cgraph_file_snprintf(cthis->data, cthis->size, "%g", data);
     }
     for (i = 0, j = cthis->len - 1; i < (cthis->len >> 1); i++, j--) {
       tmp = cthis->data[i];
@@ -358,10 +358,6 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
-}
-
 cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
@@ -376,18 +372,6 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
   }
 
   return flag;
-}
-
-cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, ls)(x, y));
-}
-
-cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y) {
-  return FUNCTION(NAME, gr)(y, x);
-}
-
-cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, gr)(x, y));
 }
 
 cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE *cthis) {
