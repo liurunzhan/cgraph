@@ -46,7 +46,7 @@ set ARFLAGS=-rcs
 
 rem target files
 set LIBSHARED=%LIB%\lib%PRO%.dll
-set LIBSTATIC=%LIB%\lib%PRO%.a
+set LIBSTATIC=%LIB%\lib%PRO%.lib
 rem test files
 set TSTFILE=%TST%\%PRO%.c
 set TSTTARGET=%TST%\%PRO%.exe

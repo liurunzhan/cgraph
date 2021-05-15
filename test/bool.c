@@ -4,6 +4,6 @@
 #include "cgraph_template.h"
 
 /** template */
-#include "int.ct"
+#include "test_int.ct"
 
 #include "cgraph_template_off.h"

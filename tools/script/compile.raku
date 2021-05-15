@@ -45,7 +45,7 @@ if (VM.osname eq "MSWin32")
 {
   # target files
   $LIBSHARED = $LIB.IO.add("lib$PRO.dll");
-  $LIBSTATIC = $LIB.IO.add("lib$PRO.a");
+  $LIBSTATIC = $LIB.IO.add("lib$PRO.lib");
   # test files
   $TSTFILE = $TST.IO.add("$PRO.c");
   $TSTTARGET = $TST.IO.add("$PRO.exe");

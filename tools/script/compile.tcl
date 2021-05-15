@@ -11,7 +11,7 @@ set CC "cc"
 set CFLAGS "-std=c89 -Wall -pedantic"
 set CSFLAGS "-shared"
 
-if { [ $CC != "tcc" ] } {
+if { $CC != "tcc" } {
   append CFLAGS " -pedantic-errors"
 }
 append CFLAGS " -fPIC"
@@ -36,26 +36,28 @@ set LIBSTATIC ${LIB}/lib${PRO}.a
 set TSTFILE ${TST}/${PRO}.c
 set TSTTARGET ${TST}/${PRO}
 
-if { [ $argc == 0 ] } {
-  foreach file $CFILES {
-    regsub {.c$} $file .o obj
+if { $argc == 0 } {
+  exec sh -c "mkdir -p ${LIB}"
+	puts " $CFILES "
+	for { set index 0 } { $index < [ array size CFILES ] } { incr index } {
+    regsub {.c$} CFILES($index) .o obj
     puts "compile ${file} to ${obj}"
-    exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}"
+    exec sh -c "${CC} ${CFLAGS} -I${INC} -c $CFILES($index) -o ${obj}"
   }
-  puts "compile ${LIBSHARED}"
-  exec sh -c "${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o"
-  puts "compile ${LIBSTATIC}"
-  exec sh -c "${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o"
+  # puts "compile ${LIBSHARED}"
+  # exec sh -c "${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o"
+  # puts "compile ${LIBSTATIC}"
+  # exec sh -c "${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o"
 } elseif { [ lindex $argv 0 ] == "test" } {
   puts "compile ${TSTFILE} to ${TSTTARGET}"
   exec sh -c "${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm"
   puts "test ${TSTTARGET} with ${TST}/elements.csv"
   exec sh -c "${TSTTARGET} ${TST}/elements.csv"
 } elseif { [ lindex $argv 0 ] == "clean" } {
-  foreach file $CFILES {
-    regsub {.c$} $file .o obj
+  for { set index 0 } { $index < [array size CFILES] } { incr index } {
+    regsub {.c$} CFILES($index) .o obj
     puts "clean ${obj}"
-    exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}"
+    exec sh -c "${RM} ${RMFLAGS} ${obj}"
   }
   puts "clean ${LIBSHARED}"
   exec sh -c "${RM} ${RMFLAGS} ${LIBSHARED}"

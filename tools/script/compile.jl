@@ -27,7 +27,7 @@ ARFLAGS = "-rcs"
 if Sys.iswindows()
   # target files
   LIBSHARED = joinpath(LIB, "lib$PRO.dll")
-  LIBSTATIC = joinpath(LIB, "lib$PRO.a")
+  LIBSTATIC = joinpath(LIB, "lib$PRO.lib")
   # test files
   TSTFILE = joinpath(TST, "$PRO.c")
   TSTTARGET = joinpath(TST, "$PRO.exe")

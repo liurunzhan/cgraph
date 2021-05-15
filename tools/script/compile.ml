@@ -8,24 +8,33 @@ let _SRC = String.concat _SEP [ _DIR; "src" ];;
 let _TST = String.concat _SEP [ _DIR; "test" ];;
 let _LIB = String.concat _SEP [ _DIR; "lib" ];;
 
-let _CC = "cc";
-let _CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
-let _CSFLAGS = "-shared";
+let _CC = "cc";;
+let _CFLAGS = "-std=c89 -Wall -pedantic -fPIC";;
+let _CSFLAGS = "-shared";;
 
-let _MODE = "debug";
-if String.equal _MODE "debug" then begin
-  _CFLAGS = "_CFLAGS -g -DDEBUG";
-end
-else begin
-  if String.equal _MODE "release" then begin
-    _CFLAGS = "_CFLAGS -static -O2";
+let _MODE = "debug";;
+let _CFLAGS = if String.equal _MODE "debug" then
+    _CFLAGS ^ " -g -DDEBUG"
+  else begin 
+    if String.equal _MODE "release" then
+      _CFLAGS ^ " -static -O2"
   end
-end
 
 (* package shared library *)
 let _AR = "ar";;
 let _ARFLAGS = "-rcs";;
 
+if Sys.win32 then
+  _LIBSHARED = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".dll" ];;
+  _LIBSTATIC = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".lib" ];;
+  _TSTFILE   = String.concat _SEP [ _TST; PRO ^ ".c" ];;
+  _TSTTARGET = String.concat _SEP [ _TST; PRO ^ ".exe" ];;
+else
+  _LIBSHARED = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".so" ];;
+  _LIBSTATIC = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".a" ];;
+  _TSTFILE   = String.concat _SEP [ _TST; PRO ^ ".c" ];;
+  _TSTTARGET = String.concat _SEP [ _TST; PRO ];;
+end
 
 let args = Sys.argv;;
 

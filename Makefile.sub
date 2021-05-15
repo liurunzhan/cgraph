@@ -77,14 +77,11 @@ endif
 .PHONY: $(ALL) $(TOOLS)
 
 $(ALL):
+	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
+	$(CP) $(CPFLAGS) $(SCRDIR)$(SCRIPT) .
 ifeq ($(TOOL), cmake)
-	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
-	$(CP) $(CPFLAGS) $(SCRDIR)$(SCRIPT) .
 	$(COMPILE) $(CMD)
-	cd ..
 else
-	$(RM) $(RMFLAGS) compile.* xmake.lua CMakeLists.txt
-	$(CP) $(CPFLAGS) $(SCRDIR)$(SCRIPT) .
 	$(COMPILE) $(SCRIPT) $(CMD)
 endif
 
@@ -96,14 +93,14 @@ make: COMPILE = $(MAKE) -f
 make: TOOL = make
 
 cmake: SCRIPT = CMakeLists.txt
-cmake: COMPILE = $(RMDIR) $(RMDIRFLAGS) build; $(MKDIR) $(MKDIRFLAGS) build; cd build; cmake .. -G $(CMAKE_FLAGS); $(MAKE)
+cmake: COMPILE = $(RMDIR) $(RMDIRFLAGS) build $(SPLIT) $(MKDIR) $(MKDIRFLAGS) build $(SPLIT) cd build $(SPLIT) cmake .. -G $(CMAKE_FLAGS) $(SPLIT) $(MAKE) $(SPLIT) cd ..
 cmake: TOOL = cmake
 
 xmake: SCRIPT = xmake.lua
 xmake: COMPILE = xmake -F
 
 meson: SCRIPT = meson.build
-meson: COMPILE = meson build; python3
+meson: COMPILE = meson build $(SPLIT) python3
 
 ninja: SCRIPT = compile.ninja
 ninja: COMPILE = ninja
@@ -143,6 +140,9 @@ r: COMPILE = Rscript
 
 julia: SCRIPT = compile.jl
 julia: COMPILE = julia
+
+tcl: SCRIPT = compile.tcl
+tcl: COMPILE = tclsh
 
 java: SCRIPT = compile.java
 java: COMPILE = java --source 11

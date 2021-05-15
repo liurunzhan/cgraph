@@ -58,11 +58,6 @@ extern TYPE FUNCTION(NAME, mul2i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul3i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul4i)(const TYPE x);
 
-extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y);
-
 extern TYPE FUNCTION(NAME, log)(const TYPE x);
 extern TYPE FUNCTION(NAME, log2)(const TYPE x);
 extern TYPE FUNCTION(NAME, log10)(const TYPE x);

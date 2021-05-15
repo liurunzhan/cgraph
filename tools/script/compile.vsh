@@ -37,7 +37,7 @@ fn main() {
   $if windows {
     // target files
     libshared += os.join_path(lib, "lib${pro}.dll")
-    libstatic += os.join_path(lib, "lib${pro}.a")
+    libstatic += os.join_path(lib, "lib${pro}.lib")
     // test files
     tstfile += os.join_path(tst, "${pro}.c")
     tsttarget += os.join_path(tst, "${pro}.exe")

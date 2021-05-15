@@ -662,32 +662,32 @@
 #undef HASH_OFFSET
 #endif
 
-#ifdef FRA_BITS
-#undef FRA_BITS
+#ifdef FRAC_BITS
+#undef FRAC_BITS
 #endif
 
-#ifdef FRA_EPSILON
-#undef FRA_EPSILON
+#ifdef FRAC_EPSILON
+#undef FRAC_EPSILON
 #endif
 
-#ifdef FRA_OFFSET
-#undef FRA_OFFSET
+#ifdef FRAC_OFFSET
+#undef FRAC_OFFSET
 #endif
 
-#ifdef FLOAT_SOFT_TOFRA
-#undef FLOAT_SOFT_TOFRA
+#ifdef FLOAT_SOFT_TOFRAC
+#undef FLOAT_SOFT_TOFRAC
 #endif
 
-#ifdef FLOAT_SOFT_FRA
-#undef FLOAT_SOFT_FRA
+#ifdef FLOAT_SOFT_FRAC
+#undef FLOAT_SOFT_FRAC
 #endif
 
-#ifdef FLOAT_SOFT_FRA_CLR
-#undef FLOAT_SOFT_FRA_CLR
+#ifdef FLOAT_SOFT_FRAC_CLR
+#undef FLOAT_SOFT_FRAC_CLR
 #endif
 
-#ifdef FLOAT_SOFT_FRA_SET
-#undef FLOAT_SOFT_FRA_SET
+#ifdef FLOAT_SOFT_FRAC_SET
+#undef FLOAT_SOFT_FRAC_SET
 #endif
 
 #ifdef EXP_BITS

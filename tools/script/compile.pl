@@ -48,7 +48,7 @@ if ($^O eq "MSWin32")
 {
   # target files
   $LIBSHARED = File::Spec->catfile($LIB, "lib$PRO.dll");
-  $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.a");
+  $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.lib");
   # test files
   $TSTFILE = File::Spec->catfile($TST, "$PRO.c");
   $TSTTARGET = File::Spec->catfile($TST, "$PRO.exe");

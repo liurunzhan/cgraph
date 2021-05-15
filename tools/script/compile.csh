@@ -49,7 +49,10 @@ if ( $#argv == 0 ) then
   echo "compile ${LIBSTATIC}"
   ${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o
 else if ( $argv[1] == "test" ) then
-
+  echo "compile ${TSTFILE} to ${TSTTARGET}"
+  ${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm
+  echo "test ${TSTTARGET} with ${TST}/elements.csv"
+  ${TSTTARGET} ${TST}/elements.csv
 else if ( $argv[1] == "clean" ) then
   foreach file ($CFILES)
     regsub {.c$} $file .o obj

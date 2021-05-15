@@ -373,6 +373,22 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   return GR(x, y);
 }
 
+__INLINE TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
+  return ADD(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
+  return SUB(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
+  return MUL(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
+  return DIV(x, y, NULL);
+}
+
 cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return CGRAPH_TEST(x);
@@ -439,7 +455,7 @@ UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
   return res;
 }
 
-TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, mul_f)(const TYPE x, const TYPE y) {
   TYPE res = 0, _x = x, _y = y;
   while (_y > 0) {
     if (_y & 1) {
@@ -452,7 +468,7 @@ TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
   return res;
 }
 
-TYPE FUNCTION(NAME, mul_mod)(const TYPE x, const TYPE y, const TYPE mod) {
+TYPE FUNCTION(NAME, mul_mod_f)(const TYPE x, const TYPE y, const TYPE mod) {
   TYPE res = 0, _x = x, _y = y;
   while (_y > 0) {
     if (_y & 1) {
@@ -465,7 +481,7 @@ TYPE FUNCTION(NAME, mul_mod)(const TYPE x, const TYPE y, const TYPE mod) {
   return res % mod;
 }
 
-TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, pow_f)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return x;
 #else
@@ -482,7 +498,7 @@ TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
 #endif
 }
 
-TYPE FUNCTION(NAME, pow_mod)(const TYPE x, const TYPE n, const TYPE mod) {
+TYPE FUNCTION(NAME, pow_mod_f)(const TYPE x, const TYPE n, const TYPE mod) {
   TYPE res = 1, _x = x, _n = n;
   while (_n > 0) {
     if (_n & 1) {
@@ -508,13 +524,26 @@ UTYPE FUNCTION(NAME, ufact)(const UTYPE x) {
 #endif
 }
 
+UTYPE FUNCTION(NAME, ufact_f)(const UTYPE x) {
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return x;
+#else
+  UTYPE i = 1, res = 1;
+  for (i = 1; i <= x; i++) {
+    res *= i;
+  }
+
+  return res;
+#endif
+}
+
 UTYPE FUNCTION(NAME, ucomb)(const UTYPE x, const UTYPE y) {
   UTYPE res = 1;
 
   return res;
 }
 
-UTYPE FUNCTION(NAME, usqrt)(const UTYPE x) {
+UTYPE FUNCTION(NAME, usqrt_f)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return x;
 #else
@@ -533,4 +562,4 @@ UTYPE FUNCTION(NAME, usqrt)(const UTYPE x) {
 #endif
 }
 
-UTYPE FUNCTION(NAME, usqrt_mod)(const UTYPE x) { return 0; }
+UTYPE FUNCTION(NAME, usqrt_mod_f)(const UTYPE x, const UTYPE y) { return 0; }

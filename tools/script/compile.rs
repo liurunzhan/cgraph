@@ -31,7 +31,7 @@ fn main() {
   if env::consts::OS == "windows" {
     //  target files
     let LIBSHARED = LIB.join(format!("lib{}.dll", PRO));
-    let LIBSTATIC = LIB.join(format!("lib{}.a", PRO));
+    let LIBSTATIC = LIB.join(format!("lib{}.lib", PRO));
     //  test files
     let TSTFILE = TST.join(format!("{}.c", PRO));
     let TSTTARGET = TST.join(format!("{}.exe", PRO));

@@ -30,20 +30,31 @@ end
 AR = "ar"
 ARFLAGS = "-rcs"
 
+if SEPARATOR == "\\" then
+  LIBSHARED = LIB .. SEPARATOR .. "lib" .. PRO .. ".dll"
+  LIBSTATIC = LIB .. SEPARATOR .. "lib" .. PRO .. ".lib"
+  TSTFILE   = TST .. SEPARATOR .. PRO .. ".c"
+  TSTTARGET = TST .. SEPARATOR .. PRO .. ".exe"
+else
+  LIBSHARED = LIB .. SEPARATOR .. "lib" .. PRO .. ".so"
+  LIBSTATIC = LIB .. SEPARATOR .. "lib" .. PRO .. ".a"
+  TSTFILE   = TST .. SEPARATOR .. PRO .. ".c"
+  TSTTARGET = TST .. SEPARATOR .. PRO
+end
+
 CFILES = {}
 for file in lfs.dir(SRC) do
   if string.match(file, ".c$") then
-    CFILES.append(SRC .. SEPARATOR .. file)
+    table.insert(CFILES, SRC .. SEPARATOR .. file)
   end
 end
 
-args = ARGS
-if length(args) == 0 then
+if not arg[1] then
   lfs.mkdir(LIB)
   OFILES = {}
-  for file in CFILES do
+  for index, file in pairs(CFILES) do
     obj = string.gsub(file, ".c$", ".o")
-    OFILES.append(obj)
+    table.insert(OFILES, obj)
     print(string.format("compile file to %s", obj))
     os.execute(string.format("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj))
   end
@@ -51,51 +62,46 @@ if length(args) == 0 then
   os.execute(string.format("%s %s -o %s %s", CC, CSFLAGS, LIBSHARED, table.concat(OFILES, " ")))
   print(string.format("compile %s", LIBSTATIC))
   os.execute(string.format("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, table.concat(OFILES, " ")))
-elseif 1 == length(args) then
-  if args[1] == "test" then
-    print(string.format("compile %s to %s", TSTFILE, TSTTARGET))
-    os.execute(string.format("%s %s -I%s -o %s $ -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
-    print(string.format("test %s with %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
-    os.execute(string.format("%s %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
-  elseif args[1] == "clean" then
-    for file in CFILES do
-      obj = string.gsub(file, ".c$", ".o")
-      print(string.format("clean %s", obj))
-      os.remove(obj)
-    end
-    print(string.format("clean %s", LIBSTATIC))
-    os.remove(LIBSTATIC)
-    print(string.format("clean %s", LIBSHARED))
-    os.remove(LIBSHARED)
-    print(string.format("clean %s", TSTTARGET))
-    os.remove(TSTTARGET)
-  elseif args[1] == "distclean" then
-    for file in CFILES do
-      obj = string.gsub(file, ".c$", ".o")
-      print(string.format("clean %s", obj))
-      os.remove(obj)
-    end
-    print(string.format("clean %s", LIBSTATIC))
-    os.remove(LIBSTATIC)
-    print(string.format("clean %s", LIBSHARED))
-    os.remove(LIBSHARED)
-    print(string.format("clean %s", LIB))
-    os.remove(LIB)
-    print(string.format("clean %s", TSTTARGET))
-    os.remove(TSTTARGET)
-  elseif args[1] == "help" then
-    print(PROGRAM_FILE, "    <target>")
-    print("<target>: ")
-    print("                    compile cgraph")
-    print("          test      test cgraph")
-    print("          clean     clean all the generated files")
-    print("          distclean clean all the generated files and directories")
-    print("          help      commands to this program")
-  else
-    print(args[1], " is an unsupported command")
-    print("use \"", PROGRAM_FILE, " help\" to know all supported commands")
-  end
+elseif arg[1] == "test" then
+	print(string.format("compile %s to %s", TSTFILE, TSTTARGET))
+	os.execute(string.format("%s %s -I%s -o %s $ -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
+	print(string.format("test %s with %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
+	os.execute(string.format("%s %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
+elseif arg[1] == "clean" then
+  for index, file in pairs(CFILES) do
+		obj = string.gsub(file, ".c$", ".o")
+		print(string.format("clean %s", obj))
+		os.remove(obj)
+	end
+	print(string.format("clean %s", LIBSTATIC))
+	os.remove(LIBSTATIC)
+	print(string.format("clean %s", LIBSHARED))
+	os.remove(LIBSHARED)
+	print(string.format("clean %s", TSTTARGET))
+	os.remove(TSTTARGET)
+elseif arg[1] == "distclean" then
+	for file in CFILES do
+		obj = string.gsub(file, ".c$", ".o")
+		print(string.format("clean %s", obj))
+		os.remove(obj)
+	end
+	print(string.format("clean %s", LIBSTATIC))
+	os.remove(LIBSTATIC)
+	print(string.format("clean %s", LIBSHARED))
+	os.remove(LIBSHARED)
+	print(string.format("clean %s", LIB))
+	os.remove(LIB)
+	print(string.format("clean %s", TSTTARGET))
+	os.remove(TSTTARGET)
+elseif arg[1] == "help" then
+	print(arg[0] .. "    <target>")
+	print("<target>: ")
+	print("                    compile cgraph")
+	print("          test      test cgraph")
+	print("          clean     clean all the generated files")
+	print("          distclean clean all the generated files and directories")
+	print("          help      commands to this program")
 else
-  print(args[1], " is an unsupported command")
-  print("use \"", PROGRAM_FILE, " help\" to know all supported commands")
+	print(arg[1] .. " is an unsupported command")
+	print("use \"" .. arg[0] .. " help\" to know all supported commands")
 end

@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     sprintf(TST, "%s\\%s", _DIR, "test");
     sprintf(LIB, "%s\\%s", _DIR, "lib");
     sprintf(LIBSHARED, "%s\\lib%s.dll", LIB, PRO);
-    sprintf(LIBSTATIC, "%s\\lib%s.a", LIB, PRO);
+    sprintf(LIBSTATIC, "%s\\lib%s.lib", LIB, PRO);
     sprintf(TSTFILE, "%s\\%s.c", TST, PRO);
     sprintf(TSTTARGET, "%s\\%s.exe", TST, PRO);
   } else {

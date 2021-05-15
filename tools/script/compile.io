@@ -29,7 +29,7 @@ TSTTARGET := nil
 if(System platform == "windows") then(
   # target files
   LIBSHARED := File clone setPath("#{LIB}/lib#{PRO}.dll" interpolate)
-  LIBSTATIC := File clone setPath("#{LIB}/lib#{PRO}.a" interpolate)
+  LIBSTATIC := File clone setPath("#{LIB}/lib#{PRO}.lib" interpolate)
   # test files
   TSTFILE := File clone setPath("#{TST}/#{PRO}.c" interpolate)
   TSTTARGET := File clone setPath("#{TST}/#{PRO}.exe" interpolate)

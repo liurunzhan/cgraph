@@ -7,7 +7,7 @@ set(VERSION "0.0.0")
 
 # set project configuration
 set(CMAKE_C_COMPILER "cc")
-set(CMAKE_C_FLAGS -std=c89 -Wall -pedantic -fPIC)
+set(CMAKE_C_FLAGS "-std=c89 -Wall -pedantic -fPIC")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g -DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -static -O2")
 set(CMAKE_BUILD_TYPE "Release")
@@ -16,6 +16,7 @@ set(INC "${PROJECT_SOURCE_DIR}/include")
 set(SRC "${PROJECT_SOURCE_DIR}/src")
 set(LIB "${PROJECT_SOURCE_DIR}/lib")
 set(TST "${PROJECT_SOURCE_DIR}/test")
+set(DOC "${PROJECT_SOURCE_DIR}/doc")
 
 include_directories(${INC})
 file(GLOB SRC_LIST "${SRC}/*.c")
@@ -38,21 +39,21 @@ add_executable(${PROJECT} "${TST}/cgraph.c")
 target_link_libraries(${PROJECT} LIBSTATIC)
 target_link_libraries(${PROJECT} m)
 
-# create document of cgraph
-find_package(GtkDoc 1.25 REQUIRED)
-
-# Create the doc-libmeep target.
-gtk_doc_add_module(
-   libmeep ${CMAKE_SOURCE_DIR}/libmeep
-      XML meep-docs.xml
-      LIBRARIES libmeep
-)
-
-# Build doc-libmeep as part of the default target. Without this, you would
-# have to explicitly run something like `make doc-libmeep` to build the docs.
-add_custom_target(documentation ALL DEPENDS doc-libmeep)
-
-# Install the docs. (This assumes you're using the GNUInstallDirs CMake module
-# to set the CMAKE_INSTALL_DOCDIR variable correctly).
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libmeep/html
-        DESTINATION ${CMAKE_INSTALL_DOCDIR})
+# # create document of cgraph
+# find_package(GtkDoc 1.25 REQUIRED)
+# 
+# # Create the doc-libmeep target.
+# gtk_doc_add_module(
+#    libmeep ${CMAKE_SOURCE_DIR}/libmeep
+#       XML meep-docs.xml
+#       LIBRARIES libmeep
+# )
+# 
+# # Build doc-libmeep as part of the default target. Without this, you would
+# # have to explicitly run something like `make doc-libmeep` to build the docs.
+# add_custom_target(documentation ALL DEPENDS doc-libmeep)
+# 
+# # Install the docs. (This assumes you're using the GNUInstallDirs CMake module
+# # to set the CMAKE_INSTALL_DOCDIR variable correctly).
+# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libmeep/html
+#         DESTINATION ${CMAKE_INSTALL_DOCDIR})

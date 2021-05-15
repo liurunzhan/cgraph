@@ -332,6 +332,8 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
           break;
         }
       }
+    }
+    if (CGRAPH_TRUE == flag) {
       for (; i < y->len; i++, yd++) {
         if (0 != *yd) {
           flag = CGRAPH_FALSE;
@@ -358,10 +360,12 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
           break;
         }
       }
-      for (i = y->len; i > len; i--, yd--) {
-        if (0 != *yd) {
-          flag = CGRAPH_FALSE;
-          break;
+      if (CGRAPH_FALSE == flag) {
+        for (i = y->len; i > len; i--, yd--) {
+          if (0 != *yd) {
+            flag = CGRAPH_FALSE;
+            break;
+          }
         }
       }
       if (CGRAPH_TRUE == flag) {
@@ -488,6 +492,13 @@ cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis) {
   }
 
   return cnt;
+}
+
+TYPE *FUNCTION(NAME, fact)(const TYPE *x, TYPE *y) {
+  if (NULL != x) {
+  }
+
+  return y;
 }
 
 TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {

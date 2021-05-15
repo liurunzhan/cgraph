@@ -35,7 +35,7 @@ def LIBSHARED, LIBSTATIC, TSTFILE, TSTTARGET
 if(OS.matches("^[Ww]in")) {
   // target files
   LIBSHARED = LIB + File.separator + "lib" + PRO + ".dll"
-  LIBSTATIC = LIB + File.separator + "lib" + PRO + ".a"
+  LIBSTATIC = LIB + File.separator + "lib" + PRO + ".lib"
   // test files
   TSTFILE = TST + File.separator + PRO + ".c"
   TSTTARGET = TST + File.separator + PRO + ".exe"

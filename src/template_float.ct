@@ -193,6 +193,22 @@ __INLINE cgraph_int_t FUNCTION(NAME, fexp)(const TYPE x) {
   return res;
 }
 
+__INLINE TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
+  return ADD(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
+  return SUB(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
+  return MUL(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
+  return DIV(x, y, NULL);
+}
+
 TYPE FUNCTION(NAME, Eqt_binary_search)(const TYPE start, const TYPE end,
                                        FUNCPTR(NAME, pfunc1) func) {
   TYPE _start = start, _end = end, _middle;

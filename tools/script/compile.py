@@ -44,7 +44,7 @@ TSTTARGET = None
 if platform.system() == "Windows":
   # target files
   LIBSHARED = os.path.join(LIB, "lib%s.dll" % PRO)
-  LIBSTATIC = os.path.join(LIB, "lib%s.a" % PRO)
+  LIBSTATIC = os.path.join(LIB, "lib%s.lib" % PRO)
   # test files
   TSTFILE = os.path.join(TST, "%s.c" % PRO)
   TSTTARGET = os.path.join(TST, "%s.exe" % PRO)

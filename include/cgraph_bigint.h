@@ -30,6 +30,7 @@ typedef struct {
 /** template module */
 #include "cgraph_template_data.ht"
 
+extern TYPE *FUNCTION(NAME, fact)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
                                    const cgraph_size_t size,
                                    const cgraph_char_t *data);

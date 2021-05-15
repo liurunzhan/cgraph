@@ -34,7 +34,7 @@ public class Compile {
     if(OS.matches("^[Ww]in")) {
       // target files
       LIBSHARED = new String(LIB + File.separator + "lib" + PRO + ".dll");
-      LIBSTATIC = new String(LIB + File.separator + "lib" + PRO + ".a");
+      LIBSTATIC = new String(LIB + File.separator + "lib" + PRO + ".lib");
       // test files
       TSTFILE = new String(TST + File.separator + PRO + ".c");
       TSTTARGET = new String(TST + File.separator + PRO + ".exe");

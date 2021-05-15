@@ -34,7 +34,7 @@ int main(string[] args) {
 	version(Windows) {
 		// target files
 		string LIBSHARED = buildPath(LIB, "lib" ~ PRO ~ ".dll");
-		string LIBSTATIC = buildPath(LIB, "lib" ~ PRO ~ ".a");
+		string LIBSTATIC = buildPath(LIB, "lib" ~ PRO ~ ".lib");
 		// test files
 		string TSTFILE = buildPath(TST, PRO ~ ".c");
 		string TSTTARGET = buildPath(TST, PRO ~ ".exe");

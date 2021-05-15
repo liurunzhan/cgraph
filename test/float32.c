@@ -5,6 +5,6 @@
 #include "cgraph_template.h"
 
 /** template*/
-#include "float.ct"
+#include "test_float.ct"
 
 #include "cgraph_template_off.h"

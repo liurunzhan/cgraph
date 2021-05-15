@@ -42,7 +42,7 @@ func main() {
 	
 	if runtime.GOOS == "windows" {
     LIBSHARED = path.Join(LIB, "lib" + PRO + ".dll")
-    LIBSTATIC = path.Join(LIB, "lib" + PRO + ".a")
+    LIBSTATIC = path.Join(LIB, "lib" + PRO + ".lib")
     TSTFILE   = path.Join(TST, PRO + ".c")
     TSTTARGET = path.Join(TST, PRO + ".exe")
 	} else {

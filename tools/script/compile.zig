@@ -30,7 +30,7 @@ pub fn main() void {
   if (builtin.os == builtin.Os.windows) {
     // target files
     const libshared = std.fs.path.join(lib, "lib{}.dll", .{pro});
-    const libstatic = std.fs.path.join(lib, "lib{}.a", .{pro});
+    const libstatic = std.fs.path.join(lib, "lib{}.lib", .{pro});
     // test files
     const tstfile = std.fs.path.join(tst, "{}.c", .{pro});
     const tsttarget = std.fs.path.join(tst, "{}.exe", .{pro});

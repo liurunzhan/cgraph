@@ -32,7 +32,7 @@ var TSTTARGET: string
 if defined(windows):
   # target files
   LIBSHARED = joinPath(LIB, fmt"lib{PRO}.dll")
-  LIBSTATIC = joinPath(LIB, fmt"lib{PRO}.a")
+  LIBSTATIC = joinPath(LIB, fmt"lib{PRO}.lib")
   # test files
   TSTFILE = joinPath(TST, fmt"{PRO}.c")
   TSTTARGET = joinPath(TST, fmt"{PRO}.exe")

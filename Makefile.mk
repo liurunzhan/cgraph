@@ -5,7 +5,7 @@ ROOT = .
 export TOOLS = make cmake xmake meson ninja\
 			 sh zsh fish tsh vsh cmd powershell \
 			 tcc go rust haskell zig \
-	     perl perl6 ruby python lua r julia lisp typescript \
+	     perl perl6 ruby python lua r julia tcl lisp typescript \
 	     java scala kotlin clojure groovy
 
 MAKE ?= make

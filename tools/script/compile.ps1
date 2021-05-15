@@ -29,7 +29,7 @@ $CFLAGS=$CFLAGS.Split()
 $CFILES=ls $SRC\*.c
 # target files
 $LIBSHARED=Join-Path $LIB "lib$PRO.dll"
-$LIBSTATIC=Join-Path $LIB "lib$PRO.a"
+$LIBSTATIC=Join-Path $LIB "lib$PRO.lib"
 # test files
 $TSTFILE=Join-Path $TST "$PRO.c"
 $TSTTARGET=Join-Path $TST "$PRO.exe"

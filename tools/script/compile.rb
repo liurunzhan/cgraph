@@ -32,7 +32,7 @@ end
 if RbConfig::CONFIG["host_os"] == "mswin" || RbConfig::CONFIG["host_os"] == "mingw"
   # target files
   $LIBSHARED = File.join($LIB, "lib#{$PRO}.dll")
-  $LIBSTATIC = File.join($LIB, "lib#{$PRO}.a")
+  $LIBSTATIC = File.join($LIB, "lib#{$PRO}.lib")
   # test files
   $TSTFILE = File.join($TST, "#{$PRO}.c")
   $TSTTARGET = File.join($TST, "#{$PRO}.exe")

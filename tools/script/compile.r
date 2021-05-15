@@ -27,7 +27,7 @@ CFILES <- lapply(list.files(SRC, pattern="\\.c$"), function(x) { file.path(SRC, 
 if(.Platform$OS.type == "windows") {
   # target files
   LIBSHARED <- file.path(LIB, paste("lib", PRO, ".dll", sep=""), fsep=.Platform$file.sep)
-  LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".a", sep=""), fsep=.Platform$file.sep)
+  LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".lib", sep=""), fsep=.Platform$file.sep)
   # test files
   TSTFILE <- file.path(TST, paste(PRO, ".c", sep=""), fsep=.Platform$file.sep)
   TSTTARGET <- file.path(TST, paste(PRO, ".exe", sep=""), fsep=.Platform$file.sep)
