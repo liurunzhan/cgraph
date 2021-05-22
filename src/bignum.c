@@ -300,12 +300,12 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
-    cgraph_size_t intx_len = x->point - 1, floatx_len = x->len - intx_len,
-                  inty_len = y->point - 1, floaty_len = y->len - inty_len;
+    cgraph_size_t intx_len = x->len - x->point, floatx_len = x->point - 1,
+                  inty_len = y->len - y->point, floaty_len = y->point - 1;
     cgraph_size_t float_min = CGRAPH_MIN(floatx_len, floaty_len),
-                  int_min = CGRAPH_MIN(x->point, y->point), i;
-    DATA_TYPE *floatx = &(x->data[x->point + 1]), *intx = &(x->data[intx_len]),
-              *floaty = &(y->data[y->point + 1]), *inty = &(y->data[inty_len]);
+                  int_min = CGRAPH_MIN(intx_len, inty_len), i;
+    DATA_TYPE *floatx = &(x->data[floatx_len]), *intx = &(x->data[x->len - 1]),
+              *floaty = &(y->data[floaty_len]), *inty = &(y->data[y->len - 1]);
     if (x->postive != y->postive) {
       return flag;
     }
@@ -367,6 +367,8 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
                   int_min = CGRAPH_MIN(x->point, y->point), i;
     DATA_TYPE *floatx = &(x->data[x->point + 1]), *intx = &(x->data[intx_len]),
               *floaty = &(y->data[y->point + 1]), *inty = &(y->data[inty_len]);
+    for (i = intx_len; i > int_min; i--) {
+    }
   } else if (NULL != x && NULL == y) {
     flag = CGRAPH_TRUE;
   }

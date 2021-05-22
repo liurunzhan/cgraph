@@ -50,8 +50,13 @@ __INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
   return CGRAPH_TEST(__PLAT_PSPLIT_C == data);
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data) {
-  return CGRAPH_TEST(__PLAT_NLINE_C == data);
+__INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
+                                           const cgraph_char_t datay) {
+#ifdef __CGRAPH_PLAT_WINDOWS
+  return CGRAPH_TEST((__PLAT_NLINE_C0 != datax) && (__PLAT_NLINE_C1 != datay));
+#else
+  return CGRAPH_TEST(__PLAT_NLINE_C != datax);
+#endif
 }
 
 cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
@@ -96,6 +101,10 @@ cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data) {
   cgraph_math_lenofname(data, &flag);
 
   return flag;
+}
+
+cgraph_bool_t cgraph_math_isnamest(const cgraph_char_t *data) {
+  return CGRAPH_TEST(isalpha(*data) || '_' == *data);
 }
 
 __INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
@@ -350,6 +359,28 @@ cgraph_int32_t cgraph_random32_uniform(const cgraph_int32_t min,
   return __cgraph_random32_intptr() % (max - min) + min;
 }
 
+/*
+        Authors : Box and Muller
+        mu      : the average value of the normal distribution
+        sigma   : the variance of the normal distribution
+*/
+cgraph_float32_t cgraph_random32_normal(const cgraph_float32_t mu,
+                                        const cgraph_float32_t sigma) {
+  static cgraph_float32_t U, V, Z;
+  static cgraph_bool_t phase = CGRAPH_FALSE;
+  if (CGRAPH_TRUE == phase) {
+    U = (1.0 * __cgraph_random32_intptr() + 1.0) /
+        (MATH_CONST_RANDOM32_MAX + 2.0);
+    V = 1.0 * __cgraph_random32_intptr() / (MATH_CONST_RANDOM32_MAX + 1.0);
+    Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
+  } else {
+    Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V);
+  }
+  phase ^= CGRAPH_TRUE;
+
+  return Z * sigma + mu;
+}
+
 /** 64-bit integer random functions  */
 static cgraph_random64_intptr_t __cgraph_random64_intptr = cgraph_random64;
 
@@ -366,9 +397,9 @@ void cgraph_random64_seed(const cgraph_int64_t seed) {
 /**
   Author  : MMIX by Donald Knuth
   Methode : X(n+1) <- (a * X(n) + b) % m
-  a = 6364136223846793005
-  b = 1442695040888963407
-  m = 18446744073709551615
+  a = 6364136223846793005LL
+  b = 1442695040888963407LL
+  m = 18446744073709551615LL
   returning a 64-bit integer [1, 18446744073709551615]
   X(0) = 1
 */
@@ -401,15 +432,15 @@ cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
                                         const cgraph_float64_t sigma) {
   static cgraph_float64_t U, V, Z;
   static cgraph_bool_t phase = CGRAPH_FALSE;
-  if (!phase) {
-    U = (1.0 * __cgraph_random32_intptr() + 1.0) /
-        (MATH_CONST_RANDOM32_MAX + 2.0);
-    V = 1.0 * __cgraph_random32_intptr() / (MATH_CONST_RANDOM32_MAX + 1.0);
+  if (CGRAPH_TRUE == phase) {
+    U = (1.0 * __cgraph_random64_intptr() + 1.0) /
+        (MATH_CONST_RANDOM64_MAX + 2.0);
+    V = 1.0 * __cgraph_random64_intptr() / (MATH_CONST_RANDOM64_MAX + 1.0);
     Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
   } else {
     Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V);
   }
-  phase = CGRAPH_TRUE - phase;
+  phase ^= CGRAPH_TRUE;
 
   return Z * sigma + mu;
 }
@@ -448,6 +479,16 @@ __INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data) {
 
 __INLINE cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data) {
   return (data ^ (data << 1));
+}
+
+__INLINE cgraph_int_t cgraph_math_ceil(const cgraph_int_t x,
+                                       const cgraph_int_t y) {
+  return (x + y - 1) / y;
+}
+
+__INLINE cgraph_int_t cgraph_math_floor(const cgraph_int_t x,
+                                        const cgraph_int_t y) {
+  return x / y;
 }
 
 cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n) {

@@ -118,6 +118,12 @@ typedef enum {
 #endif
 #endif
 
+#if __WORDSIZE == 64
+#define __WORDSIZE_LOG2 6
+#elif __WORDSIZE == 32
+#define __WORDSIZE_LOG2 5
+#endif
+
 /** C Standard */
 #ifndef __STDC__
 #error only standard c is suppoted!!
@@ -372,7 +378,7 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __UINT32_BITS_LOG2 (5)
 #define __INT64_EPS __INT64_MIN
 #define __INT64_BITS (64)
-#define __INT64_BITS_LOG (6)
+#define __INT64_BITS_LOG2 (6)
 #define __UINT64_EPS __UINT64_MAX
 #define __UINT64_BITS (64)
 #define __UINT64_BITS_LOG (6)

@@ -25,7 +25,12 @@ m4_include([m4/m4_ax_prog_cc_for_build.m4])
 m4_include([m4/m4_ax_prog_cxx_for_build.m4])
 
 # Checks for programs.
+AC_DEFINE([cgraph_test], ["Hello, World\n"],
+  [Greetings string.])
 AC_LANG(C)
+AC_LANG_CONFTEST(
+[AC_LANG_PROGRAM([[const char hw[] = "Hello, World\n";]],
+                 [[fputs (hw, stdout);]])])
 AC_LANG(C++)
 AC_PROG_CXX
 AC_PROG_CC

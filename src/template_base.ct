@@ -1,11 +1,11 @@
-/*******************************************************************************
-This is a data template file defined in GRAPH library.
-        | MACRO |      DESCRIPTION      |
-        |  :-:  |          :-:          |
-        | NAME  |       type name       |
-        | TYPE |        type           |
-        | DTYPE | data type with pointer|
-*******************************************************************************/
+/**
+ * This is a data template file defined in GRAPH library.
+ *         | MACRO |      DESCRIPTION      |
+ *         |  :-:  |          :-:          |
+ *         | NAME  |       type name       |
+ *         | TYPE  |        type           |
+ *         | DTYPE | data type with pointer|
+ */
 
 /** functions defined with void * arguments to implement polymorphism and
  * virtual table */

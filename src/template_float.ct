@@ -49,11 +49,11 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
   return cthis;
 }
 
-TYPE FUNCTION(NAME, zero)(void) { return 0.0; }
+TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
 
-TYPE FUNCTION(NAME, one)(void) { return 1.0; }
+TYPE FUNCTION(NAME, one)(void) { return ONE; }
 
-TYPE FUNCTION(NAME, ones)(void) { return 1.1; }
+TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
 TYPE FUNCTION(NAME, random)(void) {
 #ifdef TYPE_FLAOT32

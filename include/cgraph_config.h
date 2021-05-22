@@ -87,6 +87,7 @@ typedef signed int cgraph_logic_t;
 #define CGRAPH_LOGIC_MIN CGRAPH_L0
 #define CGRAPH_LOGIC_EPS (0x03U)
 #define CGRAPH_LOGIC_BITS (2)
+#define CGRAPH_LOGIC_BITS_LOG2 (1)
 
 #define CGRAPH_LOGIC_L0 "0"
 #define CGRAPH_LOGIC_L0_LEN (1)
@@ -109,7 +110,8 @@ typedef signed int cgraph_int_t;
 #define CGRAPH_INT_MAX INT_MAX
 #define CGRAPH_INT_MIN INT_MIN
 #define CGRAPH_INT_EPS (0xFFFFFFFFU)
-#define CGRAPH_INT_BITS (8 * sizeof(cgraph_int_t))
+#define CGRAPH_INT_BITS (32)
+#define CGRAPH_INT_BITS_LOG2 (5)
 
 /**
  * @typedef cgraph_uint_t
@@ -123,7 +125,8 @@ typedef unsigned int cgraph_uint_t;
 #define CGRAPH_UINT_MAX UINT_MAX
 #define CGRAPH_UINT_MIN UINT_MIN
 #define CGRAPH_UINT_EPS (0xFFFFFFFFU)
-#define CGRAPH_UINT_BITS (8 * sizeof(cgraph_uint_t))
+#define CGRAPH_UINT_BITS (32)
+#define CGRAPH_UINT_BITS_LOG2 (5)
 
 /**
  * @typedef cgraph_long_t
@@ -138,6 +141,7 @@ typedef signed long cgraph_long_t;
 #define CGRAPH_LONG_MIN LONG_MIN
 #define CGRAPH_LONG_EPS __LONG_EPS
 #define CGRAPH_LONG_BITS __WORDSIZE
+#define CGRAPH_LONG_BITS_LOG2 __WORDSIZE_LOG2
 #define CGRAPH_LONG_EPSILON1 __LONG_EPSILON1
 #define CGRAPH_LONG_EPSILON2 __LONG_EPSILON2
 #define CGRAPH_LONG_EPSILON4 __LONG_EPSILON4
@@ -159,6 +163,7 @@ typedef unsigned long cgraph_ulong_t;
 #define CGRAPH_ULONG_MIN ULONG_MIN
 #define CGRAPH_ULONG_EPS __ULONG_EPS
 #define CGRAPH_ULONG_BITS __WORDSIZE
+#define CGRAPH_ULONG_BITS_LOG2 __WORDSIZE_LOG2
 #define CGRAPH_ULONG_EPSILON1 __ULONG_EPSILON1
 #define CGRAPH_ULONG_EPSILON2 __ULONG_EPSILON2
 #define CGRAPH_ULONG_EPSILON4 __ULONG_EPSILON4
@@ -179,8 +184,25 @@ typedef cgraph_long_t cgraph_size_t;
 #define CGRAPH_SIZE_MIN CGRAPH_LONG_MIN
 #define CGRAPH_SIZE_EPS CGRAPH_LONG_EPS
 #define CGRAPH_SIZE_BITS CGRAPH_LONG_BITS
+#define CGRAPH_SIZE_BITS_LOG2 CGRAPH_LONG_BITS_LOG2
 #define CGRAPH_SIZE_IN_FORMAT __SIZE_IN_FORMAT
 #define CGRAPH_SIZE_OUT_FORMAT __SIZE_OUT_FORMAT
+
+/**
+ * @typedef cgraph_usize_t
+ * @brief 32-bit/64-bit unsigned integer number data type in 32-bit/64-bit
+ * system
+ * @def CGRAPH_SIZE_MAX ULONG_MAX
+ * @def CGRAPH_SIZE_MIN ULONG_MIN
+ * @def CGRAPH_SIZE_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
+ * @def CGRAPH_SIZE_BITS (32)/(64)
+ */
+typedef cgraph_ulong_t cgraph_usize_t;
+#define CGRAPH_USIZE_MAX CGRAPH_ULONG_MAX
+#define CGRAPH_USIZE_MIN CGRAPH_ULONG_MIN
+#define CGRAPH_USIZE_EPS CGRAPH_ULONG_EPS
+#define CGRAPH_USIZE_BITS CGRAPH_ULONG_BITS
+#define CGRAPH_USIZE_BITS_LOG2 CGRAPH_ULONG_BITS_LOG2
 
 /**
  * @typedef cgraph_int8_t
@@ -325,7 +347,8 @@ typedef cgraph_uint8_t cgraph_float8_t;
 #define CGRAPH_FLOAT8_FRAC_EPSILON (0xF)
 #define CGRAPH_FLOAT8_EXP_BITS (3)
 #define CGRAPH_FLOAT8_EXP_OFFSET CGRAPH_FLOAT8_FRAC_BITS
-#define CGRAPH_FLOAT8_EXP_EPSILON (0x7)
+#define CGRAPH_FLOAT8_EXP_EPSILON (0x3)
+#define CGRAPH_FLOAT8_EXP_BIAS (0x3)
 #define CGRAPH_FLOAT8_SIG_BITS (1)
 #define CGRAPH_FLOAT8_SIG_OFFSET                                               \
   (CGRAPH_FLOAT8_EXP_BITS + CGRAPH_FLOAT8_FRAC_BITS)
@@ -345,12 +368,13 @@ typedef cgraph_uint16_t cgraph_float16_t;
 #define CGRAPH_FLOAT16_EPS FLT_EPSILON
 #define CGRAPH_FLOAT16_DIG (3)
 #define CGRAPH_FLOAT16_BITS CGRAPH_UINT16_BITS
-#define CGRAPH_FLOAT16_FRAC_BITS (10)
+#define CGRAPH_FLOAT16_FRAC_BITS (8)
 #define CGRAPH_FLOAT16_FRAC_OFFSET (0)
-#define CGRAPH_FLOAT16_FRAC_EPSILON (0x3FF)
-#define CGRAPH_FLOAT16_EXP_BITS (5)
+#define CGRAPH_FLOAT16_FRAC_EPSILON (0xFF)
+#define CGRAPH_FLOAT16_EXP_BITS (7)
 #define CGRAPH_FLOAT16_EXP_OFFSET CGRAPH_FLOAT16_FRAC_BITS
-#define CGRAPH_FLOAT16_EXP_EPSILON (0x1F)
+#define CGRAPH_FLOAT16_EXP_EPSILON (0x7F)
+#define CGRAPH_FLOAT16_EXP_BIAS (0x3F)
 #define CGRAPH_FLOAT16_SIG_BITS (1)
 #define CGRAPH_FLOAT16_SIG_OFFSET                                              \
   (CGRAPH_FLOAT16_EXP_BITS + CGRAPH_FLOAT16_FRAC_BITS)
@@ -376,6 +400,7 @@ typedef float cgraph_float32_t;
 #define CGRAPH_FLOAT32_EXP_BITS (8)
 #define CGRAPH_FLOAT32_EXP_OFFSET CGRAPH_FLOAT32_FRAC_BITS
 #define CGRAPH_FLOAT32_EXP_EPSILON (0xFF)
+#define CGRAPH_FLOAT32_EXP_BIAS (0x7F)
 #define CGRAPH_FLOAT32_SIG_BITS (1)
 #define CGRAPH_FLOAT32_SIG_OFFSET                                              \
   (CGRAPH_FLOAT32_EXP_BITS + CGRAPH_FLOAT32_FRAC_BITS)
@@ -400,7 +425,8 @@ typedef double cgraph_float64_t;
 #define CGRAPH_FLOAT64_FRAC_EPSILON (0)
 #define CGRAPH_FLOAT64_EXP_BITS (11)
 #define CGRAPH_FLOAT64_EXP_OFFSET CGRAPH_FLOAT64_FRAC_BITS
-#define CGRAPH_FLOAT64_EXP_EPSILON (0)
+#define CGRAPH_FLOAT64_EXP_EPSILON (0x3FF)
+#define CGRAPH_FLOAT64_EXP_BIAS (0x2FF)
 #define CGRAPH_FLOAT64_SIG_BITS (1)
 #define CGRAPH_FLOAT64_SIG_OFFSET                                              \
   (CGRAPH_FLOAT64_EXP_BITS + CGRAPH_FLOAT64_FRAC_BITS)

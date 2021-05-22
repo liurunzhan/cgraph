@@ -1,15 +1,25 @@
 int main(int argc, char *argv[]) {
   fprintf(stdout, "name : %s", STRING(TYPE));
   cgraph_file_fprintfln(stdout, "size : %ld", sizeof(TYPE));
-#ifndef TYPE_BOOL
+#if !defined(TYPE_BOOL) && !defined(TYPE_LOGIC)
   cgraph_file_fprintfln(stdout, "%d : " OUT_FORMAT, 4,
-                        FUNCTION(NAME, usqrt_f)(4));
+                        FUNCTION(NAME, usqrt_s)(4));
   cgraph_file_fprintfln(stdout, OUT_FORMAT " : " OUT_FORMAT, MAX,
-                        FUNCTION(NAME, usqrt_f)(MAX));
-  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, mul_f)(-64, 64));
-  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, ufact)(4));
+                        FUNCTION(NAME, usqrt_s)(MAX));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT " " OUT_FORMAT " " OUT_FORMAT, -64,
+                        64, FUNCTION(NAME, mul_s)(-64, 64));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT " " OUT_FORMAT " " OUT_FORMAT, 128,
+                        4, FUNCTION(NAME, udiv_s)(128, 4));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT " " OUT_FORMAT " " OUT_FORMAT, 127,
+                        3, FUNCTION(NAME, udiv_s)(127, 3));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT " " OUT_FORMAT " " OUT_FORMAT, -128,
+                        4, FUNCTION(NAME, div_s)(-128, 4));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT " " OUT_FORMAT " " OUT_FORMAT, -127,
+                        3, FUNCTION(NAME, div_s)(-127, 3));
+  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, ufact_s)(4));
   cgraph_file_fprintfln(stdout, OUT_FORMAT, -64 >> 2);
   cgraph_file_fprintfln(stdout, OUT_FORMAT, -127 >> 2);
+  cgraph_file_fprintfln(stdout, OUT_FORMAT, (127 ^ 127) >> (BITS - 1));
 #endif
 
   return 0;

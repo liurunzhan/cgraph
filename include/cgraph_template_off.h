@@ -373,12 +373,20 @@
 #undef DATA_MIN
 #endif
 
+#ifdef DATA_BIAS
+#undef DATA_BIAS
+#endif
+
 #ifdef DATA_MAX1
 #undef DATA_MAX1
 #endif
 
 #ifdef DATA_MIN1
 #undef DATA_MIN1
+#endif
+
+#ifdef DATA_BIAS1
+#undef DATA_BIAS1
 #endif
 
 #ifdef DATA_MSB
@@ -700,6 +708,10 @@
 
 #ifdef EXP_OFFSET
 #undef EXP_OFFSET
+#endif
+
+#ifdef EXP_BIAS
+#undef EXP_BIAS
 #endif
 
 #ifdef FLOAT_SOFT_TOEXP

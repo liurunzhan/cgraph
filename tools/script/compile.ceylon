@@ -1,0 +1,2 @@
+#!/usr/bin/ceylon run
+

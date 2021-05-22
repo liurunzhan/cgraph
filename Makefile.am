@@ -15,7 +15,7 @@ DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure cgraph.pc Dox
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache
 
-.PHONY: gtkdoc doxygen cloc update branch
+.PHONY: gtkdoc doxygen cloc cloc-all update branch
 
 gtkdoc:
 	$(MAKE) -C $(top_srcdir)/doc
@@ -26,6 +26,9 @@ doxygen:
 
 cloc:
 	cloc include src/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht
+
+cloc-all: clean
+	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"
 
 update:
 	git clean -xf

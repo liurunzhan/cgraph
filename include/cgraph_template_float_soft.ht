@@ -9,21 +9,35 @@
  * @lisence GPL-3.0
  */
 
+/** fraction of software float type */
 extern TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, clrfracs_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, shlfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, shrfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, addfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, subfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, mulfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, divfrac_s)(const TYPE x, const cgraph_int_t y);
+
+/** exponent of software float type */
 extern TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, clrexps_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, shlexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, shrexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, addexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, subexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, mulexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, divexp_s)(const TYPE x, const cgraph_int_t y);
+
+/** software float type */
+extern TYPE FUNCTION(NAME, float32to)(const cgraph_float32_t x);
+extern cgraph_float32_t FUNCTION(NAME, tofloat32)(const TYPE x);
+extern TYPE FUNCTION(NAME, float64to)(const cgraph_float64_t x);
+extern cgraph_float64_t FUNCTION(NAME, tofloat64)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, opp_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, fabs_s)(const TYPE x);

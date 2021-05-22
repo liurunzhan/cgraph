@@ -21,23 +21,52 @@ extern "C" {
 #define TYPE_TIME
 #include "cgraph_template.h"
 
+/** macro parameters defined in TYPE 0 */
 #define CGRAPH_TIME_TYPE0 (0)
+#define CGRAPH_TIME_TYPE0_BITS0 (32)
+#define CGRAPH_TIME_TYPE0_EPS0 (0xFFFFFFFFU)
+#define CGRAPH_TIME_TYPE0_BIAS0 (0xFFFFFFFFU)
+#define CGRAPH_TIME_TYPE0_BITS1 (31)
+#define CGRAPH_TIME_TYPE0_EPS1 (0x7FFFFFFFU)
+#define CGRAPH_TIME_TYPE0_BIAS1 (0x3FFFFFFFU)
+
+/** macro parameters defined in TYPE 1 */
 #define CGRAPH_TIME_TYPE1 (1)
+#define CGRAPH_TIME_TYPE1_BITS0 (7)
+#define CGRAPH_TIME_TYPE1_EPS0 (0x7FU)
+#define CGRAPH_TIME_TYPE1_BIAS0 (60U)
+#define CGRAPH_TIME_TYPE1_BITS1 (7)
+#define CGRAPH_TIME_TYPE1_EPS1 (0x7FU)
+#define CGRAPH_TIME_TYPE1_BIAS1 (60U)
+#define CGRAPH_TIME_TYPE1_BITS2 (6)
+#define CGRAPH_TIME_TYPE1_EPS2 (0x3FU)
+#define CGRAPH_TIME_TYPE1_BIAS2 (24U)
+#define CGRAPH_TIME_TYPE1_BITS3 (6)
+#define CGRAPH_TIME_TYPE1_EPS3 (0x3FU)
+#define CGRAPH_TIME_TYPE1_BIAS3 (31U)
+#define CGRAPH_TIME_TYPE1_BITS4 (5)
+#define CGRAPH_TIME_TYPE1_EPS4 (0x1FU)
+#define CGRAPH_TIME_TYPE1_BIAS4 (12U)
+#define CGRAPH_TIME_TYPE1_BITS5 (32)
+#define CGRAPH_TIME_TYPE1_EPS5 (0xFFFFFFFFU)
+#define CGRAPH_TIME_TYPE1_BIAS5 (0x7FFFFFFFFU)
 
 typedef struct {
-  DATA_UTYPE type : 1;
+  DATA_TYPE type : 1;
   union {
     struct __TYPE_BEGIN(time_type0_t) {
-      DATA_TYPE time1 : 31;
-      DATA_TYPE time0 : 32;
+      DATA_TYPE time1 : CGRAPH_TIME_TYPE0_BITS1;
+      DATA_TYPE time0 : CGRAPH_TIME_TYPE0_BITS0;
     } __TYPE_END(type0);
     struct __TYPE_BEGIN(time_type1_t) {
-      DATA_TYPE year : 32;  /** -2^31-1 ~ 2^31 */
-      DATA_TYPE month : 5;  /**     -12 ~   12 */
-      DATA_TYPE day : 6;    /**     -31 ~   31 */
-      DATA_TYPE hour : 6;   /**     -24 ~   24 */
-      DATA_TYPE minute : 7; /**     -60 ~   60 */
-      DATA_TYPE second : 7; /**     -60 ~   60 */
+      DATA_TYPE year : CGRAPH_TIME_TYPE1_BITS5; /** 0 ~ 2^31 : -2^31-1 ~ 2^31 */
+      DATA_TYPE month : CGRAPH_TIME_TYPE1_BITS4; /** 0 ~ 24   :    -12 ~   12 */
+      DATA_TYPE day : CGRAPH_TIME_TYPE1_BITS3;   /** 0 ~ 62   :    -31 ~   31 */
+      DATA_TYPE hour : CGRAPH_TIME_TYPE1_BITS2;  /** 0 ~ 48   :    -24 ~   24 */
+      DATA_TYPE minute
+          : CGRAPH_TIME_TYPE1_BITS1; /** 0 ~ 120  :    -60 ~   60 */
+      DATA_TYPE second
+          : CGRAPH_TIME_TYPE1_BITS0; /** 0 ~ 120  :    -60 ~   60 */
     } __TYPE_END(type1);
   } __TYPE_END(data);
 } cgraph_time_t;

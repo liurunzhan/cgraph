@@ -368,8 +368,8 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
           }
         }
       }
-      if (CGRAPH_TRUE == flag) {
-        for (; i >= 0; i--, xd--, yd--) {
+      if ((CGRAPH_FALSE == flag) && (i <= len)) {
+        for (flag = CGRAPH_TRUE; i >= 0; i--, xd--, yd--) {
           if (*xd <= *yd) {
             flag = CGRAPH_FALSE;
             break;
@@ -414,6 +414,37 @@ TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t len) {
 
 TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len) {
   return FUNCTION(NAME, unit)(cthis, len);
+}
+
+TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  cgraph_size_t _len = CGRAPH_LEN(cthis);
+  TYPE *res = FUNCTION(NAME, realloc)(cthis, DATA_ID, _len, _len + bits, &flag);
+  if (CGRAPH_FALSE == flag) {
+    cgraph_size_t i = 0;
+    for (; i < cthis->len; i++) {
+      cthis->data[i + bits] = cthis->data[i];
+    }
+    cgraph_memset(&cthis->data[bits - 1], bits, 0);
+    cthis->len += bits;
+  }
+
+  return res;
+}
+
+TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  cgraph_size_t _len = CGRAPH_LEN(cthis);
+  TYPE *res = FUNCTION(NAME, realloc)(cthis, DATA_ID, _len, _len - bits, &flag);
+  if (CGRAPH_FALSE == flag) {
+    cgraph_size_t i = 0;
+    for (; i < cthis->len; i++) {
+      cthis->data[i] = cthis->data[i + bits];
+    }
+    cthis->len -= bits;
+  }
+
+  return res;
 }
 
 TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis) {

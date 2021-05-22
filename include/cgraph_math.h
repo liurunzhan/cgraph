@@ -76,11 +76,13 @@ extern cgraph_char_t cgraph_math_toupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
 
 extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
+                                         const cgraph_char_t datay);
 
 extern cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
                                            cgraph_bool_t *flag);
 extern cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data);
+extern cgraph_bool_t cgraph_math_isnamest(const cgraph_char_t *data);
 
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data);
@@ -108,6 +110,11 @@ extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
                                         cgraph_int_t *isprime,
                                         const cgraph_int_t data);
 
+/**  */
+#ifdef MATH_CONST_RANDOM32_MAX
+#undef MATH_CONST_RANDOM32_MAX
+#endif
+
 #define MATH_CONST_RANDOM32_MAX CGRAPH_INT32_MAX
 typedef cgraph_int32_t (*cgraph_random32_intptr_t)(void);
 extern void cgraph_random32_intptr(cgraph_random32_intptr_t ptr);
@@ -116,6 +123,12 @@ extern cgraph_int32_t cgraph_random32(void);
 extern cgraph_int32_t cgraph_random32_mt19937(void);
 extern cgraph_int32_t cgraph_random32_uniform(const cgraph_int32_t min,
                                               const cgraph_int32_t max);
+extern cgraph_float32_t cgraph_random32_normal(const cgraph_float32_t mu,
+                                               const cgraph_float32_t sigma);
+
+#ifdef MATH_CONST_RANDOM64_MAX
+#undef MATH_CONST_RANDOM64_MAX
+#endif
 
 #define MATH_CONST_RANDOM64_MAX CGRAPH_INT64_MAX
 typedef cgraph_int64_t (*cgraph_random64_intptr_t)(void);
@@ -125,12 +138,15 @@ extern cgraph_int64_t cgraph_random64(void);
 extern cgraph_int64_t cgraph_random64_mt19937(void);
 extern cgraph_int64_t cgraph_random64_uniform(const cgraph_int64_t min,
                                               const cgraph_int64_t max);
-
 extern cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
                                                const cgraph_float64_t sigma);
 
 extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                          const cgraph_float64_t x);
+extern cgraph_int_t cgraph_math_ceil(const cgraph_int_t x,
+                                     const cgraph_int_t y);
+extern cgraph_int_t cgraph_math_floor(const cgraph_int_t x,
+                                      const cgraph_int_t y);
 extern cgraph_int_t cgraph_math_pow2(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_log2(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_mod2(const cgraph_int_t x);

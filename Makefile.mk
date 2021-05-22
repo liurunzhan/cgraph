@@ -10,7 +10,7 @@ export TOOLS = make cmake xmake meson ninja\
 
 MAKE ?= make
 
-.PHONY: all test clean distclean help $(TOOLS) gtkdoc doxygen update branch cloc format memchk
+.PHONY: all test clean distclean help $(TOOLS) gtkdoc doxygen update branch cloc cloc-all format memchk
 
 all: CMD =
 
@@ -31,6 +31,9 @@ $(TOOLS):
 
 cloc:
 	cloc include src/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht
+
+cloc-all:
+	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"
 
 update:
 	git clean -xf
