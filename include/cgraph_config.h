@@ -472,7 +472,7 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_PTRADDR2V(x, y) ((cgraph_addr_t)(x) + (y))
 
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define CGRAPH_NTEST(x) ((x) ? CGRAPH_FALSE : CGRAPH_TRUE)
+#define CGRAPH_NTEST(x) ((x) ^ 0x01)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define CGRAPH_ABS(x) (((x) < 0) ? (-(x)) : (x))
@@ -512,6 +512,7 @@ typedef enum {
   CGRAPH_LOGIC_T = 2,     /**< TYPE  2 : CGRAPH_LOGIC_T */
   CGRAPH_INT_T = 3,       /**< TYPE  3 : CGRAPH_INT_T */
   CGRAPH_LONG_T = 4,      /**< TYPE  4 : CGRAPH_LONG_T */
+  CGRAPH_SIZE_T = 4,      /**< TYPE  4 : CGRAPH_SIZE_T */
   CGRAPH_INT8_T = 5,      /**< TYPE  5 : CGRAPH_INT8_T */
   CGRAPH_UINT8_T = 5,     /**< TYPE  5 : CGRAPH_UINT8_T */
   CGRAPH_CHAR_T = 5,      /**< TYPE  5 : CGRAPH_CHAR_T */
@@ -652,7 +653,9 @@ excludes data pointer size */
   void (*check)(const void *x, void *y);
   void (*hash)(const void *x, void *y);
   void (*equal)(const void *x, const void *y, void *z);
-  void (*at)(void *x, const cgraph_size_t i);
+  void *(*datindex)(void *cthis, const cgraph_size_t datindex);
+  void *(*index)(void *cthis, const cgraph_size_t len,
+                 const cgraph_size_t index);
   void (*add)(void *x, void *y, void *z);
   void (*sub)(void *x, void *y, void *z);
   void (*mul)(void *x, void *y, void *z);

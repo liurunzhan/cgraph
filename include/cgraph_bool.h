@@ -18,10 +18,10 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define BOOL_AND(x, y) (x & y)
-#define BOOL_OR(x, y) (x | y)
-#define BOOL_NOT(x) ((~x) & 0x01)
-#define BOOL_XOR(x, y) (x ^ y)
+#define BOOL_AND(x, y) ((x) & (y))
+#define BOOL_OR(x, y) ((x) | (y))
+#define BOOL_NOT(x) ((x) ^ 0x01)
+#define BOOL_XOR(x, y) ((x) ^ (y))
 #define BOOL_XNOR(x, y) (~BOOL_XOR(x, y))
 
 #define TYPE_BOOL

@@ -616,15 +616,15 @@
 #define MIN FUNCTION(NAME, min)((x), 0)
 #define MAX FUNCTION(NAME, max)((x), 0)
 #define TYPE_WITH_DATA
-#define DATA_NAME char
+#define DATA_NAME int8
 #define DATA_TYPE TYPE_T(DATA_NAME)
-#define DATA_ID ID_T(CHAR)
+#define DATA_ID ID_T(INT8)
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
-#define DATA_ZERO ('0')
-#define DATA_ONE ('1')
-#define DATA_ONES ('1')
-#define DATA_MIN ('0')
-#define DATA_MAX ('9')
+#define DATA_ZERO (0)
+#define DATA_ONE (1)
+#define DATA_ONES (1)
+#define DATA_MIN (0)
+#define DATA_MAX (9)
 
 #elif defined(TYPE_STRING)
 #define NAME string
@@ -1018,15 +1018,15 @@
 #define SQRT(a) sqrt((a))
 
 #elif defined(TYPE_FLOAT8) || defined(TYPE_FLOAT16)
-#define FLOAT_SOFT_TOFRAC(a) (((a)&FRAC_EPSILON) << FRAC_OFFSET)
-#define FLOAT_SOFT_FRAC(a) (((a) >> FRAC_OFFSET) & FRAC_EPSILON)
+#define FLOAT_SOFT_TOFRAC(a) ((((a) << 1) & FRAC_EPSILON) << FRAC_OFFSET)
+#define FLOAT_SOFT_FRAC(a) ((((a) >> FRAC_OFFSET) & FRAC_EPSILON) || (0x01 << FRAC_BITS))
 #define FLOAT_SOFT_FRAC_CLR(a) ((a) & (~(FRAC_EPSILON << FRAC_OFFSET)))
 #define FLOAT_SOFT_FRAC_SET(a, b) ((a) | (((b) & FRAC_EPSILON) << FRAC_OFFSET))
-#define FLOAT_SOFT_TOEXP(a) (((a)&EXP_EPSILON) << EXP_OFFSET)
+#define FLOAT_SOFT_TOEXP(a) (((a) & EXP_EPSILON) << EXP_OFFSET)
 #define FLOAT_SOFT_EXP(a) (((a) >> EXP_OFFSET) & EXP_EPSILON)
 #define FLOAT_SOFT_EXP_CLR(a) ((a) & (~(EXP_EPSILON << EXP_OFFSET)))
 #define FLOAT_SOFT_EXP_SET(a, b) ((a) | (((b) & EXP_EPSILON) << EXP_OFFSET))
-#define FLOAT_SOFT_TOSIG(a) (((a)&SIG_EPSILON) << SIG_OFFSET)
+#define FLOAT_SOFT_TOSIG(a) (((a) & SIG_EPSILON) << SIG_OFFSET)
 #define FLOAT_SOFT_SIG(a) (((a) >> SIG_OFFSET) & SIG_EPSILON)
 #define FLOAT_SOFT_SIG_CLR(a) ((a) & (~(SIG_EPSILON << SIG_EPSILON)))
 #define FLOAT_SOFT_SIG_SET(a) ((a) | (SIG_EPSILON << SIG_OFFSET))
@@ -1044,7 +1044,7 @@
 #define MUL(a, b, c) FUNCTION(NAME, mul_s)((a), (b))
 #define DIV(a, b, c) FUNCTION(NAME, div_s)((a), (b))
 #define DIVF(a, b, c) FUNCTION(NAME, divf_s)((a), (b))
-#define INT(a, b, c) FUNCTION(NAME, int_s)((a), (b))
+#define INT(a, b, c) FUNCTION(NAME, idiv_s)((a), (b))
 #define FEXP(a) FUNCTION(NAME, fexp_s)((a))
 
 #define TYPE_PTR TYPE
@@ -1053,12 +1053,12 @@
 #define MODF(a, b, c) FUNCTION(NAME, modf_s)((a), (b))
 #define MOD(a, b, c) FUNCTION(NAME, mod_s)((a), (b))
 
-#define EQ(a, b) (FUNCTION(NAME, fabs_s)((a) - (b)) < EPSILON)
-#define NE(a, b) (FUNCTION(NAME, fabs_s)((a) - (b)) > EPSILON)
-#define GR(a, b) (((a) - (b)) > EPSILON)
-#define GE(a, b) (((a) - (b)) > (-EPSILON))
-#define LS(a, b) (((a) - (b)) < (-EPSILON))
-#define LE(a, b) (((a) - (b)) < EPSILON)
+#define EQ(a, b) FUNCTION(NAME, eq_s)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne_s)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr_s)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge_s)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls_s)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le_s)((a), (b))
 
 #define CEIL(a) FUNCTION(NAME, ceil_s)((a))
 #define FLOOR(a) FUNCTION(NAME, floor_s)((a))

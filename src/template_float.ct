@@ -179,13 +179,6 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   return GR(x, y);
 }
 
-__INLINE TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
-  TYPE_PTR res = 0.0;
-  MODF(x / y, &res, NULL);
-
-  return res;
-}
-
 __INLINE cgraph_int_t FUNCTION(NAME, fexp)(const TYPE x) {
   cgraph_int_t res = 0;
   FREXP(x, &res, NULL);
@@ -207,6 +200,13 @@ __INLINE TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
 
 __INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
   return DIV(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y) {
+  TYPE_PTR res = 0.0;
+  MODF(x / y, &res, NULL);
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, Eqt_binary_search)(const TYPE start, const TYPE end,

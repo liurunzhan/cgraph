@@ -64,7 +64,6 @@ extern TYPE FUNCTION(NAME, log10)(const TYPE x);
 extern TYPE FUNCTION(NAME, exp)(const TYPE x);
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
 extern TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, sin)(const TYPE x);

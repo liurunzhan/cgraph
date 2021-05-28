@@ -117,6 +117,28 @@ TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y, const cgraph_size_t size) {
   return _x;
 }
 
+DATA_TYPE *FUNCTION(NAME, datindex)(const TYPE *cthis,
+                                    const cgraph_size_t datindex) {
+  DATA_TYPE *res = NULL;
+  if ((NULL != cthis) && (cthis->len > CGRAPH_ABS(datindex))) {
+    cgraph_type_t type = 0;
+    res = OBJECT(type, index)(cthis->data, cthis->len, datindex);
+  }
+
+  return res;
+}
+
+TYPE *FUNCTION(NAME, index)(const TYPE **cthis, const cgraph_size_t len,
+                            const cgraph_size_t index) {
+
+  TYPE *res = NULL;
+  if ((NULL != cthis) && (len > CGRAPH_ABS(index))) {
+    res = (TYPE *)((index >= 0) ? cthis[index] : cthis[len + index]);
+  }
+
+  return res;
+}
+
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t hash = 0;

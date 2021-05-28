@@ -176,6 +176,10 @@ cgraph_bool_t FUNCTION(NAME, eq_s)(const TYPE x, const TYPE y) {
   return flag;
 }
 
+cgraph_bool_t FUNCTION(NAME, ne_s)(const TYPE x, const TYPE y) {
+  return CGRAPH_NTEST(FUNCTION(NAME, eq_s)(x, y));
+}
+
 cgraph_bool_t FUNCTION(NAME, gr_s)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((FLOAT_SOFT_EXP(x) > FLOAT_SOFT_EXP(y)) ||
@@ -185,10 +189,22 @@ cgraph_bool_t FUNCTION(NAME, gr_s)(const TYPE x, const TYPE y) {
   }
   if ((FLOAT_SOFT_SIG(x) > FLOAT_SOFT_SIG(y)) ||
       ((FLOAT_SOFT_SIG(x) == FLOAT_SOFT_SIG(y)) && FLOAT_SOFT_SIG(x))) {
-    flag ^= 0x01;
+    flag = CGRAPH_NTEST(flag);
   }
 
   return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ge_s)(const TYPE x, const TYPE y) {
+  return CGRAPH_NTEST(FUNCTION(NAME, gr_s)(y, x));
+}
+
+cgraph_bool_t FUNCTION(NAME, ls_s)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, gr_s)(y, x);
+}
+
+cgraph_bool_t FUNCTION(NAME, le_s)(const TYPE x, const TYPE y) {
+  return CGRAPH_NTEST(FUNCTION(NAME, gr)(x, y));
 }
 
 TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {

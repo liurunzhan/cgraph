@@ -101,7 +101,7 @@ __INLINE TYPE FUNCTION(NAME, ones)(void) {
 }
 
 TYPE FUNCTION(NAME, random)(void) {
-#ifdef TYPE_INT64
+#if defined(TYPE_INT64) || (defined(TYPE_LONG) && (__WORDSIZE == 64))
   return cgraph_random64();
 #else
   return cgraph_random32() & EPSILON;

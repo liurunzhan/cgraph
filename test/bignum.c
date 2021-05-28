@@ -6,7 +6,7 @@
 #include "cgraph_template.h"
 
 int main(int argc, char *argv[]) {
-  cgraph_char_t *num = "-0000230.01", *num2 = "-230.0";
+  cgraph_char_t *num = "-0.9", *num2 = "-230.0";
   TYPE *bignum1 = FUNCTION(NAME, calloc)(DATA_ID, 20);
   TYPE *bignum2 = FUNCTION(NAME, calloc)(DATA_ID, 20);
   TYPE *bignum3 = FUNCTION(NAME, calloc)(DATA_ID, 20);
@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, initc)(bignum1, num, strlen(num));
   FUNCTION(NAME, initc)(bignum3, num2, strlen(num2));
   FUNCTION(NAME, fprintln)(stdout, bignum1);
+  FUNCTION(NAME, fprintln)(stdout, bignum3);
   FUNCTION(NAME, ceil)(bignum1, bignum2);
   FUNCTION(NAME, fprintln)(stdout, bignum2);
   fprintf(stdout, "compare : %d\n", FUNCTION(NAME, eq)(bignum2, bignum3));

@@ -5,6 +5,11 @@
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 
+static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
+                                            const cgraph_size_t len);
+static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
+                                            const cgraph_size_t len);
+
 /** template module */
 #include "template_data.ct"
 
@@ -109,7 +114,7 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
 }
 
 TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data) {
-  cgraph_char_t *digit;
+  cgraph_char_t *digit = NULL;
   cgraph_size_t len = cgraph_math_lenofdec(data, &digit);
   TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, len / 3 + 1);
   cthis = FUNCTION(NAME, initc)(cthis, __bigint_buffer__,
@@ -176,8 +181,8 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
     z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), size, &error);
     if (CGRAPH_FALSE == error) {
       cgraph_size_t i;
-      DATA_TYPE carry = 0;
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+      DATA_TYPE carry = 0, *xd = &(x->data[0]), *yd = &(y->data[0]),
+                *zd = &(z->data[0]);
       if (x->postive == y->postive) {
         z->postive = x->postive;
         for (i = 0; i < len; i++, xd++, yd++, zd++) {
@@ -247,15 +252,15 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
 
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
-    cgraph_size_t size = x->len + y->len;
+    cgraph_size_t _len = x->len + y->len;
     cgraph_bool_t error = CGRAPH_FALSE;
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), size, &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), _len, &error);
     if (CGRAPH_FALSE == error) {
       cgraph_size_t i, j;
       cgraph_int_t tmp, carry;
       DATA_TYPE *xd = &(x->data[0]), *yd, *zd;
       z->postive = CGRAPH_TEST(x->postive == y->postive);
-      z->len = size;
+      z->len = _len;
       cgraph_memset(z->data, z->len, 0);
       for (i = 0, carry = 0; i < x->len; i++, xd++) {
         for (j = 0, yd = &(y->data[0]), zd = &(z->data[i]); j < y->len;
@@ -275,6 +280,25 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
   return z;
 }
 
+static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
+                                            const cgraph_size_t len) {
+  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_size_t i = 0;
+  for (; i < len; i++, xd--, yd--) {
+    if (*xd <= *yd) {
+      flag = CGRAPH_FALSE;
+      break;
+    }
+  }
+
+  return flag;
+}
+
+static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
+                                            const cgraph_size_t len) {
+  return CGRAPH_NTEST(FUNCTION(NAME, _datgr)(yd, xd, len));
+}
+
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
     cgraph_size_t _size = CGRAPH_SIZE(z), size = x->len;
@@ -284,7 +308,8 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
       z->postive = CGRAPH_TEST(x->postive == y->postive);
       if (x->len >= y->len) {
         cgraph_size_t i;
-        DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]);
+        DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]),
+                  *zd = &(z->data[x->len - 1]);
         z->postive = CGRAPH_TEST(x->postive == y->postive);
         cgraph_memcpy(z->data, x->data, size);
       } else {
@@ -377,7 +402,7 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
         }
       }
       if (CGRAPH_FALSE == x->postive) {
-        flag = CGRAPH_XOR(flag, 0x01);
+        flag = CGRAPH_NTEST(flag);
       }
     } else if (CGRAPH_TRUE == x->postive) {
       flag = CGRAPH_TRUE;

@@ -39,7 +39,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return CGRAPH_TRUE;
+  return DATA_ISPOS(x);
 }
 
 /**                         initial function                                  */
@@ -61,8 +61,8 @@ TYPE FUNCTION(NAME, one)(void) {
 
 TYPE FUNCTION(NAME, random)(void) {
   TYPE res;
-  COMPLEX_REAL(res) = 1.0 * cgraph_random64();
-  COMPLEX_IMAG(res) = 1.0 * cgraph_random64();
+  COMPLEX_REAL(res) = 1.0 * FUNCTION(DATA_NAME, random)();
+  COMPLEX_IMAG(res) = 1.0 * FUNCTION(DATA_NAME, random)();
 
   return res;
 }
@@ -306,9 +306,9 @@ TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
 TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
   TYPE res;
   DATA_TYPE res_real =
-                FUNCTION(DATA_NAME, int)(COMPLEX_REAL(x), COMPLEX_REAL(y)),
+                FUNCTION(DATA_NAME, idiv)(COMPLEX_REAL(x), COMPLEX_REAL(y)),
             res_imag =
-                FUNCTION(DATA_NAME, int)(COMPLEX_IMAG(x), COMPLEX_IMAG(y));
+                FUNCTION(DATA_NAME, idiv)(COMPLEX_IMAG(x), COMPLEX_IMAG(y));
   COMPLEX_REAL(res) = CGRAPH_MIN(res_real, res_imag);
   COMPLEX_IMAG(res) = 0.0;
 

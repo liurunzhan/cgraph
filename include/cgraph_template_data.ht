@@ -51,10 +51,12 @@ extern cgraph_bool_t FUNCTION(NAME, isXZ)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, int)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, idiv)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, mod)(const TYPE *x, const TYPE *y, TYPE *z);
 
 extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
@@ -82,6 +84,8 @@ extern TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y);
 
+extern DATA_TYPE *FUNCTION(NAME, datindex)(const TYPE *cthis,
+                                           const cgraph_size_t datindex);
 extern TYPE *FUNCTION(NAME, index)(const TYPE **cthis, const cgraph_size_t len,
                                    const cgraph_size_t index);
 extern TYPE **FUNCTION(NAME, swap)(TYPE **cthis, const cgraph_size_t xstart,
@@ -200,6 +204,7 @@ extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 
 extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
@@ -227,8 +232,10 @@ extern TYPE FUNCTION(NAME, log10)(const TYPE x);
 extern TYPE FUNCTION(NAME, exp)(const TYPE x);
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
 
-extern TYPE FUNCTION(NAME, index)(const TYPE *cthis, const cgraph_size_t len,
-                                  const cgraph_size_t index);
+extern TYPE *FUNCTION(NAME, datindex)(const TYPE *cthis,
+                                      const cgraph_size_t datindex);
+extern TYPE *FUNCTION(NAME, index)(const TYPE *cthis, const cgraph_size_t len,
+                                   const cgraph_size_t index);
 extern TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t xstart,
                                   const cgraph_size_t ystart,
                                   const cgraph_size_t len);

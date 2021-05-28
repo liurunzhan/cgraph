@@ -18,7 +18,7 @@ __INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
 #endif
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isrnum(const cgraph_char_t data) {
   return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
 }
 
@@ -317,7 +317,8 @@ cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
 }
 
 /** 32-bit integer random functions  */
-static cgraph_random32_intptr_t __cgraph_random32_intptr = cgraph_random32;
+static cgraph_random32_intptr_t __cgraph_random32_intptr =
+    cgraph_random32_miller;
 
 void cgraph_random32_intptr(cgraph_random32_intptr_t ptr) {
   __cgraph_random32_intptr = ptr;
@@ -329,6 +330,8 @@ void cgraph_random32_seed(const cgraph_int32_t seed) {
   __cgraph_random32_seed = seed;
 }
 
+cgraph_int32_t cgraph_random32(void) { return __cgraph_random32_intptr(); }
+
 /**
   Author  : Park,  Miller
   Methode : X(n+1) <- (a * X(n) + b) % m
@@ -338,7 +341,7 @@ void cgraph_random32_seed(const cgraph_int32_t seed) {
   returning a 32-bit integer [1, 2147483647]
   X(0) = 1
 */
-cgraph_int32_t cgraph_random32(void) {
+cgraph_int32_t cgraph_random32_miller(void) {
   const cgraph_int32_t a = 48271, m = MATH_CONST_RANDOM32_MAX;
   const cgraph_int32_t m_div_a = m / a, m_mod_a = m % a;
   cgraph_int32_t hi = __cgraph_random32_seed / m_div_a,
@@ -352,7 +355,7 @@ cgraph_int32_t cgraph_random32(void) {
  * 32-bit Mersenne Twister Algorithm
  *  @brief mt19937-32
  */
-cgraph_int32_t cgraph_random_mt19937_32(void) { return __cgraph_random32_seed; }
+cgraph_int32_t cgraph_random32_mt19937(void) { return __cgraph_random32_seed; }
 
 cgraph_int32_t cgraph_random32_uniform(const cgraph_int32_t min,
                                        const cgraph_int32_t max) {
@@ -382,7 +385,7 @@ cgraph_float32_t cgraph_random32_normal(const cgraph_float32_t mu,
 }
 
 /** 64-bit integer random functions  */
-static cgraph_random64_intptr_t __cgraph_random64_intptr = cgraph_random64;
+static cgraph_random64_intptr_t __cgraph_random64_intptr = cgraph_random64_mmix;
 
 void cgraph_random64_intptr(cgraph_random64_intptr_t ptr) {
   __cgraph_random64_intptr = ptr;
@@ -394,6 +397,8 @@ void cgraph_random64_seed(const cgraph_int64_t seed) {
   __cgraph_random64_seed = seed;
 }
 
+cgraph_int64_t cgraph_random64(void) { return __cgraph_random64_intptr(); }
+
 /**
   Author  : MMIX by Donald Knuth
   Methode : X(n+1) <- (a * X(n) + b) % m
@@ -403,7 +408,7 @@ void cgraph_random64_seed(const cgraph_int64_t seed) {
   returning a 64-bit integer [1, 18446744073709551615]
   X(0) = 1
 */
-cgraph_int64_t cgraph_random64(void) {
+cgraph_int64_t cgraph_random64_mmix(void) {
   const cgraph_int64_t a = __RANDOM64_A, b = __RANDOM64_B, m = __RANDOM64_M;
   const cgraph_int64_t a_mod_m = a % m, b_mod_m = b % m;
   cgraph_int64_t seed_mod_m = __cgraph_random64_seed % m;
@@ -443,6 +448,15 @@ cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
   phase ^= CGRAPH_TRUE;
 
   return Z * sigma + mu;
+}
+
+/** random size number */
+cgraph_size_t cgraph_random_size(const cgraph_size_t size) {
+#if __WORDSIZE == 64
+  return __cgraph_random64_intptr() % size;
+#else
+  return __cgraph_random32_intptr() % size;
+#endif
 }
 
 cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
