@@ -299,31 +299,31 @@ TYPE FUNCTION(NAME, abs_s)(const TYPE x) {
   return res;
 }
 
-TYPE FUNCTION(NAME, log_s)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, log_s)(const TYPE x) {
   TYPE res = 0;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, log2_s)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, log2_s)(const TYPE x) {
   TYPE res = 0;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, log10_s)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, log10_s)(const TYPE x) {
   TYPE res = 0;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, exp_s)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, exp_s)(const TYPE x) {
   TYPE res = 0;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, sqrt_s)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, sqrt_s)(const TYPE x) {
   TYPE res = 0;
 
   return res;

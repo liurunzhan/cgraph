@@ -14,5 +14,6 @@
 extern cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, isrow)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, iscolumn)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, ismatrix_row)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, ismatrix_column)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, ismatrix)(const TYPE *cthis);

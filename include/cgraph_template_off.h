@@ -91,8 +91,16 @@
 #undef TYPE_POBJECT
 #endif
 
-#ifdef TYPE_INT
-#undef TYPE_INT
+#ifdef TYPE_FLOAT8
+#undef TYPE_FLOAT8
+#endif
+
+#ifdef TYPE_FLOAT16
+#undef TYPE_FLOAT16
+#endif
+
+#ifdef TYPE_FLOAT32
+#undef TYPE_FLOAT32
 #endif
 
 #ifdef TYPE_FLOAT64
@@ -103,6 +111,18 @@
 #undef TYPE_FLOAT128
 #endif
 
+#ifdef TYPE_FLOAT128_SIZE64
+#undef TYPE_FLOAT128_SIZE64
+#endif
+
+#ifdef TYPE_FLOAT128_SIZE80
+#undef TYPE_FLOAT128_SIZE80
+#endif
+
+#ifdef TYPE_FLOAT128_SIZE128
+#undef TYPE_FLOAT128_SIZE128
+#endif
+
 #ifdef TYPE_BOOL
 #undef TYPE_BOOL
 #endif
@@ -111,12 +131,20 @@
 #undef TYPE_LOGIC
 #endif
 
-#ifdef TYPE_FLOAT32
-#undef TYPE_FLOAT32
+#ifdef TYPE_INT
+#undef TYPE_INT
 #endif
 
 #ifdef TYPE_LONG
 #undef TYPE_LONG
+#endif
+
+#ifdef TYPE_LONG_SIZE32
+#undef TYPE_LONG_SIZE32
+#endif
+
+#ifdef TYPE_LONG_SIZE64
+#undef TYPE_LONG_SIZE64
 #endif
 
 #ifdef TYPE_INT8
@@ -133,6 +161,18 @@
 
 #ifdef TYPE_INT64
 #undef TYPE_INT64
+#endif
+
+#ifdef TYPE_INT128
+#undef TYPE_INT128
+#endif
+
+#ifdef TYPE_INT128_SIZE64
+#undef TYPE_INT128_SIZE64
+#endif
+
+#ifdef TYPE_INT128_SIZE128
+#undef TYPE_INT128_SIZE128
 #endif
 
 #ifdef TYPE_TIME
@@ -235,16 +275,24 @@
 #undef TYPE_PTR
 #endif
 
+#ifdef NAME
+#undef NAME
+#endif
+
 #ifdef ID
 #undef ID
+#endif
+
+#ifdef UNAME
+#undef UNAME
 #endif
 
 #ifdef UTYPE
 #undef UTYPE
 #endif
 
-#ifdef NAME
-#undef NAME
+#ifdef UID
+#undef UID
 #endif
 
 #ifdef IN_FORMAT
@@ -780,4 +828,8 @@
 
 #ifdef EPSILON32
 #undef EPSILON32
+#endif
+
+#ifdef EPSILON64
+#undef EPSILON64
 #endif

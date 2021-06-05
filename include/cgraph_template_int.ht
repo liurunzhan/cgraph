@@ -72,3 +72,7 @@ extern UTYPE FUNCTION(NAME, ufact_s)(const UTYPE x);
 extern UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x);
 extern UTYPE FUNCTION(NAME, usqrt_mod_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, usqrt_modp_s)(const UTYPE x, const UTYPE p);
+
+#if !(defined(TYPE_BOOL) || defined(TYPE_LOGIC))
+extern UTYPE FUNCTION(UNAME, random)(void);
+#endif

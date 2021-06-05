@@ -127,6 +127,47 @@ void *cgraph_memscpy(void *object, const cgraph_size_t size,
   return object;
 }
 
+cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
+                            const cgraph_size_t size) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (x == y) {
+    flag = CGRAPH_TRUE;
+  } else if ((NULL != x) && (NULL != y) && (0 < size)) {
+    if (0 == memcmp(x, y, size)) {
+      flag = CGRAPH_TRUE;
+    }
+  }
+#ifdef DEBUG
+  if (NULL == x) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "target pointer is empty");
+  }
+  if (NULL == y) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "source pointer is empty");
+  }
+  if (0 >= size) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "length %ld is a negative number or equal to zero", size);
+  }
+#endif
+
+  return flag;
+}
+
+void cgraph_free(void *cthis) {
+  if (NULL != cthis) {
+    free(cthis);
+    cthis = NULL;
+  }
+#ifdef DEBUG
+  else {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "empty pointer is freed");
+  }
+#endif
+}
+
 cgraph_char_t *cgraph_strcpy(cgraph_char_t *object,
                              const cgraph_char_t *cthis) {
   cgraph_char_t *_object = object;
@@ -253,47 +294,6 @@ cgraph_char_t *cgraph_strscat(cgraph_char_t *object, const cgraph_size_t size,
   return object;
 }
 
-void cgraph_free(void *cthis) {
-  if (NULL != cthis) {
-    free(cthis);
-    cthis = NULL;
-  }
-#ifdef DEBUG
-  else {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
-                     "empty pointer is freed");
-  }
-#endif
-}
-
-cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
-                            const cgraph_size_t size) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  if (x == y) {
-    flag = CGRAPH_TRUE;
-  } else if ((NULL != x) && (NULL != y) && (0 < size)) {
-    if (0 == memcmp(x, y, size)) {
-      flag = CGRAPH_TRUE;
-    }
-  }
-#ifdef DEBUG
-  if (NULL == x) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
-                     "target pointer is empty");
-  }
-  if (NULL == y) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
-                     "source pointer is empty");
-  }
-  if (0 >= size) {
-    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
-                     "length %ld is a negative number or equal to zero", size);
-  }
-#endif
-
-  return flag;
-}
-
 cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x, const cgraph_char_t *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
@@ -313,4 +313,17 @@ cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x, const cgraph_char_t *y) {
 #endif
 
   return flag;
+}
+
+cgraph_char_t *cgraph_strrev(cgraph_char_t *object, const cgraph_size_t size) {
+  if (NULL != object) {
+    cgraph_char_t *start = object, *end = &(object[size - 1]), tmp;
+    for (; start < end; start++, end--) {
+      tmp = *start;
+      *start = *end;
+      *end = tmp;
+    }
+  }
+
+  return object;
 }

@@ -3,6 +3,7 @@
 #include <time.h>
 
 #include "cgraph_base.h"
+#include "cgraph_int32.h"
 #include "cgraph_time.h"
 
 #define TYPE_TIME
@@ -284,8 +285,8 @@ TYPE FUNCTION(NAME, max0)(void) {
 TYPE FUNCTION(NAME, random0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
-  TIME_VALUE0(res) = DATA_MIN & cgraph_random32();
-  TIME_VALUE1(res) = DATA_MIN1 & cgraph_random32();
+  TIME_VALUE0(res) = DATA_MIN & FUNCTION(DATA_NAME, random)();
+  TIME_VALUE1(res) = DATA_MIN1 & FUNCTION(DATA_NAME, random)();
 
   return res;
 }
@@ -650,7 +651,7 @@ TYPE FUNCTION(NAME, max1)(void) {
 TYPE FUNCTION(NAME, random1)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
-  TIME_YEAR(res) = DATA_MAX & cgraph_random32();
+  TIME_YEAR(res) = DATA_MAX & FUNCTION(DATA_NAME, random)();
   TIME_MONTH(res) = cgraph_random32_uniform(-12, 12);
   TIME_DAY(res) = cgraph_random32_uniform(-31, 31);
   TIME_HOUR(res) = cgraph_random32_uniform(-23, 23);

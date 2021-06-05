@@ -120,16 +120,15 @@ TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, pop)(TYPE *cthis, const void *x) {
+void *FUNCTION(NAME, pop)(TYPE *cthis) {
+  void *res = NULL;
   if ((NULL != cthis) && (0 < cthis->len)) {
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-    if (NULL != x) {
-      x = (cgraph_int8_t *)cthis->data + cthis->len * OBJECT(type, tstrusize)();
-    }
+    res = (cgraph_addr_t *)cthis->data + cthis->len * OBJECT(type, tstrusize)();
     cthis->len -= 1;
   }
 
-  return cthis;
+  return res;
 }
 
 TYPE *FUNCTION(NAME, delete)(TYPE *cthis, const void *x) {

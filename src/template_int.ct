@@ -26,20 +26,22 @@ __INLINE cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
  * 64-bit fnv_prime    : 1099511628211 = 2^40 + 2^8 + 0xb3
  */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  cgraph_size_t hash = (EPSILON & cthis);
-#elif defined(TYPE_INT)
+#if defined(TYPE_INT)
   cgraph_size_t hash = 2166136261UL;
   char *tmp = (char *)&cthis;
   cgraph_size_t i;
   for (i = 0; i < sizeof(TYPE); i++) {
     hash = (hash ^ tmp[i]) * 16777619UL;
   }
-#elif defined(TYPE_INT32)
+#elif defined(TYPE_INT32) || defined(TYPE_LONG_SIZE32)
   cgraph_size_t hash = 0;
   hash = ((cthis >> 16) ^ cthis) * 0x45d9f3b;
   hash = ((hash >> 16) ^ hash) * 0x45d9f3b;
   hash = (hash >> 16) ^ hash;
+#elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
+  cgraph_size_t hash = 0;
+#elif defined(TYPE_INT128)
+  cgraph_size_t hash = 0;
 #else
   cgraph_size_t hash = cthis;
 #endif
@@ -49,13 +51,12 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   return cgraph_file_fprintf(fp, OUT_FORMAT,
-#if defined(TYPE_BOOL)
-                             FUNCTION(NAME, bool2str)(cthis));
-#elif defined(TYPE_LOGIC)
-                             FUNCTION(NAME, logic2str)(cthis));
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC) || defined(TYPE_INT128)
+                             FUNCTION(NAME, encode)(cthis)
 #else
-                             cthis);
+                             cthis
 #endif
+  );
 }
 
 cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
@@ -63,50 +64,35 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
                                       const TYPE cthis) {
 
   return cgraph_file_snprintf(buffer, size, OUT_FORMAT,
-#if defined(TYPE_BOOL)
-                              FUNCTION(NAME, bool2str)(cthis));
-#elif defined(TYPE_LOGIC)
-                              FUNCTION(NAME, logic2str)(cthis));
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC) || defined(TYPE_INT128)
+                              FUNCTION(NAME, encode)(cthis)
 #else
-                              cthis);
+                              cthis
 #endif
+  );
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return x | (x >> (BITS - 1));
 }
 
-__INLINE TYPE FUNCTION(NAME, zero)(void) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_FALSE;
-#else
-  return ZERO;
-#endif
-}
+__INLINE TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
 
-__INLINE TYPE FUNCTION(NAME, one)(void) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TRUE;
-#else
-  return ONE;
-#endif
-}
+__INLINE TYPE FUNCTION(NAME, one)(void) { return ONE; }
 
-__INLINE TYPE FUNCTION(NAME, ones)(void) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TRUE;
-#else
-  return ONES;
-#endif
-}
+__INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
 TYPE FUNCTION(NAME, random)(void) {
-#if defined(TYPE_INT64) || (defined(TYPE_LONG) && (__WORDSIZE == 64))
+#if defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
   return cgraph_random64();
 #else
   return cgraph_random32() & EPSILON;
 #endif
 }
+
+#if !(defined(TYPE_BOOL) || defined(TYPE_LOGIC))
+UTYPE FUNCTION(UNAME, random)(void) { return FUNCTION(NAME, random)(); }
+#endif
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...) {
@@ -271,11 +257,10 @@ __INLINE UTYPE FUNCTION(NAME, swapbit)(const UTYPE x) {
   res = ((res & EPSILON4) >> 4) | ((res & ~EPSILON4) << 4);
 #if defined(TYPE_INT16)
   res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
-#elif defined(TYPE_INT32) || defined(TYPE_INT) ||                              \
-    (defined(TYPE_LONG) && (__WORDSIZE == 32))
+#elif defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
   res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
   res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
-#elif defined(TYPE_INT64) || (defined(TYPE_LONG) && (__WORDSIZE == 64))
+#elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
   res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
   res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
   res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
@@ -292,11 +277,10 @@ __INLINE UTYPE FUNCTION(NAME, swapbyte)(const UTYPE x) {
   UTYPE res = x;
 #if defined(TYPE_INT16)
   res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
-#elif defined(TYPE_INT32) || defined(TYPE_INT) ||                              \
-    (defined(TYPE_LONG) && (__WORDSIZE == 32))
+#elif defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
   res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
   res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
-#elif defined(TYPE_INT64) || (defined(TYPE_LONG) && (__WORDSIZE == 64))
+#elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
   res = ((res & EPSILON8) >> 8) | ((res & ~EPSILON8) << 8);
   res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
   res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
@@ -311,10 +295,9 @@ __INLINE UTYPE FUNCTION(NAME, swaphfwd)(const UTYPE x) {
   return x;
 #else
   UTYPE res = x;
-#if defined(TYPE_INT32) || defined(TYPE_INT) ||                                \
-    (defined(TYPE_LONG) && (__WORDSIZE == 32))
+#if defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
   res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
-#elif defined(TYPE_INT64) || (defined(TYPE_LONG) && (__WORDSIZE == 64))
+#elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
   res = ((res & EPSILON16) >> 16) | ((res & ~EPSILON16) << 16);
   res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
 #endif
@@ -328,7 +311,7 @@ __INLINE UTYPE FUNCTION(NAME, swapword)(const UTYPE x) {
   return x;
 #else
   UTYPE res = x;
-#if defined(TYPE_INT64) || (defined(TYPE_LONG) && (__WORDSIZE == 64))
+#if defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
   res = ((res & EPSILON32) >> 32) | ((res & ~EPSILON32) << 32);
 #endif
 

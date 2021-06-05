@@ -20,10 +20,14 @@ __INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
   return CGRAPH_TEST(MATRIX_ROW(cthis) == MATRIX_COLUMN(cthis));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isrow)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix_row)(const TYPE *cthis) {
   return CGRAPH_TEST(1 == MATRIX_COLUMN(cthis));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, iscolumn)(const TYPE *cthis) {
+__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix_column)(const TYPE *cthis) {
   return CGRAPH_TEST(1 == MATRIX_ROW(cthis));
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix)(const TYPE *cthis) {
+  return CGRAPH_TEST((1 != MATRIX_COLUMN(cthis)) && (1 != MATRIX_ROW(cthis)));
 }

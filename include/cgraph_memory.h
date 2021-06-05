@@ -29,6 +29,10 @@ extern void *cgraph_memcpy(void *object, const void *cthis,
 extern void *cgraph_memscpy(void *object, const cgraph_size_t size,
                             const cgraph_size_t old_len, const void *cthis,
                             const cgraph_size_t new_len);
+extern cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
+                                   const cgraph_size_t size);
+extern void cgraph_free(void *cthis);
+
 extern cgraph_char_t *cgraph_strcpy(cgraph_char_t *object,
                                     const cgraph_char_t *cthis);
 extern cgraph_char_t *cgraph_strncpy(cgraph_char_t *object,
@@ -45,11 +49,10 @@ extern cgraph_char_t *cgraph_strncat(cgraph_char_t *object,
 extern cgraph_char_t *cgraph_strscat(cgraph_char_t *object,
                                      const cgraph_size_t size,
                                      const cgraph_char_t *cthis);
-extern void cgraph_free(void *cthis);
-extern cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
-                                   const cgraph_size_t size);
 extern cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x,
                                    const cgraph_char_t *y);
+extern cgraph_char_t *cgraph_strrev(cgraph_char_t *object,
+                                    const cgraph_size_t size);
 
 #ifdef __cplusplus
 }

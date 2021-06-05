@@ -29,7 +29,7 @@ cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x) {
 cgraph_bool_t cgraph_string_to_bool(const cgraph_string_t *cthis) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (NULL != cthis) {
-    res = cgraph_bool_str2bool(cthis->data, cthis->len);
+    res = cgraph_bool_decode(cthis->data, cthis->len);
   }
 
   return res;

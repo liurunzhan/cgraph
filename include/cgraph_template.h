@@ -121,7 +121,9 @@
 #define ID ID_T(BOOL)
 #define IN_FORMAT "%s"
 #define OUT_FORMAT "%s"
-#define UTYPE cgraph_bool_t
+#define UNAME bool
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(BOOL)
 #define ZERO CGRAPH_FALSE
 #define ONE CGRAPH_TRUE
 #define ONES CGRAPH_TRUE
@@ -141,7 +143,9 @@
 #define ID ID_T(LOGIC)
 #define IN_FORMAT "%s"
 #define OUT_FORMAT "%s"
-#define UTYPE cgraph_logic_t
+#define UNAME logic
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(LOGIC)
 #define ZERO CGRAPH_L0
 #define ONE CGRAPH_L1
 #define ONES CGRAPH_L1
@@ -161,7 +165,9 @@
 #define ID ID_T(INT)
 #define IN_FORMAT "%d"
 #define OUT_FORMAT "%d"
-#define UTYPE cgraph_uint_t
+#define UNAME uint
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(UINT)
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT_MIN
@@ -180,13 +186,21 @@
 #define EPSILON16 (0xFFFF0000U)
 
 #elif defined(TYPE_LONG)
+#if __WORDSIZE == 64
+#define TYPE_LONG_SIZE64
+#else
+#define TYPE_LONG_SIZE32
+#endif
+
 #define ARG cgraph_long_t
 #define NAME long
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(LONG)
 #define IN_FORMAT "%ld"
 #define OUT_FORMAT "%ld"
-#define UTYPE cgraph_ulong_t
+#define UNAME ulong
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(ULONG)
 #define ZERO (0L)
 #define ONE (1L)
 #define ONES CGRAPH_LONG_MIN
@@ -212,7 +226,9 @@
 #define ID ID_T(INT8)
 #define IN_FORMAT CGRAPH_INT8_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT8_OUT_FORMAT
-#define UTYPE cgraph_uint8_t
+#define UNAME uint8
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(UINT8)
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT8_MIN
@@ -235,7 +251,9 @@
 #define ID ID_T(INT16)
 #define IN_FORMAT CGRAPH_INT16_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT16_OUT_FORMAT
-#define UTYPE cgraph_uint16_t
+#define UNAME uint16
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(UINT16)
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT16_MIN
@@ -259,7 +277,9 @@
 #define ID ID_T(INT32)
 #define IN_FORMAT CGRAPH_INT32_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT32_OUT_FORMAT
-#define UTYPE cgraph_uint32_t
+#define UNAME uint32
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(UINT32)
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT32_MIN
@@ -285,7 +305,9 @@
 #define ID ID_T(INT64)
 #define IN_FORMAT CGRAPH_INT64_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT64_OUT_FORMAT
-#define UTYPE cgraph_uint64_t
+#define UNAME uint64
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(UINT64)
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT64_MIN
@@ -304,6 +326,37 @@
 #define EPSILON8 CGRAPH_INT64_EPSILON8
 #define EPSILON16 CGRAPH_INT64_EPSILON16
 #define EPSILON32 CGRAPH_INT64_EPSILON32
+
+#elif defined(TYPE_INT128)
+#define ARG cgraph_long_t
+#define NAME int128
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(INT128)
+#define IN_FORMAT CGRAPH_INT128_IN_FORMAT
+#define OUT_FORMAT CGRAPH_INT128_OUT_FORMAT
+#define UNAME uint128
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(UINT128)
+#define ZERO (0)
+#define ONE (1)
+#define ONES CGRAPH_INT128_MIN
+#define BITS CGRAPH_INT128_BITS
+#define BITS_LOG2 CGRAPH_INT128_BITS_LOG2
+#define MIN CGRAPH_INT128_MIN
+#define MAX CGRAPH_INT128_MAX
+#define MSB (ONE << (BITS - 1))
+#define LSB (ONE)
+#define EPSILON CGRAPH_INT128_EPS
+#define EPSILON_LEN CGRAPH_INT128_BITS
+#define HASH_OFFSET (8)
+#define EPSILON1 CGRAPH_INT128_EPSILON1
+#define EPSILON2 CGRAPH_INT128_EPSILON2
+#define EPSILON4 CGRAPH_INT128_EPSILON4
+#define EPSILON8 CGRAPH_INT128_EPSILON8
+#define EPSILON16 CGRAPH_INT128_EPSILON16
+#define EPSILON32 CGRAPH_INT128_EPSILON32
+#define EPSILON64 CGRAPH_INT128_EPSILON64
+#define DATA_TYPE __INT128_DATA_TYPE
 
 #elif defined(TYPE_FLOAT8)
 #define ARG cgraph_int_t
@@ -331,6 +384,8 @@
 #define SIG_BITS CGRAPH_FLOAT8_SIG_BITS
 #define SIG_OFFSET CGRAPH_FLOAT8_SIG_OFFSET
 #define SIG_EPSILON CGRAPH_FLOAT8_SIG_EPSILON
+#define DATA_NAME int8
+#define DATA_ID ID_T(INT8)
 
 #elif defined(TYPE_FLOAT16)
 #define ARG cgraph_int_t
@@ -358,6 +413,8 @@
 #define SIG_BITS CGRAPH_FLOAT16_SIG_BITS
 #define SIG_OFFSET CGRAPH_FLOAT16_SIG_OFFSET
 #define SIG_EPSILON CGRAPH_FLOAT16_SIG_EPSILON
+#define DATA_NAME int16
+#define DATA_ID ID_T(INT16)
 
 #elif defined(TYPE_FLOAT32)
 #define ARG cgraph_float64_t
@@ -385,6 +442,8 @@
 #define SIG_BITS CGRAPH_FLOAT32_SIG_BITS
 #define SIG_OFFSET CGRAPH_FLOAT32_SIG_OFFSET
 #define SIG_EPSILON CGRAPH_FLOAT32_SIG_EPSILON
+#define DATA_NAME int32
+#define DATA_ID ID_T(INT32)
 
 #elif defined(TYPE_FLOAT64)
 #define ARG cgraph_float64_t
@@ -412,6 +471,8 @@
 #define SIG_BITS CGRAPH_FLOAT64_SIG_BITS
 #define SIG_OFFSET CGRAPH_FLOAT64_SIG_OFFSET
 #define SIG_EPSILON CGRAPH_FLOAT64_SIG_EPSILON
+#define DATA_NAME int64
+#define DATA_ID ID_T(INT64)
 
 #elif defined(TYPE_FLOAT128)
 #define ARG cgraph_float128_t
@@ -431,6 +492,8 @@
 #define HASH_OFFSET CGRAPH_FLOAT128_HASH_OFFSET
 #define FRAC_BITS CGRAPH_FLOAT128_FRAC_BITS
 #define EXP_BITS CGRAPH_FLOAT128_EXP_BITS
+#define DATA_NAME int128
+#define DATA_ID ID_T(INT128)
 
 #elif defined(TYPE_TIME)
 #define NAME time
@@ -582,7 +645,7 @@
 #define NAME bigint
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGINT)
-#define OUT_FORMAT "%u"
+#define OUT_FORMAT "%s"
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
 #define ONES(x) FUNCTION(NAME, ones)((x), 0)
@@ -608,7 +671,7 @@
 #define NAME bignum
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGNUM)
-#define OUT_FORMAT "%c"
+#define OUT_FORMAT "%s"
 #define ZERO(x) FUNCTION(NAME, zero)((x), 0)
 #define ONE(x) FUNCTION(NAME, one)((x), 0)
 #define ONES(x) FUNCTION(NAME, ones)((x), 0)
@@ -976,7 +1039,7 @@
 #define SQRT(a, b) sqrt((a))
 
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
-    defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64)
+    defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64) || defined(TYPE_INT128)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
 #define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
 #define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
@@ -1074,7 +1137,7 @@
 #define COSH(a) FUNCTION(NAME, cosh_s)((a))
 #define TANH(a) FUNCTION(NAME, tanh_s)((a))
 #define LOG(a) FUNCTION(NAME, log_s)((a))
-#define LOG2(a) (FUNCTION(NAME, log_s)((a)) / FUNCTION(NAME, log_s)(2.0))
+#define LOG2(a) FUNCTION(NAME, log2_s)((a))
 #define LOG10(a) FUNCTION(NAME, log10_s)((a))
 #define EXP(a) FUNCTION(NAME, exp_s)((a))
 #define SQRT(a) FUNCTION(NAME, sqrt_s)((a))
@@ -1137,7 +1200,7 @@
 #define LOG10(a) log10f((a))
 #define EXP(a) expf((a))
 #define SQRT(a) sqrtf((a))
-#elif defined(TYPE_FLOAT128) && defined(__WITH_FLOAT128)
+#elif defined(TYPE_FLOAT128) && defined(__WITH_FLOAT128_SIZE128)
 #define TYPE_PTR TYPE
 #define FREXP(a, b, c) frexpl((a), (b))
 #define FMOD(a, b, c) fmodl((a), (b))

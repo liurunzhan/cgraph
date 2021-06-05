@@ -18,8 +18,13 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#ifndef CGRAPH_TIME_BUFFER_SIZE
 #define CGRAPH_TIME_BUFFER_SIZE 256
+#endif
+
+#ifndef CGRAPH_LOG_BUFFER_SIZE
 #define CGRAPH_LOG_BUFFER_SIZE 2048
+#endif
 
 typedef enum {
   CGRAPH_ERROR_NO_ERROR,               /** NO ERROR */

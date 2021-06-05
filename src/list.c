@@ -23,11 +23,12 @@ TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, pop)(TYPE *cthis, const void *x) {
-  if ((NULL != cthis) && (NULL != x)) {
+void *FUNCTION(NAME, pop)(TYPE *cthis) {
+  void *res = NULL;
+  if (NULL != cthis) {
   }
 
-  return cthis;
+  return res;
 }
 
 TYPE *FUNCTION(NAME, disable)(TYPE *cthis, const void *x) {

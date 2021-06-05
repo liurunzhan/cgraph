@@ -82,8 +82,8 @@ TYPE FUNCTION(NAME, ones)(void) {
 
 TYPE FUNCTION(NAME, random)(void) {
   TYPE res;
-  FRACTION_NUM(res) = cgraph_random32();
-  FRACTION_DEN(res) = cgraph_random32();
+  FRACTION_NUM(res) = FUNCTION(DATA_NAME, random)();
+  FRACTION_DEN(res) = FUNCTION(DATA_NAME, random)();
   return res;
 }
 

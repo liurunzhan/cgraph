@@ -18,7 +18,9 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#ifndef CGRAPH_FILE_BUFFER_SIZE
 #define CGRAPH_FILE_BUFFER_SIZE (4096L)
+#endif
 
 extern cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path);
 extern cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path);

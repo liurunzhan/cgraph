@@ -18,6 +18,10 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#ifndef CGRAPH_BIGINT_BUFFER_SIZE
+#define CGRAPH_BIGINT_BUFFER_SIZE 4096
+#endif
+
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 

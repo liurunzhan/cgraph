@@ -12,7 +12,7 @@ static const cgraph_char_t *__cgraph_L1__ = CGRAPH_LOGIC_L1;
 static const cgraph_char_t *__cgraph_LZ__ = CGRAPH_LOGIC_LZ;
 static const cgraph_char_t *__cgraph_LX__ = CGRAPH_LOGIC_LX;
 
-cgraph_char_t *FUNCTION(NAME, logic2str)(const TYPE x) {
+cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
   cgraph_char_t *res = (cgraph_char_t *)__cgraph_LX__;
   switch (x) {
   case CGRAPH_L0: {
@@ -32,8 +32,7 @@ cgraph_char_t *FUNCTION(NAME, logic2str)(const TYPE x) {
   return res;
 }
 
-TYPE FUNCTION(NAME, str2logic)(const cgraph_char_t *str,
-                               const cgraph_size_t len) {
+TYPE FUNCTION(NAME, decode)(const cgraph_char_t *str, const cgraph_size_t len) {
   TYPE res = CGRAPH_LX;
   if ((NULL != str) && (1 == len)) {
     switch (str[0]) {

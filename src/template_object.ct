@@ -3,33 +3,19 @@
  * @param NAME type name
  * @struct CGRAPH_OBJECTS_NAME(NAME)
  */
-CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {&STRUCT(NAME),
-                                         &STRUCT(bool),
-                                         &STRUCT(logic),
-                                         &STRUCT(int),
-                                         &STRUCT(long),
-                                         &STRUCT(int8),
-                                         &STRUCT(int16),
-                                         &STRUCT(int32),
-                                         &STRUCT(int64),
-                                         &STRUCT(float32),
-                                         &STRUCT(float64),
-#ifdef __WITH_FLOAT128
-                                         &STRUCT(float128),
-#else
-                                         NULL,
-#endif
-                                         &STRUCT(time),
-                                         &STRUCT(complex),
-                                         &STRUCT(fraction),
-                                         &STRUCT(bigint),
-                                         &STRUCT(bignum),
-                                         &STRUCT(string),
-                                         &STRUCT(bitset),
-                                         &STRUCT(vector),
-                                         &STRUCT(matrix),
-                                         &STRUCT(bigmat),
-                                         NULL};
+CGVTable *CGRAPH_OBJECTS_NAME(NAME)[] = {&STRUCT(NAME),     &STRUCT(bool),
+                                         &STRUCT(logic),    &STRUCT(int),
+                                         &STRUCT(long),     &STRUCT(int8),
+                                         &STRUCT(int16),    &STRUCT(int32),
+                                         &STRUCT(int64),    &STRUCT(int128),
+                                         &STRUCT(float8),   &STRUCT(float16),
+                                         &STRUCT(float32),  &STRUCT(float64),
+                                         &STRUCT(float128), &STRUCT(time),
+                                         &STRUCT(complex),  &STRUCT(fraction),
+                                         &STRUCT(bigint),   &STRUCT(bignum),
+                                         &STRUCT(string),   &STRUCT(bitset),
+                                         &STRUCT(vector),   &STRUCT(matrix),
+                                         &STRUCT(bigmat),   NULL};
 
 #include "template_base.ct"
 
