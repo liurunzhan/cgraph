@@ -18,8 +18,44 @@ __INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
 #endif
 }
 
-__INLINE cgraph_bool_t cgraph_math_isrnum(const cgraph_char_t data) {
+__INLINE cgraph_bool_t cgraph_math_isnumhd(const cgraph_char_t data) {
   return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
+  return CGRAPH_TEST(('1' <= data) && ('9' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnummd(const cgraph_char_t data) {
+  return CGRAPH_TEST((('0' <= data) && ('9' >= data)) || ('.' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnumed(const cgraph_char_t data) {
+  return CGRAPH_TEST(('1' <= data) && ('9' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnumtl(const cgraph_char_t data) {
+  return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isinthd(const cgraph_char_t data) {
+  return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isintst(const cgraph_char_t data) {
+  return CGRAPH_TEST(('1' <= data) && ('9' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isintmd(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' <= data) && ('9' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isinted(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' <= data) && ('9' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isinttl(const cgraph_char_t data) {
+  return CGRAPH_TEST((' ' == data) || ('\t' == data));
 }
 
 __INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {

@@ -1,0 +1,142 @@
+/**
+ * software-defined integer numbers
+ * msb                       lsb
+ * [ sign bit ] [ integer bits ]
+ *      / x    , x is unsigned integer number
+ * x = {  x    , x is signed integer number and x >= 0
+ *      \ ~x+1 , x is signed integer number and x < 0
+ * |           type          | sig(ub) |      int(ub)     |
+ * |           :-:           |   :-:   |       :-:        |
+ * |  signed integer number  |    1    | 8*sizeof(TYPE)-1 |
+ * | unsigned integer number |    0    | 8*sizeof(TYPE)   |
+ * where ub means unsigned bit
+ */
+
+UTYPE FUNCTION(NAME, ushl_s)(const UTYPE x, const cgraph_size_t bits) {
+  UTYPE res = ZERO, tmp = x;
+  DATA_TYPE *data = &tmp;
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, ushr_s)(const UTYPE x, const cgraph_size_t bits) {
+  UTYPE res = ZERO, tmp = x;
+  DATA_TYPE *data = &tmp;
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, uand_s)(const UTYPE x, const UTYPE y) {
+  UTYPE res;
+  DATA_TYPE *xd = &x, *yd = &y, *resd = &res;
+  cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
+  for (; i > 0; i--, xd++, yd++, resd++) {
+    *resd = CGRAPH_AND(*xd, *yd);
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, uor_s)(const UTYPE x, const UTYPE y) {
+  UTYPE res;
+  DATA_TYPE *xd = &x, *yd = &y, *resd = &res;
+  cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
+  for (; i > 0; i--, xd++, yd++, resd++) {
+    *resd = CGRAPH_OR(*xd, *yd);
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, unot_s)(const UTYPE x) {
+  UTYPE res;
+  DATA_TYPE *xd = &x, *resd = &res;
+  cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
+  for (; i > 0; i--, xd++, resd++) {
+    *resd = CGRAPH_NOT(*xd);
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, uxor_s)(const UTYPE x, const UTYPE y) {
+  UTYPE res;
+  DATA_TYPE *xd = &x, *yd = &y, *resd = &res;
+  cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
+  for (; i > 0; i--, xd++, yd++, resd++) {
+    *resd = CGRAPH_XOR(*xd, *yd);
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, uxnor_s)(const UTYPE x, const UTYPE y) {
+  UTYPE res;
+  DATA_TYPE *xd = &x, *yd = &y, *resd = &res;
+  cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
+  for (; i > 0; i--, xd++, yd++, resd++) {
+    *resd = CGRAPH_XNOR(*xd, *yd);
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, uabs_s)(const UTYPE x) { return x; }
+
+UTYPE FUNCTION(NAME, uadd_s)(const UTYPE x, const UTYPE y) {
+  UTYPE res;
+  DATA_TYPE *xd = &x, *yd = &y, *resd = &res, carry = 0;
+  cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
+  for (; i > 0; i--, xd++, yd++, resd++) {
+    *resd = *xd + *yd + carry;
+    if ((*resd < *xd) || (*resd < *yd)) {
+      carry = 1;
+    } else {
+      carry = 0;
+    }
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, usub_s)(const UTYPE x, const UTYPE y) {
+  UTYPE res;
+  DATA_TYPE *xd = &x, *yd = &y, *resd = &res, carry = 0;
+  cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
+  for (; i > 0; i--, xd++, yd++, resd++) {
+    *resd = *xd * *yd + carry;
+    if ((*resd < *xd) || (*resd < *yd)) {
+      carry = 1;
+    } else {
+      carry = 0;
+    }
+  }
+
+  return res;
+}
+
+UTYPE FUNCTION(NAME, umul_s)(const UTYPE x, const UTYPE y) {}
+
+UTYPE FUNCTION(NAME, udiv_s)(const UTYPE x, const UTYPE y) {}
+
+TYPE FUNCTION(NAME, shl_s)(const TYPE x, const cgraph_size_t bits) {}
+
+TYPE FUNCTION(NAME, shr_s)(const TYPE x, const cgraph_size_t bits) {}
+
+TYPE FUNCTION(NAME, and_s)(const TYPE x, const TYPE y) {}
+
+TYPE FUNCTION(NAME, or_s)(const TYPE x, const TYPE y) {}
+
+TYPE FUNCTION(NAME, not_s)(const TYPE x) {}
+
+TYPE FUNCTION(NAME, xor_s)(const TYPE x, const TYPE y) {}
+
+TYPE FUNCTION(NAME, abs_s)(const TYPE x) {}
+
+TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {}
+
+TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y) {}
+
+TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {}
+
+TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {}

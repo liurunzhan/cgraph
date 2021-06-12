@@ -475,6 +475,14 @@
 #define DATA_ID ID_T(INT64)
 
 #elif defined(TYPE_FLOAT128)
+#ifdef __WITH_INT128_SIZE128
+#define TYPE_FLOAT128_SIZE128
+#elif defined(__WITH_INT128_SIZE80)
+#define TYPE_FLOAT128_SIZE80
+#else
+#define TYPE_FLOAT128_SIZE64
+#endif
+
 #define ARG cgraph_float128_t
 #define NAME float128
 #define TYPE TYPE_T(NAME)
@@ -646,11 +654,11 @@
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGINT)
 #define OUT_FORMAT "%s"
-#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
-#define ONE(x) FUNCTION(NAME, one)((x), 0)
-#define ONES(x) FUNCTION(NAME, ones)((x), 0)
-#define MIN(x) FUNCTION(NAME, min)((x)), 0)
-#define MAX(x) FUNCTION(NAME, max)((x), 0)
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
+#define MIN(x) FUNCTION(NAME, min)((x))
+#define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME uint8
 #define DATA_TYPE TYPE_T(DATA_NAME)
@@ -672,12 +680,12 @@
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGNUM)
 #define OUT_FORMAT "%s"
-#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
-#define ONE(x) FUNCTION(NAME, one)((x), 0)
-#define ONES(x) FUNCTION(NAME, ones)((x), 0)
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
 #define BITS (8 * sizeof(TYPE))
-#define MIN FUNCTION(NAME, min)((x), 0)
-#define MAX FUNCTION(NAME, max)((x), 0)
+#define MIN FUNCTION(NAME, min)((x))
+#define MAX FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME int8
 #define DATA_TYPE TYPE_T(DATA_NAME)
@@ -694,12 +702,12 @@
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(STRING)
 #define OUT_FORMAT "%s"
-#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
-#define ONE(x) FUNCTION(NAME, one)((x), 0)
-#define ONES(x) FUNCTION(NAME, ones)((x), 0)
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
 #define BITS (8 * sizeof(TYPE))
-#define MIN CGRAPH_CHAR_MIN
-#define MAX CGRAPH_CHAR_MAX
+#define MIN(x) FUNCTION(NAME, min)((x))
+#define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME char
 #define DATA_TYPE TYPE_T(DATA_NAME)
@@ -716,9 +724,9 @@
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BITSET)
 #define OUT_FORMAT "%02x"
-#define ZERO(x) FUNCTION(NAME, zero)((x), 0)
-#define ONE(x) FUNCTION(NAME, one)((x), 0)
-#define ONES(x) FUNCTION(NAME, ones)((x), 0)
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
 #define BITS CGRAPH_UINT8_MIN
 #define MIN (0)
 #define MAX CGRAPH_UINT8_MIN

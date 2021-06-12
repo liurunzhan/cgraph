@@ -1,6 +1,6 @@
 /**
- * @file cgraph_int64.h
- * @brief the apis of DATA TYPE cgraph_int64_t
+ * @file cgraph_int128.h
+ * @brief the apis of DATA TYPE cgraph_int128_t
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph
@@ -27,8 +27,6 @@ extern "C" {
 
 /** template module */
 #include "cgraph_template_int.ht"
-
-extern cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis);
 
 #include "cgraph_template_off.h"
 

@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_float_soft.ht
- * @brief the template apis of software float point numbers
+ * @brief the template apis of software-defined float point number
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph
@@ -9,7 +9,7 @@
  * @lisence GPL-3.0
  */
 
-/** fraction of software float type */
+/** fraction part of software-defined signed float point number */
 extern TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t y);
@@ -21,7 +21,7 @@ extern TYPE FUNCTION(NAME, subfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, mulfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, divfrac_s)(const TYPE x, const cgraph_int_t y);
 
-/** exponent of software float type */
+/** exponent part of software-defined signed float point number */
 extern TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y);
@@ -33,7 +33,7 @@ extern TYPE FUNCTION(NAME, subexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, mulexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, divexp_s)(const TYPE x, const cgraph_int_t y);
 
-/** software float type */
+/** software-defined signed float point number functions */
 extern TYPE FUNCTION(NAME, float32to)(const cgraph_float32_t x);
 extern cgraph_float32_t FUNCTION(NAME, tofloat32)(const TYPE x);
 extern TYPE FUNCTION(NAME, float64to)(const cgraph_float64_t x);

@@ -3,15 +3,16 @@
 package main
 
 import "core:fmt"
-import "core:unicode/utf8"
+import "core:strings"
 
 main :: proc() {
+	SEP : string = "/" if ODIN_OS == "windows" else "\\";
 	PRO : string = "cgraph";
 	DIR : string = ".";
-	// INC : string = path:filepath.join(DIR, "include");
-	// SRC : string = path.join(DIR, "src");
-	// TST : string = path.join(DIR, "test");
-	// LIB : string = path.join(DIR, "lib");
+	INC : string = strings.join([]string{PRO, "include"}, SEP);
+	SRC : string = strings.join([]string{PRO, "src"}, SEP);
+	TST : string = strings.join([]string{PRO, "test"}, SEP);
+	LIB : string = strings.join([]string{PRO, "lib"}, SEP);
 
-	fmt.println("hello world!");
+	
 }

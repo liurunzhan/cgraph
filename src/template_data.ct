@@ -246,78 +246,106 @@ __INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE cthis,
 #endif
 
 #ifdef TYPE_WITH_DATA
-TYPE *FUNCTION(NAME, zero)(TYPE *cthis, const cgraph_size_t len) {
-  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
+TYPE *FUNCTION(NAME, zero)(TYPE *cthis) {
   if (NULL != cthis) {
-    cgraph_memset(cthis->data, _len, DATA_ZERO);
-    cthis->len = _len;
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, one)(TYPE *cthis, const cgraph_size_t len) {
-  cthis = FUNCTION(NAME, zero)(cthis, len);
-  if (NULL != cthis) {
-    cthis->data[0] = DATA_ONE;
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, random)(TYPE *cthis, const cgraph_size_t len) {
-  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
-  if (NULL != cthis) {
-    cgraph_size_t i;
-    for (i = 0; i < _len; i++) {
-      cthis->data[i] = cgraph_random32_uniform(DATA_MIN, DATA_MAX + 1);
-    }
-    cthis->len = _len;
-#ifdef TYPE_BIGNUM
-    cthis->point = cgraph_random_size(_len);
-#endif
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, min)(TYPE *cthis, const cgraph_size_t len) {
-  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
-  if (NULL != cthis) {
-#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
-    cgraph_memset(cthis->data, _len, DATA_MAX);
-    cthis->postive = CGRAPH_FALSE;
-#ifdef TYPE_BIGNUM
-    cthis->point = _len + 1;
-#endif
-#else
-    cgraph_memset(cthis->data, _len, DATA_MIN);
-#endif
-    cthis->len = _len;
-  }
-
-  return cthis;
-}
-
-TYPE *FUNCTION(NAME, max)(TYPE *cthis, const cgraph_size_t len) {
-  cgraph_size_t _len = FUNCTION(NAME, minoflen)(cthis, len);
-  if (NULL != cthis) {
-    cgraph_memset(cthis->data, _len, DATA_MAX);
-    cthis->len = _len;
+    cthis->data[0] = DATA_ZERO;
+    cthis->len = 1;
 #if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_TRUE;
+#ifdef TYPE_BIGNUM
+    cthis->point = 0;
+#endif
 #endif
   }
 
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, pinf)(TYPE *cthis, const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, one)(TYPE *cthis) {
+  if (NULL != cthis) {
+    cthis->data[0] = DATA_ONE;
+    cthis->len = 1;
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
+    cthis->postive = CGRAPH_TRUE;
+#ifdef TYPE_BIGNUM
+    cthis->point = 0;
+#endif
+#endif
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, random)(TYPE *cthis) {
+  if (NULL != cthis) {
+    cgraph_size_t i;
+    cthis->len = (0 < cthis->len) ? cthis->len : cthis->size;
+    for (i = 0; i < cthis->len; i++) {
+      cthis->data[i] = cgraph_random32_uniform(DATA_MIN, DATA_MAX + 1);
+    }
+#ifdef TYPE_BIGNUM
+    cthis->point = cgraph_random_size(cthis->len);
+#endif
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, min)(TYPE *cthis) {
+  if (NULL != cthis) {
+    cthis->len = (0 < cthis->len) ? cthis->len : cthis->size;
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
+    cgraph_memset(cthis->data, cthis->len, DATA_MAX);
+    cthis->postive = CGRAPH_FALSE;
+#ifdef TYPE_BIGNUM
+    cthis->point = cthis->len - 1;
+#endif
+#else
+    cgraph_memset(cthis->data, cthis->len, DATA_MIN);
+#endif
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, max)(TYPE *cthis) {
+  if (NULL != cthis) {
+    cthis->len = (0 < cthis->len) ? cthis->len : cthis->size;
+    cgraph_memset(cthis->data, cthis->len, DATA_MAX);
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
+    cthis->postive = CGRAPH_TRUE;
+#ifdef TYPE_BIGNUM
+    cthis->point = 0;
+#endif
+#endif
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, inf)(TYPE *cthis) {
   if (NULL != cthis) {
 #if defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_TRUE;
+    cthis->len = 3;
     cgraph_memcpy(cthis->data, "fni", 3);
 #elif defined(TYPE_STRING)
+    cthis->len = 3;
+    cgraph_memcpy(cthis->data, "inf", 3);
+#endif
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, pinf)(TYPE *cthis) {
+  if (NULL != cthis) {
+#if defined(TYPE_BIGNUM)
+    cthis->postive = CGRAPH_TRUE;
+    cthis->len = 3;
+    cgraph_memcpy(cthis->data, "fni", 3);
+#elif defined(TYPE_STRING)
+    cthis->len = 4;
     cgraph_memcpy(cthis->data, "pinf", 4);
 #endif
   }
@@ -329,8 +357,10 @@ TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
   if (NULL != cthis) {
 #if defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_FALSE;
+    cthis->len = 3;
     cgraph_memcpy(cthis->data, "fni", 3);
 #elif defined(TYPE_STRING)
+    cthis->len = 4;
     cgraph_memcpy(cthis->data, "ninf", 4);
 #endif
   }
@@ -341,6 +371,7 @@ TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
 TYPE *FUNCTION(NAME, nan)(TYPE *cthis, const cgraph_size_t size) {
 #if defined(TYPE_BIGNUM) || defined(TYPE_STRING)
   if (NULL != cthis) {
+    cthis->len = 3;
     cgraph_memcpy(cthis->data, "nan", 3);
   }
 #endif
@@ -527,7 +558,7 @@ TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t len) {
     cgraph_size_t i;
     for (i = 0; i < len; i++) {
 #ifdef TYPE_WITH_DATA
-      cthis[i] = FUNCTION(NAME, zero)(cthis[i], 0);
+      cthis[i] = FUNCTION(NAME, zero)(cthis[i]);
 #else
       cthis[i] = FUNCTION(NAME, zero)();
 #endif
@@ -546,7 +577,7 @@ TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t len) {
     cgraph_size_t i;
     for (i = 0; i < len; i++) {
 #ifdef TYPE_WITH_DATA
-      cthis[i] = FUNCTION(NAME, one)(cthis[i], 0);
+      cthis[i] = FUNCTION(NAME, one)(cthis[i]);
 #else
       cthis[i] = FUNCTION(NAME, one)();
 #endif
@@ -565,7 +596,7 @@ TYPE *FUNCTION(NAME, randoms1v)(TYPE *cthis, const cgraph_size_t len) {
     cgraph_size_t i;
     for (i = 0; i < len; i++) {
 #ifdef TYPE_WITH_DATA
-      cthis[i] = FUNCTION(NAME, random)(cthis[i], 0);
+      cthis[i] = FUNCTION(NAME, random)(cthis[i]);
 #else
       cthis[i] = FUNCTION(NAME, random)();
 #endif

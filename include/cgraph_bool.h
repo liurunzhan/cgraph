@@ -30,10 +30,6 @@ extern "C" {
 /** template module */
 #include "cgraph_template_int.ht"
 
-extern cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis);
-extern TYPE FUNCTION(NAME, decode)(const cgraph_char_t *str,
-                                   const cgraph_size_t len);
-
 #include "cgraph_template_off.h"
 
 #ifdef __cplusplus

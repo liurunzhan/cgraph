@@ -346,18 +346,16 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, unit)(TYPE *cthis, const cgraph_size_t len) {
+TYPE *FUNCTION(NAME, unit)(TYPE *cthis) {
   if (NULL != cthis) {
-    cgraph_size_t _len = CGRAPH_MIN(cthis->len, len);
-    cgraph_memset(cthis->data, DATA_MAX, _len);
-    cthis->len = _len;
+    cgraph_memset(cthis->data, cthis->len, DATA_MAX);
   }
 
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis, const cgraph_size_t len) {
-  return FUNCTION(NAME, unit)(cthis, len);
+TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis) {
+  return FUNCTION(NAME, unit)(cthis);
 }
 
 TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y) {

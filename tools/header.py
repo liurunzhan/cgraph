@@ -65,7 +65,7 @@ def delete_header_from_file(file):
 		for line in fin.readlines():
 			line = line.replace("\r", "").replace("\n", "")
 			lines.append(line)
-	if lines[0].startswith("/**"):
+	if lines[0].startswith("/**") and not lines[0].endswith("*/") and "*/" not in lines[0]:
 		for line in lines[:]:
 			if line.startswith(" */") or line.startswith("*/"):
 				lines.remove(line)

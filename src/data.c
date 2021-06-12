@@ -74,3 +74,28 @@ cgraph_string_t *cgraph_bitset_to_string_base64_encode(const cgraph_bitset_t *x,
                                                        cgraph_string_t *y) {
   return y;
 }
+
+cgraph_bignum_t *cgraph_bigint_to_bignum(const cgraph_bigint_t *cthis) {
+  cgraph_bignum_t *bignum = NULL;
+  if (NULL != cthis) {
+    bignum = cgraph_bignum_calloc(CGRAPH_UINT8_T, cthis->len / 3 + 2);
+    if (NULL != bignum) {
+      bignum->postive = cthis->postive;
+      bignum->point = 0;
+    }
+  }
+
+  return bignum;
+}
+
+cgraph_bigint_t *cgraph_bignum_to_bigint(const cgraph_bignum_t *cthis) {
+  cgraph_bigint_t *bigint = NULL;
+  if (NULL != cthis) {
+    bigint = cgraph_bigint_calloc(CGRAPH_UINT8_T, cthis->len * 3 + 1);
+    if (NULL != bigint) {
+      bigint->postive = cthis->postive;
+    }
+  }
+
+  return bigint;
+}

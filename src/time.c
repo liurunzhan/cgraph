@@ -84,12 +84,12 @@ cgraph_bool_t FUNCTION(NAME, isone)(const TYPE cthis) {
   return flag;
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE cthis) {
   cgraph_int_t flag;
-  if (TIME_ISTYPE0(x)) {
-    flag = FUNCTION(NAME, signbit0)(x);
+  if (TIME_ISTYPE0(cthis)) {
+    flag = FUNCTION(NAME, signbit0)(cthis);
   } else {
-    flag = FUNCTION(NAME, signbit1)(x);
+    flag = FUNCTION(NAME, signbit1)(cthis);
   }
 
   return flag;
@@ -291,8 +291,8 @@ TYPE FUNCTION(NAME, random0)(void) {
   return res;
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE x) {
-  return TIME_VALUE0(x) | (TIME_VALUE0(x) >> 31);
+__INLINE cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE cthis) {
+  return TIME_VALUE0(cthis) | (TIME_VALUE0(cthis) >> 31);
 }
 
 cgraph_bool_t FUNCTION(NAME, check0)(const TYPE cthis) {
@@ -661,8 +661,8 @@ TYPE FUNCTION(NAME, random1)(void) {
   return res;
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE x) {
-  return TIME_SECOND(x) | (TIME_SECOND(x) >> 6);
+__INLINE cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE cthis) {
+  return TIME_SECOND(cthis) | (TIME_SECOND(cthis) >> 6);
 }
 
 cgraph_bool_t FUNCTION(NAME, check1)(const TYPE cthis) {

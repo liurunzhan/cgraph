@@ -53,8 +53,8 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
 }
 
 void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data) {
-  if (NULL != cthis) {
-    memset(cthis, data & 0xFF, size);
+  if ((NULL != cthis) && (0 < size)) {
+    memset(cthis, data, size);
   }
 #ifdef DEBUG
   if (NULL == cthis) {

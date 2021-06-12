@@ -32,24 +32,36 @@ extern "C" {
 
 /** macro parameters defined in TYPE 1 */
 #define CGRAPH_TIME_TYPE1 (1)
-#define CGRAPH_TIME_TYPE1_BITS0 (7)
-#define CGRAPH_TIME_TYPE1_EPS0 (0x7FU)
-#define CGRAPH_TIME_TYPE1_BIAS0 (60U)
-#define CGRAPH_TIME_TYPE1_BITS1 (7)
-#define CGRAPH_TIME_TYPE1_EPS1 (0x7FU)
-#define CGRAPH_TIME_TYPE1_BIAS1 (60U)
-#define CGRAPH_TIME_TYPE1_BITS2 (6)
-#define CGRAPH_TIME_TYPE1_EPS2 (0x3FU)
-#define CGRAPH_TIME_TYPE1_BIAS2 (24U)
-#define CGRAPH_TIME_TYPE1_BITS3 (6)
-#define CGRAPH_TIME_TYPE1_EPS3 (0x3FU)
-#define CGRAPH_TIME_TYPE1_BIAS3 (31U)
-#define CGRAPH_TIME_TYPE1_BITS4 (5)
-#define CGRAPH_TIME_TYPE1_EPS4 (0x1FU)
-#define CGRAPH_TIME_TYPE1_BIAS4 (12U)
-#define CGRAPH_TIME_TYPE1_BITS5 (32)
-#define CGRAPH_TIME_TYPE1_EPS5 (0xFFFFFFFFU)
-#define CGRAPH_TIME_TYPE1_BIAS5 (0x7FFFFFFFFU)
+#define CGRAPH_TIME_TYPE1_SECOND_BITS (7)
+#define CGRAPH_TIME_TYPE1_SECOND_EPS (0x7FU)
+#define CGRAPH_TIME_TYPE1_SECOND_BIAS (60U)
+#define CGRAPH_TIME_TYPE1_SECOND_MIN (0U)
+#define CGRAPH_TIME_TYPE1_SECOND_MAX (119U)
+#define CGRAPH_TIME_TYPE1_MINUTE_BITS (7)
+#define CGRAPH_TIME_TYPE1_MINUTE_EPS (0x7FU)
+#define CGRAPH_TIME_TYPE1_MINUTE_BIAS (60U)
+#define CGRAPH_TIME_TYPE1_MINUTE_MIN (0U)
+#define CGRAPH_TIME_TYPE1_MINUTE_MAX (119U)
+#define CGRAPH_TIME_TYPE1_HOUR_BITS (6)
+#define CGRAPH_TIME_TYPE1_HOUR_EPS (0x3FU)
+#define CGRAPH_TIME_TYPE1_HOUR_BIAS (24U)
+#define CGRAPH_TIME_TYPE1_HOUR_MIN (0U)
+#define CGRAPH_TIME_TYPE1_HOUR_MAX (47U)
+#define CGRAPH_TIME_TYPE1_DAY_BITS (6)
+#define CGRAPH_TIME_TYPE1_DAY_EPS (0x3FU)
+#define CGRAPH_TIME_TYPE1_DAY_BIAS (31U)
+#define CGRAPH_TIME_TYPE1_DAY_MIN (0U)
+#define CGRAPH_TIME_TYPE1_DAY_MAX (61U)
+#define CGRAPH_TIME_TYPE1_MONTH_BITS (5)
+#define CGRAPH_TIME_TYPE1_MONTH_EPS (0x1FU)
+#define CGRAPH_TIME_TYPE1_MONTH_BIAS (12U)
+#define CGRAPH_TIME_TYPE1_MONTH_MIN (0U)
+#define CGRAPH_TIME_TYPE1_MONTH_MAX (23U)
+#define CGRAPH_TIME_TYPE1_YEAR_BITS (32)
+#define CGRAPH_TIME_TYPE1_YEAR_EPS (0xFFFFFFFFU)
+#define CGRAPH_TIME_TYPE1_YEAR_BIAS (0x7FFFFFFFFU)
+#define CGRAPH_TIME_TYPE1_YEAR_MIN (0U)
+#define CGRAPH_TIME_TYPE1_YEAR_MAX (0xFFFFFFFFU)
 
 typedef struct {
   DATA_TYPE type : 1;
@@ -59,14 +71,18 @@ typedef struct {
       DATA_TYPE time0 : CGRAPH_TIME_TYPE0_BITS0;
     } __TYPE_END(type0);
     struct __TYPE_BEGIN(time_type1_t) {
-      DATA_TYPE year : CGRAPH_TIME_TYPE1_BITS5; /** 0 ~ 2^31 : -2^31-1 ~ 2^31 */
-      DATA_TYPE month : CGRAPH_TIME_TYPE1_BITS4; /** 0 ~ 24   :    -12 ~   12 */
-      DATA_TYPE day : CGRAPH_TIME_TYPE1_BITS3;   /** 0 ~ 62   :    -31 ~   31 */
-      DATA_TYPE hour : CGRAPH_TIME_TYPE1_BITS2;  /** 0 ~ 48   :    -24 ~   24 */
+      DATA_TYPE year
+          : CGRAPH_TIME_TYPE1_YEAR_BITS; /** 0 ~ 2^31 : -2^31-1 ~ 2^31 */
+      DATA_TYPE month
+          : CGRAPH_TIME_TYPE1_MONTH_BITS; /** 0 ~ 24   :    -12 ~   12 */
+      DATA_TYPE day
+          : CGRAPH_TIME_TYPE1_DAY_BITS; /** 0 ~ 62   :    -31 ~   31 */
+      DATA_TYPE hour
+          : CGRAPH_TIME_TYPE1_HOUR_BITS; /** 0 ~ 48   :    -24 ~   24 */
       DATA_TYPE minute
-          : CGRAPH_TIME_TYPE1_BITS1; /** 0 ~ 120  :    -60 ~   60 */
+          : CGRAPH_TIME_TYPE1_MINUTE_BITS; /** 0 ~ 120  :    -60 ~   60 */
       DATA_TYPE second
-          : CGRAPH_TIME_TYPE1_BITS0; /** 0 ~ 120  :    -60 ~   60 */
+          : CGRAPH_TIME_TYPE1_SECOND_BITS; /** 0 ~ 120  :    -60 ~   60 */
     } __TYPE_END(type1);
   } __TYPE_END(data);
 } cgraph_time_t;
@@ -93,13 +109,13 @@ typedef struct {
 
 /** apis of TYPE 0 in cgraph_time_t */
 extern cgraph_size_t FUNCTION(NAME, hash0)(const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, print0)(const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, println0)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, print0)(const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, println0)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *buffer,
                                               const cgraph_size_t size,
-                                              const TYPE x);
+                                              const TYPE cthis);
 
 extern TYPE FUNCTION(NAME, init0)(const DATA_TYPE time0, const DATA_TYPE time1);
 
@@ -109,7 +125,7 @@ extern TYPE FUNCTION(NAME, one0)(void);
 extern TYPE FUNCTION(NAME, ones0)(void);
 extern TYPE FUNCTION(NAME, random0)(void);
 
-extern cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE cthis);
 
 extern cgraph_bool_t FUNCTION(NAME, check0)(const TYPE cthis);
 extern cgraph_bool_t FUNCTION(NAME, iszero0)(const TYPE cthis);
@@ -135,13 +151,13 @@ extern TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y);
 
 /** apis of TYPE 1 in cgraph_time_t */
 extern cgraph_size_t FUNCTION(NAME, hash1)(const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, print1)(const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE x);
-extern cgraph_size_t FUNCTION(NAME, println1)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, print1)(const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, println1)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *buffer,
                                               const cgraph_size_t size,
-                                              const TYPE x);
+                                              const TYPE cthisx);
 extern TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
                                   const DATA_TYPE day, const DATA_TYPE hour,
                                   const DATA_TYPE minute,
@@ -153,7 +169,7 @@ extern TYPE FUNCTION(NAME, one1)(void);
 extern TYPE FUNCTION(NAME, ones1)(void);
 extern TYPE FUNCTION(NAME, random1)(void);
 
-extern cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE x);
+extern cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE cthis);
 
 extern cgraph_bool_t FUNCTION(NAME, check1)(const TYPE cthis);
 extern cgraph_bool_t FUNCTION(NAME, iszero1)(const TYPE cthis);
