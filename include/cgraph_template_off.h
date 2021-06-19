@@ -65,8 +65,7 @@
 #undef FUNCTION
 #endif
 
-/**DATA TYPE */
-
+/** DATA TYPE */
 #ifdef TYPE_OBJECT
 #undef TYPE_OBJECT
 #endif
@@ -204,7 +203,6 @@
 #endif
 
 /** STRUCTURE TYPE */
-
 #ifdef TYPE_VECTOR
 #undef TYPE_VECTOR
 #endif
@@ -261,8 +259,7 @@
 #undef TYPE_QUEUE
 #endif
 
-/**TYPE PROPERTY */
-
+/** TYPE PROPERTY */
 #ifdef ARG
 #undef ARG
 #endif
@@ -281,6 +278,14 @@
 
 #ifdef ID
 #undef ID
+#endif
+
+#ifdef BITS
+#undef BITS
+#endif
+
+#ifdef BITS_LOG2
+#undef BITS_LOG2
 #endif
 
 #ifdef UNAME
@@ -339,14 +344,6 @@
 #undef ONES
 #endif
 
-#ifdef BITS
-#undef BITS
-#endif
-
-#ifdef BITS_LOG2
-#undef BITS_LOG2
-#endif
-
 #ifdef MIN
 #undef MIN
 #endif
@@ -371,8 +368,7 @@
 #undef EPSILON_LEN
 #endif
 
-/**DATA TYPE AND PROPERTY IN DATA TYPE */
-
+/** DATA TYPE AND PROPERTY IN DATA TYPE */
 #ifdef TYPE_WITH_DATA
 #undef TYPE_WITH_DATA
 #endif
@@ -389,6 +385,18 @@
 #undef DATA_NAME
 #endif
 
+#ifdef DATA_BITS
+#undef DATA_BITS
+#endif
+
+#ifdef DATA_BYTES
+#undef DATA_BYTES
+#endif
+
+#ifdef DATA_BITS_LOG2
+#undef DATA_BITS_LOG2
+#endif
+
 #ifdef DATA_UTYPE
 #undef DATA_UTYPE
 #endif
@@ -403,14 +411,6 @@
 
 #ifdef DATA_ONES
 #undef DATA_ONES
-#endif
-
-#ifdef DATA_BITS
-#undef DATA_BITS
-#endif
-
-#ifdef DATA_BITS_LOG2
-#undef DATA_BITS_LOG2
 #endif
 
 #ifdef DATA_MAX
@@ -521,18 +521,137 @@
 #undef DATA_ISNEG
 #endif
 
+#ifdef HASH_OFFSET
+#undef HASH_OFFSET
+#endif
+
+#ifdef FRAC_BITS
+#undef FRAC_BITS
+#endif
+
+#ifdef FRAC_EPSILON
+#undef FRAC_EPSILON
+#endif
+
+#ifdef FRAC_OFFSET
+#undef FRAC_OFFSET
+#endif
+
+#ifdef FLOAT_SOFT_TOFRAC
+#undef FLOAT_SOFT_TOFRAC
+#endif
+
+#ifdef FLOAT_SOFT_FRAC
+#undef FLOAT_SOFT_FRAC
+#endif
+
+#ifdef FLOAT_SOFT_FRAC_CLR
+#undef FLOAT_SOFT_FRAC_CLR
+#endif
+
+#ifdef FLOAT_SOFT_FRAC_SET
+#undef FLOAT_SOFT_FRAC_SET
+#endif
+
+#ifdef EXP_BITS
+#undef EXP_BITS
+#endif
+
+#ifdef EXP_EPSILON
+#undef EXP_EPSILON
+#endif
+
+#ifdef EXP_OFFSET
+#undef EXP_OFFSET
+#endif
+
+#ifdef EXP_BIAS
+#undef EXP_BIAS
+#endif
+
+#ifdef FLOAT_SOFT_TOEXP
+#undef FLOAT_SOFT_TOEXP
+#endif
+
+#ifdef FLOAT_SOFT_EXP
+#undef FLOAT_SOFT_EXP
+#endif
+
+#ifdef FLOAT_SOFT_EXP_CLR
+#undef FLOAT_SOFT_EXP_CLR
+#endif
+
+#ifdef FLOAT_SOFT_EXP_SET
+#undef FLOAT_SOFT_EXP_SET
+#endif
+
+#ifdef SIG_BITS
+#undef SIG_BITS
+#endif
+
+#ifdef SIG_EPSILON
+#undef SIG_EPSILON
+#endif
+
+#ifdef SIG_OFFSET
+#undef SIG_OFFSET
+#endif
+
+#ifdef FLOAT_SOFT_TOSIG
+#undef FLOAT_SOFT_TOSIG
+#endif
+
+#ifdef FLOAT_SOFT_SIG
+#undef FLOAT_SOFT_SIG
+#endif
+
+#ifdef FLOAT_SOFT_SIG_CLR
+#undef FLOAT_SOFT_SIG_CLR
+#endif
+
+#ifdef FLOAT_SOFT_SIG_SET
+#undef FLOAT_SOFT_SIG_SET
+#endif
+
+#ifdef EPSILON1
+#undef EPSILON1
+#endif
+
+#ifdef EPSILON2
+#undef EPSILON2
+#endif
+
+#ifdef EPSILON4
+#undef EPSILON4
+#endif
+
+#ifdef EPSILON8
+#undef EPSILON8
+#endif
+
+#ifdef EPSILON16
+#undef EPSILON16
+#endif
+
+#ifdef EPSILON32
+#undef EPSILON32
+#endif
+
+#ifdef EPSILON64
+#undef EPSILON64
+#endif
+
 /** COPYED MEMORY SIZE WITHOUT FUNCPTR MEMORY SIZE */
 #ifdef COPY_SIZE
 #undef COPY_SIZE
 #endif
 
-/**OBJECT TYPE */
-
+/** OBJECT TYPE */
 #ifdef OBJECT
 #undef OBJECT
 #endif
 
-/**DATA AND STRUCTURE ASSIGN */
+/** DATA AND STRUCTURE ASSIGN */
 #ifdef CGRAPH_BASE
 #undef CGRAPH_BASE
 #endif
@@ -712,124 +831,4 @@
 
 #ifdef DATA_SWAP
 #undef DATA_SWAP
-#endif
-
-#ifdef HASH_OFFSET
-#undef HASH_OFFSET
-#endif
-
-#ifdef FRAC_BITS
-#undef FRAC_BITS
-#endif
-
-#ifdef FRAC_EPSILON
-#undef FRAC_EPSILON
-#endif
-
-#ifdef FRAC_OFFSET
-#undef FRAC_OFFSET
-#endif
-
-#ifdef FLOAT_SOFT_TOFRAC
-#undef FLOAT_SOFT_TOFRAC
-#endif
-
-#ifdef FLOAT_SOFT_FRAC
-#undef FLOAT_SOFT_FRAC
-#endif
-
-#ifdef FLOAT_SOFT_FRAC_CLR
-#undef FLOAT_SOFT_FRAC_CLR
-#endif
-
-#ifdef FLOAT_SOFT_FRAC_SET
-#undef FLOAT_SOFT_FRAC_SET
-#endif
-
-#ifdef EXP_BITS
-#undef EXP_BITS
-#endif
-
-#ifdef EXP_EPSILON
-#undef EXP_EPSILON
-#endif
-
-#ifdef EXP_OFFSET
-#undef EXP_OFFSET
-#endif
-
-#ifdef EXP_BIAS
-#undef EXP_BIAS
-#endif
-
-#ifdef FLOAT_SOFT_TOEXP
-#undef FLOAT_SOFT_TOEXP
-#endif
-
-#ifdef FLOAT_SOFT_EXP
-#undef FLOAT_SOFT_EXP
-#endif
-
-#ifdef FLOAT_SOFT_EXP_CLR
-#undef FLOAT_SOFT_EXP_CLR
-#endif
-
-#ifdef FLOAT_SOFT_EXP_SET
-#undef FLOAT_SOFT_EXP_SET
-#endif
-
-#ifdef SIG_BITS
-#undef SIG_BITS
-#endif
-
-#ifdef SIG_EPSILON
-#undef SIG_EPSILON
-#endif
-
-#ifdef SIG_OFFSET
-#undef SIG_OFFSET
-#endif
-
-#ifdef FLOAT_SOFT_TOSIG
-#undef FLOAT_SOFT_TOSIG
-#endif
-
-#ifdef FLOAT_SOFT_SIG
-#undef FLOAT_SOFT_SIG
-#endif
-
-#ifdef FLOAT_SOFT_SIG_CLR
-#undef FLOAT_SOFT_SIG_CLR
-#endif
-
-#ifdef FLOAT_SOFT_SIG_SET
-#undef FLOAT_SOFT_SIG_SET
-#endif
-
-#ifdef EPSILON1
-#undef EPSILON1
-#endif
-
-#ifdef EPSILON2
-#undef EPSILON2
-#endif
-
-#ifdef EPSILON4
-#undef EPSILON4
-#endif
-
-#ifdef EPSILON8
-#undef EPSILON8
-#endif
-
-#ifdef EPSILON16
-#undef EPSILON16
-#endif
-
-#ifdef EPSILON32
-#undef EPSILON32
-#endif
-
-#ifdef EPSILON64
-#undef EPSILON64
 #endif

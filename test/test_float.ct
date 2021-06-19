@@ -48,14 +48,14 @@ int main(int argc, char *argv[]) {
     for (j = 0; j < 3; j++) {
       cgraph_file_fprintfln(stdout, OUT_FORMAT " ", data[i * 2 + j]);
     }
-    cgraph_file_fprintnl(stdout);
+    cgraph_file_fprintln(stdout);
   }
   FUNCTION(NAME, rot1I)(data, 2, 3);
   for (i = 0; i < 3; i++) {
     for (j = 0; j < 2; j++) {
       cgraph_file_fprintf(stdout, OUT_FORMAT " ", data[i * 2 + j]);
     }
-    cgraph_file_fprintnl(stdout);
+    cgraph_file_fprintln(stdout);
   }
   FUNCTION(NAME, rot1I)(data, 1, 2);
   cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, exp)(1.0));

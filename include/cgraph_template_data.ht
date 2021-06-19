@@ -168,6 +168,7 @@ extern cgraph_size_t FUNCTION(NAME, println)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
                                              const cgraph_size_t size,
                                              const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE *cthis);
 
 #else
 

@@ -23,9 +23,15 @@ extern "C" {
 
 typedef struct {
   CGRAPH_BASE
+  cgraph_size_t bits_num;
   CGRAPH_DATA_ROOT
 } cgraph_bitset_t;
 
+#define BITSET_BITS_NUM(x) ((0 == (x)->bits_num) ? 8 : (x)->bits_num)
+#define BITSET_BITS_NUM_TOHALF(x) (BITSET_BITS_NUM(x) - 4)
+#define BITSET_BITS_NUM_GRHALF(x) ((0 == (x)->bits_num) || (4 < (x)->bits_num))
+#define BITSET_BITS_STPOS(x)                                                   \
+  ((0 == (x)->bits_num) ? 0 : DATA_BITS - (x)->bits_num)
 #define BITSET_DATA(x) ((x)->data)
 #define BITSET_BYTE_POSTION(postion) ((postion) >> DATA_BITS_LOG2)
 #define BITSET_BIT_POSTION(postion) ((postion)&DATA_EPSILON)
@@ -36,6 +42,15 @@ typedef struct {
 
 /** template module */
 #include "cgraph_template_data.ht"
+
+extern cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, bit)(const TYPE *cthis,
                                  const cgraph_size_t postion);

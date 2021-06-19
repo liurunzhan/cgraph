@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
-  cgraph_char_t *version;
+  cgraph_char_t *version = NULL;
   cgraph_int_t major, minor, subminor;
   cgraph_version_print();
   cgraph_version_fprint(stdout);

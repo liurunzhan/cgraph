@@ -35,8 +35,6 @@ __INLINE static void *FUNCTION(NAME, _update)(void *cthis,
     CGRAPH_DTYPE_KACCESS(_cthis) = CGRAPH_TRUE;
     CGRAPH_DTYPE_KHASHED(_cthis) = CGRAPH_FALSE;
     CGRAPH_DTYPE_VACCESS(_cthis) = CGRAPH_TRUE;
-#else
-#error !! unsupported object type !!
 #endif
   }
 
@@ -82,7 +80,7 @@ TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type,
   if ((NULL != cthis) && (ID != type)) {
     cthis->data = OBJECT(type, calloc)(type, size);
     if (NULL != cthis->data) {
-      cthis = FUNCTION(NAME, _update)(cthis, type, 0, size);
+      cthis = FUNCTION(NAME, _update)(cthis, type, -1, size);
     } else {
       cgraph_free(cthis);
     }

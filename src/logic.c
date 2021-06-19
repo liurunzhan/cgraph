@@ -35,19 +35,12 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
 TYPE FUNCTION(NAME, decode)(const cgraph_char_t *str, const cgraph_size_t len) {
   TYPE res = CGRAPH_LX;
   if ((NULL != str) && (1 == len)) {
-    switch (str[0]) {
-    case '0': {
+    if ('0' == str[0]) {
       res = CGRAPH_L0;
-      break;
-    }
-    case '1': {
+    } else if ('1' == str[0]) {
       res = CGRAPH_L1;
-      break;
-    }
-    case 'Z': {
+    } else if (('Z' == str[0]) || ('z' == str[0])) {
       res = CGRAPH_LZ;
-      break;
-    }
     }
   }
 

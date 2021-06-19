@@ -90,7 +90,7 @@ TYPE FUNCTION(NAME, random)(void) {
 #endif
 }
 
-#if !(defined(TYPE_BOOL) || defined(TYPE_LOGIC))
+#ifdef UNAME
 UTYPE FUNCTION(UNAME, random)(void) { return FUNCTION(NAME, random)(); }
 #endif
 
@@ -147,12 +147,22 @@ __INLINE TYPE FUNCTION(NAME, floor2x)(const TYPE x, const TYPE y) {
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, bitsceil)(const cgraph_size_t bits) {
-  return (bits + BITS - 1) & (~BITS);
+  return (bits + BITS - 1) & (~(BITS - 1));
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, bitsfloor)(const cgraph_size_t bits) {
   return bits >> BITS_LOG2;
 }
+
+#ifdef UNAME
+__INLINE cgraph_size_t FUNCTION(UNAME, bitsceil)(const cgraph_size_t bits) {
+  return (bits + BITS - 1) & (~(BITS - 1));
+}
+
+__INLINE cgraph_size_t FUNCTION(UNAME, bitsfloor)(const cgraph_size_t bits) {
+  return bits >> BITS_LOG2;
+}
+#endif
 
 __INLINE cgraph_bool_t FUNCTION(NAME, inrange)(const TYPE start, const TYPE end,
                                                const TYPE num) {

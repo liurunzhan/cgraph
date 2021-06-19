@@ -31,6 +31,7 @@ extern "C" {
 #include "cgraph_hobject.h"
 #include "cgraph_m3object.h"
 #include "cgraph_math.h"
+#include "cgraph_memory.h"
 #include "cgraph_mobject.h"
 #include "cgraph_object.h"
 #include "cgraph_struct.h"

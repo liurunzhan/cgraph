@@ -34,25 +34,26 @@
  * @def NAME
  * @def TYPE
  * @def ID
+ * @def BITS
+ * @def IN_FORMAT
  * @def OUT_FORMAT
  * @def UTYPE
  * @def ZERO
  * @def ONE
  * @def ONES
- * @def BITS
  * @def MIN
  * @def MAX
  * @def EPSILON
  * @def EPSILON_LEN
  *
+ * @def DATA_NAME
  * @def DATA_TYPE
  * @def DATA_ID
- * @def DATA_NAME
+ * @def DATA_BITS
  * @def DATA_UTYPE
  * @def DATA_ZERO
  * @def DATA_ONE
  * @def DATA_ONES
- * @def DATA_BITS
  * @def DATA_MIN
  * @def DATA_MAX
  * @def DATA_EPSILON
@@ -119,16 +120,15 @@
 #define NAME bool
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BOOL)
+#define BITS CGRAPH_BOOL_BITS
+#define BITS_LOG2 CGRAPH_BOOL_BITS_LOG2
 #define IN_FORMAT "%s"
 #define OUT_FORMAT "%s"
-#define UNAME bool
-#define UTYPE TYPE_T(UNAME)
+#define UTYPE TYPE_T(NAME)
 #define UID ID_T(BOOL)
 #define ZERO CGRAPH_FALSE
 #define ONE CGRAPH_TRUE
 #define ONES CGRAPH_TRUE
-#define BITS CGRAPH_BOOL_BITS
-#define BITS_LOG2 CGRAPH_BOOL_BITS_LOG2
 #define MIN CGRAPH_BOOL_MIN
 #define MAX CGRAPH_BOOL_MAX
 #define MSB (ONE)
@@ -141,16 +141,15 @@
 #define NAME logic
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(LOGIC)
+#define BITS CGRAPH_LOGIC_BITS
+#define BITS_LOG2 CGRAPH_LOGIC_BITS_LOG2
 #define IN_FORMAT "%s"
 #define OUT_FORMAT "%s"
-#define UNAME logic
-#define UTYPE TYPE_T(UNAME)
+#define UTYPE TYPE_T(NAME)
 #define UID ID_T(LOGIC)
 #define ZERO CGRAPH_L0
 #define ONE CGRAPH_L1
 #define ONES CGRAPH_L1
-#define BITS CGRAPH_LOGIC_BITS
-#define BITS_LOG2 CGRAPH_LOGIC_BITS_LOG2
 #define MIN CGRAPH_LOGIC_MIN
 #define MAX CGRAPH_LOGIC_MAX
 #define MSB CGRAPH_L1
@@ -163,6 +162,8 @@
 #define NAME int
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT)
+#define BITS CGRAPH_INT_BITS
+#define BITS_LOG2 CGRAPH_INT_BITS_LOG2
 #define IN_FORMAT "%d"
 #define OUT_FORMAT "%d"
 #define UNAME uint
@@ -171,8 +172,6 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT_MIN
-#define BITS CGRAPH_INT_BITS
-#define BITS_LOG2 CGRAPH_INT_BITS_LOG2
 #define MIN CGRAPH_INT_MIN
 #define MAX CGRAPH_INT_MAX
 #define MSB (ONE << (BITS - 1))
@@ -196,6 +195,8 @@
 #define NAME long
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(LONG)
+#define BITS CGRAPH_LONG_BITS
+#define BITS_LOG2 CGRAPH_LONG_BITS_LOG2
 #define IN_FORMAT "%ld"
 #define OUT_FORMAT "%ld"
 #define UNAME ulong
@@ -204,8 +205,6 @@
 #define ZERO (0L)
 #define ONE (1L)
 #define ONES CGRAPH_LONG_MIN
-#define BITS CGRAPH_LONG_BITS
-#define BITS_LOG2 CGRAPH_LONG_BITS_LOG2
 #define MIN CGRAPH_LONG_MIN
 #define MAX CGRAPH_LONG_MAX
 #define MSB (ONE << (BITS - 1))
@@ -224,6 +223,8 @@
 #define NAME int8
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT8)
+#define BITS CGRAPH_INT8_BITS
+#define BITS_LOG2 CGRAPH_INT8_BITS_LOG2
 #define IN_FORMAT CGRAPH_INT8_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT8_OUT_FORMAT
 #define UNAME uint8
@@ -232,8 +233,6 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT8_MIN
-#define BITS CGRAPH_INT8_BITS
-#define BITS_LOG2 CGRAPH_INT8_BITS_LOG2
 #define MIN CGRAPH_INT8_MIN
 #define MAX CGRAPH_INT8_MAX
 #define MSB (ONE << (BITS - 1))
@@ -249,6 +248,8 @@
 #define NAME int16
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT16)
+#define BITS CGRAPH_INT16_BITS
+#define BITS_LOG2 CGRAPH_INT16_BITS_LOG2
 #define IN_FORMAT CGRAPH_INT16_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT16_OUT_FORMAT
 #define UNAME uint16
@@ -257,8 +258,6 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT16_MIN
-#define BITS CGRAPH_INT16_BITS
-#define BITS_LOG2 CGRAPH_INT16_BITS_LOG2
 #define MIN CGRAPH_INT16_MIN
 #define MAX CGRAPH_INT16_MAX
 #define MSB (ONE << (BITS - 1))
@@ -275,6 +274,8 @@
 #define NAME int32
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT32)
+#define BITS CGRAPH_INT32_BITS
+#define BITS_LOG2 CGRAPH_INT32_BITS_LOG2
 #define IN_FORMAT CGRAPH_INT32_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT32_OUT_FORMAT
 #define UNAME uint32
@@ -283,8 +284,6 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT32_MIN
-#define BITS CGRAPH_INT32_BITS
-#define BITS_LOG2 CGRAPH_INT32_BITS_LOG2
 #define MIN CGRAPH_INT32_MIN
 #define MAX CGRAPH_INT32_MAX
 #define MSB (ONE << (BITS - 1))
@@ -303,6 +302,8 @@
 #define NAME int64
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT64)
+#define BITS CGRAPH_INT64_BITS
+#define BITS_LOG2 CGRAPH_INT64_BITS_LOG2
 #define IN_FORMAT CGRAPH_INT64_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT64_OUT_FORMAT
 #define UNAME uint64
@@ -311,8 +312,6 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT64_MIN
-#define BITS CGRAPH_INT64_BITS
-#define BITS_LOG2 CGRAPH_INT64_BITS_LOG2
 #define MIN CGRAPH_INT64_MIN
 #define MAX CGRAPH_INT64_MAX
 #define MSB (ONE << (BITS - 1))
@@ -332,6 +331,8 @@
 #define NAME int128
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT128)
+#define BITS CGRAPH_INT128_BITS
+#define BITS_LOG2 CGRAPH_INT128_BITS_LOG2
 #define IN_FORMAT CGRAPH_INT128_IN_FORMAT
 #define OUT_FORMAT CGRAPH_INT128_OUT_FORMAT
 #define UNAME uint128
@@ -340,8 +341,6 @@
 #define ZERO (0)
 #define ONE (1)
 #define ONES CGRAPH_INT128_MIN
-#define BITS CGRAPH_INT128_BITS
-#define BITS_LOG2 CGRAPH_INT128_BITS_LOG2
 #define MIN CGRAPH_INT128_MIN
 #define MAX CGRAPH_INT128_MAX
 #define MSB (ONE << (BITS - 1))
@@ -363,12 +362,12 @@
 #define NAME float8
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT8)
+#define BITS CGRAPH_FLOAT8_BITS
 #define IN_FORMAT "%g"
 #define OUT_FORMAT "%g"
 #define ZERO (0)
 #define ONE (CGRAPH_FLOAT8_EXP_BIAS << CGRAPH_FLOAT8_EXP_OFFSET)
 #define ONES ONE
-#define BITS CGRAPH_FLOAT8_BITS
 #define MIN CGRAPH_FLOAT8_MIN
 #define MAX CGRAPH_FLOAT8_MAX
 #define EPSILON CGRAPH_FLOAT8_EPS
@@ -392,12 +391,12 @@
 #define NAME float16
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT16)
+#define BITS CGRAPH_FLOAT16_BITS
 #define IN_FORMAT "%g"
 #define OUT_FORMAT "%g"
 #define ZERO (0)
 #define ONE (CGRAPH_FLOAT16_EXP_BIAS << CGRAPH_FLOAT16_EXP_OFFSET)
 #define ONES ONE
-#define BITS CGRAPH_FLOAT16_BITS
 #define MIN CGRAPH_FLOAT16_MIN
 #define MAX CGRAPH_FLOAT16_MAX
 #define EPSILON CGRAPH_FLOAT16_EPS
@@ -421,12 +420,12 @@
 #define NAME float32
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT32)
+#define BITS CGRAPH_FLOAT32_BITS
 #define IN_FORMAT "%g"
 #define OUT_FORMAT "%g"
 #define ZERO (0.0)
 #define ONE (1.0)
 #define ONES (1.0)
-#define BITS CGRAPH_FLOAT32_BITS
 #define MIN CGRAPH_FLOAT32_MIN
 #define MAX CGRAPH_FLOAT32_MAX
 #define EPSILON CGRAPH_FLOAT32_EPS
@@ -450,12 +449,12 @@
 #define NAME float64
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT64)
+#define BITS CGRAPH_FLOAT64_BITS
 #define IN_FORMAT "%g"
 #define OUT_FORMAT "%g"
 #define ZERO (0.0)
 #define ONE (1.0)
 #define ONES (1.0)
-#define BITS CGRAPH_FLOAT64_BITS
 #define MIN CGRAPH_FLOAT64_MIN
 #define MAX CGRAPH_FLOAT64_MAX
 #define EPSILON CGRAPH_FLOAT64_EPS
@@ -487,12 +486,12 @@
 #define NAME float128
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT128)
+#define BITS CGRAPH_FLOAT128_BITS
 #define IN_FORMAT CGRAPH_FLOAT128_IN_FORMAT
 #define OUT_FORMAT CGRAPH_FLOAT128_OUT_FORMAT
 #define ZERO (0.0)
 #define ONE (1.0)
 #define ONES (1.0)
-#define BITS CGRAPH_FLOAT128_BITS
 #define MIN CGRAPH_FLOAT128_MIN
 #define MAX CGRAPH_FLOAT128_MAX
 #define EPSILON CGRAPH_FLOAT128_EPS
@@ -507,7 +506,8 @@
 #define NAME time
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(TIME)
-#define OUT_FORMAT0 "%d%u"
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FORMAT0 "%u%u"
 #define ZERO0                                                                  \
   {                                                                            \
     0, {                                                                       \
@@ -548,21 +548,20 @@
 #define ZERO ZERO0
 #define ONE ONE0
 #define ONES ONE0
-#define BITS (8 * sizeof(TYPE) - 1)
 #define MIN (0)
 #define MAX (1)
 #define DATA_NAME uint32
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(UINT32)
+#define DATA_BITS CGRAPH_UINT32_BITS
 #define DATA_ZERO (0U)
 #define DATA_ONE (1U)
 #define DATA_ONES (1U)
-#define DATA_BITS (8 * sizeof(DATA_TYPE))
 #define DATA_MIN CGRAPH_UINT32_MIN
 #define DATA_MAX CGRAPH_UINT32_MAX
+#define DATA_BIAS1 (DATA_MAX & CGRAPH_TIME_TYPE0_BIAS_EPS1)
 #define DATA_MIN1 (DATA_MIN & CGRAPH_TIME_TYPE0_EPS1)
 #define DATA_MAX1 (DATA_MAX & CGRAPH_TIME_TYPE0_EPS1)
-#define DATA_BIAS1 (DATA_MAX & CGRAPH_TIME_TYPE0_BIAS_EPS1)
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
 #define DATA_LSB (DATA_ONE)
 #define DATA_EPSILON CGRAPH_UINT32_EPS
@@ -571,6 +570,7 @@
 #define NAME complex
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(COMPLEX)
+#define BITS (sizeof(TYPE))
 #define OUT_FORMAT "%g+i%g"
 #define ZERO                                                                   \
   {                                                                            \
@@ -584,7 +584,6 @@
   {                                                                            \
     { 1.0, 1.0 }                                                               \
   }
-#define BITS (CGRAPH_FLOAT64_BITS * 2)
 #define MIN                                                                    \
   {                                                                            \
     { CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN }                                 \
@@ -596,10 +595,10 @@
 #define DATA_NAME float64
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(FLOAT64)
+#define DATA_BITS CGRAPH_FLOAT64_BITS
 #define DATA_ZERO 0.0
 #define DATA_ONE 1.0
 #define DATA_ONES 1.0
-#define DATA_BITS CGRAPH_FLOAT64_BITS
 #define DATA_MIN CGRAPH_FLOAT64_MIN
 #define DATA_MAX CGRAPH_FLOAT64_MAX
 #define DATA_EPSILON CGRAPH_FLOAT64_EPS
@@ -609,6 +608,7 @@
 #define NAME fraction
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FRACTION)
+#define BITS (8 * sizeof(TYPE))
 #define OUT_FORMAT "%d/%d"
 #define ZERO                                                                   \
   {                                                                            \
@@ -622,7 +622,6 @@
   {                                                                            \
     { CGRAPH_INT_MIN, 1 }                                                      \
   }
-#define BITS (8 * sizeof(TYPE))
 #define MIN                                                                    \
   {                                                                            \
     { CGRAPH_INT_MIN, 1 }                                                      \
@@ -639,10 +638,10 @@
 #define DATA_NAME int
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT)
+#define DATA_BITS (8 * sizeof(DATA_TYPE))
 #define DATA_ZERO 0
 #define DATA_ONE 1
 #define DATA_ONES CGRAPH_INT_MIN
-#define DATA_BITS (8 * sizeof(DATA_TYPE))
 #define DATA_MIN CGRAPH_INT_MIN
 #define DATA_MAX CGRAPH_INT_MAX
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
@@ -653,6 +652,7 @@
 #define NAME bigint
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGINT)
+#define BITS (8 * sizeof(TYPE))
 #define OUT_FORMAT "%s"
 #define ZERO(x) FUNCTION(NAME, zero)((x))
 #define ONE(x) FUNCTION(NAME, one)((x))
@@ -664,11 +664,12 @@
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(UINT8)
 #define DATA_UTYPE cgraph_uint8_t
+#define DATA_BITS CGRAPH_UINT8_BITS
+#define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
+#define DATA_BYTES(x) cgraph_uint8_bitsceil((x))
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
 #define DATA_ONES CGRAPH_UINT8_MAX
-#define DATA_BITS CGRAPH_UINT8_BITS
-#define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
 #define DATA_MIN CGRAPH_UINT8_MIN
 #define DATA_MAX CGRAPH_UINT8_MAX
 #define DATA_MSB (1)
@@ -679,18 +680,20 @@
 #define NAME bignum
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGNUM)
+#define BITS (8 * sizeof(TYPE))
 #define OUT_FORMAT "%s"
 #define ZERO(x) FUNCTION(NAME, zero)((x))
 #define ONE(x) FUNCTION(NAME, one)((x))
 #define ONES(x) FUNCTION(NAME, ones)((x))
-#define BITS (8 * sizeof(TYPE))
 #define MIN FUNCTION(NAME, min)((x))
 #define MAX FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
-#define DATA_NAME int8
+#define DATA_NAME uint8
 #define DATA_TYPE TYPE_T(DATA_NAME)
-#define DATA_ID ID_T(INT8)
-#define DATA_BITS (8 * sizeof(DATA_TYPE))
+#define DATA_ID ID_T(UINT8)
+#define DATA_BITS CGRAPH_UINT8_BITS
+#define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
+#define DATA_BYTES(x) cgraph_uint8_bitsceil((x))
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
 #define DATA_ONES (1)
@@ -701,45 +704,47 @@
 #define NAME string
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(STRING)
+#define BITS (8 * sizeof(TYPE))
 #define OUT_FORMAT "%s"
 #define ZERO(x) FUNCTION(NAME, zero)((x))
 #define ONE(x) FUNCTION(NAME, one)((x))
 #define ONES(x) FUNCTION(NAME, ones)((x))
-#define BITS (8 * sizeof(TYPE))
 #define MIN(x) FUNCTION(NAME, min)((x))
 #define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME char
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(CHAR)
+#define DATA_BITS (8 * sizeof(DATA_TYPE))
+#define DATA_BYTES(x) cgraph_uint8_bitsceil((x))
 #define DATA_ZERO ('0')
 #define DATA_ONE ('1')
 #define DATA_ONES ('1')
 #define DATA_MIN (' ')
 #define DATA_MAX ('~')
-#define DATA_BITS (8 * sizeof(DATA_TYPE))
 
 #elif defined(TYPE_BITSET)
 #define NAME bitset
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BITSET)
+#define BITS (8 * sizeof(TYPE))
 #define OUT_FORMAT "%02x"
 #define ZERO(x) FUNCTION(NAME, zero)((x))
 #define ONE(x) FUNCTION(NAME, one)((x))
 #define ONES(x) FUNCTION(NAME, ones)((x))
-#define BITS CGRAPH_UINT8_MIN
-#define MIN (0)
-#define MAX CGRAPH_UINT8_MIN
+#define MIN(x) FUNCTION(NAME, min)((x))
+#define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME uint8
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_UTYPE cgraph_uint8_t
 #define DATA_ID ID_T(UINT8)
-#define DATA_ZERO 0
-#define DATA_ONE 1
-#define DATA_ONES CGRAPH_UINT8_MAX
-#define DATA_BITS (8 * sizeof(DATA_TYPE))
+#define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
+#define DATA_BYTES(x) cgraph_uint8_bitsceil((x))
+#define DATA_ZERO (0)
+#define DATA_ONE (1)
+#define DATA_ONES CGRAPH_UINT8_MAX
 #define DATA_MIN CGRAPH_UINT8_MIN
 #define DATA_MAX CGRAPH_UINT8_MAX
 #define DATA_EPSILON CGRAPH_UINT8_EPS
@@ -1047,7 +1052,8 @@
 #define SQRT(a, b) sqrt((a))
 
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
-    defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64) || defined(TYPE_INT128)
+    defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64) ||       \
+    defined(TYPE_INT128)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
 #define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
 #define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
@@ -1090,14 +1096,15 @@
 
 #elif defined(TYPE_FLOAT8) || defined(TYPE_FLOAT16)
 #define FLOAT_SOFT_TOFRAC(a) ((((a) << 1) & FRAC_EPSILON) << FRAC_OFFSET)
-#define FLOAT_SOFT_FRAC(a) ((((a) >> FRAC_OFFSET) & FRAC_EPSILON) || (0x01 << FRAC_BITS))
+#define FLOAT_SOFT_FRAC(a)                                                     \
+  ((((a) >> FRAC_OFFSET) & FRAC_EPSILON) || (0x01 << FRAC_BITS))
 #define FLOAT_SOFT_FRAC_CLR(a) ((a) & (~(FRAC_EPSILON << FRAC_OFFSET)))
-#define FLOAT_SOFT_FRAC_SET(a, b) ((a) | (((b) & FRAC_EPSILON) << FRAC_OFFSET))
-#define FLOAT_SOFT_TOEXP(a) (((a) & EXP_EPSILON) << EXP_OFFSET)
+#define FLOAT_SOFT_FRAC_SET(a, b) ((a) | (((b)&FRAC_EPSILON) << FRAC_OFFSET))
+#define FLOAT_SOFT_TOEXP(a) (((a)&EXP_EPSILON) << EXP_OFFSET)
 #define FLOAT_SOFT_EXP(a) (((a) >> EXP_OFFSET) & EXP_EPSILON)
 #define FLOAT_SOFT_EXP_CLR(a) ((a) & (~(EXP_EPSILON << EXP_OFFSET)))
-#define FLOAT_SOFT_EXP_SET(a, b) ((a) | (((b) & EXP_EPSILON) << EXP_OFFSET))
-#define FLOAT_SOFT_TOSIG(a) (((a) & SIG_EPSILON) << SIG_OFFSET)
+#define FLOAT_SOFT_EXP_SET(a, b) ((a) | (((b)&EXP_EPSILON) << EXP_OFFSET))
+#define FLOAT_SOFT_TOSIG(a) (((a)&SIG_EPSILON) << SIG_OFFSET)
 #define FLOAT_SOFT_SIG(a) (((a) >> SIG_OFFSET) & SIG_EPSILON)
 #define FLOAT_SOFT_SIG_CLR(a) ((a) & (~(SIG_EPSILON << SIG_EPSILON)))
 #define FLOAT_SOFT_SIG_SET(a) ((a) | (SIG_EPSILON << SIG_OFFSET))

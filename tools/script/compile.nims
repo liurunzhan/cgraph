@@ -99,7 +99,8 @@ elif(paramStr(2) == "distclean"):
   if(fileExists(LIBSHARED)):
     rmFile(LIBSHARED)
   echo(fmt"clean {LIB}")
-  rmDir(LIB)
+	if(dirExists(LIB)):
+  	rmDir(LIB)
   echo(fmt"clean {TSTTARGET}")
   if(fileExists(TSTTARGET)):
     rmFile(TSTTARGET)
@@ -113,4 +114,4 @@ elif(paramStr(2) == "help"):
   echo("          help      commands to this program")
 else:
   echo(fmt"{paramStr(2)} is an unsupported command")
-  echo("use \"", paramStr(1), " help\" to know all supported commands")
+  echo(fmt"use \"{paramStr(1)} help\" to know all supported commands")

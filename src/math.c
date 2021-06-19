@@ -18,46 +18,6 @@ __INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
 #endif
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnumhd(const cgraph_char_t data) {
-  return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
-  return CGRAPH_TEST(('1' <= data) && ('9' >= data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isnummd(const cgraph_char_t data) {
-  return CGRAPH_TEST((('0' <= data) && ('9' >= data)) || ('.' == data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isnumed(const cgraph_char_t data) {
-  return CGRAPH_TEST(('1' <= data) && ('9' >= data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isnumtl(const cgraph_char_t data) {
-  return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isinthd(const cgraph_char_t data) {
-  return CGRAPH_TEST((' ' == data) || ('\t' == data) || ('0' == data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isintst(const cgraph_char_t data) {
-  return CGRAPH_TEST(('1' <= data) && ('9' >= data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isintmd(const cgraph_char_t data) {
-  return CGRAPH_TEST(('0' <= data) && ('9' >= data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isinted(const cgraph_char_t data) {
-  return CGRAPH_TEST(('0' <= data) && ('9' >= data));
-}
-
-__INLINE cgraph_bool_t cgraph_math_isinttl(const cgraph_char_t data) {
-  return CGRAPH_TEST((' ' == data) || ('\t' == data));
-}
-
 __INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {
   return CGRAPH_TEST(islower(data));
 }
@@ -95,52 +55,8 @@ __INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
 #endif
 }
 
-cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
-                                    cgraph_bool_t *flag) {
-  cgraph_size_t len = 0;
-  if (NULL != data) {
-    cgraph_char_t *name = (cgraph_char_t *)data;
-    cgraph_bool_t bracket_flag = CGRAPH_FALSE;
-    if (NULL != flag) {
-      *flag = CGRAPH_TRUE;
-    }
-    if (!isalpha(*name)) {
-      if (NULL != flag) {
-        *flag = CGRAPH_FALSE;
-      }
-      if (!isdigit(*name)) {
-        return len;
-      }
-    }
-    for (name++, len++; '\0' != *name; name++, len++) {
-      if (!isalnum(*name) && ('_' != *name) && ('.' != *name) &&
-          (CGRAPH_FALSE == bracket_flag)) {
-        if ('[' == *name) {
-          bracket_flag = CGRAPH_TRUE;
-        } else if (('-' == *name) && ('>' == *(name + 1))) {
-          name++;
-          len++;
-        } else {
-          break;
-        }
-      } else if (']' == *name) {
-        bracket_flag = CGRAPH_FALSE;
-      }
-    }
-  }
-
-  return len;
-}
-
-cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-  cgraph_math_lenofname(data, &flag);
-
-  return flag;
-}
-
-cgraph_bool_t cgraph_math_isnamest(const cgraph_char_t *data) {
-  return CGRAPH_TEST(isalpha(*data) || '_' == *data);
+__INLINE cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' == data) || ('1' == data));
 }
 
 __INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
@@ -151,8 +67,116 @@ __INLINE cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data) {
   return CGRAPH_TEST(isxdigit(data));
 }
 
-cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error) {
-  cgraph_int_t res = 0;
+__INLINE cgraph_bool_t cgraph_math_isbinhd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isbinst(const cgraph_char_t data) {
+  return CGRAPH_TEST('1' == data);
+}
+
+__INLINE cgraph_bool_t cgraph_math_isbinmd(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' == data) || ('1' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isbined(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' == data) || ('1' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isbintl(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isdechd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isdecst(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' != data) && isdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isdecmd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isdeced(const cgraph_char_t data) {
+  return CGRAPH_TEST(isdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isdectl(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_ishexhd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_ishexst(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' != data) && isxdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_ishexmd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isxdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_ishexed(const cgraph_char_t data) {
+  return CGRAPH_TEST(isxdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_ishextl(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnumhd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' != data) && isdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnummd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isdigit(data) || ('.' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnumed(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' != data) && isdigit(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnumtl(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnamhd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnamst(const cgraph_char_t data) {
+  return CGRAPH_TEST(isalpha(data) || ('_' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnammd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isalnum(data) || ('_' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnamed(const cgraph_char_t data) {
+  return CGRAPH_TEST(isalnum(data) || ('_' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data));
+}
+
+cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data) {
+  return ('0' == data) ? 0 : 1;
+}
+
+cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data) {
+  return (0 == data) ? '0' : '1';
+}
+
+cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data) {
+  cgraph_int_t res = MATH_ERROR;
   switch (data) {
   case '0':
   case '1':
@@ -186,9 +210,6 @@ cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data, cgraph_bool_t *error) {
     break;
   }
   default: {
-    if (NULL != error) {
-      *error = CGRAPH_TRUE;
-    }
     break;
   }
   }
@@ -200,54 +221,126 @@ static const cgraph_char_t __cgraph_math_dec2hex_upper__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
-                                   cgraph_bool_t *error) {
-  cgraph_char_t ch = 0;
-  if (data >= 0 && data < 16) {
-    ch = __cgraph_math_dec2hex_upper__[data];
-    if (NULL != error) {
-      *error = CGRAPH_FALSE;
-    }
-  }
-
-  return ch;
+cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data) {
+  return (data >= 0 && data < 16) ? __cgraph_math_dec2hex_upper__[data] : '\0';
 }
 
 static const cgraph_char_t __cgraph_math_dec2hex_lower__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
-                                   cgraph_bool_t *error) {
-  cgraph_char_t ch = 0;
-  if (data >= 0 && data < 16) {
-    ch = __cgraph_math_dec2hex_lower__[data];
-    if (NULL != error) {
-      *error = CGRAPH_FALSE;
-    }
-  }
-
-  return ch;
+cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data) {
+  return (data >= 0 && data < 16) ? __cgraph_math_dec2hex_lower__[data] : '\0';
 }
 
-cgraph_size_t cgraph_math_lenofdec(const cgraph_char_t *data,
-                                   cgraph_char_t **res) {
-  cgraph_size_t len = 0;
-  if ((NULL != data)) {
-    cgraph_char_t *cthis = (cgraph_char_t *)data;
-    for (; ('\t' == *cthis) || (' ' == *cthis) || ('0' == *cthis); cthis++) {
+cgraph_size_t cgraph_math_lenofbinary(const cgraph_char_t *data,
+                                      const cgraph_size_t len,
+                                      cgraph_char_t **start) {
+  cgraph_size_t _len = 0;
+  if (NULL != data) {
+    cgraph_size_t i = 0;
+    cgraph_char_t *_data = (cgraph_char_t *)data;
+    for (; cgraph_math_isbinhd(*_data) && (i < len); _data++, i++) {
     }
-    if (NULL != res) {
-      *res = cthis;
-    }
-    if (('-' == *cthis) || ('+' == *cthis)) {
-      cthis++;
-    }
-    for (; ('\0' != *cthis) && isdigit(*cthis); cthis++, len++) {
+    if (cgraph_math_isbinst(*_data)) {
+      if (NULL != start) {
+        *start = _data;
+      }
+      for (_len = 1; cgraph_math_isbinmd(*_data) && (i < len);
+           _data++, i++, _len++) {
+      }
     }
   }
 
-  return len;
+  return _len;
+}
+
+cgraph_size_t cgraph_math_lenofdecimal(const cgraph_char_t *data,
+                                       const cgraph_size_t len,
+                                       cgraph_char_t **start) {
+  cgraph_size_t _len = 0;
+  if (NULL != data) {
+    cgraph_size_t i = 0;
+    cgraph_char_t *_data = (cgraph_char_t *)data;
+    for (; cgraph_math_isdechd(*_data) && (i < len); _data++, i++) {
+    }
+    if (cgraph_math_isdecst(*_data)) {
+      if (NULL != start) {
+        *start = _data;
+      }
+      for (_len = 1; cgraph_math_isdecmd(*_data) && (i < len);
+           _data++, i++, _len++) {
+      }
+    }
+  }
+
+  return _len;
+}
+
+cgraph_size_t cgraph_math_lenofhex(const cgraph_char_t *data,
+                                   const cgraph_size_t len,
+                                   cgraph_char_t **start) {
+  cgraph_size_t _len = 0;
+  if (NULL != data) {
+    cgraph_size_t i = 0;
+    cgraph_char_t *_data = (cgraph_char_t *)data;
+    for (; cgraph_math_ishexhd(*_data) && (i < len); _data++, i++) {
+    }
+    if (cgraph_math_ishexst(*_data)) {
+      if (NULL != start) {
+        *start = _data;
+      }
+      for (_len = 1; cgraph_math_ishexmd(*_data) && (i < len);
+           _data++, i++, _len++) {
+      }
+    }
+  }
+
+  return _len;
+}
+
+cgraph_size_t cgraph_math_lenofnumber(const cgraph_char_t *data,
+                                      const cgraph_size_t len,
+                                      cgraph_char_t **start) {
+  cgraph_size_t _len = 0;
+  if (NULL != data) {
+    cgraph_size_t i = 0;
+    cgraph_char_t *_data = (cgraph_char_t *)data;
+    for (; cgraph_math_isnumhd(*_data) && (i < len); _data++, i++) {
+    }
+    if (cgraph_math_isnumst(*_data)) {
+      if (NULL != start) {
+        *start = _data;
+      }
+      for (_len = 1; cgraph_math_isnummd(*_data) && (i < len);
+           _data++, i++, _len++) {
+      }
+    }
+  }
+
+  return _len;
+}
+
+cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
+                                    const cgraph_size_t len,
+                                    cgraph_char_t **start) {
+  cgraph_size_t _len = 0;
+  if (NULL != data) {
+    cgraph_size_t i = 0;
+    cgraph_char_t *_data = (cgraph_char_t *)data;
+    for (; cgraph_math_isnamhd(*_data) && (i < len); _data++, i++) {
+    }
+    if (cgraph_math_isnamst(*_data)) {
+      if (NULL != start) {
+        *start = _data;
+      }
+      for (_len = 1; cgraph_math_isnammd(*_data) && (i < len);
+           _data++, i++, _len++) {
+      }
+    }
+  }
+
+  return _len;
 }
 
 cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
@@ -484,6 +577,14 @@ cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
   phase ^= CGRAPH_TRUE;
 
   return Z * sigma + mu;
+}
+
+cgraph_bool_t cgraph_random_bool(void) {
+  return __cgraph_random32_intptr() & CGRAPH_BOOL_EPS;
+}
+
+cgraph_logic_t cgraph_random_logic(void) {
+  return __cgraph_random32_intptr() & CGRAPH_LOGIC_EPS;
 }
 
 /** random size number */

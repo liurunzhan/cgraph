@@ -115,6 +115,7 @@ tools/script/compile.hi
 /xmake.lua
 /CMakeLists.txt
 /meson.build
+*.ll
 
 # Test Cases
 test/*

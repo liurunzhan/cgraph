@@ -492,12 +492,8 @@ typedef __FLOAT128 cgraph_float128_t;
 #define CGRAPH_FLOAT_PINF_HASH (1234567891UL)
 #define CGRAPH_FLOAT_NINF_HASH (1987654321UL)
 
-#define CGRAPH_MEMORY_HEADER_SIZE (2)
-#define CGRAPH_MEMORY_FREED_SIZE (2 * CGRAPH_MEMORY_HEADER_SIZE)
-
-#if CGRAPH_MEMORY_FREED_SIZE <= CGRAPH_MEMORY_HEADER_SIZE
-#error CGRAPH_MEMORY_FREED_SIZE must be greater than CGRAPH_MEMORY_HEADER_SIZE
-#endif
+#define CGRAPH_MEMORY_HEADER_SIZE (2UL)
+#define CGRAPH_MEMORY_FREED_SIZE (2UL * CGRAPH_MEMORY_HEADER_SIZE)
 
 typedef void *cgraph_stl_t;
 typedef cgraph_uint8_t *cgraph_addr_t;
@@ -509,7 +505,7 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_PTRADDR_OUT_FORMAT "%p"
 #define CGRAPH_PTRADDR(x) ((void *)(x))
 #define CGRAPH_PTRADDR1V(x) ((cgraph_addr_t)(x))
-#define CGRAPH_PTRADDR2V(x, y) ((cgraph_addr_t)(x) + (y))
+#define CGRAPH_PTRADDR2V(x, y) (CGRAPH_PTRADDR1V(x) + (y))
 
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define CGRAPH_NTEST(x) ((x) ^ 0x01)

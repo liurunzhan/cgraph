@@ -21,6 +21,10 @@ extern TYPE FUNCTION(NAME, ceil2x)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, floor2x)(const TYPE x, const TYPE y);
 extern cgraph_size_t FUNCTION(NAME, bitsceil)(const cgraph_size_t bits);
 extern cgraph_size_t FUNCTION(NAME, bitsfloor)(const cgraph_size_t bits);
+#ifdef UNAME
+extern cgraph_size_t FUNCTION(UNAME, bitsceil)(const cgraph_size_t bits);
+extern cgraph_size_t FUNCTION(UNAME, bitsfloor)(const cgraph_size_t bits);
+#endif
 extern cgraph_bool_t FUNCTION(NAME, inrange)(const TYPE start, const TYPE end,
                                              const TYPE num);
 extern cgraph_bool_t FUNCTION(NAME, in2ranges)(const TYPE start0,
@@ -73,6 +77,6 @@ extern UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x);
 extern UTYPE FUNCTION(NAME, usqrt_mod_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, usqrt_modp_s)(const UTYPE x, const UTYPE p);
 
-#if !(defined(TYPE_BOOL) || defined(TYPE_LOGIC))
+#ifdef UNAME
 extern UTYPE FUNCTION(UNAME, random)(void);
 #endif

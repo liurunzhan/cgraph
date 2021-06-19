@@ -67,42 +67,64 @@ extern "C" {
 extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isnumhd(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isnummd(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isnumed(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isnumtl(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isinthd(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isintst(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isintmd(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isinted(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isinttl(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_islower(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_toupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
-
 extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
                                          const cgraph_char_t datay);
-
-extern cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
-                                           cgraph_bool_t *flag);
-extern cgraph_bool_t cgraph_math_isname(const cgraph_char_t *data);
-extern cgraph_bool_t cgraph_math_isnamest(const cgraph_char_t *data);
-
+extern cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data);
-extern cgraph_int_t cgraph_math_hex2dec(cgraph_char_t data,
-                                        cgraph_bool_t *error);
-extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data,
-                                          cgraph_bool_t *error);
-extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data,
-                                          cgraph_bool_t *error);
-extern cgraph_size_t cgraph_math_lenofdec(const cgraph_char_t *data,
-                                          cgraph_char_t **res);
+extern cgraph_bool_t cgraph_math_isbinhd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isbinst(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isbinmd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isbined(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isbintl(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isdechd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isdecst(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isdecmd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isdeced(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isdectl(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ishexhd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ishexst(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ishexmd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ishexed(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ishextl(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnumhd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnummd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnumed(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnumtl(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnamhd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnamst(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnammd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnamed(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data);
+
+extern cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data);
+extern cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data);
+extern cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data);
+extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data);
+extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data);
+extern cgraph_size_t cgraph_math_lenofbinary(const cgraph_char_t *data,
+                                             const cgraph_size_t len,
+                                             cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_lenofdecimal(const cgraph_char_t *data,
+                                              const cgraph_size_t len,
+                                              cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_lenofhex(const cgraph_char_t *data,
+                                          const cgraph_size_t len,
+                                          cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_lenofnumber(const cgraph_char_t *data,
+                                             const cgraph_size_t len,
+                                             cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
+                                           const cgraph_size_t len,
+                                           cgraph_char_t **start);
 extern cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
                                            const cgraph_int_t base);
 extern cgraph_int_t
@@ -152,6 +174,9 @@ extern cgraph_int64_t cgraph_random64_uniform(const cgraph_int64_t min,
                                               const cgraph_int64_t max);
 extern cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
                                                const cgraph_float64_t sigma);
+
+extern cgraph_bool_t cgraph_random_bool(void);
+extern cgraph_logic_t cgraph_random_logic(void);
 
 /** random size number */
 extern cgraph_size_t cgraph_random_size(const cgraph_size_t size);

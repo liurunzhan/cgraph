@@ -33,6 +33,7 @@ extern cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
                                    const cgraph_size_t size);
 extern void cgraph_free(void *cthis);
 
+extern cgraph_size_t cgraph_strlen(const cgraph_char_t *cthis);
 extern cgraph_char_t *cgraph_strcpy(cgraph_char_t *object,
                                     const cgraph_char_t *cthis);
 extern cgraph_char_t *cgraph_strncpy(cgraph_char_t *object,

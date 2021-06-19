@@ -52,6 +52,7 @@ typedef enum {
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\n"
+#define __PLAT_NLINE_SIZE (1)
 #define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
 #define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
 #elif (defined(_WIN32) || defined(_WIN64))
@@ -60,6 +61,7 @@ typedef enum {
 #define __PLAT_PSPLIT "\\"
 #define __PLAT_PSPLIT_C '\\'
 #define __PLAT_NLINE "\r\n"
+#define __PLAT_NLINE_SIZE (2)
 #define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
 #define __PLAT_NLINE_C0 __PLAT_NLINE_TYPE1
 #define __PLAT_NLINE_C1 __PLAT_NLINE_TYPE0
@@ -79,6 +81,7 @@ typedef enum {
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\n"
+#define __PLAT_NLINE_SIZE (1)
 #define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
 #define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
 #elif defined(__unix__)
@@ -95,6 +98,7 @@ typedef enum {
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
 #define __PLAT_NLINE "\n"
+#define __PLAT_NLINE_SIZE (1)
 #define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
 #define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
 #endif
