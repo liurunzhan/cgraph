@@ -1,0 +1,2 @@
+extern void FUNCTION(NAME, clrbuffer)(void);
+extern cgraph_size_t FUNCTION(NAME, lenofbuffer)(void);

@@ -19,11 +19,11 @@ extern "C" {
 #include "cgraph_config.h"
 
 #ifndef CGRAPH_TIME_BUFFER_SIZE
-#define CGRAPH_TIME_BUFFER_SIZE 256
+#define CGRAPH_TIME_BUFFER_SIZE __CGRAPH_BUFFER_SIZE2
 #endif
 
 #ifndef CGRAPH_LOG_BUFFER_SIZE
-#define CGRAPH_LOG_BUFFER_SIZE 2048
+#define CGRAPH_LOG_BUFFER_SIZE __CGRAPH_BUFFER_SIZE5
 #endif
 
 typedef enum {

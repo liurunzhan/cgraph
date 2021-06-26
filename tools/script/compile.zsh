@@ -52,8 +52,9 @@ if (( $# == 0 )) {
   $MKDIR $LIB
   for file ($CFILES) {
     obj=`echo $file | sed "s/\.c$/\.o/g"`
+    dep=`echo $file | sed "s/\.c$/\.d/g"`
     echo "compile $file to $obj"
-    $CC $CFLAGS -I$INC -c $file -o $obj
+    $CC $CFLAGS -I$INC -c $file -o $obj -MD -MF $dep
   }
   echo "compile $LIBSHARED"
   $CC $CSFLAGS -o $LIBSHARED $SRC/*.o
@@ -69,6 +70,9 @@ if (( $# == 0 )) {
     obj=`echo $file | sed "s/\.c$/\.o/g"`
     echo "clean $obj"
     $RM $RMFLAGS $obj
+    dep=`echo $file | sed "s/\.c$/\.d/g"`
+    echo "clean $dep"
+    $RM $RMFLAGS $dep
   }
   echo "clean $LIBSHARED"
   $RM $RMFLAGS $LIBSHARED
@@ -81,6 +85,9 @@ if (( $# == 0 )) {
     obj=`echo $file | sed "s/\.c$/\.o/g"`
     echo "clean $obj"
     $RM $RMFLAGS $obj
+    dep=`echo $file | sed "s/\.c$/\.d/g"`
+    echo "clean $dep"
+    $RM $RMFLAGS $dep
   }
   echo "clean $LIBSHARED"
   $RM $RMFLAGS $LIBSHARED

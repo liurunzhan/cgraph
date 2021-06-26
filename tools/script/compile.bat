@@ -58,8 +58,9 @@ if %PAR% == "" (
   for %%F in (%SRC%\*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
+		set dep=!file:.c=.d!
     echo compile !file! to !obj!
-    %CC% %CFLAGS% -I%INC% -c !file! -o !obj!
+    %CC% %CFLAGS% -I%INC% -c !file! -o !obj! -MD -MF !dep!
   )
   echo compile %LIBSHARED%
   %CC% %CSFLAGS% -o %LIBSHARED% %SRC%\*.o
@@ -74,7 +75,11 @@ if %PAR% == "" (
   for %%F in (%SRC%\*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
+		echo clean !obj!
     %RM% %RMFLAGS% !obj!
+		set dep=!file:.c=.d!
+		echo clean !dep!
+    %RM% %RMFLAGS% !dep!
   )
   %RM% %RMFLAGS% %LIBSHARED%
   %RM% %RMFLAGS% %LIBSTATIC%
@@ -83,7 +88,11 @@ if %PAR% == "" (
   for %%F in (%SRC%\*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
+		echo clean !obj!
     %RM% %RMFLAGS% !obj!
+		set dep=!file:.c=.d!
+		echo clean !dep!
+    %RM% %RMFLAGS% !dep!
   )
   %RM% %RMFLAGS% %LIBSHARED%
   %RM% %RMFLAGS% %LIBSTATIC%

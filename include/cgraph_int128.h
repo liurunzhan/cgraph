@@ -19,13 +19,14 @@ extern "C" {
 #include "cgraph_config.h"
 
 #ifndef CGRAPH_INT128_BUFFER_SIZE
-#define CGRAPH_INT128_BUFFER_SIZE 40
+#define CGRAPH_INT128_BUFFER_SIZE __CGRAPH_BUFFER_SIZE0
 #endif
 
 #define TYPE_INT128
 #include "cgraph_template.h"
 
 /** template module */
+#include "cgraph_template_buffer.ht"
 #include "cgraph_template_int.ht"
 
 #include "cgraph_template_off.h"

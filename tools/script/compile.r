@@ -49,8 +49,9 @@ if(length(args) == 0) {
   OFILES <- character()
   for(file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
+		dep <- gsub("\\.c$", ".d", file)
     print(sprintf("compile %s to %s", file, obj))
-    system(sprintf("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj))
+    system(sprintf("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep))
     OFILES <- append(OFILES, obj, after=length(OFILES))
   }
   print(sprintf("compile %s", LIBSHARED))
@@ -67,6 +68,9 @@ if(length(args) == 0) {
     obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
     unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
+    dep <- gsub("\\.c$", ".d", file)
+    print(sprintf("clean %s", dep))
+    unlink(file.path(SRC, dep, fsep=.Platform$file.sep), force=TRUE)
   }
   print(sprintf("clean %s", LIBSTATIC))
   unlink(LIBSTATIC, force=TRUE)
@@ -79,6 +83,9 @@ if(length(args) == 0) {
     obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
     unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
+    dep <- gsub("\\.c$", ".d", file)
+    print(sprintf("clean %s", dep))
+    unlink(file.path(SRC, dep, fsep=.Platform$file.sep), force=TRUE)
   }
   print(sprintf("clean %s", LIBSTATIC))
   unlink(LIBSTATIC, force=TRUE)

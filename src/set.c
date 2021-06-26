@@ -10,6 +10,11 @@
 
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != x) && (NULL != y)) {
+
+  } else if ((NULL == x) && (NULL == y)) {
+    flag = CGRAPH_TRUE;
+  }
 
   return flag;
 }

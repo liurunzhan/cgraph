@@ -53,9 +53,10 @@ if length(args) == 0
   OFILES = []
   for file in CFILES
     obj = replace(file, r".c$"=>".o")
-    push!(OFILES, obj)
+		dep = replace(file, r".c$"=>".d")
     println("compile $file to $obj")
-    run(`$CC $CFLAGS -I$INC -c $file -o $obj`)
+    run(`$CC $CFLAGS -I$INC -c $file -o $obj -MD -MF $dep`)
+    push!(OFILES, obj)
   end
   println("compile $LIBSHARED")
   run(`$CC $CSFLAGS -o $LIBSHARED $OFILES`)
@@ -72,6 +73,9 @@ elseif args[1] == "clean"
     obj = replace(file, r".c$"=>".o")
     println("clean ", obj)
     rm(obj, force=true)
+    dep = replace(file, r".c$"=>".d")
+    println("clean ", dep)
+    rm(dep, force=true)
   end
   println("clean $LIBSTATIC")
   rm(LIBSTATIC, force=true)
@@ -84,6 +88,9 @@ elseif args[1] == "distclean"
     obj = replace(file, r".c$"=>".o")
     println("clean ", obj)
     rm(obj, force=true)
+    dep = replace(file, r".c$"=>".d")
+    println("clean ", dep)
+    rm(dep, force=true)
   end
   println("clean $LIBSTATIC")
   rm(LIBSTATIC, force=true)

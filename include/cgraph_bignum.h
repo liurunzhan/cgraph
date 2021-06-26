@@ -19,7 +19,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #ifndef CGRAPH_BIGNUM_BUFFER_SIZE
-#define CGRAPH_BIGNUM_BUFFER_SIZE 4096
+#define CGRAPH_BIGNUM_BUFFER_SIZE __CGRAPH_BUFFER_SIZE5
 #endif
 
 #define TYPE_BIGNUM
@@ -33,10 +33,17 @@ typedef struct {
 } cgraph_bignum_t;
 
 /** template module */
+#include "cgraph_template_buffer.ht"
 #include "cgraph_template_data.ht"
 
-extern void FUNCTION(NAME, clrbuffer)(void);
-extern cgraph_size_t FUNCTION(NAME, lenofbuffer)(void);
+extern cgraph_size_t FUNCTION(NAME, fprintn)(FILE *fp, const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, fprinte)(FILE *fp, const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, snprintn)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, snprinte)(cgraph_char_t *buffer,
+                                              const cgraph_size_t size,
+                                              const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
                                    const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data);

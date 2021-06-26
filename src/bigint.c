@@ -5,6 +5,9 @@
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 
+#define CGRAPH_BUFFER_SIZE CGRAPH_BIGINT_BUFFER_SIZE
+#include "template_buffer.ct"
+
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
 static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
@@ -31,33 +34,16 @@ static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
 /** template module */
 #include "template_data.ct"
 
-static cgraph_char_t __bigint_buffer__[CGRAPH_BIGINT_BUFFER_SIZE];
-
-void FUNCTION(NAME, clrbuffer)(void) {
-  cgraph_memset(__bigint_buffer__, CGRAPH_BIGINT_BUFFER_SIZE, 0);
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
-  return CGRAPH_BIGINT_BUFFER_SIZE;
-}
-
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if ((NULL != cthis) && (0 < cthis->len)) {
-    cgraph_size_t size = cthis->len * 3 + 1;
-    if (CGRAPH_FALSE == cthis->postive) {
-      size += 1;
-    }
-    if (size <= CGRAPH_BIGINT_BUFFER_SIZE) {
-      len = FUNCTION(NAME, snprint)(__bigint_buffer__, size, cthis);
-      cgraph_file_fputs(fp, __bigint_buffer__, len);
-    }
-#ifdef DEBUG
-    else {
-      fprintf(stderr, "out of %s buffer size %ld\n", FUNCTION(NAME, tname)(),
-              CGRAPH_BIGINT_BUFFER_SIZE);
-    }
-#endif
+    cgraph_size_t size = cthis->len
+                         << 2 + cthis->len +
+                                ((CGRAPH_FALSE == cthis->postive) ? 2 : 1);
+    cgraph_char_t *buffer = CGRAPH_BUFFER_CALLOC(size);
+    len = FUNCTION(NAME, snprint)(buffer, size, cthis);
+    cgraph_file_fputs(fp, buffer, len);
+    CGRAPH_BUFFER_FREE(buffer);
   }
 
   return len;
@@ -70,7 +56,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
   if ((NULL != buffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
     TYPE *copy = FUNCTION(NAME, copy)(cthis, cthis->len);
     if (NULL != copy) {
-      cgraph_size_t i, start = copy->len - 1;
+      cgraph_size_t i, start = cthis->len - 1;
       cgraph_int_t num, res;
       if (CGRAPH_FALSE == cthis->postive) {
         _size -= 1;
@@ -104,7 +90,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
 TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
                             const cgraph_size_t size,
                             const cgraph_char_t *data) {
-  cgraph_size_t len = cgraph_math_lenofdecimal(data, cgraph_strlen(data), NULL);
+  cgraph_size_t len = cgraph_math_declen(data, cgraph_strlen(data), NULL);
   if ((NULL != cthis) && (NULL != buffer) && (len <= size)) {
     cgraph_size_t i = 0, j = 0, start = 0;
     cgraph_int_t num, res;
@@ -138,11 +124,12 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
 
 TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data) {
   cgraph_char_t *digit = NULL;
-  cgraph_size_t len =
-      cgraph_math_lenofdecimal(data, cgraph_strlen(data), &digit);
-  TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, len / 3 + 1);
-  cthis = FUNCTION(NAME, initc)(cthis, __bigint_buffer__,
-                                CGRAPH_BIGINT_BUFFER_SIZE, digit);
+  cgraph_size_t len = cgraph_math_binlen(data, cgraph_strlen(data), &digit),
+                size = len / 3 + 1;
+  TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
+  cgraph_char_t *buffer = CGRAPH_BUFFER_CALLOC(size);
+  cthis = FUNCTION(NAME, initc)(cthis, buffer, size, digit);
+  CGRAPH_BUFFER_FREE(buffer);
 
   return cthis;
 }

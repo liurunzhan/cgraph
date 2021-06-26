@@ -31,6 +31,9 @@ __INLINE static void *FUNCTION(NAME, _update)(void *cthis,
     _cthis->data = _cthis->root + CGRAPH_MEMORY_HEADER_SIZE;
 #endif /**< __STDC_VERSION__ */
     _cthis->data[_cthis->len] = DATA_ZERO;
+#ifdef TYPE_BITSET
+    BITSET_BITPOS_UPDATE(_cthis, BITSET_BITPOS(_cthis));
+#endif
   }
 #endif
 
@@ -257,7 +260,7 @@ TYPE *FUNCTION(NAME, zero)(TYPE *cthis) {
     cthis->point = 0;
 #endif
 #elif defined(TYPE_BITSET)
-    cthis->bits_num = 1;
+    BITSET_BITPOS_UPDATE(cthis, 1);
 #endif
   }
 
@@ -274,7 +277,7 @@ TYPE *FUNCTION(NAME, one)(TYPE *cthis) {
     cthis->point = 0;
 #endif
 #elif defined(TYPE_BITSET)
-    cthis->bits_num = 1;
+    BITSET_BITPOS_UPDATE(cthis, 1);
 #endif
   }
 

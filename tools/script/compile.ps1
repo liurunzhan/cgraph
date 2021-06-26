@@ -45,8 +45,9 @@ if($OPT.Count -eq 0)
   foreach($file in $CFILES)
   {
     $obj=$file -replace "\.c", ".o"
+		$dep=$file -replace "\.d", ".o"
     # echo "compile $file to $obj"
-    & cc $CFLAGS -I./include -c $file -o $obj
+    & cc $CFLAGS -I./include -c $file -o $obj -MD -MF $dep
   }
   echo "compile $LIBSHARED"
   cc -shared -o $LIBSHARED $SRC\*.o
@@ -67,6 +68,9 @@ elseif($OPT[0] -ceq "clean")
     $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
     rm -Force $obj
+    $dep=$file -replace "\.c", ".d"
+    echo "clean $dep"
+    rm -Force $dep
   }
   echo "clean $LIBSHARED"
   rm -Force $LIBSHARED
@@ -82,6 +86,9 @@ elseif($OPT[0] -ceq "distclean")
     $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
     rm -Force $obj
+    $dep=$file -replace "\.c", ".d"
+    echo "clean $dep"
+    rm -Force $dep
   }
   echo "clean $LIBSHARED"
   rm -Force $LIBSHARED

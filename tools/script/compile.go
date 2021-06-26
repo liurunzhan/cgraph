@@ -71,8 +71,9 @@ func main() {
 		var OFILES []string
 		for _, file := range CFILES {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
+			var dep string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".d")
 			fmt.Printf("compile %s to %s\n", file, obj)
-			ARGS := append(CFLAGS, "-I"+INC, "-c", file, "-o", obj)
+			ARGS := append(CFLAGS, "-I"+INC, "-c", file, "-o", obj, "-MD", "-MF", dep)
 			cmd := exec.Command(CC, ARGS...)
 			cmd.Run()
 			OFILES = append(OFILES, obj)
@@ -100,6 +101,9 @@ func main() {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
 			fmt.Printf("clean %s\n", obj)
 			os.Remove(obj)
+			var dep string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".d")
+			fmt.Printf("clean %s\n", dep)
+			os.Remove(dep)
 		}
 		fmt.Printf("clean %s\n", LIBSHARED)
 		os.Remove(LIBSHARED)
@@ -112,6 +116,9 @@ func main() {
 			var obj string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".o")
 			fmt.Printf("clean %s\n", obj)
 			os.Remove(obj)
+			var dep string = regexp.MustCompile(`\.c$`).ReplaceAllString(file, ".d")
+			fmt.Printf("clean %s\n", dep)
+			os.Remove(dep)
 		}
 		fmt.Printf("clean %s\n", LIBSHARED)
 		os.Remove(LIBSHARED)

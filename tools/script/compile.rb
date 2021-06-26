@@ -53,8 +53,9 @@ if $args.size == 0
   $OFILES = []
   for $file in $CFILES do
     $obj = $file.sub("\.c", ".o")
+    $dep = $file.sub("\.c", ".d")
     puts("compile #{$file} to #{$obj}")
-    system("#{$CC} #{$CFLAGS} -I#{$INC} -c #{$file} -o #{$obj}")
+    system("#{$CC} #{$CFLAGS} -I#{$INC} -c #{$file} -o #{$obj} -MD -MF #{$dep}")
     $OFILES << $obj
   end
   puts("compile #{$LIBSHARED}")
@@ -69,45 +70,55 @@ elsif $args[0] == "test"
 elsif $args[0] == "clean"
   for $file in $CFILES do
     $obj = $file.sub("\.c", ".o")
+		puts("clean #{$obj}")
     if File::exist?($obj)
-      puts("clean #{$obj}")
       File::delete($obj)
     end
+    $dep = $file.sub("\.c", ".d")
+	  puts("clean #{$dep}")
+    if File::exist?($dep)
+      File::delete($dep)
+    end
   end
+	puts("clean #{$LIBSTATIC}")
   if File::exist?($LIBSTATIC)
-    puts("clean #{$LIBSTATIC}")
     File::delete($LIBSTATIC)
   end
+  puts("clean #{$LIBSHARED}")
   if File::exist?($LIBSHARED)
-    puts("clean #{$LIBSHARED}")
     File::delete($LIBSHARED)
   end
+  puts("clean #{$TSTTARGET}")
   if File::exist?($TSTTARGET)
-    puts("clean #{$TSTTARGET}")
     File::delete($TSTTARGET)
   end
 elsif $args[0] == "distclean"
   for $file in $CFILES do
     $obj = $file.sub("\.c", ".o")
+		puts("clean #{$obj}")
     if File::exist?($obj)
-      puts("clean #{$obj}")
       File::delete($obj)
     end
+    $dep = $file.sub("\.c", ".d")
+	  puts("clean #{$dep}")
+    if File::exist?($dep)
+      File::delete($dep)
+    end
   end
+  puts("clean #{$LIBSTATIC}")
   if File::exist?($LIBSTATIC)
-    puts("clean #{$LIBSTATIC}")
     File::delete($LIBSTATIC)
   end
+  puts("clean #{$LIBSHARED}")
   if File::exist?($LIBSHARED)
-    puts("clean #{$LIBSHARED}")
     File::delete($LIBSHARED)
   end
+  puts("clean #{$LIB}")
   if Dir::exist?($LIB)
-    puts("clean #{$LIB}")
     Dir::rmdir($LIB)
   end
+  puts("clean #{$TSTTARGET}")
   if File::exist?($TSTTARGET)
-    puts("clean #{$TSTTARGET}")
     File::delete($TSTTARGET)
   end
 elsif $args[0] == "help"

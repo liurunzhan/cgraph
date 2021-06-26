@@ -59,9 +59,10 @@ fn main() {
     mut ofiles := []string{}
     for file in cfiles {
       obj := file.replace(".c", ".o")
-      ofiles << obj
+      dep := file.replace(".c", ".d")
       println("compile ${file} to ${obj}")
-      os.system("${cc} ${cflags} -I${inc} -c ${file} -o ${obj}")
+      os.system("${cc} ${cflags} -I${inc} -c ${file} -o ${obj} -MD -MF ${dep}")
+      ofiles << obj
     }
     println("compile ${libshared}")
     os.system("${cc} ${csflags} -o ${libshared} ${ofiles.join(" ")}")
@@ -78,6 +79,11 @@ fn main() {
       println("clean ${obj}")
       if os.exists(obj) {
         os.rm(obj) ?
+      }
+      dep := file.replace(".c", ".d")
+      println("clean ${dep}")
+      if os.exists(dep) {
+        os.rm(dep) ?
       }
     }
     println("clean ${libstatic}")
@@ -98,6 +104,11 @@ fn main() {
       println("clean ${obj}")
       if os.exists(obj) {
         os.rm(obj) ?
+      }
+      dep := file.replace(".c", ".d")
+      println("clean ${dep}")
+      if os.exists(dep) {
+        os.rm(dep) ?
       }
     }
     println("clean ${libstatic}")

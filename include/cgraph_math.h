@@ -63,6 +63,10 @@ extern "C" {
 #define MATH_CONST_LOG10 (2.30258509299404568402)
 #endif /** MATH_CONST_LOG10 : log_e 10 */
 
+extern cgraph_char_t *cgraph_math_subc(cgraph_char_t *data,
+                                       const cgraph_size_t len,
+                                       const cgraph_char_t ch);
+
 /* package of functions in <ctype.h> */
 extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
@@ -110,27 +114,28 @@ extern cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data);
-extern cgraph_size_t cgraph_math_lenofbinary(const cgraph_char_t *data,
-                                             const cgraph_size_t len,
-                                             cgraph_char_t **start);
-extern cgraph_size_t cgraph_math_lenofdecimal(const cgraph_char_t *data,
-                                              const cgraph_size_t len,
-                                              cgraph_char_t **start);
-extern cgraph_size_t cgraph_math_lenofhex(const cgraph_char_t *data,
-                                          const cgraph_size_t len,
-                                          cgraph_char_t **start);
-extern cgraph_size_t cgraph_math_lenofnumber(const cgraph_char_t *data,
-                                             const cgraph_size_t len,
-                                             cgraph_char_t **start);
-extern cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
-                                           const cgraph_size_t len,
-                                           cgraph_char_t **start);
-extern cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
-                                           const cgraph_int_t base);
-extern cgraph_int_t
-cgraph_math_chgbase(cgraph_int_t *old, const cgraph_size_t old_len,
-                    cgraph_int_t old_base, cgraph_int_t *new,
-                    const cgraph_size_t new_len, cgraph_int_t new_base);
+extern cgraph_size_t cgraph_math_binlen(const cgraph_char_t *data,
+                                        const cgraph_size_t len,
+                                        cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_declen(const cgraph_char_t *data,
+                                        const cgraph_size_t len,
+                                        cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_hexlen(const cgraph_char_t *data,
+                                        const cgraph_size_t len,
+                                        cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_numlen(const cgraph_char_t *data,
+                                        const cgraph_size_t len,
+                                        cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_namlen(const cgraph_char_t *data,
+                                        const cgraph_size_t len,
+                                        cgraph_char_t **start);
+extern cgraph_size_t cgraph_math_baslen(const cgraph_int_t data,
+                                        const cgraph_int_t base);
+extern cgraph_int_t cgraph_math_chgbas(cgraph_int_t *old,
+                                       const cgraph_size_t old_len,
+                                       cgraph_int_t old_base, cgraph_int_t *new,
+                                       const cgraph_size_t new_len,
+                                       cgraph_int_t new_base);
 
 extern cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                        const cgraph_uint64_t data,

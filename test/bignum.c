@@ -41,6 +41,15 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, fprintln)
   (stdout, (bignum10 = FUNCTION(NAME, div10)(bignum10, 30)));
   FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+  FUNCTION(NAME, fprintln)
+  (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, 30)));
+  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+  FUNCTION(NAME, fprintln)
+  (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, 30)));
+  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+  FUNCTION(NAME, fprintln)
+  (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, 30)));
+  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
 
   FUNCTION(NAME, fprint)(stdout, bignum6);
   fprintf(stdout, " and ");

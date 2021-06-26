@@ -19,7 +19,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #ifndef CGRAPH_BIGINT_BUFFER_SIZE
-#define CGRAPH_BIGINT_BUFFER_SIZE 4096
+#define CGRAPH_BIGINT_BUFFER_SIZE __CGRAPH_BUFFER_SIZE5
 #endif
 
 #define TYPE_BIGINT
@@ -32,6 +32,7 @@ typedef struct {
 } cgraph_bigint_t;
 
 /** template module */
+#include "cgraph_template_buffer.ht"
 #include "cgraph_template_data.ht"
 
 extern TYPE *FUNCTION(NAME, fact)(const TYPE *x, TYPE *y);

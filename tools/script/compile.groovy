@@ -58,7 +58,8 @@ if (args.size() == 0) {
   def OFILES = []
   for (file in CFILES) {
     def obj = file.getPath().replace(".c", ".o")
-    def cmd = sprintf("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj)
+    def dep = file.getPath().replace(".c", ".d")
+    def cmd = sprintf("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep)
     println(sprintf("compile %s to %s", file, obj))
     cmd.execute()
     OFILES.add(obj)
@@ -78,6 +79,9 @@ if (args.size() == 0) {
     def obj = new File(file.getPath().replace(".c", ".o"))
     println(sprintf("clean %s", obj))
     obj.delete()
+    def dep = new File(file.getPath().replace(".c", ".d"))
+    println(sprintf("clean %s", dep))
+    dep.delete()
   }
   println(sprintf("clean %s", LIBSTATIC))
   def libstatic = new File(LIBSTATIC)
@@ -93,6 +97,9 @@ if (args.size() == 0) {
     def obj = new File(file.getPath().replace(".c", ".o"))
     println(sprintf("clean %s", obj))
     obj.delete()
+    def dep = new File(file.getPath().replace(".c", ".d"))
+    println(sprintf("clean %s", dep))
+    dep.delete()
   }
   println(sprintf("clean %s", LIBSTATIC))
   def libstatic = new File(LIBSTATIC)

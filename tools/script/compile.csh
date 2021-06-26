@@ -41,8 +41,9 @@ set TSTTARGET=${TST}/${PRO}
 if ( $#argv == 0 ) then
   foreach file ($CFILES)
     regsub {.c$} $file .o obj
+    regsub {.c$} $file .d dep
     echo "compile ${file} to ${obj}"
-    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}
+    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}
   end
   echo "compile ${LIBSHARED}"
   ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o
@@ -58,6 +59,9 @@ else if ( $argv[1] == "clean" ) then
     regsub {.c$} $file .o obj
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
+    regsub {.c$} $file .d dep
+    echo "clean ${dep}"
+    ${RM} ${RMFLAGS} ${dep}
   end
   echo "clean ${LIBSHARED}"
   ${RM} ${RMFLAGS} ${LIBSHARED}
@@ -70,6 +74,9 @@ else if ( $argv[1] == "distclean" ) then
     regsub {.c$} $file .o obj
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
+    regsub {.c$} $file .d dep
+    echo "clean ${dep}"
+    ${RM} ${RMFLAGS} ${dep}
   end
   echo "clean ${LIBSHARED}"
   ${RM} ${RMFLAGS} ${LIBSHARED}

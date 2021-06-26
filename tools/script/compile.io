@@ -52,9 +52,10 @@ if(args size == 1) then(
   CFILES foreach(file,
     file := file path 
     obj := file asMutable replaceSeq(".c", ".o")
-    OFILES append(obj)
+    dep := file asMutable replaceSeq(".c", ".d")
     "compile #{file} to #{obj}" interpolate println
-    System system("#{CC} #{CFLAGS} -I#{INC path} -c #{file} -o #{obj}" interpolate )
+    System system("#{CC} #{CFLAGS} -I#{INC path} -c #{file} -o #{obj} -MD -MF #{dep}" interpolate )
+    OFILES append(obj)
   )
   OFILES := OFILES join(" ")
   "compile #{LIBSHARED name}" interpolate println
@@ -74,6 +75,11 @@ if(args size == 1) then(
     "clean #{obj}" interpolate println
     if(obj asFile exists) then(
       obj asFile remove
+    )
+    dep := file asMutable replaceSeq(".c", ".d")
+    "clean #{dep}" interpolate println
+    if(dep asFile exists) then(
+      dep asFile remove
     )
   )
   "clean #{LIBSTATIC name}" interpolate println
@@ -95,6 +101,11 @@ if(args size == 1) then(
     "clean #{obj}" interpolate println
     if(obj asFile exists) then(
       obj asFile remove
+    )
+    dep := file asMutable replaceSeq(".c", ".d")
+    "clean #{dep}" interpolate println
+    if(dep asFile exists) then(
+      dep asFile remove
     )
   )
   "clean #{LIBSTATIC name}" interpolate println

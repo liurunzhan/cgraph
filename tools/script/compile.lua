@@ -54,9 +54,10 @@ if not arg[1] then
   OFILES = {}
   for index, file in pairs(CFILES) do
     obj = string.gsub(file, ".c$", ".o")
-    table.insert(OFILES, obj)
+    dep = string.gsub(file, ".c$", ".d")
     print(string.format("compile file to %s", obj))
-    os.execute(string.format("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj))
+    os.execute(string.format("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep))
+    table.insert(OFILES, obj)
   end
   print(string.format("compile %s", LIBSHARED))
   os.execute(string.format("%s %s -o %s %s", CC, CSFLAGS, LIBSHARED, table.concat(OFILES, " ")))
@@ -72,6 +73,9 @@ elseif arg[1] == "clean" then
 		obj = string.gsub(file, ".c$", ".o")
 		print(string.format("clean %s", obj))
 		os.remove(obj)
+		dep = string.gsub(file, ".c$", ".d")
+		print(string.format("clean %s", dep))
+		os.remove(dep)
 	end
 	print(string.format("clean %s", LIBSTATIC))
 	os.remove(LIBSTATIC)
@@ -84,6 +88,9 @@ elseif arg[1] == "distclean" then
 		obj = string.gsub(file, ".c$", ".o")
 		print(string.format("clean %s", obj))
 		os.remove(obj)
+		dep = string.gsub(file, ".c$", ".d")
+		print(string.format("clean %s", dep))
+		os.remove(dep)
 	end
 	print(string.format("clean %s", LIBSTATIC))
 	os.remove(LIBSTATIC)

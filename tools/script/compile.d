@@ -54,8 +54,9 @@ int main(string[] args) {
 		string[] OFILES;
 		foreach (file; CFILES) {
 			string obj = file.setExtension("o");
+			string dep = file.setExtension("d");
 			writeln(format("compile %s to %s", file, obj));
-			executeShell(format("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj));
+			executeShell(format("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep));
 			OFILES ~= [obj];
 		}
   	writeln(format("compile %s", LIBSHARED));
@@ -73,6 +74,11 @@ int main(string[] args) {
 			writeln(format("clean %s", obj));
 			if(obj.exists) {
 				obj.remove;
+			}
+			string dep = file.setExtension("d");
+			writeln(format("clean %s", dep));
+			if(dep.exists) {
+				dep.remove;
 			}
 		}
 		writeln(format("clean %s", LIBSTATIC));
@@ -93,6 +99,11 @@ int main(string[] args) {
 			writeln(format("clean %s", obj));
 			if(obj.exists) {
 				obj.remove;
+			}
+			string dep = file.setExtension("d");
+			writeln(format("clean %s", dep));
+			if(dep.exists) {
+				dep.remove;
 			}
 		}
 		writeln(format("clean %s", LIBSTATIC));

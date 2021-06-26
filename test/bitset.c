@@ -13,12 +13,11 @@ int main(int argc, char *argv[]) {
   bitset1->data[1] = 0xFF;
   bitset1->data[2] = 0xFF;
   bitset1->len = 3;
-  bitset1->bits_num = 0;
   FUNCTION(NAME, fprintln)(stdout, bitset1);
   FUNCTION(NAME, fprintb)(stdout, bitset1);
   cgraph_file_fprintln(stdout);
-  for (i = 7; i > 0; i--) {
-    bitset1->bits_num = i;
+  for (i = 8; i > 0; i--) {
+    BITSET_BITPOS_UPDATE(bitset1, i);
     FUNCTION(NAME, fprintln)(stdout, bitset1);
     FUNCTION(NAME, fprintb)(stdout, bitset1);
     cgraph_file_fprintln(stdout);

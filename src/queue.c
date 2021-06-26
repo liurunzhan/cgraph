@@ -18,6 +18,7 @@ cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x) {
 
 TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x) {
   if ((NULL != cthis) && (NULL != x)) {
+    cthis->len += 1;
   }
 
   return cthis;
@@ -26,6 +27,7 @@ TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x) {
 void *FUNCTION(NAME, pop)(TYPE *cthis) {
   void *res = NULL;
   if (NULL != cthis) {
+    cthis->len -= 1;
   }
 
   return cthis;

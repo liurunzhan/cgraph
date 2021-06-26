@@ -33,8 +33,9 @@ if (args.size == 0) {
 
   var OFILES : MutableList<String> = mutableListOf()
   for (file in CFILES) {
-    val ofile : String = file.replace(Regex(".c$"), ".o")
-    OFILES.add(ofile)
+    val obj : String = file.replace(Regex(".c$"), ".o")
+	  val dep : String = file.replace(Regex(".c$"), ".d")
+    OFILES.add(obj)
   }
 } else if(args[0] == "test") {
 

@@ -44,8 +44,9 @@ if args.size == 0
   _OFILES = [] of String
 	CFILES.each do |file|
     obj = file.sub("\.c", ".o")
+    dep = file.sub("\.c", ".d")
     puts("compile #{file} to #{obj}")
-    `#{CC} #{_CFLAGS} -I#{INC} -c #{file} -o #{obj}`
+    `#{CC} #{_CFLAGS} -I#{INC} -c #{file} -o #{obj} -MD -MF #{dep}`
     _OFILES << obj
   end
   puts("compile #{_LIBSHARED}")
@@ -60,45 +61,55 @@ elsif args[0] == "test"
 elsif args[0] == "clean"
 	CFILES.each do |file|
     obj = file.sub("\.c", ".o")
+  	puts("clean #{obj}")
     if File.exists?(obj)
-      puts("clean #{obj}")
       File.delete(obj)
     end
+    dep = file.sub("\.c", ".d")
+    puts("clean #{dep}")
+    if File.exists?(dep)
+      File.delete(dep)
+    end
   end
+  puts("clean #{_LIBSTATIC}")
   if File.exists?(_LIBSTATIC)
-    puts("clean #{_LIBSTATIC}")
     File.delete(_LIBSTATIC)
   end
+  puts("clean #{_LIBSHARED}")
   if File.exists?(_LIBSHARED)
-    puts("clean #{_LIBSHARED}")
     File.delete(_LIBSHARED)
   end
+  puts("clean #{_TSTTARGET}")
   if File.exists?(_TSTTARGET)
-    puts("clean #{_TSTTARGET}")
     File.delete(_TSTTARGET)
   end
 elsif args[0] == "distclean"
 	CFILES.each do |file|
     obj = file.sub("\.c", ".o")
+    puts("clean #{obj}")
     if File.exists?(obj)
-      puts("clean #{obj}")
       File.delete(obj)
     end
+    dep = file.sub("\.c", ".d")
+    puts("clean #{dep}")
+    if File.exists?(dep)
+      File.delete(dep)
+    end
   end
+  puts("clean #{_LIBSTATIC}")
   if File.exists?(_LIBSTATIC)
-    puts("clean #{_LIBSTATIC}")
     File.delete(_LIBSTATIC)
   end
+  puts("clean #{_LIBSHARED}")
   if File.exists?(_LIBSHARED)
-    puts("clean #{_LIBSHARED}")
     File.delete(_LIBSHARED)
   end
+  puts("clean #{LIB}")
   if Dir.exists?(LIB)
-    puts("clean #{LIB}")
     Dir.delete(LIB)
   end
+  puts("clean #{_TSTTARGET}")
   if File.exists?(_TSTTARGET)
-    puts("clean #{_TSTTARGET}")
     File.delete(_TSTTARGET)
   end
 elsif args[0] == "help"

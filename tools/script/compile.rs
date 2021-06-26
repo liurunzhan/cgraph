@@ -61,6 +61,7 @@ fn main() {
     }
     for file in CFILES {
       let obj = file.with_extension("o");
+			let dep = file.with_extension("d");
       println!("compile {} to {}", file.display(), obj.display());
       if env::consts::OS == "windows" {
         Command::new("cmd")

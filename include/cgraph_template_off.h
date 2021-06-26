@@ -397,6 +397,10 @@
 #undef DATA_BITS_LOG2
 #endif
 
+#ifdef DATA_BITS_LOG2_EPS
+#undef DATA_BITS_LOG2_EPS
+#endif
+
 #ifdef DATA_UTYPE
 #undef DATA_UTYPE
 #endif
@@ -831,4 +835,16 @@
 
 #ifdef DATA_SWAP
 #undef DATA_SWAP
+#endif
+
+#ifdef CGRAPH_BUFFER_SIZE
+#undef CGRAPH_BUFFER_SIZE
+#endif
+
+#ifdef CGRAPH_BUFFER_CALLOC
+#undef CGRAPH_BUFFER_CALLOC
+#endif
+
+#ifdef CGRAPH_BUFFER_FREE
+#undef CGRAPH_BUFFER_FREE
 #endif

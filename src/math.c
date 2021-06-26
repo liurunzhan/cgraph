@@ -2,6 +2,21 @@
 
 #include "cgraph_math.h"
 
+cgraph_char_t *cgraph_math_subc(cgraph_char_t *data, const cgraph_size_t len,
+                                const cgraph_char_t ch) {
+  if (NULL != data) {
+    cgraph_char_t *p1 = data, *p2 = data;
+    cgraph_size_t i = 0;
+    for (; i < len; p1++, i++) {
+      if (ch != *p1) {
+        *(p2++) = *p1;
+      }
+    }
+  }
+
+  return data;
+}
+
 __INLINE cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data) {
   return CGRAPH_TEST(isalnum(data));
 }
@@ -233,9 +248,9 @@ cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data) {
   return (data >= 0 && data < 16) ? __cgraph_math_dec2hex_lower__[data] : '\0';
 }
 
-cgraph_size_t cgraph_math_lenofbinary(const cgraph_char_t *data,
-                                      const cgraph_size_t len,
-                                      cgraph_char_t **start) {
+cgraph_size_t cgraph_math_binlen(const cgraph_char_t *data,
+                                 const cgraph_size_t len,
+                                 cgraph_char_t **start) {
   cgraph_size_t _len = 0;
   if (NULL != data) {
     cgraph_size_t i = 0;
@@ -246,7 +261,7 @@ cgraph_size_t cgraph_math_lenofbinary(const cgraph_char_t *data,
       if (NULL != start) {
         *start = _data;
       }
-      for (_len = 1; cgraph_math_isbinmd(*_data) && (i < len);
+      for (_data++, i++, _len++; cgraph_math_isbinmd(*_data) && (i < len);
            _data++, i++, _len++) {
       }
     }
@@ -255,9 +270,9 @@ cgraph_size_t cgraph_math_lenofbinary(const cgraph_char_t *data,
   return _len;
 }
 
-cgraph_size_t cgraph_math_lenofdecimal(const cgraph_char_t *data,
-                                       const cgraph_size_t len,
-                                       cgraph_char_t **start) {
+cgraph_size_t cgraph_math_declen(const cgraph_char_t *data,
+                                 const cgraph_size_t len,
+                                 cgraph_char_t **start) {
   cgraph_size_t _len = 0;
   if (NULL != data) {
     cgraph_size_t i = 0;
@@ -268,7 +283,7 @@ cgraph_size_t cgraph_math_lenofdecimal(const cgraph_char_t *data,
       if (NULL != start) {
         *start = _data;
       }
-      for (_len = 1; cgraph_math_isdecmd(*_data) && (i < len);
+      for (_data++, i++, _len++; cgraph_math_isdecmd(*_data) && (i < len);
            _data++, i++, _len++) {
       }
     }
@@ -277,9 +292,9 @@ cgraph_size_t cgraph_math_lenofdecimal(const cgraph_char_t *data,
   return _len;
 }
 
-cgraph_size_t cgraph_math_lenofhex(const cgraph_char_t *data,
-                                   const cgraph_size_t len,
-                                   cgraph_char_t **start) {
+cgraph_size_t cgraph_math_hexlen(const cgraph_char_t *data,
+                                 const cgraph_size_t len,
+                                 cgraph_char_t **start) {
   cgraph_size_t _len = 0;
   if (NULL != data) {
     cgraph_size_t i = 0;
@@ -290,7 +305,7 @@ cgraph_size_t cgraph_math_lenofhex(const cgraph_char_t *data,
       if (NULL != start) {
         *start = _data;
       }
-      for (_len = 1; cgraph_math_ishexmd(*_data) && (i < len);
+      for (_data++, i++, _len++; cgraph_math_ishexmd(*_data) && (i < len);
            _data++, i++, _len++) {
       }
     }
@@ -299,9 +314,9 @@ cgraph_size_t cgraph_math_lenofhex(const cgraph_char_t *data,
   return _len;
 }
 
-cgraph_size_t cgraph_math_lenofnumber(const cgraph_char_t *data,
-                                      const cgraph_size_t len,
-                                      cgraph_char_t **start) {
+cgraph_size_t cgraph_math_numlen(const cgraph_char_t *data,
+                                 const cgraph_size_t len,
+                                 cgraph_char_t **start) {
   cgraph_size_t _len = 0;
   if (NULL != data) {
     cgraph_size_t i = 0;
@@ -312,7 +327,7 @@ cgraph_size_t cgraph_math_lenofnumber(const cgraph_char_t *data,
       if (NULL != start) {
         *start = _data;
       }
-      for (_len = 1; cgraph_math_isnummd(*_data) && (i < len);
+      for (_data++, i++, _len++; cgraph_math_isnummd(*_data) && (i < len);
            _data++, i++, _len++) {
       }
     }
@@ -321,9 +336,9 @@ cgraph_size_t cgraph_math_lenofnumber(const cgraph_char_t *data,
   return _len;
 }
 
-cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
-                                    const cgraph_size_t len,
-                                    cgraph_char_t **start) {
+cgraph_size_t cgraph_math_namlen(const cgraph_char_t *data,
+                                 const cgraph_size_t len,
+                                 cgraph_char_t **start) {
   cgraph_size_t _len = 0;
   if (NULL != data) {
     cgraph_size_t i = 0;
@@ -334,7 +349,7 @@ cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
       if (NULL != start) {
         *start = _data;
       }
-      for (_len = 1; cgraph_math_isnammd(*_data) && (i < len);
+      for (_data++, i++, _len++; cgraph_math_isnammd(*_data) && (i < len);
            _data++, i++, _len++) {
       }
     }
@@ -343,8 +358,8 @@ cgraph_size_t cgraph_math_lenofname(const cgraph_char_t *data,
   return _len;
 }
 
-cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
-                                    const cgraph_int_t base) {
+cgraph_size_t cgraph_math_baslen(const cgraph_int_t data,
+                                 const cgraph_int_t base) {
   cgraph_size_t len = 0;
   cgraph_int_t new_data = data;
   while (0 != new_data) {
@@ -355,10 +370,10 @@ cgraph_size_t cgraph_math_lenofbase(const cgraph_int_t data,
   return len;
 }
 
-cgraph_int_t cgraph_math_chgbase(cgraph_int_t *old, const cgraph_size_t old_len,
-                                 cgraph_int_t old_base, cgraph_int_t *new,
-                                 const cgraph_size_t new_len,
-                                 cgraph_int_t new_base) {
+cgraph_int_t cgraph_math_chgbas(cgraph_int_t *old, const cgraph_size_t old_len,
+                                cgraph_int_t old_base, cgraph_int_t *new,
+                                const cgraph_size_t new_len,
+                                cgraph_int_t new_base) {
   cgraph_size_t len = 0;
   if ((NULL != old) && (NULL != new)) {
     cgraph_size_t start = 0, i;

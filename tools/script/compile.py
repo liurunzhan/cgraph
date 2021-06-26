@@ -68,8 +68,9 @@ if len(args) == 1 :
   OFILES = []
   for file in CFILES:
     obj = file.replace(".c", ".o")
+		dep = file.replace(".c", ".d")
     print("compile %s to %s" % (file, obj))
-    os.system("%s %s -I%s -c %s -o %s" % (CC, CFLAGS, INC, file, obj))
+    os.system("%s %s -I%s -c %s -o %s -MD -MF %s" % (CC, CFLAGS, INC, file, obj, dep))
     OFILES.append(obj)
   print("compile %s" % LIBSHARED)
   os.system("%s %s -o %s %s" % (CC, CSFLAGS, LIBSHARED, " ".join(OFILES)))
@@ -86,6 +87,10 @@ elif args[1] == "clean":
     print("clean %s" % obj)
     if pathlib.Path(obj).exists():
       os.remove(obj)
+    dep = file.replace(".c", ".d")
+    print("clean %s" % dep)
+    if pathlib.Path(dep).exists():
+      os.remove(dep)
   print("clean %s" % LIBSTATIC)
   if pathlib.Path(LIBSTATIC).exists():
     os.remove(LIBSTATIC)
@@ -101,6 +106,10 @@ elif args[1] == "distclean":
     print("clean %s" % obj)
     if pathlib.Path(obj).exists():
       os.remove(obj)
+    dep = file.replace(".c", ".d")
+    print("clean %s" % dep)
+    if pathlib.Path(dep).exists():
+      os.remove(dep)
   print("clean %s" % LIBSTATIC)
   if pathlib.Path(LIBSTATIC).exists():
     os.remove(LIBSTATIC)

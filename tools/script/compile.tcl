@@ -1,4 +1,4 @@
-#!/usr/bin/tclsh -f
+#!/usr/bin/tclsh
 
 set PRO "cgraph"
 set DIR "."
@@ -23,12 +23,18 @@ if { [ string compare $MODE "debug" ] } {
   append CFLAGS " -static -O2"
 }
 
+# build and clean directories and files
+set MKDIR "mkdir"
+set RM "rm"
+set RMFLAGS "-rf"
+
+set RMDIR "rm"
+set RMDIRFLAGS "-rf"
+
 # package shared library
-set AR ar
+set AR "ar"
 set ARFLAGS "-rcs"
 
-# source files
-set CFILES [glob ${SRC}/*.c]
 # target files
 set LIBSHARED ${LIB}/lib${PRO}.so
 set LIBSTATIC ${LIB}/lib${PRO}.a
@@ -38,47 +44,70 @@ set TSTTARGET ${TST}/${PRO}
 
 if { $argc == 0 } {
   exec sh -c "mkdir -p ${LIB}"
-	puts " $CFILES "
-	for { set index 0 } { $index < [ array size CFILES ] } { incr index } {
-    regsub {.c$} CFILES($index) .o obj
+	set OFILES ""
+	foreach file [ glob -nocomplain ${SRC}/*.c ] {
+    regsub {.c$} ${file} .o obj
+		regsub {.c$} ${file} .d dep
     puts "compile ${file} to ${obj}"
-    exec sh -c "${CC} ${CFLAGS} -I${INC} -c $CFILES($index) -o ${obj}"
+		catch { exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}" } message
+		if { [ string length $message ] != 0 } {
+			puts $message
+		}
+		append OFILES " " $obj
   }
-  # puts "compile ${LIBSHARED}"
-  # exec sh -c "${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o"
-  # puts "compile ${LIBSTATIC}"
-  # exec sh -c "${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o"
+	puts "compile ${LIBSHARED}"
+  catch { exec sh -c "${CC} ${CSFLAGS} -o ${LIBSHARED} ${OFILES}" } message
+	if { [ string length $message ] != 0 } {
+		puts $message
+	}
+  puts "compile ${LIBSTATIC}"
+  catch { exec sh -c "${AR} ${ARFLAGS} ${LIBSTATIC} ${OFILES}" } message
+	if { [ string length $message ] != 0 } {
+		puts $message
+	}
 } elseif { [ lindex $argv 0 ] == "test" } {
   puts "compile ${TSTFILE} to ${TSTTARGET}"
-  exec sh -c "${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm"
+  catch { exec sh -c "${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm" } message
+	if { [ string length $message ] != 0 } {
+		puts $message
+	}
   puts "test ${TSTTARGET} with ${TST}/elements.csv"
-  exec sh -c "${TSTTARGET} ${TST}/elements.csv"
+  catch { exec sh -c "${TSTTARGET} ${TST}/elements.csv" } message
+	if { [ string length $message ] != 0 } {
+		puts $message
+	}
 } elseif { [ lindex $argv 0 ] == "clean" } {
-  for { set index 0 } { $index < [array size CFILES] } { incr index } {
-    regsub {.c$} CFILES($index) .o obj
+	foreach file [ glob -nocomplain ${SRC}/*.c ] {
+    regsub {.c$} ${file} .o obj
     puts "clean ${obj}"
-    exec sh -c "${RM} ${RMFLAGS} ${obj}"
+    catch { exec sh -c "${RM} ${RMFLAGS} ${obj}" }
+		regsub {.c$} ${file} .d dep
+    puts "clean ${dep}"
+    catch { exec sh -c "${RM} ${RMFLAGS} ${dep}" }
   }
   puts "clean ${LIBSHARED}"
-  exec sh -c "${RM} ${RMFLAGS} ${LIBSHARED}"
+  catch { exec sh -c "${RM} ${RMFLAGS} ${LIBSHARED}" }
   puts "clean ${LIBSTATIC}"
-  exec sh -c "${RM} ${RMFLAGS} ${LIBSTATIC}"
+  catch { exec sh -c "${RM} ${RMFLAGS} ${LIBSTATIC}" }
   puts "clean ${TSTTARGET}"
-  exec sh -c "${RM} ${RMFLAGS} ${TSTTARGET}"
+  catch { exec sh -c "${RM} ${RMFLAGS} ${TSTTARGET}" }
 } elseif { [ lindex $argv 0 ] == "distclean" } {
-  foreach file $CFILES {
-    regsub {.c$} $file .o obj
+	foreach file [ glob -nocomplain ${SRC}/*.c ] {
+    regsub {.c$} ${file} .o obj
     puts "clean ${obj}"
-    exec sh -c "${RM} ${RMFL} ${obj}"
+    catch { exec sh -c "${RM} ${RMFLAGS} ${obj}" }
+		regsub {.c$} ${file} .d dep
+    puts "clean ${dep}"
+    catch { exec sh -c "${RM} ${RMFLAGS} ${dep}" }
   }
   puts "clean ${LIBSHARED}"
-  exec sh -c "${RM} ${RMFLAGS} ${LIBSHARED}"
+  catch { exec sh -c "${RM} ${RMFLAGS} ${LIBSHARED}" }
   puts "clean ${LIBSTATIC}"
-  exec sh -c "${RM} ${RMFLAGS} ${LIBSTATIC}"
+  catch { exec sh -c "${RM} ${RMFLAGS} ${LIBSTATIC}" }
   puts "clean ${LIB}"
-  exec sh -c "${RMDIR} ${RMDIRFLAGS} ${LIB}"
+  catch { exec sh -c "${RMDIR} ${RMDIRFLAGS} ${LIB}" }
   puts "clean ${TSTTARGET}"
-  exec sh -c "${RM} ${RMFLAGS} ${TSTTARGET}"
+  catch { exec sh -c "${RM} ${RMFLAGS} ${TSTTARGET}" }
 } elseif { [ lindex $argv 0 ] == "help" } {
   puts "$argv0 <target>"
   puts "<target>: "

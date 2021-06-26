@@ -71,8 +71,9 @@ if ($#args == -1)
   foreach my $file (@CFILES)
   {
     my $obj = ($file =~ s/\.c$/\.o/r);
+		my $dep = ($file =~ s/\.c$/\.d/r);
     printf("compile %s to %s\n", $file, $obj);
-    system(sprintf("$CC $CFLAGS -I$INC -c %s -o %s", $file, $obj));
+    system(sprintf("$CC $CFLAGS -I$INC -c %s -o %s -MD -MF %s", $file, $obj, $dep));
     push(@OFILES, $obj);
   }
   print("compile $LIBSHARED\n");
@@ -94,6 +95,9 @@ elsif ($args[0] eq "clean")
     my $obj = ($file =~ s/\.c$/\.o/r);
     print("clean $obj\n");
     unlink $obj;
+    my $dep = ($file =~ s/\.c$/\.d/r);
+    print("clean $dep\n");
+    unlink $dep;
   }
   print("clean $LIBSTATIC\n");
   unlink $LIBSTATIC;
@@ -109,6 +113,9 @@ elsif ($args[0] eq "distclean")
     my $obj = ($file =~ s/\.c$/\.o/r);
     print("clean $obj\n");
     unlink $obj;
+    my $dep = ($file =~ s/\.c$/\.d/r);
+    print("clean $dep\n");
+    unlink $dep;
   }
   print("clean $LIBSTATIC\n");
   unlink $LIBSTATIC;

@@ -8,15 +8,8 @@
 #define TYPE_BIGNUM
 #include "cgraph_template.h"
 
-static cgraph_char_t __bignum_buffer__[CGRAPH_BIGNUM_BUFFER_SIZE];
-
-void FUNCTION(NAME, clrbuffer)(void) {
-  cgraph_memset(__bignum_buffer__, CGRAPH_BIGNUM_BUFFER_SIZE, 0);
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
-  return CGRAPH_BIGNUM_BUFFER_SIZE;
-}
+#define CGRAPH_BUFFER_SIZE CGRAPH_BIGNUM_BUFFER_SIZE
+#include "template_buffer.ct"
 
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
@@ -45,6 +38,10 @@ static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
+  return FUNCTION(NAME, fprintn)(fp, cthis);
+}
+
+cgraph_size_t FUNCTION(NAME, fprintn)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if ((NULL != cthis) && (0 < cthis->len)) {
     cgraph_size_t i = cthis->len - 1;
@@ -69,9 +66,49 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
+cgraph_size_t FUNCTION(NAME, fprinte)(FILE *fp, const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    cgraph_size_t i = cthis->len - 1, j, point, exp;
+    DATA_TYPE *data = &(cthis->data[i]), *data_end = &(cthis->data[0]);
+    if (CGRAPH_FALSE == cthis->postive) {
+      fputc('-', fp);
+      len++;
+    }
+    for (; (0 == *data) && (i > 0); i--, data--) {
+    }
+    point = i;
+    exp = i - cthis->point;
+    for (j = 0; (0 == *data_end) && (j < point); j++, data_end++) {
+    }
+    len += i - j + 1;
+    for (; i >= point; i--, data--) {
+      fputc('0' + *data, fp);
+    }
+    fputc('.', fp);
+    for (; i >= j; i--, data--) {
+      fputc('0' + *data, fp);
+    }
+    if (0 == point) {
+      fputc('0', fp);
+    }
+    if (exp != 0) {
+      len += fprintf(fp, "e%ld", exp);
+    }
+  }
+
+  return len;
+}
+
 cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
                                       const cgraph_size_t size,
                                       const TYPE *cthis) {
+  return FUNCTION(NAME, snprintn)(buffer, size, cthis);
+}
+
+cgraph_size_t FUNCTION(NAME, snprintn)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE *cthis) {
   cgraph_size_t _size = size - 1, len = 0;
   if ((NULL != buffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
     cgraph_size_t i = cthis->len - 1;
@@ -90,7 +127,48 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
       *buffer = '0' + *data;
     }
     if (0 == cthis->point) {
-      *buffer = '0';
+      *(buffer++) = '0';
+    }
+    *buffer = '\0';
+  }
+
+  return len;
+}
+
+cgraph_size_t FUNCTION(NAME, snprinte)(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const TYPE *cthis) {
+  cgraph_size_t _size = size - 1, len = 0;
+  if ((NULL != buffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
+    cgraph_size_t i = cthis->len - 1, j, point, exp;
+    DATA_TYPE *data = &cthis->data[i], *data_end = &(cthis->data[0]);
+    if (CGRAPH_FALSE == cthis->postive) {
+      *(buffer++) = '-';
+      _size--;
+      len++;
+    }
+    for (; (0 == *data) && (i > 0); i--, data--) {
+    }
+    point = i;
+    exp = i - cthis->point;
+    for (j = 0; (0 == *data_end) && (j < point); j++, data_end++) {
+    }
+    len += (_size = CGRAPH_MIN(_size, i - j + 1));
+    for (; i >= point; i--, data--, buffer++) {
+      *buffer = '0' + *data;
+    }
+    *(buffer++) = '.';
+    for (; i >= j; i--, data--, buffer++) {
+      *buffer = '0' + *data;
+    }
+    if (0 == point) {
+      *(buffer++) = '0';
+    }
+    if (exp != 0) {
+      len += cgraph_file_snprintf(buffer, _size - len, "e%ld", exp);
+      buffer[len] = '\0';
+    } else {
+      *buffer = '\0';
     }
   }
 
@@ -175,11 +253,19 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
     if (CGRAPH_TRUE == isexp) {
       for (; cgraph_math_isdechd(*xd) && (i < len); xd--, i++) {
       }
-      isexp_pos = ('-' == *xd) ? CGRAPH_TRUE : CGRAPH_FALSE;
-      for (; i < len; xd--, i++) {
-        if (cgraph_math_isdecmd(*xd)) {
-          exp = 10 * exp + *xd - '0';
+      if ('-' == *xd) {
+        isexp_pos = CGRAPH_TRUE;
+        xd--;
+        i++;
+      } else {
+        if ('+' == *xd) {
+          xd--;
+          i++;
         }
+        isexp_pos = CGRAPH_FALSE;
+      }
+      for (; cgraph_math_isdecmd(*xd) && (i < len); xd--, i++) {
+        exp = 10 * exp + *xd - '0';
       }
       cthis = (CGRAPH_TRUE == isexp_pos) ? FUNCTION(NAME, mul10)(cthis, exp)
                                          : FUNCTION(NAME, div10)(cthis, exp);
@@ -191,9 +277,9 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
 
 TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data) {
   if (NULL != cthis) {
-    cgraph_size_t len = cgraph_file_snprintf(
-        __bignum_buffer__, CGRAPH_BIGNUM_BUFFER_SIZE, "%g", data);
-    cthis = FUNCTION(NAME, initc)(cthis, __bignum_buffer__, len);
+    cgraph_size_t len =
+        cgraph_file_snprintf(__cgraph_buffer__, CGRAPH_BUFFER_SIZE, "%g", data);
+    cthis = FUNCTION(NAME, initc)(cthis, __cgraph_buffer__, len);
   }
 
   return cthis;
@@ -201,9 +287,9 @@ TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data) {
 
 TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data) {
   if (NULL != cthis) {
-    cgraph_size_t len = cgraph_file_snprintf(
-        __bignum_buffer__, CGRAPH_BIGNUM_BUFFER_SIZE, "%g", data);
-    cthis = FUNCTION(NAME, initc)(cthis, __bignum_buffer__, len);
+    cgraph_size_t len =
+        cgraph_file_snprintf(__cgraph_buffer__, CGRAPH_BUFFER_SIZE, "%g", data);
+    cthis = FUNCTION(NAME, initc)(cthis, __cgraph_buffer__, len);
   }
 
   return cthis;

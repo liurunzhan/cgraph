@@ -56,9 +56,11 @@ if(paramCount() == 1):
   for file in CFILES:
     var obj = file
     obj[^1] = 'o'
-    add(OFILES, obj)
+    var dep = file
+    dep[^1] = 'd'
     echo(fmt"compile {file} to {obj}")
-    exec(fmt"{CC} {CFLAGS} -I{INC} -c {file} -o {obj}")
+    exec(fmt"{CC} {CFLAGS} -I{INC} -c {file} -o {obj} -MD -MF {dep}")
+    add(OFILES, obj)
   echo(fmt"compile {LIBSHARED}")
   var objects = join(OFILES, " ")
   exec(fmt"{CC} {CSFLAGS} -o {LIBSHARED} {objects}")
@@ -77,6 +79,11 @@ elif(paramStr(2) == "clean"):
     echo("clean ", obj)
     if(fileExists(obj)):
       rmFile(obj)
+    var dep = file
+    dep[^1] = 'd'
+    echo("clean ", dep)
+    if(fileExists(dep)):
+      rmFile(dep)
   echo(fmt"clean {LIBSTATIC}")
   if(fileExists(LIBSTATIC)):
     rmFile(LIBSTATIC)
@@ -92,6 +99,11 @@ elif(paramStr(2) == "distclean"):
     obj[^1] = 'o'
     echo(fmt"clean {obj}")
     rmFile(obj)
+    var dep = file
+    dep[^1] = 'd'
+    echo("clean ", dep)
+    if(fileExists(dep)):
+      rmFile(dep)
   echo(fmt"clean {LIBSTATIC}")
   if(fileExists(LIBSTATIC)):
     rmFile(LIBSTATIC)

@@ -68,8 +68,9 @@ if (@args.elems eq 0)
   for @CFILES -> $file
   {
     my $obj = S/\.c$/\.o/ given $file;
+		my $dep = S/\.c$/\.d/ given $file;
     say("compile $file to $obj");
-    shell("$CC $CFLAGS -I$INC -c $file -o $obj");
+    shell("$CC $CFLAGS -I$INC -c $file -o $obj -MD -MF $dep");
     @OFILES.push($obj);
   }
   say("compile $LIBSHARED");
@@ -91,6 +92,9 @@ elsif (@args[0] eq "clean")
     my $obj = S/\.c$/\.o/ given $file;
     say("clean $obj");
     unlink "$obj";
+    my $dep = S/\.c$/\.d/ given $file;
+    say("clean $dep");
+    unlink "$dep";
   }
   say("clean $LIBSTATIC");
   unlink "$LIBSTATIC";
@@ -106,6 +110,9 @@ elsif (@args[0] eq "distclean")
     my $obj = S/\.c$/\.o/ given $file;
     say("clean $obj");
     unlink "$obj";
+    my $dep = S/\.c$/\.d/ given $file;
+    say("clean $dep");
+    unlink "$dep";
   }
   say("clean $LIBSTATIC");
   unlink "$LIBSTATIC";

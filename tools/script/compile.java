@@ -1,4 +1,4 @@
-#!/usr/bin/java --source 11
+//!/usr/bin/java --source 11
 
 import java.util.List;
 import java.util.ArrayList;
@@ -64,7 +64,8 @@ public class Compile {
       for(File file : CFILES) {
         try {
           String obj = file.getPath().replace(".c", ".o");
-          String cmd = String.format("%s %s -I%s -c %s -o %s", CC, CFLAGS, INC, file, obj);
+          String dep = file.getPath().replace(".c", ".d");
+          String cmd = String.format("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep);
           System.out.println(String.format("compile %s to %s", file, obj));
           Process program = Runtime.getRuntime().exec(cmd);
           OFILES.add(obj);
@@ -107,6 +108,9 @@ public class Compile {
         File obj = new File(file.getPath().replace(".c", ".o"));
         System.out.println(String.format("clean %s", obj));
         obj.delete();
+        File dep = new File(file.getPath().replace(".c", ".d"));
+        System.out.println(String.format("clean %s", dep));
+        dep.delete();
       }
       System.out.println(String.format("clean %s", LIBSTATIC));
       File libstatic = new File(LIBSTATIC);
@@ -122,6 +126,9 @@ public class Compile {
         File obj = new File(file.getPath().replace(".c", ".o"));
         System.out.println(String.format("clean %s", obj));
         obj.delete();
+        File dep = new File(file.getPath().replace(".c", ".d"));
+        System.out.println(String.format("clean %s", dep));
+        dep.delete();
       }
       System.out.println(String.format("clean %s", LIBSTATIC));
       File libstatic = new File(LIBSTATIC);

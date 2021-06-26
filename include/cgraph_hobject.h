@@ -50,23 +50,23 @@ typedef struct {
 #define HOBJECT_INDEX(x) (HOBJECT_EXT(x).index)
 #define HOBJECT_VALUE(x) (HOBJECT_EXT(x).value)
 
-extern cgraph_type_t FUNCTION(NAME, obj_ktype)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, obj_kaccessiable)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, obj_khashed)(const TYPE *cthis);
+extern cgraph_type_t FUNCTION(NAME, ktype)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, kaccessiable)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, khashed)(const TYPE *cthis);
 
-extern cgraph_type_t FUNCTION(NAME, obj_vtype)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, obj_vaccessiable)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, obj_vhashed)(const TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setkaccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetkaccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setkhashed)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetkhashed)(TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, ksetaccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unksetaccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, khashed)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unkhashed)(TYPE *cthis);
+extern cgraph_type_t FUNCTION(NAME, vtype)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, vaccessiable)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, vhashed)(const TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, vsetaccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unvsetaccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, vhashed)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unvhashed)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setvaccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetvaccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setvhashed)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetvhashed)(TYPE *cthis);
 
 #include "cgraph_template_off.h"
 

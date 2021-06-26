@@ -56,8 +56,9 @@ if -z $1
   ${MKDIR} ${LIB} 
   for file in ${CFILES}
     obj=`echo ${file} | sed "s/\.c$/\.o/g"`
+    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
     echo "compile ${file} to ${obj}"
-    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj}
+    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}
   end
   echo "compile ${LIBSHARED}"
   ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o
@@ -73,6 +74,9 @@ else if $1 = "clean"
     obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
+    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    echo "clean ${dep}"
+    ${RM} ${RMFLAGS} ${dep}
   end
   echo "clean ${LIBSHARED}"
   ${RM} ${RMFLAGS} ${LIBSHARED}
@@ -85,6 +89,9 @@ else if $1 = "distclean"
     obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
+    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    echo "clean ${dep}"
+    ${RM} ${RMFLAGS} ${dep}
   end
   echo "clean ${LIBSHARED}"
   ${RM} ${RMFLAGS} ${LIBSHARED}

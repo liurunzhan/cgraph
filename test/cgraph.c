@@ -110,12 +110,12 @@ int main(int argc, char *argv[]) {
   cgraph_size_t old_len = 10, new_len = 20, len;
   fprintf(stdout, "hello world!\n");
   fprintf(stdout, "%s %ld\n", name,
-          cgraph_math_lenofname(name, cgraph_strlen(name), NULL));
+          cgraph_math_namlen(name, cgraph_strlen(name), NULL));
   old[0] = 1;
   old[1] = 1;
   old[2] = 2;
   fprintf(stdout, "old number : %d%d%d\n", old[0], old[1], old[2]);
-  len = cgraph_math_chgbase(old, 3, old_base, new, new_len, new_base);
+  len = cgraph_math_chgbas(old, 3, old_base, new, new_len, new_base);
   fprintf(stdout, "new number %ld : %d%d\n", len, new[1], new[0]);
 
   return 0;

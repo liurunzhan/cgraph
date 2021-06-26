@@ -566,6 +566,27 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __TYPE_PTRSIZE (2)
 #endif
 
+/**
+ * buffer size level
+ * 0 : 128L
+ * 1 : 256L
+ * 2 : 512L
+ * 3 : 1024L
+ * 4 : 2048L
+ * 5 : 4096L
+ */
+#define __CGRAPH_BUFFER_SIZE0 (128L)
+#define __CGRAPH_BUFFER_SIZE1 (256L)
+#define __CGRAPH_BUFFER_SIZE2 (512L)
+#define __CGRAPH_BUFFER_SIZE3 (1024L)
+#define __CGRAPH_BUFFER_SIZE4 (2048L)
+
+#ifdef BUFSIZ
+#define __CGRAPH_BUFFER_SIZE5 BUFSIZ
+#else
+#define __CGRAPH_BUFFER_SIZE5 (4096L)
+#endif
+
 #ifdef __cplusplus
 }
 #endif

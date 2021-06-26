@@ -638,7 +638,7 @@
 #define DATA_NAME int
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT)
-#define DATA_BITS (8 * sizeof(DATA_TYPE))
+#define DATA_BITS CGRAPH_INT_BITS
 #define DATA_ZERO 0
 #define DATA_ONE 1
 #define DATA_ONES CGRAPH_INT_MIN
@@ -660,10 +660,11 @@
 #define MIN(x) FUNCTION(NAME, min)((x))
 #define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
-#define DATA_NAME uint8
-#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_NAME int8
+#define DATA_UNAME uint8
+#define DATA_TYPE TYPE_T(DATA_UNAME)
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(UINT8)
-#define DATA_UTYPE cgraph_uint8_t
 #define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
 #define DATA_BYTES(x) cgraph_uint8_bitsceil((x))
@@ -688,8 +689,10 @@
 #define MIN FUNCTION(NAME, min)((x))
 #define MAX FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
-#define DATA_NAME uint8
-#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_NAME int8
+#define DATA_UNAME uint8
+#define DATA_TYPE TYPE_T(DATA_UNAME)
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(UINT8)
 #define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
@@ -735,9 +738,10 @@
 #define MIN(x) FUNCTION(NAME, min)((x))
 #define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
-#define DATA_NAME uint8
-#define DATA_TYPE TYPE_T(DATA_NAME)
-#define DATA_UTYPE cgraph_uint8_t
+#define DATA_NAME int8
+#define DATA_UNAME uint8
+#define DATA_TYPE TYPE_T(DATA_UNAME)
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(UINT8)
 #define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
