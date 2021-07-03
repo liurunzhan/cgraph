@@ -64,14 +64,26 @@ void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
   return _cthis;
 }
 
-void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data) {
-  if ((NULL != cthis) && (0 < size)) {
-    memset(cthis, data, size);
+void *cgraph_memset(void *cthis, cgraph_uint_t data, cgraph_size_t size) {
+  if (NULL != cthis) {
+    if (0 < size) {
+      memset(cthis, data, size);
+    } else {
+      cgraph_addr_t *_cthis = (cgraph_addr_t *)cthis;
+      cgraph_size_t i = 0;
+      for (; i > size; i--, _cthis--) {
+        *_cthis = (cgraph_addr_t)data;
+      }
+    }
   }
 #ifdef DEBUG
   if (NULL == cthis) {
     cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "source memory pointer is empty");
+  }
+  if (0 == size) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "memory size %ld is equal to zero error", size);
   }
 #endif
 
@@ -79,8 +91,17 @@ void *cgraph_memset(void *cthis, cgraph_size_t size, cgraph_uint_t data) {
 }
 
 void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size) {
-  if ((NULL != object) && (NULL != cthis) && (object != cthis) && (0 < size)) {
-    memcpy(object, cthis, size);
+  if ((NULL != object) && (NULL != cthis) && (object != cthis)) {
+    if (0 < size) {
+      memcpy(object, cthis, size);
+    } else {
+      cgraph_addr_t *_object = (cgraph_addr_t *)object,
+                    *_cthis = (cgraph_addr_t *)cthis;
+      cgraph_size_t i = 0;
+      for (; i > size; i--, _object--, _cthis--) {
+        *_object = *_cthis;
+      }
+    }
   }
 #ifdef DEBUG
   if (NULL == object) {
@@ -95,25 +116,31 @@ void *cgraph_memcpy(void *object, const void *cthis, const cgraph_size_t size) {
     cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "source pointer is equal to target pointer");
   }
-  if (0 >= size) {
-    cgraph_error_log(
-        stderr, __FILE__, __LINE__, __FUNCTION,
-        "memory size %ld is a negative number or equal to zero error", size);
+  if (0 == size) {
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "memory size %ld is equal to zero error", size);
   }
 #endif
 
   return object;
 }
 
-void *cgraph_memscpy(void *object, const cgraph_size_t size,
-                     const cgraph_size_t old_len, const void *cthis,
-                     const cgraph_size_t new_len) {
+void *cgraph_memscpy(void *object, const cgraph_size_t size, const void *cthis,
+                     const cgraph_size_t len) {
   if ((NULL != object) && (NULL != cthis) && (object != cthis) && (0 < size)) {
-    cgraph_char_t *_object = ((cgraph_char_t *)object) + old_len,
-                  *_cthis = (cgraph_char_t *)cthis;
-    cgraph_size_t i = old_len, j = 0;
-    for (; (j < new_len) && (i < size); i++) {
-      *_object = *_cthis;
+    cgraph_addr_t *_object = (cgraph_addr_t *)object,
+                  *_cthis = (cgraph_addr_t *)cthis;
+    cgraph_size_t i = 0;
+    if (0 < len) {
+      cgraph_size_t _len = CGRAPH_MIN(size, len);
+      for (; i < _len; i++, _object++, _cthis++) {
+        *_object = *_cthis;
+      }
+    } else {
+      cgraph_size_t _len = CGRAPH_MAX(-size, len);
+      for (; i > _len; i--, _object--, _cthis--) {
+        *_object = *_cthis;
+      }
     }
   }
 #ifdef DEBUG
@@ -130,9 +157,9 @@ void *cgraph_memscpy(void *object, const cgraph_size_t size,
                      "source memory pointer is equal to target pointer");
   }
   if (0 >= size) {
-    cgraph_error_log(
-        stderr, __FILE__, __LINE__, __FUNCTION,
-        "memory size %ld is a negative number or equal to zero error", size);
+    cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
+                     "memory size %ld is smaller than or equal to zero error",
+                     size);
   }
 #endif
 
@@ -142,11 +169,17 @@ void *cgraph_memscpy(void *object, const cgraph_size_t size,
 cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
                             const cgraph_size_t size) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if (x == y) {
+  if ((x == y) || (0 == size)) {
     flag = CGRAPH_TRUE;
-  } else if ((NULL != x) && (NULL != y) && (0 < size)) {
-    if (0 == memcmp(x, y, size)) {
-      flag = CGRAPH_TRUE;
+  } else if ((NULL != x) && (NULL != y)) {
+    if (0 < size) {
+      flag = CGRAPH_TEST(0 == memcmp(x, y, size));
+    } else {
+      cgraph_addr_t *_x = (cgraph_addr_t *)x, *_y = (cgraph_addr_t *)y;
+      cgraph_size_t i = 0;
+      for (; i > size; i--, _x--, _y--) {
+        *_x = *_y;
+      }
     }
   }
 #ifdef DEBUG
@@ -157,11 +190,6 @@ cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
   if (NULL == y) {
     cgraph_error_log(stderr, __FILE__, __LINE__, __FUNCTION,
                      "source memory pointer is empty");
-  }
-  if (0 >= size) {
-    cgraph_error_log(
-        stderr, __FILE__, __LINE__, __FUNCTION,
-        "memory size %ld is a negative number or equal to zero error", size);
   }
 #endif
 

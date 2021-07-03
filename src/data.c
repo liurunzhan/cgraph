@@ -1,4 +1,6 @@
 #include "cgraph_data.h"
+#include "cgraph_math.h"
+#include "cgraph_memory.h"
 
 static const cgraph_char_t *__cgraph_true__ = CGRAPH_BOOL_TRUE;
 static const cgraph_size_t __cgraph_true_len__ = CGRAPH_BOOL_TRUE_LEN;
@@ -39,8 +41,7 @@ cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis) {
   cgraph_string_t *string = NULL;
   if (NULL != cthis) {
     cgraph_size_t size = cthis->len * 3 + 2;
-    string = cgraph_string_calloc(CGRAPH_CHAR_T, size);
-    if (NULL != string) {
+    if (NULL != (string = cgraph_string_calloc(CGRAPH_CHAR_T, size))) {
       string->len = cgraph_bigint_snprint(string->data, string->size, cthis);
     }
   }
@@ -53,9 +54,9 @@ cgraph_bigint_t *cgraph_string_to_bigint(const cgraph_string_t *cthis) {
   if (NULL != cthis) {
     cgraph_string_t *tmp = cgraph_string_copy(cthis, cthis->len);
     cgraph_size_t size = cthis->len / 3 + 2;
-    bigint = cgraph_bigint_calloc(CGRAPH_INT8_T, size);
-    if ((NULL != tmp) && (NULL != bigint)) {
-      bigint = cgraph_bigint_initc(bigint, tmp->data, tmp->size, cthis->data);
+    if ((NULL != tmp) &&
+        (NULL != (bigint = cgraph_bigint_calloc(CGRAPH_UINT8_T, size)))) {
+      bigint = cgraph_bigint_initc(bigint, tmp->data, cthis->data, cthis->len);
     }
     cgraph_string_free(tmp);
   }
@@ -78,8 +79,8 @@ cgraph_string_t *cgraph_bitset_to_string_base64_encode(const cgraph_bitset_t *x,
 cgraph_bignum_t *cgraph_bigint_to_bignum(const cgraph_bigint_t *cthis) {
   cgraph_bignum_t *bignum = NULL;
   if (NULL != cthis) {
-    bignum = cgraph_bignum_calloc(CGRAPH_UINT8_T, cthis->len / 3 + 2);
-    if (NULL != bignum) {
+    cgraph_size_t len = cthis->len / 3 + 2;
+    if (NULL != (bignum = cgraph_bignum_calloc(CGRAPH_UINT8_T, len))) {
       bignum->postive = cthis->postive;
       bignum->point = 0;
     }
@@ -91,10 +92,32 @@ cgraph_bignum_t *cgraph_bigint_to_bignum(const cgraph_bigint_t *cthis) {
 cgraph_bigint_t *cgraph_bignum_to_bigint(const cgraph_bignum_t *cthis) {
   cgraph_bigint_t *bigint = NULL;
   if (NULL != cthis) {
-    bigint = cgraph_bigint_calloc(CGRAPH_UINT8_T, cthis->len * 3 + 1);
-    if (NULL != bigint) {
+    cgraph_size_t len = cthis->len * 3 + 1;
+    if (NULL != (bigint = cgraph_bigint_calloc(CGRAPH_UINT8_T, len))) {
       bigint->postive = cthis->postive;
     }
+  }
+
+  return bigint;
+}
+
+cgraph_bitset_t *cgraph_bigint_to_bitset(const cgraph_bigint_t *cthis) {
+  cgraph_bitset_t *bitset = NULL;
+  if ((NULL != cthis) &&
+      (NULL != (bitset = cgraph_bitset_calloc(CGRAPH_UINT8_T, cthis->len)))) {
+    cgraph_memcpy(bitset->data, cthis->data, cthis->len);
+    bitset->len = cthis->len;
+  }
+
+  return bitset;
+}
+
+cgraph_bigint_t *cgraph_bitset_to_bigint(const cgraph_bitset_t *cthis) {
+  cgraph_bigint_t *bigint = NULL;
+  if ((NULL != cthis) &&
+      (NULL != (bigint = cgraph_bigint_calloc(CGRAPH_UINT8_T, cthis->len)))) {
+    cgraph_memcpy(bigint->data, cthis->data, cthis->len);
+    bigint->len = cthis->len;
   }
 
   return bigint;

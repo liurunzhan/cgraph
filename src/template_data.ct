@@ -286,7 +286,7 @@ TYPE *FUNCTION(NAME, one)(TYPE *cthis) {
 
 TYPE *FUNCTION(NAME, ones)(TYPE *cthis) {
   if (NULL != cthis) {
-    cgraph_memset(cthis->data, cthis->len, DATA_ONES);
+    cgraph_memset(cthis->data, DATA_ONES, cthis->len);
   }
 
   return cthis;
@@ -313,13 +313,13 @@ TYPE *FUNCTION(NAME, min)(TYPE *cthis) {
   if (NULL != cthis) {
     cthis->len = (0 < cthis->len) ? cthis->len : cthis->size;
 #if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
-    cgraph_memset(cthis->data, cthis->len, DATA_MAX);
+    cgraph_memset(cthis->data, DATA_MAX, cthis->len);
     cthis->postive = CGRAPH_FALSE;
 #ifdef TYPE_BIGNUM
     cthis->point = cthis->len - 1;
 #endif
 #else
-    cgraph_memset(cthis->data, cthis->len, DATA_MIN);
+    cgraph_memset(cthis->data, DATA_MIN, cthis->len);
 #endif
   }
 
@@ -329,7 +329,7 @@ TYPE *FUNCTION(NAME, min)(TYPE *cthis) {
 TYPE *FUNCTION(NAME, max)(TYPE *cthis) {
   if (NULL != cthis) {
     cthis->len = (0 < cthis->len) ? cthis->len : cthis->size;
-    cgraph_memset(cthis->data, cthis->len, DATA_MAX);
+    cgraph_memset(cthis->data, DATA_MAX, cthis->len);
 #if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_TRUE;
 #ifdef TYPE_BIGNUM
@@ -487,7 +487,7 @@ cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
 #else
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y) {
 #endif
-  return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
+  return NE(x, y);
 }
 
 #ifdef TYPE_WITH_DATA
@@ -495,7 +495,7 @@ cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y) {
 #else
 cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y) {
 #endif
-  return CGRAPH_NTEST(FUNCTION(NAME, gr)(y, x));
+  return GR(x, y);
 }
 
 #ifdef TYPE_WITH_DATA
@@ -503,7 +503,7 @@ cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y) {
 #else
 cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y) {
 #endif
-  return FUNCTION(NAME, gr)(y, x);
+  return LS(x, y);
 }
 
 #ifdef TYPE_WITH_DATA
@@ -511,7 +511,7 @@ cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y) {
 #else
 cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y) {
 #endif
-  return CGRAPH_NTEST(FUNCTION(NAME, gr)(x, y));
+  return LE(x, y);
 }
 
 #ifdef TYPE_WITH_DATA

@@ -1,15 +1,15 @@
 static cgraph_char_t __cgraph_buffer__[CGRAPH_BUFFER_SIZE];
 
-void FUNCTION(NAME, clrbuffer)(void) {
-  cgraph_memset(__cgraph_buffer__, CGRAPH_BUFFER_SIZE, 0);
+void FUNCTION(NAME, bufclr)(void) {
+  cgraph_memset(__cgraph_buffer__, 0, CGRAPH_BUFFER_SIZE);
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, lenofbuffer)(void) {
+__INLINE cgraph_size_t FUNCTION(NAME, buflen)(void) {
   return CGRAPH_BUFFER_SIZE;
 }
 
 #define CGRAPH_BUFFER_CALLOC(size)                                             \
-  ((size > CGRAPH_BUFFER_SIZE) ? cgraph_calloc(size) : __cgraph_buffer__)
+  (((size) > CGRAPH_BUFFER_SIZE) ? cgraph_calloc((size)) : __cgraph_buffer__)
 
 #define CGRAPH_BUFFER_FREE(x)                                                  \
   do {                                                                         \

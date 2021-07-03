@@ -285,8 +285,8 @@ TYPE FUNCTION(NAME, max0)(void) {
 TYPE FUNCTION(NAME, random0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
-  TIME_VALUE0(res) = DATA_MIN & FUNCTION(DATA_NAME, random)();
-  TIME_VALUE1(res) = DATA_MIN1 & FUNCTION(DATA_NAME, random)();
+  TIME_VALUE0(res) = DATA_MIN & FUNCTION(DATA_NAME, urandom)();
+  TIME_VALUE1(res) = DATA_MIN1 & FUNCTION(DATA_NAME, urandom)();
 
   return res;
 }

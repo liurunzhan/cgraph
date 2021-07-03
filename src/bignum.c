@@ -18,12 +18,12 @@ static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
 
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   cgraph_size_t i = 0;
   for (; (i < len) && (*xd == *yd); i++, xd--, yd--) {
   }
-  if (*xd <= *yd) {
-    flag = CGRAPH_FALSE;
+  if (*xd > *yd) {
+    flag = CGRAPH_TRUE;
   }
 
   return flag;
@@ -75,11 +75,11 @@ cgraph_size_t FUNCTION(NAME, fprinte)(FILE *fp, const TYPE *cthis) {
       fputc('-', fp);
       len++;
     }
-    for (; (0 == *data) && (i > 0); i--, data--) {
+    for (; (DATA_ZERO == *data) && (i > 0); i--, data--) {
     }
     point = i;
     exp = i - cthis->point;
-    for (j = 0; (0 == *data_end) && (j < point); j++, data_end++) {
+    for (j = 0; (DATA_ZERO == *data_end) && (j < point); j++, data_end++) {
     }
     len += i - j + 1;
     for (; i >= point; i--, data--) {
@@ -92,8 +92,8 @@ cgraph_size_t FUNCTION(NAME, fprinte)(FILE *fp, const TYPE *cthis) {
     if (0 == point) {
       fputc('0', fp);
     }
-    if (exp != 0) {
-      len += fprintf(fp, "e%ld", exp);
+    if (0 != exp) {
+      len += cgraph_file_fprintf(fp, "e%ld", exp);
     }
   }
 
@@ -314,12 +314,11 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis) {
 TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j, point = cthis->point + 1;
-    DATA_TYPE *data;
-    for (data = &(cthis->data[cthis->len - 1]);
-         (0 == *data) && (cthis->len > point); data--, cthis->len--) {
+    DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
+    for (; (DATA_ZERO == *data) && (cthis->len > point); data--, cthis->len--) {
     }
-    for (data = &(cthis->data[0]), i = 0; (0 == *data) && (i < cthis->point);
-         data++, i++) {
+    for (data = &(cthis->data[0]), i = 0;
+         (DATA_ZERO == *data) && (i < cthis->point); data++, i++) {
     }
     if (0 < i) {
       cthis->len -= i;
@@ -331,8 +330,8 @@ TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
         cthis->postive = CGRAPH_TRUE;
       }
     }
-    cgraph_memset(&(cthis->data[cthis->len]), cthis->size - cthis->len,
-                  DATA_ZERO);
+    cgraph_memset(&(cthis->data[cthis->len]), DATA_ZERO,
+                  cthis->size - cthis->len);
   }
 
   return cthis;
@@ -408,8 +407,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
       z->postive = x->postive;
       if ((intx_len < inty_len) ||
           ((intx_len == inty_len) &&
-           FUNCTION(NAME, _datgr)(&y->data[y->len - 1], &x->data[x->len - 1],
-                                  intx_len + float_min))) {
+           FUNCTION(NAME, _datgr)(_inty, _intx, intx_len + float_min))) {
         _intx = inty;
         _intx_len = inty_len;
         _floatx = floaty;
@@ -479,7 +477,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
       z->point = x->point + y->point;
       z->postive = CGRAPH_TEST(x->postive == y->postive);
       z->len = _len;
-      cgraph_memset(z->data, z->len, 0);
+      cgraph_memset(z->data, DATA_ZERO, z->len);
       for (i = 0, carry = 0; i < x->len; i++, xd++) {
         for (j = 0, yd = &(y->data[0]), zd = &(z->data[i]); j < y->len;
              j++, yd++, zd++) {
@@ -514,7 +512,7 @@ TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp) {
         for (i = _len - 1, j = i - offset; j >= 0; i--, j--) {
           cthis->data[i] = cthis->data[j];
         }
-        cgraph_memset(&(cthis->data[0]), offset, DATA_ZERO);
+        cgraph_memset(&(cthis->data[0]), DATA_ZERO, offset);
       }
     }
   }
@@ -524,6 +522,19 @@ TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp) {
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
+    cgraph_size_t floatx_len = x->point, intx_len = x->len - floatx_len,
+                  floaty_len = y->point, inty_len = y->len - floaty_len;
+    DATA_TYPE *intx = &(x->data[x->len - 1]), *floatx = &(x->data[x->point]),
+              *inty = &(x->data[x->len - 1]), *floaty = &(y->data[y->point]);
+    cgraph_size_t float_min = CGRAPH_MIN(floatx_len, floaty_len),
+                  float_max = CGRAPH_MAX(floatx_len, floaty_len),
+                  int_min = CGRAPH_MIN(intx_len, inty_len),
+                  int_max = CGRAPH_MAX(intx_len, inty_len);
+    z->postive = x->postive;
+    if ((intx_len > inty_len) ||
+        ((intx_len == inty_len) &&
+         FUNCTION(NAME, _datgr)(inty, intx, intx_len + float_min))) {
+    }
   }
 
   return FUNCTION(NAME, format)(z);

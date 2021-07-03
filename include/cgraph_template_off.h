@@ -385,6 +385,10 @@
 #undef DATA_NAME
 #endif
 
+#ifdef DATA_UNAME
+#undef DATA_UNAME
+#endif
+
 #ifdef DATA_BITS
 #undef DATA_BITS
 #endif

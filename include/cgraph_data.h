@@ -39,8 +39,13 @@ extern "C" {
 #include "cgraph_time.h"
 
 extern cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x);
+extern cgraph_bool_t cgraph_string_to_bool(const cgraph_string_t *cthis);
 extern cgraph_string_t *cgraph_bigint_to_string(const cgraph_bigint_t *cthis);
 extern cgraph_bigint_t *cgraph_string_to_bigint(const cgraph_string_t *cthis);
+extern cgraph_bignum_t *cgraph_bigint_to_bignum(const cgraph_bigint_t *cthis);
+extern cgraph_bigint_t *cgraph_bignum_to_bigint(const cgraph_bignum_t *cthis);
+extern cgraph_bitset_t *cgraph_bigint_to_bitset(const cgraph_bigint_t *cthis);
+extern cgraph_bigint_t *cgraph_bitset_to_bigint(const cgraph_bitset_t *cthis);
 
 #ifdef __cplusplus
 }

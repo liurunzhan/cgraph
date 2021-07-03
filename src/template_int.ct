@@ -90,9 +90,7 @@ TYPE FUNCTION(NAME, random)(void) {
 #endif
 }
 
-#ifdef UNAME
-UTYPE FUNCTION(UNAME, random)(void) { return FUNCTION(NAME, random)(); }
-#endif
+UTYPE FUNCTION(NAME, urandom)(void) { return FUNCTION(NAME, random)(); }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...) {
@@ -150,19 +148,25 @@ __INLINE cgraph_size_t FUNCTION(NAME, bitsceil)(const cgraph_size_t bits) {
   return (bits + BITS - 1) & (~(BITS - 1));
 }
 
+__INLINE cgraph_size_t FUNCTION(NAME, ubitsceil)(const cgraph_size_t bits) {
+  return (bits + BITS - 1) & (~(BITS - 1));
+}
+
 __INLINE cgraph_size_t FUNCTION(NAME, bitsfloor)(const cgraph_size_t bits) {
   return bits >> BITS_LOG2;
 }
 
-#ifdef UNAME
-__INLINE cgraph_size_t FUNCTION(UNAME, bitsceil)(const cgraph_size_t bits) {
-  return (bits + BITS - 1) & (~(BITS - 1));
-}
-
-__INLINE cgraph_size_t FUNCTION(UNAME, bitsfloor)(const cgraph_size_t bits) {
+__INLINE cgraph_size_t FUNCTION(NAME, ubitsfloor)(const cgraph_size_t bits) {
   return bits >> BITS_LOG2;
 }
-#endif
+
+__INLINE cgraph_size_t FUNCTION(NAME, bitsmod)(const cgraph_size_t bits) {
+  return bits & (BITS - 1);
+}
+
+__INLINE cgraph_size_t FUNCTION(NAME, ubitsmod)(const cgraph_size_t bits) {
+  return bits & (BITS - 1);
+}
 
 __INLINE cgraph_bool_t FUNCTION(NAME, inrange)(const TYPE start, const TYPE end,
                                                const TYPE num) {

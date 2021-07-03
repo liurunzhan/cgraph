@@ -33,12 +33,19 @@ typedef struct {
 
 /** template module */
 #include "cgraph_template_buffer.ht"
+
 #include "cgraph_template_data.ht"
 
+extern cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis);
+extern TYPE *FUNCTION(NAME, add1)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, sub1)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, mul2)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, div2)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, fact)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
-                                   const cgraph_size_t size,
-                                   const cgraph_char_t *data);
+                                   const cgraph_char_t *data,
+                                   const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data);
 
 extern TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits);
@@ -49,11 +56,6 @@ extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapword)(TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
-
-extern TYPE *FUNCTION(NAME, mul2)(TYPE *cthis, const cgraph_size_t exp);
-extern TYPE *FUNCTION(NAME, div2)(TYPE *cthis, const cgraph_size_t exp);
-extern TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp);
-extern TYPE *FUNCTION(NAME, div10)(TYPE *cthis, const cgraph_size_t exp);
 
 #include "cgraph_template_off.h"
 

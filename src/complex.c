@@ -11,7 +11,8 @@
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  return fprintf(fp, OUT_FORMAT, COMPLEX_REAL(cthis), COMPLEX_IMAG(cthis));
+  return cgraph_file_fprintf(fp, OUT_FORMAT, COMPLEX_REAL(cthis),
+                             COMPLEX_IMAG(cthis));
 }
 
 cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
