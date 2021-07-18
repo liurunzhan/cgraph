@@ -20,14 +20,26 @@ extern "C" {
 
 typedef struct {
   cgraph_size_t len;
-  cgraph_string_t *name;
-  cgraph_string_t **args;
+  cgraph_char_t *name;
+  cgraph_char_t **args;
+  cgraph_char_t *data;
 } cgraph_cmdarg_t;
 
-extern int cgraph_cmdarg_lenofargs(int argc);
-extern char *cgraph_cmdarg_nameofpro(char *argv[]);
 extern cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]);
 extern void cgraph_cmdarg_free(cgraph_cmdarg_t *cthis);
+
+extern cgraph_char_t *cgraph_cmdarg_nam(const cgraph_cmdarg_t *cthis);
+extern cgraph_size_t cgraph_cmdarg_namlen(const cgraph_cmdarg_t *cthis);
+extern cgraph_bool_t cgraph_cmdarg_isarg(const cgraph_cmdarg_t *cthis,
+                                         const cgraph_char_t *arg);
+extern cgraph_size_t cgraph_cmdarg_argnum(const cgraph_cmdarg_t *cthis,
+                                          const cgraph_char_t *arg);
+extern cgraph_char_t *cgraph_cmdarg_argnam(const cgraph_cmdarg_t *cthis,
+                                           const cgraph_size_t argnum);
+extern cgraph_size_t cgraph_cmdarg_arglen(const cgraph_cmdarg_t *cthis,
+                                          const cgraph_size_t argnum);
+extern cgraph_size_t cgraph_cmdarg_fprintln(FILE *fp,
+                                            const cgraph_cmdarg_t *cthis);
 
 #ifdef __cplusplus
 }

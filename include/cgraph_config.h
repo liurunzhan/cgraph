@@ -47,6 +47,20 @@ typedef char cgraph_char_t;
 #define CGRAPH_CHAR_BITS (8 * sizeof(cgraph_char_t))
 
 /**
+ * @typedef cgraph_uchar_t
+ * @brief 8-bit ASCII character data type, used in c-type string
+ * @def CGRAPH_UCHAR_MAX UCHAR_MAX
+ * @def CGRAPH_UCHAR_MIN UCHAR_MIN
+ * @def CGRAPH_UCHAR_EPS (0xFF)
+ * @def CGRAPH_UCHAR_BITS (8)
+ */
+typedef unsigned char cgraph_uchar_t;
+#define CGRAPH_UCHAR_MAX UCHAR_MAX
+#define CGRAPH_UCHAR_MIN UCHAR_MIN
+#define CGRAPH_UCHAR_EPS (0xFFU)
+#define CGRAPH_UCHAR_BITS (8 * sizeof(cgraph_uchar_t))
+
+/**
  * @typedef cgraph_bool_t
  * @brief 1-bit integer number data type
  * @def CGRAPH_BOOL_MAX CGRAPH_TRUE  (1)
@@ -137,6 +151,8 @@ typedef unsigned int cgraph_uint_t;
  * @def CGRAPH_LONG_BITS (32)/(64)
  */
 typedef signed long cgraph_long_t;
+#define CGRAPH_LONG_ZERO (0L)
+#define CGRAPH_LONG_ONE (1L)
 #define CGRAPH_LONG_MAX LONG_MAX
 #define CGRAPH_LONG_MIN LONG_MIN
 #define CGRAPH_LONG_EPS __LONG_EPS
@@ -159,6 +175,8 @@ typedef signed long cgraph_long_t;
  * @def CGRAPH_ULONG_BITS (32)/(64)
  */
 typedef unsigned long cgraph_ulong_t;
+#define CGRAPH_ULONG_ZERO (0UL)
+#define CGRAPH_ULONG_ONE (1UL)
 #define CGRAPH_ULONG_MAX ULONG_MAX
 #define CGRAPH_ULONG_MIN ULONG_MIN
 #define CGRAPH_ULONG_EPS __ULONG_EPS
@@ -180,6 +198,8 @@ typedef unsigned long cgraph_ulong_t;
  * @def CGRAPH_SIZE_BITS (32)/(64)
  */
 typedef cgraph_long_t cgraph_size_t;
+#define CGRAPH_SIZE_ZERO CGRAPH_LONG_ZERO
+#define CGRAPH_SIZE_ONE CGRAPH_LONG_ONE
 #define CGRAPH_SIZE_MAX CGRAPH_LONG_MAX
 #define CGRAPH_SIZE_MIN CGRAPH_LONG_MIN
 #define CGRAPH_SIZE_EPS CGRAPH_LONG_EPS
@@ -198,6 +218,8 @@ typedef cgraph_long_t cgraph_size_t;
  * @def CGRAPH_SIZE_BITS (32)/(64)
  */
 typedef cgraph_ulong_t cgraph_usize_t;
+#define CGRAPH_USIZE_ZERO CGRAPH_ULONG_ZERO
+#define CGRAPH_USIZE_ONE CGRAPH_ULONG_ONE
 #define CGRAPH_USIZE_MAX CGRAPH_ULONG_MAX
 #define CGRAPH_USIZE_MIN CGRAPH_ULONG_MIN
 #define CGRAPH_USIZE_EPS CGRAPH_ULONG_EPS
@@ -498,20 +520,22 @@ typedef __FLOAT128 cgraph_float128_t;
 typedef void *cgraph_stl_t;
 typedef cgraph_uint8_t *cgraph_addr_t;
 
+#define CGRAPH_VARADDR_OUT_FORMAT "%p"
 #define CGRAPH_VARADDR(x) (&(x))
-#define CGRAPH_VARADDR1V(x) ((cgraph_addr_t)(&(x)))
-#define CGRAPH_VARADDR2V(x, y) ((cgraph_addr_t)(&(x)) + (y))
+#define CGRAPH_VARADDR1V(x) ((cgraph_addr_t)CGRAPH_VARADDR(x))
+#define CGRAPH_VARADDR2V(x, y) (CGRAPH_VARADDR1V(x) + (y))
 
 #define CGRAPH_PTRADDR_OUT_FORMAT "%p"
 #define CGRAPH_PTRADDR(x) ((void *)(x))
-#define CGRAPH_PTRADDR1V(x) ((cgraph_addr_t)(x))
+#define CGRAPH_PTRADDR1V(x) ((cgraph_addr_t)CGRAPH_PTRADDR(x))
 #define CGRAPH_PTRADDR2V(x, y) (CGRAPH_PTRADDR1V(x) + (y))
 
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define CGRAPH_NTEST(x) ((x) ^ 0x01)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
-#define CGRAPH_ABS(x) (((x) < 0) ? (-(x)) : (x))
+#define CGRAPH_ABS(x) ((0 > (x)) ? (-(x)) : (x))
+#define CGRAPH_POS(x, bits) ((0 <= (x)) ? (x) : ((x) + (bits)))
 #define CGRAPH_AND(x, y) ((x) & (y))
 #define CGRAPH_OR(x, y) ((x) | (y))
 #define CGRAPH_XOR(x, y) ((x) ^ (y))
@@ -555,6 +579,7 @@ typedef enum {
   CGRAPH_INT8_T = 5,      /**< TYPE  5 : CGRAPH_INT8_T */
   CGRAPH_UINT8_T = 5,     /**< TYPE  5 : CGRAPH_UINT8_T */
   CGRAPH_CHAR_T = 5,      /**< TYPE  5 : CGRAPH_CHAR_T */
+  CGRAPH_UCHAR_T = 5,     /**< TYPE  5 : CGRAPH_UCHAR_T */
   CGRAPH_INT16_T = 6,     /**< TYPE  6 : CGRAPH_INT16_T */
   CGRAPH_UINT16_T = 6,    /**< TYPE  6 : CGRAPH_UINT16_T */
   CGRAPH_INT32_T = 7,     /**< TYPE  7 : CGRAPH_INT32_T */
@@ -657,98 +682,132 @@ typedef void (*cgraph_pfunc1_t)(void *x);
 typedef void (*cgraph_pfunc2_t)(void *x, void *y);
 typedef void (*cgraph_pfunc3_t)(void *x, void *y, void *res);
 
-typedef struct {
+typedef const struct {
   /**< private: */
-  cgraph_type_t t_id;       /**< type id */
-  cgraph_char_t *t_name;    /**< type name */
-  cgraph_size_t t_size;     /**< type size */
-  cgraph_size_t t_ptrsize;  /**< pointer size of type */
-  cgraph_size_t t_cpysize;  /**< memory size of type used in copy memory size,
-excludes data pointer size */
-  cgraph_size_t t_strusize; /**< memory size of type used in structure types */
-  cgraph_size_t t_bmatsize; /**< memory size of type used in big matrix */
-  cgraph_size_t t_bmat3dsize; /**< memory size of type used in big matrix 3d */
-  cgraph_size_t t_datsize;    /**< data size of type */
+  const cgraph_type_t t_id;          /**< type id */
+  const cgraph_char_t *const t_name; /**< type name */
+  const cgraph_size_t t_size;        /**< type size */
+  const cgraph_size_t t_ptrsize;     /**< pointer size of type */
+  const cgraph_size_t t_cpysize; /**< memory size of type used in copy memory
+size, excludes data pointer size */
+  const cgraph_size_t
+      t_strusize; /**< memory size of type used in structure types */
+  const cgraph_size_t t_bmatsize; /**< memory size of type used in big matrix */
+  const cgraph_size_t
+      t_bmat3dsize; /**< memory size of type used in big matrix 3d */
+  const cgraph_size_t t_datsize; /**< data size of type */
 
   /**< public: */
-  cgraph_type_t (*tid)(void);
-  cgraph_char_t *(*tname)(void);
-  cgraph_size_t (*tsize)(void);
-  cgraph_size_t (*tptrsize)(void);
-  cgraph_size_t (*tcpycsize)(void);
-  cgraph_size_t (*tstrusize)(void);
-  cgraph_size_t (*tbmatsize)(void);
-  cgraph_size_t (*tbmat3dsize)(void);
-  cgraph_size_t (*datsize)(void);
-  cgraph_bool_t (*hasdata)(void);
+  cgraph_type_t (*const tid)(void);
+  cgraph_char_t *(*const tname)(void);
+  cgraph_size_t (*const tsize)(void);
+  cgraph_size_t (*const tptrsize)(void);
+  cgraph_size_t (*const tcpycsize)(void);
+  cgraph_size_t (*const tstrusize)(void);
+  cgraph_size_t (*const tbmatsize)(void);
+  cgraph_size_t (*const tbmat3dsize)(void);
+  cgraph_size_t (*const datsize)(void);
+  cgraph_bool_t (*const hasdata)(void);
   void *(*data)(const void *cthis);
-  cgraph_size_t (*len)(const void *cthis);
-  cgraph_size_t (*size)(const void *cthis);
-  cgraph_size_t (*msize)(const cgraph_type_t type, const cgraph_size_t size);
-  void *(*update)(void *cthis, const cgraph_type_t type,
-                  const cgraph_size_t len, const cgraph_size_t size);
-  void *(*calloc)(const cgraph_type_t type, const cgraph_size_t size);
-  void *(*realloc)(void *cthis, const cgraph_type_t type,
-                   const cgraph_size_t old_size, const cgraph_size_t new_size,
-                   cgraph_bool_t *error);
-  void *(*copy)(const void *cthis, const cgraph_size_t size);
-  void (*free)(void *cthis);
-  void *(*memcpy)(void *x, const void *y, const cgraph_size_t size);
-  void (*check)(const void *x, void *y);
-  void (*hash)(const void *x, void *y);
-  void (*equal)(const void *x, const void *y, void *z);
-  void *(*datindex)(void *cthis, const cgraph_size_t datindex);
-  void *(*index)(void *cthis, const cgraph_size_t len,
-                 const cgraph_size_t index);
-  void (*add)(void *x, void *y, void *z);
-  void (*sub)(void *x, void *y, void *z);
-  void (*mul)(void *x, void *y, void *z);
-  void (*div)(void *x, void *y, void *z);
-  void (*divi)(void *x, void *y, void *z);
-  void (*divf)(void *x, void *y, void *z);
-  void (*mod)(void *x, void *y, void *z);
-  void (*eq)(void *x, void *y, void *z);
-  void (*ne)(void *x, void *y, void *z);
-  void (*gr)(void *x, void *y, void *z);
-  void (*ge)(void *x, void *y, void *z);
-  void (*ls)(void *x, void *y, void *z);
-  void (*le)(void *x, void *y, void *z);
-  void (*sin)(void *x, void *y);
-  void (*cos)(void *x, void *y);
-  void (*tan)(void *x, void *y);
-  void (*asin)(void *x, void *y);
-  void (*acos)(void *x, void *y);
-  void (*atan)(void *x, void *y);
-  void (*sinh)(void *x, void *y);
-  void (*cosh)(void *x, void *y);
-  void (*tanh)(void *x, void *y);
-  void (*log)(void *x, void *y);
-  void (*log2)(void *x, void *y);
-  void (*log10)(void *x, void *y);
-  void (*exp)(void *x, void *y);
-  void (*sqrt)(void *x, void *y);
-  void *(*cmp)(void *x, void *y, void *z, const cgraph_size_t len,
-               cgraph_pfunc3_t iter);
-  void *(*iter1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t iter);
-  void *(*iter2v)(void *x, void *y, const cgraph_size_t len,
-                  cgraph_pfunc2_t iter);
-  void *(*iter2vc)(void *x, void *y, const cgraph_size_t len,
-                   cgraph_pfunc2_t iter);
-  void *(*iter3v)(void *x, void *y, void *z, const cgraph_size_t len,
-                  cgraph_pfunc3_t iter);
-  void *(*iter3vvc)(void *x, void *y, void *z, const cgraph_size_t len,
-                    cgraph_pfunc3_t iter);
-  void *(*iter3vcv)(void *x, void *y, void *z, const cgraph_size_t len,
-                    cgraph_pfunc3_t iter);
-  void *(*iter3cvc)(void *x, void *y, void *z, const cgraph_size_t len,
-                    cgraph_pfunc3_t iter);
-  void (*tend)(void);
+  cgraph_size_t (*const len)(const void *cthis);
+  cgraph_size_t (*const size)(const void *cthis);
+  cgraph_size_t (*const msize)(const cgraph_type_t type,
+                               const cgraph_size_t size);
+  void *(*const update)(void *cthis, const cgraph_type_t type,
+                        const cgraph_size_t len, const cgraph_size_t size);
+  void *(*const calloc)(const cgraph_type_t type, const cgraph_size_t size);
+  void *(*const realloc)(void *cthis, const cgraph_type_t type,
+                         const cgraph_size_t old_size,
+                         const cgraph_size_t new_size, cgraph_bool_t *error);
+  void *(*const copy)(const void *cthis, const cgraph_size_t size);
+  void (*const free)(void *cthis);
+  void *(*const memcpy)(void *x, const void *y, const cgraph_size_t size);
+  void (*const check)(const void *x, void *y);
+  void (*const hash)(const void *x, void *y);
+  void (*const equal)(const void *x, const void *y, void *z);
+  void *(*const datindex)(void *cthis, const cgraph_size_t datindex);
+  void *(*const index)(void *cthis, const cgraph_size_t len,
+                       const cgraph_size_t index);
+  void (*const add)(void *x, void *y, void *z);
+  void (*const sub)(void *x, void *y, void *z);
+  void (*const mul)(void *x, void *y, void *z);
+  void (*const div)(void *x, void *y, void *z);
+  void (*const divi)(void *x, void *y, void *z);
+  void (*const divf)(void *x, void *y, void *z);
+  void (*const mod)(void *x, void *y, void *z);
+  void (*const eq)(void *x, void *y, void *z);
+  void (*const ne)(void *x, void *y, void *z);
+  void (*const gr)(void *x, void *y, void *z);
+  void (*const ge)(void *x, void *y, void *z);
+  void (*const ls)(void *x, void *y, void *z);
+  void (*const le)(void *x, void *y, void *z);
+  void (*const sin)(void *x, void *y);
+  void (*const cos)(void *x, void *y);
+  void (*const tan)(void *x, void *y);
+  void (*const asin)(void *x, void *y);
+  void (*const acos)(void *x, void *y);
+  void (*const atan)(void *x, void *y);
+  void (*const sinh)(void *x, void *y);
+  void (*const cosh)(void *x, void *y);
+  void (*const tanh)(void *x, void *y);
+  void (*const log)(void *x, void *y);
+  void (*const log2)(void *x, void *y);
+  void (*const log10)(void *x, void *y);
+  void (*const exp)(void *x, void *y);
+  void (*const sqrt)(void *x, void *y);
+  void *(*const cmp)(void *x, void *y, void *z, const cgraph_size_t len,
+                     cgraph_pfunc3_t func);
+  void *(*const for1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t func);
+  void *(*const for2v)(void *x, void *y, const cgraph_size_t len,
+                       cgraph_pfunc2_t func);
+  void *(*const for2vc)(void *x, void *y, const cgraph_size_t len,
+                        cgraph_pfunc2_t func);
+  void *(*const for3v)(void *x, void *y, void *z, const cgraph_size_t len,
+                       cgraph_pfunc3_t func);
+  void *(*const for3vvc)(void *x, void *y, void *z, const cgraph_size_t len,
+                         cgraph_pfunc3_t func);
+  void *(*const for3vcv)(void *x, void *y, void *z, const cgraph_size_t len,
+                         cgraph_pfunc3_t func);
+  void *(*const for3cvc)(void *x, void *y, void *z, const cgraph_size_t len,
+                         cgraph_pfunc3_t func);
+  void (*const tend)(void);
 } CGVTable;
 
-#define __OBJECTS_NAME(NAME) (_cgraph_##NAME##s)
-#define CGRAPH_OBJECTS_NAME(NAME) __OBJECTS_NAME(NAME)
+#define __CGRAPH_OBJECTS_NAME(NAME) (_cgraph_##NAME##_s_)
+#define CGRAPH_OBJECTS_NAME(NAME) __CGRAPH_OBJECTS_NAME(NAME)
 
 #define __UNDEFINED NULL
+
+/**
+ * buffer size level
+ * 0 : 128L
+ * 1 : 256L
+ * 2 : 512L
+ * 3 : 1024L
+ * 4 : 2048L
+ * 5 : 4096L
+ */
+#define CGRAPH_BUFFER_SIZE0 (128L)
+#define CGRAPH_BUFFER_SIZE1 (256L)
+#define CGRAPH_BUFFER_SIZE2 (512L)
+#define CGRAPH_BUFFER_SIZE3 (1024L)
+#define CGRAPH_BUFFER_SIZE4 (2048L)
+
+#ifdef BUFSIZ
+#define CGRAPH_BUFFER_SIZE5 BUFSIZ
+#else
+#define CGRAPH_BUFFER_SIZE5 (4096L)
+#endif
+
+/**
+ * data lazy size level
+ * 0 : 2L
+ * 1 : 4L
+ * 2 : 8L
+ */
+#define CGRAPH_DATA_SIZE0 (2L)
+#define CGRAPH_DATA_SIZE1 (4L)
+#define CGRAPH_DATA_SIZE2 (8L)
 
 #ifdef __cplusplus
 }

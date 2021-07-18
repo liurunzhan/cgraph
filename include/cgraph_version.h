@@ -30,6 +30,11 @@ extern cgraph_size_t cgraph_version_fprint(FILE *fp);
 extern cgraph_size_t cgraph_version_print(void);
 extern cgraph_size_t cgraph_version_fprintln(FILE *fp);
 extern cgraph_size_t cgraph_version_println(void);
+extern const cgraph_char_t **cgraph_version_types(void);
+extern const cgraph_char_t *cgraph_version_tname(const cgraph_size_t type);
+extern cgraph_size_t cgraph_version_tprintln(const cgraph_char_t *sep);
+extern cgraph_size_t cgraph_version_tfprintln(FILE *fp,
+                                              const cgraph_char_t *sep);
 
 #ifdef __cplusplus
 }

@@ -21,7 +21,7 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
     __cgraph_buffer__[len++] = '-';
   }
   __cgraph_buffer__[len] = '\0';
-  cgraph_strrev(__cgraph_buffer__, len);
+  cgraph_strnrev(__cgraph_buffer__, len);
 
   return __cgraph_buffer__;
 }

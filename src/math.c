@@ -2,19 +2,106 @@
 
 #include "cgraph_math.h"
 
-cgraph_char_t *cgraph_math_subc(cgraph_char_t *data, const cgraph_size_t len,
-                                const cgraph_char_t ch) {
-  if (NULL != data) {
-    cgraph_char_t *p1 = data, *p2 = data;
+cgraph_size_t cgraph_math_subc(cgraph_char_t *x, const cgraph_size_t len,
+                               const cgraph_char_t ch) {
+  cgraph_size_t _len = len;
+  if (NULL != x) {
+    cgraph_char_t *p1 = x, *p2 = x;
     cgraph_size_t i = 0;
     for (; i < len; p1++, i++) {
       if (ch != *p1) {
         *(p2++) = *p1;
+      } else {
+        _len -= 1;
+      }
+    }
+    *p2 = '\0';
+  }
+
+  return _len;
+}
+
+/*
+  calculate KMP next function
+*/
+cgraph_size_t *cgraph_math_kmpnext(const cgraph_char_t *y, cgraph_size_t *next,
+                                   const cgraph_size_t len) {
+  if ((NULL != y) && (NULL != next)) {
+    cgraph_size_t k = next[0] = 0, q = 1;
+    for (; q < len; q++) {
+      while ((0 < k) && (y[k] != y[q])) {
+        k = next[k - 1];
+      }
+      if (y[k] == y[q]) {
+        k += 1;
+      }
+      next[q] = k;
+    }
+  }
+
+  return next;
+}
+
+cgraph_size_t cgraph_math_kmpcnt(const cgraph_char_t *x,
+                                 const cgraph_size_t size,
+                                 const cgraph_char_t *y,
+                                 const cgraph_size_t *next,
+                                 const cgraph_size_t len) {
+  cgraph_size_t cnt = 0;
+  if ((NULL != x) && (NULL != y) && (NULL != next) && (0 < len)) {
+    cgraph_size_t i = 0, q = 0;
+    for (; i < size; i++) {
+      while ((0 < q) && (y[q] != x[i])) {
+        q = next[q - 1];
+      }
+      if (y[q] == x[i]) {
+        q += 1;
+      }
+      if (q == len) {
+        q = next[q - 1];
+        cnt += 1;
       }
     }
   }
 
-  return data;
+  return cnt;
+}
+
+cgraph_size_t cgraph_math_kmpsub(const cgraph_char_t *x, cgraph_char_t *z,
+                                 const cgraph_size_t size,
+                                 const cgraph_char_t *y,
+                                 const cgraph_size_t *next,
+                                 const cgraph_size_t len) {
+  cgraph_size_t _len = 0;
+  if ((NULL != x) && (NULL != y) && (NULL != next) && (0 < len)) {
+    cgraph_size_t i = 0, q = 0, start = 0;
+    for (; i < size; i++) {
+      while ((0 < q) && (y[q] != x[i])) {
+        q = next[q - 1];
+      }
+      if (y[q] == x[i]) {
+        q += 1;
+      }
+      if (q == len) {
+        cgraph_size_t end = i - len;
+        q = next[q - 1];
+        for (; start <= end; start++, _len++) {
+          z[_len] = x[start];
+        }
+        start = i + 1;
+      }
+    }
+    for (; start < size; start++, _len++) {
+      z[_len] = x[start];
+    }
+    z[_len] = '\0';
+  }
+
+  return _len;
+}
+
+__INLINE cgraph_bool_t cgraph_math_isnum(const cgraph_char_t data) {
+  return CGRAPH_TEST(isdigit(data));
 }
 
 __INLINE cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data) {

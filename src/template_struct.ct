@@ -50,11 +50,15 @@ __INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
 __INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
                                              const cgraph_size_t size) {
 #if defined(TYPE_BIGMAT)
-  return FUNCTION(NAME, tsize)() +
-         (size + CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tbmatsize)();
+  return (0 < size)
+             ? (FUNCTION(NAME, tsize)() +
+                (size + CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tbmatsize)())
+             : 0;
 #else
-  return FUNCTION(NAME, tsize)() +
-         (size + CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tstrusize)();
+  return (0 < size)
+             ? (FUNCTION(NAME, tsize)() +
+                (size + CGRAPH_MEMORY_FREED_SIZE) * OBJECT(type, tstrusize)())
+             : 0;
 #endif
 }
 
@@ -65,6 +69,9 @@ TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type,
   return FUNCTION(NAME, _update)(cthis, type, -1, size);
 }
 
+/**
+ * if object is defined with data memory, its memory is re-allocated lazily
+ */
 TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type,
                               const cgraph_size_t old_size,
                               cgraph_size_t new_size, cgraph_bool_t *error) {
@@ -110,7 +117,7 @@ void FUNCTION(NAME, free)(TYPE *cthis) {
     cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
     /**missing iterator to free data objects! */
     if ((0 == _type) || (CGRAPH_DTYPE_PTR_MIN <= _type)) {
-      OBJECT(_type, iter1v)
+      OBJECT(_type, for1v)
       (_cthis->root, _cthis->size, OBJECT(_type, free));
     }
     cgraph_free(_cthis->root);

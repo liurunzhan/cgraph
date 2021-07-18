@@ -14,6 +14,6 @@ __INLINE cgraph_size_t FUNCTION(NAME, buflen)(void) {
 #define CGRAPH_BUFFER_FREE(x)                                                  \
   do {                                                                         \
     if (__cgraph_buffer__ != (x)) {                                            \
-      cgraph_free(x);                                                          \
+      cgraph_free((x));                                                        \
     }                                                                          \
   } while (0)

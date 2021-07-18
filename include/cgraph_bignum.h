@@ -19,7 +19,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #ifndef CGRAPH_BIGNUM_BUFFER_SIZE
-#define CGRAPH_BIGNUM_BUFFER_SIZE __CGRAPH_BUFFER_SIZE5
+#define CGRAPH_BIGNUM_BUFFER_SIZE CGRAPH_BUFFER_SIZE5
 #endif
 
 #define TYPE_BIGNUM

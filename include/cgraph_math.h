@@ -63,11 +63,23 @@ extern "C" {
 #define MATH_CONST_LOG10 (2.30258509299404568402)
 #endif /** MATH_CONST_LOG10 : log_e 10 */
 
-extern cgraph_char_t *cgraph_math_subc(cgraph_char_t *data,
-                                       const cgraph_size_t len,
-                                       const cgraph_char_t ch);
+extern cgraph_size_t cgraph_math_subc(cgraph_char_t *x, const cgraph_size_t len,
+                                      const cgraph_char_t ch);
+extern cgraph_size_t *cgraph_math_kmpnext(const cgraph_char_t *y,
+                                          cgraph_size_t *next,
+                                          const cgraph_size_t len);
+extern cgraph_size_t cgraph_math_kmpcnt(const cgraph_char_t *x,
+                                        const cgraph_size_t size,
+                                        const cgraph_char_t *y,
+                                        const cgraph_size_t *next,
+                                        const cgraph_size_t len);
+extern cgraph_size_t
+cgraph_math_kmpsub(const cgraph_char_t *x, cgraph_char_t *z,
+                   const cgraph_size_t size, const cgraph_char_t *y,
+                   const cgraph_size_t *next, const cgraph_size_t len);
 
 /* package of functions in <ctype.h> */
+extern cgraph_bool_t cgraph_math_isnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data);
@@ -80,6 +92,7 @@ extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
                                          const cgraph_char_t datay);
+
 extern cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data);

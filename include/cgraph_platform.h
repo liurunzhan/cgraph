@@ -502,10 +502,10 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __FLOAT128_HASH_OFFSET (8)
 #define __FLOAT128_FRA_BITS (11)
 #define __FLOAT128_FRA_OFFSET (0)
-#define __FLOAT128_FRA_EPSILON (0x7FFF)
+#define __FLOAT128_FRA_EPSILON (0x7FFFU)
 #define __FLOAT128_EXP_BITS (52)
 #define __FLOAT128_EXP_OFFSET __FLOAT128_FRA_BITS
-#define __FLOAT128_EXP_EPSILON (0xFFFFFFFFFFFFF)
+#define __FLOAT128_EXP_EPSILON __extension__(0xFFFFFFFFFFFFFULL)
 #endif
 
 #if __WORDSIZE == 64
@@ -564,27 +564,6 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __TYPE_PTRSIZE (1)
 #else
 #define __TYPE_PTRSIZE (2)
-#endif
-
-/**
- * buffer size level
- * 0 : 128L
- * 1 : 256L
- * 2 : 512L
- * 3 : 1024L
- * 4 : 2048L
- * 5 : 4096L
- */
-#define __CGRAPH_BUFFER_SIZE0 (128L)
-#define __CGRAPH_BUFFER_SIZE1 (256L)
-#define __CGRAPH_BUFFER_SIZE2 (512L)
-#define __CGRAPH_BUFFER_SIZE3 (1024L)
-#define __CGRAPH_BUFFER_SIZE4 (2048L)
-
-#ifdef BUFSIZ
-#define __CGRAPH_BUFFER_SIZE5 BUFSIZ
-#else
-#define __CGRAPH_BUFFER_SIZE5 (4096L)
 #endif
 
 #ifdef __cplusplus

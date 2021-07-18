@@ -33,7 +33,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_size_t z_size = CGRAPH_SIZE(z);
     z = FUNCTION(NAME, realloc)(z, type, z_size, len, &error);
     if (CGRAPH_FALSE == error) {
-      OBJECT(type, iter3v)
+      OBJECT(type, for3v)
       (x->data, y->data, z->data, len, OBJECT(type, add));
     }
   }
@@ -50,7 +50,7 @@ TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_size_t z_size = CGRAPH_SIZE(z);
     z = FUNCTION(NAME, realloc)(z, type, z_size, len, &error);
     if (CGRAPH_FALSE == error) {
-      OBJECT(type, iter3v)
+      OBJECT(type, for3v)
       (x->data, y->data, z->data, len, OBJECT(type, sub));
     }
   }
@@ -67,7 +67,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_size_t z_size = CGRAPH_SIZE(z);
     z = FUNCTION(NAME, realloc)(z, type, z_size, len, &error);
     if (CGRAPH_FALSE == error) {
-      OBJECT(type, iter3v)
+      OBJECT(type, for3v)
       (x->data, y->data, z->data, len, OBJECT(type, mul));
     }
   }
@@ -84,7 +84,7 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_size_t z_size = CGRAPH_SIZE(z);
     z = FUNCTION(NAME, realloc)(z, type, z_size, len, &error);
     if (CGRAPH_FALSE == error) {
-      OBJECT(type, iter3v)
+      OBJECT(type, for3v)
       (x->data, y->data, z->data, len, (cgraph_pfunc3_t)OBJECT(type, div));
     }
   }
@@ -124,7 +124,7 @@ void *FUNCTION(NAME, pop)(TYPE *cthis) {
   void *res = NULL;
   if ((NULL != cthis) && (0 < cthis->len)) {
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-    res = (cgraph_addr_t *)cthis->data + cthis->len * OBJECT(type, tstrusize)();
+    res = (cgraph_addr_t)cthis->data + cthis->len * OBJECT(type, tstrusize)();
     cthis->len -= 1;
   }
 

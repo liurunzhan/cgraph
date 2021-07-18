@@ -19,7 +19,7 @@ extern "C" {
 #include "cgraph_config.h"
 
 #ifndef CGRAPH_INT128_BUFFER_SIZE
-#define CGRAPH_INT128_BUFFER_SIZE __CGRAPH_BUFFER_SIZE0
+#define CGRAPH_INT128_BUFFER_SIZE CGRAPH_BUFFER_SIZE0
 #endif
 
 #define TYPE_INT128

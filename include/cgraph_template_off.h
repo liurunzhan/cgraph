@@ -409,6 +409,10 @@
 #undef DATA_UTYPE
 #endif
 
+#ifdef DATA_END
+#undef DATA_END
+#endif
+
 #ifdef DATA_ZERO
 #undef DATA_ZERO
 #endif

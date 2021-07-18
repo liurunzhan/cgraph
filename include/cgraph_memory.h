@@ -59,8 +59,9 @@ extern cgraph_char_t *cgraph_strscat(cgraph_char_t *object,
                                      const cgraph_char_t *cthis);
 extern cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x,
                                    const cgraph_char_t *y);
-extern cgraph_char_t *cgraph_strrev(cgraph_char_t *object,
-                                    const cgraph_size_t size);
+extern cgraph_char_t *cgraph_strrev(cgraph_char_t *object);
+extern cgraph_char_t *cgraph_strnrev(cgraph_char_t *object,
+                                     const cgraph_size_t size);
 
 #ifdef __cplusplus
 }

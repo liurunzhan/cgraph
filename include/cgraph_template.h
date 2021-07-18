@@ -202,8 +202,8 @@
 #define UNAME ulong
 #define UTYPE TYPE_T(UNAME)
 #define UID ID_T(ULONG)
-#define ZERO (0L)
-#define ONE (1L)
+#define ZERO (0)
+#define ONE (1)
 #define ONES CGRAPH_LONG_MIN
 #define MIN CGRAPH_LONG_MIN
 #define MAX CGRAPH_LONG_MAX
@@ -526,7 +526,7 @@
       { 1, 1 }                                                                 \
     }                                                                          \
   }
-#define OUT_FORMAT1 "%d-%d-%d %d-%d-%d"
+#define OUT_FORMAT1 "%u-%u-%u %u:%u:%u"
 #define ZERO1                                                                  \
   {                                                                            \
     0, {                                                                       \
@@ -669,6 +669,7 @@
 #define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
 #define DATA_BYTES(x) FUNCTION(NAME, ubitsceil)((x))
+#define DATA_END (0)
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
 #define DATA_ONES CGRAPH_UINT8_MAX
@@ -698,6 +699,7 @@
 #define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
 #define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitsceil)((x))
+#define DATA_END (0)
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
 #define DATA_ONES (1)
@@ -717,10 +719,13 @@
 #define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME char
+#define DATA_UNAME uchar
 #define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(CHAR)
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
 #define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitsceil)((x))
+#define DATA_END ('\0')
 #define DATA_ZERO ('0')
 #define DATA_ONE ('1')
 #define DATA_ONES ('1')
@@ -747,6 +752,7 @@
 #define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
 #define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitsceil)((x))
+#define DATA_END (0)
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
 #define DATA_ONES CGRAPH_UINT8_MAX
@@ -1293,18 +1299,15 @@
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
-#define NE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
+#define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
 #define GR(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((a), (b))
-#define GE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
 #define LS(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((b), (a))
-#define LE(a, b)                                                               \
-   CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
 
 #define ADD(a, b, c)                                                           \
   FUNCTION(NAME, add1)                                                         \
@@ -1405,10 +1408,22 @@
 #define NE(a, b)                                                               \
   (DATA_NE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
    DATA_NE(COMPLEX_IMAG(a), COMPLEX_IMAG(b)))
-#define GR(a, b) (DATA_GR(COMPLEX_REAL(a), COMPLEX_REAL(b)) || (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) && DATA_GR(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
-#define GE(a, b) (DATA_GE(COMPLEX_REAL(a), COMPLEX_REAL(b)) || (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) && DATA_GE(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
-#define LS(a, b) (DATA_LS(COMPLEX_REAL(a), COMPLEX_REAL(b)) || (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) && DATA_LS(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
-#define LE(a, b) (DATA_LE(COMPLEX_REAL(a), COMPLEX_REAL(b)) || (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) && DATA_LE(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
+#define GR(a, b)                                                               \
+  (DATA_GR(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
+   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
+    DATA_GR(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
+#define GE(a, b)                                                               \
+  (DATA_GE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
+   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
+    DATA_GE(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
+#define LS(a, b)                                                               \
+  (DATA_LS(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
+   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
+    DATA_LS(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
+#define LE(a, b)                                                               \
+  (DATA_LE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
+   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
+    DATA_LE(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -1517,18 +1532,15 @@
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
-#define NE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
+#define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
 #define GR(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((a), (b))
-#define GE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
 #define LS(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((b), (a))
-#define LE(a, b)                                                               \
-   CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -1570,18 +1582,15 @@
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
-#define NE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
+#define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
 #define GR(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((a), (b))
-#define GE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
 #define LS(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((b), (a))
-#define LE(a, b)                                                               \
-   CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -1623,18 +1632,15 @@
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
-#define NE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
+#define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
 #define GR(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((a), (b))
-#define GE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
 #define LS(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((b), (a))
-#define LE(a, b)                                                               \
-   CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -1676,18 +1682,15 @@
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
-#define NE(a, b)                                                               \
-  CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
+#define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
 #define GR(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((a), (b))
-#define GE(a, b)                                                               \
-   CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
 #define LS(a, b)                                                               \
   FUNCTION(NAME, gr)                                                           \
   ((b), (a))
-#define LE(a, b)                                                               \
-   CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))

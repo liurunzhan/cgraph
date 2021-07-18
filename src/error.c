@@ -21,19 +21,19 @@ void cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
                   cgraph_char_t *file, const cgraph_char_t *function) {
   if (reason < CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS) {
     if (NULL != function) {
-      cgraph_file_fprintfln(stderr,
-                            "%s happens in FUNCTION %s Line %ld of File %s",
-                            CGRAPH_ERROR_STRING(reason), function, line, file);
+      cgraph_file_fprintfln(stderr, CGRAPH_ERROR_FUNCTION_STYLE "TYPE %d -> %s",
+                            file, function, line, reason,
+                            CGRAPH_ERROR_STRING(reason));
     } else {
-      cgraph_file_fprintfln(stderr, "%s happens in Line %ld of File %s",
-                            CGRAPH_ERROR_STRING(reason), line, file);
+      cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "TYPE %d -> %s", file,
+                            line, reason, CGRAPH_ERROR_STRING(reason));
     }
   }
 #ifdef DEBUG
   if (reason >= CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS) {
     cgraph_file_fprintfln(stderr,
-                          "Undefined error %d happens in Line %ld of File %s",
-                          reason, line, file);
+                          CGRAPH_ERROR_STYLE "Undefined error type %d happens",
+                          file, line, reason);
   }
 #endif
 }
@@ -55,8 +55,8 @@ void cgraph_error_details_md(FILE *fp) {
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_file_fprintfln(stderr, "FILE %s of LINE %d : file handle is error!",
-                          __FILE__, __LINE__);
+    cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "file handle is error!",
+                          CGRAPH_ERROR_STYLE_ENTRY);
   }
 #endif
 }
@@ -71,8 +71,8 @@ void cgraph_error_details_csv(FILE *fp) {
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_file_fprintfln(stderr, "FILE %s of LINE %d : file handle is error!",
-                          __FILE__, __LINE__);
+    cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "file handle is error!",
+                          CGRAPH_ERROR_STYLE_ENTRY);
   }
 #endif
 }
@@ -82,7 +82,7 @@ static cgraph_char_t __cgraph_time_buffer__[CGRAPH_TIME_BUFFER_SIZE];
 cgraph_char_t *cgraph_error_time(void) {
   time_t local_time;
   time(&local_time);
-  strftime(__cgraph_time_buffer__, CGRAPH_TIME_BUFFER_SIZE, "%Y-%m-%d %X",
+  strftime(__cgraph_time_buffer__, CGRAPH_TIME_BUFFER_SIZE, "%Y-%m-%d %H:%M:%S",
            localtime(&local_time));
 
   return __cgraph_time_buffer__;
@@ -91,7 +91,7 @@ cgraph_char_t *cgraph_error_time(void) {
 static cgraph_char_t __cgraph_log_buffer__[CGRAPH_LOG_BUFFER_SIZE];
 
 void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
-                      const cgraph_size_t line, const cgraph_char_t *function,
+                      const cgraph_char_t *function, const cgraph_size_t line,
                       const cgraph_char_t *format, ...) {
   if ((NULL != fp) && (0 == ferror(fp)) && (NULL != format)) {
     va_list args;
@@ -101,31 +101,31 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
     va_end(args);
     cgraph_error_time();
     if (NULL != function) {
-      cgraph_file_fprintfln(
-          fp, "FUNCTION %s LINE %ld of FILE %s at TIME %s : %s", function, line,
-          file, __cgraph_time_buffer__, __cgraph_log_buffer__);
+      cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
+                            __cgraph_time_buffer__, file, function, line,
+                            __cgraph_log_buffer__);
     } else {
-      cgraph_file_fprintfln(fp, "LINE %ld of FILE %s at TIME %s : %s", line,
-                            file, __cgraph_time_buffer__,
+      cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_STYLE "%s",
+                            __cgraph_time_buffer__, file, line,
                             __cgraph_log_buffer__);
     }
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_file_fprintfln(stderr, "FILE %s of LINE %d : file handle is error!",
-                          __FILE__, __LINE__);
+    cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "file handle is error!",
+                          CGRAPH_ERROR_STYLE_ENTRY);
   }
   if (NULL == format) {
-    cgraph_file_fprintfln(stderr, "FILE %s of LINE %d : style format is empty!",
-                          __FILE__, __LINE__);
+    cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "style format is empty!",
+                          CGRAPH_ERROR_STYLE_ENTRY);
   }
 #endif
 }
 
 void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer,
                              cgraph_size_t size, const cgraph_char_t *file,
-                             const cgraph_size_t line,
                              const cgraph_char_t *function,
+                             const cgraph_size_t line,
                              const cgraph_char_t *format, ...) {
   if ((NULL != fp) && (0 == ferror(fp)) && (NULL != buffer) && (0 < size) &&
       (NULL != format)) {
@@ -138,16 +138,16 @@ void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer,
   }
 #ifdef DEBUG
   if ((NULL == fp) || (0 != ferror(fp))) {
-    cgraph_file_fprintfln(stderr, "FILE %s of LINE %d : file handle is error!",
-                          __FILE__, __LINE__);
+    cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "file handle is error!",
+                          CGRAPH_ERROR_STYLE_ENTRY);
   }
   if ((NULL == buffer) || (0 >= size)) {
-    cgraph_file_fprintfln(stderr, "FILE %s of LINE %d : buffer is empty!",
-                          __FILE__, __LINE__);
+    cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "buffer is empty!",
+                          CGRAPH_ERROR_STYLE_ENTRY);
   }
   if (NULL == format) {
-    cgraph_file_fprintfln(stderr, "FILE %s of LINE %d : style format is empty!",
-                          __FILE__, __LINE__);
+    cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "style format is empty!",
+                          CGRAPH_ERROR_STYLE_ENTRY);
   }
 #endif
 }

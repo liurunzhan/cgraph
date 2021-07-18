@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) {
                 *num5 = "0.2", *num6 = "-0.21", *num7 = "-0.00009340000";
   cgraph_float64_t float64 = 0.123456;
   cgraph_float32_t float32 = 0.123456;
+  cgraph_size_t i;
   TYPE *bignum1 = FUNCTION(NAME, calloc)(DATA_ID, 20);
   TYPE *bignum2 = FUNCTION(NAME, calloc)(DATA_ID, 20);
   TYPE *bignum3 = FUNCTION(NAME, calloc)(DATA_ID, 20);
@@ -32,24 +33,15 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, initc)(bignum10, &num7[1], strlen(num7) - 1);
   FUNCTION(NAME, fprintln)(stdout, bignum10);
   FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
-  FUNCTION(NAME, fprintln)
-  (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, 10)));
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
-  FUNCTION(NAME, fprintln)
-  (stdout, (bignum10 = FUNCTION(NAME, div10)(bignum10, 10)));
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
-  FUNCTION(NAME, fprintln)
-  (stdout, (bignum10 = FUNCTION(NAME, div10)(bignum10, 30)));
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
-  FUNCTION(NAME, fprintln)
-  (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, 30)));
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
-  FUNCTION(NAME, fprintln)
-  (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, 30)));
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
-  FUNCTION(NAME, fprintln)
-  (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, 30)));
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+  for (i = 0; i < 50; i++) {
+    cgraph_file_fprintfln(stdout, "i = %ld", i);
+    FUNCTION(NAME, fprintln)
+    (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, i)));
+    FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+    FUNCTION(NAME, fprintln)
+    (stdout, (bignum10 = FUNCTION(NAME, div10)(bignum10, i)));
+    FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+  }
 
   FUNCTION(NAME, fprint)(stdout, bignum6);
   fprintf(stdout, " and ");
@@ -133,12 +125,17 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, initf32)(bignum2, float32);
   FUNCTION(NAME, fprintln)(stdout, bignum1);
   FUNCTION(NAME, fprintln)(stdout, bignum2);
+  cgraph_file_fprintfln(stdout, "test add function");
   FUNCTION(NAME, add)(bignum1, bignum2, bignum4);
   FUNCTION(NAME, fprintln)(stdout, bignum4);
   FUNCTION(NAME, opp)(bignum1);
   FUNCTION(NAME, fprintln)(stdout, bignum1);
   FUNCTION(NAME, fprintln)(stdout, bignum2);
+  cgraph_file_fprintfln(stdout, "test add function");
   FUNCTION(NAME, add)(bignum1, bignum2, bignum5);
+  FUNCTION(NAME, fprintln)(stdout, bignum5);
+  cgraph_file_fprintfln(stdout, "test mul function");
+  FUNCTION(NAME, mul)(bignum1, bignum2, bignum5);
   FUNCTION(NAME, fprintln)(stdout, bignum5);
 
   FUNCTION(NAME, free)(bignum1);

@@ -19,11 +19,11 @@ extern "C" {
 #include "cgraph_config.h"
 
 #ifndef CGRAPH_TIME_BUFFER_SIZE
-#define CGRAPH_TIME_BUFFER_SIZE __CGRAPH_BUFFER_SIZE2
+#define CGRAPH_TIME_BUFFER_SIZE CGRAPH_BUFFER_SIZE2
 #endif
 
 #ifndef CGRAPH_LOG_BUFFER_SIZE
-#define CGRAPH_LOG_BUFFER_SIZE __CGRAPH_BUFFER_SIZE5
+#define CGRAPH_LOG_BUFFER_SIZE CGRAPH_BUFFER_SIZE5
 #endif
 
 typedef enum {
@@ -56,15 +56,25 @@ extern void cgraph_error_details_csv(FILE *fout);
 
 extern cgraph_char_t *cgraph_error_time(void);
 extern void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
-                             const cgraph_size_t line,
                              const cgraph_char_t *function,
+                             const cgraph_size_t line,
                              const cgraph_char_t *format, ...);
 extern void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer,
                                     cgraph_size_t len,
                                     const cgraph_char_t *file,
-                                    const cgraph_size_t line,
                                     const cgraph_char_t *function,
+                                    const cgraph_size_t line,
                                     const cgraph_char_t *format, ...);
+
+/** corresponding to the argument order of above function calling */
+#define CGRAPH_ERROR_STYLE "FILE %s LINE %ld : "
+#define CGRAPH_ERROR_STYLE_ENTRY __FILE__, __LINE__
+#define CGRAPH_ERROR_FUNCTION_STYLE "FILE %s FUNCTION %s LINE %ld : "
+#define CGRAPH_ERROR_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
+#define CGRAPH_ERROR_TIME_STYLE "TIME %s FILE %s LINE : "
+#define CGRAPH_ERROR_TIME_STYLE_ENTRY __FILE__, __LINE__
+#define CGRAPH_ERROR_TIME_FUNCTION_STYLE "TIME %s FILE %s FUNCTION %s LINE : "
+#define CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
 
 #ifdef __cplusplus
 }

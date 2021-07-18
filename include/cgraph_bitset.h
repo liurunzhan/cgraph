@@ -28,7 +28,9 @@ typedef struct {
     cgraph_uint32_t : 5;
     cgraph_uint32_t num : 4;
     cgraph_uint32_t : 4;
-    cgraph_uint32_t : 15;
+    cgraph_uint32_t half : 4;
+    cgraph_uint32_t : 4;
+    cgraph_uint32_t : 7;
     cgraph_uint32_t grhalf : 1;
   } firstbyte;
   CGRAPH_DATA_ROOT
@@ -37,30 +39,19 @@ typedef struct {
 #define BITSET_BIT(x) ((x)->firstbyte)
 #define BITSET_BITNUM(x) (BITSET_BIT(x).num)
 #define BITSET_BITPOS(x) (BITSET_BIT(x).pos)
+#define BITSET_HALF(x) (BITSET_BIT(x).half)
 #define BITSET_GRHALF(x) (BITSET_BIT(x).grhalf)
 #define BITSET_BITS_NUM(x)                                                     \
   ((((x)->len - 1) << DATA_BITS_LOG2) + BITSET_BITNUM((x)))
-#define BITSET_BITNUM_TOHALF(x) (BITSET_BITNUM(x) - 4U)
 #define BITSET_BITNUM_GRHALF(x) BITSET_GRHALF(x)
 #define BITSET_BYTE_POSTION(postion) FUNCTION(DATA_NAME, bitsfloor)((postion))
 #define BITSET_BIT_POSTION(postion) FUNCTION(DATA_NAME, bitsmod)((postion))
+#define BITSET_POS2POS(x, bits) CGRAPH_POS((x), (bits))
 #define BITSET_POS2NUM(x) ((0 == (x)) ? DATA_BITS : (x))
 #define BITSET_GET_BIT(x, postion)                                             \
   ((((x)->data[BITSET_BYTE_POSTION(postion)]) >>                               \
     BITSET_BIT_POSTION(postion)) ^                                             \
    0x1)
-#define BITSET_BITPOS_UPDATE(x, pos)                                           \
-  do {                                                                         \
-    BITSET_BITPOS(x) = (pos)&0x07U;                                            \
-    BITSET_BITNUM(x) = BITSET_POS2NUM(BITSET_BITPOS(x));                       \
-    BITSET_GRHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
-  } while (0)
-#define BITSET_BITNUM_UPDATE(x, num)                                           \
-  do {                                                                         \
-    BITSET_BITPOS(x) = (num)&0x07U;                                            \
-    BITSET_BITNUM(x) = (num);                                                  \
-    BITSET_GRHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
-  } while (0)
 
 /** template module */
 #include "cgraph_template_data.ht"
@@ -73,6 +64,10 @@ extern cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *buffer,
 extern cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *buffer,
                                               const cgraph_size_t size,
                                               const TYPE *cthis);
+
+extern TYPE *FUNCTION(NAME, updatepos)(TYPE *cthis, const cgraph_size_t pos);
+extern TYPE *FUNCTION(NAME, updatenum)(TYPE *cthis, const cgraph_size_t num);
+
 extern TYPE *FUNCTION(NAME, bitscalloc)(const cgraph_size_t len_bits,
                                         const cgraph_size_t size_bits);
 extern DATA_TYPE FUNCTION(NAME, bit)(const TYPE *cthis,

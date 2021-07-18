@@ -1,6 +1,7 @@
 #include "cgraph.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void printf_char(char data) {
   printf("debug %x %x\n", 0xFF & data, 0xFF & data);
@@ -89,10 +90,10 @@ int main(int argc, char *argv[]) {
 
   cgraph_verilog_test();
 
-  cgraph_error_log_buffer(stdout, buffer, 100, __FILE__, __LINE__,
+  cgraph_error_log_buffer(stdout, buffer, 100, CGRAPH_ERROR_STYLE_ENTRY,
   __FUNCTION, "%s %d %d", "hello", 1 , 2); cgraph_error_log(stdout,
-  __FILE__, __LINE__, __FUNCTION, "%s %d", "hello", 1);
-  cgraph_error_log(stdout, __FILE__, __LINE__, __FUNCTION, "%d",
+  CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%s %d", "hello", 1);
+  cgraph_error_log(stdout, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%d",
   cgraph_fraction_ismin(fraction)); cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */
@@ -108,6 +109,16 @@ int main(int argc, char *argv[]) {
   cgraph_char_t *data = " abc[20] | _abc123", *name = &data[1];
   cgraph_int_t old[10], new[20], old_base = 10, new_base = 16;
   cgraph_size_t old_len = 10, new_len = 20, len;
+  char *str = "hello world world world wordl!", *str1 = "world";
+  cgraph_size_t *next = cgraph_calloc(strlen(str1) * sizeof(cgraph_size_t));
+  cgraph_size_t i, j, k;
+  cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
+  cgraph_cmdarg_fprintln(stdout, cmdarg);
+  for (i = 0; i < cmdarg->len; i++) {
+    cgraph_file_fprintfln(stdout, "command %ld size %ld : %s", i,
+                          cgraph_cmdarg_arglen(cmdarg, i),
+                          cgraph_cmdarg_argnam(cmdarg, i));
+  }
   fprintf(stdout, "hello world!\n");
   fprintf(stdout, "%s %ld\n", name,
           cgraph_math_namlen(name, cgraph_strlen(name), NULL));
@@ -117,6 +128,13 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "old number : %d%d%d\n", old[0], old[1], old[2]);
   len = cgraph_math_chgbas(old, 3, old_base, new, new_len, new_base);
   fprintf(stdout, "new number %ld : %d%d\n", len, new[1], new[0]);
+
+  cgraph_math_kmpnext(str1, next, strlen(str1));
+  cgraph_file_fprintfln(
+      stdout, "count : %ld",
+      cgraph_math_kmpcnt(str, strlen(str), str1, next, strlen(str1)));
+  cgraph_free(next);
+  cgraph_cmdarg_free(cmdarg);
 
   return 0;
 }

@@ -37,7 +37,7 @@ void *FUNCTION(NAME, pop)(TYPE *cthis) {
   void *res = NULL;
   if ((NULL != cthis) && (0 < cthis->len)) {
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-    res = (cgraph_addr_t *)cthis->data + cthis->len * OBJECT(type, tstrusize)();
+    res = (cgraph_addr_t)cthis->data + cthis->len * OBJECT(type, tstrusize)();
     cthis->len -= 1;
   }
 

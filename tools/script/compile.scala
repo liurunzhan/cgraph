@@ -1,4 +1,4 @@
-
+#!/usr/bin/env scalac
 
 import java.io.File
 import scala.reflect.io.Directory

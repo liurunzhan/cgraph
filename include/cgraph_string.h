@@ -35,6 +35,8 @@ extern cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis);
+extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
+                                   const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format,
                                    ...);
 
@@ -53,8 +55,13 @@ extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, tolower)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, toupper)(TYPE *cthis);
 
+extern TYPE *FUNCTION(NAME, subc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,
                                   TYPE *z);
+extern TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
+extern TYPE *FUNCTION(NAME, modc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
+
+extern TYPE *FUNCTION(NAME, chomp)(TYPE *cthis);
 
 #include "cgraph_template_off.h"
 
