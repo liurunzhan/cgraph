@@ -11,13 +11,12 @@ fn main() {
   lib := os.join_path(dir, "lib")
 
   cc := "cc"
-  mut cflags := "-std=c89 -Wall -pedantic"
+  mut cflags := "-std=c89 -Wall -pedantic -fPIC"
   csflags := "-shared"
 
   if cc != "tcc" {
     cflags += " -pedantic-errors"
   }
-  cflags += " -fPIC"
 
   mode := "debug"
   if mode == "debug" {

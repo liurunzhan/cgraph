@@ -135,6 +135,7 @@ int main(int argc, char *argv[]) {
       cgraph_math_kmpcnt(str, strlen(str), str1, next, strlen(str1)));
   cgraph_free(next);
   cgraph_cmdarg_free(cmdarg);
+  cgraph_file_fprintfln(stdout, "element size %ld", sizeof(cgraph_element_t));
 
   return 0;
 }

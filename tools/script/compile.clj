@@ -10,12 +10,10 @@
 (def LIB (str DIR File/separator "lib"))
 
 (def CC "cc")
-(def CFLAGS "-std=c89 -Wall -pedantic")
+(def CFLAGS "-std=c89 -Wall -pedantic -fPIC")
 (def CSFLAGS "-shared")
 
 (def CFLAGS (if (not (compare CC "tcc")) (str CFLAGS " -pedantic-errors")))
-
-(def CFLAGS (str CFLAGS " -fPIC"))
 
 (def MODE "debug")
 (def CFLAGS (if (compare MODE "debug") (str CFLAGS " -g -DDEBUG") (if (compare MODE "release") (str CFLAGS " -static -O2"))))

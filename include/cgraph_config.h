@@ -642,13 +642,15 @@ typedef struct {
   /**  key data type */
   cgraph_uint_t k_type : 6;
   cgraph_uint_t k_access : 1;
+  cgraph_uint_t k_const : 1;
   cgraph_uint_t k_hash : 1;
+  cgraph_uint_t : 3;
   /**  value data type */
   cgraph_uint_t v_type : 6;
   cgraph_uint_t v_access : 1;
+  cgraph_uint_t v_const : 1;
   cgraph_uint_t v_hash : 1;
-  /** unused space for extertions */
-  cgraph_uint_t : 8;
+  cgraph_uint_t : 3;
   /**  graph type */
   cgraph_uint_t g_keyisid : 1;
   cgraph_uint_t g_directed : 1;
@@ -661,15 +663,18 @@ typedef struct {
 
 #define CGRAPH_DTYPE_KTYPE(a) ((a)->element.k_type)
 #define CGRAPH_DTYPE_KACCESS(a) ((a)->element.k_access)
-#define CGRAPH_DTYPE_KHASHED(a) ((a)->element.k_hash)
+#define CGRAPH_DTYPE_KCONST(a) ((a)->element.k_const)
+#define CGRAPH_DTYPE_KHASH(a) ((a)->element.k_hash)
 
 #define CGRAPH_DTYPE_VTYPE(a) ((a)->element.v_type)
 #define CGRAPH_DTYPE_VACCESS(a) ((a)->element.v_access)
-#define CGRAPH_DTYPE_VHASHED(a) ((a)->element.v_hash)
+#define CGRAPH_DTYPE_VCONST(a) ((a)->element.v_const)
+#define CGRAPH_DTYPE_VHASH(a) ((a)->element.v_hash)
 
 #define CGRAPH_DTYPE_TYPE(a) CGRAPH_DTYPE_KTYPE(a)
 #define CGRAPH_DTYPE_ACCESS(a) CGRAPH_DTYPE_KACCESS(a)
-#define CGRAPH_DTYPE_HASHED(a) CGRAPH_DTYPE_KHASHED(a)
+#define CGRAPH_DTYPE_CONST(a) CGRAPH_DTYPE_KCONST(a)
+#define CGRAPH_DTYPE_HASH(a) CGRAPH_DTYPE_KHASH(a)
 
 #define CGRAPH_GTYPE_GKEYISID(a) ((a)->element.g_keyisid)
 #define CGRAPH_GTYPE_GDIRECTED(a) ((a)->element.g_directed)

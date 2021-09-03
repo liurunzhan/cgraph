@@ -8,13 +8,12 @@ set TST [file join ${DIR} "test"]
 set LIB [file join ${DIR} "lib"]
 
 set CC "cc"
-set CFLAGS "-std=c89 -Wall -pedantic"
+set CFLAGS "-std=c89 -Wall -pedantic -fPIC"
 set CSFLAGS "-shared"
 
 if { $CC != "tcc" } {
   append CFLAGS " -pedantic-errors"
 }
-append CFLAGS " -fPIC"
 
 set MODE "debug"
 if { [ string compare $MODE "debug" ] } {

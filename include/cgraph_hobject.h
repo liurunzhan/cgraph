@@ -51,22 +51,28 @@ typedef struct {
 #define HOBJECT_VALUE(x) (HOBJECT_EXT(x).value)
 
 extern cgraph_type_t FUNCTION(NAME, ktype)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, kaccessiable)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, khashed)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, iskaccess)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, iskconst)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, iskhash)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, setkaccess)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unsetkaccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, setkhashed)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unsetkhashed)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setkconst)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetkconst)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setkhash)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetkhash)(TYPE *cthis);
 
 extern cgraph_type_t FUNCTION(NAME, vtype)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, vaccessiable)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, vhashed)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isvaccess)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isvconst)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isvhash)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, setvaccess)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unsetvaccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, setvhashed)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, unsetvhashed)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setvconst)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetvconst)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, setvhash)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetvhash)(TYPE *cthis);
 
 #include "cgraph_template_off.h"
 

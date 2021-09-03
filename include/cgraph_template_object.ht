@@ -12,12 +12,13 @@
 #include "cgraph_template_data.ht"
 
 extern cgraph_type_t FUNCTION(NAME, type)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, access)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, hashed)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isaccess)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isconst)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, ishash)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
                                      const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, clraccess)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, sethashed)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, clrhashed)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsetaccess)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, sethash)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, unsethash)(TYPE *cthis);

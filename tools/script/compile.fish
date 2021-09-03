@@ -12,13 +12,12 @@ set LIB ${DIR}/lib
 
 # compiler configuration
 set CC cc
-set CFLAGS "-std=c89 -Wall -pedantic"
+set CFLAGS "-std=c89 -Wall -pedantic -fPIC"
 set CSFLAGS "-shared"
 
 if $CC != "tcc"
   set CFLAGS "${CFLAGS} -pedantic-errors"
 end
-set CFLAGS "${CFLAGS} -fPIC"
 
 # debug or release mode
 set MODE "debug"

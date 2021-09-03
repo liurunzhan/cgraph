@@ -107,7 +107,7 @@ cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *buffer,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != buffer) && (NULL != cthis)) {
+  if ((NULL != buffer) && (2 < size) && (NULL != cthis)) {
     cgraph_size_t i, j, _size = size - 1;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     buffer[len++] = '0';
@@ -130,7 +130,7 @@ cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *buffer,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != buffer) && (NULL != cthis)) {
+  if ((NULL != buffer) && (2 < size) && (NULL != cthis)) {
     cgraph_size_t i = 0, _size = size - 1;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     buffer[len++] = '0';

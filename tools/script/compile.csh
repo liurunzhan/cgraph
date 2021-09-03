@@ -8,13 +8,12 @@ set TST=${DIR}/"test"
 set LIB=${DIR}/"lib"
 
 set CC="cc"
-set CFLAGS="-std=c89 -Wall -pedantic"
+set CFLAGS="-std=c89 -Wall -pedantic -fPIC"
 set CSFLAGS="-shared"
 
 if ( $CC != "tcc" ) then
   set CFLAGS="${CFLAGS} -pedantic-errors"
 endif
-set CFLAGS="${CFLAGS} -fPIC"
 
 set MODE="debug"
 if ( $MODE == "debug" ) then

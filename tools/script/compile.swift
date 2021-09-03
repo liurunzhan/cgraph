@@ -42,14 +42,14 @@ let TSTFILE : String = "\(TST)/\(PRO).c"
 let TSTTARGET : String = "\(TST)/\(PRO)"
 
 var args : [String] = CommandLine.arguments
-
 if CommandLine.argc == 1 {
   if !fileManager.fileExists(atPath: LIB) {
     try! fileManager.createDirectory(atPath: LIB, withIntermediateDirectories: true, attributes: nil)
   }
   for file in CFILES {
-    let obj : String = file.replacingOccurrences(of: ".c", with: ".o")
-    print("compile \(file) to \(obj)")
+    let OBJ : String = file.replacingOccurrences(of: ".c", with: ".o")
+		let DEP : String = file.replacingOccurrences(of: ".c", with: ".d")
+    print("compile \(file) to \(OBJ)")
 
   }
   print("compile \(LIBSHARED)")
@@ -64,6 +64,11 @@ if CommandLine.argc == 1 {
     print("clean \(OBJ)")
     if fileManager.fileExists(atPath: OBJ) {
       try! fileManager.removeItem(atPath: OBJ)
+    }
+    let DEP : String = file.replacingOccurrences(of: ".c", with: ".d")
+    print("clean \(DEP)")
+    if fileManager.fileExists(atPath: DEP) {
+      try! fileManager.removeItem(atPath: DEP)
     }
   }
   print("clean \(LIBSHARED)")
@@ -84,6 +89,11 @@ if CommandLine.argc == 1 {
     print("clean \(OBJ)")
     if fileManager.fileExists(atPath: OBJ) {
       try! fileManager.removeItem(atPath: OBJ)
+    }
+    let DEP : String = file.replacingOccurrences(of: ".c", with: ".d")
+    print("clean \(DEP)")
+    if fileManager.fileExists(atPath: DEP) {
+      try! fileManager.removeItem(atPath: DEP)
     }
   }
   print("clean \(LIBSHARED)")

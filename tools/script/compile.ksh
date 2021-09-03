@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/ksh
 
 # project
 PRO=cgraph

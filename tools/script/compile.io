@@ -45,7 +45,6 @@ if(System platform == "windows") then(
 CFILES := SRC filesWithExtension(".c")
 
 args := System args
-
 if(args size == 1) then(
   LIB create
   OFILES := List clone

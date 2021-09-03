@@ -29,30 +29,43 @@ pub fn main() void {
 
   if (builtin.os == builtin.Os.windows) {
     // target files
-    const libshared = std.fs.path.join(lib, "lib{}.dll", .{pro});
-    const libstatic = std.fs.path.join(lib, "lib{}.lib", .{pro});
+    const LIBSHARED = std.fs.path.join(lib, "lib{}.dll", .{pro});
+    const LIBSTATIC = std.fs.path.join(lib, "lib{}.lib", .{pro});
     // test files
-    const tstfile = std.fs.path.join(tst, "{}.c", .{pro});
-    const tsttarget = std.fs.path.join(tst, "{}.exe", .{pro});
+    const TSTFILE = std.fs.path.join(tst, "{}.c", .{pro});
+    const TSTTARGET = std.fs.path.join(tst, "{}.exe", .{pro});
   } else {
     // target files
-    const libshared = std.fs.path.join(lib, "lib{}.so", .{pro});
-    const libstatic = std.fs.path.join(lib, "lib{}.a", .{pro});
+    const LIBSHARED = std.fs.path.join(lib, "lib{}.so", .{pro});
+    const LIBSTATIC = std.fs.path.join(lib, "lib{}.a", .{pro});
     // test files
-    const tstfile = std.fs.path.join(tst, "{}.c", .{pro});
-    const tsttarget = std.fs.path.join(tst, "{}", .{pro});
+    const TSTFILE = std.fs.path.join(tst, "{}.c", .{pro});
+    const TSTTARGET = std.fs.path.join(tst, "{}", .{pro});
   }
 
   var general_purpose_allocator = std.heap.GeneralPurposeAllocator(.{}){};
   const gpa = &general_purpose_allocator.allocator;
   const args = try std.process.argsAlloc(gpa);
   defer std.process.argsFree(gpa, args);
-
-  for (args) |arg, i| {
-      std.debug.print("{}: {}\n", .{ i, arg });
+  
+  if (args.len == 1) {
+    std.os.mkdir(LIB);
+  } else if (args[1] == "test") {
+    std.debug.print("hello world");
+  } else if (args[1] == "clean") {
+    std.debug.print("hello world");
+  } else if (args[1] == "distclean") {
+    std.debug.print("hello world");
+  } else if (args[1] == "help") {
+    std.debug.print("{}    <target>", .{args[0]});
+    std.debug.print("<target>: ");
+    std.debug.print("                    compile cgraph");
+    std.debug.print("          test      test cgraph");
+    std.debug.print("          clean     clean all the generated files");
+    std.debug.print("          distclean clean all the generated files and directories");
+    std.debug.print("          help      commands to this program");
+  } else {
+    std.debug.print("{} is an unsupported command", .{args[1]});
+    std.debug.print("use \"{} help\" to know all supported commands", .{args[0]});
   }
-  std.debug.print(arg.len);
-
-  std.os.mkdir(LIB);
-
 }

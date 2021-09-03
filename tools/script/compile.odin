@@ -3,9 +3,8 @@
 package main
 
 import "core:os"
-import "core:path"
 import "core:path/filepath"
-import "core:os/os2"
+import "core:os"
 import "core:fmt"
 import "core:strings"
 
@@ -16,6 +15,21 @@ main :: proc() {
 	SRC : string = filepath.join(PRO, "src");
 	TST : string = filepath.join(PRO, "test");
 	LIB : string = filepath.join(PRO, "lib");
+
+	CC : string = "cc";
+	CFLAGS : string = "-std=c89 -Wall -pedantic -fPIC";
+	CSFLAGS : string = "-shared";
+
+	MODE : string = "debug";
+	if MODE == "debug" {
+		CFLAGS = strings.join(CFLAGS, " -g -DDEBUG");
+	} else if MODE == "release" {
+		CFLAGS = strings.join(CFLAGS, " -static -O2");
+	}
+
+	//package shared library
+	AR : string = "ar";
+	ARFLAGS : string = "-rcs";
 
 	LIBSHARED : string;
 	LIBSTATIC : string;
@@ -47,7 +61,6 @@ main :: proc() {
 		}
 
 		OFILES := make([dynamic]string);
-
 		delete(OFILES);
 	} else if args[1] == "test" {
 	} else if args[1] == "clean" {
