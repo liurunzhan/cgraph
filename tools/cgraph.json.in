@@ -2,7 +2,7 @@
 	"package" : "@PACKAGE@",
 	"version" : "@VERSION@",
 	"author" : "liurunzhan",
-	"email" : "liurunzhan@sina.com",
+	"email" : "@PACKAGE_BUGREPORT@",
 	"date" : "2021-03-31",
 	"lisence" : "GPL-3.0"
 }

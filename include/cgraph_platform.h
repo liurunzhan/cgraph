@@ -115,10 +115,11 @@ typedef enum {
     defined(_M_IA64) || defined(__x86_64__) || defined(__x86_64) ||            \
     defined(__aarch64__) || defined(__ARM_64BIT_STATE)
 #define __WORDSIZE 64
-
 #elif defined(_WIN32) || defined(_M_IX86) || defined(__i386) ||                \
     defined(__i386__) || defined(__i486__) || defined(__i686__) ||             \
     defined(__ARM_32BIT_STATE)
+#define __WORDSIZE 32
+#else
 #define __WORDSIZE 32
 #endif
 #endif
@@ -175,68 +176,68 @@ typedef enum {
 #if __STDC_VERSION__ >= 199901L
 #include <inttypes.h>
 #include <stdint.h>
-#define __SIZE_IN_FORMAT "%z"
-#define __SIZE_OUT_FORMAT "%z"
+#define __SIZE_IN_FMT "%z"
+#define __SIZE_OUT_FMT "%z"
 #define __INT8_MAX INT8_MAX
 #define __INT8_MIN INT8_MIN
-#define __INT8_IN_FORMAT "%" SCNd8
-#define __INT8_OUT_FORMAT "%" PRId8
+#define __INT8_IN_FMT "%" SCNd8
+#define __INT8_OUT_FMT "%" PRId8
 typedef int8_t __cgraph_int8;
 #define __UINT8_MAX UINT8_MAX
 #define __UINT8_MIN (0U)
-#define __UINT8_IN_FORMAT "%" SCNu8
-#define __UINT8_OUT_FORMAT "%" PRIu8
+#define __UINT8_IN_FMT "%" SCNu8
+#define __UINT8_OUT_FMT "%" PRIu8
 typedef uint8_t __cgraph_uint8;
 #define __INT16_MAX INT16_MAX
 #define __INT16_MIN INT16_MIN
-#define __INT16_IN_FORMAT "%" SCNd16
-#define __INT16_OUT_FORMAT "%" PRId16
+#define __INT16_IN_FMT "%" SCNd16
+#define __INT16_OUT_FMT "%" PRId16
 typedef int16_t __cgraph_int16;
 #define __UINT16_MAX UINT16_MAX
 #define __UINT16_MIN (0U)
-#define __UINT16_IN_FORMAT "%" SCNu16
-#define __UINT16_OUT_FORMAT "%" PRIu16
+#define __UINT16_IN_FMT "%" SCNu16
+#define __UINT16_OUT_FMT "%" PRIu16
 typedef uint16_t __cgraph_uint16;
 #define __INT32_MAX INT32_MAX
 #define __INT32_MIN INT32_MIN
-#define __INT32_IN_FORMAT "%" SCNd32
-#define __INT32_OUT_FORMAT "%" PRId32
+#define __INT32_IN_FMT "%" SCNd32
+#define __INT32_OUT_FMT "%" PRId32
 typedef int32_t __cgraph_int32;
 #define __UINT32_MAX UINT32_MAX
 #define __UINT32_MIN (0U)
-#define __UINT32_IN_FORMAT "%" SCNu32
-#define __UINT32_OUT_FORMAT "%" PRIu32
+#define __UINT32_IN_FMT "%" SCNu32
+#define __UINT32_OUT_FMT "%" PRIu32
 typedef uint32_t __cgraph_uint32;
 #define __INT64_MAX INT64_MAX
 #define __INT64_MIN INT64_MIN
-#define __INT64_IN_FORMAT "%" SCNd64
-#define __INT64_OUT_FORMAT "%" PRId64
-#define __INT64_EPSILON1 (0xAAAAAAAAAAAAAAAAULL)
-#define __INT64_EPSILON2 (0xCCCCCCCCCCCCCCCCULL)
-#define __INT64_EPSILON4 (0xF0F0F0F0F0F0F0F0ULL)
-#define __INT64_EPSILON8 (0xFF00FF00FF00FF00ULL)
-#define __INT64_EPSILON16 (0xFFFF0000FFFF0000ULL)
-#define __INT64_EPSILON32 (0xFFFFFFFF00000000ULL)
+#define __INT64_IN_FMT "%" SCNd64
+#define __INT64_OUT_FMT "%" PRId64
+#define __INT64_EPS1 (0xAAAAAAAAAAAAAAAAULL)
+#define __INT64_EPS2 (0xCCCCCCCCCCCCCCCCULL)
+#define __INT64_EPS4 (0xF0F0F0F0F0F0F0F0ULL)
+#define __INT64_EPS8 (0xFF00FF00FF00FF00ULL)
+#define __INT64_EPS16 (0xFFFF0000FFFF0000ULL)
+#define __INT64_EPS32 (0xFFFFFFFF00000000ULL)
 typedef int64_t __cgraph_int64;
 #define __UINT64_MAX UINT64_MAX
 #define __UINT64_MIN (0ULL)
-#define __UINT64_IN_FORMAT "%" SCNu64
-#define __UINT64_OUT_FORMAT "%" PRIu64
-#define __UINT64_EPSILON1 (0xAAAAAAAAAAAAAAAAULL)
-#define __UINT64_EPSILON2 (0xCCCCCCCCCCCCCCCCULL)
-#define __UINT64_EPSILON4 (0xF0F0F0F0F0F0F0F0ULL)
-#define __UINT64_EPSILON8 (0xFF00FF00FF00FF00ULL)
-#define __UINT64_EPSILON16 (0xFFFF0000FFFF0000ULL)
-#define __UINT64_EPSILON32 (0xFFFFFFFF00000000ULL)
+#define __UINT64_IN_FMT "%" SCNu64
+#define __UINT64_OUT_FMT "%" PRIu64
+#define __UINT64_EPS1 (0xAAAAAAAAAAAAAAAAULL)
+#define __UINT64_EPS2 (0xCCCCCCCCCCCCCCCCULL)
+#define __UINT64_EPS4 (0xF0F0F0F0F0F0F0F0ULL)
+#define __UINT64_EPS8 (0xFF00FF00FF00FF00ULL)
+#define __UINT64_EPS16 (0xFFFF0000FFFF0000ULL)
+#define __UINT64_EPS32 (0xFFFFFFFF00000000ULL)
 typedef uint64_t __cgraph_uint64;
-#define __RANDOM64_A (6364136223846793005ULL)
-#define __RANDOM64_B (1442695040888963407ULL)
-#define __RANDOM64_M (18446744073709551615ULL)
+#define __RAND64_A (6364136223846793005ULL)
+#define __RAND64_B (1442695040888963407ULL)
+#define __RAND64_M (18446744073709551615ULL)
 #else
 #ifdef HAVE_CONFIG_H
 #include "cgraph_stdint.h"
-#define __SIZE_IN_FORMAT "%" PRI_SIZE_T_MODIFIER
-#define __SIZE_OUT_FORMAT "%" PRI_SIZE_T_MODIFIER
+#define __SIZE_IN_FMT "%" PRI_SIZE_T_MODIFIER
+#define __SIZE_OUT_FMT "%" PRI_SIZE_T_MODIFIER
 #define __INT8_MAX INT8_MAX
 #define __INT8_MIN INT8_MIN
 typedef int8_t __cgraph_int8;
@@ -262,8 +263,8 @@ typedef int64_t __cgraph_int64;
 #define __UINT64_MIN (0ULL)
 typedef uint64_t __cgraph_uint64;
 #else
-#define __SIZE_IN_FORMAT "%ld"
-#define __SIZE_OUT_FORMAT "%ld"
+#define __SIZE_IN_FMT "%ld"
+#define __SIZE_OUT_FMT "%ld"
 #define __INT8_MAX (127L)
 #define __INT8_MIN (-128L)
 typedef signed char __cgraph_int8;
@@ -285,84 +286,84 @@ typedef unsigned int __cgraph_uint32;
 #if defined(__GNUC__) || defined(__clang__) || defined(__HAVE_LONG_LONG)
 #define __INT64_MAX __extension__(9223372036854775807LL)
 #define __INT64_MIN __extension__(-9223372036854775808LL)
-#define __INT64_EPSILON1 __extension__(0xAAAAAAAAAAAAAAAAULL)
-#define __INT64_EPSILON2 __extension__(0xCCCCCCCCCCCCCCCCULL)
-#define __INT64_EPSILON4 __extension__(0xF0F0F0F0F0F0F0F0ULL)
-#define __INT64_EPSILON8 __extension__(0xFF00FF00FF00FF00ULL)
-#define __INT64_EPSILON16 __extension__(0xFFFF0000FFFF0000ULL)
-#define __INT64_EPSILON32 __extension__(0xFFFFFFFF00000000ULL)
-#define __INT64_EPSILON64 __extension__(0xFFFFFFFFFFFFFFFFULL)
+#define __INT64_EPS1 __extension__(0xAAAAAAAAAAAAAAAAULL)
+#define __INT64_EPS2 __extension__(0xCCCCCCCCCCCCCCCCULL)
+#define __INT64_EPS4 __extension__(0xF0F0F0F0F0F0F0F0ULL)
+#define __INT64_EPS8 __extension__(0xFF00FF00FF00FF00ULL)
+#define __INT64_EPS16 __extension__(0xFFFF0000FFFF0000ULL)
+#define __INT64_EPS32 __extension__(0xFFFFFFFF00000000ULL)
+#define __INT64_EPS64 __extension__(0xFFFFFFFFFFFFFFFFULL)
 __extension__ typedef signed long long __cgraph_int64;
 #define __UINT64_MAX __extension__(18446744073709551615ULL)
 #define __UINT64_MIN __extension__(0LL)
-#define __UINT64_EPSILON1 __extension__(0xAAAAAAAAAAAAAAAAULL)
-#define __UINT64_EPSILON2 __extension__(0xCCCCCCCCCCCCCCCCULL)
-#define __UINT64_EPSILON4 __extension__(0xF0F0F0F0F0F0F0F0ULL)
-#define __UINT64_EPSILON8 __extension__(0xFF00FF00FF00FF00ULL)
-#define __UINT64_EPSILON16 __extension__(0xFFFF0000FFFF0000ULL)
-#define __UINT64_EPSILON32 __extension__(0xFFFFFFFF00000000ULL)
-#define __UINT64_EPSILON64 __extension__(0xFFFFFFFFFFFFFFFFULL)
+#define __UINT64_EPS1 __extension__(0xAAAAAAAAAAAAAAAAULL)
+#define __UINT64_EPS2 __extension__(0xCCCCCCCCCCCCCCCCULL)
+#define __UINT64_EPS4 __extension__(0xF0F0F0F0F0F0F0F0ULL)
+#define __UINT64_EPS8 __extension__(0xFF00FF00FF00FF00ULL)
+#define __UINT64_EPS16 __extension__(0xFFFF0000FFFF0000ULL)
+#define __UINT64_EPS32 __extension__(0xFFFFFFFF00000000ULL)
+#define __UINT64_EPS64 __extension__(0xFFFFFFFFFFFFFFFFULL)
 __extension__ typedef unsigned long long __cgraph_uint64;
-#define __RANDOM64_A __extension__(6364136223846793005ULL)
-#define __RANDOM64_B __extension__(1442695040888963407ULL)
-#define __RANDOM64_M __extension__(18446744073709551615ULL)
+#define __RAND64_A __extension__(6364136223846793005ULL)
+#define __RAND64_B __extension__(1442695040888963407ULL)
+#define __RAND64_M __extension__(18446744073709551615ULL)
 #elif defined(_MSC_VER)
 #define __INT64_MAX (9223372036854775807LL)
 #define __INT64_MIN (-9223372036854775808LL)
-#define __INT64_EPSILON1 (0xAAAAAAAAAAAAAAAAULL)
-#define __INT64_EPSILON2 (0xCCCCCCCCCCCCCCCCULL)
-#define __INT64_EPSILON4 (0xF0F0F0F0F0F0F0F0ULL)
-#define __INT64_EPSILON8 (0xFF00FF00FF00FF00ULL)
-#define __INT64_EPSILON16 (0xFFFF0000FFFF0000ULL)
-#define __INT64_EPSILON32 (0xFFFFFFFF00000000ULL)
-#define __INT64_EPSILON64 (0xFFFFFFFFFFFFFFFFULL)
+#define __INT64_EPS1 (0xAAAAAAAAAAAAAAAAULL)
+#define __INT64_EPS2 (0xCCCCCCCCCCCCCCCCULL)
+#define __INT64_EPS4 (0xF0F0F0F0F0F0F0F0ULL)
+#define __INT64_EPS8 (0xFF00FF00FF00FF00ULL)
+#define __INT64_EPS16 (0xFFFF0000FFFF0000ULL)
+#define __INT64_EPS32 (0xFFFFFFFF00000000ULL)
+#define __INT64_EPS64 (0xFFFFFFFFFFFFFFFFULL)
 typedef signed __int64 __cgraph_int64;
 #define __UINT64_MIN (0LL)
 #define __UINT64_MAX (18446744073709551615ULL)
-#define __UINT64_EPSILON1 (0xAAAAAAAAAAAAAAAAULL)
-#define __UINT64_EPSILON2 (0xCCCCCCCCCCCCCCCCULL)
-#define __UINT64_EPSILON4 (0xF0F0F0F0F0F0F0F0ULL)
-#define __UINT64_EPSILON8 (0xFF00FF00FF00FF00ULL)
-#define __UINT64_EPSILON16 (0xFFFF0000FFFF0000ULL)
-#define __UINT64_EPSILON32 (0xFFFFFFFF00000000ULL)
-#define __UINT64_EPSILON64 (0xFFFFFFFFFFFFFFFFULL)
+#define __UINT64_EPS1 (0xAAAAAAAAAAAAAAAAULL)
+#define __UINT64_EPS2 (0xCCCCCCCCCCCCCCCCULL)
+#define __UINT64_EPS4 (0xF0F0F0F0F0F0F0F0ULL)
+#define __UINT64_EPS8 (0xFF00FF00FF00FF00ULL)
+#define __UINT64_EPS16 (0xFFFF0000FFFF0000ULL)
+#define __UINT64_EPS32 (0xFFFFFFFF00000000ULL)
+#define __UINT64_EPS64 (0xFFFFFFFFFFFFFFFFULL)
 typedef unsigned __int64 __cgraph_uint64;
-#define __RANDOM64_A (6364136223846793005ULL)
-#define __RANDOM64_B (1442695040888963407ULL)
-#define __RANDOM64_M (18446744073709551615ULL)
+#define __RAND64_A (6364136223846793005ULL)
+#define __RAND64_B (1442695040888963407ULL)
+#define __RAND64_M (18446744073709551615ULL)
 #else
 #error unsupported C compiler in 32-bit/64-bit system
 #endif
 #endif
-#define __INT8_IN_FORMAT "%d"
-#define __INT8_OUT_FORMAT "%d"
-#define __UINT8_IN_FORMAT "%u"
-#define __UINT8_OUT_FORMAT "%u"
-#define __INT16_IN_FORMAT "%d"
-#define __INT16_OUT_FORMAT "%d"
-#define __UINT16_IN_FORMAT "%u"
-#define __UINT16_OUT_FORMAT "%u"
-#define __INT32_IN_FORMAT "%d"
-#define __INT32_OUT_FORMAT "%d"
-#define __UINT32_IN_FORMAT "%u"
-#define __UINT32_OUT_FORMAT "%u"
+#define __INT8_IN_FMT "%d"
+#define __INT8_OUT_FMT "%d"
+#define __UINT8_IN_FMT "%u"
+#define __UINT8_OUT_FMT "%u"
+#define __INT16_IN_FMT "%d"
+#define __INT16_OUT_FMT "%d"
+#define __UINT16_IN_FMT "%u"
+#define __UINT16_OUT_FMT "%u"
+#define __INT32_IN_FMT "%d"
+#define __INT32_OUT_FMT "%d"
+#define __UINT32_IN_FMT "%u"
+#define __UINT32_OUT_FMT "%u"
 #if defined(__GNUC__) || defined(__clang__)
 #ifdef __PLAT_WINDOWS
-#define __INT64_IN_FORMAT "%I64d"
-#define __INT64_OUT_FORMAT "%I64d"
-#define __UINT64_IN_FORMAT "%I64u"
-#define __UINT64_OUT_FORMAT "%I64u"
+#define __INT64_IN_FMT "%I64d"
+#define __INT64_OUT_FMT "%I64d"
+#define __UINT64_IN_FMT "%I64u"
+#define __UINT64_OUT_FMT "%I64u"
 #else
-#define __INT64_IN_FORMAT "%lld"
-#define __INT64_OUT_FORMAT "%lld"
-#define __UINT64_IN_FORMAT "%llu"
-#define __UINT64_OUT_FORMAT "%llu"
+#define __INT64_IN_FMT "%lld"
+#define __INT64_OUT_FMT "%lld"
+#define __UINT64_IN_FMT "%llu"
+#define __UINT64_OUT_FMT "%llu"
 #endif
 #elif defined(_MSC_VER)
-#define __INT64_IN_FORMAT "%I64d"
-#define __INT64_OUT_FORMAT "%I64d"
-#define __UINT64_IN_FORMAT "%I64u"
-#define __UINT64_OUT_FORMAT "%I64u"
+#define __INT64_IN_FMT "%I64d"
+#define __INT64_OUT_FMT "%I64d"
+#define __UINT64_IN_FMT "%I64u"
+#define __UINT64_OUT_FMT "%I64u"
 #else
 #error unsupported C compiler in 32-bit/64-bit system
 #endif
@@ -403,16 +404,16 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __INT128_DIG (128)
 #define __INT128_BITS (8 * sizeof(__INT128))
 #define __INT128_BITS_LOG2 (7)
-#define __INT128_IN_FORMAT "%s"
-#define __INT128_OUT_FORMAT "%s"
-#define __INT128_EPSILON1 __INT64_EPSILON1
-#define __INT128_EPSILON2 __INT64_EPSILON2
-#define __INT128_EPSILON4 __INT64_EPSILON4
-#define __INT128_EPSILON8 __INT64_EPSILON8
-#define __INT128_EPSILON16 __INT64_EPSILON16
-#define __INT128_EPSILON32 __INT64_EPSILON32
-#define __INT128_EPSILON64 __INT64_EPSILON64
-#define __INT128_DATA_TYPE __cgraph_uint64
+#define __INT128_IN_FMT "%s"
+#define __INT128_OUT_FMT "%s"
+#define __INT128_EPS1 __INT64_EPS1
+#define __INT128_EPS2 __INT64_EPS2
+#define __INT128_EPS4 __INT64_EPS4
+#define __INT128_EPS8 __INT64_EPS8
+#define __INT128_EPS16 __INT64_EPS16
+#define __INT128_EPS32 __INT64_EPS32
+#define __INT128_EPS64 __INT64_EPS64
+#define __INT128_DTYPE __cgraph_uint64
 
 #define __UINT128 __uint128_t
 #define __UINT128_MIN (0)
@@ -421,16 +422,16 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __UINT128_DIG (128)
 #define __UINT128_BITS (8 * sizeof(__INT128))
 #define __UINT128_BITS_LOG2 (7)
-#define __UINT128_IN_FORMAT "%s"
-#define __UINT128_OUT_FORMAT "%s"
-#define __UINT128_EPSILON1 __UINT64_EPSILON1
-#define __UINT128_EPSILON2 __UINT64_EPSILON2
-#define __UINT128_EPSILON4 __UINT64_EPSILON4
-#define __UINT128_EPSILON8 __UINT64_EPSILON8
-#define __UINT128_EPSILON16 __UINT64_EPSILON16
-#define __UINT128_EPSILON32 __UINT64_EPSILON32
-#define __UINT128_EPSILON64 __UINT64_EPSILON64
-#define __UINT128_DATA_TYPE __cgraph_uint64
+#define __UINT128_IN_FMT "%s"
+#define __UINT128_OUT_FMT "%s"
+#define __UINT128_EPS1 __UINT64_EPS1
+#define __UINT128_EPS2 __UINT64_EPS2
+#define __UINT128_EPS4 __UINT64_EPS4
+#define __UINT128_EPS8 __UINT64_EPS8
+#define __UINT128_EPS16 __UINT64_EPS16
+#define __UINT128_EPS32 __UINT64_EPS32
+#define __UINT128_EPS64 __UINT64_EPS64
+#define __UINT128_DTYPE __cgraph_uint64
 
 #else
 #define __WITH_INT128_SIZE64
@@ -441,16 +442,16 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __INT128_DIG __INT64_DIG
 #define __INT128_BITS (8 * sizeof(__INT128))
 #define __INT128_BITS_LOG2 __INT64_BITS_LOG2
-#define __INT128_IN_FORMAT "%s"
-#define __INT128_OUT_FORMAT "%s"
-#define __INT128_EPSILON1 __INT64_EPSILON1
-#define __INT128_EPSILON2 __INT64_EPSILON2
-#define __INT128_EPSILON4 __INT64_EPSILON4
-#define __INT128_EPSILON8 __INT64_EPSILON8
-#define __INT128_EPSILON16 __INT64_EPSILON16
-#define __INT128_EPSILON32 __INT64_EPSILON32
-#define __INT128_EPSILON64 __INT64_EPSILON64
-#define __INT128_DATA_TYPE __cgraph_uint32
+#define __INT128_IN_FMT "%s"
+#define __INT128_OUT_FMT "%s"
+#define __INT128_EPS1 __INT64_EPS1
+#define __INT128_EPS2 __INT64_EPS2
+#define __INT128_EPS4 __INT64_EPS4
+#define __INT128_EPS8 __INT64_EPS8
+#define __INT128_EPS16 __INT64_EPS16
+#define __INT128_EPS32 __INT64_EPS32
+#define __INT128_EPS64 __INT64_EPS64
+#define __INT128_DTYPE __cgraph_uint32
 
 #define __UINT128 __cgraph_uint64
 #define __UINT128_MIN __UINT64_MIN
@@ -459,85 +460,97 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __UINT128_DIG __UINT64_DIG
 #define __UINT128_BITS (8 * sizeof(__INT128))
 #define __UINT128_BITS_LOG2 __UINT64_BITS_LOG2
-#define __UINT128_IN_FORMAT "%s"
-#define __UINT128_OUT_FORMAT "%s"
-#define __UINT128_EPSILON1 __UINT64_EPSILON1
-#define __UINT128_EPSILON2 __UINT64_EPSILON2
-#define __UINT128_EPSILON4 __UINT64_EPSILON4
-#define __UINT128_EPSILON8 __UINT64_EPSILON8
-#define __UINT128_EPSILON16 __UINT64_EPSILON16
-#define __UINT128_EPSILON32 __UINT64_EPSILON32
-#define __UINT128_EPSILON64 __UINT64_EPSILON64
-#define __UINT128_DATA_TYPE __cgraph_uint32
+#define __UINT128_IN_FMT "%s"
+#define __UINT128_OUT_FMT "%s"
+#define __UINT128_EPS1 __UINT64_EPS1
+#define __UINT128_EPS2 __UINT64_EPS2
+#define __UINT128_EPS4 __UINT64_EPS4
+#define __UINT128_EPS8 __UINT64_EPS8
+#define __UINT128_EPS16 __UINT64_EPS16
+#define __UINT128_EPS32 __UINT64_EPS32
+#define __UINT128_EPS64 __UINT64_EPS64
+#define __UINT128_DTYPE __cgraph_uint32
 #endif
 
-/**< 128-bit float number details */
+/**< float number details */
+#define FLT8_MIN __UINT8_MIN
+#define FLT8_MAX __UINT8_MAX
+#define FLT8_EPS __UINT8_EPS
+#define FLT8_DIG __UINT8_EPS
+#define FLT16_MIN __UINT16_MIN
+#define FLT16_MAX __UINT16_MAX
+#define FLT16_EPS __UINT16_EPS
+#define FLT16_DIG __UINT16_EPS
+#define FLT_EPS __UINT32_EPS
+#define DBL_EPS __UINT64_EPS
+
+/**< 128-bit float number */
 #if __STDC_VERSION__ >= 199901L || defined(__HAVE_LONG_DOUBLE)
 #define __WITH_FLOAT128_SIZE128
 #define __FLOAT128 long double
 #define __FLOAT128_MIN LDBL_MIN
 #define __FLOAT128_MAX LDBL_MAX
-#define __FLOAT128_EPS LDBL_EPSILON
+#define __FLOAT128_EPS __UINT128_EPS
 #define __FLOAT128_DIG LDBL_DIG
 #define __FLOAT128_BITS (8 * sizeof(__FLOAT128))
-#define __FLOAT128_IN_FORMAT "%Lg"
-#define __FLOAT128_OUT_FORMAT "%Lg"
-#define __FLOAT128_HASH_OFFSET (12)
+#define __FLOAT128_IN_FMT "%Lg"
+#define __FLOAT128_OUT_FMT "%Lg"
+#define __FLOAT128_HASH_OFS (12)
 #define __FLOAT128_FRA_BITS (15)
-#define __FLOAT128_FRA_OFFSET (0)
-#define __FLOAT128_FRA_EPSILON (0x7FFF)
+#define __FLOAT128_FRA_OFS (0)
+#define __FLOAT128_FRA_EPS (0x7FFF)
 #define __FLOAT128_EXP_BITS (64)
-#define __FLOAT128_EXP_OFFSET __FLOAT128_FRA_BITS
-#define __FLOAT128_EXP_EPSILON __UINT64_EPS
+#define __FLOAT128_EXP_OFS __FLOAT128_FRA_BITS
+#define __FLOAT128_EXP_EPS __UINT64_EPS
 #else
 #define __WITH_FLOAT128_SIZE64
 #define __FLOAT128 double
 #define __FLOAT128_MIN DBL_MIN
 #define __FLOAT128_MAX DBL_MAX
-#define __FLOAT128_EPS DBL_EPSILON
+#define __FLOAT128_EPS DBL_EPS
 #define __FLOAT128_DIG DBL_DIG
 #define __FLOAT128_BITS (8 * sizeof(__FLOAT128))
-#define __FLOAT128_IN_FORMAT "%g"
-#define __FLOAT128_OUT_FORMAT "%g"
-#define __FLOAT128_HASH_OFFSET (8)
+#define __FLOAT128_IN_FMT "%g"
+#define __FLOAT128_OUT_FMT "%g"
+#define __FLOAT128_HASH_OFS (8)
 #define __FLOAT128_FRA_BITS (11)
-#define __FLOAT128_FRA_OFFSET (0)
-#define __FLOAT128_FRA_EPSILON (0x7FFFU)
+#define __FLOAT128_FRA_OFS (0)
+#define __FLOAT128_FRA_EPS (0x7FFFU)
 #define __FLOAT128_EXP_BITS (52)
-#define __FLOAT128_EXP_OFFSET __FLOAT128_FRA_BITS
-#define __FLOAT128_EXP_EPSILON __extension__(0xFFFFFFFFFFFFFULL)
+#define __FLOAT128_EXP_OFS __FLOAT128_FRA_BITS
+#define __FLOAT128_EXP_EPS __extension__(0xFFFFFFFFFFFFFULL)
 #endif
 
 #if __WORDSIZE == 64
 #define __LONG_EPS __UINT64_MAX
-#define __LONG_EPSILON1 __UINT64_EPSILON1
-#define __LONG_EPSILON2 __UINT64_EPSILON2
-#define __LONG_EPSILON4 __UINT64_EPSILON4
-#define __LONG_EPSILON8 __UINT64_EPSILON8
-#define __LONG_EPSILON16 __UINT64_EPSILON16
-#define __LONG_EPSILON32 __UINT64_EPSILON32
+#define __LONG_EPS1 __UINT64_EPS1
+#define __LONG_EPS2 __UINT64_EPS2
+#define __LONG_EPS4 __UINT64_EPS4
+#define __LONG_EPS8 __UINT64_EPS8
+#define __LONG_EPS16 __UINT64_EPS16
+#define __LONG_EPS32 __UINT64_EPS32
 #define __ULONG_EPS __UINT64_MAX
-#define __ULONG_EPSILON1 __UINT64_EPSILON1
-#define __ULONG_EPSILON2 __UINT64_EPSILON2
-#define __ULONG_EPSILON4 __UINT64_EPSILON4
-#define __ULONG_EPSILON8 __UINT64_EPSILON8
-#define __ULONG_EPSILON16 __UINT64_EPSILON16
-#define __ULONG_EPSILON32 __UINT64_EPSILON32
+#define __ULONG_EPS1 __UINT64_EPS1
+#define __ULONG_EPS2 __UINT64_EPS2
+#define __ULONG_EPS4 __UINT64_EPS4
+#define __ULONG_EPS8 __UINT64_EPS8
+#define __ULONG_EPS16 __UINT64_EPS16
+#define __ULONG_EPS32 __UINT64_EPS32
 #elif __WORDSIZE == 32
 #define __LONG_EPS __UINT32_MAX
-#define __LONG_EPSILON1 (0xAAAAAAAAUL)
-#define __LONG_EPSILON2 (0xCCCCCCCCUL)
-#define __LONG_EPSILON4 (0xF0F0F0F0U)
-#define __LONG_EPSILON8 (0xFF00FF00U)
-#define __LONG_EPSILON16 (0xFFFF0000U)
-#define __LONG_EPSILON32 (0xFFFFFFFFU)
+#define __LONG_EPS1 (0xAAAAAAAAUL)
+#define __LONG_EPS2 (0xCCCCCCCCUL)
+#define __LONG_EPS4 (0xF0F0F0F0U)
+#define __LONG_EPS8 (0xFF00FF00U)
+#define __LONG_EPS16 (0xFFFF0000U)
+#define __LONG_EPS32 (0xFFFFFFFFU)
 #define __ULONG_EPS __UINT32_MAX
-#define __ULONG_EPSILON1 (0xAAAAAAAAUL)
-#define __ULONG_EPSILON2 (0xCCCCCCCCUL)
-#define __ULONG_EPSILON4 (0xF0F0F0F0U)
-#define __ULONG_EPSILON8 (0xFF00FF00U)
-#define __ULONG_EPSILON16 (0xFFFF0000U)
-#define __ULONG_EPSILON32 (0xFFFFFFFFU)
+#define __ULONG_EPS1 (0xAAAAAAAAUL)
+#define __ULONG_EPS2 (0xCCCCCCCCUL)
+#define __ULONG_EPS4 (0xF0F0F0F0U)
+#define __ULONG_EPS8 (0xFF00FF00U)
+#define __ULONG_EPS16 (0xFFFF0000U)
+#define __ULONG_EPS32 (0xFFFFFFFFU)
 #endif
 
 #if (__STDC_VERSION__ >= 201112L)

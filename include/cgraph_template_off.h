@@ -300,12 +300,12 @@
 #undef UID
 #endif
 
-#ifdef IN_FORMAT
-#undef IN_FORMAT
+#ifdef IN_FMT
+#undef IN_FMT
 #endif
 
-#ifdef OUT_FORMAT
-#undef OUT_FORMAT
+#ifdef OUT_FMT
+#undef OUT_FMT
 #endif
 
 #ifdef ZERO0
@@ -360,12 +360,12 @@
 #undef LSB
 #endif
 
-#ifdef EPSILON
-#undef EPSILON
+#ifdef EPS
+#undef EPS
 #endif
 
-#ifdef EPSILON_LEN
-#undef EPSILON_LEN
+#ifdef EPS_LEN
+#undef EPS_LEN
 #endif
 
 /** DATA TYPE AND PROPERTY IN DATA TYPE */
@@ -457,12 +457,12 @@
 #undef DATA_LSB
 #endif
 
-#ifdef DATA_EPSILON
-#undef DATA_EPSILON
+#ifdef DATA_EPS
+#undef DATA_EPS
 #endif
 
-#ifdef DATA_EPSILON_LEN
-#undef DATA_EPSILON_LEN
+#ifdef DATA_EPS_LEN
+#undef DATA_EPS_LEN
 #endif
 
 #ifdef DATA_EQ
@@ -533,20 +533,20 @@
 #undef DATA_ISNEG
 #endif
 
-#ifdef HASH_OFFSET
-#undef HASH_OFFSET
+#ifdef HASH_OFS
+#undef HASH_OFS
 #endif
 
 #ifdef FRAC_BITS
 #undef FRAC_BITS
 #endif
 
-#ifdef FRAC_EPSILON
-#undef FRAC_EPSILON
+#ifdef FRAC_EPS
+#undef FRAC_EPS
 #endif
 
-#ifdef FRAC_OFFSET
-#undef FRAC_OFFSET
+#ifdef FRAC_OFS
+#undef FRAC_OFS
 #endif
 
 #ifdef FLOAT_SOFT_TOFRAC
@@ -569,12 +569,12 @@
 #undef EXP_BITS
 #endif
 
-#ifdef EXP_EPSILON
-#undef EXP_EPSILON
+#ifdef EXP_EPS
+#undef EXP_EPS
 #endif
 
-#ifdef EXP_OFFSET
-#undef EXP_OFFSET
+#ifdef EXP_OFS
+#undef EXP_OFS
 #endif
 
 #ifdef EXP_BIAS
@@ -601,12 +601,12 @@
 #undef SIG_BITS
 #endif
 
-#ifdef SIG_EPSILON
-#undef SIG_EPSILON
+#ifdef SIG_EPS
+#undef SIG_EPS
 #endif
 
-#ifdef SIG_OFFSET
-#undef SIG_OFFSET
+#ifdef SIG_OFS
+#undef SIG_OFS
 #endif
 
 #ifdef FLOAT_SOFT_TOSIG
@@ -625,32 +625,32 @@
 #undef FLOAT_SOFT_SIG_SET
 #endif
 
-#ifdef EPSILON1
-#undef EPSILON1
+#ifdef EPS1
+#undef EPS1
 #endif
 
-#ifdef EPSILON2
-#undef EPSILON2
+#ifdef EPS2
+#undef EPS2
 #endif
 
-#ifdef EPSILON4
-#undef EPSILON4
+#ifdef EPS4
+#undef EPS4
 #endif
 
-#ifdef EPSILON8
-#undef EPSILON8
+#ifdef EPS8
+#undef EPS8
 #endif
 
-#ifdef EPSILON16
-#undef EPSILON16
+#ifdef EPS16
+#undef EPS16
 #endif
 
-#ifdef EPSILON32
-#undef EPSILON32
+#ifdef EPS32
+#undef EPS32
 #endif
 
-#ifdef EPSILON64
-#undef EPSILON64
+#ifdef EPS64
+#undef EPS64
 #endif
 
 /** COPYED MEMORY SIZE WITHOUT FUNCPTR MEMORY SIZE */
@@ -845,14 +845,14 @@
 #undef DATA_SWAP
 #endif
 
-#ifdef CGRAPH_BUFFER_SIZE
-#undef CGRAPH_BUFFER_SIZE
+#ifdef CGRAPH_CBUFFER_SIZE
+#undef CGRAPH_CBUFFER_SIZE
 #endif
 
-#ifdef CGRAPH_BUFFER_CALLOC
-#undef CGRAPH_BUFFER_CALLOC
+#ifdef CGRAPH_CBUFFER_CALLOC
+#undef CGRAPH_CBUFFER_CALLOC
 #endif
 
-#ifdef CGRAPH_BUFFER_FREE
-#undef CGRAPH_BUFFER_FREE
+#ifdef CGRAPH_CBUFFER_FREE
+#undef CGRAPH_CBUFFER_FREE
 #endif

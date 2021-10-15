@@ -1,6 +1,6 @@
 /**
  * @file cgraph_error.h
- * @brief the apis of error solution
+ * @brief the apis of error functions
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph
@@ -18,13 +18,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#ifndef CGRAPH_TIME_BUFFER_SIZE
-#define CGRAPH_TIME_BUFFER_SIZE CGRAPH_BUFFER_SIZE2
-#endif
-
-#ifndef CGRAPH_LOG_BUFFER_SIZE
-#define CGRAPH_LOG_BUFFER_SIZE CGRAPH_BUFFER_SIZE5
-#endif
+#define CGRAPH_TIME_CBUFFER_SIZE CGRAPH_CBUFFER_SIZE2
+#define CGRAPH_LOG_CBUFFER_SIZE CGRAPH_CBUFFER_SIZE5
 
 typedef enum {
   CGRAPH_ERROR_NO_ERROR,               /** NO ERROR */
@@ -59,12 +54,12 @@ extern void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
                              const cgraph_char_t *function,
                              const cgraph_size_t line,
                              const cgraph_char_t *format, ...);
-extern void cgraph_error_log_buffer(FILE *fp, cgraph_char_t *buffer,
-                                    cgraph_size_t len,
-                                    const cgraph_char_t *file,
-                                    const cgraph_char_t *function,
-                                    const cgraph_size_t line,
-                                    const cgraph_char_t *format, ...);
+extern void cgraph_error_log_cbuffer(FILE *fp, cgraph_char_t *cbuffer,
+                                     cgraph_size_t len,
+                                     const cgraph_char_t *file,
+                                     const cgraph_char_t *function,
+                                     const cgraph_size_t line,
+                                     const cgraph_char_t *format, ...);
 
 /** corresponding to the argument order of above function calling */
 #define CGRAPH_ERROR_STYLE "FILE %s LINE %ld : "

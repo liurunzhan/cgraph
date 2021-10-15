@@ -1,7 +1,12 @@
-NAME        : cgraph
-DESCRIPTION : A C library for graph and mathematical analysis
-AUTHOR      : liurunzhan
-E-MAIL      : liurunzhan@sina.com
-DATE        : 2020-01-12
-VERSION     : 0.0.0
-NOTE        : create project
+////////////////////////////////////////////////////////////////////////////////
+NAME    : cgraph
+BREIF   : A C library for graph and mathematical analysis
+AUTHOR  : liurunzhan
+E-MAIL  : liurunzhan@sina.com
+////////////////////////////////////////////////////////////////////////////////
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        HISTORY       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+////////////////////////////////////////////////////////////////////////////////
+DATE    : 2020-01-12
+VERSION : 0.0.0
+NOTE    : create project
+////////////////////////////////////////////////////////////////////////////////

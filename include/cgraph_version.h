@@ -1,6 +1,6 @@
 /**
  * @file cgraph_version.h
- * @brief the version solution of cgraph
+ * @brief the version functions of cgraph
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

@@ -22,13 +22,13 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   }
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
   if (TIME_ISTYPE0(cthis)) {
-    return FUNCTION(NAME, snprint0)(buffer, size, cthis);
+    return FUNCTION(NAME, snprint0)(cbuffer, size, cthis);
   } else {
-    return FUNCTION(NAME, snprint1)(buffer, size, cthis);
+    return FUNCTION(NAME, snprint1)(cbuffer, size, cthis);
   }
 }
 
@@ -60,7 +60,7 @@ TYPE FUNCTION(NAME, one)(void) { return FUNCTION(NAME, one0)(); }
 
 TYPE FUNCTION(NAME, ones)(void) { return FUNCTION(NAME, ones0)(); }
 
-TYPE FUNCTION(NAME, random)(void) { return FUNCTION(NAME, random0)(); }
+TYPE FUNCTION(NAME, rand)(void) { return FUNCTION(NAME, rand0)(); }
 
 cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
@@ -164,7 +164,7 @@ cgraph_size_t FUNCTION(NAME, hash0)(const TYPE cthis) {
 }
 
 cgraph_size_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE cthis) {
-  return fprintf(fp, OUT_FORMAT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
+  return fprintf(fp, OUT_FMT0, TIME_VALUE1(cthis), TIME_VALUE0(cthis));
 }
 
 cgraph_size_t FUNCTION(NAME, print0)(const TYPE cthis) {
@@ -184,10 +184,10 @@ cgraph_size_t FUNCTION(NAME, println0)(const TYPE cthis) {
   return FUNCTION(NAME, fprintln0)(stdout, cthis);
 }
 
-cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *cbuffer,
                                        const cgraph_size_t size,
                                        const TYPE cthis) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT0, TIME_VALUE1(cthis),
+  return cgraph_file_snprintf(cbuffer, size, OUT_FMT0, TIME_VALUE1(cthis),
                               TIME_VALUE0(cthis));
 }
 
@@ -282,11 +282,11 @@ TYPE FUNCTION(NAME, max0)(void) {
   return res;
 }
 
-TYPE FUNCTION(NAME, random0)(void) {
+TYPE FUNCTION(NAME, rand0)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE0;
-  TIME_VALUE0(res) = DATA_MIN & FUNCTION(DATA_NAME, urandom)();
-  TIME_VALUE1(res) = DATA_MIN1 & FUNCTION(DATA_NAME, urandom)();
+  TIME_VALUE0(res) = DATA_MIN & FUNCTION(DATA_NAME, urand)();
+  TIME_VALUE1(res) = DATA_MIN1 & FUNCTION(DATA_NAME, urand)();
 
   return res;
 }
@@ -486,7 +486,7 @@ cgraph_size_t FUNCTION(NAME, hash1)(const TYPE cthis) {
 }
 
 cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE cthis) {
-  return fprintf(fp, OUT_FORMAT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
+  return fprintf(fp, OUT_FMT1, TIME_YEAR(cthis), TIME_MONTH(cthis),
                  TIME_DAY(cthis), TIME_HOUR(cthis), TIME_MINUTE(cthis),
                  TIME_SECOND(cthis));
 }
@@ -508,10 +508,10 @@ cgraph_size_t FUNCTION(NAME, println1)(const TYPE cthis) {
   return FUNCTION(NAME, fprintln1)(stdout, cthis);
 }
 
-cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *cbuffer,
                                        const cgraph_size_t size,
                                        const TYPE cthis) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT1, TIME_YEAR(cthis),
+  return cgraph_file_snprintf(cbuffer, size, OUT_FMT1, TIME_YEAR(cthis),
                               TIME_MONTH(cthis), TIME_DAY(cthis),
                               TIME_HOUR(cthis), TIME_MINUTE(cthis),
                               TIME_SECOND(cthis));
@@ -648,15 +648,15 @@ TYPE FUNCTION(NAME, max1)(void) {
   return res;
 }
 
-TYPE FUNCTION(NAME, random1)(void) {
+TYPE FUNCTION(NAME, rand1)(void) {
   TYPE res;
   TIME_TYPE(res) = CGRAPH_TIME_TYPE1;
-  TIME_YEAR(res) = DATA_MAX & FUNCTION(DATA_NAME, random)();
-  TIME_MONTH(res) = cgraph_random32_uniform(-12, 12);
-  TIME_DAY(res) = cgraph_random32_uniform(-31, 31);
-  TIME_HOUR(res) = cgraph_random32_uniform(-23, 23);
-  TIME_MINUTE(res) = cgraph_random32_uniform(-59, 59);
-  TIME_SECOND(res) = cgraph_random32_uniform(-59, 59);
+  TIME_YEAR(res) = DATA_MAX & FUNCTION(DATA_NAME, rand)();
+  TIME_MONTH(res) = cgraph_rand32_uniform(-12, 12);
+  TIME_DAY(res) = cgraph_rand32_uniform(-31, 31);
+  TIME_HOUR(res) = cgraph_rand32_uniform(-23, 23);
+  TIME_MINUTE(res) = cgraph_rand32_uniform(-59, 59);
+  TIME_SECOND(res) = cgraph_rand32_uniform(-59, 59);
 
   return res;
 }

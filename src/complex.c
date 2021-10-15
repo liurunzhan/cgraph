@@ -11,14 +11,14 @@
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  return cgraph_file_fprintf(fp, OUT_FORMAT, COMPLEX_REAL(cthis),
+  return cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
                              COMPLEX_IMAG(cthis));
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, COMPLEX_REAL(cthis),
+  return cgraph_file_snprintf(cbuffer, size, OUT_FMT, COMPLEX_REAL(cthis),
                               COMPLEX_IMAG(cthis));
 }
 
@@ -60,10 +60,10 @@ TYPE FUNCTION(NAME, one)(void) {
   return res;
 }
 
-TYPE FUNCTION(NAME, random)(void) {
+TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
-  COMPLEX_REAL(res) = 1.0 * FUNCTION(DATA_NAME, random)();
-  COMPLEX_IMAG(res) = 1.0 * FUNCTION(DATA_NAME, random)();
+  COMPLEX_REAL(res) = 1.0 * FUNCTION(DATA_NAME, rand)();
+  COMPLEX_IMAG(res) = 1.0 * FUNCTION(DATA_NAME, rand)();
 
   return res;
 }

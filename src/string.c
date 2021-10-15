@@ -21,13 +21,13 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                       const cgraph_size_t size,
                                       const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != buffer) && (NULL != cthis)) {
+  if ((NULL != cbuffer) && (NULL != cthis)) {
     len = CGRAPH_MIN(size, cthis->len);
-    cgraph_memcpy(buffer, cthis->data, len);
+    cgraph_memcpy(cbuffer, cthis->data, len);
   }
 
   return len;
@@ -446,8 +446,8 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
     next = cgraph_math_kmpnext(y->data, next, y->len);
     z->len = cgraph_math_kmpcnt(x->data, x->len, y->data, next, y->len);
     cgraph_free(next);
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), CGRAPH_BUFFER_SIZE0,
-                                &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z),
+                                CGRAPH_CBUFFER_SIZE0, &error);
     if (CGRAPH_FALSE == error) {
       z->len = cgraph_file_snprintf(z->data, z->size, "%ld", z->len);
     }
@@ -465,8 +465,8 @@ TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE y, TYPE *z) {
         z->len += 1;
       }
     }
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), CGRAPH_BUFFER_SIZE0,
-                                &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z),
+                                CGRAPH_CBUFFER_SIZE0, &error);
     if (CGRAPH_FALSE == error) {
       z->len = cgraph_file_snprintf(z->data, z->size, "%ld", z->len);
     }
@@ -656,6 +656,40 @@ TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y) {
 
 TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) {
   return FUNCTION(NAME, init)(y, x, 0);
+}
+
+cgraph_bool_t FUNCTION(NAME, startswith)(const TYPE *cthis,
+                                         const DATA_TYPE *cstr,
+                                         const cgraph_size_t len) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (NULL != cstr) && (len <= cthis->len)) {
+    cgraph_size_t i = 0;
+    for (flag = CGRAPH_TRUE; i < len; i++) {
+      if (cstr[i] != cthis->data[i]) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, endswith)(const TYPE *cthis, const DATA_TYPE *cstr,
+                                       const cgraph_size_t len) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (NULL != cstr) && (len <= cthis->len)) {
+    DATA_TYPE *data = &(cthis->data[cthis->len - len]);
+    cgraph_size_t i = 0;
+    for (flag = CGRAPH_TRUE; i < len; i++) {
+      if (cstr[i] != data[i]) {
+        flag = CGRAPH_FALSE;
+        break;
+      }
+    }
+  }
+
+  return flag;
 }
 
 #include "cgraph_template_off.h"

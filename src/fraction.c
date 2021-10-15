@@ -10,13 +10,13 @@
 #include "template_data.ct"
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  return fprintf(fp, OUT_FORMAT, FRACTION_NUM(cthis), FRACTION_DEN(cthis));
+  return fprintf(fp, OUT_FMT, FRACTION_NUM(cthis), FRACTION_DEN(cthis));
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, FRACTION_NUM(cthis),
+  return cgraph_file_snprintf(cbuffer, size, OUT_FMT, FRACTION_NUM(cthis),
                               FRACTION_DEN(cthis));
 }
 
@@ -80,10 +80,10 @@ TYPE FUNCTION(NAME, ones)(void) {
   return res;
 }
 
-TYPE FUNCTION(NAME, random)(void) {
+TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
-  FRACTION_NUM(res) = FUNCTION(DATA_NAME, random)();
-  FRACTION_DEN(res) = FUNCTION(DATA_NAME, random)();
+  FRACTION_NUM(res) = FUNCTION(DATA_NAME, rand)();
+  FRACTION_DEN(res) = FUNCTION(DATA_NAME, rand)();
   return res;
 }
 

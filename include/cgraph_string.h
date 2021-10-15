@@ -62,6 +62,12 @@ extern TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
 extern TYPE *FUNCTION(NAME, modc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
 
 extern TYPE *FUNCTION(NAME, chomp)(TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, startswith)(const TYPE *cthis,
+                                                const DATA_TYPE *cstr,
+                                                const cgraph_size_t len);
+extern cgraph_bool_t FUNCTION(NAME, endswith)(const TYPE *cthis,
+                                              const DATA_TYPE *cstr,
+                                              const cgraph_size_t len);
 
 #include "cgraph_template_off.h"
 

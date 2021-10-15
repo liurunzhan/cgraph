@@ -4,7 +4,7 @@ package main
 
 import "core:os"
 import "core:path/filepath"
-import "core:os"
+import "core:os/os2"
 import "core:fmt"
 import "core:strings"
 
@@ -35,7 +35,7 @@ main :: proc() {
 	LIBSTATIC : string;
 	TSTFILE : string;
 	TSTTARGET : string;
-	if ODIN_OS == "windows" {
+	when ODIN_OS == "windows" {
 		// target files
 		LIBSHARED = filepath.join(LIB, fmt.aprintf("lib%s.dll", PRO));
 		LIBSTATIC = filepath.join(LIB, fmt.aprintf("lib%s.lib", PRO));
@@ -57,10 +57,12 @@ main :: proc() {
 	args := os.args;
 	if len(args) == 1 {
 		if !os2.exists(LIB) {
-			os2.mkdir(LIB, 777);
+			os2.mkdir_all(LIB, 777);
 		}
-
 		OFILES := make([dynamic]string);
+		for file in CFILES {
+
+		}
 		delete(OFILES);
 	} else if args[1] == "test" {
 	} else if args[1] == "clean" {

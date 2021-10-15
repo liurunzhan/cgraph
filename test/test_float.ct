@@ -13,31 +13,31 @@ int main(int argc, char *argv[]) {
   TYPE matrix2[4] = {1.0, 2.0, 1.0, 2.0};
   TYPE tmp = ZERO;
 
-  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, sqrt)(2));
-  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, cube)(2));
+  cgraph_file_fprintfln(stdout, OUT_FMT, FUNCTION(NAME, sqrt)(2));
+  cgraph_file_fprintfln(stdout, OUT_FMT, FUNCTION(NAME, cube)(2));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_trapezoidal)(0.1, 0.2, 0.00001, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_trapezoidal)(0.2, 0.1, 0.00001, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_simpson)(0.1, 0.2, 0.00001, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_simpson)(0.2, 0.1, 0.00001, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_simpson38)(0.1, 0.2, 0.00001, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_simpson38)(0.2, 0.1, 0.00001, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_cotes)(0.1, 0.2, 0.00001, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Int_range_cotes)(0.2, 0.1, 0.00001, &function_x));
 
   FUNCTION(NAME, trans)(data, 2, 2);
@@ -46,35 +46,35 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, subsym)(data, 1, 2);
   for (i = 0; i < 2; i++) {
     for (j = 0; j < 3; j++) {
-      cgraph_file_fprintfln(stdout, OUT_FORMAT " ", data[i * 2 + j]);
+      cgraph_file_fprintfln(stdout, OUT_FMT " ", data[i * 2 + j]);
     }
     cgraph_file_fprintln(stdout);
   }
   FUNCTION(NAME, rot1I)(data, 2, 3);
   for (i = 0; i < 3; i++) {
     for (j = 0; j < 2; j++) {
-      cgraph_file_fprintf(stdout, OUT_FORMAT " ", data[i * 2 + j]);
+      cgraph_file_fprintf(stdout, OUT_FMT " ", data[i * 2 + j]);
     }
     cgraph_file_fprintln(stdout);
   }
   FUNCTION(NAME, rot1I)(data, 1, 2);
-  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, exp)(1.0));
-  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, exp)(2.0));
-  cgraph_file_fprintfln(stdout, OUT_FORMAT, FUNCTION(NAME, exp)(3.0));
-  cgraph_file_fprintfln(stdout, "pi = " OUT_FORMAT, FUNCTION(NAME, pi)());
+  cgraph_file_fprintfln(stdout, OUT_FMT, FUNCTION(NAME, exp)(1.0));
+  cgraph_file_fprintfln(stdout, OUT_FMT, FUNCTION(NAME, exp)(2.0));
+  cgraph_file_fprintfln(stdout, OUT_FMT, FUNCTION(NAME, exp)(3.0));
+  cgraph_file_fprintfln(stdout, "pi = " OUT_FMT, FUNCTION(NAME, pi)());
   FUNCTION(NAME, conv)
   (xdata, ydata, 6, 3, &tmp, zdata);
   for (k = 0; k < 8; k++) {
-    cgraph_file_fprintfln(stdout, OUT_FORMAT, zdata[k]);
+    cgraph_file_fprintfln(stdout, OUT_FMT, zdata[k]);
   }
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Diff_runge_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Diff_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
   cgraph_file_fprintfln(
-      stdout, OUT_FORMAT,
+      stdout, OUT_FMT,
       FUNCTION(NAME, Eqt_binary_search)(1.0, 2.0, function_x2));
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, issubsym)(matrix1, 2, 2));
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, issubsym)(matrix2, 2, 2));

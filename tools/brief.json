@@ -12,8 +12,8 @@
 	"cgraph_data.h" : "the apis of data types in cgraph",
 	"cgraph_dframe.h" : "the apis of STRUCTURE TYPE cgraph_dframe_t",
 	"cgraph_dict.h" : "the apis of STRUCTURE TYPE cgraph_dict_t",
-	"cgraph_error.h" : "the apis of error solution",
-	"cgraph_file.h" : "the apis of file solution",
+	"cgraph_error.h" : "the apis of error functions",
+	"cgraph_file.h" : "the apis of file functions",
 	"cgraph_float128.h" : "the apis of DATA TYPE cgraph_float128_t",
 	"cgraph_float16.h" : "the apis of DATA TYPE cgraph_float16_t",
 	"cgraph_float32.h" : "the apis of DATA TYPE cgraph_float32_t",
@@ -67,6 +67,6 @@
 	"cgraph_tree.h" : "the apis of STRUCTURE TYPE cgraph_tree_t",
 	"cgraph_vector.h" : "the apis of STRUCTURE TYPE cgraph_vector_t",
 	"cgraph_verilog.h" : "the verilog code generator",
-	"cgraph_version.h" : "the version solution of cgraph",
+	"cgraph_version.h" : "the version functions of cgraph",
 	"" : ""
 }

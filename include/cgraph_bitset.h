@@ -58,10 +58,10 @@ typedef struct {
 
 extern cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *buffer,
+extern cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuffer,
                                               const cgraph_size_t size,
                                               const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *buffer,
+extern cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuffer,
                                               const cgraph_size_t size,
                                               const TYPE *cthis);
 

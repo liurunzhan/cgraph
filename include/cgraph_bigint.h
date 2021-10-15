@@ -18,9 +18,7 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#ifndef CGRAPH_BIGINT_BUFFER_SIZE
-#define CGRAPH_BIGINT_BUFFER_SIZE CGRAPH_BUFFER_SIZE5
-#endif
+#define CGRAPH_BIGINT_CBUFFER_SIZE CGRAPH_CBUFFER_SIZE5
 
 #define TYPE_BIGINT
 #include "cgraph_template.h"
@@ -32,7 +30,7 @@ typedef struct {
 } cgraph_bigint_t;
 
 /** template module */
-#include "cgraph_template_buffer.ht"
+#include "cgraph_template_cbuffer.ht"
 
 #include "cgraph_template_data.ht"
 
@@ -43,7 +41,7 @@ extern TYPE *FUNCTION(NAME, sub1)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, mul2)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, div2)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, fact)(const TYPE *x, TYPE *y);
-extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
+extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuffer,
                                    const cgraph_char_t *data,
                                    const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data);

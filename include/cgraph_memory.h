@@ -20,48 +20,59 @@ extern "C" {
 
 /*
  * memory management functions:
- * except for cgraph_calloc and cgraph_realloc, the operated memory length can
- * be a postive or negative number, where
- * a postive number means forward operation
- * a negative number means reverse operation
+ * 1) is packaged with standard library functions
+ * 2) with error information added
+ * 3) except for cgraph_calloc and cgraph_realloc, the operated memory length
+ * can be a postive or negative number, where a postive number means forward
+ * operation and a negative number means reverse operation
  */
 extern void *cgraph_calloc(const cgraph_size_t size);
-extern void *cgraph_realloc(void *cthis, const cgraph_size_t old_size,
+extern void *cgraph_realloc(void *memory, const cgraph_size_t old_size,
                             const cgraph_size_t new_size, cgraph_bool_t *error);
-extern void *cgraph_memset(void *cthis, cgraph_uint_t data, cgraph_size_t size);
-extern void *cgraph_memcpy(void *object, const void *cthis,
-                           const cgraph_size_t size);
-extern void *cgraph_memscpy(void *object, const cgraph_size_t size,
-                            const void *cthis, const cgraph_size_t len);
-extern cgraph_bool_t cgraph_memcmp(const void *x, const void *y,
-                                   const cgraph_size_t size);
-extern void cgraph_free(void *cthis);
+extern void *cgraph_memset(void *memory, cgraph_uint_t data, cgraph_size_t len);
+extern void *cgraph_memcpy(void *trg_mem, const void *src_mem,
+                           const cgraph_size_t len);
+extern void *cgraph_memscpy(void *trg_mem, const cgraph_size_t trg_size,
+                            const void *src_mem, const cgraph_size_t src_len);
+extern cgraph_bool_t cgraph_memcmp(const void *x_mem, const void *y_mem,
+                                   const cgraph_size_t len);
+extern void cgraph_free(void *memory);
 
 /*
- * c-type string management functions
+ * c-type string management functions:
+ * 1) is packaged with standard library functions
+ * 2) with error information added
  */
-extern cgraph_size_t cgraph_strlen(const cgraph_char_t *cthis);
-extern cgraph_char_t *cgraph_strcpy(cgraph_char_t *object,
-                                    const cgraph_char_t *cthis);
-extern cgraph_char_t *cgraph_strncpy(cgraph_char_t *object,
-                                     const cgraph_char_t *cthis,
+extern cgraph_size_t cgraph_strlen(const cgraph_char_t *string);
+extern cgraph_char_t *cgraph_strcpy(cgraph_char_t *trg_str,
+                                    const cgraph_char_t *src_str);
+extern cgraph_char_t *cgraph_strncpy(cgraph_char_t *trg_str,
+                                     const cgraph_char_t *src_str,
                                      const cgraph_size_t len);
-extern cgraph_char_t *cgraph_strscpy(cgraph_char_t *object,
-                                     const cgraph_size_t size,
-                                     const cgraph_char_t *cthis);
-extern cgraph_char_t *cgraph_strcat(cgraph_char_t *object,
-                                    const cgraph_char_t *cthis);
-extern cgraph_char_t *cgraph_strncat(cgraph_char_t *object,
-                                     const cgraph_char_t *cthis,
+extern cgraph_char_t *cgraph_strscpy(cgraph_char_t *trg_str,
+                                     const cgraph_size_t trg_size,
+                                     const cgraph_char_t *src_str);
+extern cgraph_char_t *cgraph_strcat(cgraph_char_t *trg_str,
+                                    const cgraph_char_t *src_str);
+extern cgraph_char_t *cgraph_strncat(cgraph_char_t *trg_str,
+                                     const cgraph_char_t *src_str,
                                      const cgraph_size_t len);
-extern cgraph_char_t *cgraph_strscat(cgraph_char_t *object,
-                                     const cgraph_size_t size,
-                                     const cgraph_char_t *cthis);
-extern cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x,
-                                   const cgraph_char_t *y);
-extern cgraph_char_t *cgraph_strrev(cgraph_char_t *object);
-extern cgraph_char_t *cgraph_strnrev(cgraph_char_t *object,
-                                     const cgraph_size_t size);
+extern cgraph_char_t *cgraph_strscat(cgraph_char_t *trg_str,
+                                     const cgraph_size_t trg_size,
+                                     const cgraph_char_t *src_str);
+extern cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x_str,
+                                   const cgraph_char_t *y_str);
+extern cgraph_char_t *cgraph_strrev(cgraph_char_t *string);
+extern cgraph_char_t *cgraph_strnrev(cgraph_char_t *string,
+                                     const cgraph_size_t len);
+extern cgraph_char_t *cgraph_strtok(cgraph_char_t *string,
+                                    const cgraph_char_t *sep);
+extern cgraph_char_t *cgraph_strntok(cgraph_char_t *string,
+                                     const cgraph_char_t *sep,
+                                     const cgraph_size_t len);
+extern cgraph_char_t *cgraph_strstok(cgraph_char_t *string,
+                                     const cgraph_char_t *sep,
+                                     cgraph_char_t **cbuffer);
 
 #ifdef __cplusplus
 }

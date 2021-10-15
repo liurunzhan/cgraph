@@ -29,10 +29,10 @@ extern TYPE *FUNCTION(NAME, zero)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, one)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unit)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, random)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, rand)(TYPE *cthis);
 extern TYPE **FUNCTION(NAME, zeros1v)(TYPE **x, const cgraph_size_t len);
 extern TYPE **FUNCTION(NAME, ones1v)(TYPE **x, const cgraph_size_t len);
-extern TYPE **FUNCTION(NAME, randoms1v)(TYPE **x, const cgraph_size_t len);
+extern TYPE **FUNCTION(NAME, rand1v)(TYPE **x, const cgraph_size_t len);
 
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis);
@@ -159,13 +159,13 @@ extern TYPE **FUNCTION(NAME, conv)(const TYPE **x, const TYPE **y,
                                    TYPE **res);
 
 extern cgraph_char_t *FUNCTION(NAME, encode)(const TYPE *cthis);
-extern TYPE *FUNCTION(NAME, decode)(const cgraph_char_t *str,
+extern TYPE *FUNCTION(NAME, decode)(const cgraph_char_t *cstr,
                                     const cgraph_size_t len);
 extern cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, print)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, println)(const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                              const cgraph_size_t size,
                                              const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE *cthis);
@@ -183,11 +183,11 @@ extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, zero)(void);
 extern TYPE FUNCTION(NAME, one)(void);
-extern TYPE FUNCTION(NAME, random)(void);
+extern TYPE FUNCTION(NAME, rand)(void);
 
 extern TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t len);
-extern TYPE *FUNCTION(NAME, randoms1v)(TYPE *cthis, const cgraph_size_t len);
+extern TYPE *FUNCTION(NAME, rand1v)(TYPE *cthis, const cgraph_size_t len);
 
 extern cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x);
@@ -314,14 +314,15 @@ extern TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
                                   TYPE *res);
 
 extern cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis);
-extern TYPE FUNCTION(NAME, decode)(const cgraph_char_t *str,
+extern TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr,
                                    const cgraph_size_t len);
 extern cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, print)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, println)(const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                              const cgraph_size_t size,
                                              const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE cthis);
 
 #endif

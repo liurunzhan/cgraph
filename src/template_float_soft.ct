@@ -20,7 +20,7 @@
  */
 
 TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x | (((1U << y) & FRAC_EPSILON) << FRAC_OFFSET));
+  return (TYPE)(x | (((1U << y) & FRAC_EPS) << FRAC_OFS));
 }
 
 TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y) {
@@ -28,7 +28,7 @@ TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y) {
 }
 
 TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x & ((~((1U << y) & FRAC_EPSILON)) << FRAC_OFFSET));
+  return (TYPE)(x & ((~((1U << y) & FRAC_EPS)) << FRAC_OFS));
 }
 
 TYPE FUNCTION(NAME, clrfracs_s)(const TYPE x) { return FLOAT_SOFT_FRAC_CLR(x); }
@@ -76,7 +76,7 @@ TYPE FUNCTION(NAME, divfrac_s)(const TYPE x, const cgraph_int_t y) {
 }
 
 TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x | (((1U << y) & EXP_EPSILON) << EXP_OFFSET));
+  return (TYPE)(x | (((1U << y) & EXP_EPS) << EXP_OFS));
 }
 
 TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y) {
@@ -84,7 +84,7 @@ TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y) {
 }
 
 TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x & ((~((1U << y) & EXP_EPSILON)) << EXP_OFFSET));
+  return (TYPE)(x & ((~((1U << y) & EXP_EPS)) << EXP_OFS));
 }
 
 TYPE FUNCTION(NAME, clrexps_s)(const TYPE x) { return FLOAT_SOFT_EXP_CLR(x); }
@@ -156,11 +156,11 @@ cgraph_float64_t FUNCTION(NAME, tofloat64)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, opp_s)(const TYPE x) {
-  return (TYPE)(x ^ (SIG_EPSILON << SIG_OFFSET));
+  return (TYPE)(x ^ (SIG_EPS << SIG_OFS));
 }
 
 TYPE FUNCTION(NAME, fabs_s)(const TYPE x) {
-  return (TYPE)(x | (SIG_EPSILON << SIG_OFFSET));
+  return (TYPE)(x | (SIG_EPS << SIG_OFS));
 }
 
 TYPE FUNCTION(NAME, inv_s)(const TYPE x) {

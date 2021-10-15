@@ -3,8 +3,8 @@ exec_prefix=@exec_prefix@
 includedir=@includedir@
 libdir=@libdir@
 
-Name: libcgraph
+Name: lib@PACKAGE@
 Description: A C library for graph and mathematical analysis
 Version: @VERSION@
-Cflags: -I${includedir}/cgraph
-Libs: -L${libdir} -lcgraph
+Cflags: -I${includedir}/@PACKAGE@
+Libs: -L${libdir} -l@PACKAGE@

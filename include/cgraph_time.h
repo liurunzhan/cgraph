@@ -113,7 +113,7 @@ extern cgraph_size_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, print0)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, println0)(const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *buffer,
+extern cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *cbuffer,
                                               const cgraph_size_t size,
                                               const TYPE cthis);
 
@@ -123,7 +123,7 @@ extern TYPE FUNCTION(NAME, unit0)(void);
 extern TYPE FUNCTION(NAME, zero0)(void);
 extern TYPE FUNCTION(NAME, one0)(void);
 extern TYPE FUNCTION(NAME, ones0)(void);
-extern TYPE FUNCTION(NAME, random0)(void);
+extern TYPE FUNCTION(NAME, rand0)(void);
 
 extern cgraph_int_t FUNCTION(NAME, signbit0)(const TYPE cthis);
 
@@ -155,7 +155,7 @@ extern cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, print1)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, println1)(const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *buffer,
+extern cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *cbuffer,
                                               const cgraph_size_t size,
                                               const TYPE cthisx);
 extern TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,
@@ -167,7 +167,7 @@ extern TYPE FUNCTION(NAME, unit1)(void);
 extern TYPE FUNCTION(NAME, zero1)(void);
 extern TYPE FUNCTION(NAME, one1)(void);
 extern TYPE FUNCTION(NAME, ones1)(void);
-extern TYPE FUNCTION(NAME, random1)(void);
+extern TYPE FUNCTION(NAME, rand1)(void);
 
 extern cgraph_int_t FUNCTION(NAME, signbit1)(const TYPE cthis);
 

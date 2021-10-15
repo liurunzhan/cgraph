@@ -5,8 +5,8 @@
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 
-#define CGRAPH_BUFFER_SIZE CGRAPH_BIGINT_BUFFER_SIZE
-#include "template_buffer.ct"
+#define CGRAPH_CBUFFER_SIZE CGRAPH_BIGINT_CBUFFER_SIZE
+#include "template_cbuffer.ct"
 
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
@@ -58,10 +58,10 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   if ((NULL != cthis) && (0 < cthis->len)) {
     cgraph_size_t size = (cthis->len << 2) + cthis->len +
                          ((CGRAPH_FALSE == cthis->postive) ? 2 : 1);
-    cgraph_char_t *buffer = CGRAPH_BUFFER_CALLOC(size);
-    len = FUNCTION(NAME, snprint)(buffer, size, cthis);
-    cgraph_file_fputs(fp, buffer, len);
-    CGRAPH_BUFFER_FREE(buffer);
+    cgraph_char_t *cbuffer = CGRAPH_CBUFFER_CALLOC(size);
+    len = FUNCTION(NAME, snprint)(cbuffer, size, cthis);
+    cgraph_file_fputs(fp, cbuffer, len);
+    CGRAPH_CBUFFER_FREE(cbuffer);
   }
 
   return len;
@@ -100,11 +100,11 @@ cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                       const cgraph_size_t size,
                                       const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if ((NULL != buffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
+  if ((NULL != cbuffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
     TYPE *copy = FUNCTION(NAME, copy)(cthis, cthis->len);
     if (NULL != copy) {
       cgraph_size_t i, start = cthis->len - 1;
@@ -118,19 +118,19 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
           res = num % 10;
           copy->data[i] = num / 10;
         }
-        buffer[len++] = res + '0';
+        cbuffer[len++] = res + '0';
         while (0 == copy->data[start]) {
           start--;
         }
       }
       if (0 >= cthis->len) {
-        buffer[len++] = '0';
+        cbuffer[len++] = '0';
       }
       if (CGRAPH_FALSE == cthis->postive) {
-        buffer[len++] = '-';
+        cbuffer[len++] = '-';
       }
-      buffer[len] = '\0';
-      cgraph_strnrev(buffer, len);
+      cbuffer[len] = '\0';
+      cgraph_strnrev(cbuffer, len);
     }
     FUNCTION(NAME, free)(copy);
   }
@@ -138,49 +138,49 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuffer,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if ((NULL != buffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
+  if ((NULL != cbuffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cgraph_size_t i = 0, j;
-    buffer[len++] = '0';
-    buffer[len++] = 'b';
+    cbuffer[len++] = '0';
+    cbuffer[len++] = 'b';
     for (; i < cthis->len; i++, data--) {
       for (j = DATA_BITS - 1; (len < _size) && (j >= 0); j--) {
-        buffer[len++] = cgraph_math_dec2uhex(0x1U & (*data >> j));
+        cbuffer[len++] = cgraph_math_dec2uhex(0x1U & (*data >> j));
       }
     }
-    buffer[len] = '\0';
+    cbuffer[len] = '\0';
   }
 
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuffer,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if ((NULL != buffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
+  if ((NULL != cbuffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
     cgraph_size_t i = 0;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
-    buffer[len++] = '0';
-    buffer[len++] = 'x';
+    cbuffer[len++] = '0';
+    cbuffer[len++] = 'x';
     for (i++; (len < _size) && (i < cthis->len); i++, data--) {
-      buffer[len++] = cgraph_math_dec2uhex(0xFU & (*data >> 4));
-      buffer[len++] = cgraph_math_dec2uhex(0xFU & *data);
+      cbuffer[len++] = cgraph_math_dec2uhex(0xFU & (*data >> 4));
+      cbuffer[len++] = cgraph_math_dec2uhex(0xFU & *data);
     }
-    buffer[len] = '\0';
+    cbuffer[len] = '\0';
   }
 
   return len;
 }
 
-TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
+TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuffer,
                             const cgraph_char_t *data,
                             const cgraph_size_t len) {
-  if ((NULL != cthis) && (NULL != buffer) && (NULL != data) && (0 < len)) {
+  if ((NULL != cthis) && (NULL != cbuffer) && (NULL != data) && (0 < len)) {
     cgraph_size_t i = 0, j = 0, start = 0;
     cgraph_int_t num, res;
     if ('-' == data[i]) {
@@ -193,17 +193,17 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
       }
     }
     for (; i < len; i++, j++) {
-      buffer[j] = data[i] - '0';
+      cbuffer[j] = data[i] - '0';
     }
     cthis->len = 0;
     while ((start < len) && (cthis->len < cthis->size)) {
       for (res = 0, i = start; i < j; i++) {
-        num = buffer[i] + res * 10;
+        num = cbuffer[i] + res * 10;
         res = num & DATA_MAX;
-        buffer[i] = num >> DATA_BITS;
+        cbuffer[i] = num >> DATA_BITS;
       }
       cthis->data[cthis->len++] = res;
-      while (0 == buffer[start]) {
+      while (0 == cbuffer[start]) {
         start++;
       }
     }
@@ -215,9 +215,9 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *buffer,
 TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data) {
   cgraph_size_t len = cgraph_strlen(data), size = len / 3 + 2;
   TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
-  cgraph_char_t *buffer = CGRAPH_BUFFER_CALLOC(len);
-  cthis = FUNCTION(NAME, initc)(cthis, buffer, data, len);
-  CGRAPH_BUFFER_FREE(buffer);
+  cgraph_char_t *cbuffer = CGRAPH_CBUFFER_CALLOC(len);
+  cthis = FUNCTION(NAME, initc)(cthis, cbuffer, data, len);
+  CGRAPH_CBUFFER_FREE(cbuffer);
 
   return cthis;
 }

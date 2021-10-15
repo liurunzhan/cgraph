@@ -11,9 +11,9 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   } else {
     TYPE ipart = floor(cthis), fpart = cthis - ipart;
     cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
-                  hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) *
-                                               EPSILON_LEN);
-    hash = (hash_ipart << HASH_OFFSET) ^ hash_fpart;
+                  hash_fpart =
+                      (cgraph_size_t)(((TYPE)ABS(fpart - EPS)) * EPS_LEN);
+    hash = (hash_ipart << HASH_OFS) ^ hash_fpart;
   }
 
   return CGRAPH_ABS(hash);
@@ -24,13 +24,13 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  return fprintf(fp, OUT_FORMAT, cthis);
+  return fprintf(fp, OUT_FMT, cthis);
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *buffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  return cgraph_file_snprintf(buffer, size, OUT_FORMAT, cthis);
+  return cgraph_file_snprintf(cbuffer, size, OUT_FMT, cthis);
 }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
@@ -55,11 +55,11 @@ TYPE FUNCTION(NAME, one)(void) { return ONE; }
 
 TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
-TYPE FUNCTION(NAME, random)(void) {
+TYPE FUNCTION(NAME, rand)(void) {
 #ifdef TYPE_FLAOT32
-  return 1.0 * cgraph_random32();
+  return 1.0 * cgraph_rand32();
 #else
-  return 1.0 * cgraph_random64();
+  return 1.0 * cgraph_rand64();
 #endif
 }
 

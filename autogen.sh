@@ -135,7 +135,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-if [ -f "configure" ]; then
+if [ -f "./configure" ]; then
 echo ">>> generate FILE ./configure successfully"
 echo ">>> then please run ./configure with options you want to generate Makefiles and compile project with them"
 else

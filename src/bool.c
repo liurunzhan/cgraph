@@ -12,13 +12,14 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
                              : (cgraph_char_t *)__cgraph_true__;
 }
 
-TYPE FUNCTION(NAME, decode)(const cgraph_char_t *str, const cgraph_size_t len) {
+TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr,
+                            const cgraph_size_t len) {
   TYPE res = CGRAPH_FALSE;
-  if ((NULL != str) && (4 == len)) {
-    if (('T' == str[0]) || ('t' == str[0])) {
-      if (('R' == str[1]) || ('r' == str[1])) {
-        if (('U' == str[2]) || ('u' == str[2])) {
-          if (('E' == str[3]) || ('e' == str[3])) {
+  if ((NULL != cstr) && (4 == len)) {
+    if (('T' == cstr[0]) || ('t' == cstr[0])) {
+      if (('R' == cstr[1]) || ('r' == cstr[1])) {
+        if (('U' == cstr[2]) || ('u' == cstr[2])) {
+          if (('E' == cstr[3]) || ('e' == cstr[3])) {
             res = CGRAPH_TRUE;
           }
         }

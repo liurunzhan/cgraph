@@ -548,49 +548,48 @@ cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
 }
 
 /** 32-bit integer random functions  */
-static cgraph_random32_intptr_t __cgraph_random32_intptr =
-    cgraph_random32_miller;
+static cgraph_rand32_intptr_t __cgraph_rand32_intptr = cgraph_rand32_miller;
 
-void cgraph_random32_intptr(cgraph_random32_intptr_t ptr) {
-  __cgraph_random32_intptr = ptr;
+void cgraph_rand32_intptr(cgraph_rand32_intptr_t ptr) {
+  __cgraph_rand32_intptr = ptr;
 }
 
-static cgraph_int32_t __cgraph_random32_seed = 1;
+static cgraph_int32_t __cgraph_rand32_seed = 1;
 
-void cgraph_random32_seed(const cgraph_int32_t seed) {
-  __cgraph_random32_seed = seed;
+void cgraph_rand32_seed(const cgraph_int32_t seed) {
+  __cgraph_rand32_seed = seed;
 }
 
-cgraph_int32_t cgraph_random32(void) { return __cgraph_random32_intptr(); }
+cgraph_int32_t cgraph_rand32(void) { return __cgraph_rand32_intptr(); }
 
 /**
   Author  : Park,  Miller
   Methode : X(n+1) <- (a * X(n) + b) % m
   a = 16807 or 48271
   b = 0
-  m = 2147483647 (MATH_CONST_RANDOM32_MAX, 2^31 - 1 or 2 << 31 - 1)
+  m = 2147483647 (MATH_CONST_RAND32_MAX, 2^31 - 1 or 2 << 31 - 1)
   returning a 32-bit integer [1, 2147483647]
   X(0) = 1
 */
-cgraph_int32_t cgraph_random32_miller(void) {
-  const cgraph_int32_t a = 48271, m = MATH_CONST_RANDOM32_MAX;
+cgraph_int32_t cgraph_rand32_miller(void) {
+  const cgraph_int32_t a = 48271, m = MATH_CONST_RAND32_MAX;
   const cgraph_int32_t m_div_a = m / a, m_mod_a = m % a;
-  cgraph_int32_t hi = __cgraph_random32_seed / m_div_a,
-                 lo = __cgraph_random32_seed % m_div_a;
-  __cgraph_random32_seed = (a * lo - m_mod_a * hi);
+  cgraph_int32_t hi = __cgraph_rand32_seed / m_div_a,
+                 lo = __cgraph_rand32_seed % m_div_a;
+  __cgraph_rand32_seed = (a * lo - m_mod_a * hi);
 
-  return __cgraph_random32_seed;
+  return __cgraph_rand32_seed;
 }
 
 /**
  * 32-bit Mersenne Twister Algorithm
  *  @brief mt19937-32
  */
-cgraph_int32_t cgraph_random32_mt19937(void) { return __cgraph_random32_seed; }
+cgraph_int32_t cgraph_rand32_mt19937(void) { return __cgraph_rand32_seed; }
 
-cgraph_int32_t cgraph_random32_uniform(const cgraph_int32_t min,
-                                       const cgraph_int32_t max) {
-  return __cgraph_random32_intptr() % (max - min) + min;
+cgraph_int32_t cgraph_rand32_uniform(const cgraph_int32_t min,
+                                     const cgraph_int32_t max) {
+  return __cgraph_rand32_intptr() % (max - min) + min;
 }
 
 /*
@@ -598,14 +597,13 @@ cgraph_int32_t cgraph_random32_uniform(const cgraph_int32_t min,
         mu      : the average value of the normal distribution
         sigma   : the variance of the normal distribution
 */
-cgraph_float32_t cgraph_random32_normal(const cgraph_float32_t mu,
-                                        const cgraph_float32_t sigma) {
+cgraph_float32_t cgraph_rand32_normal(const cgraph_float32_t mu,
+                                      const cgraph_float32_t sigma) {
   static cgraph_float32_t U, V, Z;
   static cgraph_bool_t phase = CGRAPH_FALSE;
   if (CGRAPH_TRUE == phase) {
-    U = (1.0 * __cgraph_random32_intptr() + 1.0) /
-        (MATH_CONST_RANDOM32_MAX + 2.0);
-    V = 1.0 * __cgraph_random32_intptr() / (MATH_CONST_RANDOM32_MAX + 1.0);
+    U = (1.0 * __cgraph_rand32_intptr() + 1.0) / (MATH_CONST_RAND32_MAX + 2.0);
+    V = 1.0 * __cgraph_rand32_intptr() / (MATH_CONST_RAND32_MAX + 1.0);
     Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
   } else {
     Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V);
@@ -616,19 +614,19 @@ cgraph_float32_t cgraph_random32_normal(const cgraph_float32_t mu,
 }
 
 /** 64-bit integer random functions  */
-static cgraph_random64_intptr_t __cgraph_random64_intptr = cgraph_random64_mmix;
+static cgraph_rand64_intptr_t __cgraph_rand64_intptr = cgraph_rand64_mmix;
 
-void cgraph_random64_intptr(cgraph_random64_intptr_t ptr) {
-  __cgraph_random64_intptr = ptr;
+void cgraph_rand64_intptr(cgraph_rand64_intptr_t ptr) {
+  __cgraph_rand64_intptr = ptr;
 }
 
-static cgraph_int64_t __cgraph_random64_seed = 0;
+static cgraph_int64_t __cgraph_rand64_seed = 0;
 
-void cgraph_random64_seed(const cgraph_int64_t seed) {
-  __cgraph_random64_seed = seed;
+void cgraph_rand64_seed(const cgraph_int64_t seed) {
+  __cgraph_rand64_seed = seed;
 }
 
-cgraph_int64_t cgraph_random64(void) { return __cgraph_random64_intptr(); }
+cgraph_int64_t cgraph_rand64(void) { return __cgraph_rand64_intptr(); }
 
 /**
   Author  : MMIX by Donald Knuth
@@ -639,24 +637,24 @@ cgraph_int64_t cgraph_random64(void) { return __cgraph_random64_intptr(); }
   returning a 64-bit integer [1, 18446744073709551615]
   X(0) = 1
 */
-cgraph_int64_t cgraph_random64_mmix(void) {
-  const cgraph_int64_t a = __RANDOM64_A, b = __RANDOM64_B, m = __RANDOM64_M;
+cgraph_int64_t cgraph_rand64_mmix(void) {
+  const cgraph_int64_t a = __RAND64_A, b = __RAND64_B, m = __RAND64_M;
   const cgraph_int64_t a_mod_m = a % m, b_mod_m = b % m;
-  cgraph_int64_t seed_mod_m = __cgraph_random64_seed % m;
-  __cgraph_random64_seed = ((a_mod_m * seed_mod_m) % m + b_mod_m) % m;
+  cgraph_int64_t seed_mod_m = __cgraph_rand64_seed % m;
+  __cgraph_rand64_seed = ((a_mod_m * seed_mod_m) % m + b_mod_m) % m;
 
-  return __cgraph_random64_seed;
+  return __cgraph_rand64_seed;
 }
 
 /**
  * 64-bit Mersenne Twister Algorithm
  *  @brief mt19937-64
  */
-cgraph_int64_t cgraph_random64_mt19937(void) { return __cgraph_random64_seed; }
+cgraph_int64_t cgraph_rand64_mt19937(void) { return __cgraph_rand64_seed; }
 
-cgraph_int64_t cgraph_random64_uniform(const cgraph_int64_t min,
-                                       const cgraph_int64_t max) {
-  return __cgraph_random64_intptr() % (max - min) + min;
+cgraph_int64_t cgraph_rand64_uniform(const cgraph_int64_t min,
+                                     const cgraph_int64_t max) {
+  return __cgraph_rand64_intptr() % (max - min) + min;
 }
 
 /*
@@ -664,14 +662,13 @@ cgraph_int64_t cgraph_random64_uniform(const cgraph_int64_t min,
         mu      : the average value of the normal distribution
         sigma   : the variance of the normal distribution
 */
-cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
-                                        const cgraph_float64_t sigma) {
+cgraph_float64_t cgraph_rand64_normal(const cgraph_float64_t mu,
+                                      const cgraph_float64_t sigma) {
   static cgraph_float64_t U, V, Z;
   static cgraph_bool_t phase = CGRAPH_FALSE;
   if (CGRAPH_TRUE == phase) {
-    U = (1.0 * __cgraph_random64_intptr() + 1.0) /
-        (MATH_CONST_RANDOM64_MAX + 2.0);
-    V = 1.0 * __cgraph_random64_intptr() / (MATH_CONST_RANDOM64_MAX + 1.0);
+    U = (1.0 * __cgraph_rand64_intptr() + 1.0) / (MATH_CONST_RAND64_MAX + 2.0);
+    V = 1.0 * __cgraph_rand64_intptr() / (MATH_CONST_RAND64_MAX + 1.0);
     Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
   } else {
     Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V);
@@ -681,20 +678,20 @@ cgraph_float64_t cgraph_random64_normal(const cgraph_float64_t mu,
   return Z * sigma + mu;
 }
 
-cgraph_bool_t cgraph_random_bool(void) {
-  return __cgraph_random32_intptr() & CGRAPH_BOOL_EPS;
+cgraph_bool_t cgraph_rand_bool(void) {
+  return __cgraph_rand32_intptr() & CGRAPH_BOOL_EPS;
 }
 
-cgraph_logic_t cgraph_random_logic(void) {
-  return __cgraph_random32_intptr() & CGRAPH_LOGIC_EPS;
+cgraph_logic_t cgraph_rand_logic(void) {
+  return __cgraph_rand32_intptr() & CGRAPH_LOGIC_EPS;
 }
 
-/** random size number */
-cgraph_size_t cgraph_random_size(const cgraph_size_t size) {
+/** random size */
+cgraph_size_t cgraph_rand_size(const cgraph_size_t size) {
 #if __WORDSIZE == 64
-  return __cgraph_random64_intptr() % size;
+  return __cgraph_rand64_intptr() % size;
 #else
-  return __cgraph_random32_intptr() % size;
+  return __cgraph_rand32_intptr() % size;
 #endif
 }
 
@@ -704,7 +701,7 @@ cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
 }
 
 __INLINE cgraph_int_t cgraph_math_pow2(const cgraph_int_t n) {
-  return (1 << n);
+  return (n >= 0) ? (1 << n) : 0;
 }
 
 cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
@@ -718,7 +715,7 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
 }
 
 __INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) {
-  return (x & 0x01);
+  return (x > 0) ? (x & 0x01) : 0;
 }
 
 __INLINE cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,

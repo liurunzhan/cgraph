@@ -9,18 +9,18 @@ int main(int argc, char *argv[]) {
   TYPE *string = FUNCTION(NAME, calloc)(ID, 10000);
   TYPE *string1 = FUNCTION(NAME, calloc)(ID, 10000);
   TYPE *string2 = FUNCTION(NAME, calloc)(ID, 10000);
-  char *str = "hello world world world !world", *str1 = "world";
+  char *cstr = "hello world world world !world", *str1 = "world";
   cgraph_size_t i = 2;
   cgraph_file_fprintfln(stdout, "test %s", STRING(NAME));
   if (NULL != string) {
     cgraph_bool_t error = CGRAPH_FALSE;
-    cgraph_file_fprintfln(stdout, "%s", str);
-    string = FUNCTION(NAME, initd)(string, str, strlen(str));
+    cgraph_file_fprintfln(stdout, "%s", cstr);
+    string = FUNCTION(NAME, initd)(string, cstr, strlen(cstr));
     cgraph_file_fprintfln(stdout, "data %s", string->data);
     cgraph_file_fprintfln(stdout,
-                          "test base " CGRAPH_PTRADDR_OUT_FORMAT
-                          " start " CGRAPH_PTRADDR_OUT_FORMAT
-                          " end " CGRAPH_PTRADDR_OUT_FORMAT,
+                          "test base " CGRAPH_PTRADDR_OUT_FMT
+                          " start " CGRAPH_PTRADDR_OUT_FMT
+                          " end " CGRAPH_PTRADDR_OUT_FMT,
                           CGRAPH_PTRADDR(string), CGRAPH_PTRADDR(string->data),
                           CGRAPH_PTRADDR(string->data + 10000));
     for (i = 1; i <= 200; i++) {
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
       }
     }
   }
-  string1 = FUNCTION(NAME, initc)(string1, str, strlen(str));
+  string1 = FUNCTION(NAME, initc)(string1, cstr, strlen(cstr));
   string2 = FUNCTION(NAME, initc)(string2, str1, strlen(str1));
   cgraph_file_fprintfln(stdout, "%s", string1->data);
   cgraph_file_fprintfln(stdout, "%s", string2->data);

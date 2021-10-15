@@ -4,7 +4,7 @@ require("package")
 require('string')
 require('os')
 require('table')
-require('lfs')
+require('lfs') -- luafilesystem, installed by "luarocks install luafilesystem"
 
 SEPARATOR = string.sub(package.config, 0, 1)
 

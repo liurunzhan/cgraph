@@ -16,7 +16,7 @@ cgraph_float64_t function_x(cgraph_float64_t x) { return x * x; }
 
 int main(int argc, char *argv[]) {
   /*
-  cgraph_char_t buffer[100];
+  cgraph_char_t cbuffer[100];
   cgraph_fraction_t fraction = {-1, INT_MAX};
   cgraph_int_t integer = 123;
   cgraph_float32_t real = 123.0, number = 0.1;
@@ -39,16 +39,16 @@ int main(int argc, char *argv[]) {
   /*
   if(argc == 2)
   {
-  cgraph_string_t *buffer = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
+  cgraph_string_t *cbuffer = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
   char *file = argv[1];
   FILE *fp = cgraph_file_fopen(file, "r");
   cgraph_size_t row = cgraph_file_rows(fp);
-  cgraph_size_t column = cgraph_file_columns(fp, ",", buffer);
+  cgraph_size_t column = cgraph_file_columns(fp, ",", cbuffer);
   cgraph_object_t *abc;
   cgraph_int_t i;
   fprintf(stdout, "row: %ld column : %ld\n", row, column);
   cgraph_file_fclose(fp);
-  cgraph_string_free(buffer);
+  cgraph_string_free(cbuffer);
   for(i=CGRAPH_INT_T; i<CGRAPH_FRACTION_T; i++)
   {
     abc = cgraph_object_calloc(i, 100);
@@ -58,11 +58,11 @@ int main(int argc, char *argv[]) {
   {
     cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INT_T, 2);
     cgraph_int_t data[2] = {1,1};
-    cgraph_string_t *buffer;
+    cgraph_string_t *cbuffer;
     cgraph_bigint_initd(big, data, 2);
-    buffer = cgraph_bigint_tostr(big);
-    fprintf(stdout, "%s\n", buffer->data);
-    cgraph_string_free(buffer);
+    cbuffer = cgraph_bigint_tostr(big);
+    fprintf(stdout, "%s\n", cbuffer->data);
+    cgraph_string_free(cbuffer);
     cgraph_bigint_free(big);
   } while (0);
   }
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 
   cgraph_verilog_test();
 
-  cgraph_error_log_buffer(stdout, buffer, 100, CGRAPH_ERROR_STYLE_ENTRY,
+  cgraph_error_log_cbuffer(stdout, cbuffer, 100, CGRAPH_ERROR_STYLE_ENTRY,
   __FUNCTION, "%s %d %d", "hello", 1 , 2); cgraph_error_log(stdout,
   CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%s %d", "hello", 1);
   cgraph_error_log(stdout, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%d",
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
   cgraph_char_t *data = " abc[20] | _abc123", *name = &data[1];
   cgraph_int_t old[10], new[20], old_base = 10, new_base = 16;
   cgraph_size_t old_len = 10, new_len = 20, len;
-  char *str = "hello world world world wordl!", *str1 = "world";
+  char *cstr = "hello world world world wordl!", *str1 = "world";
   cgraph_size_t *next = cgraph_calloc(strlen(str1) * sizeof(cgraph_size_t));
   cgraph_size_t i, j, k;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) {
   cgraph_math_kmpnext(str1, next, strlen(str1));
   cgraph_file_fprintfln(
       stdout, "count : %ld",
-      cgraph_math_kmpcnt(str, strlen(str), str1, next, strlen(str1)));
+      cgraph_math_kmpcnt(cstr, strlen(cstr), str1, next, strlen(str1)));
   cgraph_free(next);
   cgraph_cmdarg_free(cmdarg);
   cgraph_file_fprintfln(stdout, "element size %ld", sizeof(cgraph_element_t));

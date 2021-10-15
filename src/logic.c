@@ -32,14 +32,15 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
   return res;
 }
 
-TYPE FUNCTION(NAME, decode)(const cgraph_char_t *str, const cgraph_size_t len) {
+TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr,
+                            const cgraph_size_t len) {
   TYPE res = CGRAPH_LX;
-  if ((NULL != str) && (1 == len)) {
-    if ('0' == str[0]) {
+  if ((NULL != cstr) && (1 == len)) {
+    if ('0' == cstr[0]) {
       res = CGRAPH_L0;
-    } else if ('1' == str[0]) {
+    } else if ('1' == cstr[0]) {
       res = CGRAPH_L1;
-    } else if (('Z' == str[0]) || ('z' == str[0])) {
+    } else if (('Z' == cstr[0]) || ('z' == cstr[0])) {
       res = CGRAPH_LZ;
     }
   }

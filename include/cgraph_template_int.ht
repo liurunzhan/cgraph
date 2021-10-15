@@ -11,7 +11,7 @@
 
 #include "cgraph_template_data.ht"
 
-extern UTYPE FUNCTION(NAME, urandom)(void);
+extern UTYPE FUNCTION(NAME, urand)(void);
 
 extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                       const TYPE first, ...);
