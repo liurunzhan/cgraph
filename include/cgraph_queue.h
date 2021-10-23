@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_QUEUE
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_queue_t
+ * @brief the object of queue
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_PTR2

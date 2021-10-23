@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_MATRIX
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_matrix_t
+ * @brief the object of 2-d matrix
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_MATRIX_INDEXES

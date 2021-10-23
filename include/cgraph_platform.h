@@ -36,14 +36,14 @@ typedef enum {
 } cgraph_plat_t;
 
 /**< TYPE 0 : '\n' */
-#define __PLAT_NLINE_UNIX (0)
+#define __PLAT_LEND_UNIX (0)
 /**< TYPE 1 : '\r' */
-#define __PLAT_NLINE_MACOS (1)
+#define __PLAT_LEND_MACOS (1)
 /**< TYPE 2 : '\r\n' */
-#define __PLAT_NLINE_WIN (2)
+#define __PLAT_LEND_WIN (2)
 
-#define __PLAT_NLINE_TYPE0 '\n'
-#define __PLAT_NLINE_TYPE1 '\r'
+#define __PLAT_LEND_TYPE0 '\n'
+#define __PLAT_LEND_TYPE1 '\r'
 
 /** Self-defined features in different platforms */
 #if defined(__CYGWIN__)
@@ -51,69 +51,79 @@ typedef enum {
 #define __PLAT_MODE CGRAPH_PLAT_CYGWIN
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_SIZE (1)
-#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
-#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
+#define __PLAT_LEND "\n"
+#define __PLAT_LEND_SIZE (1)
+#define __PLAT_LEND_C __PLAT_LEND_TYPE0
+#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
 #elif (defined(_WIN32) || defined(_WIN64))
 #define __PLAT_NAME "windows"
 #define __PLAT_MODE CGRAPH_PLAT_WINDOWS
 #define __PLAT_PSPLIT "\\"
 #define __PLAT_PSPLIT_C '\\'
-#define __PLAT_NLINE "\r\n"
-#define __PLAT_NLINE_SIZE (2)
-#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
-#define __PLAT_NLINE_C0 __PLAT_NLINE_TYPE1
-#define __PLAT_NLINE_C1 __PLAT_NLINE_TYPE0
+#define __PLAT_LEND "\r\n"
+#define __PLAT_LEND_SIZE (2)
+#define __PLAT_LEND_C __PLAT_LEND_TYPE0
+#define __PLAT_LEND_C0 __PLAT_LEND_TYPE1
+#define __PLAT_LEND_C1 __PLAT_LEND_TYPE0
 #define __PLAT_WINDOWS
-#define __PLAT_NLINE_TYPE __PLAT_NLINE_WIN
+#define __PLAT_LEND_TYPE __PLAT_LEND_WIN
 #elif defined(__APPLE__)
 #define __PLAT_NAME "macos"
 #define __PLAT_MODE CGRAPH_PLAT_MACOS
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_NLINE "\r"
-#define __PLAT_NLINE_C __PLAT_NLINE_TYPE1
-#define __PLAT_NLINE_TYPE __PLAT_NLINE_MACOS
+#define __PLAT_LEND "\r"
+#define __PLAT_LEND_C __PLAT_LEND_TYPE1
+#define __PLAT_LEND_TYPE __PLAT_LEND_MACOS
 #elif defined(__linux__)
 #define __PLAT_NAME "linux"
 #define __PLAT_MODE CGRAPH_PLAT_LINUX
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_SIZE (1)
-#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
-#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
+#define __PLAT_LEND "\n"
+#define __PLAT_LEND_SIZE (1)
+#define __PLAT_LEND_C __PLAT_LEND_TYPE0
+#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
 #elif defined(__unix__)
 #define __PLAT_NAME "unix"
 #define __PLAT_MODE CGRAPH_PLAT_UNIX
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
-#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
+#define __PLAT_LEND "\n"
+#define __PLAT_LEND_C __PLAT_LEND_TYPE0
+#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
 #else
 #define __PLAT_NAME "undefined"
 #define __PLAT_MODE CGRAPH_PLAT_UNDEFINED
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_NLINE "\n"
-#define __PLAT_NLINE_SIZE (1)
-#define __PLAT_NLINE_C __PLAT_NLINE_TYPE0
-#define __PLAT_NLINE_TYPE __PLAT_NLINE_UNIX
+#define __PLAT_LEND "\n"
+#define __PLAT_LEND_SIZE (1)
+#define __PLAT_LEND_C __PLAT_LEND_TYPE0
+#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
 #endif
 
 /** Self-defined features in different structures */
-#if defined(__BIG_ENDIAN__) || defined(__WORDS_BIGENDIAN)
-#define __PLAT_ENDIAN 1
-#else /* defined __LITTLE_ENDIAN__ or not */
-#define __PLAT_ENDIAN 0
+#define __PLAT_ENDIAN_BIG (0)
+#define __PLAT_ENDIAN_LITTLE (1)
+#define __PLAT_ENDIAN_UNDEFINED (2)
+/** Big-Endian architecture */
+#if defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                        \
+    defined(__WORDS_BIGENDIAN)
+#define __PLAT_ENDIAN __PLAT_ENDIAN_BIG
+/** Little-endian architecture */
+#elif defined(__LITTLE_ENDIAN__) || defined(__LITTLE_ENDIAN) ||                \
+    defined(__WORDS_LITTLEENDIAN)
+#define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
+/** Undefined architecture */
+#else
+#define __PLAT_ENDIAN __PLAT_ENDIAN_UNDEFINED
 #endif
 
 #ifndef __WORDSIZE
 #if defined(_WIN64) || defined(_M_X64) || defined(_M_AMD64) ||                 \
-    defined(_M_IA64) || defined(__x86_64__) || defined(__x86_64) ||            \
-    defined(__aarch64__) || defined(__ARM_64BIT_STATE)
+    defined(_M_IA64) || defined(_M_IX64) || defined(__x86_64__) ||             \
+    defined(__x86_64) || defined(__aarch64__) || defined(__ARM_64BIT_STATE)
 #define __WORDSIZE 64
 #elif defined(_WIN32) || defined(_M_IX86) || defined(__i386) ||                \
     defined(__i386__) || defined(__i486__) || defined(__i686__) ||             \

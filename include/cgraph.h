@@ -8,12 +8,12 @@
  * <tr><th>Email   <td> liurunzhan@sina.com
  * </table>
  * @section Overview
- *
+ * This library is used to solve problems in graph and mathematical problems
  * @section Description
  *
  * @section Usage Description
  *
- *
+ * @section
  */
 
 #ifndef __CGRAPH_H__

@@ -23,18 +23,21 @@ extern "C" {
  */
 #include "cgraph_config.h"
 
-extern void cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_sync(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_filter(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_simple(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_edgedet(FILE *fp);
-extern void cgraph_verilog_fifo(FILE *fp, const cgraph_size_t vlen,
-                                const cgraph_size_t len);
-extern void cgraph_verilog_shift(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_crc(FILE *fp, const cgraph_size_t len);
-extern void cgraph_verilog_tbench(FILE *fp, const cgraph_size_t delay_time);
+extern cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp,
+                                                const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp,
+                                               const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_sync(FILE *fp, const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_filter(FILE *fp, const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_simple(FILE *fp, const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_edgedet(FILE *fp);
+extern cgraph_bool_t cgraph_verilog_fifo(FILE *fp, const cgraph_size_t vlen,
+                                         const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_shift(FILE *fp, const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_crc(FILE *fp, const cgraph_size_t len);
+extern cgraph_bool_t cgraph_verilog_tbench(FILE *fp,
+                                           const cgraph_size_t delay_time);
 
 #ifdef __cplusplus
 }

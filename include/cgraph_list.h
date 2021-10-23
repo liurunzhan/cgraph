@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_LIST
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_list_t
+ * @brief the object of list
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_PTR2

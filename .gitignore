@@ -96,10 +96,12 @@ missing
 stamp-h1
 ar-lib
 *.tar.gz
+/cgraph-*
 
 # Doc/Markdown Files
 *.orig
 Doxyfile
+Doxyfile.bak
 doc/*
 !doc/build-gtk-doc.sh
 !doc/*.pl

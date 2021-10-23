@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_SPAMAT
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_spamat_t
+ * @brief the object of 2-d matrix
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_MATRIX_INDEXES

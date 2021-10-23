@@ -31,12 +31,14 @@ def parse_template_header_file(file, type):
 
 def cmd_arg_parse(project):
 	parser = argparse.ArgumentParser(description="parse template C header file and source file in PROJECT %s" % (project))
+	parser.add_argument("file", type=str, help="source file")
 	parser.add_argument("--include-dir", type=str, help="included header file directory")
 	parser.add_argument("--source-dir", type=str, help="source file directory")
 	parser.add_argument("--common-header-file", type=str, help="common-defined template header file")
 	parser.add_argument("--self-header-file", type=str, help="self-defined template header file")
-	parser.add_argument("--source-file", type=str, help="source file")
-
+	def func(args):
+		pass
+	parser.set_defaults(func=func)
 	return parser.parse_args()
 
 

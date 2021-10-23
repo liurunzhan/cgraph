@@ -27,12 +27,16 @@ except in <cgraph.h> and <cgraph_struct.h>
 
 #include "cgraph_config.h"
 
-extern CGVTable *CGRAPH_OBJECTS_NAME(gobject)[];
+extern cgraph_vtable_t *CGRAPH_OBJECTS_NAME(gobject)[];
 #define CGRAPH_GOBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(gobject)[type])->opt)
 
 #define TYPE_GOBJECT
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_gobject_t
+ * @brief the object of graph object
+ */
 typedef struct {
   CGRAPH_OBJECT_BASE
   cgraph_size_t hash, index;

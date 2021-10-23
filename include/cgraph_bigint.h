@@ -18,11 +18,15 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define CGRAPH_BIGINT_CBUFFER_SIZE CGRAPH_CBUFFER_SIZE5
+#define CGRAPH_BIGINT_CBUF_SIZE CGRAPH_CBUF_SIZE5
 
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_bigint_t
+ * @brief the object of big integer
+ */
 typedef struct {
   CGRAPH_BASE
   cgraph_bool_t postive;
@@ -30,7 +34,7 @@ typedef struct {
 } cgraph_bigint_t;
 
 /** template module */
-#include "cgraph_template_cbuffer.ht"
+#include "cgraph_template_cbuf.ht"
 
 #include "cgraph_template_data.ht"
 
@@ -41,7 +45,7 @@ extern TYPE *FUNCTION(NAME, sub1)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, mul2)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, div2)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, fact)(const TYPE *x, TYPE *y);
-extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuffer,
+extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuf,
                                    const cgraph_char_t *data,
                                    const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data);
@@ -54,6 +58,9 @@ extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapword)(TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
+
+extern TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4);
+extern TYPE *FUNCTION(NAME, ipv6)(TYPE *cthis, const cgraph_char_t *ipv6);
 
 #include "cgraph_template_off.h"
 

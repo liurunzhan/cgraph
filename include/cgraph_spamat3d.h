@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_SPAMAT3D
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_spamat3d_t
+ * @brief the object of 3-d matrix
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_MATRIX3D_INDEXES

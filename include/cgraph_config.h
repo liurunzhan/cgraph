@@ -35,43 +35,38 @@ extern "C" {
 /**
  * @typedef cgraph_char_t
  * @brief 8-bit ASCII character data type, used in c-type string
- * @def CGRAPH_CHAR_MAX CHAR_MAX
- * @def CGRAPH_CHAR_MIN CHAR_MIN
- * @def CGRAPH_CHAR_EPS (0xFF)
- * @def CGRAPH_CHAR_BITS (8)
  */
 typedef char cgraph_char_t;
+/** \defgroup group_char cgraph_char_t */
+/** @{ */
 #define CGRAPH_CHAR_MAX CHAR_MAX
 #define CGRAPH_CHAR_MIN CHAR_MIN
 #define CGRAPH_CHAR_EPS (0xFFU)
 #define CGRAPH_CHAR_BITS (8 * sizeof(cgraph_char_t))
+/** @} */
 
 /**
  * @typedef cgraph_uchar_t
  * @brief 8-bit ASCII character data type, used in c-type string
- * @def CGRAPH_UCHAR_MAX UCHAR_MAX
- * @def CGRAPH_UCHAR_MIN UCHAR_MIN
- * @def CGRAPH_UCHAR_EPS (0xFF)
- * @def CGRAPH_UCHAR_BITS (8)
  */
 typedef unsigned char cgraph_uchar_t;
+/** \defgroup group_uchar cgraph_uchar_t */
+/** @{ */
 #define CGRAPH_UCHAR_MAX UCHAR_MAX
 #define CGRAPH_UCHAR_MIN UCHAR_MIN
 #define CGRAPH_UCHAR_EPS (0xFFU)
 #define CGRAPH_UCHAR_BITS (8 * sizeof(cgraph_uchar_t))
+/** @} */
 
 /**
  * @typedef cgraph_bool_t
  * @brief 1-bit integer number data type
- * @def CGRAPH_BOOL_MAX CGRAPH_TRUE  (1)
- * @def CGRAPH_BOOL_MIN CGRAPH_FALSE (0)
- * @def CGRAPH_BOOL_EPS (0x01U)
- * @def CGRAPH_BOOL_BITS (1)
- * @def CGRAPH_BOOL_BITS_LOG2 (0)
  */
 #define CGRAPH_FALSE (0)
 #define CGRAPH_TRUE (1)
 typedef signed int cgraph_bool_t;
+/** \defgroup group_bool cgraph_bool_t */
+/** @{ */
 #define CGRAPH_BOOL_MAX CGRAPH_TRUE
 #define CGRAPH_BOOL_MIN CGRAPH_FALSE
 #define CGRAPH_BOOL_EPS (0x01U)
@@ -82,21 +77,20 @@ typedef signed int cgraph_bool_t;
 #define CGRAPH_BOOL_TRUE_LEN (4)
 #define CGRAPH_BOOL_FALSE "false"
 #define CGRAPH_BOOL_FALSE_LEN (5)
+/** @} */
 
 /**
  * @typedef cgraph_logic_t
  * @brief 2-bit integer number data type, equals to logic in system verilog with
  * 4 states---0, 1, Z and X
- * @def CGRAPH_LOGIC_MAX CGRAPH_LX  (3)
- * @def CGRAPH_LOGIC_MIN CGRAPH_L0 (0)
- * @def CGRAPH_LOGIC_EPS (0x03U)
- * @def CGRAPH_LOGIC_BITS (2)
  */
 #define CGRAPH_L0 (0)
 #define CGRAPH_L1 (1)
 #define CGRAPH_LZ (2)
 #define CGRAPH_LX (3)
 typedef signed int cgraph_logic_t;
+/** \defgroup group_logic cgraph_logic_t */
+/** @{ */
 #define CGRAPH_LOGIC_MAX CGRAPH_LX
 #define CGRAPH_LOGIC_MIN CGRAPH_L0
 #define CGRAPH_LOGIC_EPS (0x03U)
@@ -111,46 +105,43 @@ typedef signed int cgraph_logic_t;
 #define CGRAPH_LOGIC_LZ_LEN (1)
 #define CGRAPH_LOGIC_LX "X"
 #define CGRAPH_LOGIC_LX_LEN (1)
+/** @} */
 
 /**
  * @typedef cgraph_int_t
  * @brief 32-bit integer number data type
- * @def CGRAPH_INT_MAX INT_MAX
- * @def CGRAPH_INT_MIN INT_MIN
- * @def CGRAPH_INT_EPS (0xFFFFFFFFU)
- * @def CGRAPH_INT_BITS (32)
  */
 typedef signed int cgraph_int_t;
+/** \defgroup group_int cgraph_int_t */
+/** @{ */
 #define CGRAPH_INT_MAX INT_MAX
 #define CGRAPH_INT_MIN INT_MIN
 #define CGRAPH_INT_EPS (0xFFFFFFFFU)
 #define CGRAPH_INT_BITS (32)
 #define CGRAPH_INT_BITS_LOG2 (5)
+/** @} */
 
 /**
  * @typedef cgraph_uint_t
  * @brief 32-bit unsigned integer number data type
- * @def CGRAPH_UINT_MAX UINT_MAX
- * @def CGRAPH_UINT_MIN UINT_MIN
- * @def CGRAPH_UINT_EPS (0xFFFFFFFFU)
- * @def CGRAPH_UINT_BITS (32)
  */
 typedef unsigned int cgraph_uint_t;
+/** \defgroup group_uint cgraph_uint_t */
+/** @{ */
 #define CGRAPH_UINT_MAX UINT_MAX
 #define CGRAPH_UINT_MIN UINT_MIN
 #define CGRAPH_UINT_EPS (0xFFFFFFFFU)
 #define CGRAPH_UINT_BITS (32)
 #define CGRAPH_UINT_BITS_LOG2 (5)
+/** @} */
 
 /**
  * @typedef cgraph_long_t
  * @brief 32-bit/64-bit integer number data type in 32-bit/64-bit system
- * @def CGRAPH_LONG_MAX LONG_MAX
- * @def CGRAPH_LONG_MIN LONG_MIN
- * @def CGRAPH_LONG_EPS (0xFFFFFFFFU)/(0xFFFFFFFFFFFFFFFFULL)
- * @def CGRAPH_LONG_BITS (32)/(64)
  */
 typedef signed long cgraph_long_t;
+/** \defgroup group_long cgraph_long_t */
+/** @{ */
 #define CGRAPH_LONG_ZERO (0L)
 #define CGRAPH_LONG_ONE (1L)
 #define CGRAPH_LONG_MAX LONG_MAX
@@ -164,17 +155,16 @@ typedef signed long cgraph_long_t;
 #define CGRAPH_LONG_EPS8 __LONG_EPS8
 #define CGRAPH_LONG_EPS16 __LONG_EPS16
 #define CGRAPH_LONG_EPS32 __LONG_EPS32
+/** @} */
 
 /**
  * @typedef cgraph_ulong_t
  * @brief 32-bit/64-bit unsigned integer number data type in 32-bit/64-bit
  * system
- * @def CGRAPH_ULONG_MAX ULONG_MAX
- * @def CGRAPH_ULONG_MIN ULONG_MIN
- * @def CGRAPH_ULONG_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
- * @def CGRAPH_ULONG_BITS (32)/(64)
  */
 typedef unsigned long cgraph_ulong_t;
+/** \defgroup group_ulong cgraph_ulong_t */
+/** @{ */
 #define CGRAPH_ULONG_ZERO (0UL)
 #define CGRAPH_ULONG_ONE (1UL)
 #define CGRAPH_ULONG_MAX ULONG_MAX
@@ -188,16 +178,15 @@ typedef unsigned long cgraph_ulong_t;
 #define CGRAPH_ULONG_EPS8 __ULONG_EPS8
 #define CGRAPH_ULONG_EPS16 __ULONG_EPS16
 #define CGRAPH_ULONG_EPS32 __ULONG_EPS32
+/** @} */
 
 /**
  * @typedef cgraph_size_t
  * @brief 32-bit/64-bit integer number data type in 32-bit/64-bit system
- * @def CGRAPH_SIZE_MAX LONG_MAX
- * @def CGRAPH_SIZE_MIN LONG_MIN
- * @def CGRAPH_SIZE_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
- * @def CGRAPH_SIZE_BITS (32)/(64)
  */
 typedef cgraph_long_t cgraph_size_t;
+/** \defgroup group_size cgraph_size_t */
+/** @{ */
 #define CGRAPH_SIZE_ZERO CGRAPH_LONG_ZERO
 #define CGRAPH_SIZE_ONE CGRAPH_LONG_ONE
 #define CGRAPH_SIZE_MAX CGRAPH_LONG_MAX
@@ -207,17 +196,16 @@ typedef cgraph_long_t cgraph_size_t;
 #define CGRAPH_SIZE_BITS_LOG2 CGRAPH_LONG_BITS_LOG2
 #define CGRAPH_SIZE_IN_FMT __SIZE_IN_FMT
 #define CGRAPH_SIZE_OUT_FMT __SIZE_OUT_FMT
+/** @} */
 
 /**
  * @typedef cgraph_usize_t
  * @brief 32-bit/64-bit unsigned integer number data type in 32-bit/64-bit
  * system
- * @def CGRAPH_SIZE_MAX ULONG_MAX
- * @def CGRAPH_SIZE_MIN ULONG_MIN
- * @def CGRAPH_SIZE_EPS (0xFFFFFFFF)/(0xFFFFFFFFFFFFFFFF)
- * @def CGRAPH_SIZE_BITS (32)/(64)
  */
 typedef cgraph_ulong_t cgraph_usize_t;
+/** \defgroup group_usize cgraph_usize_t */
+/** @{ */
 #define CGRAPH_USIZE_ZERO CGRAPH_ULONG_ZERO
 #define CGRAPH_USIZE_ONE CGRAPH_ULONG_ONE
 #define CGRAPH_USIZE_MAX CGRAPH_ULONG_MAX
@@ -225,13 +213,15 @@ typedef cgraph_ulong_t cgraph_usize_t;
 #define CGRAPH_USIZE_EPS CGRAPH_ULONG_EPS
 #define CGRAPH_USIZE_BITS CGRAPH_ULONG_BITS
 #define CGRAPH_USIZE_BITS_LOG2 CGRAPH_ULONG_BITS_LOG2
+/** @} */
 
 /**
  * @typedef cgraph_int8_t
  * @brief 8-bit integer number
- * @def CGRAPH_INT8_MIN
  */
 typedef __cgraph_int8 cgraph_int8_t;
+/** \defgroup group_int8 cgraph_int8_t */
+/** @{ */
 #define CGRAPH_INT8_MAX __INT8_MAX
 #define CGRAPH_INT8_MIN __INT8_MIN
 #define CGRAPH_INT8_EPS __INT8_EPS
@@ -239,13 +229,15 @@ typedef __cgraph_int8 cgraph_int8_t;
 #define CGRAPH_INT8_BITS_LOG2 __INT8_BITS_LOG2
 #define CGRAPH_INT8_IN_FMT __INT8_IN_FMT
 #define CGRAPH_INT8_OUT_FMT __INT8_OUT_FMT
+/** @} */
 
 /**
  * @typedef cgraph_uint8_t
  * @brief 8-bit unsigned integer number
- * @def CGRAPH_UINT8_MIN
  */
 typedef __cgraph_uint8 cgraph_uint8_t;
+/** \defgroup group_uint8 cgraph_uint8_t */
+/** @{ */
 #define CGRAPH_UINT8_MAX __UINT8_MAX
 #define CGRAPH_UINT8_MIN __UINT8_MIN
 #define CGRAPH_UINT8_EPS __UINT8_EPS
@@ -253,13 +245,15 @@ typedef __cgraph_uint8 cgraph_uint8_t;
 #define CGRAPH_UINT8_BITS_LOG2 __UINT8_BITS_LOG2
 #define CGRAPH_UINT8_IN_FMT __UINT8_IN_FMT
 #define CGRAPH_UINT8_OUT_FMT __UINT8_OUT_FMT
+/** @} */
 
 /**
  * @typedef cgraph_int16_t
  * @brief 16-bit integer number
- * @def CGRAPH_INT16_MIN
  */
 typedef __cgraph_int16 cgraph_int16_t;
+/** \defgroup group_int16 cgraph_int16_t */
+/** @{ */
 #define CGRAPH_INT16_MIN __INT16_MIN
 #define CGRAPH_INT16_MAX __INT16_MAX
 #define CGRAPH_INT16_EPS __INT16_EPS
@@ -267,13 +261,15 @@ typedef __cgraph_int16 cgraph_int16_t;
 #define CGRAPH_INT16_BITS_LOG2 __INT16_BITS_LOG2
 #define CGRAPH_INT16_IN_FMT __INT16_IN_FMT
 #define CGRAPH_INT16_OUT_FMT __INT16_OUT_FMT
+/** @} */
 
 /**
  * @typedef cgraph_uint16_t
  * @brief 16-bit unsigned integer number
- * @def CGRAPH_UINT16_MIN
  */
 typedef __cgraph_uint16 cgraph_uint16_t;
+/** \defgroup group_uint16 cgraph_uint16_t */
+/** @{ */
 #define CGRAPH_UINT16_MIN __UINT16_MIN
 #define CGRAPH_UINT16_MAX __UINT16_MAX
 #define CGRAPH_UINT16_EPS __UINT16_EPS
@@ -281,13 +277,15 @@ typedef __cgraph_uint16 cgraph_uint16_t;
 #define CGRAPH_UINT16_BITS_LOG2 __UINT16_BITS_LOG2
 #define CGRAPH_UINT16_IN_FMT __UINT16_IN_FMT
 #define CGRAPH_UINT16_OUT_FMT __UINT16_OUT_FMT
+/** @} */
 
 /**
  * @typedef cgraph_int32_t
  * @brief 32-bit integer number
- * @def CGRAPH_INT32_MIN
  */
 typedef __cgraph_int32 cgraph_int32_t;
+/** \defgroup group_int32 cgraph_int32_t */
+/** @{ */
 #define CGRAPH_INT32_MIN __INT32_MIN
 #define CGRAPH_INT32_MAX __INT32_MAX
 #define CGRAPH_INT32_EPS __INT32_EPS
@@ -295,13 +293,15 @@ typedef __cgraph_int32 cgraph_int32_t;
 #define CGRAPH_INT32_BITS_LOG2 __INT32_BITS_LOG2
 #define CGRAPH_INT32_IN_FMT __INT32_IN_FMT
 #define CGRAPH_INT32_OUT_FMT __INT32_OUT_FMT
+/** @} */
 
 /**
  * @typedef cgraph_uint32_t
  * @brief 32-bit unsigned integer number
- * @def CGRAPH_UINT32_MIN
  */
 typedef __cgraph_uint32 cgraph_uint32_t;
+/** \defgroup group_uint32 cgraph_uint32_t */
+/** @{ */
 #define CGRAPH_UINT32_MIN __UINT32_MIN
 #define CGRAPH_UINT32_MAX __UINT32_MAX
 #define CGRAPH_UINT32_EPS __UINT32_EPS
@@ -309,13 +309,15 @@ typedef __cgraph_uint32 cgraph_uint32_t;
 #define CGRAPH_UINT32_BITS_LOG2 __UINT32_BITS_LOG2
 #define CGRAPH_UINT32_IN_FMT __UINT32_IN_FMT
 #define CGRAPH_UINT32_OUT_FMT __UINT32_OUT_FMT
+/** @} */
 
 /**
  * @typedef cgraph_int64_t
  * @brief 64-bit integer number
- * @def CGRAPH_INT64_MIN
  */
 typedef __cgraph_int64 cgraph_int64_t;
+/** \defgroup group_int64 cgraph_int64_t */
+/** @{ */
 #define CGRAPH_INT64_MAX __INT64_MAX
 #define CGRAPH_INT64_MIN __INT64_MIN
 #define CGRAPH_INT64_EPS __INT64_EPS
@@ -329,13 +331,15 @@ typedef __cgraph_int64 cgraph_int64_t;
 #define CGRAPH_INT64_EPS8 __INT64_EPS8
 #define CGRAPH_INT64_EPS16 __INT64_EPS16
 #define CGRAPH_INT64_EPS32 __INT64_EPS32
+/** @} */
 
 /**
  * @typedef cgraph_uint64_t
  * @brief 64-bit unsigned integer number
- * @def CGRAPH_UINT64_MIN
  */
 typedef __cgraph_uint64 cgraph_uint64_t;
+/** \defgroup group_uint64 cgraph_uint64_t */
+/** @{ */
 #define CGRAPH_UINT64_MAX __UINT64_MAX
 #define CGRAPH_UINT64_MIN __UINT64_MIN
 #define CGRAPH_UINT64_EPS __UINT64_EPS
@@ -349,13 +353,15 @@ typedef __cgraph_uint64 cgraph_uint64_t;
 #define CGRAPH_UINT64_EPS8 __INT64_EPS8
 #define CGRAPH_UINT64_EPS16 __INT64_EPS16
 #define CGRAPH_UINT64_EPS32 __INT64_EPS32
+/** @} */
 
 /**
  * @typedef cgraph_int128_t
  * @brief 128-bit integer number
- * @def CGRAPH_INT128_MIN
  */
 typedef __INT128 cgraph_int128_t;
+/** \defgroup group_int128 cgraph_int128_t */
+/** @{ */
 #define CGRAPH_INT128_MAX __INT128_MAX
 #define CGRAPH_INT128_MIN __INT128_MIN
 #define CGRAPH_INT128_EPS __INT128_EPS
@@ -369,13 +375,15 @@ typedef __INT128 cgraph_int128_t;
 #define CGRAPH_INT128_EPS8 __INT128_EPS8
 #define CGRAPH_INT128_EPS16 __INT128_EPS16
 #define CGRAPH_INT128_EPS32 __INT128_EPS32
+/** @} */
 
 /**
  * @typedef cgraph_uint128_t
  * @brief 128-bit unsigned integer number
- * @def CGRAPH_UINT128_MIN
  */
 typedef __UINT128 cgraph_uint128_t;
+/** \defgroup group_uint128 cgraph_uint128_t */
+/** @{ */
 #define CGRAPH_UINT128_MAX __UINT128_MAX
 #define CGRAPH_UINT128_MIN __UINT128_MIN
 #define CGRAPH_UINT128_EPS __UINT128_EPS
@@ -389,16 +397,15 @@ typedef __UINT128 cgraph_uint128_t;
 #define CGRAPH_UINT128_EPS8 __INT128_EPS8
 #define CGRAPH_UINT128_EPS16 __INT128_EPS16
 #define CGRAPH_UINT128_EPS32 __INT128_EPS32
+/** @} */
 
 /**
  * @typedef cgraph_float8_t
  * @brief 8-bit floating point number data type
- * @def CGRAPH_FLOAT8_MAX FLT_MAX
- * @def CGRAPH_FLOAT8_MIN FLT_MIN
- * @def CGRAPH_FLOAT8_EPS 1
- * @def CGRAPH_FLOAT8_BITS FLT_DIG
  */
 typedef cgraph_uint8_t cgraph_float8_t;
+/** \defgroup group_float8 cgraph_float8_t */
+/** @{ */
 #define CGRAPH_FLOAT8_MAX FLT8_MAX
 #define CGRAPH_FLOAT8_MIN FLT8_MIN
 #define CGRAPH_FLOAT8_EPS FLT8_EPS
@@ -414,16 +421,15 @@ typedef cgraph_uint8_t cgraph_float8_t;
 #define CGRAPH_FLOAT8_SIG_BITS (1)
 #define CGRAPH_FLOAT8_SIG_OFS (CGRAPH_FLOAT8_EXP_BITS + CGRAPH_FLOAT8_FRAC_BITS)
 #define CGRAPH_FLOAT8_SIG_EPS (0x80)
+/** @} */
 
 /**
  * @typedef cgraph_float16_t
  * @brief 16-bit floating point number data type
- * @def CGRAPH_FLOAT16_MAX FLT_MAX
- * @def CGRAPH_FLOAT16_MIN FLT_MIN
- * @def CGRAPH_FLOAT16_EPS FLT_EPS
- * @def CGRAPH_FLOAT16_BITS FLT_DIG
  */
 typedef cgraph_uint16_t cgraph_float16_t;
+/** \defgroup group_float16 cgraph_float16_t */
+/** @{ */
 #define CGRAPH_FLOAT16_MAX FLT16_MAX
 #define CGRAPH_FLOAT16_MIN FLT16_MIN
 #define CGRAPH_FLOAT16_EPS FLT16_EPS
@@ -431,25 +437,24 @@ typedef cgraph_uint16_t cgraph_float16_t;
 #define CGRAPH_FLOAT16_BITS FLT16_BITS
 #define CGRAPH_FLOAT16_FRAC_BITS (8)
 #define CGRAPH_FLOAT16_FRAC_OFS (0)
-#define CGRAPH_FLOAT16_FRAC_EPS (0xFF)
+#define CGRAPH_FLOAT16_FRAC_EPS (0xFFU)
 #define CGRAPH_FLOAT16_EXP_BITS (7)
 #define CGRAPH_FLOAT16_EXP_OFS CGRAPH_FLOAT16_FRAC_BITS
-#define CGRAPH_FLOAT16_EXP_EPS (0x7F)
-#define CGRAPH_FLOAT16_EXP_BIAS (0x3F)
+#define CGRAPH_FLOAT16_EXP_EPS (0x7FU)
+#define CGRAPH_FLOAT16_EXP_BIAS (0x3FU)
 #define CGRAPH_FLOAT16_SIG_BITS (1)
 #define CGRAPH_FLOAT16_SIG_OFS                                                 \
   (CGRAPH_FLOAT16_EXP_BITS + CGRAPH_FLOAT16_FRAC_BITS)
-#define CGRAPH_FLOAT16_SIG_EPS (0x8000)
+#define CGRAPH_FLOAT16_SIG_EPS (0x8000U)
+/** @} */
 
 /**
  * @typedef cgraph_float32_t
  * @brief 32-bit floating point number data type
- * @def CGRAPH_FLOAT32_MAX FLT_MAX
- * @def CGRAPH_FLOAT32_MIN FLT_MIN
- * @def CGRAPH_FLOAT32_EPS FLT_EPS
- * @def CGRAPH_FLOAT32_BITS FLT_DIG
  */
 typedef float cgraph_float32_t;
+/** \defgroup group_float32 cgraph_float32_t */
+/** @{ */
 #define CGRAPH_FLOAT32_MAX FLT_MAX
 #define CGRAPH_FLOAT32_MIN FLT_MIN
 #define CGRAPH_FLOAT32_EPS FLT_EPS
@@ -466,16 +471,15 @@ typedef float cgraph_float32_t;
 #define CGRAPH_FLOAT32_SIG_OFS                                                 \
   (CGRAPH_FLOAT32_EXP_BITS + CGRAPH_FLOAT32_FRAC_BITS)
 #define CGRAPH_FLOAT32_SIG_EPS (0x80000000)
+/** @} */
 
 /**
  * @typedef cgraph_float64_t
  * @brief 64-bit floating point number data type
- * @def CGRAPH_FLOAT64_MAX DBL_MAX
- * @def CGRAPH_FLOAT64_MIN DBL_MIN
- * @def CGRAPH_FLOAT64_EPS DBL_EPS
- * @def CGRAPH_FLOAT64_BITS DBL_DIG
  */
 typedef double cgraph_float64_t;
+/** \defgroup group_float64 cgraph_float64_t */
+/** @{ */
 #define CGRAPH_FLOAT64_MAX DBL_MAX
 #define CGRAPH_FLOAT64_MIN DBL_MIN
 #define CGRAPH_FLOAT64_EPS DBL_EPS
@@ -492,8 +496,15 @@ typedef double cgraph_float64_t;
 #define CGRAPH_FLOAT64_SIG_OFS                                                 \
   (CGRAPH_FLOAT64_EXP_BITS + CGRAPH_FLOAT64_FRAC_BITS)
 #define CGRAPH_FLOAT64_SIG_EPS (0)
+/** @} */
 
+/**
+ * @typedef cgraph_float128_t
+ * @brief 128-bit floating point number data type
+ */
 typedef __FLOAT128 cgraph_float128_t;
+/** \defgroup group_float128 cgraph_float128_t */
+/** @{ */
 #define CGRAPH_FLOAT128_MAX __FLOAT128_MIN
 #define CGRAPH_FLOAT128_MIN __FLOAT128_MAX
 #define CGRAPH_FLOAT128_EPS __FLOAT128_EPS
@@ -508,6 +519,7 @@ typedef __FLOAT128 cgraph_float128_t;
 #define CGRAPH_FLOAT128_EXP_BITS __FLOAT128_EXP_BITS
 #define CGRAPH_FLOAT128_EXP_OFS __FLOAT128_EXP_OFS
 #define CGRAPH_FLOAT128_EXP_EPS __FLOAT128_EXP_EPS
+/** @} */
 
 #define CGRAPH_FLOAT_NAN_HASH (3141592653UL)
 #define CGRAPH_FLOAT_PINF_HASH (1234567891UL)
@@ -529,8 +541,14 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_PTRADDR1V(x) ((cgraph_addr_t)CGRAPH_PTRADDR(x))
 #define CGRAPH_PTRADDR2V(x, y) (CGRAPH_PTRADDR1V(x) + (y))
 
+#define CGRAPH_ISFILE(x) ((NULL != (x)) && (0 == ferror((x))))
+#define CGRAPH_ISNFILE(x) ((NULL == (x)) || (0 != ferror((x))))
+#define CGRAPH_ISSTR(x) ((NULL != (x)) && ('\0' != *(x)))
+#define CGRAPH_ISNSTR(x) ((NULL == (x)) || ('\0' == *(x)))
+#define CGRAPH_ISBUF(x, len) ((NULL != (x)) && (0 < (len)))
+#define CGRAPH_ISNBUF(x, len) ((NULL == (x)) || (0 >= (len)))
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define CGRAPH_NTEST(x) ((x) ^ 0x01)
+#define CGRAPH_NTEST(x) ((x) ^ CGRAPH_BOOL_EPS)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define CGRAPH_ABS(x) ((0 > (x)) ? (-(x)) : (x))
@@ -540,9 +558,9 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_XOR(x, y) ((x) ^ (y))
 #define CGRAPH_NOT(x) (~(x))
 #define CGRAPH_XNOR(x, y) CGRAPH_NOT(CGRAPH_XOR(x, y))
-#define CGRAPH_BIT(x, pos) (((x) >> (pos)) & 1)
-#define CGRAPH_BSET(x, pos) ((x) | (1 << (pos)))
-#define CGRAPH_BCLR(x, pos) ((x) & (~(1 << (pos))))
+#define CGRAPH_BIT(x, pos) (((x) >> (pos)) & CGRAPH_BOOL_EPS)
+#define CGRAPH_BSET(x, pos) ((x) | (CGRAPH_BOOL_EPS << (pos)))
+#define CGRAPH_BCLR(x, pos) ((x) & (~(CGRAPH_BOOL_EPS << (pos))))
 #define CGRAPH_BITS(x, from, to)                                               \
   (((x) >> (from)) & (~(ONES << ((to) - (from)))))
 #define CGRAPH_BSETS(x, from, to)                                              \
@@ -560,6 +578,8 @@ typedef cgraph_uint8_t *cgraph_addr_t;
  * the same structure module. Users can use them separately with <cgraph.h>
  * included.
  */
+/** @defgroup group_type cgraph_type_t */
+/** @{ */
 typedef enum {
   CGRAPH_OBJECT_T = 0,    /**< TYPE  0 : CGRAPH_OBJECT_T */
   CGRAPH_HOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_HOBJECT_T */
@@ -616,15 +636,9 @@ typedef enum {
 } cgraph_type_t;
 
 /**
- * @def CGRAPH_DTYPE_NPTR_MIN CGRAPH_BOOL_T
- * @def CGRAPH_DTYPE_NPTR_MAX CGRAPH_FRACTION_T
- * @def CGRAPH_DTYPE_PTR_MIN CGRAPH_BITSET_T
- * @def CGRAPH_DTYPE_PTR_MAX CGRAPH_STRING_T
- * @def CGRAPH_TYPE_MIN CGRAPH_VECTOR_T
- * @def CGRAPH_TYPE_MAX CGRAPH_NULL_T
- * @brief the boundary between data objects and data structural objects
+ * @details the boundary between data objects and data structural objects
  * if type is greater than CGRAPH_NODE_T, this object is a data object;
- * otherwise, this object is a data structural object.
+ * otherwise, this object is a data structural object
  */
 #define CGRAPH_DTYPE_NPTR_MIN CGRAPH_BOOL_T
 #define CGRAPH_DTYPE_NPTR_MAX CGRAPH_FRACTION_T
@@ -632,11 +646,14 @@ typedef enum {
 #define CGRAPH_DTYPE_PTR_MAX CGRAPH_STRING_T
 #define CGRAPH_TYPE_MIN CGRAPH_VECTOR_T
 #define CGRAPH_TYPE_MAX CGRAPH_NULL_T
+/** @} */
 
 /**
- * @brief data and structure tyep id
  * @struct cgraph_element_t
+ * @brief data and structure tyep id
  */
+/** \defgroup group_element cgraph_element_t */
+/** @{ */
 typedef struct {
   /**  key data type */
   cgraph_uint_t k_type : 6;
@@ -681,11 +698,16 @@ typedef struct {
 #define CGRAPH_GTYPE_GMULTIPLE(a) ((a)->element.g_multiple)
 #define CGRAPH_GTYPE_GHYPER(a) ((a)->element.g_hyper)
 #define CGRAPH_GTYPE_GDYNAMIC(a) ((a)->element.g_dynamic)
+/** @} */
 
 typedef void (*cgraph_pfunc1_t)(void *x);
 typedef void (*cgraph_pfunc2_t)(void *x, void *y);
 typedef void (*cgraph_pfunc3_t)(void *x, void *y, void *res);
 
+/**
+ * @struct cgraph_vtable_t
+ * @brief virtual table of each type
+ */
 typedef const struct {
   /**< private: */
   const cgraph_type_t t_id;          /**< type id */
@@ -775,42 +797,35 @@ size, excludes data pointer size */
   void *(*const for3cvc)(void *x, void *y, void *z, const cgraph_size_t len,
                          cgraph_pfunc3_t func);
   void (*const tend)(void);
-} CGVTable;
+} cgraph_vtable_t;
 
 #define __CGRAPH_OBJECTS_NAME(NAME) (_cgraph_##NAME##_s_)
 #define CGRAPH_OBJECTS_NAME(NAME) __CGRAPH_OBJECTS_NAME(NAME)
 
 #define __UNDEFINED NULL
 
-/**
- * buffer size level
- * 0 : 128L
- * 1 : 256L
- * 2 : 512L
- * 3 : 1024L
- * 4 : 2048L
- * 5 : 4096L
- */
-#define CGRAPH_CBUFFER_SIZE0 (128L)
-#define CGRAPH_CBUFFER_SIZE1 (256L)
-#define CGRAPH_CBUFFER_SIZE2 (512L)
-#define CGRAPH_CBUFFER_SIZE3 (1024L)
-#define CGRAPH_CBUFFER_SIZE4 (2048L)
+/** @brief buffer size level */
+/** \defgroup group_cbufsize cgraph c-type buffer size */
+/** @{ */
+#define CGRAPH_CBUF_SIZE0 (128L)
+#define CGRAPH_CBUF_SIZE1 (256L)
+#define CGRAPH_CBUF_SIZE2 (512L)
+#define CGRAPH_CBUF_SIZE3 (1024L)
+#define CGRAPH_CBUF_SIZE4 (2048L)
 
 #ifndef BUFSIZ
 #define BUFSIZ (8192L)
 #endif
-#define CGRAPH_CBUFFER_SIZE5 BUFSIZ
+#define CGRAPH_CBUF_SIZE5 BUFSIZ
+/** @} */
 
-/**
- * data lazy size level
- * 0 : 2L
- * 1 : 4L
- * 2 : 8L
- */
+/** @details data lazy size level */
+/** \defgroup group_cdatsize cgraph data size */
+/** @{ */
 #define CGRAPH_DATA_SIZE0 (2L)
 #define CGRAPH_DATA_SIZE1 (4L)
 #define CGRAPH_DATA_SIZE2 (8L)
+/** @} */
 
 #ifdef __cplusplus
 }

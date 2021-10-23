@@ -27,11 +27,12 @@ Learn more types of programming languages, and know more ways to ponder, model a
 ________________
 This library can be configured by ***autotools*** with [autogen.sh](./autogen.sh) and ***configure***, compiled and checked by Makefiles with the following standard steps:
 ```bash
+	chmod +x ./autogen.sh
   ./autogen.sh  
   ./configure --prefix=${prefix} --enable-gtk-doc
   make  
   make check  
-  make gtkdoc  
+  make doc  
 ```
 packaged and checked by Makefiles with the following standard steps: 
 ```bash
@@ -45,6 +46,10 @@ and cleaned by Makefiles with the following standard steps:
 or
 ```bash
   make distclean  
+```
+and updated by Makefiles and git with the following standard steps:
+```bash
+	make update
 ```
 
 Only the platform supports bash and autotools that can use the standard way to compile this library, such as Linux and other Unix-like OS. If the users use Windows OS, use msys, msys2, cygwin or wsl instead.

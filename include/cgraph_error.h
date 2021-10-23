@@ -18,8 +18,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define CGRAPH_TIME_CBUFFER_SIZE CGRAPH_CBUFFER_SIZE2
-#define CGRAPH_LOG_CBUFFER_SIZE CGRAPH_CBUFFER_SIZE5
+#define CGRAPH_TIME_CBUF_SIZE CGRAPH_CBUF_SIZE2
+#define CGRAPH_LOG_CBUF_SIZE CGRAPH_CBUF_SIZE5
 
 typedef enum {
   CGRAPH_ERROR_NO_ERROR,               /** NO ERROR */
@@ -35,7 +35,7 @@ typedef enum {
   CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS /** MAXIMUM VALUE OF ERRORS, NO USED */
 } cgraph_error_t;
 
-#if defined(DEBUG)
+#ifdef DEBUG
 #define cgraph_error_print(reason)                                             \
   cgraph_error((reason), (__LINE__), (__FILE__), (__FUNCTION))
 #else
@@ -54,21 +54,20 @@ extern void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
                              const cgraph_char_t *function,
                              const cgraph_size_t line,
                              const cgraph_char_t *format, ...);
-extern void cgraph_error_log_cbuffer(FILE *fp, cgraph_char_t *cbuffer,
-                                     cgraph_size_t len,
-                                     const cgraph_char_t *file,
-                                     const cgraph_char_t *function,
-                                     const cgraph_size_t line,
-                                     const cgraph_char_t *format, ...);
+extern void cgraph_error_log_cbuf(FILE *fp, cgraph_char_t *cbuf,
+                                  cgraph_size_t len, const cgraph_char_t *file,
+                                  const cgraph_char_t *function,
+                                  const cgraph_size_t line,
+                                  const cgraph_char_t *format, ...);
 
 /** corresponding to the argument order of above function calling */
-#define CGRAPH_ERROR_STYLE "FILE %s LINE %ld : "
+#define CGRAPH_ERROR_STYLE "[%s>%ld] "
 #define CGRAPH_ERROR_STYLE_ENTRY __FILE__, __LINE__
-#define CGRAPH_ERROR_FUNCTION_STYLE "FILE %s FUNCTION %s LINE %ld : "
+#define CGRAPH_ERROR_FUNCTION_STYLE "[%s>%s>%ld] "
 #define CGRAPH_ERROR_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
-#define CGRAPH_ERROR_TIME_STYLE "TIME %s FILE %s LINE : "
+#define CGRAPH_ERROR_TIME_STYLE "[%s@%s>%ld] "
 #define CGRAPH_ERROR_TIME_STYLE_ENTRY __FILE__, __LINE__
-#define CGRAPH_ERROR_TIME_FUNCTION_STYLE "TIME %s FILE %s FUNCTION %s LINE : "
+#define CGRAPH_ERROR_TIME_FUNCTION_STYLE "[%s@%s>%s>%ld] "
 #define CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
 
 #ifdef __cplusplus

@@ -205,17 +205,22 @@ TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const TYPE *data,
 
 #ifdef TYPE_WITH_DATA
 __INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
-  return CGRAPH_TEST((NULL == cthis) || (0 == cthis->len));
+  return CGRAPH_TEST((NULL == cthis) || (0 >= cthis->len) ||
+                     (cthis->len > cthis->size));
 }
 #else
 __INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE cthis) {
-  return CGRAPH_TRUE;
+  return CGRAPH_FALSE;
 }
 #endif
 
 #ifdef TYPE_WITH_DATA
 __INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
+#if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
+  return CGRAPH_TEST(CGRAPH_ISNEMPTY(cthis) && (cthis->len <= cthis->size));
+#else
   return CGRAPH_FALSE;
+#endif
 }
 #else
 __INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis) {
@@ -597,7 +602,7 @@ cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE cthis) {
 DATA_TYPE *FUNCTION(NAME, datindex)(const TYPE *cthis,
                                     const cgraph_size_t datindex) {
   DATA_TYPE *res = NULL;
-  if ((NULL != cthis) && (0 < cthis->len)) {
+  if (CGRAPH_ISNEMPTY(cthis)) {
     if (0 <= datindex) {
       res = (DATA_TYPE *)(&(cthis->data[datindex]));
     } else {

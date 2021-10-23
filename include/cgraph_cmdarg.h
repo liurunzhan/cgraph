@@ -18,6 +18,10 @@ extern "C" {
 
 #include "cgraph_string.h"
 
+/**
+ * @struct cgraph_cmdarg_t
+ * @brief the object of command line argument
+ */
 typedef struct {
   cgraph_size_t len;
   cgraph_char_t *name;

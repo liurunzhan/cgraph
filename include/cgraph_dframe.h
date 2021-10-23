@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_DFRAME
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_dframe_t
+ * @brief the object of data frame
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   cgraph_size_t row, column;

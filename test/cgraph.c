@@ -1,10 +1,7 @@
 #include "cgraph.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 void printf_char(char data) {
-  printf("debug %x %x\n", 0xFF & data, 0xFF & data);
+  cgraph_file_fprintfln(stdout, "debug %x %x", 0xFF & data, 0xFF & data);
 }
 
 #define CGRAPH_ZERO                                                            \
@@ -16,7 +13,7 @@ cgraph_float64_t function_x(cgraph_float64_t x) { return x * x; }
 
 int main(int argc, char *argv[]) {
   /*
-  cgraph_char_t cbuffer[100];
+  cgraph_char_t cbuf[100];
   cgraph_fraction_t fraction = {-1, INT_MAX};
   cgraph_int_t integer = 123;
   cgraph_float32_t real = 123.0, number = 0.1;
@@ -39,16 +36,16 @@ int main(int argc, char *argv[]) {
   /*
   if(argc == 2)
   {
-  cgraph_string_t *cbuffer = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
+  cgraph_string_t *cbuf = cgraph_string_calloc(CGRAPH_STRING_T, 1000);
   char *file = argv[1];
   FILE *fp = cgraph_file_fopen(file, "r");
   cgraph_size_t row = cgraph_file_rows(fp);
-  cgraph_size_t column = cgraph_file_columns(fp, ",", cbuffer);
+  cgraph_size_t column = cgraph_file_columns(fp, ",", cbuf);
   cgraph_object_t *abc;
   cgraph_int_t i;
   fprintf(stdout, "row: %ld column : %ld\n", row, column);
   cgraph_file_fclose(fp);
-  cgraph_string_free(cbuffer);
+  cgraph_string_free(cbuf);
   for(i=CGRAPH_INT_T; i<CGRAPH_FRACTION_T; i++)
   {
     abc = cgraph_object_calloc(i, 100);
@@ -58,11 +55,11 @@ int main(int argc, char *argv[]) {
   {
     cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INT_T, 2);
     cgraph_int_t data[2] = {1,1};
-    cgraph_string_t *cbuffer;
+    cgraph_string_t *cbuf;
     cgraph_bigint_initd(big, data, 2);
-    cbuffer = cgraph_bigint_tostr(big);
-    fprintf(stdout, "%s\n", cbuffer->data);
-    cgraph_string_free(cbuffer);
+    cbuf = cgraph_bigint_str(big);
+    fprintf(stdout, "%s\n", cbuf->data);
+    cgraph_string_free(cbuf);
     cgraph_bigint_free(big);
   } while (0);
   }
@@ -90,7 +87,7 @@ int main(int argc, char *argv[]) {
 
   cgraph_verilog_test();
 
-  cgraph_error_log_cbuffer(stdout, cbuffer, 100, CGRAPH_ERROR_STYLE_ENTRY,
+  cgraph_error_log_cbuf(stdout, cbuf, 100, CGRAPH_ERROR_STYLE_ENTRY,
   __FUNCTION, "%s %d %d", "hello", 1 , 2); cgraph_error_log(stdout,
   CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%s %d", "hello", 1);
   cgraph_error_log(stdout, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%d",
@@ -109,8 +106,13 @@ int main(int argc, char *argv[]) {
   cgraph_char_t *data = " abc[20] | _abc123", *name = &data[1];
   cgraph_int_t old[10], new[20], old_base = 10, new_base = 16;
   cgraph_size_t old_len = 10, new_len = 20, len;
-  char *cstr = "hello world world world wordl!", *str1 = "world";
-  cgraph_size_t *next = cgraph_calloc(strlen(str1) * sizeof(cgraph_size_t));
+  cgraph_char_t *cstr = "hello world world world wordl!", *str1 = "world";
+  cgraph_char_t *cpath = "/home/user/data.tar.gz.tarx.gz.tar.tar.gz";
+  cgraph_char_t *csuffix = "tar.gz";
+  cgraph_bool_t issuffix = CGRAPH_FALSE;
+  cgraph_bool_t isbigendian = CGRAPH_FALSE;
+  cgraph_size_t *next =
+      cgraph_calloc(cgraph_strlen(str1) * sizeof(cgraph_size_t));
   cgraph_size_t i, j, k;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
   cgraph_cmdarg_fprintln(stdout, cmdarg);
@@ -119,23 +121,28 @@ int main(int argc, char *argv[]) {
                           cgraph_cmdarg_arglen(cmdarg, i),
                           cgraph_cmdarg_argnam(cmdarg, i));
   }
-  fprintf(stdout, "hello world!\n");
-  fprintf(stdout, "%s %ld\n", name,
-          cgraph_math_namlen(name, cgraph_strlen(name), NULL));
+  cgraph_file_fprintfln(stdout, "hello world!");
+  cgraph_file_fprintfln(stdout, "%s %ld", name,
+                        cgraph_math_namlen(name, cgraph_strlen(name), NULL));
   old[0] = 1;
   old[1] = 1;
   old[2] = 2;
-  fprintf(stdout, "old number : %d%d%d\n", old[0], old[1], old[2]);
+  cgraph_file_fprintfln(stdout, "old number : %d%d%d", old[0], old[1], old[2]);
   len = cgraph_math_chgbas(old, 3, old_base, new, new_len, new_base);
-  fprintf(stdout, "new number %ld : %d%d\n", len, new[1], new[0]);
+  cgraph_file_fprintfln(stdout, "new number %ld : %d%d", len, new[1], new[0]);
 
-  cgraph_math_kmpnext(str1, next, strlen(str1));
-  cgraph_file_fprintfln(
-      stdout, "count : %ld",
-      cgraph_math_kmpcnt(cstr, strlen(cstr), str1, next, strlen(str1)));
+  cgraph_math_kmpnext(str1, next, cgraph_strlen(str1));
+  cgraph_file_fprintfln(stdout, "count : %ld",
+                        cgraph_math_kmpcnt(cstr, cgraph_strlen(cstr), str1,
+                                           next, cgraph_strlen(str1)));
   cgraph_free(next);
   cgraph_cmdarg_free(cmdarg);
   cgraph_file_fprintfln(stdout, "element size %ld", sizeof(cgraph_element_t));
+  issuffix = cgraph_file_endswithsuffix(cpath, csuffix);
+  cgraph_file_fprintfln(stdout, "issuffix : %s", cgraph_bool_encode(issuffix));
+  cgraph_file_os(NULL, NULL, NULL, &isbigendian);
+  cgraph_file_fprintfln(stdout, "isbigendian : %s",
+                        cgraph_bool_encode(isbigendian));
 
   return 0;
 }

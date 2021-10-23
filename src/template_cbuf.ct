@@ -1,0 +1,21 @@
+#ifndef CGRAPH_CBUF_SIZE
+#error CGRAPH_CBUF_FREE is undefined
+#endif
+
+static cgraph_char_t __cgraph_cbuf__[CGRAPH_CBUF_SIZE];
+
+void FUNCTION(NAME, bufclr)(void) {
+  cgraph_memset(__cgraph_cbuf__, 0, CGRAPH_CBUF_SIZE);
+}
+
+__INLINE cgraph_size_t FUNCTION(NAME, buflen)(void) { return CGRAPH_CBUF_SIZE; }
+
+#define CGRAPH_CBUF_CALLOC(size)                                               \
+  (((size) > CGRAPH_CBUF_SIZE) ? cgraph_calloc((size)) : __cgraph_cbuf__)
+
+#define CGRAPH_CBUF_FREE(x)                                                    \
+  do {                                                                         \
+    if (__cgraph_cbuf__ != (x)) {                                              \
+      cgraph_free((x));                                                        \
+    }                                                                          \
+  } while (0)

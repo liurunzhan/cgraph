@@ -13,10 +13,10 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   return fprintf(fp, OUT_FMT, FRACTION_NUM(cthis), FRACTION_DEN(cthis));
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  return cgraph_file_snprintf(cbuffer, size, OUT_FMT, FRACTION_NUM(cthis),
+  return cgraph_file_snprintf(cbuf, size, OUT_FMT, FRACTION_NUM(cthis),
                               FRACTION_DEN(cthis));
 }
 

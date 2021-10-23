@@ -61,7 +61,7 @@ static void *FUNCTION(NAME, _iter3cvc)(void *x, void *y, void *z,
                                        cgraph_pfunc3_t func);
 #endif
 
-CGVTable STRUCT(NAME) = {
+cgraph_vtable_t STRUCT(NAME) = {
     /**< private: */
     ID,             /**< cgraph_type_t t_id; */
     STRING(TYPE),   /**< cgraph_char_t *t_name; */

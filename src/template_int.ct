@@ -59,11 +59,11 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   );
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
 
-  return cgraph_file_snprintf(cbuffer, size, OUT_FMT,
+  return cgraph_file_snprintf(cbuf, size, OUT_FMT,
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC) || defined(TYPE_INT128)
                               FUNCTION(NAME, encode)(cthis)
 #else

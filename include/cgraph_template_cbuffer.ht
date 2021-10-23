@@ -1,2 +1,0 @@
-extern void FUNCTION(NAME, bufclr)(void);
-extern cgraph_size_t FUNCTION(NAME, buflen)(void);

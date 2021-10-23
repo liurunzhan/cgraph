@@ -10,7 +10,7 @@
  */
 
 #if defined(TYPE)
-#error before <cgraph_template.h> is included, no other <cgraph_template.h> is included without <cgraph_template_off.h> included
+#error old macros defined in "cgraph_template.h" should be cleaned by "cgraph_template_off.h" before the new ones used
 #endif
 
 #define CONCAT1V(a) #a
@@ -631,7 +631,7 @@
   {                                                                            \
     { CGRAPH_INT_MAX, 1 }                                                      \
   }
-#define EPS                                                                \
+#define EPS                                                                    \
   {                                                                            \
     { 1, CGRAPH_INT_MAX }                                                      \
   }
@@ -875,21 +875,25 @@
 #define DATA_TYPE cgraph_stl_t
 
 #else
-#error <cgraph_template.h> can not be included directly without supported macro TYPE_* defined
+#error "cgraph_template.h" can not be included directly without supported macro TYPE_* defined
 #endif
 
 /**property inheritance of object types */
 #define CGRAPH_OBJECT_BASE cgraph_element_t element;
 
 #define CGRAPH_OBJECT_ROOT DATA_TYPE data;
-#define CGRAPH_OBJECT_DATA_ST(a) (&((a)->data[0]))
+#define CGRAPH_OBJECT_DATA_START(a) (&((a)->data[0]))
 
 /**property inheritance of data and structure types */
 #define CGRAPH_BASE cgraph_size_t size, len;
 #define CGRAPH_SIZE(x) ((NULL != (x)) ? (x)->size : 0)
 #define CGRAPH_LEN(x) ((NULL != (x)) ? (x)->len : 0)
-#define CGRAPH_DATA_ST(a) (&((a)->data[0]))
-#define CGRAPH_DATA_ED(a) (&((a)->data[(a)->len - 1]))
+#define CGRAPH_DATA_START(a) (&((a)->data[0]))
+#define CGRAPH_DATA_END(a) (&((a)->data[(a)->len - 1]))
+#define CGRAPH_ISEMPTY(x) ((NULL == (x)) || (0 >= (x)->len))
+#define CGRAPH_ISNEMPTY(x) ((NULL != (x)) && (0 < (x)->len))
+#define CGRAPH_DATA_BITS_CHECKER(x, bits) ((NULL != (x)) && ((bits / DATA_BITS) <= (x)->len))
+#define CGRAPH_DATA_BYTES_CHECKER(x, bits) ((NULL != (x)) && ((bits / DATA_BYTES) <= (x)->len))
 
 #if (__STDC_VERSION__ >= 199901L)
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, root[];

@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_DICT
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_dict_t
+ * @brief the object of dictory
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_PTR2

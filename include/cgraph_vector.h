@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_VECTOR
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_vector_t
+ * @brief the object of vector
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT

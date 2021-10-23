@@ -11,5 +11,7 @@ fi
 
 for file in `ls $inc/*`; do
 	echo "add header template to $file"
-	$tool/header.py -i $file -t $tool/header.txt -b $tool/brief.json -p $tool/cgraph.json
+	python3 $tool/header.py -i $file -t $tool/header.txt -b $tool/brief.json -p $tool/cgraph.json
 done
+
+python3 $tool/macro.py $inc/cgraph_template_off.h $inc/cgraph_template_off.h

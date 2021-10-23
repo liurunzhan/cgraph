@@ -21,13 +21,13 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != cbuffer) && (NULL != cthis)) {
+  if ((NULL != cbuf) && (NULL != cthis)) {
     len = CGRAPH_MIN(size, cthis->len);
-    cgraph_memcpy(cbuffer, cthis->data, len);
+    cgraph_memcpy(cbuf, cthis->data, len);
   }
 
   return len;
@@ -51,7 +51,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  return CGRAPH_TEST((NULL != cthis) && (0 < cthis->len));
+  return CGRAPH_TEST(CGRAPH_ISNEMPTY(cthis) && (cthis->len <= cthis->size));
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
@@ -274,7 +274,7 @@ cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis) {
   return flag;
 }
 
-TYPE *FUNCTION(NAME, tolower)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, lower)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i = 0;
     for (; i < cthis->len; i++) {
@@ -285,7 +285,7 @@ TYPE *FUNCTION(NAME, tolower)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, toupper)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, upper)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i = 0;
     for (; i < cthis->len; i++) {
@@ -446,8 +446,8 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
     next = cgraph_math_kmpnext(y->data, next, y->len);
     z->len = cgraph_math_kmpcnt(x->data, x->len, y->data, next, y->len);
     cgraph_free(next);
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z),
-                                CGRAPH_CBUFFER_SIZE0, &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), CGRAPH_CBUF_SIZE0,
+                                &error);
     if (CGRAPH_FALSE == error) {
       z->len = cgraph_file_snprintf(z->data, z->size, "%ld", z->len);
     }
@@ -465,8 +465,8 @@ TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE y, TYPE *z) {
         z->len += 1;
       }
     }
-    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z),
-                                CGRAPH_CBUFFER_SIZE0, &error);
+    z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), CGRAPH_CBUF_SIZE0,
+                                &error);
     if (CGRAPH_FALSE == error) {
       z->len = cgraph_file_snprintf(z->data, z->size, "%ld", z->len);
     }
@@ -570,15 +570,15 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
 TYPE *FUNCTION(NAME, chomp)(TYPE *cthis) {
 #ifdef __PLAT_WINDOWS
   if ((NULL != cthis) && (1 < cthis->len)) {
-    if ((__PLAT_NLINE_C0 == cthis->data[cthis->len - 2]) &&
-        (__PLAT_NLINE_C1 == cthis->data[cthis->len - 1])) {
+    if ((__PLAT_LEND_C0 == cthis->data[cthis->len - 2]) &&
+        (__PLAT_LEND_C1 == cthis->data[cthis->len - 1])) {
       cthis->len -= 2;
       cthis->data[cthis->len] = '\0';
     }
   }
 #else
-  if ((NULL != cthis) && (0 < cthis->len)) {
-    if (__PLAT_NLINE_C == cthis->data[cthis->len - 1]) {
+  if (CGRAPH_ISNEMPTY(cthis)) {
+    if (__PLAT_LEND_C == cthis->data[cthis->len - 1]) {
       cthis->len -= 1;
       cthis->data[cthis->len] = '\0';
     }

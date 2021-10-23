@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_COMPLEX
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_complex_t
+ * @brief the object of complex number
+ */
 typedef struct {
   DATA_TYPE data[2];
 } cgraph_complex_t;

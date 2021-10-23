@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_TREE
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_tree_t
+ * @brief the object of tree
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   cgraph_bool_t with_hash;

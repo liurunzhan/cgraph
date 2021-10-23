@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_STRING
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_string_t
+ * @brief the object of string
+ */
 typedef struct {
   CGRAPH_BASE
   CGRAPH_DATA_ROOT
@@ -52,8 +56,8 @@ extern cgraph_bool_t FUNCTION(NAME, isupper)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, tolower)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, toupper)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, lower)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, upper)(TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, subc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,

@@ -28,9 +28,11 @@ extern "C" {
 #ifdef HAVE_FUNC
 #define __HAVE_FUNC
 #endif
+
 #ifdef HAVE_LONG_LONG
 #define __HAVE_LONG_LONG
 #endif
+
 #ifdef HAVE_LONG_DOUBLE
 #define __HAVE_LONG_DOUBLE
 #endif

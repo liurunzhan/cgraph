@@ -9,7 +9,7 @@
  * @lisence GPL-3.0
  */
 
-extern CGVTable STRUCT(NAME);
+extern cgraph_vtable_t STRUCT(NAME);
 
 extern cgraph_type_t FUNCTION(NAME, tid)(void);
 extern cgraph_char_t *FUNCTION(NAME, tname)(void);

@@ -97,63 +97,63 @@ cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE *cthis) {
-  return FUNCTION(NAME, snprinth)(cbuffer, size, cthis);
+  return FUNCTION(NAME, snprinth)(cbuf, size, cthis);
 }
 
-cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != cbuffer) && (2 < size) && (NULL != cthis)) {
+  if ((NULL != cbuf) && (2 < size) && (NULL != cthis)) {
     cgraph_size_t i, j, _size = size - 1;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
-    cbuffer[len++] = '0';
-    cbuffer[len++] = 'b';
+    cbuf[len++] = '0';
+    cbuf[len++] = 'b';
     for (j = BITSET_BITNUM(cthis); j > DATA_BITS; j--) {
-      cbuffer[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j));
+      cbuf[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j));
     }
     for (i = 1, data--; i < cthis->len; data--, i++) {
       for (j = DATA_BITS; (len < _size) && (0 < j); j--) {
-        cbuffer[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j));
+        cbuf[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j));
       }
     }
-    cbuffer[len] = '\0';
+    cbuf[len] = '\0';
   }
 
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != cbuffer) && (2 < size) && (NULL != cthis)) {
+  if ((NULL != cbuf) && (2 < size) && (NULL != cthis)) {
     cgraph_size_t i = 0, _size = size - 1;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
-    cbuffer[len++] = '0';
-    cbuffer[len++] = 'x';
+    cbuf[len++] = '0';
+    cbuf[len++] = 'x';
     if (BITSET_GRHALF(cthis)) {
-      cbuffer[len++] =
+      cbuf[len++] =
           cgraph_math_dec2uhex((*data >> 4) & BITSET_GET_RHALFEPS1(cthis));
-      cbuffer[len++] = cgraph_math_dec2uhex((*(data) >> 4) & 0xFU);
+      cbuf[len++] = cgraph_math_dec2uhex((*(data) >> 4) & 0xFU);
     } else {
-      cbuffer[len++] =
+      cbuf[len++] =
           cgraph_math_dec2uhex((*(data) >> 4) & BITSET_GET_REPS1(cthis));
     }
     for (i = 1, data--; i < cthis->len; data--, i++) {
       if (len > _size) {
         break;
       }
-      cbuffer[len++] = cgraph_math_dec2uhex((*data >> 4) & 0xFU);
+      cbuf[len++] = cgraph_math_dec2uhex((*data >> 4) & 0xFU);
       if (len > _size) {
         break;
       }
-      cbuffer[len++] = cgraph_math_dec2uhex(*data & 0xFU);
+      cbuf[len++] = cgraph_math_dec2uhex(*data & 0xFU);
     }
-    cbuffer[len] = '\0';
+    cbuf[len] = '\0';
   }
 
   return len;
@@ -174,7 +174,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  return CGRAPH_TEST((NULL != cthis) && (0 < cthis->len) &&
+  return CGRAPH_TEST(CGRAPH_ISNEMPTY(cthis) && (cthis->len <= cthis->size) &&
                      (0 <= BITSET_BITNUM(cthis)) && (8 > BITSET_BITNUM(cthis)));
 }
 
@@ -378,7 +378,7 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
 }
 
 TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
-  if ((NULL != cthis) && (0 < cthis->len) && (0 < bits)) {
+  if (CGRAPH_ISNEMPTY(cthis) && (0 < bits)) {
     cgraph_size_t bytes = FUNCTION(DATA_NAME, bitsfloor)(bits),
                   byte = FUNCTION(DATA_NAME, bitsmod)(bits),
                   byte_left = DATA_BITS - byte;

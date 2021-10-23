@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_FRACTION
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_fraction_t
+ * @brief the object of fraction number
+ */
 typedef struct {
   DATA_TYPE data[2];
 } cgraph_fraction_t;

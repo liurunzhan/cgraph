@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_BITSET
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_bitset_t
+ * @brief the object of bit set
+ */
 typedef struct {
   CGRAPH_BASE
   struct {
@@ -58,10 +62,10 @@ typedef struct {
 
 extern cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuffer,
+extern cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuf,
                                               const cgraph_size_t size,
                                               const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuffer,
+extern cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuf,
                                               const cgraph_size_t size,
                                               const TYPE *cthis);
 

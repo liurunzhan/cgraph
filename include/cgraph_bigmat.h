@@ -21,6 +21,10 @@ extern "C" {
 #define TYPE_BIGMAT
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_bigmat_t
+ * @brief the object of 2-d big matrix
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_MATRIX_INDEXES

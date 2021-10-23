@@ -4,6 +4,7 @@ SUBDIRS=src test doc
 includedir = $(prefix)/include
 libdir     = $(prefix)/lib
 testdir    = $(prefix)/test
+docdir     = $(prefix)/doc
 
 pkgconfigdir = @libdir@/pkgconfig
 pkgconfig_DATA = cgraph.pc
@@ -15,10 +16,14 @@ DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure cgraph.pc Dox
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache
 
-.PHONY: gtkdoc doxygen cloc cloc-all update branch
+.PHONY: doc doxygen cloc cloc-all update branch
 
-gtkdoc:
+doc:
+if ENABLE_GTK_DOC
 	$(MAKE) -C $(top_srcdir)/doc
+else
+	$(MAKE) doxygen
+endif
 
 doxygen:
 	doxygen -u
@@ -33,3 +38,9 @@ cloc-all: clean
 update:
 	git clean -xf
 	git pull --quiet
+	chmod +x ./autogen.sh
+
+upgrade:
+	git fetch --all
+	git reset --hard origin/master
+	git pull

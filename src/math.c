@@ -151,9 +151,9 @@ __INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
 __INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
                                            const cgraph_char_t datay) {
 #ifdef __CGRAPH_PLAT_WINDOWS
-  return CGRAPH_TEST((__PLAT_NLINE_C0 != datax) && (__PLAT_NLINE_C1 != datay));
+  return CGRAPH_TEST((__PLAT_LEND_C0 != datax) && (__PLAT_LEND_C1 != datay));
 #else
-  return CGRAPH_TEST(__PLAT_NLINE_C != datax);
+  return CGRAPH_TEST(__PLAT_LEND_C != datax);
 #endif
 }
 
@@ -269,15 +269,19 @@ __INLINE cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data) {
+__INLINE cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data) {
   return ('0' == data) ? 0 : 1;
 }
 
-cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data) {
+__INLINE cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data) {
   return (0 == data) ? '0' : '1';
 }
 
-cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data) {
+__INLINE cgraph_int_t cgraph_math_dec2dec(const cgraph_char_t data) {
+  return (('0' <= data) && ('9' >= data)) ? (data - '0') : MATH_ERROR;
+}
+
+__INLINE cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data) {
   cgraph_int_t res = MATH_ERROR;
   switch (data) {
   case '0':
@@ -323,7 +327,7 @@ static const cgraph_char_t __cgraph_math_dec2hex_upper__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data) {
+__INLINE cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data) {
   return (data >= 0 && data < 16) ? __cgraph_math_dec2hex_upper__[data] : '\0';
 }
 
@@ -331,7 +335,7 @@ static const cgraph_char_t __cgraph_math_dec2hex_lower__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data) {
+__INLINE cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data) {
   return (data >= 0 && data < 16) ? __cgraph_math_dec2hex_lower__[data] : '\0';
 }
 

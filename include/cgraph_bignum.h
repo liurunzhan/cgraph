@@ -18,11 +18,15 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#define CGRAPH_BIGNUM_CBUFFER_SIZE CGRAPH_CBUFFER_SIZE5
+#define CGRAPH_BIGNUM_CBUF_SIZE CGRAPH_CBUF_SIZE5
 
 #define TYPE_BIGNUM
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_bignum_t
+ * @brief the object of big float number
+ */
 typedef struct {
   CGRAPH_BASE
   cgraph_bool_t postive;
@@ -31,15 +35,15 @@ typedef struct {
 } cgraph_bignum_t;
 
 /** template module */
-#include "cgraph_template_cbuffer.ht"
+#include "cgraph_template_cbuf.ht"
 #include "cgraph_template_data.ht"
 
 extern cgraph_size_t FUNCTION(NAME, fprintn)(FILE *fp, const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, fprinte)(FILE *fp, const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, snprintn)(cgraph_char_t *cbuffer,
+extern cgraph_size_t FUNCTION(NAME, snprintn)(cgraph_char_t *cbuf,
                                               const cgraph_size_t size,
                                               const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, snprinte)(cgraph_char_t *cbuffer,
+extern cgraph_size_t FUNCTION(NAME, snprinte)(cgraph_char_t *cbuf,
                                               const cgraph_size_t size,
                                               const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,

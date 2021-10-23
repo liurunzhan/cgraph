@@ -27,12 +27,16 @@ except in <cgraph.h> and <cgraph_struct.h>
 
 #include "cgraph_config.h"
 
-extern CGVTable *CGRAPH_OBJECTS_NAME(mobject)[];
+extern cgraph_vtable_t *CGRAPH_OBJECTS_NAME(mobject)[];
 #define CGRAPH_MOBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(mobject)[type])->opt)
 
 #define TYPE_MOBJECT
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_mobject_t
+ * @brief the object used in 2-d matrix
+ */
 typedef struct {
   CGRAPH_OBJECT_BASE
   CGRAPH_MATRIX_INDEXES

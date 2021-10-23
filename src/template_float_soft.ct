@@ -131,25 +131,25 @@ TYPE FUNCTION(NAME, divexp_s)(const TYPE x, const cgraph_int_t y) {
   return res;
 }
 
-TYPE FUNCTION(NAME, float32to)(const cgraph_float32_t x) {
+TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t x) {
   TYPE res;
 
   return res;
 }
 
-cgraph_float32_t FUNCTION(NAME, tofloat32)(const TYPE x) {
+cgraph_float32_t FUNCTION(NAME, f32)(const TYPE x) {
   cgraph_float32_t res;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, float64to)(const cgraph_float64_t x) {
+TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t x) {
   TYPE res;
 
   return res;
 }
 
-cgraph_float64_t FUNCTION(NAME, tofloat64)(const TYPE x) {
+cgraph_float64_t FUNCTION(NAME, f64)(const TYPE x) {
   cgraph_float64_t res;
 
   return res;

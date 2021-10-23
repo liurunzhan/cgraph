@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_STACK
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_stack_t
+ * @brief the object of stack
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_PTR2

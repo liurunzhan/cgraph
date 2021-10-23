@@ -5,8 +5,8 @@
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 
-#define CGRAPH_CBUFFER_SIZE CGRAPH_BIGINT_CBUFFER_SIZE
-#include "template_cbuffer.ct"
+#define CGRAPH_CBUF_SIZE CGRAPH_BIGINT_CBUF_SIZE
+#include "template_cbuf.ct"
 
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
@@ -55,13 +55,13 @@ static DATA_TYPE *FUNCTION(NAME, _datmul)(DATA_TYPE *xd, DATA_TYPE y,
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != cthis) && (0 < cthis->len)) {
+  if (CGRAPH_ISNEMPTY(cthis)) {
     cgraph_size_t size = (cthis->len << 2) + cthis->len +
                          ((CGRAPH_FALSE == cthis->postive) ? 2 : 1);
-    cgraph_char_t *cbuffer = CGRAPH_CBUFFER_CALLOC(size);
-    len = FUNCTION(NAME, snprint)(cbuffer, size, cthis);
-    cgraph_file_fputs(fp, cbuffer, len);
-    CGRAPH_CBUFFER_FREE(cbuffer);
+    cgraph_char_t *cbuf = CGRAPH_CBUF_CALLOC(size);
+    len = FUNCTION(NAME, snprint)(cbuf, size, cthis);
+    cgraph_file_fputs(fp, cbuf, len);
+    CGRAPH_CBUF_FREE(cbuf);
   }
 
   return len;
@@ -69,7 +69,7 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
 
 cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != cthis) && (0 < cthis->len)) {
+  if (CGRAPH_ISNEMPTY(cthis)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cgraph_size_t i = 0, j;
     fputs("0b", fp);
@@ -86,7 +86,7 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
 
 cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if ((NULL != cthis) && (0 < cthis->len)) {
+  if (CGRAPH_ISNEMPTY(cthis)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cgraph_size_t i = 0;
     fputs("0x", fp);
@@ -100,13 +100,13 @@ cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if ((NULL != cbuffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_ISNEMPTY(cthis)) {
     TYPE *copy = FUNCTION(NAME, copy)(cthis, cthis->len);
-    if (NULL != copy) {
+    if (CGRAPH_ISNEMPTY(copy)) {
       cgraph_size_t i, start = cthis->len - 1;
       cgraph_int_t num, res;
       if (CGRAPH_FALSE == cthis->postive) {
@@ -118,19 +118,19 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
           res = num % 10;
           copy->data[i] = num / 10;
         }
-        cbuffer[len++] = res + '0';
+        cbuf[len++] = res + '0';
         while (0 == copy->data[start]) {
           start--;
         }
       }
       if (0 >= cthis->len) {
-        cbuffer[len++] = '0';
+        cbuf[len++] = '0';
       }
       if (CGRAPH_FALSE == cthis->postive) {
-        cbuffer[len++] = '-';
+        cbuf[len++] = '-';
       }
-      cbuffer[len] = '\0';
-      cgraph_strnrev(cbuffer, len);
+      cbuf[len] = '\0';
+      cgraph_strnrev(cbuf, len);
     }
     FUNCTION(NAME, free)(copy);
   }
@@ -138,49 +138,49 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuffer,
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if ((NULL != cbuffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_ISNEMPTY(cthis)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cgraph_size_t i = 0, j;
-    cbuffer[len++] = '0';
-    cbuffer[len++] = 'b';
+    cbuf[len++] = '0';
+    cbuf[len++] = 'b';
     for (; i < cthis->len; i++, data--) {
       for (j = DATA_BITS - 1; (len < _size) && (j >= 0); j--) {
-        cbuffer[len++] = cgraph_math_dec2uhex(0x1U & (*data >> j));
+        cbuf[len++] = cgraph_math_dec2uhex(0x1U & (*data >> j));
       }
     }
-    cbuffer[len] = '\0';
+    cbuf[len] = '\0';
   }
 
   return len;
 }
 
-cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuffer,
+cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if ((NULL != cbuffer) && (0 < _size) && (NULL != cthis) && (0 < cthis->len)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_ISNEMPTY(cthis)) {
     cgraph_size_t i = 0;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
-    cbuffer[len++] = '0';
-    cbuffer[len++] = 'x';
+    cbuf[len++] = '0';
+    cbuf[len++] = 'x';
     for (i++; (len < _size) && (i < cthis->len); i++, data--) {
-      cbuffer[len++] = cgraph_math_dec2uhex(0xFU & (*data >> 4));
-      cbuffer[len++] = cgraph_math_dec2uhex(0xFU & *data);
+      cbuf[len++] = cgraph_math_dec2uhex(0xFU & (*data >> 4));
+      cbuf[len++] = cgraph_math_dec2uhex(0xFU & *data);
     }
-    cbuffer[len] = '\0';
+    cbuf[len] = '\0';
   }
 
   return len;
 }
 
-TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuffer,
+TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuf,
                             const cgraph_char_t *data,
                             const cgraph_size_t len) {
-  if ((NULL != cthis) && (NULL != cbuffer) && (NULL != data) && (0 < len)) {
+  if ((NULL != cthis) && (NULL != cbuf) && (NULL != data) && (0 < len)) {
     cgraph_size_t i = 0, j = 0, start = 0;
     cgraph_int_t num, res;
     if ('-' == data[i]) {
@@ -193,17 +193,17 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuffer,
       }
     }
     for (; i < len; i++, j++) {
-      cbuffer[j] = data[i] - '0';
+      cbuf[j] = data[i] - '0';
     }
     cthis->len = 0;
     while ((start < len) && (cthis->len < cthis->size)) {
       for (res = 0, i = start; i < j; i++) {
-        num = cbuffer[i] + res * 10;
+        num = cbuf[i] + res * 10;
         res = num & DATA_MAX;
-        cbuffer[i] = num >> DATA_BITS;
+        cbuf[i] = num >> DATA_BITS;
       }
       cthis->data[cthis->len++] = res;
-      while (0 == cbuffer[start]) {
+      while (0 == cbuf[start]) {
         start++;
       }
     }
@@ -215,9 +215,9 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuffer,
 TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data) {
   cgraph_size_t len = cgraph_strlen(data), size = len / 3 + 2;
   TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
-  cgraph_char_t *cbuffer = CGRAPH_CBUFFER_CALLOC(len);
-  cthis = FUNCTION(NAME, initc)(cthis, cbuffer, data, len);
-  CGRAPH_CBUFFER_FREE(cbuffer);
+  cgraph_char_t *cbuf = CGRAPH_CBUF_CALLOC(len);
+  cthis = FUNCTION(NAME, initc)(cthis, cbuf, data, len);
+  CGRAPH_CBUF_FREE(cbuf);
 
   return cthis;
 }
@@ -240,7 +240,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  return CGRAPH_TEST((NULL != cthis) && (0 < cthis->len));
+  return CGRAPH_TEST(CGRAPH_ISNEMPTY(cthis) && (cthis->len <= cthis->size));
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
@@ -640,7 +640,7 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
 }
 
 TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
-  if ((NULL != cthis) && (0 < cthis->len) && (0 < bits)) {
+  if (CGRAPH_ISNEMPTY(cthis) && (0 < bits)) {
     cgraph_size_t bytes = FUNCTION(DATA_NAME, bitsfloor)(bits),
                   byte = FUNCTION(DATA_NAME, bitsmod)(bits),
                   byte_left = DATA_BITS - byte;
@@ -744,7 +744,7 @@ cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis) {
 }
 
 TYPE *FUNCTION(NAME, fact)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
@@ -759,108 +759,165 @@ TYPE *FUNCTION(NAME, floor)(const TYPE *x, TYPE *y) {
 }
 
 TYPE *FUNCTION(NAME, pow)(const TYPE *x, const TYPE *y, TYPE *z) {
-  if ((NULL != x) && (NULL != y)) {
+  if ((NULL != x) && (NULL != y) && (NULL != z)) {
   }
 
   return z;
 }
 
 TYPE *FUNCTION(NAME, sin)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, cos)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, tan)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, asin)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, acos)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, atan)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, sinh)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, cosh)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, tanh)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, log)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, log2)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
 }
 
 TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) {
-  if (NULL != x) {
+  if ((NULL != x) && (NULL != y)) {
   }
 
   return y;
+}
+
+TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4) {
+  TYPE *res = NULL;
+  if (CGRAPH_ISSTR(ipv4) && CGRAPH_DATA_BITS_CHECKER(cthis, 32)) {
+    cgraph_char_t *ipv4_ptr = (cgraph_char_t *)ipv4;
+    cgraph_uint_t split_cnt = 0, byte = 0;
+    cthis->len = 0;
+    cthis->postive = CGRAPH_TRUE;
+    for (; '\0' != *ipv4_ptr; ipv4_ptr++) {
+      if ('.' != *ipv4_ptr) {
+        byte = byte * 10 + (*ipv4_ptr - '0');
+      } else {
+        cthis->data[cthis->len++] = (byte & DATA_EPS);
+        split_cnt += 1;
+        byte = 0;
+      }
+    }
+    if (split_cnt != 3) {
+      cthis->len = 1;
+      cthis->data[0] = 0;
+    } else {
+      cgraph_memrev(cthis->data, cthis->len);
+    }
+  }
+
+  return res;
+}
+
+TYPE *FUNCTION(NAME, ipv6)(TYPE *cthis, const cgraph_char_t *ipv6) {
+  TYPE *res = NULL;
+  if (CGRAPH_ISSTR(ipv6) && CGRAPH_DATA_BITS_CHECKER(cthis, 128)) {
+    cgraph_char_t *ipv6_ptr = (cgraph_char_t *)ipv6;
+    cgraph_uint_t split_cnt = 0, byte = 0;
+    cthis->len = 0;
+    cthis->postive = CGRAPH_TRUE;
+    for (; '\0' != *ipv6_ptr; ipv6_ptr++) {
+      if (':' != *ipv6_ptr) {
+        byte = byte * 16 + cgraph_math_hex2dec(*ipv6_ptr);
+      } else {
+        cgraph_size_t bits = 16 - DATA_BITS;
+        for (; bits >= 0; bits -= DATA_BITS) {
+          cthis->data[cthis->len++] = ((byte >> bits) & DATA_EPS);
+        }
+        byte = 0;
+        split_cnt += 1;
+      }
+    }
+    if ((split_cnt < 2) && (split_cnt > 7)) {
+      cthis->len = 1;
+      cthis->data[0] = 0;
+    } else {
+      cgraph_memrev(cthis->data, cthis->len);
+    }
+  }
+
+  return res;
 }
 
 #include "cgraph_template_off.h"

@@ -22,6 +22,10 @@ extern "C" {
 #define TYPE_SET
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_set_t
+ * @brief the object of set
+ */
 typedef struct {
   CGRAPH_STRUCTURE_BASE
   CGRAPH_STRUCTURE_ROOT

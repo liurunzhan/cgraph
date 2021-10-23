@@ -63,6 +63,10 @@ extern "C" {
 #define CGRAPH_TIME_TYPE1_YEAR_MIN (0U)
 #define CGRAPH_TIME_TYPE1_YEAR_MAX (0xFFFFFFFFU)
 
+/**
+ * @struct cgraph_time_t
+ * @brief the object of time
+ */
 typedef struct {
   DATA_TYPE type : 1;
   union {
@@ -113,7 +117,7 @@ extern cgraph_size_t FUNCTION(NAME, fprint0)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, print0)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln0)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, println0)(const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *cbuffer,
+extern cgraph_size_t FUNCTION(NAME, snprint0)(cgraph_char_t *cbuf,
                                               const cgraph_size_t size,
                                               const TYPE cthis);
 
@@ -155,7 +159,7 @@ extern cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, print1)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln1)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, println1)(const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *cbuffer,
+extern cgraph_size_t FUNCTION(NAME, snprint1)(cgraph_char_t *cbuf,
                                               const cgraph_size_t size,
                                               const TYPE cthisx);
 extern TYPE FUNCTION(NAME, init1)(const DATA_TYPE year, const DATA_TYPE month,

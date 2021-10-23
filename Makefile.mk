@@ -39,6 +39,11 @@ update:
 	git clean -xf
 	git pull --quiet
 
+upgrade:
+	git fetch --all
+	git reset --hard origin/master
+	git pull
+
 define push-branch
 	@echo push branch master to branch $(1)
 	git checkout $(1)

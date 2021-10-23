@@ -50,6 +50,7 @@
 	"cgraph_stdchk.h.in" : "the platform standard check macro definitions",
 	"cgraph_string.h" : "the apis of DATA TYPE cgraph_string_t",
 	"cgraph_struct.h" : "the apis of structure types in cgraph",
+	"cgraph_template_cbuf.ht" : "the template apis of a private C-type buffer",
 	"cgraph_template_check.h" : "the checker of common defined macros",
 	"cgraph_template_data.ht" : "the template apis of DATA TYPE",
 	"cgraph_template_float_soft.ht" : "the template apis of software-defined float point number",

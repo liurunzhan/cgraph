@@ -27,12 +27,16 @@ except in <cgraph.h> and <cgraph_struct.h>
 
 #include "cgraph_config.h"
 
-extern CGVTable *CGRAPH_OBJECTS_NAME(m3object)[];
+extern cgraph_vtable_t *CGRAPH_OBJECTS_NAME(m3object)[];
 #define CGRAPH_M3OBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(m3object)[type])->opt)
 
 #define TYPE_M3OBJECT
 #include "cgraph_template.h"
 
+/**
+ * @struct cgraph_m3object_t
+ * @brief the object used in 3-d matrix
+ */
 typedef struct {
   CGRAPH_OBJECT_BASE
   CGRAPH_MATRIX3D_INDEXES
