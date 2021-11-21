@@ -4,10 +4,9 @@
 
 #include "cgraph_base.h"
 #include "cgraph_int32.h"
-#include "cgraph_time.h"
 
-#define TYPE_TIME
-#include "cgraph_template.h"
+/***/
+#include "cgraph_time.h"
 
 /** template module */
 #include "template_data.ct"
@@ -888,5 +887,3 @@ TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y) {
 
   return res;
 }
-
-#include "cgraph_template_off.h"

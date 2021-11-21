@@ -1,9 +1,8 @@
 #include "cgraph_base.h"
 #include "cgraph_object.h"
-#include "cgraph_vector.h"
 
-#define TYPE_VECTOR
-#include "cgraph_template.h"
+/****/
+#include "cgraph_vector.h"
 
 /** template module */
 #include "template_struct.ct"
@@ -155,5 +154,3 @@ TYPE *FUNCTION(NAME, primes)(const cgraph_int_t data) {
 
   return primes;
 }
-
-#include "cgraph_template_off.h"

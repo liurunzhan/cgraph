@@ -1,9 +1,8 @@
-#include "cgraph.h"
-#include <stdio.h>
 #include <string.h>
 
-#define TYPE_BIGNUM
-#include "cgraph_template.h"
+#include "cgraph_file.h"
+
+#include "cgraph_bignum.h"
 
 int main(int argc, char *argv[]) {
   cgraph_char_t *num = "-0.9", *num2 = "-230.0", *num3 = "-0.1", *num4 = "0.09",

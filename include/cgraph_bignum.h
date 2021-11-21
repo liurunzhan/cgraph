@@ -20,8 +20,35 @@ extern "C" {
 
 #define CGRAPH_BIGNUM_CBUF_SIZE CGRAPH_CBUF_SIZE5
 
+#include "cgraph_template_off.h"
 #define TYPE_BIGNUM
 #include "cgraph_template.h"
+
+#define NAME bignum
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BIGNUM)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT "%s"
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
+#define MIN FUNCTION(NAME, min)((x))
+#define MAX FUNCTION(NAME, max)((x))
+#define TYPE_WITH_DATA
+#define DATA_NAME int8
+#define DATA_UNAME uint8
+#define DATA_TYPE TYPE_T(DATA_UNAME)
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
+#define DATA_ID ID_T(UINT8)
+#define DATA_BITS CGRAPH_UINT8_BITS
+#define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
+#define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitsceil)((x))
+#define DATA_END (0)
+#define DATA_ZERO (0)
+#define DATA_ONE (1)
+#define DATA_ONES (1)
+#define DATA_MIN (0)
+#define DATA_MAX (9)
 
 /**
  * @struct cgraph_bignum_t
@@ -53,8 +80,6 @@ extern TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data);
 
 extern TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp);
 extern TYPE *FUNCTION(NAME, div10)(TYPE *cthis, const cgraph_size_t exp);
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

@@ -1,11 +1,10 @@
 #include "cgraph_base.h"
-#include "cgraph_bigint.h"
 #include "cgraph_int8.h"
 
-#define TYPE_BIGINT
-#include "cgraph_template.h"
+/***/
+#include "cgraph_bigint.h"
 
-#define CGRAPH_CBUF_SIZE CGRAPH_BIGINT_CBUF_SIZE
+#define CGRAPH_CBUF_SIZE CGRAPH_CBUF_SIZE5
 #include "template_cbuf.ct"
 
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
@@ -919,5 +918,3 @@ TYPE *FUNCTION(NAME, ipv6)(TYPE *cthis, const cgraph_char_t *ipv6) {
 
   return res;
 }
-
-#include "cgraph_template_off.h"

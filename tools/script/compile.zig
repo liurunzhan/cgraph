@@ -49,7 +49,9 @@ pub fn main() void {
   defer std.process.argsFree(gpa, args);
   
   if (args.len == 1) {
-    std.os.mkdir(LIB);
+		if (std.os.exists(LIB)) {
+			std.os.mkdir(LIB);
+		}
   } else if (args[1] == "test") {
     std.debug.print("hello world");
   } else if (args[1] == "clean") {

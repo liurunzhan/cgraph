@@ -1,9 +1,7 @@
 #include "cgraph_object_base.h"
 
+/***/
 #include "cgraph_hobject.h"
-
-#define TYPE_HOBJECT
-#include "cgraph_template.h"
 
 /** template module */
 #include "template_object.ct"
@@ -139,5 +137,3 @@ __INLINE TYPE *FUNCTION(NAME, unsetvhash)(TYPE *cthis) {
 
   return cthis;
 }
-
-#include "cgraph_template_off.h"

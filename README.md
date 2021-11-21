@@ -27,7 +27,7 @@ Learn more types of programming languages, and know more ways to ponder, model a
 ________________
 This library can be configured by ***autotools*** with [autogen.sh](./autogen.sh) and ***configure***, compiled and checked by Makefiles with the following standard steps:
 ```bash
-	chmod +x ./autogen.sh
+  chmod +x ./autogen.sh
   ./autogen.sh  
   ./configure --prefix=${prefix} --enable-gtk-doc
   make  
@@ -68,11 +68,11 @@ Some compiled languages realized by given compilers with special extension tools
 
 All above ways are called with [Makefile.mk](./Makefile.mk) in MSYS, MSYS2, CYGWIN or Linux platform by
 ```bash
-make -f Makefile.mk $(TOOL) CMD=$(CMD)  
+  make -f Makefile.mk $(TOOL) CMD=$(CMD)  
 ```
 or in Windows platform by
 ```cmd
-mingw32-make.exe -f Makefile.mk $(TOOL) CMD=$(CMD)  
+  mingw32-make.exe -f Makefile.mk $(TOOL) CMD=$(CMD)  
 ```
 
 ### Compiler

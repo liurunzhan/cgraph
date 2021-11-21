@@ -24,13 +24,32 @@ extern "C" {
 #define BOOL_XOR(x, y) ((x) ^ (y))
 #define BOOL_XNOR(x, y) (~BOOL_XOR(x, y))
 
+#include "cgraph_template_off.h"
 #define TYPE_BOOL
 #include "cgraph_template.h"
 
+#define ARG cgraph_long_t
+#define NAME bool
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BOOL)
+#define BITS CGRAPH_BOOL_BITS
+#define BITS_LOG2 CGRAPH_BOOL_BITS_LOG2
+#define IN_FMT "%s"
+#define OUT_FMT "%s"
+#define UTYPE TYPE_T(NAME)
+#define UID ID_T(BOOL)
+#define ZERO CGRAPH_FALSE
+#define ONE CGRAPH_TRUE
+#define ONES CGRAPH_TRUE
+#define MIN CGRAPH_BOOL_MIN
+#define MAX CGRAPH_BOOL_MAX
+#define MSB (ONE)
+#define LSB (ONE)
+#define EPS CGRAPH_BOOL_EPS
+#define EPS_LEN CGRAPH_BOOL_BITS
+
 /** template module */
 #include "cgraph_template_int.ht"
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,3 @@
+#ifndef {macro}
+#error undefined needed macro {macro}
+#endif

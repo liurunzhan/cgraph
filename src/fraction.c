@@ -1,10 +1,8 @@
 #include "cgraph_base.h"
 #include "cgraph_int.h"
 
+/***/
 #include "cgraph_fraction.h"
-
-#define TYPE_FRACTION
-#include "cgraph_template.h"
 
 /** template module */
 #include "template_data.ct"
@@ -460,5 +458,3 @@ TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y) {
 
   return res;
 }
-
-#include "cgraph_template_off.h"

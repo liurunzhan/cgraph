@@ -19,8 +19,16 @@ extern "C" {
 #include "cgraph_config.h"
 #include "cgraph_snode.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_SET
 #include "cgraph_template.h"
+
+#define NAME set
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(SET)
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_set_t
@@ -33,8 +41,6 @@ typedef struct {
 
 /** template module */
 #include "cgraph_template_struct.ht"
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

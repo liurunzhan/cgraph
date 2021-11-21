@@ -1,9 +1,6 @@
-#include "cgraph.h"
+#include "cgraph_file.h"
 
-#define TYPE_MATRIX3D
-#include "cgraph_template.h"
+#include "cgraph_matrix3d.h"
 
 /** template test */
 #include "matrix3d.ct"
-
-#include "cgraph_template_off.h"

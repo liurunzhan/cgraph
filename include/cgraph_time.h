@@ -18,8 +18,73 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_TIME
 #include "cgraph_template.h"
+
+#define NAME time
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(TIME)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT0 "%u%u"
+#define ZERO0                                                                  \
+  {                                                                            \
+    0, {                                                                       \
+      { 0, 0 }                                                                 \
+    }                                                                          \
+  }
+#define ONE0                                                                   \
+  {                                                                            \
+    0, {                                                                       \
+      { 0, 1 }                                                                 \
+    }                                                                          \
+  }
+#define ONES0                                                                  \
+  {                                                                            \
+    1, {                                                                       \
+      { 1, 1 }                                                                 \
+    }                                                                          \
+  }
+#define OUT_FMT1 "%u-%u-%u %u:%u:%u"
+#define ZERO1                                                                  \
+  {                                                                            \
+    0, {                                                                       \
+      { 0, 0, 0, 0, 0, 0 }                                                     \
+    }                                                                          \
+  }
+#define ONE1                                                                   \
+  {                                                                            \
+    0, {                                                                       \
+      { 0, 0, 0, 0, 0, 1 }                                                     \
+    }                                                                          \
+  }
+#define ONES1                                                                  \
+  {                                                                            \
+    1, {                                                                       \
+      { 1, 1, 1, 1, 1, 1 }                                                     \
+    }                                                                          \
+  }
+#define ZERO ZERO0
+#define ONE ONE0
+#define ONES ONE0
+#define MIN (0)
+#define MAX (1)
+#define DATA_NAME int32
+#define DATA_UNAME uint32
+#define DATA_TYPE TYPE_T(DATA_UNAME)
+#define DATA_ID ID_T(UINT32)
+#define DATA_BITS CGRAPH_UINT32_BITS
+#define DATA_ZERO (0U)
+#define DATA_ONE (1U)
+#define DATA_ONES (1U)
+#define DATA_MIN CGRAPH_UINT32_MIN
+#define DATA_MAX CGRAPH_UINT32_MAX
+#define DATA_BIAS1 (DATA_MAX & CGRAPH_TIME_TYPE0_BIAS_EPS1)
+#define DATA_MIN1 (DATA_MIN & CGRAPH_TIME_TYPE0_EPS1)
+#define DATA_MAX1 (DATA_MAX & CGRAPH_TIME_TYPE0_EPS1)
+#define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
+#define DATA_LSB (DATA_ONE)
+#define DATA_EPS CGRAPH_UINT32_EPS
 
 /** macro parameters defined in TYPE 0 */
 #define CGRAPH_TIME_TYPE0 (0)
@@ -109,6 +174,7 @@ typedef struct {
 #define TIME_SECOND(x) (TIME_TYPE1(x).second)
 
 /** template module */
+
 #include "cgraph_template_data.ht"
 
 /** apis of TYPE 0 in cgraph_time_t */
@@ -201,7 +267,53 @@ extern TYPE FUNCTION(NAME, localtime)(void);
 extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,
                                   const cgraph_char_t *sep);
 
-#include "cgraph_template_off.h"
+#define EQ(a, b)                                                               \
+  FUNCTION(NAME, eq)                                                           \
+  ((a), (b))
+#define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
+#define GR(a, b)                                                               \
+  FUNCTION(NAME, gr)                                                           \
+  ((a), (b))
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
+#define LS(a, b)                                                               \
+  FUNCTION(NAME, gr)                                                           \
+  ((b), (a))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+
+#define ADD(a, b, c)                                                           \
+  FUNCTION(NAME, add1)                                                         \
+  ((a), (b))
+#define SUB(a, b, c)                                                           \
+  FUNCTION(NAME, sub1)                                                         \
+  ((a), (b))
+#define MUL(a, b, c)                                                           \
+  FUNCTION(NAME, mul1)                                                         \
+  ((a), (b))
+#define DIV(a, b, c)                                                           \
+  FUNCTION(NAME, div1)                                                         \
+  ((a), (b))
+#define DIVF(a, b, c) __UNDEFINED
+#define INT(a, b, c) __UNDEFINED
+#define MOD(a, b, c) __UNDEFINED
+
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #ifdef __cplusplus
 }

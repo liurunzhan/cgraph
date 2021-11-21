@@ -1,8 +1,8 @@
-#include "cgraph.h"
 #include <stdio.h>
 
-#define TYPE_BITSET
-#include "cgraph_template.h"
+#include "cgraph_file.h"
+
+#include "cgraph_bitset.h"
 
 int main(int argc, char *argv[]) {
   TYPE *bitset1 = FUNCTION(NAME, calloc)(DATA_ID, 20);

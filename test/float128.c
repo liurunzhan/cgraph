@@ -1,10 +1,6 @@
-#include "cgraph.h"
-#include <stdio.h>
+#include "cgraph_file.h"
 
-#define TYPE_FLOAT128
-#include "cgraph_template.h"
+#include "cgraph_float128.h"
 
 /** template*/
 #include "test_float.ct"
-
-#include "cgraph_template_off.h"

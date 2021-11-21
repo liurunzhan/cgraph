@@ -1,8 +1,6 @@
-#include "cgraph.h"
-#include <stdio.h>
+#include "cgraph_file.h"
 
-#define TYPE_BIGINT
-#include "cgraph_template.h"
+#include "cgraph_bigint.h"
 
 int main(int argc, char *argv[]) {
   TYPE *bigint1 = FUNCTION(NAME, calloc)(DATA_ID, 20);
@@ -121,5 +119,3 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
-
-#include "cgraph_template_off.h"

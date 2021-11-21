@@ -1,8 +1,7 @@
 #include "cgraph_base.h"
-#include "cgraph_int128.h"
 
-#define TYPE_INT128
-#include "cgraph_template.h"
+/***/
+#include "cgraph_int128.h"
 
 /** template module */
 #include "template_int.ct"
@@ -25,5 +24,3 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
 
   return __cgraph_cbuf__;
 }
-
-#include "cgraph_template_off.h"

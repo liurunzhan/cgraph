@@ -19,8 +19,16 @@ extern "C" {
 #include "cgraph_config.h"
 #include "cgraph_snode.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_TREE
 #include "cgraph_template.h"
+
+#define NAME tree
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(TREE)
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_tree_t
@@ -34,8 +42,6 @@ typedef struct {
 
 /** template module */
 #include "cgraph_template_struct.ht"
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

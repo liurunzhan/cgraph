@@ -11,17 +11,17 @@ static const cgraph_size_t __cgraph_false_size__ = (__cgraph_false_len__ + 1);
 
 cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x) {
   cgraph_string_t *cthis = NULL;
-  if (CGRAPH_TRUE == x) {
-    cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_true_size__);
-    if (NULL != cthis) {
-      cgraph_string_initd(cthis, __cgraph_true__, __cgraph_true_size__);
-      cthis->len = __cgraph_true_len__;
-    }
-  } else if (CGRAPH_FALSE == x) {
+  if (CGRAPH_FALSE == x) {
     cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_false_size__);
     if (NULL != cthis) {
       cgraph_string_initd(cthis, __cgraph_false__, __cgraph_false_size__);
       cthis->len = __cgraph_false_len__;
+    }
+  } else {
+    cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_true_size__);
+    if (NULL != cthis) {
+      cgraph_string_initd(cthis, __cgraph_true__, __cgraph_true_size__);
+      cthis->len = __cgraph_true_len__;
     }
   }
 
@@ -29,9 +29,9 @@ cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x) {
 }
 
 cgraph_bool_t cgraph_string_to_bool(const cgraph_string_t *cthis) {
-  cgraph_bool_t res = CGRAPH_FALSE;
+  cgraph_bool_t res = CGRAPH_FALSE, error = CGRAPH_FALSE;
   if (NULL != cthis) {
-    res = cgraph_bool_decode(cthis->data, cthis->len);
+    res = cgraph_bool_decode(cthis->data, cthis->len, &error);
   }
 
   return res;

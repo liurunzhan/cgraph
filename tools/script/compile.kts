@@ -41,9 +41,15 @@ fun main(args: Array<String>) {
 	} else if(args[0] == "test") {
 
 	} else if(args[0] == "clean") {
-
+		for (file in CFILES) {
+			val obj : String = file.replace(Regex(".c$"), ".o")
+			val dep : String = file.replace(Regex(".c$"), ".d")
+		}
 	} else if(args[0] == "distclean") {
-
+		for (file in CFILES) {
+			val obj : String = file.replace(Regex(".c$"), ".o")
+			val dep : String = file.replace(Regex(".c$"), ".d")
+		}
 	} else if(args[0] == "help") {
 		// println("${SCRIPT_NAME}    <target>")
 		println("<target>: ")

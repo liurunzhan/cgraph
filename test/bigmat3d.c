@@ -1,9 +1,6 @@
-#include "cgraph.h"
+#include "cgraph_file.h"
 
-#define TYPE_BIGMAT3D
-#include "cgraph_template.h"
+#include "cgraph_bigmat3d.h"
 
 /** template test */
 #include "matrix.ct"
-
-#include "cgraph_template_off.h"

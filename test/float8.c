@@ -1,8 +1,4 @@
-#include "cgraph.h"
-#include <stdio.h>
-
-#define TYPE_FLOAT8
-#include "cgraph_template.h"
+#include "cgraph_float8.h"
 
 #if 0
 /** template*/
@@ -10,5 +6,3 @@
 #else
 int main(int argc, char *argv[]) { return 0; }
 #endif
-
-#include "cgraph_template_off.h"

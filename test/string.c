@@ -1,9 +1,8 @@
-#include "cgraph.h"
-#include <stdio.h>
 #include <string.h>
 
-#define TYPE_STRING
-#include "cgraph_template.h"
+#include "cgraph_file.h"
+
+#include "cgraph_string.h"
 
 int main(int argc, char *argv[]) {
   TYPE *string = FUNCTION(NAME, calloc)(ID, 10000);
@@ -59,5 +58,3 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
-
-#include "cgraph_template_off.h"

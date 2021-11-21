@@ -1,9 +1,8 @@
 #include "cgraph_base.h"
-#include "cgraph_bitset.h"
 #include "cgraph_int8.h"
 
-#define TYPE_BITSET
-#include "cgraph_template.h"
+/***/
+#include "cgraph_bitset.h"
 
 /** private apis  */
 #define BITSET_BIT_EPS1(pos) (__bitset_bit_eps1__[BITSET_BIT_POSTION(pos)])
@@ -765,37 +764,3 @@ TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y) {
 TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) {
   return FUNCTION(NAME, init)(y, x, 0);
 }
-
-#ifdef BITSET_BIT_EPS1
-#undef BITSET_BIT_EPS1
-#endif
-
-#ifdef BITSET_BIT_EPS0
-#undef BITSET_BIT_EPS0
-#endif
-
-#ifdef BITSET_BIT_REPS1
-#undef BITSET_BIT_REPS1
-#endif
-
-#ifdef BITSET_BIT_LEPS1
-#undef BITSET_BIT_LEPS1
-#endif
-
-#ifdef BITSET_GET_REPS1
-#undef BITSET_GET_REPS1
-#endif
-
-#ifdef BITSET_GET_RHALFEPS1
-#undef BITSET_GET_RHALFEPS1
-#endif
-
-#ifdef BITSET_GET_LEPS1
-#undef BITSET_GET_LEPS1
-#endif
-
-#ifdef BITSET_GET_LHALFEPS1
-#undef BITSET_GET_LHALFEPS1
-#endif
-
-#include "cgraph_template_off.h"

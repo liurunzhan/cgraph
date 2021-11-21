@@ -18,13 +18,36 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_INT8
 #include "cgraph_template.h"
 
+#define ARG cgraph_long_t
+#define NAME int8
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(INT8)
+#define BITS CGRAPH_INT8_BITS
+#define BITS_LOG2 CGRAPH_INT8_BITS_LOG2
+#define IN_FMT CGRAPH_INT8_IN_FMT
+#define OUT_FMT CGRAPH_INT8_OUT_FMT
+#define UNAME uint8
+#define UTYPE TYPE_T(UNAME)
+#define UID ID_T(UINT8)
+#define ZERO (0)
+#define ONE (1)
+#define ONES CGRAPH_INT8_MIN
+#define MIN CGRAPH_INT8_MIN
+#define MAX CGRAPH_INT8_MAX
+#define MSB (ONE << (BITS - 1))
+#define LSB (ONE)
+#define EPS CGRAPH_INT8_EPS
+#define EPS_LEN CGRAPH_INT8_BITS
+#define EPS1 (0xAAU)
+#define EPS2 (0xCCU)
+#define EPS4 (0xF0U)
+
 /** template module */
 #include "cgraph_template_int.ht"
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

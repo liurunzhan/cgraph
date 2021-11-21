@@ -1,10 +1,9 @@
 #include <string.h>
 
 #include "cgraph_base.h"
-#include "cgraph_string.h"
 
-#define TYPE_STRING
-#include "cgraph_template.h"
+/***/
+#include "cgraph_string.h"
 
 /** template module */
 #include "template_data.ct"
@@ -691,5 +690,3 @@ cgraph_bool_t FUNCTION(NAME, endswith)(const TYPE *cthis, const DATA_TYPE *cstr,
 
   return flag;
 }
-
-#include "cgraph_template_off.h"

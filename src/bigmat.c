@@ -1,9 +1,8 @@
 #include "cgraph_base.h"
-#include "cgraph_bigmat.h"
 #include "cgraph_object.h"
 
-#define TYPE_BIGMAT
-#include "cgraph_template.h"
+/***/
+#include "cgraph_bigmat.h"
 
 /** template module */
 #include "template_matrix.ct"
@@ -23,5 +22,3 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
 
   return flag;
 }
-
-#include "cgraph_template_off.h"

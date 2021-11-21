@@ -14,12 +14,9 @@ my $CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
 my $CSFLAGS = "-shared";
 
 my $MODE = "debug";
-if ($MODE eq "debug")
-{
+if ($MODE eq "debug") {
   $CFLAGS = "$CFLAGS -g -DDEBUG";
-}
-elsif ($MODE eq "release")
-{
+} elsif ($MODE eq "release") {
   $CFLAGS = "$CFLAGS -static -O2";
 }
 
@@ -29,10 +26,8 @@ my $ARFLAGS = "-rcs";
 
 # source files
 my @CFILES;
-for (dir $SRC) -> $file
-{
-  if ($file ~~ /\.c$/)
-  {
+for (dir $SRC) -> $file {
+  if ($file ~~ /\.c$/) {
     @CFILES.push($file);
   }
 }
@@ -41,17 +36,14 @@ my $LIBSTATIC;
 my $TSTFILE;
 my $TSTTARGET;
 
-if (VM.osname eq "MSWin32")
-{
+if (VM.osname eq "MSWin32") {
   # target files
   $LIBSHARED = $LIB.IO.add("lib$PRO.dll");
   $LIBSTATIC = $LIB.IO.add("lib$PRO.lib");
   # test files
   $TSTFILE = $TST.IO.add("$PRO.c");
   $TSTTARGET = $TST.IO.add("$PRO.exe");
-}
-else
-{
+} else {
   # target files
   $LIBSHARED = $LIB.IO.add("lib$PRO.so");
   $LIBSTATIC = $LIB.IO.add("lib$PRO.a");
@@ -61,12 +53,10 @@ else
 }
 
 my @args = @*ARGS;
-if (@args.elems eq 0)
-{
+if (@args.elems eq 0) {
   mkdir $LIB;
   my @OFILES;
-  for @CFILES -> $file
-  {
+  for @CFILES -> $file {
     my $obj = S/\.c$/\.o/ given $file;
 		my $dep = S/\.c$/\.d/ given $file;
     say("compile $file to $obj");
@@ -77,18 +67,13 @@ if (@args.elems eq 0)
   shell("$CC $CSFLAGS -o $LIBSHARED " ~ join " ", @OFILES);
   say("compile $LIBSTATIC");
   shell("$AR $ARFLAGS $LIBSTATIC " ~ join " ", @OFILES);
-}
-elsif (@args[0] eq "test")
-{
+} elsif (@args[0] eq "test") {
   say("compile $TSTFILE to $TSTTARGET");
   shell("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
   say("test $TSTTARGET with $TST.IO.add("elements.csv")");
   shell("$TSTTARGET $TST.IO.add("elements.csv")");
-}
-elsif (@args[0] eq "clean")
-{
-  for @CFILES -> $file
-  {
+} elsif (@args[0] eq "clean") {
+  for @CFILES -> $file {
     my $obj = S/\.c$/\.o/ given $file;
     say("clean $obj");
     unlink "$obj";
@@ -102,11 +87,8 @@ elsif (@args[0] eq "clean")
   unlink "$LIBSHARED";
   say("clean $TSTTARGET");
   unlink "$TSTTARGET";
-}
-elsif (@args[0] eq "distclean")
-{
-  for @CFILES -> $file
-  {
+} elsif (@args[0] eq "distclean") {
+  for @CFILES -> $file {
     my $obj = S/\.c$/\.o/ given $file;
     say("clean $obj");
     unlink "$obj";
@@ -122,9 +104,7 @@ elsif (@args[0] eq "distclean")
   rmdir $LIB;
   say("clean $TSTTARGET");
   unlink "$TSTTARGET";
-}
-elsif (@args[0] eq "help")
-{
+} elsif (@args[0] eq "help") {
   say("$*PROGRAM-NAME <target>");
   say("<target>: ");
   say("                    compile cgraph");
@@ -132,9 +112,7 @@ elsif (@args[0] eq "help")
   say("          clean     clean all the generated files");
   say("          distclean clean all the generated files and directories");
   say("          help      commands to this program");
-}
-else
-{
+} else {
   say("@args[0] is an unsupported command");
   say("use \"$*PROGRAM-NAME help\" to know all supported commands");
 }

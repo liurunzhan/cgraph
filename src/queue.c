@@ -1,9 +1,8 @@
 #include "cgraph_base.h"
 #include "cgraph_object.h"
-#include "cgraph_queue.h"
 
-#define TYPE_QUEUE
-#include "cgraph_template.h"
+/***/
+#include "cgraph_queue.h"
 
 /** template module */
 #include "template_struct.ct"
@@ -62,5 +61,3 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
 
   return flag;
 }
-
-#include "cgraph_template_off.h"

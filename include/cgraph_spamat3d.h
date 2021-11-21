@@ -17,10 +17,17 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include "cgraph_m3object.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_SPAMAT3D
 #include "cgraph_template.h"
+
+#define NAME spamat3d
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(SPAMAT3D)
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_spamat3d_t
@@ -34,8 +41,6 @@ typedef struct {
 
 /** template module */
 #include "cgraph_template_matrix3d.ht"
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

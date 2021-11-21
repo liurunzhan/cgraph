@@ -1,9 +1,7 @@
 #include "cgraph_object_base.h"
 
+/***/
 #include "cgraph_gobject.h"
-
-#define TYPE_GOBJECT
-#include "cgraph_template.h"
 
 /** template module */
 #include "template_object.ct"
@@ -31,5 +29,3 @@ __INLINE cgraph_bool_t FUNCTION(NAME, hyper)(const TYPE *cthis) {
 __INLINE cgraph_bool_t FUNCTION(NAME, dynamic)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_GTYPE_GDYNAMIC(cthis) : CGRAPH_FALSE;
 }
-
-#include "cgraph_template_off.h"

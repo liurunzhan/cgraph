@@ -1,7 +1,6 @@
-#include "cgraph.h"
+#include "cgraph_file.h"
 
-#define TYPE_INT128
-#include "cgraph_template.h"
+#include "cgraph_int128.h"
 
 int main(int argc, char *argv[]) {
   FUNCTION(NAME, fprintln)(stdout, -120);
@@ -9,5 +8,3 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
-
-#include "cgraph_template_off.h"

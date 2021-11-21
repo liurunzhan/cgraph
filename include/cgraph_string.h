@@ -18,8 +18,34 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_STRING
 #include "cgraph_template.h"
+
+#define NAME string
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(STRING)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT "%s"
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
+#define MIN(x) FUNCTION(NAME, min)((x))
+#define MAX(x) FUNCTION(NAME, max)((x))
+#define TYPE_WITH_DATA
+#define DATA_NAME char
+#define DATA_UNAME uchar
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
+#define DATA_ID ID_T(CHAR)
+#define DATA_BITS (8 * sizeof(DATA_TYPE))
+#define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitsceil)((x))
+#define DATA_END ('\0')
+#define DATA_ZERO ('0')
+#define DATA_ONE ('1')
+#define DATA_ONES ('1')
+#define DATA_MIN (' ')
+#define DATA_MAX ('~')
 
 /**
  * @struct cgraph_string_t
@@ -72,8 +98,6 @@ extern cgraph_bool_t FUNCTION(NAME, startswith)(const TYPE *cthis,
 extern cgraph_bool_t FUNCTION(NAME, endswith)(const TYPE *cthis,
                                               const DATA_TYPE *cstr,
                                               const cgraph_size_t len);
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

@@ -1,12 +1,12 @@
 #include <ctype.h>
 
 #include "cgraph_base.h"
-#include "cgraph_bignum.h"
+
 #include "cgraph_float32.h"
 #include "cgraph_float64.h"
 
-#define TYPE_BIGNUM
-#include "cgraph_template.h"
+/***/
+#include "cgraph_bignum.h"
 
 #define CGRAPH_CBUF_SIZE CGRAPH_BIGNUM_CBUF_SIZE
 #include "template_cbuf.ct"
@@ -884,5 +884,3 @@ TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y) { return y; }
 TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y) { return y; }
 
 TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) { return y; }
-
-#include "cgraph_template_off.h"

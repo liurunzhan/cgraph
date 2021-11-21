@@ -18,8 +18,38 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_BITSET
 #include "cgraph_template.h"
+
+#define NAME bitset
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BITSET)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT "%02x"
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
+#define MIN(x) FUNCTION(NAME, min)((x))
+#define MAX(x) FUNCTION(NAME, max)((x))
+#define TYPE_WITH_DATA
+#define DATA_NAME int8
+#define DATA_UNAME uint8
+#define DATA_TYPE TYPE_T(DATA_UNAME)
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
+#define DATA_ID ID_T(UINT8)
+#define DATA_BITS CGRAPH_UINT8_BITS
+#define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
+#define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitsceil)((x))
+#define DATA_END (0)
+#define DATA_ZERO (0)
+#define DATA_ONE (1)
+#define DATA_ONES CGRAPH_UINT8_MAX
+#define DATA_MIN CGRAPH_UINT8_MIN
+#define DATA_MAX CGRAPH_UINT8_MAX
+#define DATA_MSB (0x01U << (DATA_BITS - 1))
+#define DATA_LSB (0x01U)
+#define DATA_EPS CGRAPH_UINT8_EPS
 
 /**
  * @struct cgraph_bitset_t
@@ -96,8 +126,6 @@ extern TYPE *FUNCTION(NAME, or)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, xor)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, xnor)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y);
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

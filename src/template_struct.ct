@@ -168,10 +168,11 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
 #if defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) || defined(TYPE_SPAMAT)
-    if ((0 < MATRIX_ROW(cthis)) && (0 < MATRIX_COLUMN(cthis))) {
+    if ((0 < CGRAPH_MATRIX_ROW(cthis)) && (0 < CGRAPH_MATRIX_COLUMN(cthis))) {
 #elif defined(TYPE_MATRIX3D) || defined(TYPE_BIGMAT3D) || defined(TYPE_SPAMAT3D)
-    if ((0 < MATRIX3D_INDEX_I(cthis)) && (0 < MATRIX3D_INDEX_J(cthis)) &&
-        (0 < MATRIX3D_INDEX_K(cthis))) {
+    if ((0 < CGRAPH_MATRIX3D_INDEX_I(cthis)) &&
+        (0 < CGRAPH_MATRIX3D_INDEX_J(cthis)) &&
+        (0 < CGRAPH_MATRIX3D_INDEX_K(cthis))) {
 #else
     if ((0 < cthis->len) && (0 < cthis->size)) {
 #endif

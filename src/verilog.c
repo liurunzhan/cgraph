@@ -100,6 +100,8 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
         "end" __PLAT_LEND __PLAT_LEND
         "assign clko = clko_p | clk_n;" __PLAT_LEND __PLAT_LEND "endmodule");
   }
+
+  return flag;
 }
 
 cgraph_bool_t cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
@@ -137,6 +139,8 @@ cgraph_bool_t cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
                               "      clko = 1'b0;" __PLAT_LEND
                               "end" __PLAT_LEND __PLAT_LEND "endmodule");
   }
+
+  return flag;
 }
 
 cgraph_bool_t cgraph_verilog_sync(FILE *fp, const cgraph_size_t len) {
@@ -162,6 +166,8 @@ cgraph_bool_t cgraph_verilog_sync(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "assign signo = signs[%ld];" __PLAT_LEND, len_1);
     cgraph_file_fprintfln(fp, "endmodule");
   }
+
+  return flag;
 }
 
 cgraph_bool_t cgraph_verilog_filter(FILE *fp, const cgraph_size_t len) {
@@ -206,6 +212,8 @@ cgraph_bool_t cgraph_verilog_filter(FILE *fp, const cgraph_size_t len) {
         "        reg_signo <= 1'b1;" __PLAT_LEND "end" __PLAT_LEND __PLAT_LEND
         "assign signo = reg_signo;" __PLAT_LEND __PLAT_LEND "endmodule");
   }
+
+  return flag;
 }
 
 cgraph_bool_t cgraph_verilog_simple(FILE *fp, const cgraph_size_t len) {
@@ -241,6 +249,8 @@ cgraph_bool_t cgraph_verilog_simple(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "       sign_last <= 1'b1;" __PLAT_LEND
                               "end" __PLAT_LEND __PLAT_LEND "endmodule");
   }
+
+  return flag;
 }
 
 cgraph_bool_t cgraph_verilog_edgedet(FILE *fp) {
@@ -263,6 +273,8 @@ cgraph_bool_t cgraph_verilog_edgedet(FILE *fp) {
             "assign signn = (signs[2] & ~sign[1]);" __PLAT_LEND __PLAT_LEND
             "endmodule");
   }
+
+  return flag;
 }
 
 cgraph_bool_t cgraph_verilog_handshake(FILE *fp) {

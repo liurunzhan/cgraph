@@ -1,9 +1,6 @@
-#include "cgraph.h"
+#include "cgraph_file.h"
 
-#define TYPE_BOOL
-#include "cgraph_template.h"
+#include "cgraph_bool.h"
 
 /** template */
 #include "test_int.ct"
-
-#include "cgraph_template_off.h"

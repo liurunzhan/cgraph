@@ -1,10 +1,8 @@
-#include "cgraph.h"
 #include <stdio.h>
 
-#define TYPE_SPAMAT
-#include "cgraph_template.h"
+#include "cgraph_file.h"
+
+#include "cgraph_spamat.h"
 
 /** template test */
 #include "matrix.ct"
-
-#include "cgraph_template_off.h"

@@ -18,8 +18,46 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_COMPLEX
 #include "cgraph_template.h"
+
+#define NAME complex
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(COMPLEX)
+#define BITS (sizeof(TYPE))
+#define OUT_FMT "%g+i%g"
+#define ZERO                                                                   \
+  {                                                                            \
+    { 0.0, 0.0 }                                                               \
+  }
+#define ONE                                                                    \
+  {                                                                            \
+    { 1.0, 0.0 }                                                               \
+  }
+#define ONES                                                                   \
+  {                                                                            \
+    { 1.0, 1.0 }                                                               \
+  }
+#define MIN                                                                    \
+  {                                                                            \
+    { CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN }                                 \
+  }
+#define MAX                                                                    \
+  {                                                                            \
+    { CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX }                                 \
+  }
+#define DATA_NAME float64
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(FLOAT64)
+#define DATA_BITS CGRAPH_FLOAT64_BITS
+#define DATA_ZERO 0.0
+#define DATA_ONE 1.0
+#define DATA_ONES 1.0
+#define DATA_MIN CGRAPH_FLOAT64_MIN
+#define DATA_MAX CGRAPH_FLOAT64_MAX
+#define DATA_EPS CGRAPH_FLOAT64_EPS
+#define DATA_EPS_LEN CGRAPH_FLOAT64_BITS
 
 /**
  * @struct cgraph_complex_t
@@ -102,8 +140,6 @@ extern TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, ifft)(TYPE *cthis, const cgraph_size_t len);
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

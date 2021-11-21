@@ -15,12 +15,9 @@ $CFLAGS="-std=c89 -Wall -pedantic -fPIC"
 $CSFLAGS="-shared".Split()
 
 $MODE="debug"
-if($MODE -ceq "debug")
-{
+if($MODE -ceq "debug") {
   $CFLAGS="$CFLAGS -g -DDEBUG"
-}
-elseif($MODE -ceq "release")
-{
+} elseif($MODE -ceq "release") {
   $CFLAGS="$CFLAGS -static -O2"
 }
 $CFLAGS=$CFLAGS.Split()
@@ -39,11 +36,9 @@ $TSTCSV=Join-Path $TST "elements.csv"
 $OPT=$args
 echo "$OPT"
 
-if($OPT.Count -eq 0)
-{
+if($OPT.Count -eq 0) {
   mkdir -Path $LIB -Force
-  foreach($file in $CFILES)
-  {
+  foreach($file in $CFILES) {
     $obj=$file -replace "\.c", ".o"
 		$dep=$file -replace "\.d", ".o"
     # echo "compile $file to $obj"
@@ -53,18 +48,13 @@ if($OPT.Count -eq 0)
   cc -shared -o $LIBSHARED $SRC\*.o
   echo "compile $LIBSTATIC"
   ar -rcs $LIBSTATIC $SRC\*.o
-}
-elseif($OPT[0] -ceq "test")
-{
+} elseif($OPT[0] -ceq "test") {
   echo "compile $TSTFILE to $TSTTARGET"
   & cc $CFLAGS -I./include -o $TSTTARGET $TSTFILE -L./lib -static -lcgraph -lm
   echo "test $TSTTARGET with $TSTCSV"
   & $TSTTARGET $TSTCSV
-}
-elseif($OPT[0] -ceq "clean")
-{
-  foreach($file in $CFILES)
-  {
+} elseif($OPT[0] -ceq "clean") {
+  foreach($file in $CFILES) {
     $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
     rm -Force $obj
@@ -78,11 +68,8 @@ elseif($OPT[0] -ceq "clean")
   rm -Force $LIBSTATIC
   echo "clean $TSTTARGET"
   rm -Force $TSTTARGET
-}
-elseif($OPT[0] -ceq "distclean")
-{
-  foreach($file in $CFILES)
-  {
+} elseif($OPT[0] -ceq "distclean") {
+  foreach($file in $CFILES) {
     $obj=$file -replace "\.c", ".o"
     echo "clean $obj"
     rm -Force $obj
@@ -98,9 +85,7 @@ elseif($OPT[0] -ceq "distclean")
   rmdir -Force -Recurse -Path $LIB
   echo "clean $TSTTARGET"
   rm -Force $TSTTARGET
-}
-elseif($OPT[0] -ceq "help")
-{
+} elseif($OPT[0] -ceq "help") {
   echo "$TSTTARGET"
   echo "<target>: "
   echo "                    compile cgraph"
@@ -108,9 +93,7 @@ elseif($OPT[0] -ceq "help")
   echo "          clean     clean all the generated files"
   echo "          distclean clean all the generated files and directories"
   echo "          help      commands to this program"
-}
-else
-{
+} else {
   echo "$OPT[0] is an unsupported command"
   echo "use \" help\" to know all supported commands"
 }

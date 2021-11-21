@@ -16,12 +16,9 @@ my $CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
 my $CSFLAGS = "-shared";
 
 my $MODE = "debug";
-if ($MODE eq "debug")
-{
+if ($MODE eq "debug") {
   $CFLAGS = "$CFLAGS -g -DDEBUG";
-}
-elsif ($MODE eq "release")
-{
+} elsif ($MODE eq "release") {
   $CFLAGS = "$CFLAGS -static -O2";
 }
 
@@ -32,10 +29,8 @@ my $ARFLAGS = "-rcs";
 # source files
 my @CFILES = ();
 opendir(my $fin, $SRC) or die "cannot open directory $SRC";
-foreach my $file (readdir($fin))
-{
-  if($file =~ /\.c$/)
-  {
+foreach my $file (readdir($fin)) {
+  if($file =~ /\.c$/) {
     push(@CFILES, File::Spec->catfile($SRC, $file));
   }
 }
@@ -44,17 +39,14 @@ my $LIBSHARED;
 my $LIBSTATIC;
 my $TSTFILE;
 my $TSTTARGET;
-if ($^O eq "MSWin32")
-{
+if ($^O eq "MSWin32") {
   # target files
   $LIBSHARED = File::Spec->catfile($LIB, "lib$PRO.dll");
   $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.lib");
   # test files
   $TSTFILE = File::Spec->catfile($TST, "$PRO.c");
   $TSTTARGET = File::Spec->catfile($TST, "$PRO.exe");
-}
-else
-{
+} else {
   # target files
   $LIBSHARED = File::Spec->catfile($LIB, "lib$PRO.so");
   $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.a");
@@ -64,12 +56,10 @@ else
 }
 
 my @args = @ARGV;
-if ($#args == -1)
-{
+if ($#args == -1) {
   mkdir $LIB;
   my @OFILES = ();
-  foreach my $file (@CFILES)
-  {
+  foreach my $file (@CFILES) {
     my $obj = ($file =~ s/\.c$/\.o/r);
 		my $dep = ($file =~ s/\.c$/\.d/r);
     printf("compile %s to %s\n", $file, $obj);
@@ -80,18 +70,13 @@ if ($#args == -1)
   system(sprintf("$CC $CSFLAGS -o $LIBSHARED %s", join(" ", @OFILES)));
   print("compile $LIBSTATIC\n");
   system(sprintf("$AR $ARFLAGS $LIBSTATIC %s", join(" ", @OFILES)));
-}
-elsif ($args[0] eq "test")
-{
+} elsif ($args[0] eq "test") {
   print("compile $TSTFILE to $TSTTARGET\n");
   system("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
   printf("test $TSTTARGET with %s\n", File::Spec->catfile($TST, "elements.csv"));
   system(sprintf("$TSTTARGET %s", File::Spec->catfile($TST, "elements.csv")));
-}
-elsif ($args[0] eq "clean")
-{
-  foreach my $file (@CFILES)
-  {
+} elsif ($args[0] eq "clean") {
+  foreach my $file (@CFILES) {
     my $obj = ($file =~ s/\.c$/\.o/r);
     print("clean $obj\n");
     unlink $obj;
@@ -105,11 +90,8 @@ elsif ($args[0] eq "clean")
   unlink $LIBSHARED;
   print("clean $TSTTARGET\n");
   unlink $TSTTARGET;
-}
-elsif ($args[0] eq "distclean")
-{
-  foreach my $file (@CFILES)
-  {
+} elsif ($args[0] eq "distclean") {
+  foreach my $file (@CFILES) {
     my $obj = ($file =~ s/\.c$/\.o/r);
     print("clean $obj\n");
     unlink $obj;
@@ -125,9 +107,7 @@ elsif ($args[0] eq "distclean")
   rmdir $LIB;
   print("clean $TSTTARGET\n");
   unlink $TSTTARGET;
-}
-elsif ($args[0] eq "help")
-{
+} elsif ($args[0] eq "help") {
   print("$0 <target>\n");
   print("<target>: \n");
   print("                    compile cgraph\n");
@@ -135,9 +115,7 @@ elsif ($args[0] eq "help")
   print("          clean     clean all the generated files\n");
   print("          distclean clean all the generated files and directories\n");
   print("          help      commands to this program\n");
-}
-else
-{
+} else {
   print("$args[0] is an unsupported command\n");
   print("use \"$0 help\" to know all supported commands\n");
 }

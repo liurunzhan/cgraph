@@ -10,6 +10,68 @@
  */
 
 /** fraction part of software-defined signed float point number */
+#define FLOAT_SOFT_TOFRAC(a) ((((a) << 1) & FRAC_EPS) << FRAC_OFS)
+#define FLOAT_SOFT_FRAC(a)                                                     \
+  ((((a) >> FRAC_OFS) & FRAC_EPS) || (0x01 << FRAC_BITS))
+#define FLOAT_SOFT_FRAC_CLR(a) ((a) & (~(FRAC_EPS << FRAC_OFS)))
+#define FLOAT_SOFT_FRAC_SET(a, b) ((a) | (((b)&FRAC_EPS) << FRAC_OFS))
+#define FLOAT_SOFT_TOEXP(a) (((a)&EXP_EPS) << EXP_OFS)
+#define FLOAT_SOFT_EXP(a) (((a) >> EXP_OFS) & EXP_EPS)
+#define FLOAT_SOFT_EXP_CLR(a) ((a) & (~(EXP_EPS << EXP_OFS)))
+#define FLOAT_SOFT_EXP_SET(a, b) ((a) | (((b)&EXP_EPS) << EXP_OFS))
+#define FLOAT_SOFT_TOSIG(a) (((a)&SIG_EPS) << SIG_OFS)
+#define FLOAT_SOFT_SIG(a) (((a) >> SIG_OFS) & SIG_EPS)
+#define FLOAT_SOFT_SIG_CLR(a) ((a) & (~(SIG_EPS << SIG_EPS)))
+#define FLOAT_SOFT_SIG_SET(a) ((a) | (SIG_EPS << SIG_OFS))
+
+#define DATA_TEST(a) ((MIN < (a)) && (MAX > (a)))
+#define DATA_ISNAN(a) ((a) != (a))
+#define DATA_ISPINF(a) (MAX < (a))
+#define DATA_ISNINF(a) (MIN > (a))
+#define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
+#define DATA_ISPOS(a) (!FUNCTION(NAME, signbit)((a)))
+#define DATA_ISNEG(a) FUNCTION(NAME, signbit)((a))
+
+#define ADD(a, b, c) FUNCTION(NAME, add_s)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, sub_s)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mul_s)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, div_s)((a), (b))
+#define DIVF(a, b, c) FUNCTION(NAME, divf_s)((a), (b))
+#define INT(a, b, c) FUNCTION(NAME, idiv_s)((a), (b))
+#define FEXP(a) FUNCTION(NAME, fexp_s)((a))
+
+#define TYPE_PTR TYPE
+#define FREXP(a, b, c) FUNCTION(NAME, frexp_s)((a), (b))
+#define FMOD(a, b, c) FUNCTION(NAME, fmod_s)((a), (b))
+#define MODF(a, b, c) FUNCTION(NAME, modf_s)((a), (b))
+#define MOD(a, b, c) FUNCTION(NAME, mod_s)((a), (b))
+
+#define EQ(a, b) FUNCTION(NAME, eq_s)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne_s)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr_s)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge_s)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls_s)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le_s)((a), (b))
+
+#define CEIL(a) FUNCTION(NAME, ceil_s)((a))
+#define FLOOR(a) FUNCTION(NAME, floor_s)((a))
+#define POW(a, b) FUNCTION(NAME, pow_s)((a), (b))
+#define ABS(a) FUNCTION(NAME, abs_s)((a))
+#define SIN(a) FUNCTION(NAME, sin_s)((a))
+#define COS(a) FUNCTION(NAME, cos_s)((a))
+#define TAN(a) FUNCTION(NAME, tan_s)((a))
+#define ASIN(a) FUNCTION(NAME, asin_s)((a))
+#define ACOS(a) FUNCTION(NAME, acos_s)((a))
+#define ATAN(a) FUNCTION(NAME, atan_s)((a))
+#define SINH(a) FUNCTION(NAME, sinh_s)((a))
+#define COSH(a) FUNCTION(NAME, cosh_s)((a))
+#define TANH(a) FUNCTION(NAME, tanh_s)((a))
+#define LOG(a) FUNCTION(NAME, log_s)((a))
+#define LOG2(a) FUNCTION(NAME, log2_s)((a))
+#define LOG10(a) FUNCTION(NAME, log10_s)((a))
+#define EXP(a) FUNCTION(NAME, exp_s)((a))
+#define SQRT(a) FUNCTION(NAME, sqrt_s)((a))
+
 extern TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t y);

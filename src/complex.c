@@ -2,10 +2,8 @@
 #include "cgraph_base.h"
 #include "cgraph_float64.h"
 
+/***/
 #include "cgraph_complex.h"
-
-#define TYPE_COMPLEX
-#include "cgraph_template.h"
 
 /** template module */
 #include "template_data.ct"
@@ -636,5 +634,3 @@ TYPE *FUNCTION(NAME, ifft)(TYPE *cthis, const cgraph_size_t len) {
 
   return cthis;
 }
-
-#include "cgraph_template_off.h"

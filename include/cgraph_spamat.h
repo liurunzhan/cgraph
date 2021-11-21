@@ -17,10 +17,17 @@ extern "C" {
 #endif
 
 #include "cgraph_config.h"
-#include "cgraph_mobject.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_SPAMAT
 #include "cgraph_template.h"
+
+#define NAME spamat
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(SPAMAT)
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_spamat_t
@@ -34,8 +41,6 @@ typedef struct {
 
 /** template module */
 #include "cgraph_template_matrix.ht"
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

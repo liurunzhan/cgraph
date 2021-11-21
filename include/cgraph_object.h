@@ -30,8 +30,20 @@ except in <cgraph.h> and <cgraph_struct.h>
 extern cgraph_vtable_t *CGRAPH_OBJECTS_NAME(object)[];
 #define CGRAPH_OBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(object)[type])->opt)
 
+/** definition of  */
+#include "cgraph_template_off.h"
 #define TYPE_OBJECT
 #include "cgraph_template.h"
+
+#define NAME object
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(OBJECT)
+#define OUT_FMT "ld"
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#define OBJECT(type, opt) CGRAPH_OBJECT(type, opt)
 
 /**
  * @struct cgraph_object_t
@@ -44,8 +56,6 @@ typedef struct {
 
 /** template module */
 #include "cgraph_template_object.ht"
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

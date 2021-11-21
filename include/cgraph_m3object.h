@@ -30,8 +30,19 @@ except in <cgraph.h> and <cgraph_struct.h>
 extern cgraph_vtable_t *CGRAPH_OBJECTS_NAME(m3object)[];
 #define CGRAPH_M3OBJECT(type, opt) ((CGRAPH_OBJECTS_NAME(m3object)[type])->opt)
 
+#include "cgraph_template_off.h"
 #define TYPE_M3OBJECT
 #include "cgraph_template.h"
+
+#define NAME m3object
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(M3OBJECT)
+#define OUT_FMT "ld"
+#define ZERO NULL
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
+#define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
 
 /**
  * @struct cgraph_m3object_t
@@ -49,8 +60,6 @@ typedef struct {
 extern cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis);
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }

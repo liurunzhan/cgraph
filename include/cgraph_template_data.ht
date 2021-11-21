@@ -11,8 +11,6 @@
 
 #include "cgraph_template.ht"
 
-#include "cgraph_template_check.h"
-
 #ifdef TYPE_WITH_DATA
 
 typedef TYPE *(*FUNCPTR(NAME, pfunc1))(const TYPE *cthis);
@@ -159,8 +157,9 @@ extern TYPE **FUNCTION(NAME, conv)(const TYPE **x, const TYPE **y,
                                    TYPE **res);
 
 extern cgraph_char_t *FUNCTION(NAME, encode)(const TYPE *cthis);
-extern TYPE *FUNCTION(NAME, decode)(const cgraph_char_t *cstr,
-                                    const cgraph_size_t len);
+extern TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr,
+                                   const cgraph_size_t len,
+                                   cgraph_bool_t *error);
 extern cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, print)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE *cthis);
@@ -315,7 +314,8 @@ extern TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
 
 extern cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis);
 extern TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr,
-                                   const cgraph_size_t len);
+                                   const cgraph_size_t len,
+                                   cgraph_bool_t *error);
 extern cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, print)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE cthis);

@@ -1,9 +1,6 @@
-#include "cgraph.h"
+#include "cgraph_file.h"
 
-#define TYPE_INT8
-#include "cgraph_template.h"
+#include "cgraph_int8.h"
 
 /** template test */
 #include "test_int.ct"
-
-#include "cgraph_template_off.h"

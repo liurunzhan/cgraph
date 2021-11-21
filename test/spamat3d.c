@@ -1,10 +1,7 @@
-#include "cgraph.h"
 #include <stdio.h>
 
-#define TYPE_SPAMAT3D
+#include "cgraph_file.h"
 
-#include "cgraph_template.h"
+#include "cgraph_spamat3d.h"
 
 #include "matrix3d.ct"
-
-#include "cgraph_template_off.h"

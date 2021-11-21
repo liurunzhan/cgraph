@@ -18,8 +18,52 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_template_off.h"
 #define TYPE_FRACTION
 #include "cgraph_template.h"
+
+#define NAME fraction
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FRACTION)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT "%d/%d"
+#define ZERO                                                                   \
+  {                                                                            \
+    { 0, 1 }                                                                   \
+  }
+#define ONE                                                                    \
+  {                                                                            \
+    { 1, 1 }                                                                   \
+  }
+#define ONES                                                                   \
+  {                                                                            \
+    { CGRAPH_INT_MIN, 1 }                                                      \
+  }
+#define MIN                                                                    \
+  {                                                                            \
+    { CGRAPH_INT_MIN, 1 }                                                      \
+  }
+#define MAX                                                                    \
+  {                                                                            \
+    { CGRAPH_INT_MAX, 1 }                                                      \
+  }
+#define EPS                                                                    \
+  {                                                                            \
+    { 1, CGRAPH_INT_MAX }                                                      \
+  }
+#define EPS_LEN (8 * sizeof(TYPE))
+#define DATA_NAME int
+#define DATA_TYPE TYPE_T(DATA_NAME)
+#define DATA_ID ID_T(INT)
+#define DATA_BITS CGRAPH_INT_BITS
+#define DATA_ZERO 0
+#define DATA_ONE 1
+#define DATA_ONES CGRAPH_INT_MIN
+#define DATA_MIN CGRAPH_INT_MIN
+#define DATA_MAX CGRAPH_INT_MAX
+#define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
+#define DATA_LSB (DATA_ONE)
+#define DATA_EPS CGRAPH_INT_EPS
 
 /**
  * @struct cgraph_fraction_t
@@ -61,8 +105,6 @@ extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);
 extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
-
-#include "cgraph_template_off.h"
 
 #ifdef __cplusplus
 }
