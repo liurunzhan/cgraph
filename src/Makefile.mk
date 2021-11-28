@@ -1,6 +1,10 @@
-DIR = .
+DIR = ..
 INC = $(DIR)$(SEPARATOR)..$(SEPARATOR)include
 LIB = $(DIR)$(SEPARATOR)..$(SEPARATOR)lib
+FUNC  = func
+TYPE  = type
+GRAPH = graph
+GAME  = game
 
 SOURCE = $(wildcard *.c)
 OBJECT = $(SOURCE:.c=.o)
@@ -11,7 +15,11 @@ LIBSHARED_TARGET = $(LIB)$(SEPARATOR)$(LIBSHARED)
 
 .PHONY: all clean distclean
 
-all: $(LIBSHARED_TARGET) $(LIBSTATIC_TARGET)
+all: $(OBJECT)
+	$(MAKE) -C $(FUNC) -f Makefile.mk
+	$(MAKE) -C $(TYPE) -f Makefile.mk
+	$(MAKE) -C $(GRAPH) -f Makefile.mk
+	$(MAKE) -C $(GAME) -f Makefile.mk
 
 $(LIBSHARED_TARGET): $(OBJECT)
 	$(CC) $(CSFLAGS) -o $(LIBSHARED_TARGET) $(OBJECT)
@@ -25,7 +33,15 @@ $(LIBSTATIC_TARGET): $(OBJECT)
 -include $(DEPEND)
 
 clean:
+	$(MAKE) -C $(FUNC) -f Makefile.mk clean
+	$(MAKE) -C $(TYPE) -f Makefile.mk clean
+	$(MAKE) -C $(GRAPH) -f Makefile.mk clean
+	$(MAKE) -C $(GAME) -f Makefile.mk clean
 	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND)
 
 distclean:
+	$(MAKE) -C $(FUNC) -f Makefile.mk distclean
+	$(MAKE) -C $(TYPE) -f Makefile.mk distclean
+	$(MAKE) -C $(GRAPH) -f Makefile.mk distclean
+	$(MAKE) -C $(GAME) -f Makefile.mk distclean
 	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND)

@@ -106,6 +106,14 @@ AC_CONFIG_FILES([Makefile
                  doc/Makefile
                  include/cgraph_stdchk.h
                  src/Makefile
+								 src/func/Makefile
+								 src/game/Makefile
+								 src/graph/Makefile
+								 src/type/Makefile
+								 src/type/basic/Makefile
+								 src/type/data/Makefile
+								 src/type/object/Makefile
+								 src/type/structure/Makefile
                  test/Makefile
 								 tools/cgraph.json])
 AC_OUTPUT

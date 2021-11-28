@@ -38,7 +38,7 @@ extern cgraph_vtable_t *CGRAPH_OBJECTS_NAME(gobject)[];
 #define NAME gobject
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(GOBJECT)
-#define OUT_FMT "ld"
+#define OUT_FMT CGRAPH_VARADDR_OUT_FMT
 #define ZERO NULL
 #define TYPE_WITH_DATA
 #define DATA_TYPE cgraph_stl_t

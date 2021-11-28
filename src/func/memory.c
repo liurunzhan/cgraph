@@ -43,11 +43,13 @@ void *cgraph_realloc(void *memory, const cgraph_size_t old_size,
   }
 #ifdef DEBUG
   if (memory != new_mem) {
-    fprintf(stdout, "old address is %p, but new address is %p" __PLAT_LEND,
+    fprintf(stdout,
+            "old address is " CGRAPH_VARADDR_OUT_FMT
+            ", but new address is " CGRAPH_VARADDR_OUT_FMT __PLAT_LEND,
             memory, new_mem);
     fprintf(stdout,
-            "realloc a new memory block and notice to use the new address "
-            "%p" __PLAT_LEND,
+            "realloc a new memory block and notice to use the new "
+            "address " CGRAPH_VARADDR_OUT_FMT __PLAT_LEND,
             new_mem);
   }
   if (0 >= new_size) {

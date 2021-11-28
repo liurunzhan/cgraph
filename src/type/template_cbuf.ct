@@ -1,0 +1,79 @@
+/** c-type buffer */
+#ifndef CGRAPH_CBUF_SIZE
+#error undefined needed macro CGRAPH_CBUF_SIZE
+#endif
+
+#ifndef CGRAPH_CBUF_PTR
+#error undefined needed macro CGRAPH_CBUF_PTR
+#endif
+
+static cgraph_char_t __cgraph_cbuf__[CGRAPH_CBUF_SIZE];
+static cgraph_char_t *CGRAPH_CBUF_PTR = __cgraph_cbuf__;
+
+#define CGRAPH_CBUF_LEN                                                        \
+  (*(cgraph_size_t *)(CGRAPH_CBUF_PTR - sizeof(cgraph_size_t)))
+
+__INLINE cgraph_size_t FUNCTION(NAME, buflen)(void) {
+  cgraph_size_t buflen = CGRAPH_CBUF_SIZE;
+  if (__cgraph_cbuf__ != CGRAPH_CBUF_PTR) {
+    buflen = CGRAPH_CBUF_LEN;
+  }
+
+  return buflen;
+}
+
+void FUNCTION(NAME, bufclr)(void) {
+  cgraph_memset(CGRAPH_CBUF_PTR, 0, FUNCTION(NAME, buflen)());
+}
+
+void FUNCTION(NAME, bufput)(FILE *fp, const cgraph_size_t len) {
+  cgraph_char_t *ptr = CGRAPH_CBUF_PTR;
+  cgraph_size_t i = 0, buflen = CGRAPH_CBUF_SIZE, len_min;
+  if (__cgraph_cbuf__ != CGRAPH_CBUF_PTR) {
+    ptr -= sizeof(cgraph_size_t);
+    buflen = *(cgraph_size_t *)ptr;
+  }
+  len_min = (0 < len) ? CGRAPH_MIN(buflen, len) : buflen;
+  for (; i < len_min; i++) {
+    fputc(cgraph_math_dec2hex((CGRAPH_CBUF_PTR[i] >> 8) & 0xFF), fp);
+    fputc(cgraph_math_dec2hex(CGRAPH_CBUF_PTR[i] & 0xFF), fp);
+  }
+}
+
+void FUNCTION(NAME, bufputln)(FILE *fp, const cgraph_size_t len) {
+  FUNCTION(NAME, bufput)(fp, len);
+  cgraph_file_fprintln(fp);
+}
+
+void FUNCTION(NAME, bufmem)(const cgraph_size_t size) {
+  if (CGRAPH_CBUF_SIZE < size) {
+    cgraph_char_t *ptr = NULL;
+    cgraph_bool_t error = CGRAPH_FALSE;
+    if (__cgraph_cbuf__ == CGRAPH_CBUF_PTR) {
+      ptr = cgraph_calloc(sizeof(cgraph_size_t) + size);
+    } else {
+      ptr = CGRAPH_CBUF_PTR - sizeof(cgraph_size_t);
+      ptr = cgraph_realloc(ptr, sizeof(cgraph_size_t) + CGRAPH_CBUF_LEN,
+                           sizeof(cgraph_size_t) + size, &error);
+    }
+    if ((NULL != ptr) && (CGRAPH_FALSE == error)) {
+      *(cgraph_size_t *)ptr = size;
+      ptr += sizeof(cgraph_size_t);
+    } else {
+      ptr = __cgraph_cbuf__;
+    }
+    CGRAPH_CBUF_PTR = ptr;
+  } else {
+    FUNCTION(NAME, bufdel)();
+  }
+}
+
+__INLINE void FUNCTION(NAME, bufdel)(void) {
+  if (__cgraph_cbuf__ != CGRAPH_CBUF_PTR) {
+    cgraph_char_t *ptr = CGRAPH_CBUF_PTR - sizeof(cgraph_size_t);
+    cgraph_free(ptr);
+    CGRAPH_CBUF_PTR = __cgraph_cbuf__;
+  } else {
+    cgraph_memset(__cgraph_cbuf__, 0, CGRAPH_CBUF_SIZE);
+  }
+}

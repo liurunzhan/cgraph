@@ -28,11 +28,11 @@ ________________
 This library can be configured by ***autotools*** with [autogen.sh](./autogen.sh) and ***configure***, compiled and checked by Makefiles with the following standard steps:
 ```bash
   chmod +x ./autogen.sh
-  ./autogen.sh  
+  ./autogen.sh
   ./configure --prefix=${prefix} --enable-gtk-doc
-  make  
-  make check  
-  make doc  
+  make
+  make doc
+  make check
 ```
 packaged and checked by Makefiles with the following standard steps: 
 ```bash
@@ -49,7 +49,7 @@ or
 ```
 and updated by Makefiles and git with the following standard steps:
 ```bash
-	make update
+  make update
 ```
 
 Only the platform supports bash and autotools that can use the standard way to compile this library, such as Linux and other Unix-like OS. If the users use Windows OS, use msys, msys2, cygwin or wsl instead.
@@ -112,9 +112,11 @@ All the involved compilation scripts in this library are listed as below. User c
 * ***CMake*** [CMakeLists.txt](./tools/script/CMakeLists.txt)
 * ***DOS Batch*** [compile.bat](./tools/script/compile.bat)
 * ***C*** [compile.c](./tools/script/compile.c)
-* ***Crystal*** [compile.cr](./tools/script/compile.cr)
+* ***Ceylon*** [compile.ceylon](./tools/script/compile.ceylon)
 * ***Clojure*** [compile.clj](./tools/script/compile.clj)
+* ***Crystal*** [compile.cr](./tools/script/compile.cr)
 * ***C Shell*** [compile.csh](./tools/script/compile.csh)
+* ***D*** [compile.d](./tools/script/compile.d)
 * ***Erlang*** [compile.escript](./tools/script/compile.escript)
 * ***Elixir*** [compile.exs](./tools/script/compile.exs)
 * ***Fish Shell*** [compile.fish](./tools/script/compile.fish)
@@ -124,19 +126,23 @@ All the involved compilation scripts in this library are listed as below. User c
 * ***IO*** [compile.io](./tools/script/compile.io)
 * ***Java*** [compile.java](./tools/script/compile.java)
 * ***Julia*** [compile.jl](./tools/script/compile.jl)
+* ***K Shell*** [compile.ksh](./tools/script/compile.ksh)
 * ***Kotlin*** [compile.kts](./tools/script/compile.kts)
 * ***Lisp*** [compile.lisp](./tools/script/compile.lisp)
 * ***Lua*** [compile.lua](./tools/script/compile.lua)
-* ***make*** [compile.mk](./tools/script/compile.mk)
+* ***Make*** [compile.mk](./tools/script/compile.mk)
 * ***Ocaml*** [compile.ml](./tools/script/compile.ml)
-* ***Nim*** [compile.nims](./tools/script/compile.nims)
+* ***Nims*** [compile.nims](./tools/script/compile.nims)
 * ***Ninja*** [compile.ninja](./tools/script/compile.ninja)
+* ***Odin*** [compile.odin](./tools/script/compile.odin)
 * ***Perl*** [compile.pl](./tools/script/compile.pl)
-* ***Perl6/Raku*** [compile.raku](./tools/script/compile.raku)
 * ***Powershell*** [compile.ps1](./tools/script/compile.ps1)
 * ***Python*** [compile.py](./tools/script/compile.py)
 * ***R*** [compile.r](./tools/script/compile.r)
+* ***Raku*** [compile.raku](./tools/script/compile.raku)
 * ***Ruby*** [compile.rb](./tools/script/compile.rb)
+* ***Rebol*** [compile.rebol](./tools/script/compile.rebol)
+* ***Red*** [compile.red](./tools/script/compile.red)
 * ***Rust*** [compile.rs](./tools/script/compile.rs)
 * ***Scala*** [compile.scala](./tools/script/compile.scala)
 * ***Bourne Shell*** [compile.sh](./tools/script/compile.sh)
@@ -147,7 +153,8 @@ All the involved compilation scripts in this library are listed as below. User c
 * ***Zig*** [compile.zig](./tools/script/compile.zig)
 * ***Z Shell*** [compile.zsh](./tools/script/compile.zsh)
 * ***Meson*** [meson.build](./tools/script/meson.build)
-* ***XMake*** [xmake.lua](./tools/script/compile.lua)
+* ***Premake*** [premake.lua](./tools/script/premake.lua)
+* ***XMake*** [xmake.lua](./tools/script/xmake.lua)
 
 ## Overview
 ___________

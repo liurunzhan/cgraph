@@ -35,7 +35,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...) {
-  if ((NULL != cthis) && (0 < size)) {
+  if (CGRAPH_ISBUF(cthis, size)) {
     va_list args;
     cgraph_size_t i = 1;
     va_start(args, first);

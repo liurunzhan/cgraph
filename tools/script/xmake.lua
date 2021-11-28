@@ -1,4 +1,5 @@
-add_includedirs("include")
+add_includedirs("include", "src/type")
+add_files("src/func/*.c", "src/type/basic/*.c", "src/type/data/*.c", "src/type/object/*.c", "src/type/structure/*.c", "src/type/*.c", "src/graph/*.c", "src/game/*.c")
 add_cflags("-std=c89", "-Wall", "-pedantic", "-fPIC",  {force = true})
 
 if is_mode("debug") then
@@ -23,7 +24,6 @@ end
 target("static")
 	set_kind("static")
 	set_basename("cgraph")
-	add_files("src/*.c")
 	on_clean(function (target)
 		if os.exists(target:targetfile()) then
 			os.rm(target:targetfile())
@@ -34,7 +34,6 @@ target_end()
 target("shared")
 	set_kind("shared")
 	set_basename("cgraph")
-	add_files("src/*.c")
 	on_clean(function (target)
 		if os.exists(target:targetfile()) then
 			os.rm(target:targetfile())

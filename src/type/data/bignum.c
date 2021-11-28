@@ -9,6 +9,7 @@
 #include "cgraph_bignum.h"
 
 #define CGRAPH_CBUF_SIZE CGRAPH_BIGNUM_CBUF_SIZE
+#define CGRAPH_CBUF_PTR cgraph_cbuf_ptr
 #include "template_cbuf.ct"
 
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
@@ -62,7 +63,7 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
 
 cgraph_size_t FUNCTION(NAME, fprintn)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if (CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_HASDATA(cthis)) {
     cgraph_size_t i = cthis->len - 1;
     DATA_TYPE *data = &cthis->data[i];
     if (CGRAPH_FALSE == cthis->postive) {
@@ -87,7 +88,7 @@ cgraph_size_t FUNCTION(NAME, fprintn)(FILE *fp, const TYPE *cthis) {
 
 cgraph_size_t FUNCTION(NAME, fprinte)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if (CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_HASDATA(cthis)) {
     cgraph_size_t i = cthis->len - 1, j, point, exp;
     DATA_TYPE *data = &(cthis->data[i]), *data_end = &(cthis->data[0]);
     if (CGRAPH_FALSE == cthis->postive) {
@@ -129,7 +130,7 @@ cgraph_size_t FUNCTION(NAME, snprintn)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t _size = size - 1, len = 0;
-  if ((NULL != cbuf) && (0 < _size) && CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_HASDATA(cthis)) {
     cgraph_size_t i = cthis->len - 1;
     DATA_TYPE *data = &cthis->data[cthis->len - 1];
     if (CGRAPH_FALSE == cthis->postive) {
@@ -158,7 +159,7 @@ cgraph_size_t FUNCTION(NAME, snprinte)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t _size = size - 1, len = 0;
-  if ((NULL != cbuf) && (0 < _size) && CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_HASDATA(cthis)) {
     cgraph_size_t i = cthis->len - 1, j, point, exp;
     DATA_TYPE *data = &cthis->data[i], *data_end = &(cthis->data[0]);
     if (CGRAPH_FALSE == cthis->postive) {
@@ -295,8 +296,8 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
 TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data) {
   if (NULL != cthis) {
     cgraph_size_t len =
-        cgraph_file_snprintf(__cgraph_cbuf__, CGRAPH_CBUF_SIZE, "%g", data);
-    cthis = FUNCTION(NAME, initc)(cthis, __cgraph_cbuf__, len);
+        cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, "%g", data);
+    cthis = FUNCTION(NAME, initc)(cthis, CGRAPH_CBUF_PTR, len);
   }
 
   return cthis;
@@ -305,8 +306,8 @@ TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data) {
 TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data) {
   if (NULL != cthis) {
     cgraph_size_t len =
-        cgraph_file_snprintf(__cgraph_cbuf__, CGRAPH_CBUF_SIZE, "%g", data);
-    cthis = FUNCTION(NAME, initc)(cthis, __cgraph_cbuf__, len);
+        cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, "%g", data);
+    cthis = FUNCTION(NAME, initc)(cthis, CGRAPH_CBUF_PTR, len);
   }
 
   return cthis;
@@ -727,13 +728,9 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
 
 cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((NULL != cthis) && (3 == cthis->len)) {
-    if ('N' == cthis->data[2] || 'n' == cthis->data[2]) {
-      if ('A' == cthis->data[1] || 'a' == cthis->data[1]) {
-        if (('N' == cthis->data[0] || 'n' == cthis->data[0])) {
-          flag = CGRAPH_TRUE;
-        }
-      }
+  if ((NULL != cthis) && (CGRAPH_CSTR_NAN_SIZE == cthis->len)) {
+    if (cgraph_memcmp(cthis->data, CGRAPH_CSTR_NAN, CGRAPH_CSTR_NAN_SIZE)) {
+      flag = CGRAPH_TRUE;
     }
   }
 
@@ -742,13 +739,9 @@ cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE *cthis) {
 
 cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((NULL != cthis) && (3 == cthis->len)) {
-    if ('I' == cthis->data[2] || 'i' == cthis->data[2]) {
-      if ('N' == cthis->data[1] || 'n' == cthis->data[1]) {
-        if (('F' == cthis->data[0] || 'f' == cthis->data[0])) {
-          flag = CGRAPH_TRUE;
-        }
-      }
+  if ((NULL != cthis) && (CGRAPH_CSTR_INFR_SIZE == cthis->len)) {
+    if (cgraph_memcmp(cthis->data, CGRAPH_CSTR_INFR, CGRAPH_CSTR_INFR_SIZE)) {
+      flag = CGRAPH_TRUE;
     }
   }
 

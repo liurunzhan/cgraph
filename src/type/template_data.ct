@@ -181,8 +181,8 @@ TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const DATA_TYPE *data,
-                            const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, initdt)(TYPE *cthis, const DATA_TYPE *data,
+                             const cgraph_size_t size) {
   if (NULL != data) {
     cgraph_size_t _size = CGRAPH_SIZE(cthis),
                   _len = ((0 < size) ? size : CGRAPH_LEN(cthis));
@@ -195,8 +195,8 @@ TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const DATA_TYPE *data,
     }
   }
 #else
-TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const TYPE *data,
-                            const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, initdt)(TYPE *cthis, const TYPE *data,
+                             const cgraph_size_t size) {
   cthis = cgraph_memcpy(cthis, data, FUNCTION(NAME, msize)(ID, size));
 #endif
 
@@ -217,7 +217,7 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE cthis) {
 #ifdef TYPE_WITH_DATA
 __INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
 #if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
-  return CGRAPH_TEST(CGRAPH_ISNEMPTY(cthis) && (cthis->len <= cthis->size));
+  return CGRAPH_TEST(CGRAPH_HASDATA(cthis) && (cthis->len <= cthis->size));
 #else
   return CGRAPH_FALSE;
 #endif
@@ -324,11 +324,11 @@ TYPE *FUNCTION(NAME, rand)(TYPE *cthis) {
     for (i = 0; i < cthis->len; i++) {
       cthis->data[i] = cgraph_rand32_uniform(DATA_MIN, DATA_MAX + 1);
     }
-#ifdef TYPE_BIGNUM
+#if defined(TYPE_BIGNUM) || defined(TYPE_BIGINT)
+    cthis->postive = cgraph_rand_bool();
+#if defined(TYPE_BIGNUM)
     cthis->point = cgraph_rand_size(cthis->len);
-    cthis->postive = cgraph_rand_bool();
-#elif defined(TYPE_BIGINT)
-    cthis->postive = cgraph_rand_bool();
+#endif
 #endif
   }
 
@@ -371,11 +371,12 @@ TYPE *FUNCTION(NAME, inf)(TYPE *cthis) {
   if (NULL != cthis) {
 #if defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_TRUE;
-    cthis->len = 3;
-    cgraph_memcpy(cthis->data, "fni", 3);
+    cthis->len = CGRAPH_CSTR_INFR_SIZE;
+    cgraph_memcpy(cthis->data, CGRAPH_CSTR_INFR, CGRAPH_CSTR_INFR_SIZE);
 #elif defined(TYPE_STRING)
-    cthis->len = 3;
-    cgraph_memcpy(cthis->data, "inf", 3);
+    cthis->len = CGRAPH_CSTR_INF_SIZE;
+    cgraph_memcpy(cthis->data, CGRAPH_CSTR_INF, CGRAPH_CSTR_INF_SIZE);
+    cthis->data[CGRAPH_CSTR_INF_SIZE] = '\0';
 #endif
   }
 
@@ -386,11 +387,12 @@ TYPE *FUNCTION(NAME, pinf)(TYPE *cthis) {
   if (NULL != cthis) {
 #if defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_TRUE;
-    cthis->len = 3;
-    cgraph_memcpy(cthis->data, "fni", 3);
+    cthis->len = CGRAPH_CSTR_INFR_SIZE;
+    cgraph_memcpy(cthis->data, CGRAPH_CSTR_INFR, CGRAPH_CSTR_INFR_SIZE);
 #elif defined(TYPE_STRING)
-    cthis->len = 4;
-    cgraph_memcpy(cthis->data, "+inf", 4);
+    cthis->len = CGRAPH_CSTR_PINF_SIZE;
+    cgraph_memcpy(cthis->data, CGRAPH_CSTR_PINF, CGRAPH_CSTR_PINF_SIZE);
+    cthis->data[CGRAPH_CSTR_PINF_SIZE] = '\0';
 #endif
   }
 
@@ -401,11 +403,12 @@ TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
   if (NULL != cthis) {
 #if defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_FALSE;
-    cthis->len = 3;
-    cgraph_memcpy(cthis->data, "fni", 3);
+    cthis->len = CGRAPH_CSTR_INFR_SIZE;
+    cgraph_memcpy(cthis->data, CGRAPH_CSTR_INFR, CGRAPH_CSTR_INFR_SIZE);
 #elif defined(TYPE_STRING)
-    cthis->len = 4;
-    cgraph_memcpy(cthis->data, "-inf", 4);
+    cthis->len = CGRAPH_CSTR_NINF_SIZE;
+    cgraph_memcpy(cthis->data, CGRAPH_CSTR_NINF, CGRAPH_CSTR_NINF_SIZE);
+    cthis->data[CGRAPH_CSTR_NINF_SIZE] = '\0';
 #endif
   }
 
@@ -413,12 +416,15 @@ TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
 }
 
 TYPE *FUNCTION(NAME, nan)(TYPE *cthis, const cgraph_size_t size) {
-#if defined(TYPE_BIGNUM) || defined(TYPE_STRING)
   if (NULL != cthis) {
-    cthis->len = 3;
-    cgraph_memcpy(cthis->data, "nan", 3);
-  }
+#if defined(TYPE_BIGNUM) || defined(TYPE_STRING)
+    cthis->len = CGRAPH_CSTR_NAN_SIZE;
+    cgraph_memcpy(cthis->data, CGRAPH_CSTR_NAN, CGRAPH_CSTR_NAN_SIZE);
+#if defined(TYPE_STRING)
+    cthis->data[CGRAPH_CSTR_NAN_SIZE] = '\0';
 #endif
+#endif
+  }
 
   return cthis;
 }
@@ -572,7 +578,7 @@ cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE cthis) {
 }
 
 #ifdef TYPE_WITH_DATA
-cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t i;
@@ -593,7 +599,7 @@ cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 #else
-cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE cthis) {
   return 0;
 }
 #endif
@@ -602,7 +608,7 @@ cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE cthis) {
 DATA_TYPE *FUNCTION(NAME, datindex)(const TYPE *cthis,
                                     const cgraph_size_t datindex) {
   DATA_TYPE *res = NULL;
-  if (CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_HASDATA(cthis)) {
     if (0 <= datindex) {
       res = (DATA_TYPE *)(&(cthis->data[datindex]));
     } else {

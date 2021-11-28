@@ -1,4 +1,4 @@
-#include "cgraph_file.h"
+#include "cgraph_base.h"
 
 #include "cgraph_bigint.h"
 
@@ -116,6 +116,19 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, free)(bigint7);
   FUNCTION(NAME, free)(bigint8);
   FUNCTION(NAME, free)(bigint9);
+
+  FUNCTION(NAME, bufdel)();
+  for (i = 0; i < 4; i++) {
+    FUNCTION(NAME, bufmem)(4096 * i);
+    cgraph_file_fprintfln(stdout, "buflen %ld", FUNCTION(NAME, buflen)());
+    FUNCTION(NAME, bufputln)(stdout, 40);
+  }
+  for (; i >= 0; i--) {
+    FUNCTION(NAME, bufmem)(4096 * i);
+    cgraph_file_fprintfln(stdout, "buflen %ld", FUNCTION(NAME, buflen)());
+    FUNCTION(NAME, bufputln)(stdout, 40);
+  }
+  FUNCTION(NAME, bufdel)();
 
   return 0;
 }

@@ -5,6 +5,7 @@
 #include "cgraph_bigint.h"
 
 #define CGRAPH_CBUF_SIZE CGRAPH_CBUF_SIZE5
+#define CGRAPH_CBUF_PTR cgraph_cbuf_ptr
 #include "template_cbuf.ct"
 
 static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
@@ -54,13 +55,13 @@ static DATA_TYPE *FUNCTION(NAME, _datmul)(DATA_TYPE *xd, DATA_TYPE y,
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if (CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_HASDATA(cthis)) {
     cgraph_size_t size = (cthis->len << 2) + cthis->len +
                          ((CGRAPH_FALSE == cthis->postive) ? 2 : 1);
-    cgraph_char_t *cbuf = CGRAPH_CBUF_CALLOC(size);
-    len = FUNCTION(NAME, snprint)(cbuf, size, cthis);
-    cgraph_file_fputs(fp, cbuf, len);
-    CGRAPH_CBUF_FREE(cbuf);
+    FUNCTION(NAME, bufmem)(size);
+    len = FUNCTION(NAME, snprint)(CGRAPH_CBUF_PTR, size, cthis);
+    cgraph_file_fputs(fp, CGRAPH_CBUF_PTR, len);
+    FUNCTION(NAME, bufdel)();
   }
 
   return len;
@@ -68,13 +69,13 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
 
 cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if (CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_HASDATA(cthis)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cgraph_size_t i = 0, j;
     fputs("0b", fp);
     for (; i < cthis->len; i++, data--) {
       for (j = DATA_BITS - 1; j >= 0; j--) {
-        fputc(cgraph_math_dec2uhex(0x1U & (*data >> j)), fp);
+        fputc(cgraph_math_dec2hex(0x1U & (*data >> j)), fp);
       }
     }
     len = 2 + (cthis->len << DATA_BITS_LOG2);
@@ -85,13 +86,13 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
 
 cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
-  if (CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_HASDATA(cthis)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cgraph_size_t i = 0;
     fputs("0x", fp);
     for (i++; i < cthis->len; i++, data--) {
-      fputc(cgraph_math_dec2uhex(0xFU & (*data >> 4)), fp);
-      fputc(cgraph_math_dec2uhex(0xFU & *data), fp);
+      fputc(cgraph_math_dec2hex(0xFU & (*data >> 4)), fp);
+      fputc(cgraph_math_dec2hex(0xFU & *data), fp);
     }
     len = 2 + (cthis->len << 1);
   }
@@ -103,9 +104,9 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_HASDATA(cthis)) {
     TYPE *copy = FUNCTION(NAME, copy)(cthis, cthis->len);
-    if (CGRAPH_ISNEMPTY(copy)) {
+    if (CGRAPH_HASDATA(copy)) {
       cgraph_size_t i, start = cthis->len - 1;
       cgraph_int_t num, res;
       if (CGRAPH_FALSE == cthis->postive) {
@@ -141,14 +142,14 @@ cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_HASDATA(cthis)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cgraph_size_t i = 0, j;
     cbuf[len++] = '0';
     cbuf[len++] = 'b';
     for (; i < cthis->len; i++, data--) {
       for (j = DATA_BITS - 1; (len < _size) && (j >= 0); j--) {
-        cbuf[len++] = cgraph_math_dec2uhex(0x1U & (*data >> j));
+        cbuf[len++] = cgraph_math_dec2hex(0x1U & (*data >> j));
       }
     }
     cbuf[len] = '\0';
@@ -161,14 +162,14 @@ cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuf,
                                        const cgraph_size_t size,
                                        const TYPE *cthis) {
   cgraph_size_t len = 0, _size = size - 1;
-  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_ISBUF(cbuf, _size) && CGRAPH_HASDATA(cthis)) {
     cgraph_size_t i = 0;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cbuf[len++] = '0';
     cbuf[len++] = 'x';
     for (i++; (len < _size) && (i < cthis->len); i++, data--) {
-      cbuf[len++] = cgraph_math_dec2uhex(0xFU & (*data >> 4));
-      cbuf[len++] = cgraph_math_dec2uhex(0xFU & *data);
+      cbuf[len++] = cgraph_math_dec2hex(0xFU & (*data >> 4));
+      cbuf[len++] = cgraph_math_dec2hex(0xFU & *data);
     }
     cbuf[len] = '\0';
   }
@@ -214,9 +215,9 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuf,
 TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data) {
   cgraph_size_t len = cgraph_strlen(data), size = len / 3 + 2;
   TYPE *cthis = FUNCTION(NAME, calloc)(DATA_ID, size);
-  cgraph_char_t *cbuf = CGRAPH_CBUF_CALLOC(len);
-  cthis = FUNCTION(NAME, initc)(cthis, cbuf, data, len);
-  CGRAPH_CBUF_FREE(cbuf);
+  FUNCTION(NAME, bufmem)(len);
+  cthis = FUNCTION(NAME, initc)(cthis, CGRAPH_CBUF_PTR, data, len);
+  FUNCTION(NAME, bufdel)();
 
   return cthis;
 }
@@ -239,7 +240,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  return CGRAPH_TEST(CGRAPH_ISNEMPTY(cthis) && (cthis->len <= cthis->size));
+  return CGRAPH_TEST(CGRAPH_HASDATA(cthis) && (cthis->len <= cthis->size));
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
@@ -639,7 +640,7 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
 }
 
 TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
-  if (CGRAPH_ISNEMPTY(cthis) && (0 < bits)) {
+  if (CGRAPH_HASDATA(cthis) && (0 < bits)) {
     cgraph_size_t bytes = FUNCTION(DATA_NAME, bitsfloor)(bits),
                   byte = FUNCTION(DATA_NAME, bitsmod)(bits),
                   byte_left = DATA_BITS - byte;

@@ -37,8 +37,10 @@
 #define CGRAPH_LEN(x) ((NULL != (x)) ? (x)->len : 0)
 #define CGRAPH_DATA_START(a) (&((a)->data[0]))
 #define CGRAPH_DATA_END(a) (&((a)->data[(a)->len - 1]))
+#define CGRAPH_ISNULL(x) ((NULL == (x)) || (0 >= (x)->size))
+#define CGRAPH_HASMEM(x) ((NULL != (x)) && (0 < (x)->size))
 #define CGRAPH_ISEMPTY(x) ((NULL == (x)) || (0 >= (x)->len))
-#define CGRAPH_ISNEMPTY(x) ((NULL != (x)) && (0 < (x)->len))
+#define CGRAPH_HASDATA(x) ((NULL != (x)) && (0 < (x)->len))
 #define CGRAPH_DATA_BITS_CHECKER(x, bits)                                      \
   ((NULL != (x)) && ((bits / DATA_BITS) <= (x)->len))
 #define CGRAPH_DATA_BYTES_CHECKER(x, bits)                                     \

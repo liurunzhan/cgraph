@@ -121,6 +121,10 @@ extern cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data);
 extern cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data);
+#ifdef cgraph_math_dec2hex
+#undef cgraph_math_dec2hex
+#endif
+#define cgraph_math_dec2hex(data) cgraph_math_dec2uhex((data))
 extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data);
 extern cgraph_size_t cgraph_math_binlen(const cgraph_char_t *data,

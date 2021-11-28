@@ -26,7 +26,7 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BITSET)
 #define BITS (8 * sizeof(TYPE))
-#define OUT_FMT "%02x"
+#define OUT_FMT "%s"
 #define ZERO(x) FUNCTION(NAME, zero)((x))
 #define ONE(x) FUNCTION(NAME, one)((x))
 #define ONES(x) FUNCTION(NAME, ones)((x))

@@ -129,7 +129,7 @@ TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t data) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den) {
+TYPE FUNCTION(NAME, initnd)(const DATA_TYPE num, const DATA_TYPE den) {
   TYPE res;
   FRACTION_NUM(res) = num;
   FRACTION_DEN(res) = den;
@@ -137,7 +137,7 @@ TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwn)(const DATA_TYPE num) {
+TYPE FUNCTION(NAME, initn)(const DATA_TYPE num) {
   TYPE res;
   FRACTION_NUM(res) = num;
   FRACTION_DEN(res) = 1;
@@ -145,7 +145,7 @@ TYPE FUNCTION(NAME, initwn)(const DATA_TYPE num) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den) {
+TYPE FUNCTION(NAME, initd)(const DATA_TYPE den) {
   TYPE res;
   FRACTION_NUM(res) = 1;
   FRACTION_DEN(res) = den;

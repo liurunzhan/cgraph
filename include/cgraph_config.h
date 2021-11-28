@@ -567,6 +567,20 @@ typedef cgraph_uint8_t *cgraph_addr_t;
   ((x) | ((~(ONES << ((to) - (from)))) << (from)))
 #define CGRAPH_BCLRS(x, from, to) ((x) & ((ONES << (to)) | (~(ONES << (from)))))
 
+/** \defgroup group_cstr cgraph_cstr_const  */
+/** @{ */
+#define CGRAPH_CSTR_NAN "nan"
+#define CGRAPH_CSTR_NAN_SIZE (3)
+#define CGRAPH_CSTR_INF "inf"
+#define CGRAPH_CSTR_INF_SIZE (3)
+#define CGRAPH_CSTR_INFR "fni"
+#define CGRAPH_CSTR_INFR_SIZE (3)
+#define CGRAPH_CSTR_PINF "+inf"
+#define CGRAPH_CSTR_PINF_SIZE (4)
+#define CGRAPH_CSTR_NINF "-inf"
+#define CGRAPH_CSTR_NINF_SIZE (4)
+/** @} */
+
 /**
  * @enum cgraph_type_t
  * @brief the type enumerate structure, storing all object, data and structure
@@ -632,7 +646,7 @@ typedef enum {
   CGRAPH_LIST_T = 32,     /**< TYPE 32 : CGRAPH_LIST_T */
   CGRAPH_QUEUE_T = 33,    /**< TYPE 33 : CGRAPH_QUEUE_T */
   CGRAPH_TREE_T = 34,     /**< TYPE 34 : CGRAPH_TREE_T */
-  CGRAPH_NULL_T = 35      /**< TYPE 35 : CGRAPH_NULL_T */
+  CGRAPH_MAX_T            /**< TYPE MX : CGRAPH_MAX_T */
 } cgraph_type_t;
 
 /**
@@ -645,7 +659,7 @@ typedef enum {
 #define CGRAPH_DTYPE_PTR_MIN CGRAPH_BITSET_T
 #define CGRAPH_DTYPE_PTR_MAX CGRAPH_STRING_T
 #define CGRAPH_TYPE_MIN CGRAPH_VECTOR_T
-#define CGRAPH_TYPE_MAX CGRAPH_NULL_T
+#define CGRAPH_TYPE_MAX CGRAPH_MAX_T
 /** @} */
 
 /**

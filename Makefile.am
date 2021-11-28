@@ -1,5 +1,9 @@
 SUBDIRS=src test doc
 
+# project directories
+src_dir     = $(top_srcdir)/src
+include_dir = $(top_srcdir)/include
+
 # install directories
 includedir = $(prefix)/include
 libdir     = $(prefix)/lib
@@ -30,7 +34,7 @@ doxygen:
 	doxygen
 
 cloc:
-	cloc include src/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in
+	cloc include $(src_dir)/*.c* $(src_dir)/*/*.c* $(src_dir)/*/*/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht
 
 cloc-all: clean
 	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"

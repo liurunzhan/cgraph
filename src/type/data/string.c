@@ -27,6 +27,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
   if ((NULL != cbuf) && (NULL != cthis)) {
     len = CGRAPH_MIN(size, cthis->len);
     cgraph_memcpy(cbuf, cthis->data, len);
+    cbuf[len] = '\0';
   }
 
   return len;
@@ -50,7 +51,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
-  return CGRAPH_TEST(CGRAPH_ISNEMPTY(cthis) && (cthis->len <= cthis->size));
+  return CGRAPH_TEST(CGRAPH_HASDATA(cthis) && (cthis->len <= cthis->size));
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
@@ -430,6 +431,7 @@ TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y, TYPE *z) {
       for (; i < y; i++, zd += x->len) {
         zd = cgraph_memcpy(zd, x->data, x->len);
       }
+      *zd = '\0';
       z->len = _len;
     }
   }
@@ -566,6 +568,50 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
   return flag;
 }
 
+cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (CGRAPH_CSTR_NAN_SIZE == cthis->len)) {
+    if (cgraph_memcmp(cthis->data, CGRAPH_CSTR_NAN, CGRAPH_CSTR_NAN_SIZE)) {
+      flag = CGRAPH_TRUE;
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (CGRAPH_CSTR_INF_SIZE == cthis->len)) {
+    if (cgraph_memcmp(cthis->data, CGRAPH_CSTR_INF, CGRAPH_CSTR_INF_SIZE)) {
+      flag = CGRAPH_TRUE;
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (CGRAPH_CSTR_PINF_SIZE == cthis->len)) {
+    if (cgraph_memcmp(cthis->data, CGRAPH_CSTR_PINF, CGRAPH_CSTR_PINF_SIZE)) {
+      flag = CGRAPH_TRUE;
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (CGRAPH_CSTR_NINF_SIZE == cthis->len)) {
+    if (cgraph_memcmp(cthis->data, CGRAPH_CSTR_NINF, CGRAPH_CSTR_NINF_SIZE)) {
+      flag = CGRAPH_TRUE;
+    }
+  }
+
+  return flag;
+}
+
 TYPE *FUNCTION(NAME, chomp)(TYPE *cthis) {
 #ifdef __PLAT_WINDOWS
   if ((NULL != cthis) && (1 < cthis->len)) {
@@ -576,7 +622,7 @@ TYPE *FUNCTION(NAME, chomp)(TYPE *cthis) {
     }
   }
 #else
-  if (CGRAPH_ISNEMPTY(cthis)) {
+  if (CGRAPH_HASDATA(cthis)) {
     if (__PLAT_LEND_C == cthis->data[cthis->len - 1]) {
       cthis->len -= 1;
       cthis->data[cthis->len] = '\0';

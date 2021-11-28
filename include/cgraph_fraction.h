@@ -56,8 +56,8 @@ extern "C" {
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT)
 #define DATA_BITS CGRAPH_INT_BITS
-#define DATA_ZERO 0
-#define DATA_ONE 1
+#define DATA_ZERO (0)
+#define DATA_ONE (1)
 #define DATA_ONES CGRAPH_INT_MIN
 #define DATA_MIN CGRAPH_INT_MIN
 #define DATA_MAX CGRAPH_INT_MAX
@@ -81,11 +81,9 @@ typedef struct {
 #include "cgraph_template_data.ht"
 
 /** initial functions */
-extern TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t data);
-extern TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t data);
-extern TYPE FUNCTION(NAME, initwnd)(const DATA_TYPE num, const DATA_TYPE den);
-extern TYPE FUNCTION(NAME, initwn)(const DATA_TYPE num);
-extern TYPE FUNCTION(NAME, initwd)(const DATA_TYPE den);
+extern TYPE FUNCTION(NAME, initnd)(const DATA_TYPE num, const DATA_TYPE den);
+extern TYPE FUNCTION(NAME, initn)(const DATA_TYPE num);
+extern TYPE FUNCTION(NAME, initd)(const DATA_TYPE den);
 
 extern TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y);

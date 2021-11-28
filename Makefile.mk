@@ -2,10 +2,10 @@
 # using make -f Makefile.self ? CMD=? TARGET=?
 
 ROOT = .
-export TOOLS = make cmake xmake meson ninja\
-			 sh zsh fish tsh vsh cmd powershell \
-			 tcc go rust haskell zig \
-	     perl perl6 ruby python lua r julia tcl lisp typescript \
+export TOOLS = make cmake xmake premake meson ninja\
+			 sh csh zsh fish ksh vsh cmd powershell \
+			 tcc haskell \
+	     perl raku ruby python lua r go d julia tcl rust nims zig io lisp typescript \
 	     java scala kotlin clojure groovy
 
 MAKE ?= make
@@ -30,7 +30,7 @@ $(TOOLS):
 	$(MAKE) -f Makefile.sub $@ TOOL=$@ CMD=$(CMD)
 
 cloc:
-	cloc include src/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in
+	cloc include src/*.c* src/*/*.c* src/*/*/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht
 
 cloc-all:
 	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"

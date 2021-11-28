@@ -20,7 +20,7 @@
 #define F_OK 0
 #endif
 
-__INLINE cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path) {
+cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path)) {
     res = CGRAPH_TEST(0 == access(path, F_OK));
@@ -29,7 +29,7 @@ __INLINE cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path) {
   return res;
 }
 
-__INLINE cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path) {
+cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path)) {
   }
@@ -37,7 +37,7 @@ __INLINE cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path) {
   return res;
 }
 
-__INLINE cgraph_bool_t cgraph_file_isrfile(const cgraph_char_t *path) {
+cgraph_bool_t cgraph_file_isrfile(const cgraph_char_t *path) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path)) {
     FILE *fp = fopen(path, "r");
@@ -50,7 +50,7 @@ __INLINE cgraph_bool_t cgraph_file_isrfile(const cgraph_char_t *path) {
   return res;
 }
 
-__INLINE cgraph_bool_t cgraph_file_isdir(const cgraph_char_t *path) {
+cgraph_bool_t cgraph_file_isdir(const cgraph_char_t *path) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path)) {
   }
@@ -58,8 +58,8 @@ __INLINE cgraph_bool_t cgraph_file_isdir(const cgraph_char_t *path) {
   return res;
 }
 
-cgraph_bool_t cgraph_file_endswithsuffix(const cgraph_char_t *path,
-                                         const cgraph_char_t *suffix) {
+cgraph_bool_t cgraph_file_issuffix(const cgraph_char_t *path,
+                                   const cgraph_char_t *suffix) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path) && CGRAPH_ISSTR(suffix)) {
     cgraph_char_t *path_ptr = (cgraph_char_t *)path,
@@ -87,37 +87,137 @@ cgraph_bool_t cgraph_file_endswithsuffix(const cgraph_char_t *path,
   return res;
 }
 
-const cgraph_char_t *cgraph_file_path(const cgraph_char_t *path) {
-  cgraph_char_t *file_ptr = NULL;
-  if (CGRAPH_ISSTR(path)) {
-  }
-
-  return (const cgraph_char_t *)file_ptr;
-}
-
-const cgraph_char_t *cgraph_file_file(const cgraph_char_t *path) {
-  cgraph_char_t *file_ptr = NULL;
-  if (CGRAPH_ISSTR(path)) {
-  }
-
-  return (const cgraph_char_t *)file_ptr;
-}
-
-const cgraph_char_t *cgraph_file_suffix(const cgraph_char_t *path) {
-  cgraph_char_t *file_ptr = NULL;
-  if (CGRAPH_ISSTR(path)) {
-    cgraph_char_t *path_ptr = (cgraph_char_t *)path;
-    for (; '\0' != *path_ptr; path_ptr++) {
-      if ('.' == *path_ptr) {
-        file_ptr = path_ptr + 1;
+cgraph_bool_t cgraph_file_startswith(const cgraph_char_t *path,
+                                     const cgraph_char_t *prefix) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (CGRAPH_ISSTR(path) && CGRAPH_ISSTR(prefix)) {
+    cgraph_char_t *path_ptr = (cgraph_char_t *)path,
+                  *prefix_ptr = (cgraph_char_t *)prefix;
+    for (res = CGRAPH_TRUE; ('\0' != *path_ptr) && ('\0' != *prefix_ptr);
+         path_ptr++, prefix_ptr++) {
+      if (*path_ptr != *prefix_ptr) {
+        res = CGRAPH_FALSE;
+        break;
       }
     }
-    if ('\0' == *file_ptr) {
-      file_ptr = NULL;
+    if ((CGRAPH_TRUE == res) && ('\0' == *path_ptr)) {
+      res = CGRAPH_FALSE;
     }
   }
 
-  return (const cgraph_char_t *)file_ptr;
+  return res;
+}
+
+cgraph_bool_t cgraph_file_endswith(const cgraph_char_t *path,
+                                   const cgraph_char_t *suffix) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (CGRAPH_ISSTR(path) && CGRAPH_ISSTR(suffix)) {
+    cgraph_char_t *path_ptr = (cgraph_char_t *)path,
+                  *suffix_ptr = (cgraph_char_t *)suffix;
+    cgraph_size_t path_len = 0, suffix_len = 0;
+    for (; '\0' != path_ptr[path_len]; path_len++) {
+    }
+    for (; '\0' != suffix_ptr[suffix_len]; suffix_len++) {
+    }
+    if (path_len >= suffix_len) {
+      path_ptr += (path_len - suffix_len);
+      for (res = CGRAPH_TRUE, path_len = 0; path_len < suffix_len; path_len++) {
+        if (path_ptr[path_len] != suffix_ptr[path_len]) {
+          res = CGRAPH_FALSE;
+          break;
+        }
+      }
+    }
+  }
+
+  return res;
+}
+
+cgraph_char_t *cgraph_file_path(cgraph_char_t *buffer, const cgraph_size_t size,
+                                const cgraph_char_t *path) {
+  cgraph_size_t _size = size - 1;
+  if (CGRAPH_ISSTR(path) && CGRAPH_ISBUF(buffer, _size)) {
+    cgraph_size_t i = 0, split_pos = 0;
+    for (; ('\0' != path[i]) && (i < _size); i++) {
+      buffer[i] = path[i];
+#if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
+      if ((__PLAT_LEND_C0 == path[i]) && (__PLAT_LEND_C1 == path[i + 1])) {
+#else
+      if (__PLAT_LEND_C == path[i]) {
+#endif
+        split_pos = i;
+      }
+    }
+    if (0 < split_pos) {
+      buffer[split_pos] = '\0';
+    } else {
+      buffer[i] = '\0';
+    }
+  }
+
+  return buffer;
+}
+
+cgraph_char_t *cgraph_file_name(cgraph_char_t *buffer, const cgraph_size_t size,
+                                const cgraph_char_t *path) {
+  cgraph_size_t _size = size - 1;
+  if (CGRAPH_ISSTR(path) && CGRAPH_ISBUF(buffer, _size)) {
+    cgraph_size_t i = 0, split_pos = 0;
+    for (; '\0' != path[i]; i++) {
+#if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
+      if ((__PLAT_LEND_C0 == path[i]) && (__PLAT_LEND_C1 == path[i + 1])) {
+        if ('\0' != path[i + 2]) {
+#else
+      if (__PLAT_LEND_C == path[i]) {
+        if ('\0' != path[i + 1]) {
+#endif
+          split_pos = i;
+        } else {
+          split_pos = -1;
+        }
+      }
+    }
+    if (0 < split_pos) {
+      cgraph_char_t *path_ptr = (cgraph_char_t *)&(path[split_pos]);
+      for (i = 0; ('\0' != path_ptr[i]) && (i < _size); i++) {
+        buffer[i] = path_ptr[i];
+      }
+      if ('\0' == path_ptr[i]) {
+        buffer[i] = '\0';
+      } else {
+        buffer[0] = '\0';
+      }
+    }
+  }
+
+  return buffer;
+}
+
+cgraph_char_t *cgraph_file_suffix(cgraph_char_t *buffer,
+                                  const cgraph_size_t size,
+                                  const cgraph_char_t *path) {
+  cgraph_size_t _size = size - 1;
+  if (CGRAPH_ISSTR(path) && CGRAPH_ISBUF(buffer, _size)) {
+    cgraph_size_t i = 0, split_pos = 0;
+    for (; '\0' != path[i]; i++) {
+      if ('.' == path[i]) {
+        split_pos = i;
+      }
+    }
+    if (0 < split_pos) {
+      cgraph_char_t *path_ptr = (cgraph_char_t *)&(path[split_pos]);
+      for (i = 0; ('\0' != path_ptr[i]) && (i < _size); i++) {
+        buffer[i] = path_ptr[i];
+      }
+      if ('\0' == path_ptr[i]) {
+        buffer[i] = '\0';
+      } else {
+        buffer[0] = '\0';
+      }
+    }
+  }
+
+  return buffer;
 }
 
 cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *root,
@@ -232,11 +332,10 @@ cgraph_size_t cgraph_file_fputs(FILE *fp, const cgraph_char_t *cbuf,
 
 cgraph_size_t cgraph_file_rfputs(FILE *fp, const cgraph_char_t *cbuf,
                                  const cgraph_size_t size) {
-  cgraph_size_t _size = 0;
-  if ((NULL != cbuf) && (0 < size)) {
+  if (CGRAPH_ISBUF(cbuf, size)) {
     cgraph_size_t i;
     cgraph_char_t *data = (cgraph_char_t *)&cbuf[size - 1];
-    for (i = 0, _size = size; i < size; i++, data--) {
+    for (i = 0; i < size; i++, data--) {
       fputc(*data, fp);
     }
   }
@@ -249,7 +348,7 @@ cgraph_size_t cgraph_file_rfputs(FILE *fp, const cgraph_char_t *cbuf,
   }
 #endif
 
-  return _size;
+  return size;
 }
 
 __INLINE cgraph_size_t cgraph_file_sprintnl(cgraph_char_t *cbuf,
@@ -361,7 +460,7 @@ cgraph_size_t cgraph_file_snprintf(cgraph_char_t *cbuf,
                                    const cgraph_size_t size,
                                    const cgraph_char_t *format, ...) {
   cgraph_size_t _size = 0;
-  if ((NULL != cbuf) && (0 < size)) {
+  if (CGRAPH_ISBUF(cbuf, size)) {
     va_list args;
     va_start(args, format);
     _size = cgraph_file_vsnprintf(cbuf, size, format, args);
@@ -408,7 +507,7 @@ cgraph_bool_t cgraph_file_fclose(FILE *fp) {
 cgraph_size_t cgraph_file_fgets(FILE *fp, cgraph_char_t *cbuf,
                                 const cgraph_size_t size) {
   cgraph_size_t len = 0, _size = size - 1;
-  if ((NULL != cbuf) && (0 < _size)) {
+  if (CGRAPH_ISBUF(cbuf, _size)) {
     cgraph_char_t ch;
     for (; (len < _size) && 0 != feof(fp); len++, cbuf++) {
 #if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
@@ -468,7 +567,7 @@ cgraph_size_t cgraph_file_whole(FILE *fp, cgraph_char_t *cbuf,
 cgraph_size_t cgraph_file_header(FILE *fp, cgraph_char_t *cbuf,
                                  const cgraph_size_t size) {
   cgraph_size_t len = 0;
-  if ((NULL != cbuf) && (0 < size)) {
+  if (CGRAPH_ISBUF(cbuf, size)) {
     fpos_t fp_init;
     fgetpos(fp, &fp_init);
     rewind(fp);

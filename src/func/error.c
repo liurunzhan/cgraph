@@ -17,16 +17,18 @@ static cgraph_char_t *__cgraph_error_strings__[] = {"NO ERROR",
 
 #define CGRAPH_ERROR_STRING(reason) (__cgraph_error_strings__[reason])
 
-void cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
-                  cgraph_char_t *file, const cgraph_char_t *function) {
+cgraph_size_t cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
+                           cgraph_char_t *file, const cgraph_char_t *function) {
+  cgraph_size_t len = 0;
   if (reason < CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS) {
     if (NULL != function) {
-      cgraph_file_fprintfln(stderr, CGRAPH_ERROR_FUNCTION_STYLE "TYPE %d -> %s",
-                            file, function, line, reason,
-                            CGRAPH_ERROR_STRING(reason));
+      len = cgraph_file_fprintfln(
+          stderr, CGRAPH_ERROR_FUNCTION_STYLE "TYPE %d -> %s", file, function,
+          line, reason, CGRAPH_ERROR_STRING(reason));
     } else {
-      cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "TYPE %d -> %s", file,
-                            line, reason, CGRAPH_ERROR_STRING(reason));
+      len = cgraph_file_fprintfln(stderr, CGRAPH_ERROR_STYLE "TYPE %d -> %s",
+                                  file, line, reason,
+                                  CGRAPH_ERROR_STRING(reason));
     }
   }
 #ifdef DEBUG
@@ -36,6 +38,8 @@ void cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
                           file, line, reason);
   }
 #endif
+
+  return len;
 }
 
 cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason) {
@@ -44,13 +48,15 @@ cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason) {
               : CGRAPH_ERROR_STRING(CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS));
 }
 
-void cgraph_error_details_md(FILE *fp) {
+cgraph_size_t cgraph_error_details_md(FILE *fp) {
+  cgraph_size_t len = 0;
   if (CGRAPH_ISFILE(fp)) {
     cgraph_int_t i;
-    cgraph_file_fprintfln(fp, "| ERROR TYPE | ERROR DETAIL |"
-                              "| :-: | :-: |");
+    len = cgraph_file_fprintfln(fp, "| ERROR TYPE | ERROR DETAIL |"
+                                    "| :-: | :-: |");
     for (i = 0; i < CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS; i++) {
-      cgraph_file_fprintfln(fp, "| %d | %s |", i, CGRAPH_ERROR_STRING(i));
+      len +=
+          cgraph_file_fprintfln(fp, "| %d | %s |", i, CGRAPH_ERROR_STRING(i));
     }
   }
 #ifdef DEBUG
@@ -59,14 +65,17 @@ void cgraph_error_details_md(FILE *fp) {
                           CGRAPH_ERROR_STYLE_ENTRY);
   }
 #endif
+
+  return len;
 }
 
-void cgraph_error_details_csv(FILE *fp) {
+cgraph_size_t cgraph_error_details_csv(FILE *fp) {
+  cgraph_size_t len = 0;
   if (CGRAPH_ISFILE(fp)) {
     cgraph_int_t i;
-    cgraph_file_fprintfln(fp, "ERROR TYPE,ERROR DETAIL");
+    len = cgraph_file_fprintfln(fp, "ERROR TYPE,ERROR DETAIL");
     for (i = 0; i < CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS; i++) {
-      cgraph_file_fprintfln(fp, "%d,%s", i, CGRAPH_ERROR_STRING(i));
+      len += cgraph_file_fprintfln(fp, "%d,%s", i, CGRAPH_ERROR_STRING(i));
     }
   }
 #ifdef DEBUG
@@ -75,6 +84,8 @@ void cgraph_error_details_csv(FILE *fp) {
                           CGRAPH_ERROR_STYLE_ENTRY);
   }
 #endif
+
+  return len;
 }
 
 static cgraph_char_t __cgraph_time_cbuf__[CGRAPH_TIME_CBUF_SIZE];
@@ -90,9 +101,11 @@ cgraph_char_t *cgraph_error_time(void) {
 
 static cgraph_char_t __cgraph_log_cbuf__[CGRAPH_LOG_CBUF_SIZE];
 
-void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
-                      const cgraph_char_t *function, const cgraph_size_t line,
-                      const cgraph_char_t *format, ...) {
+cgraph_size_t cgraph_error_log(FILE *fp, const cgraph_char_t *file,
+                               const cgraph_char_t *function,
+                               const cgraph_size_t line,
+                               const cgraph_char_t *format, ...) {
+  cgraph_size_t len = 0;
   if (CGRAPH_ISFILE(fp) && (NULL != format)) {
     va_list args;
     va_start(args, format);
@@ -101,13 +114,13 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
     va_end(args);
     cgraph_error_time();
     if (NULL != function) {
-      cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
-                            __cgraph_time_cbuf__, file, function, line,
-                            __cgraph_log_cbuf__);
+      len = cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
+                                  __cgraph_time_cbuf__, file, function, line,
+                                  __cgraph_log_cbuf__);
     } else {
-      cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_STYLE "%s",
-                            __cgraph_time_cbuf__, file, line,
-                            __cgraph_log_cbuf__);
+      len = cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_STYLE "%s",
+                                  __cgraph_time_cbuf__, file, line,
+                                  __cgraph_log_cbuf__);
     }
   }
 #ifdef DEBUG
@@ -122,20 +135,24 @@ void cgraph_error_log(FILE *fp, const cgraph_char_t *file,
     }
   }
 #endif
+
+  return len;
 }
 
-void cgraph_error_log_cbuf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t size,
-                           const cgraph_char_t *file,
-                           const cgraph_char_t *function,
-                           const cgraph_size_t line,
-                           const cgraph_char_t *format, ...) {
-  if (CGRAPH_ISFILE(fp) && (NULL != cbuf) && (0 < size) && (NULL != format)) {
+cgraph_size_t cgraph_error_log_cbuf(FILE *fp, cgraph_char_t *cbuf,
+                                    cgraph_size_t size,
+                                    const cgraph_char_t *file,
+                                    const cgraph_char_t *function,
+                                    const cgraph_size_t line,
+                                    const cgraph_char_t *format, ...) {
+  cgraph_size_t len = 0;
+  if (CGRAPH_ISFILE(fp) && CGRAPH_ISBUF(cbuf, size) && (NULL != format)) {
     va_list args;
     va_start(args, format);
     cgraph_file_vsnprintf(cbuf, size, format, args);
     va_end(args);
     cgraph_error_time();
-    cgraph_file_fprintfln(fp, "%s: %s", __cgraph_time_cbuf__, cbuf);
+    len = cgraph_file_fprintfln(fp, "%s: %s", __cgraph_time_cbuf__, cbuf);
   }
 #ifdef DEBUG
   else {
@@ -153,4 +170,6 @@ void cgraph_error_log_cbuf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t size,
     }
   }
 #endif
+
+  return len;
 }

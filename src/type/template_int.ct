@@ -94,7 +94,7 @@ UTYPE FUNCTION(NAME, urand)(void) { return FUNCTION(NAME, rand)(); }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
                                const TYPE first, ...) {
-  if ((NULL != cthis) && (0 < size)) {
+  if (CGRAPH_ISBUF(cthis, size)) {
     cgraph_size_t i = 1;
     va_list args;
     va_start(args, first);

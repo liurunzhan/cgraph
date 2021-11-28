@@ -550,8 +550,8 @@ extern TYPE *FUNCTION(NAME, memcpy)(TYPE *x, const TYPE *y,
 extern DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
                                   const cgraph_size_t size);
-extern TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const DATA_TYPE *data,
-                                   const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, initdt)(TYPE *cthis, const DATA_TYPE *data,
+                                    const cgraph_size_t size);
 
 extern cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis);
@@ -584,8 +584,8 @@ extern TYPE *FUNCTION(NAME, for3cvc)(const TYPE *x, const TYPE **y, TYPE *z,
 extern TYPE *FUNCTION(NAME, data)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, init)(TYPE *cthis, const TYPE *data,
                                   const cgraph_size_t size);
-extern TYPE *FUNCTION(NAME, initd)(TYPE *cthis, const TYPE *data,
-                                   const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, initdt)(TYPE *cthis, const TYPE *data,
+                                    const cgraph_size_t size);
 
 extern cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE cthis);
 extern cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis);

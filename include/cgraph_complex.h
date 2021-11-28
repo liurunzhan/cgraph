@@ -76,12 +76,12 @@ typedef struct {
 #include "cgraph_template_data.ht"
 
 /** initial function */
-extern TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mag, const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mag);
-extern TYPE FUNCTION(NAME, initwa)(const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, initwri)(const DATA_TYPE real, const DATA_TYPE imag);
-extern TYPE FUNCTION(NAME, initwr)(const DATA_TYPE real);
-extern TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag);
+extern TYPE FUNCTION(NAME, initma)(const DATA_TYPE mag, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, initm)(const DATA_TYPE mag);
+extern TYPE FUNCTION(NAME, inita)(const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, initri)(const DATA_TYPE real, const DATA_TYPE imag);
+extern TYPE FUNCTION(NAME, initr)(const DATA_TYPE real);
+extern TYPE FUNCTION(NAME, initi)(const DATA_TYPE imag);
 extern TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i);
 extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n,
                                      const cgraph_int_t i);

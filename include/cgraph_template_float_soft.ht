@@ -96,10 +96,10 @@ extern TYPE FUNCTION(NAME, mulexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, divexp_s)(const TYPE x, const cgraph_int_t y);
 
 /** software-defined signed float point number functions */
-extern TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t x);
-extern cgraph_float32_t FUNCTION(NAME, f32)(const TYPE x);
-extern TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t x);
-extern cgraph_float64_t FUNCTION(NAME, f64)(const TYPE x);
+extern TYPE FUNCTION(NAME, initf32_s)(const cgraph_float32_t x);
+extern cgraph_float32_t FUNCTION(NAME, tof32_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, initf64_s)(const cgraph_float64_t x);
+extern cgraph_float64_t FUNCTION(NAME, tof64_s)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, opp_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, fabs_s)(const TYPE x);

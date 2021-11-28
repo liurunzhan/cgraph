@@ -1,6 +1,4 @@
-#include <string.h>
-
-#include "cgraph_file.h"
+#include "cgraph_base.h"
 
 #include "cgraph_string.h"
 
@@ -14,7 +12,7 @@ int main(int argc, char *argv[]) {
   if (NULL != string) {
     cgraph_bool_t error = CGRAPH_FALSE;
     cgraph_file_fprintfln(stdout, "%s", cstr);
-    string = FUNCTION(NAME, initd)(string, cstr, strlen(cstr));
+    string = FUNCTION(NAME, initdt)(string, cstr, cgraph_strlen(cstr));
     cgraph_file_fprintfln(stdout, "data %s", string->data);
     cgraph_file_fprintfln(stdout,
                           "test base " CGRAPH_PTRADDR_OUT_FMT
@@ -26,15 +24,16 @@ int main(int argc, char *argv[]) {
       string =
           FUNCTION(NAME, realloc)(string, DATA_ID, 10000, 10000 * i, &error);
       if (CGRAPH_FALSE == error) {
-        cgraph_file_fprintfln(stdout, "address : %p", CGRAPH_PTRADDR(string));
+        cgraph_file_fprintfln(stdout, "address : " CGRAPH_PTRADDR_OUT_FMT,
+                              CGRAPH_PTRADDR(string));
         cgraph_file_fprintfln(stdout, "length  : %ld", string->len);
         cgraph_file_fprintfln(stdout, "size    : %ld", string->size);
         cgraph_file_fprintfln(stdout, "data    : %s", string->data);
       }
     }
   }
-  string1 = FUNCTION(NAME, initc)(string1, cstr, strlen(cstr));
-  string2 = FUNCTION(NAME, initc)(string2, str1, strlen(str1));
+  string1 = FUNCTION(NAME, initc)(string1, cstr, cgraph_strlen(cstr));
+  string2 = FUNCTION(NAME, initc)(string2, str1, cgraph_strlen(str1));
   cgraph_file_fprintfln(stdout, "%s", string1->data);
   cgraph_file_fprintfln(stdout, "%s", string2->data);
   string = FUNCTION(NAME, sub)(string1, string2, string);

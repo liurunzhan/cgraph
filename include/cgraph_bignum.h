@@ -75,8 +75,6 @@ extern cgraph_size_t FUNCTION(NAME, snprinte)(cgraph_char_t *cbuf,
                                               const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
                                    const cgraph_size_t len);
-extern TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data);
-extern TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data);
 
 extern TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp);
 extern TYPE *FUNCTION(NAME, div10)(TYPE *cthis, const cgraph_size_t exp);

@@ -137,7 +137,7 @@ TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t x) {
   return res;
 }
 
-cgraph_float32_t FUNCTION(NAME, f32)(const TYPE x) {
+cgraph_float32_t FUNCTION(NAME, tof32)(const TYPE x) {
   cgraph_float32_t res;
 
   return res;
@@ -149,7 +149,7 @@ TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t x) {
   return res;
 }
 
-cgraph_float64_t FUNCTION(NAME, f64)(const TYPE x) {
+cgraph_float64_t FUNCTION(NAME, tof64)(const TYPE x) {
   cgraph_float64_t res;
 
   return res;

@@ -86,7 +86,6 @@ else
 endif
 
 $(TOOL): $(ALL)
-	
 
 make: SCRIPT = compile.mk
 make: COMPILE = $(MAKE) -f
@@ -99,6 +98,9 @@ cmake: TOOL = cmake
 xmake: SCRIPT = xmake.lua
 xmake: COMPILE = xmake -F
 
+premake: SCRIPT = premake.lua
+premake: COMPILE = premake
+
 meson: SCRIPT = meson.build
 meson: COMPILE = meson build $(SPLIT) python3
 
@@ -108,11 +110,20 @@ ninja: COMPILE = ninja
 sh: SCRIPT = compile.sh
 sh: COMPILE = sh
 
+csh: SCRIPT = compile.csh
+csh: COMPILE = csh
+
 zsh: SCRIPT = compile.zsh
 zsh: COMPILE = zsh
 
 fish: SCRIPT = compile.fish
 fish: COMPILE = fish
+
+ksh: SCRIPT = compile.ksh
+ksh: COMPILE = ksh
+
+vsh: SCRIPT = compile.vsh
+vsh: COMPILE = vsh
 
 cmd: SCRIPT = compile.bat
 cmd: COMPILE = cmd
@@ -123,8 +134,8 @@ powershell: COMPILE = powershell
 perl: SCRIPT = compile.pl
 perl: COMPILE = perl
 
-perl6: SCRIPT = compile.pl6
-perl6: COMPILE = perl6
+raku: SCRIPT = compile.raku
+raku: COMPILE = raku
 
 ruby: SCRIPT = compile.rb
 ruby: COMPILE = ruby
@@ -138,11 +149,29 @@ lua: COMPILE = lua
 r: SCRIPT = compile.r
 r: COMPILE = Rscript
 
+go: SCRIPT = compile.go
+go: COMPILE = gorun
+
+d: SCRIPT = compile.d
+d: COMPILE = rdmd
+
 julia: SCRIPT = compile.jl
 julia: COMPILE = julia
 
 tcl: SCRIPT = compile.tcl
 tcl: COMPILE = tclsh
+
+rust: SCRIPT = compile.rs
+rust: COMPILE = rust
+
+nims: SCRIPT = compile.nims
+nims: COMPILE = nims
+
+zig: SCRIPT = compile.zig
+zig: COMPILE = zig
+
+io: SCRIPT = compile.io
+io: COMPILE = io
 
 java: SCRIPT = compile.java
 java: COMPILE = java --source 11

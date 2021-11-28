@@ -92,20 +92,20 @@ static const cgraph_char_t *__cgraph_types__[] = {
     "CGRAPH_LIST_T",     /**< TYPE 32 : CGRAPH_LIST_T */
     "CGRAPH_QUEUE_T",    /**< TYPE 33 : CGRAPH_QUEUE_T */
     "CGRAPH_TREE_T",     /**< TYPE 34 : CGRAPH_TREE_T */
-    NULL                 /**< TYPE 35 : CGRAPH_NULL_T */
+    NULL                 /**< TYPE 35 : CGRAPH_MAX_T */
 };
 
 const cgraph_char_t **cgraph_version_types(void) { return __cgraph_types__; }
 
 const cgraph_char_t *cgraph_version_tname(const cgraph_size_t type) {
-  return ((CGRAPH_OBJECT_T <= type) && (CGRAPH_NULL_T > type))
+  return ((CGRAPH_OBJECT_T <= type) && (CGRAPH_MAX_T > type))
              ? __cgraph_types__[type]
              : NULL;
 }
 
 cgraph_size_t cgraph_version_tprintln(const cgraph_char_t *sep) {
   cgraph_size_t i = 0, len = 0;
-  for (i = CGRAPH_OBJECT_T; i < CGRAPH_NULL_T; i++) {
+  for (i = CGRAPH_OBJECT_T; i < CGRAPH_MAX_T; i++) {
     len += cgraph_file_fprintfln(stdout, "%d%s%s", i, sep, __cgraph_types__[i]);
   }
 
@@ -114,7 +114,7 @@ cgraph_size_t cgraph_version_tprintln(const cgraph_char_t *sep) {
 
 cgraph_size_t cgraph_version_tfprintln(FILE *fp, const cgraph_char_t *sep) {
   cgraph_size_t i = 0, len = 0;
-  for (i = CGRAPH_OBJECT_T; i < CGRAPH_NULL_T; i++) {
+  for (i = CGRAPH_OBJECT_T; i < CGRAPH_MAX_T; i++) {
     len += cgraph_file_fprintfln(fp, "%d%s%s", i, sep, __cgraph_types__[i]);
   }
 

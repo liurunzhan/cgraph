@@ -2,27 +2,14 @@
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
-static const cgraph_char_t *__cgraph_true__ = CGRAPH_BOOL_TRUE;
-static const cgraph_size_t __cgraph_true_len__ = CGRAPH_BOOL_TRUE_LEN;
-static const cgraph_size_t __cgraph_true_size__ = (__cgraph_true_len__ + 1);
-static const cgraph_char_t *__cgraph_false__ = CGRAPH_BOOL_FALSE;
-static const cgraph_size_t __cgraph_false_len__ = CGRAPH_BOOL_FALSE_LEN;
-static const cgraph_size_t __cgraph_false_size__ = (__cgraph_false_len__ + 1);
-
 cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x) {
-  cgraph_string_t *cthis = NULL;
-  if (CGRAPH_FALSE == x) {
-    cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_false_size__);
-    if (NULL != cthis) {
-      cgraph_string_initd(cthis, __cgraph_false__, __cgraph_false_size__);
-      cthis->len = __cgraph_false_len__;
-    }
-  } else {
-    cthis = cgraph_string_calloc(CGRAPH_CHAR_T, __cgraph_true_size__);
-    if (NULL != cthis) {
-      cgraph_string_initd(cthis, __cgraph_true__, __cgraph_true_size__);
-      cthis->len = __cgraph_true_len__;
-    }
+
+  cgraph_char_t *data = cgraph_bool_encode(x);
+  cgraph_size_t len = cgraph_strlen(data);
+  cgraph_string_t *cthis = cgraph_string_calloc(CGRAPH_CHAR_T, len);
+  if (NULL != cthis) {
+    cgraph_string_initdt(cthis, data, len);
+    cthis->len = len;
   }
 
   return cthis;

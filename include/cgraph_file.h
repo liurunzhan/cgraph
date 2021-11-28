@@ -24,12 +24,22 @@ extern cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path);
 extern cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path);
 extern cgraph_bool_t cgraph_file_isrfile(const cgraph_char_t *path);
 extern cgraph_bool_t cgraph_file_isdir(const cgraph_char_t *path);
-extern cgraph_bool_t cgraph_file_endswithsuffix(const cgraph_char_t *path,
-                                                const cgraph_char_t *suffix);
+extern cgraph_bool_t cgraph_file_issuffix(const cgraph_char_t *path,
+                                          const cgraph_char_t *suffix);
+extern cgraph_bool_t cgraph_file_startswith(const cgraph_char_t *path,
+                                            const cgraph_char_t *prefix);
+extern cgraph_bool_t cgraph_file_endswith(const cgraph_char_t *path,
+                                          const cgraph_char_t *suffix);
 
-extern const cgraph_char_t *cgraph_file_path(const cgraph_char_t *path);
-extern const cgraph_char_t *cgraph_file_file(const cgraph_char_t *path);
-extern const cgraph_char_t *cgraph_file_suffix(const cgraph_char_t *path);
+extern cgraph_char_t *cgraph_file_path(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const cgraph_char_t *path);
+extern cgraph_char_t *cgraph_file_name(cgraph_char_t *buffer,
+                                       const cgraph_size_t size,
+                                       const cgraph_char_t *path);
+extern cgraph_char_t *cgraph_file_suffix(cgraph_char_t *buffer,
+                                         const cgraph_size_t size,
+                                         const cgraph_char_t *path);
 
 extern cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *root,
                                            const cgraph_size_t size,

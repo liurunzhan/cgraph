@@ -8,8 +8,18 @@ my $PRO = "cgraph";
 my $DIR = ".";
 my $INC = File::Spec->catdir($DIR, "include");
 my $SRC = File::Spec->catdir($DIR, "src");
+my $SRC_FUNC  = File::Spec->catdir($SRC, "func");
+my $SRC_TYPE  = File::Spec->catdir($SRC, "type");
+my $SRC_TYPE_BASIC     = File::Spec->catdir($SRC_TYPE, "basic");
+my $SRC_TYPE_DATA      = File::Spec->catdir($SRC_TYPE, "data");
+my $SRC_TYPE_OBJECT    = File::Spec->catdir($SRC_TYPE, "object");
+my $SRC_TYPE_STRUCTURE = File::Spec->catdir($SRC_TYPE, "structure");
+my $SRC_GRAPH = File::Spec->catdir($SRC, "graph");
+my $SRC_GAME  = File::Spec->catdir($SRC, "game");
 my $TST = File::Spec->catdir($DIR, "test");
 my $LIB = File::Spec->catdir($DIR, "lib");
+
+my @SRCS = ($SRC, $SRC_FUNC, $SRC_TYPE, $SRC_TYPE_BASIC, $SRC_TYPE_DATA, $SRC_TYPE_OBJECT, $SRC_TYPE_STRUCTURE, $SRC_GRAPH, $SRC_GAME);
 
 my $CC = "cc";
 my $CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
@@ -28,31 +38,30 @@ my $ARFLAGS = "-rcs";
 
 # source files
 my @CFILES = ();
-opendir(my $fin, $SRC) or die "cannot open directory $SRC";
-foreach my $file (readdir($fin)) {
-  if($file =~ /\.c$/) {
-    push(@CFILES, File::Spec->catfile($SRC, $file));
+foreach my $dir (@SRCS) {
+  opendir(my $din, $dir) or die "cannot open directory $dir";
+  foreach my $file (readdir($din)) {
+    if ($file =~ /^((?!\.).)*\.c$/) {
+      push(@CFILES, File::Spec->catfile($dir, $file));
+    }
   }
+  closedir($din);
 }
-closedir($fin);
 my $LIBSHARED;
 my $LIBSTATIC;
-my $TSTFILE;
-my $TSTTARGET;
+my $TSTSUFFIX;
 if ($^O eq "MSWin32") {
   # target files
   $LIBSHARED = File::Spec->catfile($LIB, "lib$PRO.dll");
   $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.lib");
   # test files
-  $TSTFILE = File::Spec->catfile($TST, "$PRO.c");
-  $TSTTARGET = File::Spec->catfile($TST, "$PRO.exe");
+  $TSTSUFFIX = ".exe";
 } else {
   # target files
   $LIBSHARED = File::Spec->catfile($LIB, "lib$PRO.so");
   $LIBSTATIC = File::Spec->catfile($LIB, "lib$PRO.a");
   # test files
-  $TSTFILE = File::Spec->catfile($TST, "$PRO.c");
-  $TSTTARGET = File::Spec->catfile($TST, "$PRO");
+  $TSTSUFFIX = "";
 }
 
 my @args = @ARGV;
@@ -63,7 +72,7 @@ if ($#args == -1) {
     my $obj = ($file =~ s/\.c$/\.o/r);
 		my $dep = ($file =~ s/\.c$/\.d/r);
     printf("compile %s to %s\n", $file, $obj);
-    system(sprintf("$CC $CFLAGS -I$INC -c %s -o %s -MD -MF %s", $file, $obj, $dep));
+    system(sprintf("$CC $CFLAGS -I$INC -I$SRC_TYPE -c %s -o %s -MD -MF %s", $file, $obj, $dep));
     push(@OFILES, $obj);
   }
   print("compile $LIBSHARED\n");
@@ -71,10 +80,18 @@ if ($#args == -1) {
   print("compile $LIBSTATIC\n");
   system(sprintf("$AR $ARFLAGS $LIBSTATIC %s", join(" ", @OFILES)));
 } elsif ($args[0] eq "test") {
-  print("compile $TSTFILE to $TSTTARGET\n");
-  system("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
-  printf("test $TSTTARGET with %s\n", File::Spec->catfile($TST, "elements.csv"));
-  system(sprintf("$TSTTARGET %s", File::Spec->catfile($TST, "elements.csv")));
+  opendir(my $din, $TST) or die "cannot open directory $TST";
+  foreach my $file (readdir($din)) {
+    if ($file =~ /^((?!\.).)*\.c$/) {
+			my $TSTFILE = File::Spec->catfile($TST, $file); 
+			my $TSTTARGET = ($TSTFILE =~ s/\.c$/$TSTSUFFIX/r);
+  		print("compile $TSTFILE to $TSTTARGET\n");
+  		system("$CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm");
+  		printf("test $TSTTARGET\n");
+  		system($TSTTARGET);
+    }
+  }
+  closedir($din);
 } elsif ($args[0] eq "clean") {
   foreach my $file (@CFILES) {
     my $obj = ($file =~ s/\.c$/\.o/r);
@@ -88,8 +105,16 @@ if ($#args == -1) {
   unlink $LIBSTATIC;
   print("clean $LIBSHARED\n");
   unlink $LIBSHARED;
-  print("clean $TSTTARGET\n");
-  unlink $TSTTARGET;
+  opendir(my $din, $TST) or die "cannot open directory $TST";
+  foreach my $file (readdir($din)) {
+		if ($file =~ /^((?!\.).)*\.c$/) {
+			my $TSTFILE = File::Spec->catfile($TST, $file); 
+			my $TSTTARGET = ($TSTFILE =~ s/\.c$/$TSTSUFFIX/r);
+      print("clean $TSTTARGET\n");
+      unlink $TSTTARGET;
+    }
+  }
+  closedir($din);
 } elsif ($args[0] eq "distclean") {
   foreach my $file (@CFILES) {
     my $obj = ($file =~ s/\.c$/\.o/r);
@@ -105,8 +130,16 @@ if ($#args == -1) {
   unlink $LIBSHARED;
   print("clean $LIB\n");
   rmdir $LIB;
-  print("clean $TSTTARGET\n");
-  unlink $TSTTARGET;
+  opendir(my $din, $TST) or die "cannot open directory $TST";
+  foreach my $file (readdir($din)) {
+    if(($file !~ /^\./) && ($file =~ /\.c$/)) {
+			my $TSTFILE = File::Spec->catfile($TST, $file); 
+			my $TSTTARGET = ($TSTFILE =~ s/\.c$/$TSTSUFFIX/r);
+      print("clean $TSTTARGET\n");
+      unlink $TSTTARGET;
+    }
+  }
+  closedir($din);
 } elsif ($args[0] eq "help") {
   print("$0 <target>\n");
   print("<target>: \n");

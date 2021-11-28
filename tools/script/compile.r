@@ -4,8 +4,18 @@ PRO <- "cgraph"
 DIR <- "."
 INC <- file.path(DIR, "include", fsep=.Platform$file.sep)
 SRC <- file.path(DIR, "src", fsep=.Platform$file.sep)
+SRC_FUNC  <- file.path(SRC, "func", fsep=.Platform$file.sep)
+SRC_TYPE  <- file.path(SRC, "type", fsep=.Platform$file.sep)
+SRC_TYPE_BASIC     <- file.path(SRC_TYPE, "basic", fsep=.Platform$file.sep)
+SRC_TYPE_DATA      <- file.path(SRC_TYPE, "data", fsep=.Platform$file.sep)
+SRC_TYPE_OBJECT    <- file.path(SRC_TYPE, "object", fsep=.Platform$file.sep)
+SRC_TYPE_STRUCTURE <- file.path(SRC_TYPE, "structure", fsep=.Platform$file.sep)
+SRC_GRAPH <- file.path(SRC, "graph", fsep=.Platform$file.sep)
+SRC_GAME  <- file.path(SRC, "game", fsep=.Platform$file.sep)
 TST <- file.path(DIR, "test", fsep=.Platform$file.sep)
 LIB <- file.path(DIR, "lib", fsep=.Platform$file.sep)
+
+SRCS <- list(SRC, SRC_FUNC, SRC_TYPE, SRC_TYPE_BASIC, SRC_TYPE_DATA, SRC_TYPE_OBJECT, SRC_TYPE_STRUCTURE, SRC_GRAPH, SRC_GAME)
 
 CC <- "cc"
 CFLAGS <- "-std=c89 -Wall -pedantic -fPIC"
@@ -22,22 +32,25 @@ if(MODE == "debug") {
 AR <- "ar"
 ARFLAGS <- "-rcs"
 
-CFILES <- lapply(list.files(SRC, pattern="\\.c$"), function(x) { file.path(SRC, x, fsep=.Platform$file.sep)})
+CFILES <- list()
+for (dir in SRCS) {
+	CFILES <- c(CFILES, lapply(list.files(dir, pattern="*\\.c$"), function(x) { file.path(dir, x, fsep=.Platform$file.sep)}))
+}
+
+TEST_FILES <- lapply(list.files(TST, pattern="*\\.c$"), function(x) { file.path(TST, x, fsep=.Platform$file.sep)})
 
 if(.Platform$OS.type == "windows") {
   # target files
   LIBSHARED <- file.path(LIB, paste("lib", PRO, ".dll", sep=""), fsep=.Platform$file.sep)
   LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".lib", sep=""), fsep=.Platform$file.sep)
   # test files
-  TSTFILE <- file.path(TST, paste(PRO, ".c", sep=""), fsep=.Platform$file.sep)
-  TSTTARGET <- file.path(TST, paste(PRO, ".exe", sep=""), fsep=.Platform$file.sep)
+  TSTSUFFIX <- ".exe"
 } else {
   # target files
   LIBSHARED <- file.path(LIB, paste("lib", PRO, ".so", sep=""), fsep=.Platform$file.sep)
   LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".a", sep=""), fsep=.Platform$file.sep)
   # test files
-  TSTFILE <- file.path(TST, paste(PRO, ".c", sep=""), fsep=.Platform$file.sep)
-  TSTTARGET <- file.path(TST, PRO, fsep=.Platform$file.sep)
+  TSTSUFFIX <- ""
 }
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -51,7 +64,7 @@ if(length(args) == 0) {
     obj <- gsub("\\.c$", ".o", file)
 		dep <- gsub("\\.c$", ".d", file)
     print(sprintf("compile %s to %s", file, obj))
-    system(sprintf("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep))
+    system(sprintf("%s %s -I%s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, SRC_TYPE, file, obj, dep))
     OFILES <- append(OFILES, obj, after=length(OFILES))
   }
   print(sprintf("compile %s", LIBSHARED))
@@ -59,10 +72,14 @@ if(length(args) == 0) {
   print(sprintf("compile %s", LIBSTATIC))
   system(sprintf("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, paste(OFILES, collapse=" ")))
 } else if (args[1] == "test") {
-  print(sprintf("compile %s to %s", TSTFILE, TSTTARGET))
-  system(sprintf("%s %s -I%s -o %s %s -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
-  print(sprintf("test %s with %s", TSTTARGET, file.path(TST, "elements.csv", fsep=.Platform$file.sep)))
-  system(sprintf("%s %s", TSTTARGET, file.path(TST, "elements.csv", fsep=.Platform$file.sep)))
+	for(file in TEST_FILES) {
+		TSTFILE <- file
+		TSTTARGET <- gsub("\\.c$", TSTSUFFIX, TSTFILE)
+  	print(sprintf("compile %s to %s", TSTFILE, TSTTARGET))
+  	system(sprintf("%s %s -I%s -o %s %s -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
+  	print(sprintf("test %s", TSTTARGET))
+	  system(TSTTARGET)
+	}
 } else if (args[1] == "clean") {
   for(file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
@@ -76,8 +93,12 @@ if(length(args) == 0) {
   unlink(LIBSTATIC, force=TRUE)
   print(sprintf("clean %s", LIBSHARED))
   unlink(LIBSHARED, force=TRUE)
-  print(sprintf("clean %s", TSTTARGET))
-  unlink(TSTTARGET, force=TRUE)
+	for(file in TEST_FILES) {
+		TSTFILE <- file
+		TSTTARGET <- gsub("\\.c$", TSTSUFFIX, TSTFILE)
+  	print(sprintf("clean %s", TSTTARGET))
+  	unlink(TSTTARGET, force=TRUE)
+	}
 } else if (args[1] == "distclean") {
   for(file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
@@ -93,8 +114,12 @@ if(length(args) == 0) {
   unlink(LIBSHARED, force=TRUE)
   print(sprintf("clean %s", LIB))
   unlink(LIB, force=TRUE)
-  print(sprintf("clean %s", TSTTARGET))
-  unlink(TSTTARGET, force=TRUE)
+	for(file in TEST_FILES) {
+		TSTFILE <- file
+		TSTTARGET <- gsub("\\.c$", TSTSUFFIX, TSTFILE)
+  	print(sprintf("clean %s", TSTTARGET))
+  	unlink(TSTTARGET, force=TRUE)
+	}
 } else if (args[1] == "help") {
   print(sprintf("%s <target>", script_name))
   print("<target>: ")

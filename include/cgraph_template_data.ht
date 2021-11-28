@@ -85,6 +85,11 @@ extern TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y);
 
+extern TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data);
+extern cgraph_float32_t FUNCTION(NAME, tof32_s)(const TYPE *cthis);
+extern TYPE *FUNCTION(NAME, initf64)(TYPE *cthis, const cgraph_float64_t data);
+extern cgraph_float64_t FUNCTION(NAME, tof64_s)(const TYPE *cthis);
+
 extern DATA_TYPE *FUNCTION(NAME, datindex)(const TYPE *cthis,
                                            const cgraph_size_t datindex);
 extern TYPE *FUNCTION(NAME, index)(const TYPE **cthis, const cgraph_size_t len,
@@ -167,7 +172,7 @@ extern cgraph_size_t FUNCTION(NAME, println)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                              const cgraph_size_t size,
                                              const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE *cthis);
 
 #else
 
@@ -239,6 +244,11 @@ extern TYPE FUNCTION(NAME, log2)(const TYPE x);
 extern TYPE FUNCTION(NAME, log10)(const TYPE x);
 extern TYPE FUNCTION(NAME, exp)(const TYPE x);
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t x);
+extern cgraph_float32_t FUNCTION(NAME, tof32)(const TYPE x);
+extern TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t x);
+extern cgraph_float64_t FUNCTION(NAME, tof64)(const TYPE x);
 
 extern TYPE *FUNCTION(NAME, datindex)(const TYPE *cthis,
                                       const cgraph_size_t datindex);
@@ -323,6 +333,6 @@ extern cgraph_size_t FUNCTION(NAME, println)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                              const cgraph_size_t size,
                                              const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, dat_fprintln)(FILE *fp, const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE cthis);
 
 #endif

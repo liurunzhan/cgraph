@@ -9,5 +9,9 @@
  * @lisence GPL-3.0
  */
 
-extern void FUNCTION(NAME, bufclr)(void);
 extern cgraph_size_t FUNCTION(NAME, buflen)(void);
+extern void FUNCTION(NAME, bufclr)(void);
+extern void FUNCTION(NAME, bufmem)(const cgraph_size_t size);
+extern void FUNCTION(NAME, bufput)(FILE *fp, const cgraph_size_t len);
+extern void FUNCTION(NAME, bufputln)(FILE *fp, const cgraph_size_t len);
+extern void FUNCTION(NAME, bufdel)(void);

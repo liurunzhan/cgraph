@@ -66,7 +66,7 @@ TYPE FUNCTION(NAME, rand)(void) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mag, const DATA_TYPE angle) {
+TYPE FUNCTION(NAME, initma)(const DATA_TYPE mag, const DATA_TYPE angle) {
   TYPE res;
   COMPLEX_REAL(res) = mag * cos(angle);
   COMPLEX_IMAG(res) = mag * sin(angle);
@@ -74,7 +74,7 @@ TYPE FUNCTION(NAME, initwma)(const DATA_TYPE mag, const DATA_TYPE angle) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mag) {
+TYPE FUNCTION(NAME, initm)(const DATA_TYPE mag) {
   TYPE res;
   COMPLEX_REAL(res) = mag;
   COMPLEX_IMAG(res) = 0.0;
@@ -82,7 +82,7 @@ TYPE FUNCTION(NAME, initwm)(const DATA_TYPE mag) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwa)(const DATA_TYPE angle) {
+TYPE FUNCTION(NAME, inita)(const DATA_TYPE angle) {
   TYPE res;
   COMPLEX_REAL(res) = cos(angle);
   COMPLEX_IMAG(res) = sin(angle);
@@ -90,7 +90,7 @@ TYPE FUNCTION(NAME, initwa)(const DATA_TYPE angle) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwri)(const DATA_TYPE real, const DATA_TYPE imag) {
+TYPE FUNCTION(NAME, initri)(const DATA_TYPE real, const DATA_TYPE imag) {
   TYPE res;
   COMPLEX_REAL(res) = real;
   COMPLEX_IMAG(res) = imag;
@@ -98,7 +98,7 @@ TYPE FUNCTION(NAME, initwri)(const DATA_TYPE real, const DATA_TYPE imag) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwr)(const DATA_TYPE real) {
+TYPE FUNCTION(NAME, initr)(const DATA_TYPE real) {
   TYPE res;
   COMPLEX_REAL(res) = real;
   COMPLEX_IMAG(res) = 0.0;
@@ -106,7 +106,7 @@ TYPE FUNCTION(NAME, initwr)(const DATA_TYPE real) {
   return res;
 }
 
-TYPE FUNCTION(NAME, initwi)(const DATA_TYPE imag) {
+TYPE FUNCTION(NAME, initi)(const DATA_TYPE imag) {
   TYPE res;
   COMPLEX_REAL(res) = 0.0;
   COMPLEX_IMAG(res) = imag;

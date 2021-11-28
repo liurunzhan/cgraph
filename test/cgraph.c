@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
   cgraph_int_t numbers[100000];
   fprintf(stdout, "start simulation\n");
   fprintf(stdout, "%d %d\n", FRACTION_NUM(fraction), FRACTION_DEN(fraction));
-  cgraph_string_initd(string, "abcd", 4);
-  cgraph_bignum_initd(bignum, "123.123.123", strlen("123.123.123"));
+  cgraph_string_initdt(string, "abcd", 4);
+  cgraph_bignum_initdt(bignum, "123.123.123", cgraph_strlen("123.123.123"));
   fprintf(stdout, "%s %d\n", bignum->data, cgraph_bignum_check(bignum));
   fprintf(stdout, "%s\n", string->data);
   printf_char(pre);
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     cgraph_bigint_t *big = cgraph_bigint_calloc(CGRAPH_INT_T, 2);
     cgraph_int_t data[2] = {1,1};
     cgraph_string_t *cbuf;
-    cgraph_bigint_initd(big, data, 2);
+    cgraph_bigint_initdt(big, data, 2);
     cbuf = cgraph_bigint_str(big);
     fprintf(stdout, "%s\n", cbuf->data);
     cgraph_string_free(cbuf);
@@ -116,11 +116,6 @@ int main(int argc, char *argv[]) {
   cgraph_size_t i, j, k;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
   cgraph_cmdarg_fprintln(stdout, cmdarg);
-  for (i = 0; i < cmdarg->len; i++) {
-    cgraph_file_fprintfln(stdout, "command %ld size %ld : %s", i,
-                          cgraph_cmdarg_arglen(cmdarg, i),
-                          cgraph_cmdarg_argnam(cmdarg, i));
-  }
   cgraph_file_fprintfln(stdout, "hello world!");
   cgraph_file_fprintfln(stdout, "%s %ld", name,
                         cgraph_math_namlen(name, cgraph_strlen(name), NULL));
@@ -138,7 +133,7 @@ int main(int argc, char *argv[]) {
   cgraph_free(next);
   cgraph_cmdarg_free(cmdarg);
   cgraph_file_fprintfln(stdout, "element size %ld", sizeof(cgraph_element_t));
-  issuffix = cgraph_file_endswithsuffix(cpath, csuffix);
+  issuffix = cgraph_file_issuffix(cpath, csuffix);
   cgraph_file_fprintfln(stdout, "issuffix : %s", cgraph_bool_encode(issuffix));
   cgraph_file_os(NULL, NULL, NULL, &isbigendian);
   cgraph_file_fprintfln(stdout, "isbigendian : %s",

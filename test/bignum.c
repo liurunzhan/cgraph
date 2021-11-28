@@ -1,6 +1,4 @@
-#include <string.h>
-
-#include "cgraph_file.h"
+#include "cgraph_base.h"
 
 #include "cgraph_bignum.h"
 
@@ -21,25 +19,25 @@ int main(int argc, char *argv[]) {
   TYPE *bignum9 = FUNCTION(NAME, calloc)(DATA_ID, 20);
   TYPE *bignum10 = FUNCTION(NAME, calloc)(DATA_ID, 20);
 
-  FUNCTION(NAME, initc)(bignum6, num3, strlen(num3));
-  FUNCTION(NAME, initc)(bignum7, num4, strlen(num4));
-  FUNCTION(NAME, initc)(bignum8, num5, strlen(num5));
-  FUNCTION(NAME, initc)(bignum9, num6, strlen(num6));
+  FUNCTION(NAME, initc)(bignum6, num3, cgraph_strlen(num3));
+  FUNCTION(NAME, initc)(bignum7, num4, cgraph_strlen(num4));
+  FUNCTION(NAME, initc)(bignum8, num5, cgraph_strlen(num5));
+  FUNCTION(NAME, initc)(bignum9, num6, cgraph_strlen(num6));
 
-  FUNCTION(NAME, initc)(bignum10, num7, strlen(num7));
+  FUNCTION(NAME, initc)(bignum10, num7, cgraph_strlen(num7));
   FUNCTION(NAME, fprintln)(stdout, bignum10);
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
-  FUNCTION(NAME, initc)(bignum10, &num7[1], strlen(num7) - 1);
+  FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
+  FUNCTION(NAME, initc)(bignum10, &num7[1], cgraph_strlen(num7) - 1);
   FUNCTION(NAME, fprintln)(stdout, bignum10);
-  FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+  FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
   for (i = 0; i < 50; i++) {
     cgraph_file_fprintfln(stdout, "i = %ld", i);
     FUNCTION(NAME, fprintln)
     (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, i)));
-    FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+    FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
     FUNCTION(NAME, fprintln)
     (stdout, (bignum10 = FUNCTION(NAME, div10)(bignum10, i)));
-    FUNCTION(NAME, dat_fprintln)(stdout, bignum10);
+    FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
   }
 
   FUNCTION(NAME, fprint)(stdout, bignum6);
@@ -100,9 +98,9 @@ int main(int argc, char *argv[]) {
   FUNCTION(NAME, fprint)(stdout, bignum9);
   fprintf(stdout, " GR compare : %d\n", FUNCTION(NAME, gr)(bignum9, bignum9));
 
-  FUNCTION(NAME, initc)(bignum1, num, strlen(num));
+  FUNCTION(NAME, initc)(bignum1, num, cgraph_strlen(num));
   FUNCTION(NAME, fprintln)(stdout, bignum1);
-  FUNCTION(NAME, initc)(bignum3, num2, strlen(num2));
+  FUNCTION(NAME, initc)(bignum3, num2, cgraph_strlen(num2));
   FUNCTION(NAME, fprintln)(stdout, bignum3);
   FUNCTION(NAME, ceil)(bignum1, bignum2);
   FUNCTION(NAME, fprintln)(stdout, bignum2);

@@ -18,16 +18,21 @@ extern "C" {
 
 #include "cgraph_string.h"
 
+#include "cgraph_template_off.h"
+
 /**
  * @struct cgraph_cmdarg_t
  * @brief the object of command line argument
  */
 typedef struct {
-  cgraph_size_t len;
+  cgraph_size_t argc, size;
   cgraph_char_t *name;
-  cgraph_char_t **args;
+  cgraph_char_t **argv;
   cgraph_char_t *data;
 } cgraph_cmdarg_t;
+
+#define CGRAPH_ISEMPTY(x) ((NULL == (x)) || (0 >= (x)->argc))
+#define CGRAPH_HASDATA(x) ((NULL != (x)) || (0 < (x)->argc))
 
 extern cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]);
 extern void cgraph_cmdarg_free(cgraph_cmdarg_t *cthis);
