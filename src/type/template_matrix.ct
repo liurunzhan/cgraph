@@ -1,5 +1,35 @@
 #include "template_struct.ct"
 
+TYPE *FUNCTION(NAME, create)(const cgraph_type_t type, const cgraph_size_t row,
+                             const cgraph_size_t column) {
+  cgraph_size_t size = row * column;
+  TYPE *cthis = FUNCTION(NAME, calloc)(type, size);
+  if (NULL != cthis) {
+    cgraph_file_fprintfln(stdout, "row : %ld column : %ld", row, column);
+    MATRIX_ROW(cthis) = row;
+    MATRIX_COLUMN(cthis) = column;
+    cthis->len = size;
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, recreate)(TYPE *cthis, const cgraph_type_t type,
+                               const cgraph_size_t row,
+                               const cgraph_size_t column) {
+  cgraph_size_t old_size = FUNCTION(NAME, size_rowcol)(cthis);
+  cgraph_size_t new_size = row * column;
+  cgraph_bool_t error = CGRAPH_FALSE;
+  if (NULL != (cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size,
+                                               &error))) {
+    MATRIX_ROW(cthis) = row;
+    MATRIX_COLUMN(cthis) = column;
+    cthis->len = new_size;
+  }
+
+  return cthis;
+}
+
 __INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
   return CGRAPH_TEST((0 == CGRAPH_MATRIX_ROW(cthis)) &&
                      (0 == CGRAPH_MATRIX_COLUMN(cthis)));
@@ -16,6 +46,18 @@ __INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
 
 __INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
   return CGRAPH_MATRIX_COLUMN(cthis);
+}
+
+__INLINE cgraph_size_t FUNCTION(NAME, size_row)(const TYPE *cthis) {
+  return CGRAPH_MATRIX_ROW(cthis);
+}
+
+__INLINE cgraph_size_t FUNCTION(NAME, size_column)(const TYPE *cthis) {
+  return CGRAPH_MATRIX_COLUMN(cthis);
+}
+
+__INLINE cgraph_size_t FUNCTION(NAME, size_rowcol)(const TYPE *cthis) {
+  return CGRAPH_MATRIX_SIZE(cthis);
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {

@@ -34,7 +34,7 @@ cgraph_size_t cgraph_version_fprintln(FILE *fp) {
   cgraph_size_t len =
       fprintf(fp, "Version of Library CGRAPH is %s", cgraph_version_string);
   if (0 < len) {
-    len += cgraph_file_printnl();
+    len += cgraph_file_println();
   }
 
   return len;

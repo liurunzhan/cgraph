@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-import sys
-import getopt
+import argparse
 import time
+import sys
 import os
 import json
 
@@ -33,12 +33,16 @@ def parse_brief(file):
 	return intro
 
 def parse_template(template, file, project, brief):
+	basename = os.path.basename(file)
+	if basename not in brief:
+		print("%s not in brief file %s" % (basename, args.brief))
+		sys.exit(0)
 	lines = []
 	with open(template, "r") as fin:
 		for line in fin.readlines():
-			line = line.replace("\r", "").replace("\n", "")
+			line = line.rstrip()
 			if "@file" in line:
-				line = line.replace("${FILE}", file if not file.endswith(".in") else file.rstrip(".in"))
+				line = line.replace("${FILE}", basename if not basename.endswith(".in") else basename.rstrip(".in"))
 			if "@package" in line:
 				line = line.replace("${PACKAGE}", project["package"])
 			if "@version" in line:
@@ -52,7 +56,7 @@ def parse_template(template, file, project, brief):
 			if "@lisence" in line:
 				line = line.replace("${LISENCE}", project["lisence"])
 			if "@brief" in line:
-				line = line.replace("${BRIEF}", brief[file])
+				line = line.replace("${BRIEF}", brief[basename])
 			lines.append(line)
 	
 	return lines
@@ -87,54 +91,22 @@ def write_lines_to_file(lines, file):
 		for line in lines:
 			print(line, file=fout)
 
-def get_cmd_help(name):
-	print("%s [arguments]" % name)
-	print("-i --input    : input file")
-	print("-o --output   : output file")
-	print("-t --template : header template file")
-	print("-h --help     : get help")
-	sys.exit(0)
+def arg_parse():
+	parser = argparse.ArgumentParser(description="update C-type macro definitions")
+	parser.add_argument("file", help="source file")
+	parser.add_argument("-t", "--template", default="header.txt", help="template macro file")
+	parser.add_argument("-b", "--brief", default="brief.json", help="brief file")
+	parser.add_argument("-p", "--project", default="cgraph.json", help="project file")
+	def func(args):
+		project = parse_project(file=args.project)
+		brief = parse_brief(file=args.brief)
+		template = parse_template(template=args.template, file=args.file, project=project, brief=brief)
+		lines = delete_header_from_file(file=args.file)
+		lines = add_template_to_file(lines=lines, template=template)
+		write_lines_to_file(lines=lines, file=args.file)
+	parser.set_defaults(func=func)
+	return parser.parse_args()
 
 if __name__ == "__main__":
-	name = sys.argv[0]
-	argv = sys.argv[1:]
-	opts, args = getopt.getopt(argv, "i:o:t:b:p:h", ["--input=", "--output=", "--template=", "--brief=", "--project=" "--help"])
-
-	file          = None
-	input_file    = None
-	output_file   = None
-	project_file  = "cgraph.json"
-	brief_file    = "brief.json"
-	template_file = "header.txt"
-	for opt, arg in opts:
-		if opt in ["-i", "--input"]:
-			input_file = arg
-			file = os.path.basename(input_file)
-		elif opt in ["-o", "--output"]:
-			output_file = arg
-		elif opt in ["-t", "--template"]:
-			template_file = arg
-		elif opt in ["-b", "--brief"]:
-			brief_file = arg
-		elif opt in ["-p", "--project"]:
-			project_file = arg
-		else:
-			get_cmd_help(name)
-	
-	if input_file is None and (file is None or file == ""):
-		print("input file cannot be None")
-		sys.exit(-1)
-	if output_file is None:
-		output_file = input_file
-	
-	project = parse_project(project_file)
-	brief = parse_brief(brief_file)
-	if file not in brief:
-		print("%s not in brief file %s" % (file, brief_file))
-		sys.exit(-1)
-	
-	template = parse_template(template_file, file, project, brief)
-	lines = delete_header_from_file(input_file)
-	lines = add_template_to_file(lines, template)
-	write_lines_to_file(lines, output_file)
-	
+	args = arg_parse()
+	args.func(args)

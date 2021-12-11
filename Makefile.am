@@ -3,6 +3,9 @@ SUBDIRS=src test doc
 # project directories
 src_dir     = $(top_srcdir)/src
 include_dir = $(top_srcdir)/include
+test_dir    = $(top_srcdir)/test
+tools_dir   = $(top_srcdir)/tools
+doc_dir     = $(top_srcdir)/doc
 
 # install directories
 includedir = $(prefix)/include
@@ -24,7 +27,7 @@ distclean-local:
 
 doc:
 if ENABLE_GTK_DOC
-	$(MAKE) -C $(top_srcdir)/doc
+	$(MAKE) -C $(doc_dir)
 else
 	$(MAKE) doxygen
 endif
@@ -34,15 +37,15 @@ doxygen:
 	doxygen
 
 cloc:
-	cloc include $(src_dir)/*.c* $(src_dir)/*/*.c* $(src_dir)/*/*/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht
+	cloc $(include_dir) $(src_dir) --force-lang=C,ct --force-lang="C/C++ Header",ht --include-ext=c,ct,h,ht
 
 cloc-all: clean
-	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"
+	cloc $(include_dir) $(src_dir) $(test_dir) $(tools_dir) --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"
 
 update:
 	git clean -xf
 	git pull --quiet
-	chmod +x ./autogen.sh
+	chmod +x $(top_srcdir)/autogen.sh
 
 upgrade:
 	git fetch --all

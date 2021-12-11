@@ -1,5 +1,39 @@
 #include "template_struct.ct"
 
+TYPE *FUNCTION(NAME, create)(const cgraph_type_t type,
+                             const cgraph_size_t index_i,
+                             const cgraph_size_t index_j,
+                             const cgraph_size_t index_k) {
+  cgraph_size_t size = index_i * index_j * index_k;
+  TYPE *cthis = FUNCTION(NAME, calloc)(type, size);
+  if (NULL != cthis) {
+    MATRIX3D_INDEX_I(cthis) = index_i;
+    MATRIX3D_INDEX_J(cthis) = index_j;
+    MATRIX3D_INDEX_K(cthis) = index_k;
+    cthis->len = size;
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, recreate)(TYPE *cthis, const cgraph_type_t type,
+                               const cgraph_size_t index_i,
+                               const cgraph_size_t index_j,
+                               const cgraph_size_t index_k) {
+  cgraph_size_t old_size = FUNCTION(NAME, size_ijk)(cthis);
+  cgraph_size_t new_size = index_i * index_j * index_k;
+  cgraph_bool_t error = CGRAPH_FALSE;
+  if (NULL != (cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size,
+                                               &error))) {
+    MATRIX3D_INDEX_I(cthis) = index_i;
+    MATRIX3D_INDEX_J(cthis) = index_j;
+    MATRIX3D_INDEX_K(cthis) = index_k;
+    cthis->len = new_size;
+  }
+
+  return cthis;
+}
+
 __INLINE cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis) {
   return CGRAPH_MATRIX3D_INDEX_I(cthis);
 }
@@ -25,20 +59,19 @@ __INLINE cgraph_size_t FUNCTION(NAME, size_k)(const TYPE *cthis) {
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, size_ij)(const TYPE *cthis) {
-  return CGRAPH_MATRIX3D_INDEX_I(cthis) * CGRAPH_MATRIX3D_INDEX_J(cthis);
+  return CGRAPH_MATRIX3D_SIZE_IJ(cthis);
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, size_ik)(const TYPE *cthis) {
-  return CGRAPH_MATRIX3D_INDEX_I(cthis) * CGRAPH_MATRIX3D_INDEX_K(cthis);
+  return CGRAPH_MATRIX3D_SIZE_IK(cthis);
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, size_jk)(const TYPE *cthis) {
-  return CGRAPH_MATRIX3D_INDEX_J(cthis) * CGRAPH_MATRIX3D_INDEX_K(cthis);
+  return CGRAPH_MATRIX3D_SIZE_JK(cthis);
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, size_ijk)(const TYPE *cthis) {
-  return CGRAPH_MATRIX3D_INDEX_I(cthis) * CGRAPH_MATRIX3D_INDEX_J(cthis) *
-         CGRAPH_MATRIX3D_INDEX_K(cthis);
+  return CGRAPH_MATRIX3D_SIZE(cthis);
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {

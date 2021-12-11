@@ -37,44 +37,70 @@ typedef enum {
   CGRAPH_ERROR_DIVISOR_EQUAL_TO_ZERO = 6, /** DIVISOR EQUAL TO ZERO */
   CGRAPH_ERROR_MATH_ERROR = 7,            /** MATH ERROR */
   CGRAPH_ERROR_FILE_HANDLE_EMPTY = 8,     /** FILE HANDLE EMPTY */
-  CGRAPH_ERROR_FILE_HANDLE_ERROR = 9,     /** FILE HANDLE ERROR */
-  CGRAPH_ERROR_MAXIMUM_VALUE_OF_ERRORS /** MAXIMUM VALUE OF ERRORS, NO USED */
+  CGRAPH_ERROR_FILE_HANDLE_ERROR = 9      /** FILE HANDLE ERROR */
 } cgraph_error_t;
 
+#define CGRAPH_ERROR_SIZE (10)
+
 #ifdef DEBUG
-#define cgraph_error_print(reason)                                             \
+#define cgraph_error_log(reason)                                               \
   cgraph_error((reason), (__LINE__), (__FILE__), (__FUNCTION))
 #else
-#define cgraph_error_print(reason) ((void)0)
+#define cgraph_error_log(reason) ((void)0)
 #endif
 
 cgraph_size_t cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
                            cgraph_char_t *file, const cgraph_char_t *function);
 
-extern cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason);
+extern const cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason);
 extern cgraph_size_t cgraph_error_details_md(FILE *fout);
 extern cgraph_size_t cgraph_error_details_csv(FILE *fout);
 
-extern cgraph_char_t *cgraph_error_time(void);
-extern cgraph_size_t cgraph_error_log(FILE *fp, const cgraph_char_t *file,
-                                      const cgraph_char_t *function,
-                                      const cgraph_size_t line,
-                                      const cgraph_char_t *format, ...);
-extern cgraph_size_t cgraph_error_log_cbuf(FILE *fp, cgraph_char_t *cbuf,
-                                           cgraph_size_t len,
-                                           const cgraph_char_t *file,
-                                           const cgraph_char_t *function,
-                                           const cgraph_size_t line,
-                                           const cgraph_char_t *format, ...);
+typedef enum {
+  CGRAPH_LEVEL_DEBUG = 0,
+  CGRAPH_LEVEL_INFO = 1,
+  CGRAPH_LEVEL_NOTICE = 2,
+  CGRAPH_LEVEL_WARN = 3,
+  CGRAPH_LEVEL_ERROR = 4,
+  CGRAPH_LEVEL_FATAL = 5
+} cgraph_level_t;
+
+#define CGRAPH_LEVEL_SIZE (6)
+
+cgraph_bool_t cgraph_error_chptr(FILE *fp);
+cgraph_bool_t cgraph_error_chptr_by_file(const cgraph_char_t *file);
+
+extern const cgraph_char_t *cgraph_error_level(const cgraph_level_t level);
+extern void cgraph_error_time(void);
+extern cgraph_size_t cgraph_error_printf(const cgraph_char_t *file,
+                                         const cgraph_char_t *function,
+                                         const cgraph_size_t line,
+                                         const cgraph_level_t level,
+                                         const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_error_fprintf(FILE *fp, const cgraph_char_t *file,
+                                          const cgraph_char_t *function,
+                                          const cgraph_size_t line,
+                                          const cgraph_level_t level,
+                                          const cgraph_char_t *format, ...);
+extern cgraph_size_t
+cgraph_error_snprintf(cgraph_char_t *cbuf, cgraph_size_t len,
+                      const cgraph_char_t *file, const cgraph_char_t *function,
+                      const cgraph_size_t line, const cgraph_level_t level,
+                      const cgraph_char_t *format, ...);
+extern cgraph_size_t
+cgraph_error_fsnprintf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t len,
+                       const cgraph_char_t *file, const cgraph_char_t *function,
+                       const cgraph_size_t line, const cgraph_level_t level,
+                       const cgraph_char_t *format, ...);
 
 /** corresponding to the argument order of above function calling */
-#define CGRAPH_ERROR_STYLE "[%s>%ld] "
+#define CGRAPH_ERROR_STYLE "[%s>%ld] [%s] "
 #define CGRAPH_ERROR_STYLE_ENTRY __FILE__, __LINE__
-#define CGRAPH_ERROR_FUNCTION_STYLE "[%s>%s>%ld] "
+#define CGRAPH_ERROR_FUNCTION_STYLE "[%s>%s>%ld] [%s] "
 #define CGRAPH_ERROR_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
-#define CGRAPH_ERROR_TIME_STYLE "[%s@%s>%ld] "
+#define CGRAPH_ERROR_TIME_STYLE "[%s@%s>%ld] [%s] "
 #define CGRAPH_ERROR_TIME_STYLE_ENTRY __FILE__, __LINE__
-#define CGRAPH_ERROR_TIME_FUNCTION_STYLE "[%s@%s>%s>%ld] "
+#define CGRAPH_ERROR_TIME_FUNCTION_STYLE "[%s@%s>%s>%ld] [%s] "
 #define CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
 
 #ifdef __cplusplus

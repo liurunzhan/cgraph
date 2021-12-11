@@ -11,8 +11,17 @@
 
 #include "cgraph_template_struct.ht"
 
+extern TYPE *FUNCTION(NAME, create)(const cgraph_type_t type,
+                                    const cgraph_size_t row,
+                                    const cgraph_size_t column);
+extern TYPE *FUNCTION(NAME, recreate)(TYPE *cthis, const cgraph_type_t type,
+                                      const cgraph_size_t row,
+                                      const cgraph_size_t column);
 extern cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, size_row)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, size_column)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, size_rowcol)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ismatrix_row)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ismatrix_column)(const TYPE *cthis);

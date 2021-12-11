@@ -461,7 +461,7 @@ cgraph_size_t cgraph_math_baslen(const cgraph_int_t data,
   return len;
 }
 
-cgraph_int_t cgraph_math_chgbas(cgraph_int_t *old, const cgraph_size_t old_len,
+cgraph_int_t cgraph_math_chbase(cgraph_int_t *old, const cgraph_size_t old_len,
                                 cgraph_int_t old_base, cgraph_int_t *new,
                                 const cgraph_size_t new_len,
                                 cgraph_int_t new_base) {

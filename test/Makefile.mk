@@ -1,9 +1,8 @@
 DIR = .
-INC = $(DIR)$(SEPARATOR)..$(SEPARATOR)include
-LIB = $(DIR)$(SEPARATOR)..$(SEPARATOR)lib
+INC = $(DIR)$(PSEP)..$(PSEP)include
+LIB = $(DIR)$(PSEP)..$(PSEP)lib
 
-PRO = cgraph
-TARGET = cgraph
+TARGET = $(PRO)
 SOURCE = $(TARGET).c
 
 ifeq ($(MY_OS), Windows)
@@ -24,10 +23,10 @@ compile:
 	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET_TEST) $(SOURCE) -L$(LIB) -static -l$(PRO) -lm
 
 test: compile
-	.$(SEPARATOR)$(TARGET_TEST) .$(SEPARATOR)elements.csv
+	.$(PSEP)$(TARGET_TEST)
 
 memchk: compile
-	$(MEMTOOL) $(MEMFLAGS) .$(SEPARATOR)$(TARGET_TEST) .$(SEPARATOR)elements.csv
+	$(MEMTOOL) $(MEMFLAGS) .$(PSEP)$(TARGET_TEST)
 
 clean:
 	$(RM) $(RMFLAGS) $(TARGET_TEST)

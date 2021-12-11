@@ -117,7 +117,7 @@ sub get_scripts
   my %scripts = ();
   if(-e $Makefile)
   {
-    open my $fin, "<", $Makefile or die "$Makefile is read error!";
+    open my $fin, "<", $Makefile or die "$Makefile is read error";
     while(<$fin>)
     {
       $_ =~ s/\r?\n//g;

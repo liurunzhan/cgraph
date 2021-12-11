@@ -10,7 +10,7 @@ my $include = File::Spec->catfile($root, "include");
 my $base = "headers";
 my $file = "$base.dot";
 
-opendir (my $din, $include) or die "$include cannot be read!";
+opendir (my $din, $include) or die "$include cannot be read";
 my @files = readdir($din);
 closedir($din);
 
@@ -38,7 +38,7 @@ foreach my $file (@files)
   }
 }
 
-open my $fout, ">", $file or die "$file is written wrong!";
+open my $fout, ">", $file or die "$file is written wrong";
 print $fout "digraph ", ucfirst($base), " {\n";
 foreach my $file (sort{$a cmp $b} keys %headers)
 {

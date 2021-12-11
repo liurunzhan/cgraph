@@ -34,7 +34,8 @@
  * SINH COSH TANH
  * LOG LOG2 LOG10
  * EXP SQRT SWAP
- * ROL3 ROR3 ROL4 ROR4 DATA_SWAP
+ * ROL3 ROR3 ROL4 ROR4
+ * DATA_SWAP
  ******************************************************************************/
 
 /** DATA TYPE MATHEMATICAL FUNCTIONS */

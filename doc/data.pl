@@ -7,7 +7,7 @@ use File::Spec;
 my $root = "..";
 my $include = File::Spec->catfile($root, "include");
 
-opendir (my $din, $include) or die "$include cannot be read!";
+opendir (my $din, $include) or die "$include cannot be read";
 my @files = readdir($din);
 closedir($din);
 

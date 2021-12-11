@@ -615,20 +615,113 @@ cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE *cthis) {
 TYPE *FUNCTION(NAME, chomp)(TYPE *cthis) {
 #ifdef __PLAT_WINDOWS
   if ((NULL != cthis) && (1 < cthis->len)) {
-    if ((__PLAT_LEND_C0 == cthis->data[cthis->len - 2]) &&
-        (__PLAT_LEND_C1 == cthis->data[cthis->len - 1])) {
-      cthis->len -= 2;
-      cthis->data[cthis->len] = '\0';
+    cgraph_size_t len_1 = cthis->len - 1, len_2 = len_1 - 1;
+    if ((__PLAT_LEND_C0 == cthis->data[len_2]) &&
+        (__PLAT_LEND_C1 == cthis->data[len_1])) {
+      cthis->len = len_2;
+      cthis->data[len_2] = '\0';
     }
   }
 #else
   if (CGRAPH_HASDATA(cthis)) {
-    if (__PLAT_LEND_C == cthis->data[cthis->len - 1]) {
-      cthis->len -= 1;
-      cthis->data[cthis->len] = '\0';
+    cgraph_size_t len_1 = cthis->len - 1;
+    cgraph_file_fprintfln(stdout, "len : %ld", len_1);
+    if (__PLAT_LEND_C == cthis->data[len_1]) {
+      cthis->len = len_1;
+      cthis->data[len_1] = '\0';
     }
   }
 #endif
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, strip)(TYPE *cthis, const cgraph_char_t *data) {
+  if (CGRAPH_HASDATA(cthis)) {
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, lstrip)(TYPE *cthis, const cgraph_char_t *data) {
+  if (CGRAPH_HASDATA(cthis)) {
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, rstrip)(TYPE *cthis, const cgraph_char_t *data) {
+  if (CGRAPH_HASDATA(cthis)) {
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, stripc)(TYPE *cthis, const DATA_TYPE data) {
+  if (CGRAPH_HASDATA(cthis)) {
+    DATA_TYPE *data_start_ptr = CGRAPH_DATA_START(cthis);
+    DATA_TYPE *data_end_ptr = CGRAPH_DATA_END(cthis);
+    if ('\0' == data) {
+      while (cgraph_math_isspace(*data_end_ptr)) {
+        data_end_ptr--;
+        cthis->len--;
+      }
+      while (cgraph_math_isspace(*data_start_ptr)) {
+        data_start_ptr++;
+        cthis->len--;
+      }
+      cthis->data = data_start_ptr;
+    } else {
+      while (data == *data_end_ptr) {
+        data_end_ptr--;
+        cthis->len--;
+      }
+      while (data == *data_start_ptr) {
+        data_start_ptr++;
+        cthis->len--;
+      }
+      cthis->data = data_start_ptr;
+    }
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, lstripc)(TYPE *cthis, const DATA_TYPE data) {
+  if (CGRAPH_HASDATA(cthis)) {
+    DATA_TYPE *data_start_ptr = CGRAPH_DATA_START(cthis);
+    if ('\0' == data) {
+      while (cgraph_math_isspace(*data_start_ptr)) {
+        data_start_ptr++;
+        cthis->len--;
+      }
+    } else {
+      while (data == *data_start_ptr) {
+        data_start_ptr++;
+        cthis->len--;
+      }
+      cthis->data = data_start_ptr;
+    }
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, rstripc)(TYPE *cthis, const DATA_TYPE data) {
+  if (CGRAPH_HASDATA(cthis)) {
+    DATA_TYPE *data_end_ptr = CGRAPH_DATA_END(cthis);
+    if ('\0' == data) {
+      while (cgraph_math_isspace(*data_end_ptr)) {
+        data_end_ptr--;
+        cthis->len--;
+      }
+    } else {
+      while (data == *data_end_ptr) {
+        data_end_ptr--;
+        cthis->len--;
+      }
+    }
+  }
 
   return cthis;
 }

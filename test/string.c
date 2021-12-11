@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
   TYPE *string1 = FUNCTION(NAME, calloc)(ID, 10000);
   TYPE *string2 = FUNCTION(NAME, calloc)(ID, 10000);
   char *cstr = "hello world world world !world", *str1 = "world";
+  char *cstr2 = "hello world\r\n";
   cgraph_size_t i = 2;
   cgraph_file_fprintfln(stdout, "test %s", STRING(NAME));
   if (NULL != string) {
@@ -48,6 +49,12 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintfln(stdout, "%s", string2->data);
   string = FUNCTION(NAME, mul)(string1, string2, string);
   cgraph_file_fprintfln(stdout, "%s", string->data);
+
+  cgraph_file_fprintfln(stdout, "test chomp");
+  string1 = FUNCTION(NAME, initc)(string1, cstr2, cgraph_strlen(cstr2));
+  cgraph_file_fprintf(stdout, "%s", string1->data);
+  string1 = FUNCTION(NAME, chomp)(string1);
+  cgraph_file_fprintfln(stdout, "%ld : %s", string1->len, string1->data);
 
   FUNCTION(NAME, free)(string);
   FUNCTION(NAME, free)

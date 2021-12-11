@@ -1,6 +1,8 @@
 # a simple Makefile to compile cgraph and generate static and shared library, 
 # which crosses the platforms of windows and linux.
 
+export PRO = cgraph
+
 export CC = cc
 export CFLAGS = -std=c89 -Wall -pedantic -fPIC
 export MAKE ?= make
@@ -60,9 +62,9 @@ export RMDIR = -rd
 export RMDIRFLAGS = /Q
 export CP = -copy
 export CPFLAGS = /Y
-export LIBSTATIC = $(LIBTARGET).lib
-export LIBSHARED = $(LIBTARGET).dll
-export SEPARATOR = \\
+export LIBSTATIC_SUFFIX = .lib
+export LIBSHARED_SUFFIX = .dll
+export PSEP = \\
 export SPLIT = &
 else
 export RM = -rm
@@ -73,20 +75,18 @@ export RMDIR = -rm
 export RMDIRFLAGS = -rf
 export CP = -cp
 export CPFLAGS =
-export LIBSTATIC = $(LIBTARGET).a
-export LIBSHARED = $(LIBTARGET).so
-export SEPARATOR = /
+export LIBSTATIC_SUFFIX = .a
+export LIBSHARED_SUFFIX = .so
+export PSEP = /
 export SPLIT = ;
 endif
 
 DIR = .
-INC = $(DIR)$(SEPARATOR)include
-SRC = $(DIR)$(SEPARATOR)src
-TST = $(DIR)$(SEPARATOR)test
-LIB = $(DIR)$(SEPARATOR)lib
-PATH_LIBSHARED = $(LIB)$(SEPARATOR)$(LIBSHARED)
-PATH_LIBSTATIC = $(LIB)$(SEPARATOR)$(LIBSTATIC)
-DOC = $(DIR)$(SEPARATOR)doc
+INC = $(DIR)$(PSEP)include
+SRC = $(DIR)$(PSEP)src
+TST = $(DIR)$(PSEP)test
+LIB = $(DIR)$(PSEP)lib
+DOC = $(DIR)$(PSEP)doc
 
 .PHONY: all test memchk gtkdoc doxygen format clean distclean update help
 
@@ -116,24 +116,19 @@ endif
 	doxygen
 
 format:
-	astyle --style=kr $(INC)$(SEPARATOR)*.h $(INC)$(SEPARATOR)*.ht $(SRC)$(SEPARATOR)*.c $(SRC)$(SEPARATOR)*.ct $(TST)$(SEPARATOR)*.c
+	astyle --style=kr $(INC)$(PSEP)*.h $(INC)$(PSEP)*.ht $(SRC)$(PSEP)*.c $(SRC)$(PSEP)*.ct $(TST)$(PSEP)*.c
 
 clean:
 	@echo "clean cgraph in Platform $(MY_OS)"
 	$(MAKE) -C $(SRC) -f Makefile.mk clean
 	$(MAKE) -C $(TST) -f Makefile.mk clean
 	$(MAKE) -C $(DOC) -f Makefile.mk clean
-	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
-	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
 
 distclean:
 	@echo "distclean cgraph in Platform $(MY_OS)"
 	$(MAKE) -C $(SRC) -f Makefile.mk distclean
 	$(MAKE) -C $(TST) -f Makefile.mk distclean
 	$(MAKE) -C $(DOC) -f Makefile.mk distclean
-	$(RM) $(RMFLAGS) $(PATH_LIBSTATIC)
-	$(RM) $(RMFLAGS) $(PATH_LIBSHARED)
-	$(RMDIR) $(RMDIRFLAGS) $(LIB)
 
 update:
 	git clean -xf

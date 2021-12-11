@@ -32,6 +32,17 @@
 # The name of the module, e.g. 'glib'.
 DOC_MODULE=cgraph
 
+INC=$(top_srcdir)/include
+SRC=$(top_srcdir)/src
+SRC_FUNC=$(SRC)/func
+SRC_TYPE=$(SRC)/type
+SRC_TYPE_BASIC=$(SRC_TYPE)/basic
+SRC_TYPE_DATA_DIR=$(SRC_TYPE)/data
+SRC_TYPE_OBJECT=$(SRC_TYPE)/object
+SRC_TYPE_STRUCTURE=$(SRC_TYPE)/structure
+SRC_GAME=$(SRC)/game
+SRC_GRAPH=$(SRC)/graph
+
 # Uncomment for versioned docs and specify the version of the module, e.g. '2'.
 DOC_MODULE_VERSION=0.0.0
 
@@ -42,14 +53,14 @@ DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.xml
 # gtk-doc will search all .c and .h files beneath these paths
 # for inline comments documenting functions and macros.
 # e.g. DOC_SOURCE_DIR=$(top_srcdir)/gtk $(top_srcdir)/gdk
-DOC_SOURCE_DIR=$(top_srcdir)/include $(top_srcdir)/src
+DOC_SOURCE_DIR=$(INC) $(SRC)
 
 # Extra options to pass to gtkdoc-scangobj. Normally not needed.
 SCANGOBJ_OPTIONS=--module=$(DOC_MODULE)
 
 # Extra options to supply to gtkdoc-scan.
 # e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED"
-SCAN_OPTIONS=--module=$(DOC_MODULE) $(top_srcdir)/src/*.c $(top_srcdir)/src/*.ct $(top_srcdir)/include/*.ht $(top_srcdir)/include/*.h
+SCAN_OPTIONS=--module=$(SRC)/*.c $(SRC_FUNC)/*.c $(SRC_TYPE)/*.c $(SRC_TYPE)/*.ct $(SRC_TYPE_BASIC)/*.c $(SRC_TYPE_DATA_DIR)/*.c $(SRC_TYPE_OBJECT)/*.c $(SRC_TYPE_STRUCTURE)/*.c $(SRC_GAME)/*.c $(SRC_GRAPH)/*.c $(INC)/*.ht $(INC)/*.h
 
 # Extra options to supply to gtkdoc-mkdb
 # e.g. MKDB_OPTIONS=--xml-mode --output-format=xml
@@ -65,8 +76,8 @@ FIXXREF_OPTIONS=
 # Used for dependencies. The docs will be rebuilt if any of these change.
 # e.g. HFILE_GLOB=$(top_srcdir)/gtk/*.h
 # e.g. CFILE_GLOB=$(top_srcdir)/gtk/*.c
-HFILE_GLOB=$(top_srcdir)/include/*.ht $(top_srcdir)/include/*.h
-CFILE_GLOB=$(top_srcdir)/src/*.ct $(top_srcdir)/src/*.c
+HFILE_GLOB=$(INC)/*.ht $(INC)/*.h
+CFILE_GLOB=$(SRC)/*.c $(SRC_FUNC)/*.c $(SRC_TYPE)/*.c $(SRC_TYPE)/*.ct $(SRC_TYPE_BASIC)/*.c $(SRC_TYPE_DATA_DIR)/*.c $(SRC_TYPE_OBJECT)/*.c $(SRC_TYPE_STRUCTURE)/*.c $(SRC_GAME)/*.c $(SRC_GRAPH)/*.c
 
 # Extra header to include when scanning, which are not under DOC_SOURCE_DIR
 # e.g. EXTRA_HFILES=$(top_srcdir}/contrib/extra.h
@@ -93,7 +104,7 @@ expand_content_files=
 # signals and properties.
 # e.g. GTKDOC_CFLAGS=-I$(top_srcdir) -I$(top_builddir) $(GTK_DEBUG_FLAGS)
 # e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
-GTKDOC_CFLAGS=-I$(top_srcdir) -I$(top_builddir)
+GTKDOC_CFLAGS=-I$(top_srcdir) -I$(SRC_TYPE) -I$(top_builddir)
 GTKDOC_LIBS=
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.

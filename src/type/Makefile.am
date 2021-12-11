@@ -19,7 +19,7 @@ BASE_SOURCES = template_base.ct
 
 DATA_BASE_SOURCES = template_data.ct template_cbuf.ct
 
-INT_BASE_SOURCES = template_int.ct cgraph_template_int_soft.ct
+INT_BASE_SOURCES = template_int.ct template_int_soft.ct
 
 FLOAT_BASE_SOURCES = template_float.ct template_float_soft.ct
 

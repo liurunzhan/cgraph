@@ -51,7 +51,7 @@ RMDIR = rd
 RMDIRFLAGS = /Q
 CP = copy
 CPFLAGS = /Y
-SEPARATOR = \\
+PSEP = \\
 SPLIT = &
 else
 RM = rm
@@ -62,15 +62,15 @@ RMDIR = rm
 RMDIRFLAGS = -rf
 CP = cp
 CPFLAGS =
-SEPARATOR = /
+PSEP = /
 SPLIT = ;
 endif
 
-SCRDIR = .$(SEPARATOR)tools$(SEPARATOR)script$(SEPARATOR)
+SCRDIR = .$(PSEP)tools$(PSEP)script$(PSEP)
 
 ifeq ($(MAKELEVEL), 0)
 $(ALL):
-	echo "Makefile.sub can not be directly made!"
+	echo "Makefile.sub can not be directly made"
 	exit "$$?"
 endif
 

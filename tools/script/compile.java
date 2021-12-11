@@ -62,16 +62,15 @@ public class Compile {
       }
       List<String> OFILES = new ArrayList<String>();
       for(File file : CFILES) {
+				String obj = file.getPath().replace(".c", ".o");
         try {
-          String obj = file.getPath().replace(".c", ".o");
-          String dep = file.getPath().replace(".c", ".d");
+					String dep = file.getPath().replace(".c", ".d");
           String cmd = String.format("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep);
           System.out.println(String.format("compile %s to %s", file, obj));
           Process program = Runtime.getRuntime().exec(cmd);
           OFILES.add(obj);
         } catch (Exception e) {
-          String obj = file.getPath().replace(".c", ".o");
-          System.out.println(String.format("compile %s to %s error!", file, obj));
+          System.out.println(String.format("ERROR: compile %s to %s", file, obj));
         }
       }
       try {
@@ -79,14 +78,14 @@ public class Compile {
         System.out.println(String.format("compile %s", LIBSHARED));
         Process program = Runtime.getRuntime().exec(cmd);
       } catch (Exception e) {
-        System.out.println(String.format("compile *.o to %s error!", LIBSHARED));
+        System.out.println(String.format("ERROR: compile *.o to %s", LIBSHARED));
       }
       try {
         String cmd = String.format("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, String.join(" ", OFILES));
         System.out.println(String.format("compile %s", LIBSTATIC));
         Process program = Runtime.getRuntime().exec(cmd);
       } catch (Exception e) {
-        System.out.println(String.format("compile *.o to %s error!", LIBSTATIC));
+        System.out.println(String.format("ERROR: compile *.o to %s", LIBSTATIC));
       }
     } else if (args[0].equals("test")) {
       try {
@@ -94,14 +93,14 @@ public class Compile {
         System.out.println(String.format("compile %s to %s", TSTFILE, TSTTARGET));
         Process program = Runtime.getRuntime().exec(cmd);
       } catch (Exception e) {
-        System.out.println(String.format("compile %s to %s error!", TSTFILE, TSTTARGET));
+        System.out.println(String.format("ERROR: compile %s to %s", TSTFILE, TSTTARGET));
       }
       try {
         String cmd = String.format("%s %s", TSTTARGET, TST + File.separator + "elements.csv");
         System.out.println(String.format("test %s with %s", TSTTARGET, TST + File.separator + "elements.csv"));
         Process program = Runtime.getRuntime().exec(cmd);
       } catch (Exception e) {
-        System.out.println(String.format("test %s with %s error!", TSTTARGET, TST + File.separator + "elements.csv"));
+        System.out.println(String.format("ERROR: test %s with %s", TSTTARGET, TST + File.separator + "elements.csv"));
       }
     } else if (args[0].equals("clean")) {
       for(File file : CFILES) {

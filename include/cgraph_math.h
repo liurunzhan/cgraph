@@ -144,7 +144,7 @@ extern cgraph_size_t cgraph_math_namlen(const cgraph_char_t *data,
                                         cgraph_char_t **start);
 extern cgraph_size_t cgraph_math_baslen(const cgraph_int_t data,
                                         const cgraph_int_t base);
-extern cgraph_int_t cgraph_math_chgbas(cgraph_int_t *old,
+extern cgraph_int_t cgraph_math_chbase(cgraph_int_t *old,
                                        const cgraph_size_t old_len,
                                        cgraph_int_t old_base, cgraph_int_t *new,
                                        const cgraph_size_t new_len,

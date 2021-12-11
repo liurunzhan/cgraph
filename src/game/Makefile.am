@@ -1,4 +1,4 @@
-SOURCES = cmdarg.c verilog.c
+SOURCES = sudoku.c cmdarg.c verilog.c
 
 if DEBUG
 MODE_FLAGS            = -DDEBUG

@@ -27,6 +27,7 @@ extern "C" {
 #include "cgraph_data.h"
 #include "cgraph_error.h"
 #include "cgraph_file.h"
+#include "cgraph_game.h"
 #include "cgraph_gobject.h"
 #include "cgraph_hobject.h"
 #include "cgraph_m3object.h"

@@ -6,14 +6,14 @@ require('os')
 require('table')
 require('lfs') -- luafilesystem, installed by "luarocks install luafilesystem"
 
-SEPARATOR = string.sub(package.config, 0, 1)
+PSEP = string.sub(package.config, 0, 1)
 
 PRO = "cgraph"
 DIR = "."
-INC = DIR .. SEPARATOR .. "include"
-SRC = DIR .. SEPARATOR .. "src"
-TST = DIR .. SEPARATOR .. "test"
-LIB = DIR .. SEPARATOR .. "lib"
+INC = DIR .. PSEP .. "include"
+SRC = DIR .. PSEP .. "src"
+TST = DIR .. PSEP .. "test"
+LIB = DIR .. PSEP .. "lib"
 
 CC = "cc"
 CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
@@ -30,22 +30,22 @@ end
 AR = "ar"
 ARFLAGS = "-rcs"
 
-if SEPARATOR == "\\" then
-  LIBSHARED = LIB .. SEPARATOR .. "lib" .. PRO .. ".dll"
-  LIBSTATIC = LIB .. SEPARATOR .. "lib" .. PRO .. ".lib"
-  TSTFILE   = TST .. SEPARATOR .. PRO .. ".c"
-  TSTTARGET = TST .. SEPARATOR .. PRO .. ".exe"
+if PSEP == "\\" then
+  LIBSHARED = LIB .. PSEP .. "lib" .. PRO .. ".dll"
+  LIBSTATIC = LIB .. PSEP .. "lib" .. PRO .. ".lib"
+  TSTFILE   = TST .. PSEP .. PRO .. ".c"
+  TSTTARGET = TST .. PSEP .. PRO .. ".exe"
 else
-  LIBSHARED = LIB .. SEPARATOR .. "lib" .. PRO .. ".so"
-  LIBSTATIC = LIB .. SEPARATOR .. "lib" .. PRO .. ".a"
-  TSTFILE   = TST .. SEPARATOR .. PRO .. ".c"
-  TSTTARGET = TST .. SEPARATOR .. PRO
+  LIBSHARED = LIB .. PSEP .. "lib" .. PRO .. ".so"
+  LIBSTATIC = LIB .. PSEP .. "lib" .. PRO .. ".a"
+  TSTFILE   = TST .. PSEP .. PRO .. ".c"
+  TSTTARGET = TST .. PSEP .. PRO
 end
 
 CFILES = {}
 for file in lfs.dir(SRC) do
   if string.match(file, ".c$") then
-    table.insert(CFILES, SRC .. SEPARATOR .. file)
+    table.insert(CFILES, SRC .. PSEP .. file)
   end
 end
 
@@ -66,8 +66,8 @@ if not arg[1] then
 elseif arg[1] == "test" then
 	print(string.format("compile %s to %s", TSTFILE, TSTTARGET))
 	os.execute(string.format("%s %s -I%s -o %s $ -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
-	print(string.format("test %s with %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
-	os.execute(string.format("%s %s", TSTTARGET, TST .. SEPARATOR .. "elements.csv"))
+	print(string.format("test %s with %s", TSTTARGET, TST .. PSEP .. "elements.csv"))
+	os.execute(string.format("%s %s", TSTTARGET, TST .. PSEP .. "elements.csv"))
 elseif arg[1] == "clean" then
   for index, file in pairs(CFILES) do
 		obj = string.gsub(file, ".c$", ".o")

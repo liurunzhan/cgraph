@@ -60,7 +60,7 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
                          ((CGRAPH_FALSE == cthis->postive) ? 2 : 1);
     FUNCTION(NAME, bufmem)(size);
     len = FUNCTION(NAME, snprint)(CGRAPH_CBUF_PTR, size, cthis);
-    cgraph_file_fputs(fp, CGRAPH_CBUF_PTR, len);
+    cgraph_file_fputs(CGRAPH_CBUF_PTR, len, fp);
     FUNCTION(NAME, bufdel)();
   }
 

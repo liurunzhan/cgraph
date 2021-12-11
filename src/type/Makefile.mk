@@ -1,32 +1,49 @@
-DIR = .
-INC = $(DIR)$(SEPARATOR)..$(SEPARATOR)include
-LIB = $(DIR)$(SEPARATOR)..$(SEPARATOR)lib
+DIR = ..
+INC = $(DIR)$(PSEP)..$(PSEP)include
+LIB = .
 
-BASIC      = basic
-DATA       = data
-OBJECT_DIR = object
-STRUCTURE  = structure
+BASIC     = basic
+DATA      = data
+MYOBJECT  = object
+STRUCTURE = structure
+
+BASIC_DIR     = $(LIB)$(PSEP)$(BASIC)
+DATA_DIR      = $(LIB)$(PSEP)$(DATA)
+MYOBJECT_DIR  = $(LIB)$(PSEP)$(MYOBJECT)
+STRUCTURE_DIR = $(LIB)$(PSEP)$(STRUCTURE)
+
+LIBSTATIC_BASIC      = lib$(BASIC)$(LIBSTATIC_SUFFIX)
+LIBSTATIC_DATA       = lib$(DATA)$(LIBSTATIC_SUFFIX)
+LIBSTATIC_MYOBJECT = lib$(MYOBJECT)$(LIBSTATIC_SUFFIX)
+LIBSTATIC_STRUCTURE  = lib$(STRUCTURE)$(LIBSTATIC_SUFFIX)
+
+LIBSHARED_BASIC      = lib$(BASIC)$(LIBSHARED_SUFFIX)
+LIBSHARED_DATA       = lib$(DATA)$(LIBSHARED_SUFFIX)
+LIBSHARED_MYOBJECT = lib$(MYOBJECT)$(LIBSHARED_SUFFIX)
+LIBSHARED_STRUCTURE  = lib$(STRUCTURE)$(LIBSHARED_SUFFIX)
 
 SOURCE = $(wildcard *.c)
 OBJECT = $(SOURCE:.c=.o)
 DEPEND = $(SOURCE:.c=.d)
 
-LIBSTATIC_TARGET = $(LIB)$(SEPARATOR)$(LIBSTATIC)
-LIBSHARED_TARGET = $(LIB)$(SEPARATOR)$(LIBSHARED)
+LIBSTATIC_TARGET = $(LIB)$(PSEP)libtype$(LIBSTATIC_SUFFIX)
+LIBSHARED_TARGET = $(LIB)$(PSEP)libtype$(LIBSHARED_SUFFIX)
 
 .PHONY: all clean distclean
 
-all: $(OBJECT)
+all: compile $(LIBSHARED_TARGET) $(LIBSTATIC_TARGET)
+
+compile:
 	$(MAKE) -C $(BASIC) -f Makefile.mk
 	$(MAKE) -C $(DATA) -f Makefile.mk
-	$(MAKE) -C $(OBJECT_DIR) -f Makefile.mk
+	$(MAKE) -C $(MYOBJECT) -f Makefile.mk
 	$(MAKE) -C $(STRUCTURE) -f Makefile.mk
 
 $(LIBSHARED_TARGET): $(OBJECT)
-	$(CC) $(CSFLAGS) -o $(LIBSHARED_TARGET) $(OBJECT)
+	$(CC) $(CSFLAGS) -o $(LIBSHARED_TARGET) $(OBJECT) $(BASIC_DIR)$(PSEP)$(LIBSHARED_BASIC) $(DATA_DIR)$(PSEP)$(LIBSHARED_DATA) $(MYOBJECT_DIR)$(PSEP)$(LIBSHARED_MYOBJECT) $(STRUCTURE_DIR)$(PSEP)$(LIBSHARED_STRUCTURE)
 
 $(LIBSTATIC_TARGET): $(OBJECT)
-	$(AR) $(ARFLAGS) $(LIBSTATIC_TARGET) $(OBJECT)
+	$(AR) $(ARFLAGS) $(LIBSTATIC_TARGET) $(OBJECT) $(BASIC_DIR)$(PSEP)$(LIBSTATIC_BASIC) $(DATA_DIR)$(PSEP)$(LIBSTATIC_DATA) $(MYOBJECT_DIR)$(PSEP)$(LIBSTATIC_MYOBJECT) $(STRUCTURE_DIR)$(PSEP)$(LIBSTATIC_STRUCTURE)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@ -MD -MF $*.d
@@ -34,15 +51,15 @@ $(LIBSTATIC_TARGET): $(OBJECT)
 -include $(DEPEND)
 
 clean:
-	$(MAKE) -C $(BASIC) -f Makefile.mk
-	$(MAKE) -C $(DATA) -f Makefile.mk
-	$(MAKE) -C $(OBJECT_DIR) -f Makefile.mk
-	$(MAKE) -C $(STRUCTURE) -f Makefile.mk
-	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND)
+	$(MAKE) -C $(BASIC) -f Makefile.mk clean
+	$(MAKE) -C $(DATA) -f Makefile.mk clean
+	$(MAKE) -C $(MYOBJECT) -f Makefile.mk clean
+	$(MAKE) -C $(STRUCTURE) -f Makefile.mk clean
+	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND) $(LIBSTATIC_TARGET) $(LIBSHARED_TARGET)
 
 distclean:
-	$(MAKE) -C $(BASIC) -f Makefile.mk
-	$(MAKE) -C $(DATA) -f Makefile.mk
-	$(MAKE) -C $(OBJECT_DIR) -f Makefile.mk
-	$(MAKE) -C $(STRUCTURE) -f Makefile.mk
-	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND)
+	$(MAKE) -C $(BASIC) -f Makefile.mk distclean
+	$(MAKE) -C $(DATA) -f Makefile.mk distclean
+	$(MAKE) -C $(MYOBJECT) -f Makefile.mk distclean
+	$(MAKE) -C $(STRUCTURE) -f Makefile.mk distclean
+	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND) $(LIBSTATIC_TARGET) $(LIBSHARED_TARGET)

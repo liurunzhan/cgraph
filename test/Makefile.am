@@ -12,7 +12,7 @@ AM_LDFLAGS  = -L$(top_srcdir)/src -lcgraph
 AM_CFLAGS   = $(FLAGS)
 AM_CPPFLAGS = $(FLAGS)
 
-TESTS = bigint bigmat bigmat3d bignum bitset cgraph float8 float16 float32 float64 float128 bool logic int int8 int16 int32 int64 int128 long time matrix matrix3d spamat spamat3d string vector verilog version
+TESTS = bigint bigmat bigmat3d bignum bitset cgraph float8 float16 float32 float64 float128 bool logic int int8 int16 int32 int64 int128 long time matrix matrix3d spamat spamat3d string vector verilog version game
 
 noinst_PROGRAMS = $(TESTS)
 
@@ -45,9 +45,14 @@ time_SOURCES      = time.c
 vector_SOURCES    = vector.c 
 verilog_SOURCES   = verilog.c
 version_SOURCES   = version.c
+game_SOURCES      = game.c
 
 clean-local:
 	-rm -f .deps/*
 
 distclean-local:
 	-rm -rf .deps
+
+@VALGRIND_CHECK_RULES@
+VALGRIND_SUPPRESSIONS_FILES = my-project.supp
+EXTRA_DIST = my-project.supp

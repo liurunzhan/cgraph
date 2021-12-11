@@ -308,8 +308,8 @@ cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
 #endif
 
 /** output functions */
-cgraph_size_t cgraph_file_fputs(FILE *fp, const cgraph_char_t *cbuf,
-                                const cgraph_size_t size) {
+cgraph_size_t cgraph_file_fputs(const cgraph_char_t *cbuf,
+                                const cgraph_size_t size, FILE *fp) {
   cgraph_size_t _size = 0;
   if (NULL != cbuf) {
     if (0 < size) {
@@ -321,8 +321,8 @@ cgraph_size_t cgraph_file_fputs(FILE *fp, const cgraph_char_t *cbuf,
 #ifdef DEBUG
   else {
     if (CGRAPH_ISNFILE(fp)) {
-      cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                       "file handle is error");
+      cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                          "file handle is error");
     }
   }
 #endif
@@ -330,8 +330,8 @@ cgraph_size_t cgraph_file_fputs(FILE *fp, const cgraph_char_t *cbuf,
   return _size;
 }
 
-cgraph_size_t cgraph_file_rfputs(FILE *fp, const cgraph_char_t *cbuf,
-                                 const cgraph_size_t size) {
+cgraph_size_t cgraph_file_frputs(const cgraph_char_t *cbuf,
+                                 const cgraph_size_t size, FILE *fp) {
   if (CGRAPH_ISBUF(cbuf, size)) {
     cgraph_size_t i;
     cgraph_char_t *data = (cgraph_char_t *)&cbuf[size - 1];
@@ -342,8 +342,8 @@ cgraph_size_t cgraph_file_rfputs(FILE *fp, const cgraph_char_t *cbuf,
 #ifdef DEBUG
   else {
     if (CGRAPH_ISNFILE(fp)) {
-      cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                       "file handle is error");
+      cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                          "file handle is error");
     }
   }
 #endif
@@ -351,7 +351,7 @@ cgraph_size_t cgraph_file_rfputs(FILE *fp, const cgraph_char_t *cbuf,
   return size;
 }
 
-__INLINE cgraph_size_t cgraph_file_sprintnl(cgraph_char_t *cbuf,
+__INLINE cgraph_size_t cgraph_file_sprintln(cgraph_char_t *cbuf,
                                             const cgraph_size_t size,
                                             const cgraph_size_t pos) {
   if ((NULL != cbuf) && ((pos + __PLAT_LEND_SIZE) < size)) {
@@ -371,7 +371,7 @@ __INLINE cgraph_size_t cgraph_file_fprintln(FILE *fp) {
   return fputs(__PLAT_LEND, fp);
 }
 
-cgraph_size_t cgraph_file_printnl(void) { return cgraph_file_fprintln(stdout); }
+cgraph_size_t cgraph_file_println(void) { return cgraph_file_fprintln(stdout); }
 
 cgraph_size_t cgraph_file_vfprintf(FILE *fp, const cgraph_char_t *format,
                                    va_list args) {
@@ -383,8 +383,8 @@ cgraph_size_t cgraph_file_fprintf(FILE *fp, const cgraph_char_t *format, ...) {
   va_list args;
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
 #endif
   va_start(args, format);
@@ -410,8 +410,8 @@ cgraph_size_t cgraph_file_fprintfln(FILE *fp, const cgraph_char_t *format,
   va_list args;
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
 #endif
   va_start(args, format);
@@ -468,8 +468,31 @@ cgraph_size_t cgraph_file_snprintf(cgraph_char_t *cbuf,
   }
 #ifdef DEBUG
   if ((NULL == cbuf) || (0 >= size)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file cbuf is empty");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file cbuf is empty");
+  }
+  if (0 >= size) {
+  }
+#endif
+
+  return _size;
+}
+
+extern cgraph_size_t cgraph_file_fsnprintf(FILE *fp, cgraph_char_t *cbuf,
+                                           const cgraph_size_t size,
+                                           const cgraph_char_t *format, ...) {
+  cgraph_size_t _size = 0;
+  if (CGRAPH_ISBUF(cbuf, size)) {
+    va_list args;
+    va_start(args, format);
+    _size = cgraph_file_vsnprintf(cbuf, size, format, args);
+    va_end(args);
+    cgraph_file_fputs(cbuf, _size, fp);
+  }
+#ifdef DEBUG
+  if ((NULL == cbuf) || (0 >= size)) {
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file cbuf is empty");
   }
   if (0 >= size) {
   }
@@ -482,8 +505,8 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode) {
   FILE *fp = fopen(file, mode);
   if (NULL == fp) {
 #ifdef DEBUG
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "%s in style %s is opened error", file, mode);
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "%s in style %s is opened error", file, mode);
 #endif
     abort();
   }
@@ -494,8 +517,8 @@ FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode) {
 cgraph_bool_t cgraph_file_fclose(FILE *fp) {
   if (CGRAPH_ISNFILE(fp)) {
 #ifdef DEBUG
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error before closed");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error before closed");
 #endif
     clearerr(fp);
     abort();
@@ -504,8 +527,8 @@ cgraph_bool_t cgraph_file_fclose(FILE *fp) {
   return CGRAPH_TEST(0 == fclose(fp));
 }
 
-cgraph_size_t cgraph_file_fgets(FILE *fp, cgraph_char_t *cbuf,
-                                const cgraph_size_t size) {
+cgraph_size_t cgraph_file_fgets(cgraph_char_t *cbuf, const cgraph_size_t size,
+                                FILE *fp) {
   cgraph_size_t len = 0, _size = size - 1;
   if (CGRAPH_ISBUF(cbuf, _size)) {
     cgraph_char_t ch;
@@ -529,20 +552,19 @@ cgraph_size_t cgraph_file_fgets(FILE *fp, cgraph_char_t *cbuf,
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    ;
   }
   if ((NULL == cbuf) || (0 >= size)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file cbuf is empty");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file cbuf is empty");
   }
 #endif
 
   return len;
 }
 
-cgraph_size_t cgraph_file_whole(FILE *fp, cgraph_char_t *cbuf,
-                                const cgraph_size_t size) {
+cgraph_size_t cgraph_file_fread(cgraph_char_t *cbuf, const cgraph_size_t size,
+                                FILE *fp) {
   cgraph_size_t len = 0;
   if ((NULL != cbuf) && ((len = cgraph_file_size(fp)) < size)) {
     len = fread(cbuf, len, 1, fp);
@@ -552,64 +574,63 @@ cgraph_size_t cgraph_file_whole(FILE *fp, cgraph_char_t *cbuf,
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
   if ((NULL == cbuf) || (0 >= size)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file cbuf is empty");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file cbuf is empty");
   }
 #endif
 
   return len;
 }
 
-cgraph_size_t cgraph_file_header(FILE *fp, cgraph_char_t *cbuf,
-                                 const cgraph_size_t size) {
+cgraph_size_t cgraph_file_header(cgraph_char_t *cbuf, const cgraph_size_t size,
+                                 FILE *fp) {
   cgraph_size_t len = 0;
   if (CGRAPH_ISBUF(cbuf, size)) {
     fpos_t fp_init;
     fgetpos(fp, &fp_init);
     rewind(fp);
-    len = cgraph_file_fgets(fp, cbuf, size);
+    len = cgraph_file_fgets(cbuf, size, fp);
     fsetpos(fp, &fp_init);
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
   if ((NULL == cbuf) || (0 >= size)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file cbuf is empty");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file cbuf is empty");
   }
 #endif
 
   return len;
 }
 
-cgraph_size_t cgraph_file_row(FILE *fp, cgraph_char_t *cbuf,
-                              const cgraph_size_t size,
-                              const cgraph_size_t row) {
+cgraph_size_t cgraph_file_row(cgraph_char_t *cbuf, const cgraph_size_t size,
+                              const cgraph_size_t row, FILE *fp) {
   cgraph_size_t len = 0, i = 0;
   for (; i < row; i++) {
-    len = cgraph_file_fgets(fp, cbuf, size);
+    len = cgraph_file_fgets(cbuf, size, fp);
     if (len <= 0) {
       break;
     }
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
   if ((NULL == cbuf) || (0 >= size)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file cbuf is empty");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file cbuf is empty");
   }
   if (0 >= row) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "row number %ld is smaller than or equal to zero", row);
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "row number %ld is smaller than or equal to zero", row);
   }
 #endif
 
@@ -635,21 +656,20 @@ cgraph_size_t cgraph_file_rows(FILE *fp) {
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
 #endif
 
   return rows;
 }
 
-cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep,
-                                  cgraph_char_t *cbuf,
-                                  const cgraph_size_t size) {
+cgraph_size_t cgraph_file_columns(cgraph_char_t *cbuf, const cgraph_size_t size,
+                                  cgraph_char_t *sep, FILE *fp) {
   cgraph_size_t columns = 0;
   if (NULL != sep) {
     char *cstr = NULL;
-    cgraph_file_header(fp, cbuf, size);
+    cgraph_file_header(cbuf, size, fp);
     cstr = cgraph_strtok(cbuf, sep);
     while (NULL != cstr) {
       columns += 1;
@@ -658,12 +678,12 @@ cgraph_size_t cgraph_file_columns(FILE *fp, cgraph_char_t *sep,
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
   if (NULL == sep) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "line seperator is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "line seperator is error");
   }
 #endif
 
@@ -678,8 +698,8 @@ cgraph_int32_t cgraph_file_size32(FILE *fp) {
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
 #endif
 
@@ -702,8 +722,8 @@ cgraph_int64_t cgraph_file_size64(FILE *fp) {
   }
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
-    cgraph_error_log(stderr, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY,
-                     "file handle is error");
+    cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                        "file handle is error");
   }
 #endif
 

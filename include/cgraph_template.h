@@ -61,12 +61,36 @@
 
 #define CGRAPH_STRUCTURE_ROOT DATA_TYPE data, root;
 
+/** 2D MATRIX */
 #define CGRAPH_MATRIX_INDEXES cgraph_size_t row, column;
+#define MATRIX_ROW(x) ((x)->row)
+#define MATRIX_COLUMN(x) ((x)->column)
+#define MATRIX_SIZE(x) (MATRIX_ROW(x) * MATRIX_COLUMN(x))
 
-#define CGRAPH_MATRIX_ROW(x) ((NULL != (x)) ? (x)->row : 0)
-#define CGRAPH_MATRIX_COLUMN(x) ((NULL != (x)) ? (x)->column : 0)
+#define CGRAPH_MATRIX_ROW(x) ((NULL != (x)) ? MATRIX_ROW(x) : 0)
+#define CGRAPH_MATRIX_COLUMN(x) ((NULL != (x)) ? MATRIX_COLUMN(x) : 0)
+#define CGRAPH_MATRIX_SIZE(x) (CGRAPH_MATRIX_ROW(x) * CGRAPH_MATRIX_COLUMN(x))
+
+/** 3D MATRIX */
 #define CGRAPH_MATRIX3D_INDEXES cgraph_size_t index_i, index_j, index_k;
+#define MATRIX3D_INDEX_I(x) ((x)->index_i)
+#define MATRIX3D_INDEX_J(x) ((x)->index_j)
+#define MATRIX3D_INDEX_K(x) ((x)->index_k)
+#define MATRIX3D_SIZE_IJ(x) (MATRIX3D_INDEX_I(x) * MATRIX3D_INDEX_J(x))
+#define MATRIX3D_SIZE_IK(x) (MATRIX3D_INDEX_I(x) * MATRIX3D_INDEX_K(x))
+#define MATRIX3D_SIZE_JK(x) (MATRIX3D_INDEX_J(x) * MATRIX3D_INDEX_K(x))
+#define MATRIX3D_SIZE(x)                                                       \
+  (MATRIX3D_INDEX_I(x) * MATRIX3D_INDEX_J(x) * MATRIX3D_INDEX_K(x))
 
-#define CGRAPH_MATRIX3D_INDEX_I(x) ((NULL != (x)) ? (x)->index_i : 0)
-#define CGRAPH_MATRIX3D_INDEX_J(x) ((NULL != (x)) ? (x)->index_j : 0)
-#define CGRAPH_MATRIX3D_INDEX_K(x) ((NULL != (x)) ? (x)->index_k : 0)
+#define CGRAPH_MATRIX3D_INDEX_I(x) ((NULL != (x)) ? MATRIX3D_INDEX_I(x) : 0)
+#define CGRAPH_MATRIX3D_INDEX_J(x) ((NULL != (x)) ? MATRIX3D_INDEX_J(x) : 0)
+#define CGRAPH_MATRIX3D_INDEX_K(x) ((NULL != (x)) ? MATRIX3D_INDEX_K(x) : 0)
+#define CGRAPH_MATRIX3D_SIZE_IJ(x)                                             \
+  (CGRAPH_MATRIX3D_INDEX_I(x) * CGRAPH_MATRIX3D_INDEX_J(x))
+#define CGRAPH_MATRIX3D_SIZE_IK(x)                                             \
+  (CGRAPH_MATRIX3D_INDEX_I(x) * CGRAPH_MATRIX3D_INDEX_K(x))
+#define CGRAPH_MATRIX3D_SIZE_JK(x)                                             \
+  (CGRAPH_MATRIX3D_INDEX_J(x) * CGRAPH_MATRIX3D_INDEX_K(x))
+#define CGRAPH_MATRIX3D_SIZE(x)                                                \
+  (CGRAPH_MATRIX3D_INDEX_I(x) * CGRAPH_MATRIX3D_INDEX_J(x) *                   \
+   CGRAPH_MATRIX3D_INDEX_K(x))

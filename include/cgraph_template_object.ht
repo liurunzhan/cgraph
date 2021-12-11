@@ -50,8 +50,8 @@ extern cgraph_bool_t FUNCTION(NAME, isaccess)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isconst)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ishash)(const TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
-                                     const cgraph_size_t size);
+extern TYPE *FUNCTION(NAME, chtype)(TYPE *cthis, const cgraph_type_t type,
+                                    const cgraph_size_t size);
 extern TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, unsetaccess)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, sethash)(TYPE *cthis);

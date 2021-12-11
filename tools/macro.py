@@ -83,15 +83,14 @@ def read_macro_by_file(file, template):
 	return macros, headers
 
 def arg_parse():
-	parser = argparse.ArgumentParser(description="")
-	parser.add_argument("ifile", help="input file")
-	parser.add_argument("ofile", help="output file")
-	parser.add_argument("--template", required=True, help="template macro file")
-	parser.add_argument("--comment", required=True, help="comment in the end of file")
+	parser = argparse.ArgumentParser(description="update C-type macro definitions")
+	parser.add_argument("file", help="input file")
+	parser.add_argument("-t", "--template", required=True, help="template macro file")
+	parser.add_argument("-c", "--comment", required=True, help="comment in the end of file")
 	def func(args):
 		template = read_template_by_file(file=args.template)
-		macros, headers = read_macro_by_file(file=args.ifile, template=template)
-		with open(args.ofile, "w") as fout:
+		macros, headers = read_macro_by_file(file=args.file, template=template)
+		with open(args.file, "w") as fout:
 			for line in headers:
 				print(line, file=fout)
 			print("", file=fout)

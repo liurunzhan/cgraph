@@ -187,8 +187,8 @@ __INLINE cgraph_bool_t FUNCTION(NAME, ishash)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_HASH(cthis) : CGRAPH_FALSE;
 }
 
-TYPE *FUNCTION(NAME, chgtype)(TYPE *cthis, const cgraph_type_t type,
-                              const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, chtype)(TYPE *cthis, const cgraph_type_t type,
+                             const cgraph_size_t size) {
   cgraph_type_t _type = type;
   void *_data = NULL;
   if (NULL != cthis) {

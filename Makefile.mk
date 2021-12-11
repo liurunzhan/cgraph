@@ -30,7 +30,7 @@ $(TOOLS):
 	$(MAKE) -f Makefile.sub $@ TOOL=$@ CMD=$(CMD)
 
 cloc:
-	cloc include src/*.c* src/*/*.c* src/*/*/*.c* --force-lang=C,ct --force-lang="C/C++ Header",ht
+	cloc include src --force-lang=C,ct --force-lang="C/C++ Header",ht --include-ext=c,ct,h,ht
 
 cloc-all:
 	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"

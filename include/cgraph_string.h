@@ -92,6 +92,12 @@ extern TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
 extern TYPE *FUNCTION(NAME, modc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
 
 extern TYPE *FUNCTION(NAME, chomp)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, strip)(TYPE *cthis, const cgraph_char_t *data);
+extern TYPE *FUNCTION(NAME, lstrip)(TYPE *cthis, const cgraph_char_t *data);
+extern TYPE *FUNCTION(NAME, rstrip)(TYPE *cthis, const cgraph_char_t *data);
+extern TYPE *FUNCTION(NAME, stripc)(TYPE *cthis, const DATA_TYPE data);
+extern TYPE *FUNCTION(NAME, lstripc)(TYPE *cthis, const DATA_TYPE data);
+extern TYPE *FUNCTION(NAME, rstripc)(TYPE *cthis, const DATA_TYPE data);
 extern cgraph_bool_t FUNCTION(NAME, startswith)(const TYPE *cthis,
                                                 const DATA_TYPE *cstr,
                                                 const cgraph_size_t len);

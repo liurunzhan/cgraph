@@ -75,20 +75,19 @@ TYPE *FUNCTION(NAME, calloc)(const cgraph_type_t type,
 TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type,
                               const cgraph_size_t old_size,
                               cgraph_size_t new_size, cgraph_bool_t *error) {
-  TYPE *_cthis = (TYPE *)cthis;
+  cgraph_size_t size = 0;
   cgraph_type_t _type = type;
-  cgraph_size_t _size = 0;
-  if (NULL != _cthis) {
-    _type = CGRAPH_DTYPE_TYPE(_cthis);
-    _size = FUNCTION(NAME, msize)(_type, _cthis->size);
+  if (NULL != cthis) {
+    _type = CGRAPH_DTYPE_TYPE(cthis);
+    size = FUNCTION(NAME, msize)(_type, cthis->size);
   }
-  _cthis = (TYPE *)cgraph_realloc(
-      _cthis, _size, FUNCTION(NAME, msize)(_type, new_size), error);
-  if ((NULL != _cthis) || (CGRAPH_FALSE == *error)) {
-    _cthis = FUNCTION(NAME, _update)(_cthis, _type, -1, new_size);
+  cthis = (TYPE *)cgraph_realloc(cthis, size,
+                                 FUNCTION(NAME, msize)(_type, new_size), error);
+  if ((NULL != cthis) || (CGRAPH_FALSE == *error)) {
+    cthis = FUNCTION(NAME, _update)(cthis, _type, -1, new_size);
   }
 
-  return _cthis;
+  return cthis;
 }
 
 TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size) {
@@ -112,16 +111,14 @@ TYPE *FUNCTION(NAME, copy)(const TYPE *cthis, const cgraph_size_t size) {
 }
 
 void FUNCTION(NAME, free)(TYPE *cthis) {
-  TYPE *_cthis = (TYPE *)cthis;
-  if (NULL != _cthis) {
-    cgraph_type_t _type = CGRAPH_DTYPE_TYPE(_cthis);
+  if (NULL != cthis) {
+    cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
     /**missing iterator to free data objects! */
-    if ((0 == _type) || (CGRAPH_DTYPE_PTR_MIN <= _type)) {
-      OBJECT(_type, for1v)
-      (_cthis->root, _cthis->size, OBJECT(_type, free));
+    if ((0 == type) || (CGRAPH_DTYPE_PTR_MIN <= type)) {
+      OBJECT(type, for1v)
+      (cthis->root, cthis->size, OBJECT(type, free));
     }
-    cgraph_free(_cthis->root);
-    cgraph_free(_cthis);
+    cgraph_free(cthis);
   }
 }
 
@@ -185,4 +182,17 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
 
 cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y) {
   return CGRAPH_NTEST(FUNCTION(NAME, eq)(x, y));
+}
+
+cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if (NULL != cthis) {
+    cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
+  }
+
+  return len;
+}
+
+cgraph_size_t FUNCTION(NAME, print)(const TYPE *cthis) {
+  return FUNCTION(NAME, fprint)(stdout, cthis);
 }

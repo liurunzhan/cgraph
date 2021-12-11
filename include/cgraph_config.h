@@ -841,6 +841,8 @@ size, excludes data pointer size */
 #define CGRAPH_DATA_SIZE2 (8L)
 /** @} */
 
+#define CGRAPH_TIME_FMT "%Y-%m-%d %H:%M:%S"
+
 #ifdef __cplusplus
 }
 #endif

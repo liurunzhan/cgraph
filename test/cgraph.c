@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
   char *file = argv[1];
   FILE *fp = cgraph_file_fopen(file, "r");
   cgraph_size_t row = cgraph_file_rows(fp);
-  cgraph_size_t column = cgraph_file_columns(fp, ",", cbuf);
+  cgraph_size_t column = cgraph_file_columns(cbuf, 100, "," fp);
   cgraph_object_t *abc;
   cgraph_int_t i;
   fprintf(stdout, "row: %ld column : %ld\n", row, column);
@@ -87,26 +87,27 @@ int main(int argc, char *argv[]) {
 
   cgraph_verilog_test();
 
-  cgraph_error_log_cbuf(stdout, cbuf, 100, CGRAPH_ERROR_STYLE_ENTRY,
-  __FUNCTION, "%s %d %d", "hello", 1 , 2); cgraph_error_log(stdout,
+  cgraph_error_fsnprintf(stdout, cbuf, 100, CGRAPH_ERROR_STYLE_ENTRY,
+  __FUNCTION, "%s %d %d", "hello", 1 , 2); cgraph_error_fprintf(stdout,
   CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%s %d", "hello", 1);
-  cgraph_error_log(stdout, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%d",
+  cgraph_error_fprintf(stdout, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%d",
   cgraph_fraction_ismin(fraction)); cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */
-  /* cgraph_error_print(2);
+  /* cgraph_error_log(2);
      cgraph_string_test(); */
   /* cgraph_bigint_test(); */
   /*
   cgraph_version_test();
   cgraph_verilog_test();
-  printf("%ld\n", cgraph_pobject_msize(CGRAPH_POBJECT_T, 10));
+  cgraph_file_fprintfln(stdout, "%ld", cgraph_pobject_msize(CGRAPH_POBJECT_T,
+  10));
   */
   cgraph_complex_t x = CGRAPH_ZERO;
   cgraph_char_t *data = " abc[20] | _abc123", *name = &data[1];
   cgraph_int_t old[10], new[20], old_base = 10, new_base = 16;
   cgraph_size_t old_len = 10, new_len = 20, len;
-  cgraph_char_t *cstr = "hello world world world wordl!", *str1 = "world";
+  cgraph_char_t *cstr = "hello world world world wordl", *str1 = "world";
   cgraph_char_t *cpath = "/home/user/data.tar.gz.tarx.gz.tar.tar.gz";
   cgraph_char_t *csuffix = "tar.gz";
   cgraph_bool_t issuffix = CGRAPH_FALSE;
@@ -116,14 +117,14 @@ int main(int argc, char *argv[]) {
   cgraph_size_t i, j, k;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
   cgraph_cmdarg_fprintln(stdout, cmdarg);
-  cgraph_file_fprintfln(stdout, "hello world!");
+  cgraph_file_fprintfln(stdout, "hello world");
   cgraph_file_fprintfln(stdout, "%s %ld", name,
                         cgraph_math_namlen(name, cgraph_strlen(name), NULL));
   old[0] = 1;
   old[1] = 1;
   old[2] = 2;
   cgraph_file_fprintfln(stdout, "old number : %d%d%d", old[0], old[1], old[2]);
-  len = cgraph_math_chgbas(old, 3, old_base, new, new_len, new_base);
+  len = cgraph_math_chbase(old, 3, old_base, new, new_len, new_base);
   cgraph_file_fprintfln(stdout, "new number %ld : %d%d", len, new[1], new[0]);
 
   cgraph_math_kmpnext(str1, next, cgraph_strlen(str1));
