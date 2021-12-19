@@ -29,14 +29,14 @@
 #define CGRAPH_OBJECT_BASE cgraph_element_t element;
 
 #define CGRAPH_OBJECT_ROOT DATA_TYPE data;
-#define CGRAPH_OBJECT_DATA_START(a) (&((a)->data[0]))
+#define CGRAPH_OBJECT_DATA_START(x) (&((x)->data[0]))
 
 /**property inheritance of data and structure types */
 #define CGRAPH_BASE cgraph_size_t size, len;
 #define CGRAPH_SIZE(x) ((NULL != (x)) ? (x)->size : 0)
 #define CGRAPH_LEN(x) ((NULL != (x)) ? (x)->len : 0)
-#define CGRAPH_DATA_START(a) (&((a)->data[0]))
-#define CGRAPH_DATA_END(a) (&((a)->data[(a)->len - 1]))
+#define CGRAPH_DATA_START(x) (&((x)->data[0]))
+#define CGRAPH_DATA_END(x) (&((x)->data[(x)->len - 1]))
 #define CGRAPH_ISNULL(x) ((NULL == (x)) || (0 >= (x)->size))
 #define CGRAPH_HASMEM(x) ((NULL != (x)) && (0 < (x)->size))
 #define CGRAPH_ISEMPTY(x) ((NULL == (x)) || (0 >= (x)->len))

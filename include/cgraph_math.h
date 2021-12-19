@@ -200,6 +200,10 @@ extern cgraph_logic_t cgraph_rand_logic(void);
 extern cgraph_size_t cgraph_rand_size(const cgraph_size_t size);
 
 /** external mathematical functions */
+extern cgraph_size_t cgraph_math_count(const cgraph_int_t x,
+                                       const cgraph_int_t n);
+extern cgraph_size_t cgraph_math_rngcnt(const cgraph_int_t x,
+                                        const cgraph_int_t n);
 extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                          const cgraph_float64_t x);
 extern cgraph_int_t cgraph_math_ceil(const cgraph_int_t x,
@@ -222,6 +226,26 @@ extern cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y);
 extern cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x,
                                         const cgraph_int_t y,
                                         const cgraph_int_t mod);
+
+/** Function : sigmoid */
+extern cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x);
+/** Function : tanh */
+extern cgraph_float64_t cgraph_math_tanh(const cgraph_float64_t x);
+/** Function : ReLU */
+extern cgraph_float64_t cgraph_math_relu(const cgraph_float64_t x);
+/** Function : Leaky ReLU */
+extern cgraph_float64_t cgraph_math_leaky_relu(const cgraph_float64_t x,
+                                               const cgraph_float64_t a);
+/** Function : ELU  */
+extern cgraph_float64_t cgraph_math_elu(const cgraph_float64_t x,
+                                        const cgraph_float64_t a);
+/** Function : PReLU */
+extern cgraph_float64_t cgraph_math_prelu(const cgraph_float64_t x,
+                                          const cgraph_float64_t a);
+/** Function : Swish */
+extern cgraph_float64_t cgraph_math_swish(const cgraph_float64_t x);
+/** Function : Softplus */
+extern cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x);
 
 #ifdef __cplusplus
 }

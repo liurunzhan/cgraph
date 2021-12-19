@@ -14,14 +14,26 @@ TYPE *FUNCTION(NAME, create)(const cgraph_type_t type, const cgraph_size_t row,
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, recreate)(TYPE *cthis, const cgraph_type_t type,
-                               const cgraph_size_t row,
-                               const cgraph_size_t column) {
+TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
+                             const cgraph_size_t row,
+                             const cgraph_size_t column) {
   cgraph_size_t old_size = FUNCTION(NAME, size_rowcol)(cthis);
   cgraph_size_t new_size = row * column;
   cgraph_bool_t error = CGRAPH_FALSE;
-  if (NULL != (cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size,
-                                               &error))) {
+  if (old_size < new_size) {
+    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
+    if (CGRAPH_FALSE == error) {
+    }
+  } else if (old_size == new_size) {
+
+  } else {
+    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
+    if (0 != new_size) {
+    } else {
+      error = CGRAPH_TRUE;
+    }
+  }
+  if (CGRAPH_FALSE == error) {
     MATRIX_ROW(cthis) = row;
     MATRIX_COLUMN(cthis) = column;
     cthis->len = new_size;

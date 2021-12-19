@@ -16,7 +16,9 @@
 extern "C" {
 #endif
 
+#include "cgraph_cmdarg.h"
 #include "cgraph_sudoku.h"
+#include "cgraph_verilog.h"
 
 #ifdef __cplusplus
 }

@@ -23,7 +23,6 @@
 extern "C" {
 #endif
 
-#include "cgraph_cmdarg.h"
 #include "cgraph_data.h"
 #include "cgraph_error.h"
 #include "cgraph_file.h"
@@ -36,7 +35,6 @@ extern "C" {
 #include "cgraph_mobject.h"
 #include "cgraph_object.h"
 #include "cgraph_struct.h"
-#include "cgraph_verilog.h"
 #include "cgraph_version.h"
 
 #ifdef __cplusplus

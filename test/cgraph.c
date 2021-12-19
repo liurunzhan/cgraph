@@ -115,6 +115,7 @@ int main(int argc, char *argv[]) {
   cgraph_size_t *next =
       cgraph_calloc(cgraph_strlen(str1) * sizeof(cgraph_size_t));
   cgraph_size_t i, j, k;
+  cgraph_int_t num = 987, weight = 1, cnt = 0;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
   cgraph_cmdarg_fprintln(stdout, cmdarg);
   cgraph_file_fprintfln(stdout, "hello world");
@@ -139,6 +140,13 @@ int main(int argc, char *argv[]) {
   cgraph_file_os(NULL, NULL, NULL, &isbigendian);
   cgraph_file_fprintfln(stdout, "isbigendian : %s",
                         cgraph_bool_encode(isbigendian));
+  cgraph_file_fprintfln(stdout, "num : %d weight : %d cnt : %d", num, weight,
+                        cgraph_math_rngcnt(num, weight));
+  for (i = 0, cnt = 0; i <= num; i++) {
+    cnt += cgraph_math_count(i, weight);
+  }
+  cgraph_file_fprintfln(stdout, "num : %d weight : %d cnt : %d", num, weight,
+                        cnt);
 
   return 0;
 }

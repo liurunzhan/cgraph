@@ -19,10 +19,11 @@ extern "C" {
 #include "cgraph_matrix.h"
 
 extern cgraph_matrix_t *cgraph_sudoku_calloc(const cgraph_size_t size);
-extern cgraph_matrix_t *cgraph_sudoku_random(cgraph_matrix_t *cthis);
 extern void cgraph_sudoku_free(cgraph_matrix_t *cthis);
 extern cgraph_size_t cgraph_sudoku_fprintfln(FILE *fp,
                                              const cgraph_matrix_t *cthis);
+extern cgraph_matrix_t *cgraph_sudoku_random(cgraph_matrix_t *cthis);
+extern cgraph_matrix_t *cgraph_sudoku_solve(cgraph_matrix_t *cthis);
 
 #ifdef __cplusplus
 }

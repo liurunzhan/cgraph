@@ -15,10 +15,10 @@ extern TYPE *FUNCTION(NAME, create)(const cgraph_type_t type,
                                     const cgraph_size_t index_i,
                                     const cgraph_size_t index_j,
                                     const cgraph_size_t index_k);
-extern TYPE *FUNCTION(NAME, recreate)(TYPE *cthis, const cgraph_type_t type,
-                                      const cgraph_size_t index_i,
-                                      const cgraph_size_t index_j,
-                                      const cgraph_size_t index_k);
+extern TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
+                                    const cgraph_size_t index_i,
+                                    const cgraph_size_t index_j,
+                                    const cgraph_size_t index_k);
 extern cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis);

@@ -14,9 +14,9 @@
 extern TYPE *FUNCTION(NAME, create)(const cgraph_type_t type,
                                     const cgraph_size_t row,
                                     const cgraph_size_t column);
-extern TYPE *FUNCTION(NAME, recreate)(TYPE *cthis, const cgraph_type_t type,
-                                      const cgraph_size_t row,
-                                      const cgraph_size_t column);
+extern TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
+                                    const cgraph_size_t row,
+                                    const cgraph_size_t column);
 extern cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, size_row)(const TYPE *cthis);

@@ -51,9 +51,9 @@ extern "C" {
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(FLOAT64)
 #define DATA_BITS CGRAPH_FLOAT64_BITS
-#define DATA_ZERO 0.0
-#define DATA_ONE 1.0
-#define DATA_ONES 1.0
+#define DATA_ZERO (0.0)
+#define DATA_ONE (1.0)
+#define DATA_ONES (1.0)
 #define DATA_MIN CGRAPH_FLOAT64_MIN
 #define DATA_MAX CGRAPH_FLOAT64_MAX
 #define DATA_EPS CGRAPH_FLOAT64_EPS
@@ -90,8 +90,11 @@ extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n,
 extern DATA_TYPE FUNCTION(NAME, real)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, imag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
 
+extern TYPE FUNCTION(NAME, std)(const TYPE x);
 extern TYPE FUNCTION(NAME, conj)(const TYPE x);
 extern TYPE FUNCTION(NAME, opp)(const TYPE x);
 extern TYPE FUNCTION(NAME, inv)(const TYPE x);
@@ -99,6 +102,8 @@ extern TYPE FUNCTION(NAME, mul1i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul2i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul3i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul4i)(const TYPE x);
+extern TYPE FUNCTION(NAME, dot_inv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, log)(const TYPE x);
 extern TYPE FUNCTION(NAME, log2)(const TYPE x);

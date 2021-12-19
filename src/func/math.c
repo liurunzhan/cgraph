@@ -699,6 +699,39 @@ cgraph_size_t cgraph_rand_size(const cgraph_size_t size) {
 #endif
 }
 
+cgraph_size_t cgraph_math_count(const cgraph_int_t x, const cgraph_int_t n) {
+  cgraph_size_t cnt = 0;
+  if ((0 < x) && ((0 <= n) && (9 >= n))) {
+    cgraph_int_t _x = x;
+    for (; 0 < _x; _x /= 10) {
+      if (n == (_x % 10)) {
+        cnt += 1;
+      }
+    }
+  }
+
+  return cnt;
+}
+
+cgraph_size_t cgraph_math_rngcnt(const cgraph_int_t x, const cgraph_int_t n) {
+  cgraph_size_t cnt = 0;
+  if ((0 < x) && ((0 <= n) && (9 >= n))) {
+    cgraph_int_t _x = x, base = 1;
+    for (; 0 < _x; base *= 10) {
+      cgraph_int_t weight = _x % 10;
+      _x /= 10;
+      cnt += _x * base;
+      if (n == weight) {
+        cnt += (n % base) + 1;
+      } else if (n < weight) {
+        cnt += base;
+      }
+    }
+  }
+
+  return cnt;
+}
+
 cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                   const cgraph_float64_t x) {
   return log(x) / log(n);
@@ -797,4 +830,74 @@ cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y,
   }
 
   return res % mod;
+}
+
+/**
+ * Function : sigmoid
+ * Express  : f(x) = 1/(1+exp(-x))
+ */
+cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x) {
+  return 1.0 / (1.0 + exp(-1.0 * x));
+}
+
+/**
+ * Function : tanh
+ * Express  : f(x) = tanh(x) = 2/(1 + exp(-2x)) -1
+ */
+cgraph_float64_t cgraph_math_tanh(const cgraph_float64_t x) {
+  return (2.0 / (1.0 + exp(-2.0 * x)) - 1.0);
+}
+
+/**
+ * Function : ReLU
+ * Express  : f(x) = max{x, 0.0}
+ */
+cgraph_float64_t cgraph_math_relu(const cgraph_float64_t x) {
+  return ((0.0 < x) ? x : 0.0);
+}
+
+/**
+ * Function : Leaky ReLU
+ * Express  : f(x) = x, if x > 0
+ *                 = ax, if x <= 0
+ */
+cgraph_float64_t cgraph_math_leaky_relu(const cgraph_float64_t x,
+                                        const cgraph_float64_t a) {
+  return ((x > 0.0) ? x : (a * x));
+}
+
+/**
+ * Function : ELU
+ * Express  : f(x) = x, if x > 0
+ *                 = a(exp(x) - 1), if x <= 0
+ */
+cgraph_float64_t cgraph_math_elu(const cgraph_float64_t x,
+                                 const cgraph_float64_t a) {
+  return ((0.0 < x) ? x : (a * (exp(x) - 1.0)));
+}
+
+/**
+ * Function : PReLU
+ * Express  : f(x) = x, if x > 0
+ *                 = ax, if x <= 0
+ */
+cgraph_float64_t cgraph_math_prelu(const cgraph_float64_t x,
+                                   const cgraph_float64_t a) {
+  return ((0.0 < x) ? x : (a * x));
+}
+
+/**
+ * Function : Swish
+ * Express  : f(x) = x * sigmoid(x)
+ */
+cgraph_float64_t cgraph_math_swish(const cgraph_float64_t x) {
+  return x * cgraph_math_sigmoid(x);
+}
+
+/**
+ * Function : Softplus
+ * Express : f(x) = ln(1 + exp(x))
+ */
+cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x) {
+  return log(1 + exp(x));
 }

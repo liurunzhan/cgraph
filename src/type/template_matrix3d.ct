@@ -16,15 +16,27 @@ TYPE *FUNCTION(NAME, create)(const cgraph_type_t type,
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, recreate)(TYPE *cthis, const cgraph_type_t type,
-                               const cgraph_size_t index_i,
-                               const cgraph_size_t index_j,
-                               const cgraph_size_t index_k) {
+TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
+                             const cgraph_size_t index_i,
+                             const cgraph_size_t index_j,
+                             const cgraph_size_t index_k) {
   cgraph_size_t old_size = FUNCTION(NAME, size_ijk)(cthis);
   cgraph_size_t new_size = index_i * index_j * index_k;
   cgraph_bool_t error = CGRAPH_FALSE;
-  if (NULL != (cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size,
-                                               &error))) {
+  if (old_size < new_size) {
+    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
+    if (CGRAPH_FALSE == error) {
+    }
+  } else if (old_size == new_size) {
+  } else {
+    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
+    if (0 != new_size) {
+
+    } else {
+      error = CGRAPH_TRUE;
+    }
+  }
+  if (CGRAPH_FALSE == error) {
     MATRIX3D_INDEX_I(cthis) = index_i;
     MATRIX3D_INDEX_J(cthis) = index_j;
     MATRIX3D_INDEX_K(cthis) = index_k;

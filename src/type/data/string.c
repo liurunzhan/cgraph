@@ -58,7 +58,7 @@ __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
   return CGRAPH_TEST(NULL != cthis);
 }
 
-/**                          string hash functions */
+/**                          string hash functions                            */
 cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis) {
   cgraph_size_t hash = 1315423911L;
   if (NULL != cthis) {
@@ -638,6 +638,27 @@ TYPE *FUNCTION(NAME, chomp)(TYPE *cthis) {
 
 TYPE *FUNCTION(NAME, strip)(TYPE *cthis, const cgraph_char_t *data) {
   if (CGRAPH_HASDATA(cthis)) {
+    if (CGRAPH_ISSTR(data)) {
+      cgraph_char_t *data_start_ptr = CGRAPH_DATA_START(cthis),
+                    *data_end_ptr = CGRAPH_DATA_END(cthis);
+      cgraph_size_t data_len = cgraph_strlen(data);
+      for (; data_start_ptr < data_end_ptr;
+           data_start_ptr += data_len, cthis->len -= data_len) {
+        if (CGRAPH_FALSE == cgraph_strcmp(data_start_ptr, data)) {
+          break;
+        }
+      }
+      cthis->data = data_start_ptr;
+      for (; data_start_ptr < data_end_ptr; cthis->len -= data_len) {
+        data_end_ptr -= data_len;
+        if (CGRAPH_FALSE == cgraph_strcmp(data_end_ptr, data)) {
+          break;
+        }
+      }
+      *data_end_ptr = '\0';
+    } else {
+      cthis = FUNCTION(NAME, stripc)(cthis, '\0');
+    }
   }
 
   return cthis;
@@ -645,6 +666,20 @@ TYPE *FUNCTION(NAME, strip)(TYPE *cthis, const cgraph_char_t *data) {
 
 TYPE *FUNCTION(NAME, lstrip)(TYPE *cthis, const cgraph_char_t *data) {
   if (CGRAPH_HASDATA(cthis)) {
+    if (CGRAPH_ISSTR(data)) {
+      cgraph_char_t *data_start_ptr = CGRAPH_DATA_START(cthis),
+                    *data_end_ptr = CGRAPH_DATA_END(cthis);
+      cgraph_size_t data_len = cgraph_strlen(data);
+      for (; data_start_ptr < data_end_ptr;
+           data_start_ptr += data_len, cthis->len -= data_len) {
+        if (CGRAPH_FALSE == cgraph_strcmp(data_start_ptr, data)) {
+          break;
+        }
+      }
+      cthis->data = data_start_ptr;
+    } else {
+      cthis = FUNCTION(NAME, lstripc)(cthis, '\0');
+    }
   }
 
   return cthis;
@@ -652,6 +687,20 @@ TYPE *FUNCTION(NAME, lstrip)(TYPE *cthis, const cgraph_char_t *data) {
 
 TYPE *FUNCTION(NAME, rstrip)(TYPE *cthis, const cgraph_char_t *data) {
   if (CGRAPH_HASDATA(cthis)) {
+    if (CGRAPH_ISSTR(data)) {
+      cgraph_char_t *data_start_ptr = CGRAPH_DATA_START(cthis),
+                    *data_end_ptr = CGRAPH_DATA_END(cthis);
+      cgraph_size_t data_len = cgraph_strlen(data);
+      for (; data_start_ptr < data_end_ptr; cthis->len -= data_len) {
+        data_end_ptr -= data_len;
+        if (CGRAPH_FALSE == cgraph_strcmp(data_end_ptr, data)) {
+          break;
+        }
+      }
+      *data_end_ptr = '\0';
+    } else {
+      cthis = FUNCTION(NAME, rstripc)(cthis, '\0');
+    }
   }
 
   return cthis;
@@ -662,26 +711,26 @@ TYPE *FUNCTION(NAME, stripc)(TYPE *cthis, const DATA_TYPE data) {
     DATA_TYPE *data_start_ptr = CGRAPH_DATA_START(cthis);
     DATA_TYPE *data_end_ptr = CGRAPH_DATA_END(cthis);
     if ('\0' == data) {
-      while (cgraph_math_isspace(*data_end_ptr)) {
-        data_end_ptr--;
-        cthis->len--;
-      }
       while (cgraph_math_isspace(*data_start_ptr)) {
         data_start_ptr++;
         cthis->len--;
       }
-      cthis->data = data_start_ptr;
-    } else {
-      while (data == *data_end_ptr) {
+      while (cgraph_math_isspace(*data_end_ptr)) {
         data_end_ptr--;
         cthis->len--;
       }
+    } else {
       while (data == *data_start_ptr) {
         data_start_ptr++;
         cthis->len--;
       }
-      cthis->data = data_start_ptr;
+      while (data == *data_end_ptr) {
+        data_end_ptr--;
+        cthis->len--;
+      }
     }
+    cthis->data = data_start_ptr;
+    *data_end_ptr = '\0';
   }
 
   return cthis;
@@ -700,8 +749,8 @@ TYPE *FUNCTION(NAME, lstripc)(TYPE *cthis, const DATA_TYPE data) {
         data_start_ptr++;
         cthis->len--;
       }
-      cthis->data = data_start_ptr;
     }
+    cthis->data = data_start_ptr;
   }
 
   return cthis;
@@ -721,6 +770,7 @@ TYPE *FUNCTION(NAME, rstripc)(TYPE *cthis, const DATA_TYPE data) {
         cthis->len--;
       }
     }
+    *data_end_ptr = '\0';
   }
 
   return cthis;
