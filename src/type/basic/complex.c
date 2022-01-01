@@ -124,6 +124,14 @@ __INLINE__ TYPE FUNCTION(NAME, ones)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, ones)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_ONE;
+  COMPLEX_IMAG(res) = DATA_ONE;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
   COMPLEX_REAL(res) = FUNCTION(DATA_NAME, rand)();
