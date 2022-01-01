@@ -129,6 +129,22 @@ __INLINE__ TYPE FUNCTION(NAME, ones)(void) {
   return res;
 }
 
+TYPE FUNCTION(NAME, nan)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ZERO;
+  FRACTION_DEN(res) = DATA_ZERO;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, min)(void) { return MIN; }
+
+TYPE FUNCTION(NAME, max)(void) { return MAX; }
+
+TYPE FUNCTION(NAME, pinf)(void) { return MIN; }
+
+TYPE FUNCTION(NAME, ninf)(void) { return MIN; }
+
 TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
   FRACTION_NUM(res) = FUNCTION(DATA_NAME, rand)();
