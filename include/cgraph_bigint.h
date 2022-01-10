@@ -62,8 +62,8 @@ typedef struct {
 } cgraph_bigint_t;
 
 /** template module */
+#define CGRAPH_BIGINT_CBUF_SIZE CGRAPH_CBUF_SIZE5
 #include "cgraph_template_cbuf.ht"
-
 #include "cgraph_template_data.ht"
 
 extern cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis);

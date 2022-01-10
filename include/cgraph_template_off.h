@@ -50,11 +50,11 @@
  * MACRO GROUP : ELEMENT BASE
  * ARG TYPE TYPE_PTR
  * NAME ID BITS BITS_LOG2
- * UNAME UTYPE UID IN_FMT OUT_FMT
+ * UNAME UTYPE UID IN_FMT OUT_FMT OUT_FMT_REAL OUT_FMT_NUM
  * ZERO0 ONE0 ONES0
  * ZERO1 ONE1 ONES1
  * ZERO ONE ONES
- * MIN MAX
+ * MIN MAX NAN INF PINF NINF
  * MSB LSB
  * EPS EPS_LEN
  * MACRO GROUP : DATA TYPE ELEMENT
@@ -409,6 +409,14 @@
 #undef OUT_FMT
 #endif
 
+#ifdef OUT_FMT_REAL
+#undef OUT_FMT_REAL
+#endif
+
+#ifdef OUT_FMT_NUM
+#undef OUT_FMT_NUM
+#endif
+
 #ifdef ZERO0
 #undef ZERO0
 #endif
@@ -451,6 +459,22 @@
 
 #ifdef MAX
 #undef MAX
+#endif
+
+#ifdef NAN
+#undef NAN
+#endif
+
+#ifdef INF
+#undef INF
+#endif
+
+#ifdef PINF
+#undef PINF
+#endif
+
+#ifdef NINF
+#undef NINF
 #endif
 
 #ifdef MSB

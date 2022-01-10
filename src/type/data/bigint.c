@@ -4,7 +4,7 @@
 /***/
 #include "cgraph_bigint.h"
 
-#define CGRAPH_CBUF_SIZE CGRAPH_CBUF_SIZE5
+#define CGRAPH_CBUF_SIZE CGRAPH_BIGINT_CBUF_SIZE
 #define CGRAPH_CBUF_PTR cgraph_cbuf_ptr
 #include "template_cbuf.ct"
 

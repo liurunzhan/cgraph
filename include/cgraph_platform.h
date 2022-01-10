@@ -483,16 +483,42 @@ typedef unsigned __int64 __cgraph_uint64;
 #endif
 
 /**< float number details */
+#ifdef MATH_CONST_NAN
+#define __FLOAT_NAN MATH_CONST_NAN
+#else
+#define __FLOAT_NAN (0.0 / 0.0)
+#endif
+#ifdef MATH_CONST_INFINITY
+#define __FLOAT_INFINITY MATH_CONST_INFINITY
+#else
+#define __FLOAT_INFINITY (1.0 / 0.0)
+#endif
 #define FLT8_MIN __UINT8_MIN
 #define FLT8_MAX __UINT8_MAX
+#define FLT8_NAN __FLOAT_NAN
+#define FLT8_INF __FLOAT_INFINITY
+#define FLT8_PINF __FLOAT_INFINITY
+#define FLT8_NINF (-__FLOAT_INFINITY)
 #define FLT8_EPS __UINT8_EPS
 #define FLT8_DIG __UINT8_EPS
 #define FLT16_MIN __UINT16_MIN
 #define FLT16_MAX __UINT16_MAX
+#define FLT16_NAN __FLOAT_NAN
+#define FLT16_INF __FLOAT_INFINITY
+#define FLT16_PINF __FLOAT_INFINITY
+#define FLT16_NINF (-__FLOAT_INFINITY)
 #define FLT16_EPS __UINT16_EPS
 #define FLT16_DIG __UINT16_EPS
 #define FLT_EPS __UINT32_EPS
+#define FLT_NAN __FLOAT_NAN
+#define FLT_INF __FLOAT_INFINITY
+#define FLT_PINF __FLOAT_INFINITY
+#define FLT_NINF (-__FLOAT_INFINITY)
 #define DBL_EPS __UINT64_EPS
+#define DBL_NAN __FLOAT_NAN
+#define DBL_INF __FLOAT_INFINITY
+#define DBL_PINF __FLOAT_INFINITY
+#define DBL_NINF (-__FLOAT_INFINITY)
 
 /**< 128-bit float number */
 #if __STDC_VERSION__ >= 199901L || defined(__HAVE_LONG_DOUBLE)
@@ -500,6 +526,10 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __FLOAT128 long double
 #define __FLOAT128_MIN LDBL_MIN
 #define __FLOAT128_MAX LDBL_MAX
+#define __FLOAT128_NAN (0.0 / 0.0)
+#define __FLOAT128_INF (1.0 / 0.0)
+#define __FLOAT128_PINF (1.0 / 0.0)
+#define __FLOAT128_NINF (-1.0 / 0.0)
 #define __FLOAT128_EPS __UINT128_EPS
 #define __FLOAT128_DIG LDBL_DIG
 #define __FLOAT128_BITS (8 * sizeof(__FLOAT128))
@@ -517,6 +547,10 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __FLOAT128 double
 #define __FLOAT128_MIN DBL_MIN
 #define __FLOAT128_MAX DBL_MAX
+#define __FLOAT128_NAN (0.0 / 0.0)
+#define __FLOAT128_INF (1.0 / 0.0)
+#define __FLOAT128_PINF (1.0 / 0.0)
+#define __FLOAT128_NINF (-1.0 / 0.0)
 #define __FLOAT128_EPS DBL_EPS
 #define __FLOAT128_DIG DBL_DIG
 #define __FLOAT128_BITS (8 * sizeof(__FLOAT128))

@@ -147,6 +147,12 @@ int main(int argc, char *argv[]) {
   }
   cgraph_file_fprintfln(stdout, "num : %d weight : %d cnt : %d", num, weight,
                         cnt);
+  cgraph_file_fprintfln(stdout, "gcd(%lu, %lu) = %lu", 31, 256,
+                        cgraph_math_gcd(31, 256));
+  cgraph_file_fprintfln(stdout, "gcd(%lu, %lu) = %lu", 32, 256,
+                        cgraph_math_gcd(32, 256));
+  cgraph_file_fprintfln(stdout, "lcm(%lu, %lu) = %lu", 32, 256,
+                        cgraph_math_lcm(32, 256));
 
   return 0;
 }

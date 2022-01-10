@@ -19,6 +19,8 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintfln(stdout, OUT_FMT, -64 >> 2);
   cgraph_file_fprintfln(stdout, OUT_FMT, -127 >> 2);
   cgraph_file_fprintfln(stdout, OUT_FMT, (127 ^ 127) >> (BITS - 1));
+  cgraph_file_fprintfln(stdout, "%d %d %d", 23, 17,
+                        FUNCTION(NAME, gcd)(23, 17));
 #endif
 
   return 0;

@@ -26,31 +26,19 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FRACTION)
 #define BITS (8 * sizeof(TYPE))
+#define IN_FMT "%d/%d"
 #define OUT_FMT "%d/%d"
-#define ZERO                                                                   \
-  {                                                                            \
-    { 0, 1 }                                                                   \
-  }
-#define ONE                                                                    \
-  {                                                                            \
-    { 1, 1 }                                                                   \
-  }
-#define ONES                                                                   \
-  {                                                                            \
-    { CGRAPH_INT_MIN, 1 }                                                      \
-  }
-#define MIN                                                                    \
-  {                                                                            \
-    { CGRAPH_INT_MIN, 1 }                                                      \
-  }
-#define MAX                                                                    \
-  {                                                                            \
-    { CGRAPH_INT_MAX, 1 }                                                      \
-  }
-#define EPS                                                                    \
-  {                                                                            \
-    { 1, CGRAPH_INT_MAX }                                                      \
-  }
+#define OUT_FMT_NUM "%d"
+#define ZERO ((TYPE){{0, 1}})
+#define ONE ((TYPE){{1, 1}})
+#define ONES ((TYPE){{CGRAPH_INT_MIN, 1}})
+#define MIN ((TYPE){{CGRAPH_INT_MIN, 1}})
+#define MAX ((TYPE){{CGRAPH_INT_MAX, 1}})
+#define NAN ((TYPE){{0, 0}})
+#define INF ((TYPE){{1, 0}})
+#define PINF ((TYPE){{1, 0}})
+#define NINF ((TYPE){{-1, 0}})
+#define EPS ((TYPE){{-1, CGRAPH_INT_MIN}})
 #define EPS_LEN (8 * sizeof(TYPE))
 #define DATA_NAME int
 #define DATA_TYPE TYPE_T(DATA_NAME)
@@ -78,6 +66,8 @@ typedef struct {
 #define FRACTION_VALUE(x) (1.0 * FRACTION_NUM(x) / FRACTION_DEN(x))
 
 /** template module */
+#define CGRAPH_FRACTION_CBUF_SIZE CGRAPH_CBUF_SIZE0
+#include "cgraph_template_cbuf.ht"
 #include "cgraph_template_data.ht"
 
 /** initial functions */

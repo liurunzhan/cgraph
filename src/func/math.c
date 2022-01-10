@@ -485,6 +485,29 @@ cgraph_int_t cgraph_math_chbase(cgraph_int_t *old, const cgraph_size_t old_len,
   return len;
 }
 
+cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
+                                const cgraph_uint64_t y) {
+  cgraph_uint64_t _x = x, _y = y;
+  if (0 == _y) {
+    _x = 0;
+  } else {
+    cgraph_uint64_t tmp;
+    while (0 != _y) {
+      tmp = _x;
+      _x = _y;
+      _y = tmp % _y;
+    }
+  }
+
+  return _x;
+}
+
+cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
+                                const cgraph_uint64_t y) {
+  cgraph_uint64_t gcd = cgraph_math_gcd(x, y);
+  return (0 == gcd) ? 0 : ((1 == gcd) ? (x * y) : (x / gcd * y));
+}
+
 cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                 const cgraph_uint64_t data,
                                 const cgraph_uint64_t poly) {
@@ -752,7 +775,7 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
 }
 
 __INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) {
-  return (x > 0) ? (x & 0x01) : 0;
+  return (x > 0) ? (x & 0x01U) : 0;
 }
 
 __INLINE cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
@@ -760,11 +783,11 @@ __INLINE cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
   return (x & (~(CGRAPH_INT_MIN << n)));
 }
 
-__INLINE cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data) {
+__INLINE cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data) {
   return (data ^ (data >> 1));
 }
 
-__INLINE cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data) {
+__INLINE cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data) {
   return (data ^ (data << 1));
 }
 

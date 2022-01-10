@@ -1,10 +1,5 @@
 #include "template_base.ct"
 
-#ifndef TYPE_WITH_DATA
-static const TYPE __zero__ = ZERO;
-static const TYPE __one__ = ONE;
-#endif
-
 #if !defined(CGRAPH_MEMORY_HEADER_SIZE) || (0 >= CGRAPH_MEMORY_HEADER_SIZE)
 #error CGRAPH_MEMORY_HEADER_SIZE cannot be UNDEFINED or SMALLER THAN OR EQUAL TO ZERO
 #endif
@@ -399,7 +394,7 @@ TYPE *FUNCTION(NAME, pinf)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, ninf)(TYPE *cthis) {
   if (NULL != cthis) {
 #if defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_FALSE;
@@ -415,7 +410,7 @@ TYPE *FUNCTION(NAME, ninf)(TYPE *cthis, const cgraph_size_t size) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, nan)(TYPE *cthis, const cgraph_size_t size) {
+TYPE *FUNCTION(NAME, nan)(TYPE *cthis) {
   if (NULL != cthis) {
 #if defined(TYPE_BIGNUM) || defined(TYPE_STRING)
     cthis->len = CGRAPH_CSTR_NAN_SIZE;
@@ -1362,7 +1357,7 @@ TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
                            TYPE *res0, TYPE *res) {
   cgraph_size_t i = 0, j;
   for (; i < (xlen + ylen - 1); i++) {
-    res[i] = __zero__;
+    res[i] = ZERO;
     for (j = 0; (j <= i) && (j < xlen); j++) {
       if (i < (ylen + j)) {
         *res0 = MUL(x[j], y[i - j], *res0);

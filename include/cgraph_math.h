@@ -52,12 +52,22 @@ extern "C" {
 #ifndef M_LN2
 #define M_LN2 (0.69314718055994530942)
 #endif
-#define MATH_CONST_LOG2 (M_LN2) /** MATH_CONST_LOG2 : log_e 2 */
+#define MATH_CONST_LOG2 (M_LN2) /** MATH_CONST_LOG2 : log_e(2) */
 
 #ifndef M_LN10
 #define M_LN10 (2.30258509299404568402)
 #endif
-#define MATH_CONST_LOG10 (M_LN10) /** MATH_CONST_LOG10 : log_e 10 */
+#define MATH_CONST_LOG10 (M_LN10) /** MATH_CONST_LOG10 : log_e(10) */
+
+#ifndef NAN
+#define NAN (0.0 / 0.0)
+#endif
+#define MATH_CONST_NAN (NAN) /** MATH_CONST_NAN : nan */
+
+#ifndef INFINITY
+#define INFINITY (1.0 / 0.0)
+#endif
+#define MATH_CONST_INFINITY (INFINITY) /** MATH_CONST_INFINITY : infinity */
 
 extern cgraph_size_t cgraph_math_subc(cgraph_char_t *x, const cgraph_size_t len,
                                       const cgraph_char_t ch);
@@ -150,6 +160,10 @@ extern cgraph_int_t cgraph_math_chbase(cgraph_int_t *old,
                                        const cgraph_size_t new_len,
                                        cgraph_int_t new_base);
 
+extern cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
+                                       const cgraph_uint64_t y);
+extern cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
+                                       const cgraph_uint64_t y);
 extern cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                        const cgraph_uint64_t data,
                                        const cgraph_uint64_t poly);
@@ -215,8 +229,8 @@ extern cgraph_int_t cgraph_math_log2(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_mod2(const cgraph_int_t x);
 extern cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
                                       const cgraph_int_t n);
-extern cgraph_int_t cgraph_math_bin2gray(const cgraph_int_t data);
-extern cgraph_int_t cgraph_math_gray2bin(const cgraph_int_t data);
+extern cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data);
+extern cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data);
 
 extern cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x,

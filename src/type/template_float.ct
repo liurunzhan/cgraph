@@ -49,11 +49,11 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
   return cthis;
 }
 
-TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
+__INLINE TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
 
-TYPE FUNCTION(NAME, one)(void) { return ONE; }
+__INLINE TYPE FUNCTION(NAME, one)(void) { return ONE; }
 
-TYPE FUNCTION(NAME, ones)(void) { return ONES; }
+__INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
 TYPE FUNCTION(NAME, rand)(void) {
 #ifdef TYPE_FLAOT32
@@ -62,6 +62,22 @@ TYPE FUNCTION(NAME, rand)(void) {
   return 1.0 * cgraph_rand64();
 #endif
 }
+
+__INLINE TYPE FUNCTION(NAME, unit)(void) { return ONE; }
+
+__INLINE TYPE FUNCTION(NAME, unit_inv)(void) { return ONE; }
+
+__INLINE TYPE FUNCTION(NAME, min)(void) { return MIN; }
+
+__INLINE TYPE FUNCTION(NAME, max)(void) { return MAX; }
+
+__INLINE TYPE FUNCTION(NAME, nan)(void) { return NAN; }
+
+__INLINE TYPE FUNCTION(NAME, inf)(void) { return PINF; }
+
+__INLINE TYPE FUNCTION(NAME, pinf)(void) { return PINF; }
+
+__INLINE TYPE FUNCTION(NAME, ninf)(void) { return NINF; }
 
 TYPE FUNCTION(NAME, abs)(const TYPE x) { return ABS(x); }
 

@@ -7,25 +7,78 @@
 /** template module */
 #include "template_data.ct"
 
+#define CGRAPH_CBUF_SIZE CGRAPH_FRACTION_CBUF_SIZE
+#define CGRAPH_CBUF_PTR cgraph_cbuf_ptr
+#include "template_cbuf.ct"
+
+cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
+  if (1 == FRACTION_DEN(cthis)) {
+    cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT_NUM,
+                         FRACTION_NUM(cthis));
+  } else {
+    cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT,
+                         FRACTION_NUM(cthis), FRACTION_DEN(cthis));
+  }
+
+  return CGRAPH_CBUF_PTR;
+}
+
+TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
+                            cgraph_bool_t *error) {
+  TYPE res = FUNCTION(NAME, zero)();
+  cgraph_bool_t _error = CGRAPH_FALSE;
+  if (CGRAPH_ISSTR(cstr)) {
+    cgraph_int_t hit =
+        sscanf(cstr, IN_FMT, &(FRACTION_NUM(res)), &(FRACTION_DEN(res)));
+    if ((0 == hit) || (EOF == hit)) {
+      _error = CGRAPH_TRUE;
+    }
+  }
+  if (NULL != error) {
+    *error = _error;
+  }
+
+  return res;
+}
+
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  return fprintf(fp, OUT_FMT, FRACTION_NUM(cthis), FRACTION_DEN(cthis));
+  TYPE fmt = FUNCTION(NAME, format)(cthis);
+  cgraph_size_t len = 0;
+  if (1 == FRACTION_DEN(fmt)) {
+    len = cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT_NUM,
+                               FRACTION_NUM(fmt));
+  } else {
+    len = cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT,
+                               FRACTION_NUM(fmt), FRACTION_DEN(fmt));
+  }
+
+  return len;
 }
 
 cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  return cgraph_file_snprintf(cbuf, size, OUT_FMT, FRACTION_NUM(cthis),
-                              FRACTION_DEN(cthis));
+  TYPE fmt = FUNCTION(NAME, format)(cthis);
+  cgraph_size_t len = 0;
+  if (1 == FRACTION_DEN(fmt)) {
+    len = cgraph_file_snprintf(cbuf, size, OUT_FMT_NUM, FRACTION_NUM(fmt));
+  } else {
+    len = cgraph_file_snprintf(cbuf, size, OUT_FMT, FRACTION_NUM(fmt),
+                               FRACTION_DEN(fmt));
+  }
+
+  return len;
 }
 
 /**                               public apis */
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn
   Fowler，Landon Curt Noll and Phong Vo in 1991): begin_of_algorithm hash =
-  offset_basis for byte_of_data in data begin hash = hash ^ byte_of_data hash =
-  hash * fnv_prime end return hash end_of_algorithm 32-bit offset_basis :
-  2166136261 32-bit fnv_prime : 16777619 = 2^24 + 2^8 + 0x93 64-bit offset_basis
-  : 14695981039346656037 64-bit fnv_prime : 1099511628211 = 2^40 + 2^8 + 0xb3
+  offset_basis for byte_of_data in data begin hash = hash ^ byte_of_data
+  hash = hash * fnv_prime end return hash end_of_algorithm 32-bit
+  offset_basis : 2166136261 32-bit fnv_prime : 16777619 = 2^24 + 2^8 + 0x93
+  64-bit offset_basis : 14695981039346656037 64-bit fnv_prime :
+  1099511628211 = 2^40 + 2^8 + 0xb3
 */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   cgraph_size_t hash = 2166136261UL;
@@ -36,47 +89,31 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
 }
 
 cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
-  return CGRAPH_TEST(0 != FRACTION_DEN(cthis));
+  return CGRAPH_TEST(DATA_ZERO != FRACTION_DEN(cthis));
 }
 
 TYPE FUNCTION(NAME, format)(const TYPE cthis) {
+  TYPE res = cthis;
   DATA_TYPE gcd =
       FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
-  TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(cthis);
-  FRACTION_DEN(res) = FRACTION_DEN(cthis);
-  if (gcd != 1) {
+  if ((1 != gcd) && (0 != gcd)) {
     FRACTION_NUM(res) = FRACTION_NUM(res) / gcd;
     FRACTION_DEN(res) = FRACTION_DEN(res) / gcd;
+  }
+  if (0 > FRACTION_DEN(res)) {
+    FRACTION_NUM(res) = -FRACTION_NUM(res);
+    FRACTION_DEN(res) = -FRACTION_DEN(res);
   }
 
   return res;
 }
 
 /**                              private apis                                 */
-TYPE FUNCTION(NAME, zero)(void) {
-  TYPE res;
-  FRACTION_NUM(res) = 0;
-  FRACTION_DEN(res) = 1;
+__INLINE TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
 
-  return res;
-}
+__INLINE TYPE FUNCTION(NAME, one)(void) { return ONE; }
 
-TYPE FUNCTION(NAME, one)(void) {
-  TYPE res;
-  FRACTION_NUM(res) = 1;
-  FRACTION_DEN(res) = 1;
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, ones)(void) {
-  TYPE res;
-  FRACTION_NUM(res) = DATA_MIN;
-  FRACTION_DEN(res) = 1;
-
-  return res;
-}
+__INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
 TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
@@ -85,13 +122,21 @@ TYPE FUNCTION(NAME, rand)(void) {
   return res;
 }
 
+__INLINE TYPE FUNCTION(NAME, min)(void) { return MIN; }
+
+__INLINE TYPE FUNCTION(NAME, max)(void) { return MAX; }
+
+__INLINE TYPE FUNCTION(NAME, nan)(void) { return NAN; }
+
+__INLINE TYPE FUNCTION(NAME, pinf)(void) { return MIN; }
+
+__INLINE TYPE FUNCTION(NAME, ninf)(void) { return MIN; }
+
 TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t data) {
-  TYPE res;
+  TYPE res = FUNCTION(NAME, zero)();
   DATA_TYPE int_part = floor(data), gcd;
   cgraph_float32_t float_part = data - int_part;
   cgraph_size_t i;
-  FRACTION_NUM(res) = 0;
-  FRACTION_DEN(res) = 1;
   for (i = 0; i < CGRAPH_FLOAT32_DIG; i++) {
     float_part *= 10;
     gcd = floor(float_part);
@@ -108,12 +153,10 @@ TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t data) {
 }
 
 TYPE FUNCTION(NAME, initf64)(const cgraph_float64_t data) {
-  TYPE res;
+  TYPE res = FUNCTION(NAME, zero)();
   DATA_TYPE int_part = floor(data), gcd;
   cgraph_float64_t float_part = data - int_part;
   cgraph_size_t i;
-  FRACTION_NUM(res) = 0;
-  FRACTION_DEN(res) = 1;
   for (i = 0; i < CGRAPH_FLOAT64_DIG; i++) {
     float_part *= 10;
     gcd = floor(float_part);
@@ -194,16 +237,12 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST(-1 == FUNCTION(NAME, signbit)(x));
 }
 
-static const TYPE cgraph_fraction_min = MIN;
-
 __INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
-  return CGRAPH_TEST(EQ(x, cgraph_fraction_min));
+  return CGRAPH_TEST(EQ(x, MIN));
 }
 
-static const TYPE cgraph_fraction_max = MAX;
-
 __INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
-  return CGRAPH_TEST(EQ(x, cgraph_fraction_max));
+  return CGRAPH_TEST(EQ(x, MAX));
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {

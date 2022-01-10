@@ -27,43 +27,13 @@ extern "C" {
 #define ID ID_T(TIME)
 #define BITS (8 * sizeof(TYPE))
 #define OUT_FMT0 "%u%u"
-#define ZERO0                                                                  \
-  {                                                                            \
-    0, {                                                                       \
-      { 0, 0 }                                                                 \
-    }                                                                          \
-  }
-#define ONE0                                                                   \
-  {                                                                            \
-    0, {                                                                       \
-      { 0, 1 }                                                                 \
-    }                                                                          \
-  }
-#define ONES0                                                                  \
-  {                                                                            \
-    1, {                                                                       \
-      { 1, 1 }                                                                 \
-    }                                                                          \
-  }
+#define ZERO0 ((TYPE){0, {{0, 0}}})
+#define ONE0 ((TYPE){0, {{0, 1}}})
+#define ONES0 ((TYPE){1, {{1, 1}}})
 #define OUT_FMT1 "%u-%u-%u %u:%u:%u"
-#define ZERO1                                                                  \
-  {                                                                            \
-    0, {                                                                       \
-      { 0, 0, 0, 0, 0, 0 }                                                     \
-    }                                                                          \
-  }
-#define ONE1                                                                   \
-  {                                                                            \
-    0, {                                                                       \
-      { 0, 0, 0, 0, 0, 1 }                                                     \
-    }                                                                          \
-  }
-#define ONES1                                                                  \
-  {                                                                            \
-    1, {                                                                       \
-      { 1, 1, 1, 1, 1, 1 }                                                     \
-    }                                                                          \
-  }
+#define ZERO1 ((TYPE){0, {{0, 0, 0, 0, 0, 0}}})
+#define ONE1 ((TYPE){0, {{0, 0, 0, 0, 0, 1}}})
+#define ONES1 ((TYPE){1, {{1, 1, 1, 1, 1, 1}}})
 #define ZERO ZERO0
 #define ONE ONE0
 #define ONES ONE0

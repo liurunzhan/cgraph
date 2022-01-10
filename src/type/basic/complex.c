@@ -8,16 +8,64 @@
 /** template module */
 #include "template_data.ct"
 
+#define CGRAPH_CBUF_SIZE CGRAPH_COMPLEX_CBUF_SIZE
+#define CGRAPH_CBUF_PTR cgraph_cbuf_ptr
+#include "template_cbuf.ct"
+
+cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
+  if (DATA_EQ(0.0, COMPLEX_IMAG(cthis))) {
+    cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT_REAL,
+                         COMPLEX_REAL(cthis));
+  } else {
+    cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT,
+                         COMPLEX_REAL(cthis), COMPLEX_IMAG(cthis));
+  }
+
+  return CGRAPH_CBUF_PTR;
+}
+
+TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
+                            cgraph_bool_t *error) {
+  TYPE res = FUNCTION(NAME, zero)();
+  cgraph_bool_t _error = CGRAPH_FALSE;
+  if (CGRAPH_ISSTR(cstr)) {
+    cgraph_int_t hit =
+        sscanf(cstr, IN_FMT, &(COMPLEX_REAL(res)), &(COMPLEX_IMAG(res)));
+    if ((0 == hit) || (EOF == hit)) {
+      _error = CGRAPH_TRUE;
+    }
+  }
+  if (NULL != error) {
+    *error = _error;
+  }
+
+  return res;
+}
+
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  return cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
-                             COMPLEX_IMAG(cthis));
+  cgraph_size_t len = 0;
+  if (DATA_EQ(0.0, COMPLEX_IMAG(cthis))) {
+    len = cgraph_file_fprintf(fp, OUT_FMT_REAL, COMPLEX_REAL(cthis));
+  } else {
+    len = cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
+                              COMPLEX_IMAG(cthis));
+  }
+
+  return len;
 }
 
 cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  return cgraph_file_snprintf(cbuf, size, OUT_FMT, COMPLEX_REAL(cthis),
-                              COMPLEX_IMAG(cthis));
+  cgraph_size_t len = 0;
+  if (DATA_EQ(0.0, COMPLEX_IMAG(cthis))) {
+    len = cgraph_file_snprintf(cbuf, size, OUT_FMT_REAL, COMPLEX_REAL(cthis));
+  } else {
+    len = cgraph_file_snprintf(cbuf, size, OUT_FMT, COMPLEX_REAL(cthis),
+                               COMPLEX_IMAG(cthis));
+  }
+
+  return len;
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
@@ -41,30 +89,30 @@ __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return DATA_ISPOS(x);
 }
 
-/**                         initial function                                  */
-TYPE FUNCTION(NAME, zero)(void) {
-  TYPE res;
-  COMPLEX_REAL(res) = DATA_ZERO;
-  COMPLEX_IMAG(res) = DATA_ZERO;
+/**                         initial function */
+__INLINE TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
 
-  return res;
-}
+__INLINE TYPE FUNCTION(NAME, one)(void) { return ONE; }
 
-TYPE FUNCTION(NAME, one)(void) {
-  TYPE res;
-  COMPLEX_REAL(res) = DATA_ONE;
-  COMPLEX_IMAG(res) = DATA_ZERO;
-
-  return res;
-}
+__INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
 TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
-  COMPLEX_REAL(res) = DATA_ONE * FUNCTION(DATA_NAME, rand)();
-  COMPLEX_IMAG(res) = DATA_ONE * FUNCTION(DATA_NAME, rand)();
+  COMPLEX_REAL(res) = FUNCTION(DATA_NAME, rand)();
+  COMPLEX_IMAG(res) = FUNCTION(DATA_NAME, rand)();
 
   return res;
 }
+
+__INLINE TYPE FUNCTION(NAME, min)(void) { return MIN; }
+
+__INLINE TYPE FUNCTION(NAME, max)(void) { return MAX; }
+
+__INLINE TYPE FUNCTION(NAME, nan)(void) { return NAN; }
+
+__INLINE TYPE FUNCTION(NAME, pinf)(void) { return MIN; }
+
+__INLINE TYPE FUNCTION(NAME, ninf)(void) { return MIN; }
 
 TYPE FUNCTION(NAME, initma)(const DATA_TYPE mag, const DATA_TYPE angle) {
   TYPE res;
@@ -142,10 +190,16 @@ TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i) {
   return res;
 }
 
-/**            functions of complex numbers with one complex number           */
+/**            functions of complex numbers with one complex number */
 DATA_TYPE FUNCTION(NAME, real)(const TYPE x) { return COMPLEX_REAL(x); }
 
 DATA_TYPE FUNCTION(NAME, imag)(const TYPE x) { return COMPLEX_IMAG(x); }
+
+DATA_TYPE FUNCTION(NAME, mag2)(const TYPE x) { return COMPLEX_MAG2(x); }
+
+DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x) {
+  return DATA_ONE / COMPLEX_MAG2(x);
+}
 
 DATA_TYPE FUNCTION(NAME, mag)(const TYPE x) {
 #if __STDC_VERSION__ >= 199901L && defined(_MATH_H__)
@@ -201,7 +255,12 @@ TYPE FUNCTION(NAME, opp)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, inv)(const TYPE x) {
-  return FUNCTION(NAME, conj)(FUNCTION(NAME, std)(x));
+  DATA_TYPE mag2_inv = FUNCTION(NAME, mag2_inv)(x);
+  TYPE res;
+  COMPLEX_REAL(res) = mag2_inv * COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = -mag2_inv * COMPLEX_IMAG(x);
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, mul1i)(const TYPE x) {
@@ -227,23 +286,17 @@ TYPE FUNCTION(NAME, mul3i)(const TYPE x) {
 
   return res;
 }
-TYPE FUNCTION(NAME, mul4i)(const TYPE x) {
+TYPE FUNCTION(NAME, mul4i)(const TYPE x) { return x; }
+
+TYPE FUNCTION(NAME, revert)(const TYPE x) {
   TYPE res;
-  COMPLEX_REAL(res) = COMPLEX_REAL(x);
-  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+  COMPLEX_REAL(res) = COMPLEX_IMAG(x);
+  COMPLEX_IMAG(res) = COMPLEX_REAL(x);
 
   return res;
 }
 
-TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, mul)(x, FUNCTION(NAME, conj)(y));
-}
-
-TYPE FUNCTION(NAME, dot_inv)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, mul)(FUNCTION(NAME, conj)(x), y);
-}
-
-/**                 one complex number and one complex number                 */
+/**                 one complex number and one complex number */
 TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_REAL(x) + COMPLEX_REAL(y);
@@ -271,16 +324,24 @@ TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
 }
 
 TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
-  DATA_TYPE mod_1 = DATA_ONE / COMPLEX_MAG2(y);
+  DATA_TYPE mag2_inv = FUNCTION(NAME, mag2_inv)(y);
   TYPE res;
   COMPLEX_REAL(res) =
       (COMPLEX_REAL(x) * COMPLEX_REAL(y) + COMPLEX_IMAG(x) * COMPLEX_IMAG(y)) *
-      mod_1;
+      mag2_inv;
   COMPLEX_IMAG(res) =
       (COMPLEX_IMAG(x) * COMPLEX_REAL(y) - COMPLEX_REAL(x) * COMPLEX_IMAG(y)) *
-      mod_1;
+      mag2_inv;
 
   return res;
+}
+
+TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mul)(x, FUNCTION(NAME, conj)(y));
+}
+
+TYPE FUNCTION(NAME, dot_conj)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mul)(FUNCTION(NAME, conj)(x), y);
 }
 
 TYPE FUNCTION(NAME, log)(const TYPE x) {
@@ -375,30 +436,26 @@ TYPE FUNCTION(NAME, cos)(const TYPE x) {
 
 TYPE FUNCTION(NAME, tan)(const TYPE x) {
   TYPE sinx = FUNCTION(NAME, sin)(x), cosx = FUNCTION(NAME, cos)(x);
-  TYPE res = FUNCTION(NAME, div)(sinx, cosx);
 
-  return res;
+  return FUNCTION(NAME, div)(sinx, cosx);
 }
 
 TYPE FUNCTION(NAME, cot)(const TYPE x) {
   TYPE sinx = FUNCTION(NAME, sin)(x), cosx = FUNCTION(NAME, cos)(x);
-  TYPE res = FUNCTION(NAME, div)(cosx, sinx);
 
-  return res;
+  return FUNCTION(NAME, div)(cosx, sinx);
 }
 
 TYPE FUNCTION(NAME, sec)(const TYPE x) {
   TYPE cosx = FUNCTION(NAME, cos)(x);
-  TYPE res = FUNCTION(NAME, inv)(cosx);
 
-  return res;
+  return FUNCTION(NAME, inv)(cosx);
 }
 
 TYPE FUNCTION(NAME, csc)(const TYPE x) {
   TYPE sinx = FUNCTION(NAME, sin)(x);
-  TYPE res = FUNCTION(NAME, inv)(sinx);
 
-  return res;
+  return FUNCTION(NAME, inv)(sinx);
 }
 
 TYPE FUNCTION(NAME, sinh)(const TYPE x) {
@@ -423,30 +480,26 @@ TYPE FUNCTION(NAME, cosh)(const TYPE x) {
 
 TYPE FUNCTION(NAME, tanh)(const TYPE x) {
   TYPE sinhx = FUNCTION(NAME, sinh)(x), coshx = FUNCTION(NAME, cosh)(x);
-  TYPE res = FUNCTION(NAME, div)(sinhx, coshx);
 
-  return res;
+  return FUNCTION(NAME, div)(sinhx, coshx);
 }
 
 TYPE FUNCTION(NAME, coth)(const TYPE x) {
   TYPE sinhx = FUNCTION(NAME, sinh)(x), coshx = FUNCTION(NAME, cosh)(x);
-  TYPE res = FUNCTION(NAME, div)(coshx, sinhx);
 
-  return res;
+  return FUNCTION(NAME, div)(coshx, sinhx);
 }
 
 TYPE FUNCTION(NAME, sech)(const TYPE x) {
   TYPE coshx = FUNCTION(NAME, cosh)(x);
-  TYPE res = FUNCTION(NAME, inv)(coshx);
 
-  return res;
+  return FUNCTION(NAME, inv)(coshx);
 }
 
 TYPE FUNCTION(NAME, csch)(const TYPE x) {
   TYPE sinhx = FUNCTION(NAME, sinh)(x);
-  TYPE res = FUNCTION(NAME, inv)(sinhx);
 
-  return res;
+  return FUNCTION(NAME, inv)(sinhx);
 }
 
 TYPE FUNCTION(NAME, asin)(const TYPE x) {
@@ -509,22 +562,16 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNEG(x));
 }
 
-static const TYPE _cgraph_complex_zero = ZERO;
-
 __INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
-  return EQ(x, _cgraph_complex_zero);
+  return EQ(x, ZERO);
 }
-
-static const TYPE _cgraph_complex_max = MAX;
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
-  return EQ(x, _cgraph_complex_max);
+  return EQ(x, MAX);
 }
 
-static const TYPE _cgraph_complex_min = MIN;
-
 __INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
-  return EQ(x, _cgraph_complex_min);
+  return EQ(x, MIN);
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
@@ -616,34 +663,36 @@ TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y) {
 
 TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y) {
   TYPE res = FUNCTION(NAME, log)(x);
-  res = FUNCTION(NAME, muli)(res, y);
 
-  return FUNCTION(NAME, exp)(res);
+  return FUNCTION(NAME, exp)(FUNCTION(NAME, muli)(res, y));
 }
 
+/** @brief Fast Fourier Transform (fft) */
 TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len) {
-  cgraph_size_t i, j, k, times = cgraph_math_log2(len);
-  for (i = 0, j = len / 2; i < (len - 2); i++) {
-    cgraph_size_t k = len / 2;
-    if (i < j) {
-      SWAP(cthis[i], cthis[j]);
+  if ((NULL != cthis) && (0 < len) && (0 == (len & 0x01))) {
+    cgraph_size_t i, j, k, times = cgraph_math_log2(len);
+    for (i = 0, j = len / 2; i < (len - 2); i++) {
+      cgraph_size_t k = len / 2;
+      if (i < j) {
+        SWAP(cthis[i], cthis[j]);
+      }
+      while (k <= j) {
+        j = j - k;
+        k /= 2;
+      }
+      j += k;
     }
-    while (k <= j) {
-      j = j - k;
-      k /= 2;
-    }
-    j += k;
-  }
-  for (i = 0; i < times; i++) {
-    cgraph_size_t group0 = cgraph_math_pow2(i), group1 = group0 / 2;
-    for (j = 0; j < group1; j++) {
-      cgraph_size_t n = j * cgraph_math_pow2(len - times);
-      for (k = i; k < len; j += group0) {
-        cgraph_size_t group2 = k + group1;
-        TYPE wn = FUNCTION(NAME, unit)(len, n),
-             xwn = FUNCTION(NAME, mul)(cthis[group2], wn);
-        cthis[group2] = FUNCTION(NAME, sub)(cthis[k], xwn);
-        cthis[k] = FUNCTION(NAME, add)(cthis[k], xwn);
+    for (i = 0; i < times; i++) {
+      cgraph_size_t group0 = cgraph_math_pow2(i), group1 = group0 / 2;
+      for (j = 0; j < group1; j++) {
+        cgraph_size_t n = j * cgraph_math_pow2(len - times);
+        for (k = i; k < len; j += group0) {
+          cgraph_size_t group2 = k + group1;
+          TYPE wn = FUNCTION(NAME, unit)(len, n),
+               xwn = FUNCTION(NAME, mul)(cthis[group2], wn);
+          cthis[group2] = FUNCTION(NAME, sub)(cthis[k], xwn);
+          cthis[k] = FUNCTION(NAME, add)(cthis[k], xwn);
+        }
       }
     }
   }
@@ -651,18 +700,20 @@ TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len) {
   return cthis;
 }
 
+/** @brief Inverse Fast Fourier Transform */
 TYPE *FUNCTION(NAME, ifft)(TYPE *cthis, const cgraph_size_t len) {
-  cgraph_size_t i = 0;
-  for (i = 0; i < len; i++) {
-    cthis[i] = FUNCTION(NAME, conj)(cthis[i]);
-  }
-  cthis = FUNCTION(NAME, fft)(cthis, len);
-  for (i = 0; i < len; i++) {
-    cthis[i] = FUNCTION(NAME, conj)(cthis[i]);
-  }
-  for (i = 0; i < len; i++) {
-    COMPLEX_REAL(cthis[i]) = COMPLEX_REAL(cthis[i]) / len;
-    COMPLEX_IMAG(cthis[i]) = COMPLEX_IMAG(cthis[i]) / len;
+  if ((NULL != cthis) && (0 < len) && (0 == (len & 0x01))) {
+    cgraph_size_t i;
+    for (i = 0; i < len; i++) {
+      cthis[i] = FUNCTION(NAME, conj)(cthis[i]);
+    }
+    cthis = FUNCTION(NAME, fft)(cthis, len);
+    for (i = 0; i < len; i++) {
+      cthis[i] = FUNCTION(NAME, conj)(cthis[i]);
+    }
+    for (i = 0; i < len; i++) {
+      cthis[i] = FUNCTION(NAME, divr)(cthis[i], len);
+    }
   }
 
   return cthis;

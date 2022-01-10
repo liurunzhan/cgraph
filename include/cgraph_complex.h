@@ -26,27 +26,18 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(COMPLEX)
 #define BITS (sizeof(TYPE))
+#define IN_FMT "%lf+i%lf"
 #define OUT_FMT "%g+i%g"
-#define ZERO                                                                   \
-  {                                                                            \
-    { 0.0, 0.0 }                                                               \
-  }
-#define ONE                                                                    \
-  {                                                                            \
-    { 1.0, 0.0 }                                                               \
-  }
-#define ONES                                                                   \
-  {                                                                            \
-    { 1.0, 1.0 }                                                               \
-  }
-#define MIN                                                                    \
-  {                                                                            \
-    { CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN }                                 \
-  }
-#define MAX                                                                    \
-  {                                                                            \
-    { CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX }                                 \
-  }
+#define OUT_FMT_REAL "%g"
+#define ZERO ((TYPE){{0.0, 0.0}})
+#define ONE ((TYPE){{1.0, 0.0}})
+#define ONES ((TYPE){{1.0, 1.0}})
+#define MIN ((TYPE){{CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN}})
+#define MAX ((TYPE){{CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX}})
+#define NAN ((TYPE){{CGRAPH_FLOAT64_NAN, CGRAPH_FLOAT64_NAN}})
+#define INF ((TYPE){{CGRAPH_FLOAT64_INF, CGRAPH_FLOAT64_INF}})
+#define PINF ((TYPE){{CGRAPH_FLOAT64_PINF, CGRAPH_FLOAT64_PINF}})
+#define NINF ((TYPE){{CGRAPH_FLOAT64_NINF, CGRAPH_FLOAT64_NINF}})
 #define DATA_NAME float64
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(FLOAT64)
@@ -73,6 +64,8 @@ typedef struct {
   (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
 
 /** template module */
+#define CGRAPH_COMPLEX_CBUF_SIZE CGRAPH_CBUF_SIZE0
+#include "cgraph_template_cbuf.ht"
 #include "cgraph_template_data.ht"
 
 /** initial function */
@@ -89,6 +82,8 @@ extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n,
 /** complex number mathematical functions */
 extern DATA_TYPE FUNCTION(NAME, real)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, imag)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, mag2)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
@@ -102,8 +97,9 @@ extern TYPE FUNCTION(NAME, mul1i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul2i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul3i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul4i)(const TYPE x);
-extern TYPE FUNCTION(NAME, dot_inv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, revert)(const TYPE x);
 extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, dot_conj)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, log)(const TYPE x);
 extern TYPE FUNCTION(NAME, log2)(const TYPE x);
