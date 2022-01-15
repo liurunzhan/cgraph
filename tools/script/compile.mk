@@ -9,7 +9,7 @@ export MAKE ?= make
 export AR = ar
 export ARFLAGS = -rcs
 export CSFLAGS = -shared
-export TARGET = cgraph
+export TARGET = $(PRO)
 export LIBTARGET = lib$(TARGET)
 export MODE = debug
 

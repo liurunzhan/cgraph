@@ -7,6 +7,7 @@
  * @version 0.0.0
  * @date 2021-03-31
  * @lisence GPL-3.0
+ * @url https://github.com/liurunzhan/cgraph
  */
 
 /**
@@ -37,6 +38,49 @@
  * ROL3 ROR3 ROL4 ROR4
  * DATA_SWAP
  ******************************************************************************/
+
+/*
+  defined macro variables:
+  #define ASSIGN 
+  #define ADD 
+  #define SUB 
+  #define MUL 
+  #define DIV 
+  #define DIVF 
+  #define INT 
+  #define MODF 
+  #define MOD 
+  #define EQ 
+  #define NE 
+  #define GR 
+  #define GE 
+  #define LS 
+  #define LE 
+  #define CEIL 
+  #define FLOOR 
+  #define POW 
+  #define ABS 
+  #define SIN 
+  #define COS 
+  #define TAN 
+  #define ASIN 
+  #define ACOS 
+  #define ATAN 
+  #define SINH 
+  #define COSH 
+  #define TANH 
+  #define LOG 
+  #define LOG2 
+  #define LOG10 
+  #define EXP 
+  #define SQRT 
+  #define SWAP 
+  #define ROL3 
+  #define ROR3 
+  #define ROL4 
+  #define ROR4 
+  #define DATA_SWAP 
+*/
 
 /** DATA TYPE MATHEMATICAL FUNCTIONS */
 #ifndef ASSIGN

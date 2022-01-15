@@ -46,7 +46,7 @@ object Compile {
         (new File(LIB)).mkdir()
       }
       val OFILES = ArrayBuffer[String]()
-      for(file <- CFILES) {
+      for (file <- CFILES) {
         val pattern = "\\.c$"r
         val obj : String = file.getPath().replaceAll(pattern, ".o")
         val dep : String = file.getPath().replaceAll(pattern, ".d")
@@ -66,7 +66,7 @@ object Compile {
       println("test ${TSTTARGET} with ${TSTFILE_CSV}")
       "${TSTTARGET} ${TSTFILE_CSV}" !
     } else if (args(0) == "clean") {
-      for(file <- CFILES) {
+      for (file <- CFILES) {
         val pattern = "\\.c$"r
         val obj : String = file.getPath().replaceAll(pattern, ".o")
         println("clean ${obj}")
@@ -92,7 +92,7 @@ object Compile {
         TSTTARGET.delete()
       }
     } else if (args(0) == "distclean") {
-      for(file <- CFILES) {
+      for (file <- CFILES) {
         val pattern = "\\.c$"r
         val obj : String = file.getPath().replaceAll(pattern, ".o")
         println("clean ${obj}")

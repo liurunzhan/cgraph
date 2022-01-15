@@ -333,9 +333,8 @@ cgraph_size_t cgraph_file_fputs(const cgraph_char_t *cbuf,
 cgraph_size_t cgraph_file_frputs(const cgraph_char_t *cbuf,
                                  const cgraph_size_t size, FILE *fp) {
   if (CGRAPH_ISBUF(cbuf, size)) {
-    cgraph_size_t i;
-    cgraph_char_t *data = (cgraph_char_t *)&cbuf[size - 1];
-    for (i = 0; i < size; i++, data--) {
+    cgraph_char_t *data = (cgraph_char_t *)CGRAPH_VARADDR(cbuf[size - 1]);
+    for (; cbuf <= data; data--) {
       fputc(*data, fp);
     }
   }
@@ -612,13 +611,13 @@ cgraph_size_t cgraph_file_header(cgraph_char_t *cbuf, const cgraph_size_t size,
 
 cgraph_size_t cgraph_file_row(cgraph_char_t *cbuf, const cgraph_size_t size,
                               const cgraph_size_t row, FILE *fp) {
-  cgraph_size_t len = 0, i = 0;
-  for (; i < row; i++) {
-    len = cgraph_file_fgets(cbuf, size, fp);
-    if (len <= 0) {
-      break;
-    }
+  cgraph_size_t len = 0;
+  CGRAPH_LOOP(i, 0, row)
+  len = cgraph_file_fgets(cbuf, size, fp);
+  if (len <= 0) {
+    break;
   }
+  CGRAPH_LOOP_END
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
     cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,

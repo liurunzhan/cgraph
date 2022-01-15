@@ -4,10 +4,10 @@
 static cgraph_size_t cgraph_cmdarg_memlen(int argc, char *argv[]);
 
 cgraph_size_t cgraph_cmdarg_memlen(int argc, char *argv[]) {
-  cgraph_size_t i = 0, len = argc + 1;
-  for (; i < argc; i++) {
-    len += cgraph_strlen(argv[i]);
-  }
+  cgraph_size_t len = argc + 1;
+  CGRAPH_LOOP(i, 0, argc)
+  len += cgraph_strlen(argv[i]);
+  CGRAPH_LOOP_END
 
   return len;
 }
@@ -21,16 +21,16 @@ cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]) {
       cmdarg->size = cgraph_cmdarg_memlen(argc, argv);
       if (NULL != (cmdarg->data =
                        cgraph_calloc(cmdarg->size * sizeof(cgraph_char_t)))) {
-        cgraph_size_t i = 0, j, k = 0;
+        cgraph_size_t j, k = 0;
         cmdarg->name = cmdarg->data;
-        for (; i < argc; i++) {
-          for (j = 0; '\0' != argv[i][j]; j++) {
-            cmdarg->data[k++] = argv[i][j];
-          }
-          cmdarg->data[k++] = '\0';
-          cmdarg->argv[i] = &(cmdarg->data[k]);
+        CGRAPH_LOOP(i, 0, argc)
+        for (j = 0; '\0' != argv[i][j]; j++) {
+          cmdarg->data[k++] = argv[i][j];
         }
-        cmdarg->argc = i - 1;
+        cmdarg->data[k++] = '\0';
+        cmdarg->argv[i] = &(cmdarg->data[k]);
+        CGRAPH_LOOP_END
+        cmdarg->argc = argc - 1;
       } else {
         cgraph_free(cmdarg->argv);
         cgraph_free(cmdarg);
@@ -63,13 +63,12 @@ cgraph_bool_t cgraph_cmdarg_isarg(const cgraph_cmdarg_t *cthis,
                                   const cgraph_char_t *arg) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != cthis) && CGRAPH_ISSTR(arg)) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->argc; i++) {
-      if (cgraph_strcmp(cthis->argv[i], arg)) {
-        flag = CGRAPH_TRUE;
-        break;
-      }
+    CGRAPH_LOOP(i, 0, cthis->argc)
+    if (cgraph_strcmp(cthis->argv[i], arg)) {
+      flag = CGRAPH_TRUE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
@@ -79,13 +78,12 @@ cgraph_size_t cgraph_cmdarg_argnum(const cgraph_cmdarg_t *cthis,
                                    const cgraph_char_t *arg) {
   cgraph_size_t num = -1;
   if ((NULL != cthis) && CGRAPH_ISSTR(arg)) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->argc; i++) {
-      if (cgraph_strcmp(cthis->argv[i], arg)) {
-        num = i;
-        break;
-      }
+    CGRAPH_LOOP(i, 0, cthis->argc)
+    if (cgraph_strcmp(cthis->argv[i], arg)) {
+      num = i;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return num;
@@ -108,11 +106,10 @@ cgraph_size_t cgraph_cmdarg_arglen(const cgraph_cmdarg_t *cthis,
 cgraph_size_t cgraph_cmdarg_fprintln(FILE *fp, const cgraph_cmdarg_t *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
     len += cgraph_file_fprintfln(fp, "program : %s", cthis->name);
-    for (; i < cthis->argc; i++) {
-      len += cgraph_file_fprintfln(fp, "command %ld : %s", i, cthis->argv[i]);
-    }
+    CGRAPH_LOOP(i, 0, cthis->argc)
+    len += cgraph_file_fprintfln(fp, "command %ld : %s", i, cthis->argv[i]);
+    CGRAPH_LOOP_END
   }
 
   return len;

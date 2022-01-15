@@ -16,7 +16,10 @@ fi
 
 for file in `ls $inc/*`; do
 	echo "add header template to $file"
-	python3 $tool/header.py $file -t $tool/header.txt -b $tool/brief.json -p $tool/cgraph.json
+	python3 $tool/header.py $file -t $tool/header.macro -b $tool/brief.json -p $tool/cgraph.json
+	if [ $? -ne 0 ]; then
+		exit 0
+	fi
 done
 
 echo "update source template in $inc/cgraph_template_off.h"

@@ -104,19 +104,19 @@ const cgraph_char_t *cgraph_version_tname(const cgraph_size_t type) {
 }
 
 cgraph_size_t cgraph_version_tprintln(const cgraph_char_t *sep) {
-  cgraph_size_t i = 0, len = 0;
-  for (i = CGRAPH_OBJECT_T; i < CGRAPH_MAX_T; i++) {
-    len += cgraph_file_fprintfln(stdout, "%d%s%s", i, sep, __cgraph_types__[i]);
-  }
+  cgraph_size_t len = 0;
+  CGRAPH_LOOP(i, CGRAPH_OBJECT_T, CGRAPH_MAX_T)
+  len += cgraph_file_fprintfln(stdout, "%d%s%s", i, sep, __cgraph_types__[i]);
+  CGRAPH_LOOP_END
 
   return len;
 }
 
 cgraph_size_t cgraph_version_tfprintln(FILE *fp, const cgraph_char_t *sep) {
-  cgraph_size_t i = 0, len = 0;
-  for (i = CGRAPH_OBJECT_T; i < CGRAPH_MAX_T; i++) {
-    len += cgraph_file_fprintfln(fp, "%d%s%s", i, sep, __cgraph_types__[i]);
-  }
+  cgraph_size_t len = 0;
+  CGRAPH_LOOP(i, CGRAPH_OBJECT_T, CGRAPH_MAX_T)
+  len += cgraph_file_fprintfln(fp, "%d%s%s", i, sep, __cgraph_types__[i]);
+  CGRAPH_LOOP_END
 
   return len;
 }

@@ -14,8 +14,9 @@ def read_template_by_file(file):
 
 class Macro(object):
 	def __init__(self, group):
-		self.group = group
-		self.macros = []
+		self.group     = group
+		self.macros    = []
+		self.variables = []
 	def __str__(self):
 		macros = ["/** %s */" % self.group]
 		for macro in self.macros:
@@ -25,6 +26,7 @@ class Macro(object):
 		return str(self)
 	def append(self, macro, template):
 		self.macros.append(template.format(macro=macro))
+		self.variables.append(macro)
 
 class MacroList(object):
 	def __init__(self):
@@ -46,10 +48,10 @@ class MacroState(Enum):
 	MACRO = 2
 	ENTRY = 3
 
-macro_start_mode = r"/\*{4,}$"
-macro_group_mode = r"MACRO GROUP : (.*)"
-macro_split_mode = r"[ \r\t]+"
-macro_end_mode = r"\*{4,}/$"
+macro_start_mode = re.compile(r"/\*{8,}$")
+macro_group_mode = re.compile(r"MACRO GROUP : (.*)")
+macro_split_mode = re.compile(r"[ \r\t]+")
+macro_end_mode = re.compile(r"\*{8,}/$")
 
 def read_macro_by_file(file, template):
 	state = MacroState.IDLE
@@ -83,8 +85,8 @@ def read_macro_by_file(file, template):
 	return macros, headers
 
 def arg_parse():
-	parser = argparse.ArgumentParser(description="update C-type macro definitions")
-	parser.add_argument("file", help="input file")
+	parser = argparse.ArgumentParser(description="update C-type macro definitions", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+	parser.add_argument("file", help="parsed file")
 	parser.add_argument("-t", "--template", required=True, help="template macro file")
 	parser.add_argument("-c", "--comment", required=True, help="comment in the end of file")
 	def func(args):
@@ -93,6 +95,13 @@ def arg_parse():
 		with open(args.file, "w") as fout:
 			for line in headers:
 				print(line, file=fout)
+			print("", file=fout)
+			print("/*", file=fout)
+			print("  defined macro variables:", file=fout)
+			for macro in macros:
+				for variable in macro.variables:
+					print("  #define %s " % variable, file=fout)
+			print("*/", file=fout)
 			print("", file=fout)
 			for macro in macros:
 				print(macro, file=fout)

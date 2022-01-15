@@ -71,13 +71,13 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (CGRAPH_HASDATA(cthis)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
-    cgraph_size_t i = 0, j;
     fputs("0b", fp);
-    for (; i < cthis->len; i++, data--) {
-      for (j = DATA_BITS - 1; j >= 0; j--) {
-        fputc(cgraph_math_dec2hex(0x1U & (*data >> j)), fp);
-      }
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    CGRAPH_RLOOP(j, DATA_BITS - 1, 0)
+    fputc(cgraph_math_dec2hex(0x1U & (*data >> j)), fp);
+    CGRAPH_LOOP_END
+    data--;
+    CGRAPH_LOOP_END
     len = 2 + (cthis->len << DATA_BITS_LOG2);
   }
 

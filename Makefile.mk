@@ -56,5 +56,5 @@ branch:
 	$(call push-branch,dist)
 	$(call push-branch,julia)
 	$(call push-branch,perl)
-	$(call call push-branch,python)
+	$(call push-branch,python)
 	$(call push-branch,r)

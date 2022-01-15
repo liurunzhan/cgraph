@@ -28,16 +28,16 @@ void FUNCTION(NAME, bufclr)(void) {
 
 void FUNCTION(NAME, bufput)(FILE *fp, const cgraph_size_t len) {
   cgraph_char_t *ptr = CGRAPH_CBUF_PTR;
-  cgraph_size_t i = 0, buflen = CGRAPH_CBUF_SIZE, len_min;
+  cgraph_size_t buflen = CGRAPH_CBUF_SIZE, len_min;
   if (__cgraph_cbuf__ != CGRAPH_CBUF_PTR) {
     ptr -= sizeof(cgraph_size_t);
     buflen = *(cgraph_size_t *)ptr;
   }
   len_min = (0 < len) ? CGRAPH_MIN(buflen, len) : buflen;
-  for (; i < len_min; i++) {
-    fputc(cgraph_math_dec2hex((CGRAPH_CBUF_PTR[i] >> 8) & 0xFF), fp);
-    fputc(cgraph_math_dec2hex(CGRAPH_CBUF_PTR[i] & 0xFF), fp);
-  }
+  CGRAPH_LOOP(i, 0, len_min)
+  fputc(cgraph_math_dec2hex((CGRAPH_CBUF_PTR[i] >> 8) & 0xFF), fp);
+  fputc(cgraph_math_dec2hex(CGRAPH_CBUF_PTR[i] & 0xFF), fp);
+  CGRAPH_LOOP_END
 }
 
 void FUNCTION(NAME, bufputln)(FILE *fp, const cgraph_size_t len) {

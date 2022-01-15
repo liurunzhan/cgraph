@@ -29,7 +29,7 @@ def add_subparsers(subparsers, project, cmd, help):
 	return subparser
 
 def cmd_arg_parse(project):
-	parser = argparse.ArgumentParser(description="test compile script")
+	parser = argparse.ArgumentParser(description="test compile script", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 	subparsers = parser.add_subparsers()
 	tools = ["make", "cmake", "xmake"]
 	for tool in tools:

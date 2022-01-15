@@ -22,9 +22,9 @@ CFLAGS <- "-std=c89 -Wall -pedantic -fPIC"
 CSFLAGS <- "-shared"
 
 MODE <- "debug"
-if(MODE == "debug") {
+if (MODE == "debug") {
   CFLAGS <- paste(CFLAGS, "-g -DDEBUG", sep=" ")
-} else if(MODE == "release") {
+} else if (MODE == "release") {
   CFLAGS <- paste(CFLAGS, "-static -O2", sep=" ")
 }
 
@@ -39,7 +39,7 @@ for (dir in SRCS) {
 
 TEST_FILES <- lapply(list.files(TST, pattern="*\\.c$"), function(x) { file.path(TST, x, fsep=.Platform$file.sep)})
 
-if(.Platform$OS.type == "windows") {
+if (.Platform$OS.type == "windows") {
   # target files
   LIBSHARED <- file.path(LIB, paste("lib", PRO, ".dll", sep=""), fsep=.Platform$file.sep)
   LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".lib", sep=""), fsep=.Platform$file.sep)
@@ -55,12 +55,12 @@ if(.Platform$OS.type == "windows") {
 
 args <- commandArgs(trailingOnly = TRUE)
 script_name <- unlist(strsplit(commandArgs()[4], split="="))[2]
-if(length(args) == 0) {
+if (length(args) == 0) {
   if(!file.exists(LIB)) {
     dir.create(LIB)
   }
   OFILES <- character()
-  for(file in CFILES) {
+  for (file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
 		dep <- gsub("\\.c$", ".d", file)
     print(sprintf("compile %s to %s", file, obj))
@@ -72,7 +72,7 @@ if(length(args) == 0) {
   print(sprintf("compile %s", LIBSTATIC))
   system(sprintf("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, paste(OFILES, collapse=" ")))
 } else if (args[1] == "test") {
-	for(file in TEST_FILES) {
+	for (file in TEST_FILES) {
 		TSTFILE <- file
 		TSTTARGET <- gsub("\\.c$", TSTSUFFIX, TSTFILE)
   	print(sprintf("compile %s to %s", TSTFILE, TSTTARGET))
@@ -81,7 +81,7 @@ if(length(args) == 0) {
 	  system(TSTTARGET)
 	}
 } else if (args[1] == "clean") {
-  for(file in CFILES) {
+  for (file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
     unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
@@ -93,14 +93,14 @@ if(length(args) == 0) {
   unlink(LIBSTATIC, force=TRUE)
   print(sprintf("clean %s", LIBSHARED))
   unlink(LIBSHARED, force=TRUE)
-	for(file in TEST_FILES) {
+	for (file in TEST_FILES) {
 		TSTFILE <- file
 		TSTTARGET <- gsub("\\.c$", TSTSUFFIX, TSTFILE)
   	print(sprintf("clean %s", TSTTARGET))
   	unlink(TSTTARGET, force=TRUE)
 	}
 } else if (args[1] == "distclean") {
-  for(file in CFILES) {
+  for (file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
     unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
@@ -114,7 +114,7 @@ if(length(args) == 0) {
   unlink(LIBSHARED, force=TRUE)
   print(sprintf("clean %s", LIB))
   unlink(LIB, force=TRUE)
-	for(file in TEST_FILES) {
+	for (file in TEST_FILES) {
 		TSTFILE <- file
 		TSTTARGET <- gsub("\\.c$", TSTSUFFIX, TSTFILE)
   	print(sprintf("clean %s", TSTTARGET))

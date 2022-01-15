@@ -11,10 +11,9 @@
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
-    cgraph_size_t i;
-    for (i = 0; i < cthis->len; i++) {
-      fputc(cthis->data[i], fp);
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    fputc(cthis->data[i], fp);
+    CGRAPH_LOOP_END
   }
 
   return len;
@@ -41,10 +40,9 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   cgraph_size_t hash = 0;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      hash += (hash << 5) + cthis->data[i];
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    hash += (hash << 5) + cthis->data[i];
+    CGRAPH_LOOP_END
   }
 
   return hash;
@@ -62,10 +60,9 @@ __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
 cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis) {
   cgraph_size_t hash = 1315423911L;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      hash ^= ((hash << 5) + (hash >> 2) + cthis->data[i]);
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    hash ^= ((hash << 5) + (hash >> 2) + cthis->data[i]);
+    CGRAPH_LOOP_END
   }
 
   return hash;
@@ -74,10 +71,9 @@ cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis) {
 cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis) {
   cgraph_size_t hash = 0;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      hash = ((hash << 6) - hash + (hash << 16) + cthis->data[i]);
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    hash = ((hash << 6) - hash + (hash << 16) + cthis->data[i]);
+    CGRAPH_LOOP_END
   }
 
   return hash;
@@ -86,11 +82,11 @@ cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis) {
 cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis) {
   cgraph_size_t hash = 0;
   if (NULL != cthis) {
-    cgraph_size_t i = 0, a = 63689, b = 378551;
-    for (; i < cthis->len; i++) {
-      hash = hash * a + cthis->data[i];
-      a *= b;
-    }
+    cgraph_size_t a = 63689;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    hash = hash * a + cthis->data[i];
+    a *= 378551;
+    CGRAPH_LOOP_END
   }
 
   return hash;
@@ -99,14 +95,14 @@ cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis) {
 cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis) {
   cgraph_size_t hash = 0;
   if (NULL != cthis) {
-    cgraph_size_t i = 0, hbyte = 0;
-    for (; i < cthis->len; i++) {
-      hash = (hash << (CGRAPH_SIZE_BITS / 8)) + cthis->data[i];
-      if (0 != (hbyte = hash & (0xFUL << (7 * CGRAPH_SIZE_BITS / 8)))) {
-        hash ^= (hbyte >> (3 * CGRAPH_SIZE_BITS / 4));
-        hash &= ~hbyte;
-      }
+    cgraph_size_t hbyte = 0;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    hash = (hash << (CGRAPH_SIZE_BITS / 8)) + cthis->data[i];
+    if (0 != (hbyte = hash & (0xFUL << (7 * CGRAPH_SIZE_BITS / 8)))) {
+      hash ^= (hbyte >> (3 * CGRAPH_SIZE_BITS / 4));
+      hash &= ~hbyte;
     }
+    CGRAPH_LOOP_END
   }
 
   return hash;
@@ -115,10 +111,9 @@ cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis) {
 cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis) {
   cgraph_size_t hash = 0;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      hash = hash * 131 + cthis->data[i];
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    hash = hash * 131 + cthis->data[i];
+    CGRAPH_LOOP_END
   }
 
   return CGRAPH_ABS(hash);
@@ -126,160 +121,177 @@ cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis) {
 
 /** package of <ctype.h> */
 cgraph_bool_t FUNCTION(NAME, isalnum)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isalnum(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isalnum(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, isalpha)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isalpha(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isalpha(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, isblank)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isblank(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isblank(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, isdigit)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isdec(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isdec(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, islower)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_islower(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_islower(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, isprint)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isprint(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isprint(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, isspace)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isspace(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isspace(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, isupper)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isupper(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isupper(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_ispsplit(cthis->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_ispsplit(cthis->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
 }
 
 cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis) {
-  cgraph_bool_t flag = CGRAPH_TRUE;
+  cgraph_bool_t flag = CGRAPH_FALSE;
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      if (!cgraph_math_isnline(cthis->data[i], cthis->data[i + 1])) {
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (!cgraph_math_isnline(cthis->data[i], cthis->data[i + 1])) {
+      flag = CGRAPH_FALSE;
+      break;
+    }
+    CGRAPH_LOOP_END
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, ispalindrome)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    DATA_TYPE *data_ptr_st = cthis->data,
+              *data_ptr_ed = cthis->data + (cthis->len - 1);
+    for (flag = CGRAPH_TRUE; data_ptr_st < data_ptr_ed;
+         data_ptr_st++, data_ptr_ed--) {
+      if (*data_ptr_st != *data_ptr_ed) {
         flag = CGRAPH_FALSE;
         break;
       }
     }
   }
+
   return flag;
 }
 
 TYPE *FUNCTION(NAME, lower)(TYPE *cthis) {
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      cthis->data[i] = cgraph_math_tolower(cthis->data[i]);
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    cthis->data[i] = cgraph_math_tolower(cthis->data[i]);
+    CGRAPH_LOOP_END
   }
 
   return cthis;
@@ -287,10 +299,9 @@ TYPE *FUNCTION(NAME, lower)(TYPE *cthis) {
 
 TYPE *FUNCTION(NAME, upper)(TYPE *cthis) {
   if (NULL != cthis) {
-    cgraph_size_t i = 0;
-    for (; i < cthis->len; i++) {
-      cthis->data[i] = cgraph_math_toupper(cthis->data[i]);
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    cthis->data[i] = cgraph_math_toupper(cthis->data[i]);
+    CGRAPH_LOOP_END
   }
 
   return cthis;
@@ -460,12 +471,12 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
 TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE y, TYPE *z) {
   if (NULL != x) {
     cgraph_bool_t error = CGRAPH_FALSE;
-    cgraph_size_t i = 0;
-    for (z->len = 0; i < x->len; i++) {
-      if (y == x->data[i]) {
-        z->len += 1;
-      }
+    z->len = 0;
+    CGRAPH_LOOP(i, 0, x->len)
+    if (y == x->data[i]) {
+      z->len += 1;
     }
+    CGRAPH_LOOP_END
     z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), CGRAPH_CBUF_SIZE0,
                                 &error);
     if (CGRAPH_FALSE == error) {
@@ -498,30 +509,38 @@ TYPE *FUNCTION(NAME, modc)(const TYPE *x, const DATA_TYPE y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), x->len, &error);
     if (CGRAPH_FALSE == error) {
-      cgraph_size_t i = 0;
-      for (z->len = 0; i < x->len; i++) {
-        if (y != x->data[i]) {
-          z->data[z->len++] = x->data[i];
-        }
+      CGRAPH_LOOP(i, 0, x->len)
+      if (y != x->data[i]) {
+        z->data[z->len++] = x->data[i];
       }
+      CGRAPH_LOOP_END
     }
   }
 
   return z;
 }
 
-TYPE *FUNCTION(NAME, format)(TYPE *cthis) { return cthis; }
+TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
+  if (NULL != cthis) {
+    if (0 > cthis->len) {
+      cthis->len = 0;
+    }
+    cthis->data[cthis->len] = '\0';
+  }
+
+  return cthis;
+}
 
 cgraph_bool_t FUNCTION(NAME, match)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y) && (x->len == y->len)) {
-    cgraph_size_t i = 0;
-    for (flag = CGRAPH_TRUE; i < x->len; i++) {
-      if (cgraph_math_toupper(x->data[i]) != cgraph_math_toupper(y->data[i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, x->len)
+    if (cgraph_math_toupper(x->data[i]) != cgraph_math_toupper(y->data[i])) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   } else if ((NULL == x) && (NULL == y)) {
     flag = CGRAPH_TRUE;
   }
@@ -532,14 +551,15 @@ cgraph_bool_t FUNCTION(NAME, match)(const TYPE *x, const TYPE *y) {
 cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y) && (x->len == y->len)) {
-    cgraph_size_t i = 0;
     DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
-    for (flag = CGRAPH_TRUE; i < x->len; i++, xd--, yd--) {
-      if (*xd != *yd) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, x->len)
+    if (*xd != *yd) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    xd--, yd--;
+    CGRAPH_LOOP_END
   } else if ((NULL == x) && (NULL == y)) {
     flag = CGRAPH_TRUE;
   }
@@ -711,22 +731,15 @@ TYPE *FUNCTION(NAME, stripc)(TYPE *cthis, const DATA_TYPE data) {
     DATA_TYPE *data_start_ptr = CGRAPH_DATA_START(cthis);
     DATA_TYPE *data_end_ptr = CGRAPH_DATA_END(cthis);
     if ('\0' == data) {
-      while (cgraph_math_isspace(*data_start_ptr)) {
-        data_start_ptr++;
-        cthis->len--;
+      for (; cgraph_math_isspace(*data_start_ptr);
+           data_start_ptr++, cthis->len--) {
       }
-      while (cgraph_math_isspace(*data_end_ptr)) {
-        data_end_ptr--;
-        cthis->len--;
+      for (; cgraph_math_isspace(*data_end_ptr); data_end_ptr--, cthis->len--) {
       }
     } else {
-      while (data == *data_start_ptr) {
-        data_start_ptr++;
-        cthis->len--;
+      for (; data == *data_start_ptr; data_start_ptr++, cthis->len--) {
       }
-      while (data == *data_end_ptr) {
-        data_end_ptr--;
-        cthis->len--;
+      for (; data == *data_end_ptr; data_end_ptr--, cthis->len--) {
       }
     }
     cthis->data = data_start_ptr;
@@ -740,14 +753,11 @@ TYPE *FUNCTION(NAME, lstripc)(TYPE *cthis, const DATA_TYPE data) {
   if (CGRAPH_HASDATA(cthis)) {
     DATA_TYPE *data_start_ptr = CGRAPH_DATA_START(cthis);
     if ('\0' == data) {
-      while (cgraph_math_isspace(*data_start_ptr)) {
-        data_start_ptr++;
-        cthis->len--;
+      for (; cgraph_math_isspace(*data_start_ptr);
+           data_start_ptr++, cthis->len--) {
       }
     } else {
-      while (data == *data_start_ptr) {
-        data_start_ptr++;
-        cthis->len--;
+      for (; data == *data_start_ptr; data_start_ptr++, cthis->len--) {
       }
     }
     cthis->data = data_start_ptr;
@@ -760,14 +770,10 @@ TYPE *FUNCTION(NAME, rstripc)(TYPE *cthis, const DATA_TYPE data) {
   if (CGRAPH_HASDATA(cthis)) {
     DATA_TYPE *data_end_ptr = CGRAPH_DATA_END(cthis);
     if ('\0' == data) {
-      while (cgraph_math_isspace(*data_end_ptr)) {
-        data_end_ptr--;
-        cthis->len--;
+      for (; cgraph_math_isspace(*data_end_ptr); data_end_ptr--, cthis->len--) {
       }
     } else {
-      while (data == *data_end_ptr) {
-        data_end_ptr--;
-        cthis->len--;
+      for (; data == *data_end_ptr; data_end_ptr--, cthis->len--) {
       }
     }
     *data_end_ptr = '\0';
@@ -851,13 +857,13 @@ cgraph_bool_t FUNCTION(NAME, startswith)(const TYPE *cthis,
                                          const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != cthis) && (NULL != cstr) && (len <= cthis->len)) {
-    cgraph_size_t i = 0;
-    for (flag = CGRAPH_TRUE; i < len; i++) {
-      if (cstr[i] != cthis->data[i]) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, len)
+    if (cstr[i] != cthis->data[i]) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
   }
 
   return flag;
@@ -868,13 +874,23 @@ cgraph_bool_t FUNCTION(NAME, endswith)(const TYPE *cthis, const DATA_TYPE *cstr,
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != cthis) && (NULL != cstr) && (len <= cthis->len)) {
     DATA_TYPE *data = &(cthis->data[cthis->len - len]);
-    cgraph_size_t i = 0;
-    for (flag = CGRAPH_TRUE; i < len; i++) {
-      if (cstr[i] != data[i]) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
+    flag = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, len)
+    if (cstr[i] != data[i]) {
+      flag = CGRAPH_FALSE;
+      break;
     }
+    CGRAPH_LOOP_END
+  }
+
+  return flag;
+}
+
+cgraph_bool_t FUNCTION(NAME, endswith_nline)(const TYPE *cthis) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if ((NULL != cthis) && (__PLAT_LEND_SIZE <= cthis->len)) {
+    DATA_TYPE *data = (cthis->data + (cthis->len - __PLAT_LEND_SIZE));
+    flag = cgraph_math_isnline(*(data), *(data + 1));
   }
 
   return flag;

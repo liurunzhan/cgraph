@@ -52,13 +52,12 @@ cgraph_size_t cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
 cgraph_size_t cgraph_error_details_md(FILE *fp) {
   cgraph_size_t len = 0;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_int_t i;
     len = cgraph_file_fprintfln(fp, "| ERROR TYPE | ERROR DETAIL |"
                                     "| :-: | :-: |");
-    for (i = 0; i < CGRAPH_ERROR_SIZE; i++) {
-      len += cgraph_file_fprintfln(fp, "| %d | %s |", i,
-                                   __cgraph_error_strings__[i]);
-    }
+    CGRAPH_LOOP(i, 0, CGRAPH_ERROR_SIZE)
+    len += cgraph_file_fprintfln(fp, "| %d | %s |", i,
+                                 __cgraph_error_strings__[i]);
+    CGRAPH_LOOP_END
   }
 #ifdef DEBUG
   else {
@@ -73,11 +72,10 @@ cgraph_size_t cgraph_error_details_md(FILE *fp) {
 cgraph_size_t cgraph_error_details_csv(FILE *fp) {
   cgraph_size_t len = 0;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_int_t i;
     len = cgraph_file_fprintfln(fp, "ERROR TYPE,ERROR DETAIL");
-    for (i = 0; i < CGRAPH_ERROR_SIZE; i++) {
-      len += cgraph_file_fprintfln(fp, "%d,%s", i, __cgraph_error_strings__[i]);
-    }
+    CGRAPH_LOOP(i, 0, CGRAPH_ERROR_SIZE)
+    len += cgraph_file_fprintfln(fp, "%d,%s", i, __cgraph_error_strings__[i]);
+    CGRAPH_LOOP_END
   }
 #ifdef DEBUG
   else {

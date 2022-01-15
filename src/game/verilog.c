@@ -5,8 +5,7 @@
 cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max - 1,
-                     len_1 = len - 1;
+    cgraph_size_t max = cgraph_math_pow2(len), max_1 = max - 1, len_1 = len - 1;
     flag = CGRAPH_TRUE;
     cgraph_file_fprintfln(
         fp,
@@ -29,9 +28,9 @@ cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if(clken)" __PLAT_LEND
                               "    begin" __PLAT_LEND "        case(dr)");
-    for (i = 0; i < max; i++) {
-      cgraph_file_fprintfln(fp, "        0x%lx : clko = clk_cnt[%ld];", i, i);
-    }
+    CGRAPH_LOOP(i, 0, max)
+    cgraph_file_fprintfln(fp, "        0x%lx : clko = clk_cnt[%ld];", i, i);
+    CGRAPH_LOOP_END
     cgraph_file_fprintfln(fp, "        default : clko = 1'bx;" __PLAT_LEND
                               "        endcase" __PLAT_LEND
                               "    end" __PLAT_LEND "    else" __PLAT_LEND
@@ -45,8 +44,7 @@ cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
 cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max - 1,
-                     len_1 = len - 1;
+    cgraph_size_t max = cgraph_math_pow2(len), max_1 = max - 1, len_1 = len - 1;
     cgraph_file_fprintfln(
         fp,
         "module clkgen (" __PLAT_LEND "   rstn," __PLAT_LEND
@@ -68,10 +66,9 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
                               "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if(clken)" __PLAT_LEND
                               "    begin" __PLAT_LEND "        case(dr)");
-    for (i = 0; i < max; i++) {
-      cgraph_file_fprintfln(fp, "        0x%lx : clko_p = clk_cnt_p[%ld];", i,
-                            i);
-    }
+    CGRAPH_LOOP(i, 0, max)
+    cgraph_file_fprintfln(fp, "        0x%lx : clko_p = clk_cnt_p[%ld];", i, i);
+    CGRAPH_LOOP_END
     cgraph_file_fprintfln(fp, "        default : clko_p = 1'bx;" __PLAT_LEND
                               "        endcase" __PLAT_LEND
                               "    end" __PLAT_LEND "    else" __PLAT_LEND
@@ -88,10 +85,9 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
                               "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if(clken)" __PLAT_LEND
                               "    begin" __PLAT_LEND "        case(dr)");
-    for (i = 0; i < max; i++) {
-      cgraph_file_fprintfln(fp, "        0x%lx : clko_n = clk_cnt_n[%ld];", i,
-                            i);
-    }
+    CGRAPH_LOOP(i, 0, max)
+    cgraph_file_fprintfln(fp, "        0x%lx : clko_n = clk_cnt_n[%ld];", i, i);
+    CGRAPH_LOOP_END
     cgraph_file_fprintfln(
         fp,
         "        default : clko_n = 1'bx;" __PLAT_LEND
@@ -107,8 +103,7 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
 cgraph_bool_t cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t i, max = cgraph_math_pow2(len), max_1 = max - 1,
-                     len_1 = len - 1;
+    cgraph_size_t max = cgraph_math_pow2(len), max_1 = max - 1, len_1 = len - 1;
     cgraph_file_fprintfln(
         fp,
         "module clkgen (" __PLAT_LEND "   rstn," __PLAT_LEND
@@ -130,9 +125,9 @@ cgraph_bool_t cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if(clken)" __PLAT_LEND
                               "    begin" __PLAT_LEND "        case(dr)");
-    for (i = 0; i < max; i++) {
-      cgraph_file_fprintfln(fp, "        0x%lx : clko = clk_cnt[%ld];", i, i);
-    }
+    CGRAPH_LOOP(i, 0, max)
+    cgraph_file_fprintfln(fp, "        0x%lx : clko = clk_cnt[%ld];", i, i);
+    CGRAPH_LOOP_END
     cgraph_file_fprintfln(fp, "        default : clko = 1'bx;" __PLAT_LEND
                               "        endcase" __PLAT_LEND
                               "    end" __PLAT_LEND "    else" __PLAT_LEND
@@ -311,7 +306,7 @@ cgraph_bool_t cgraph_verilog_fifo(FILE *fp, const cgraph_size_t vlen,
 cgraph_bool_t cgraph_verilog_shift(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t i, len_1 = len - 1, len_2 = len - 2;
+    cgraph_size_t len_1 = len - 1, len_2 = len - 2;
     cgraph_file_fprintfln(fp, "module shift (" __PLAT_LEND "  rstn," __PLAT_LEND
                               "  clk," __PLAT_LEND "  write," __PLAT_LEND
                               "  read," __PLAT_LEND "  msb," __PLAT_LEND
@@ -347,9 +342,9 @@ cgraph_bool_t cgraph_verilog_shift(FILE *fp, const cgraph_size_t len) {
                           len_1, len_1);
     cgraph_file_fprintfln(fp, "        else");
     cgraph_file_fprintf(fp, "            reg_shift[%ld:0] <= {din[0]", len_1);
-    for (i = 1; i < len; i++) {
-      cgraph_file_fprintf(fp, ", din[%ld]", i);
-    }
+    CGRAPH_LOOP(i, 1, len)
+    cgraph_file_fprintf(fp, ", din[%ld]", i);
+    CGRAPH_LOOP_END
     cgraph_file_fprintfln(fp, "};" __PLAT_LEND "    end" __PLAT_LEND
                               "    else if(read)");
     cgraph_file_fprintfln(fp,
@@ -368,7 +363,7 @@ cgraph_bool_t cgraph_verilog_shift(FILE *fp, const cgraph_size_t len) {
 cgraph_bool_t cgraph_verilog_crc(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t len_1 = len - 1, len_2 = len - 2, i;
+    cgraph_size_t len_1 = len - 1, len_2 = len - 2;
     cgraph_file_fprintfln(fp, "module crc (" __PLAT_LEND "  rstn," __PLAT_LEND
                               "  clk," __PLAT_LEND "  write," __PLAT_LEND
                               "  read," __PLAT_LEND "  msb," __PLAT_LEND
@@ -393,9 +388,9 @@ cgraph_bool_t cgraph_verilog_crc(FILE *fp, const cgraph_size_t len) {
                         "            reg_crc[%ld:0] <= reg_crc[%ld:0] ^ "
                         "{din[0]",
                         len_1, len, len_1, len_1, len_1, len_1, len_1);
-    for (i = 1; i < len; i++) {
-      cgraph_file_fprintf(fp, ", din[%ld]", i);
-    }
+    CGRAPH_LOOP(i, 1, len)
+    cgraph_file_fprintf(fp, ", din[%ld]", i);
+    CGRAPH_LOOP_END
     cgraph_file_fprintfln(fp, "};" __PLAT_LEND "    end");
     cgraph_file_fprintfln(fp,
                           "    else" __PLAT_LEND

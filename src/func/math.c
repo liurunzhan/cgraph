@@ -7,14 +7,14 @@ cgraph_size_t cgraph_math_subc(cgraph_char_t *x, const cgraph_size_t len,
   cgraph_size_t _len = len;
   if (NULL != x) {
     cgraph_char_t *p1 = x, *p2 = x;
-    cgraph_size_t i = 0;
-    for (; i < len; p1++, i++) {
-      if (ch != *p1) {
-        *(p2++) = *p1;
-      } else {
-        _len -= 1;
-      }
+    CGRAPH_LOOP(i, 0, len)
+    if (ch != *p1) {
+      *(p2++) = *p1;
+    } else {
+      _len -= 1;
     }
+    p1++;
+    CGRAPH_LOOP_END
     *p2 = '\0';
   }
 
@@ -27,16 +27,16 @@ cgraph_size_t cgraph_math_subc(cgraph_char_t *x, const cgraph_size_t len,
 cgraph_size_t *cgraph_math_kmpnext(const cgraph_char_t *y, cgraph_size_t *next,
                                    const cgraph_size_t len) {
   if ((NULL != y) && (NULL != next)) {
-    cgraph_size_t k = next[0] = 0, q = 1;
-    for (; q < len; q++) {
-      while ((0 < k) && (y[k] != y[q])) {
-        k = next[k - 1];
-      }
-      if (y[k] == y[q]) {
-        k += 1;
-      }
-      next[q] = k;
+    cgraph_size_t k = next[0] = 0;
+    CGRAPH_LOOP(q, 1, len)
+    while ((0 < k) && (y[k] != y[q])) {
+      k = next[k - 1];
     }
+    if (y[k] == y[q]) {
+      k += 1;
+    }
+    next[q] = k;
+    CGRAPH_LOOP_END
   }
 
   return next;
@@ -49,19 +49,19 @@ cgraph_size_t cgraph_math_kmpcnt(const cgraph_char_t *x,
                                  const cgraph_size_t len) {
   cgraph_size_t cnt = 0;
   if ((NULL != x) && (NULL != y) && (NULL != next) && (0 < len)) {
-    cgraph_size_t i = 0, q = 0;
-    for (; i < size; i++) {
-      while ((0 < q) && (y[q] != x[i])) {
-        q = next[q - 1];
-      }
-      if (y[q] == x[i]) {
-        q += 1;
-      }
-      if (q == len) {
-        q = next[q - 1];
-        cnt += 1;
-      }
+    cgraph_size_t q = 0;
+    CGRAPH_LOOP(i, 0, size)
+    while ((0 < q) && (y[q] != x[i])) {
+      q = next[q - 1];
     }
+    if (y[q] == x[i]) {
+      q += 1;
+    }
+    if (q == len) {
+      q = next[q - 1];
+      cnt += 1;
+    }
+    CGRAPH_LOOP_END
   }
 
   return cnt;
@@ -74,26 +74,26 @@ cgraph_size_t cgraph_math_kmpsub(const cgraph_char_t *x, cgraph_char_t *z,
                                  const cgraph_size_t len) {
   cgraph_size_t _len = 0;
   if ((NULL != x) && (NULL != y) && (NULL != next) && (0 < len)) {
-    cgraph_size_t i = 0, q = 0, start = 0;
-    for (; i < size; i++) {
-      while ((0 < q) && (y[q] != x[i])) {
-        q = next[q - 1];
-      }
-      if (y[q] == x[i]) {
-        q += 1;
-      }
-      if (q == len) {
-        cgraph_size_t end = i - len;
-        q = next[q - 1];
-        for (; start <= end; start++, _len++) {
-          z[_len] = x[start];
-        }
-        start = i + 1;
-      }
+    cgraph_size_t q = 0, start = 0;
+    CGRAPH_LOOP(i, 0, size)
+    while ((0 < q) && (y[q] != x[i])) {
+      q = next[q - 1];
     }
-    for (; start < size; start++, _len++) {
-      z[_len] = x[start];
+    if (y[q] == x[i]) {
+      q += 1;
     }
+    if (q == len) {
+      cgraph_size_t end = i - len;
+      q = next[q - 1];
+      for (; start <= end; start++, _len++) {
+        z[_len] = x[start];
+      }
+      start = i + 1;
+    }
+    CGRAPH_LOOP_END
+    CGRAPH_LOOP(i, start, size)
+    z[_len++] = x[i];
+    CGRAPH_LOOP_END
     z[_len] = '\0';
   }
 
@@ -511,18 +511,16 @@ cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
 cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                 const cgraph_uint64_t data,
                                 const cgraph_uint64_t poly) {
-  cgraph_uint64_t res = predata, temp = (data & res), ones = CGRAPH_UINT64_MAX,
-                  msb = 0;
-  cgraph_size_t i = 0, bits = CGRAPH_UINT64_BITS;
-  for (i = 0; i < bits; i++) {
-    msb = ((res ^ temp) >> (bits - 1) & 1);
-    if (msb == 1) {
-      res = (((res << 1) ^ ones) & poly);
-    } else {
-      res = (res << 1);
-    }
-    temp = (temp << 1);
+  cgraph_uint64_t res = predata, temp = (data & res);
+  CGRAPH_LOOP(i, 0, CGRAPH_UINT64_BITS)
+  cgraph_uint64_t msb = (((res ^ temp) >> (CGRAPH_UINT64_BITS - 1)) & 0x01U);
+  if (msb == 1) {
+    res = (((res << 1) ^ CGRAPH_UINT64_MAX) & poly);
+  } else {
+    res = (res << 1);
   }
+  temp = (temp << 1);
+  CGRAPH_LOOP_END
 
   return res;
 }
@@ -553,22 +551,22 @@ cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
                                  const cgraph_int_t data) {
   cgraph_size_t counter = 0;
   if ((NULL != primes) && (NULL != isprime) && (data > 1)) {
-    cgraph_size_t i, j;
-    for (i = 0; i < data; i++) {
-      primes[i] = 0;
-      isprime[i] = CGRAPH_TRUE;
+    cgraph_size_t j;
+    CGRAPH_LOOP(i, 0, data)
+    primes[i] = 0;
+    isprime[i] = CGRAPH_TRUE;
+    CGRAPH_LOOP_END
+    CGRAPH_LOOP(i, 2, data)
+    if (isprime[i] == CGRAPH_TRUE) {
+      primes[counter++] = i;
     }
-    for (i = 2; i < data; i++) {
-      if (isprime[i] == CGRAPH_TRUE) {
-        primes[counter++] = i;
-      }
-      for (j = 0; j < counter && i * primes[j] < data; j++) {
-        isprime[i * primes[j]] = CGRAPH_FALSE;
-        if (i % primes[j] == 0) {
-          break;
-        }
+    for (j = 0; (j < counter) && (i * primes[j] < data); j++) {
+      isprime[i * primes[j]] = CGRAPH_FALSE;
+      if (i % primes[j] == 0) {
+        break;
       }
     }
+    CGRAPH_LOOP_END
   }
 
   return counter;

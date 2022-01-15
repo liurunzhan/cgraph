@@ -16,11 +16,14 @@ if not exist %INC% (
 
 for %%F in (%INC%\*) do (
 	@echo add header template to %%F
-	python %TOOL%\header.py %%F -t %TOOL%\header.txt -b %TOOL%\brief.json -p %TOOL%\cgraph.json
+	python3 %TOOL%\header.py %%F -t %TOOL%\header.macro -b %TOOL%\brief.json -p %TOOL%\cgraph.json
+	if 0 != %errorlevel% (
+		exit
+	)
 )
 
 @echo update source template in %INC%\cgraph_template_off.h
-python %TOOL%\macro.py %INC%\cgraph_template_off.h -t %TOOL%\template_off.macro -c "end of cgraph_template_off"
+python3 %TOOL%\macro.py %INC%\cgraph_template_off.h -t %TOOL%\template_off.macro -c "end of cgraph_template_off"
 
 @echo update source template in %INC%\cgraph_template_check.h
-python %TOOL%\macro.py %INC%\cgraph_template_check.h -t %TOOL%\template_check.macro -c "end of cgraph_template_check"
+python3 %TOOL%\macro.py %INC%\cgraph_template_check.h -t %TOOL%\template_check.macro -c "end of cgraph_template_check"

@@ -43,8 +43,9 @@ print $fout "digraph ", ucfirst($base), " {\n";
 foreach my $file (sort{$a cmp $b} keys %headers)
 {
   my $value = $headers{$file};
-  for(my $i=0; $i<$#{$value}; $i++)
-  { print $fout "\"$file\" -> \"$$value[$i]\"\n"; }
+  for (my $i=0; $i<$#{$value}; $i++) {
+		print $fout "\"$file\" -> \"$$value[$i]\"\n";
+	}
 }
 print $fout "}\n";
 close($fout);

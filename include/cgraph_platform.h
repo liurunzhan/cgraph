@@ -7,6 +7,7 @@
  * @version 0.0.0
  * @date 2021-03-31
  * @lisence GPL-3.0
+ * @url https://github.com/liurunzhan/cgraph
  */
 
 #ifndef __CGRAPH_PLATFORM_H__
@@ -25,14 +26,14 @@ extern "C" {
 #endif
 
 typedef enum {
-  CGRAPH_PLAT_CYGWIN = 0,   /**< TYPE 0 : CGRAPH_PLAT_CYGWIN */
-  CGRAPH_PLAT_MSYS = 0,     /**< TYPE 0 : CGRAPH_PLAT_MSYS */
-  CGRAPH_PLAT_MSYS2 = 0,    /**< TYPE 0 : CGRAPH_PLAT_MSYS2 */
-  CGRAPH_PLAT_WINDOWS = 1,  /**< TYPE 1 : CGRAPH_PLAT_WINDOWS */
-  CGRAPH_PLAT_MACOS = 2,    /**< TYPE 2 : CGRAPH_PLAT_MACOS */
-  CGRAPH_PLAT_LINUX = 3,    /**< TYPE 3 : CGRAPH_PLAT_LINUX */
-  CGRAPH_PLAT_UNIX = 4,     /**< TYPE 4 : CGRAPH_PLAT_UNIX */
-  CGRAPH_PLAT_UNDEFINED = 5 /**< TYPE 5 : CGRAPH_PLAT_UNDEFINED */
+  CGRAPH_PLAT_CYGWIN = 0,  /**< TYPE 0 : CGRAPH_PLAT_CYGWIN */
+  CGRAPH_PLAT_MSYS = 0,    /**< TYPE 0 : CGRAPH_PLAT_MSYS */
+  CGRAPH_PLAT_MSYS2 = 0,   /**< TYPE 0 : CGRAPH_PLAT_MSYS2 */
+  CGRAPH_PLAT_WINDOWS = 1, /**< TYPE 1 : CGRAPH_PLAT_WINDOWS */
+  CGRAPH_PLAT_MACOS = 2,   /**< TYPE 2 : CGRAPH_PLAT_MACOS */
+  CGRAPH_PLAT_LINUX = 3,   /**< TYPE 3 : CGRAPH_PLAT_LINUX */
+  CGRAPH_PLAT_UNIX = 4,    /**< TYPE 4 : CGRAPH_PLAT_UNIX */
+  CGRAPH_PLAT_NONE = 5     /**< TYPE 5 : CGRAPH_PLAT_NONE */
 } cgraph_plat_t;
 
 /**< TYPE 0 : '\n' */
@@ -75,30 +76,21 @@ typedef enum {
 #define __PLAT_LEND "\r"
 #define __PLAT_LEND_C __PLAT_LEND_TYPE1
 #define __PLAT_LEND_TYPE __PLAT_LEND_MACOS
-#elif defined(__linux__)
+#else
+#if defined(__linux__)
 #define __PLAT_NAME "linux"
 #define __PLAT_MODE CGRAPH_PLAT_LINUX
-#define __PLAT_PSPLIT "/"
-#define __PLAT_PSPLIT_C '/'
-#define __PLAT_LEND "\n"
-#define __PLAT_LEND_SIZE (1)
-#define __PLAT_LEND_C __PLAT_LEND_TYPE0
-#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
 #elif defined(__unix__)
 #define __PLAT_NAME "unix"
 #define __PLAT_MODE CGRAPH_PLAT_UNIX
-#define __PLAT_PSPLIT "/"
-#define __PLAT_PSPLIT_C '/'
-#define __PLAT_LEND "\n"
-#define __PLAT_LEND_C __PLAT_LEND_TYPE0
-#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
 #else
-#define __PLAT_NAME "undefined"
-#define __PLAT_MODE CGRAPH_PLAT_UNDEFINED
+#define __PLAT_NAME "none"
+#define __PLAT_MODE CGRAPH_PLAT_NONE
+#endif
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_LEND "\n"
 #define __PLAT_LEND_SIZE (1)
+#define __PLAT_LEND "\n"
 #define __PLAT_LEND_C __PLAT_LEND_TYPE0
 #define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
 #endif
@@ -106,7 +98,7 @@ typedef enum {
 /** Self-defined features in different structures */
 #define __PLAT_ENDIAN_BIG (0)
 #define __PLAT_ENDIAN_LITTLE (1)
-#define __PLAT_ENDIAN_UNDEFINED (2)
+#define __PLAT_ENDIAN_NONE (2)
 /** Big-Endian architecture */
 #if defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                        \
     defined(__WORDS_BIGENDIAN)
@@ -117,7 +109,7 @@ typedef enum {
 #define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
 /** Undefined architecture */
 #else
-#define __PLAT_ENDIAN __PLAT_ENDIAN_UNDEFINED
+#define __PLAT_ENDIAN __PLAT_ENDIAN_NONE
 #endif
 
 #ifndef __WORDSIZE
@@ -142,7 +134,7 @@ typedef enum {
 
 /** C Standard */
 #ifndef __STDC__
-#error only standard c is suppoted!!
+#error Only standard c is suppoted!!
 #endif
 
 #ifndef __STDC_VERSION__
@@ -621,6 +613,38 @@ typedef unsigned __int64 __cgraph_uint64;
 #define __TYPE_PTRSIZE (1)
 #else
 #define __TYPE_PTRSIZE (2)
+#endif
+
+/**
+ * a simple way to use for-loop block locally, in c89/c90, c99 or higher
+ * which will
+ * 1) reduce the use of global variables
+ * 2) be more easier to do ptimization
+ */
+#if __STDC_VERSION__ >= 199901L
+#define CGRAPH_LOOP(i, start, end)                                             \
+  for (cgraph_size_t i = (start); (i) < (end); (i)++) {
+
+#define CGRAPH_RLOOP(i, start, end)                                            \
+  for (cgraph_size_t i = (start); (i) >= (end); (i)--) {
+
+#define CGRAPH_LOOP_END }
+#else
+#define CGRAPH_LOOP(i, start, end)                                             \
+  do {                                                                         \
+    cgraph_size_t i;                                                           \
+    for ((i) = (start); (i) < (end); (i)++) {
+
+#define CGRAPH_RLOOP(i, start, end)                                            \
+  do {                                                                         \
+    cgraph_size_t i;                                                           \
+    for ((i) = (start); (i) >= (end); (i)--) {
+
+#define CGRAPH_LOOP_END                                                        \
+  }                                                                            \
+  }                                                                            \
+  while (0)                                                                    \
+    ;
 #endif
 
 #ifdef __cplusplus

@@ -110,9 +110,11 @@ __INLINE TYPE FUNCTION(NAME, max)(void) { return MAX; }
 
 __INLINE TYPE FUNCTION(NAME, nan)(void) { return NAN; }
 
-__INLINE TYPE FUNCTION(NAME, pinf)(void) { return MIN; }
+__INLINE TYPE FUNCTION(NAME, inf)(void) { return INF; }
 
-__INLINE TYPE FUNCTION(NAME, ninf)(void) { return MIN; }
+__INLINE TYPE FUNCTION(NAME, pinf)(void) { return PINF; }
+
+__INLINE TYPE FUNCTION(NAME, ninf)(void) { return NINF; }
 
 TYPE FUNCTION(NAME, initma)(const DATA_TYPE mag, const DATA_TYPE angle) {
   TYPE res;
@@ -538,22 +540,6 @@ TYPE FUNCTION(NAME, atan)(const TYPE x) {
   return res;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISNAN(x));
-}
-
-__INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISPINF(x));
-}
-
-__INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISNINF(x));
-}
-
-__INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
-  return CGRAPH_TEST(DATA_ISINF(x));
-}
-
 __INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISPOS(x));
 }
@@ -572,6 +558,22 @@ __INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return EQ(x, MIN);
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNAN(x));
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISINF(x));
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISPINF(x));
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+  return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {

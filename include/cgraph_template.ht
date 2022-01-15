@@ -7,6 +7,7 @@
  * @version 0.0.0
  * @date 2021-03-31
  * @lisence GPL-3.0
+ * @url https://github.com/liurunzhan/cgraph
  */
 
 /**copyed memory size without pointer memory size */
@@ -128,7 +129,7 @@
 #define DATA_ISNAN(a) ((0 == FRACTION_DEN(a)) && (0 == FRACTION_NUM(a)))
 #define DATA_ISPINF(a) ((0 == FRACTION_DEN(a)) && (0 < FRACTION_NUM(a)))
 #define DATA_ISNINF(a) ((0 == FRACTION_DEN(a)) && (0 > FRACTION_NUM(a)))
-#define DATA_ISINF(a) (0 == FRACTION_DEN(a))
+#define DATA_ISINF(a) ((0 == FRACTION_DEN(a)) && (0 != FRACTION_NUM(a)))
 #define DATA_ISPOS(a)                                                          \
   (((0 < FRACTION_DEN(a)) && (0 < FRACTION_NUM(a))) ||                         \
    ((0 > FRACTION_DEN(a)) && (0 > FRACTION_NUM(a))))

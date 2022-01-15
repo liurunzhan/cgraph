@@ -94,15 +94,15 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
 cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if ((NULL != cthis) && (NULL != x)) {
-    cgraph_size_t i;
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
     cgraph_addr_t data = OBJECT(type, data)(cthis);
-    for (i = 0; i < cthis->len; i++, data += OBJECT(type, tstrusize)()) {
-      OBJECT(type, eq)(data, (void *)x, &res);
-      if (CGRAPH_TRUE == res) {
-        break;
-      }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    OBJECT(type, eq)(data, (void *)x, &res);
+    if (CGRAPH_TRUE == res) {
+      break;
     }
+    data += OBJECT(type, tstrusize)();
+    CGRAPH_LOOP_END
   }
 
   return res;
@@ -132,11 +132,10 @@ void *FUNCTION(NAME, pop)(TYPE *cthis) {
 
 TYPE *FUNCTION(NAME, delete)(TYPE *cthis, const void *x) {
   if ((NULL != cthis) && (NULL != x)) {
-    cgraph_size_t i;
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-    for (i = 0; i < cthis->len; i++) {
-      break;
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    break;
+    CGRAPH_LOOP_END
   }
 
   return cthis;

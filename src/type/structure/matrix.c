@@ -12,10 +12,10 @@ cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x) {
   if ((NULL != cthis) && (NULL != x)) {
     cgraph_size_t i;
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-    for (i = 0; i < cthis->len; i++) {
-      res = CGRAPH_TRUE;
-      break;
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    res = CGRAPH_TRUE;
+    break;
+    CGRAPH_LOOP_END
   }
 
   return res;
@@ -45,11 +45,10 @@ void *FUNCTION(NAME, pop)(TYPE *cthis) {
 
 TYPE *FUNCTION(NAME, delete)(TYPE *cthis, const void *x) {
   if ((NULL != cthis) && (NULL != x)) {
-    cgraph_size_t i;
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
-    for (i = 0; i < cthis->len; i++) {
-      break;
-    }
+    CGRAPH_LOOP(i, 0, cthis->len)
+    break;
+    CGRAPH_LOOP_END
   }
 
   return cthis;

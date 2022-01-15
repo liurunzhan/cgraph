@@ -49,7 +49,7 @@ public class Compile {
     
     List<File> CFILES = new ArrayList<File>();
     File[] FILES = new File(SRC).listFiles();
-    for(File file : FILES) {
+    for (File file : FILES) {
       if(file.isFile() && file.getName().endsWith(".c")) {
         CFILES.add(file);
       }
@@ -61,7 +61,7 @@ public class Compile {
         new File(LIB).mkdir();
       }
       List<String> OFILES = new ArrayList<String>();
-      for(File file : CFILES) {
+      for (File file : CFILES) {
 				String obj = file.getPath().replace(".c", ".o");
         try {
 					String dep = file.getPath().replace(".c", ".d");
@@ -103,7 +103,7 @@ public class Compile {
         System.out.println(String.format("ERROR: test %s with %s", TSTTARGET, TST + File.separator + "elements.csv"));
       }
     } else if (args[0].equals("clean")) {
-      for(File file : CFILES) {
+      for (File file : CFILES) {
         File obj = new File(file.getPath().replace(".c", ".o"));
         System.out.println(String.format("clean %s", obj));
         obj.delete();
@@ -121,7 +121,7 @@ public class Compile {
       File tsttarget = new File(TSTTARGET);
       tsttarget.delete();
     } else if (args[0].equals("distclean")) {
-      for(File file : CFILES) {
+      for (File file : CFILES) {
         File obj = new File(file.getPath().replace(".c", ".o"));
         System.out.println(String.format("clean %s", obj));
         obj.delete();

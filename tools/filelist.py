@@ -31,7 +31,7 @@ class FileList(object):
 				print(file, file=fout)
 
 def arg_parse():
-	parser = argparse.ArgumentParser(description="update C-type macro definitions")
+	parser = argparse.ArgumentParser(description="update C-type macro definitions", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 	parser.add_argument("dirs", nargs="+", help="input directories")
 	parser.add_argument("-s", "--suffix", required=True, dest="suffixes", action="append", help="input suffixes")
 	parser.add_argument("-o", "--output", required=True, help="output filelist")

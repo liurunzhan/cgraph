@@ -135,10 +135,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "step 7 : running script tools/run.sh"
-chmod +x tools/run.sh
-tools/run.sh
-
 if [ -f "./configure" ]; then
 echo ">>> generate FILE ./configure successfully"
 echo ">>> then please run ./configure with options you want to generate Makefiles and compile project with them"

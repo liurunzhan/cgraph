@@ -2,12 +2,13 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([cgraph], [0.0.0], [liurunzhan@sina.com])
+AC_INIT([cgraph], [0.0.0], [liurunzhan@sina.com], [cgraph], [https://github.com/liurunzhan/cgraph])
 AC_CONFIG_SRCDIR([include/cgraph.h])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_CONFIG_MACRO_DIR([m4])
 PKG_PROG_PKG_CONFIG
+AC_COPYRIGHT([GPL-3.0])
 
 # cite from autoconf-archive : 
 # https://www.gnu.org/software/autoconf-archive/The-Macros.html
@@ -50,12 +51,12 @@ GTK_DOC_CHECK([1.14], [--flavour no-tmpl])
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lm':
-AC_CHECK_LIB([m], [pow sqrt log sin cos tan atan2])
+AC_CHECK_LIB([m], [fabs pow sqrt log sin cos tan atan2])
 
 # Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_TIME
-AC_CHECK_HEADERS([float.h inttypes.h limits.h stdarg.h stddef.h stdint.h stdlib.h string.h])
+AC_CHECK_HEADERS([float.h inttypes.h limits.h stdarg.h stddef.h stdint.h stdio.h stdlib.h string.h math.h unistd.h sys/stat.h dirent.h io.h windows.h])
 AX_CREATE_STDINT_H(include/cgraph_stdint.h)
 
 # Checks for typedefs, structures, and compiler characteristics.

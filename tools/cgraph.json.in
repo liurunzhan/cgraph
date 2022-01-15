@@ -4,5 +4,6 @@
 	"author" : "liurunzhan",
 	"email" : "@PACKAGE_BUGREPORT@",
 	"date" : "2021-03-31",
-	"lisence" : "GPL-3.0"
+	"lisence" : "GPL-3.0",
+	"url" : "@PACKAGE_URL@"
 }

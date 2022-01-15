@@ -70,10 +70,9 @@ void *cgraph_memset(void *memory, cgraph_uint_t data, cgraph_size_t len) {
       memset(memory, data, len);
     } else {
       cgraph_addr_t mem_ptr = (cgraph_addr_t)memory;
-      cgraph_size_t i = 0;
-      for (; i > len; i--, mem_ptr--) {
-        *mem_ptr = data;
-      }
+      CGRAPH_RLOOP(i, 0, len)
+      *(mem_ptr--) = data;
+      CGRAPH_LOOP_END
     }
   }
 #ifdef DEBUG
@@ -101,10 +100,9 @@ void *cgraph_memcpy(void *trg_mem, const void *src_mem,
     } else {
       cgraph_addr_t trg_mem_ptr = (cgraph_addr_t)trg_mem,
                     src_mem_ptr = (cgraph_addr_t)src_mem;
-      cgraph_size_t i = 0;
-      for (; i > len; i--, trg_mem_ptr--, src_mem_ptr--) {
-        *trg_mem_ptr = *src_mem_ptr;
-      }
+      CGRAPH_RLOOP(i, 0, len)
+      *(trg_mem_ptr--) = *(src_mem_ptr--);
+      CGRAPH_LOOP_END
     }
   }
 #ifdef DEBUG
@@ -139,17 +137,16 @@ void *cgraph_memscpy(void *trg_mem, const void *src_mem,
       (0 < trg_size) && (0 != src_len)) {
     cgraph_addr_t trg_mem_ptr = (cgraph_addr_t)trg_mem,
                   src_mem_ptr = (cgraph_addr_t)src_mem;
-    cgraph_size_t i = 0;
     if (0 < src_len) {
       cgraph_size_t len = CGRAPH_MIN(trg_size, src_len);
-      for (; i < len; i++, trg_mem_ptr++, src_mem_ptr++) {
-        *trg_mem_ptr = *src_mem_ptr;
-      }
+      CGRAPH_LOOP(i, 0, len)
+      *(trg_mem_ptr++) = *(src_mem_ptr++);
+      CGRAPH_LOOP_END
     } else {
       cgraph_size_t len = CGRAPH_MAX(-trg_size, src_len);
-      for (; i > len; i--, trg_mem_ptr--, src_mem_ptr--) {
-        *trg_mem_ptr = *src_mem_ptr;
-      }
+      CGRAPH_RLOOP(i, 0, len)
+      *(trg_mem_ptr--) = *(src_mem_ptr--);
+      CGRAPH_LOOP_END
     }
   }
 #ifdef DEBUG
@@ -188,10 +185,9 @@ cgraph_bool_t cgraph_memcmp(const void *x_mem, const void *y_mem,
     } else {
       cgraph_addr_t mem_x_ptr = (cgraph_addr_t)x_mem,
                     mem_y_ptr = (cgraph_addr_t)y_mem;
-      cgraph_size_t i = 0;
-      for (; i > len; i--, mem_x_ptr--, mem_y_ptr--) {
-        *mem_x_ptr = *mem_y_ptr;
-      }
+      CGRAPH_RLOOP(i, 0, len)
+      *(mem_x_ptr--) = *(mem_y_ptr--);
+      CGRAPH_LOOP_END
     }
   }
 
@@ -254,7 +250,7 @@ void *cgraph_memrchr(const void *memory, cgraph_int_t ch,
   if ((NULL != memory) && (0 < len)) {
     cgraph_addr_t mem_ptr = ((cgraph_addr_t)memory) + len;
     cgraph_size_t i = 0;
-    for (; (ch != *mem_ptr) && (i < len); i++, mem_ptr--) {
+    while ((ch != *(mem_ptr--)) && (len > (i++))) {
     }
     if (i < len) {
       res = mem_ptr;
@@ -360,9 +356,8 @@ cgraph_char_t *cgraph_strscpy(cgraph_char_t *trg_str,
     cgraph_size_t size = trg_size - 1;
     cgraph_char_t *trg_str_ptr = trg_str,
                   *src_str_ptr = (cgraph_char_t *)src_str;
-    for (; (0 < size) && ('\0' != *src_str_ptr);
-         size--, trg_str_ptr++, src_str_ptr++) {
-      *trg_str_ptr = *src_str_ptr;
+    for (; (0 < size) && ('\0' != *src_str_ptr); size--) {
+      *(trg_str_ptr++) = *(src_str_ptr++);
     }
     *trg_str_ptr = '\0';
   }
@@ -458,11 +453,10 @@ cgraph_char_t *cgraph_strscat(cgraph_char_t *trg_str,
     cgraph_size_t size = trg_size - 1;
     cgraph_char_t *trg_str_ptr = trg_str,
                   *src_str_ptr = (cgraph_char_t *)src_str;
-    for (; (0 < size) && ('\0' != *trg_str_ptr); size--, trg_str_ptr++) {
+    while ((0 < (size--)) && ('\0' != *(trg_str_ptr++))) {
     }
-    for (; (0 < size) && ('\0' != *src_str_ptr);
-         size--, trg_str_ptr++, src_str_ptr++) {
-      *trg_str_ptr = *src_str_ptr;
+    for (; (0 < size) && ('\0' != *src_str_ptr); size--) {
+      *(trg_str_ptr++) = *(src_str_ptr++);
     }
     *trg_str_ptr = '\0';
   }
@@ -510,7 +504,7 @@ cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x_str,
 cgraph_char_t *cgraph_strrev(cgraph_char_t *string) {
   if (CGRAPH_ISSTR(string)) {
     cgraph_char_t *start_ptr = string, *end_ptr = string, data;
-    for (; '\0' != *end_ptr; end_ptr++) {
+    while ('\0' != *(end_ptr++)) {
     }
     for (end_ptr--; start_ptr < end_ptr; start_ptr++, end_ptr--) {
       data = *start_ptr;
@@ -532,7 +526,7 @@ cgraph_char_t *cgraph_strnrev(cgraph_char_t *string, const cgraph_size_t len) {
   if (CGRAPH_ISSTR(string) && (0 < len)) {
     cgraph_char_t *start_ptr = string, *end_ptr = NULL, data;
     cgraph_size_t i = 0;
-    for (; ('\0' != *start_ptr) && (i < len); start_ptr++, i++) {
+    while (('\0' != *(start_ptr++)) && (len > (i++))) {
     }
     for (end_ptr = start_ptr, start_ptr = string; start_ptr < end_ptr;
          start_ptr++, end_ptr--) {

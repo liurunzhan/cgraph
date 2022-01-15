@@ -30,7 +30,7 @@ def parse_template_header_file(file, type):
 	return lines
 
 def cmd_arg_parse(project):
-	parser = argparse.ArgumentParser(description="parse template C header file and source file in PROJECT %s" % (project))
+	parser = argparse.ArgumentParser(description="parse template C header file and source file in PROJECT %s" % (project), formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 	parser.add_argument("file", type=str, help="source file")
 	parser.add_argument("--include-dir", type=str, help="included header file directory")
 	parser.add_argument("--source-dir", type=str, help="source file directory")
