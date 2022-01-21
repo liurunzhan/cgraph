@@ -23,12 +23,13 @@ extern "C" {
 #define TYPE_MATRIX3D
 #include "cgraph_template.h"
 
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
 #define NAME matrix3d
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(MATRIX3D)
 #define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_matrix3d_t

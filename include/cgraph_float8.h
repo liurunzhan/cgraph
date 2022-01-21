@@ -23,6 +23,9 @@ extern "C" {
 #define TYPE_FLOAT8
 #include "cgraph_template.h"
 
+#define DATA_NAME int8
+#define DATA_ID ID_T(INT8)
+
 #define ARG cgraph_int_t
 #define NAME float8
 #define TYPE TYPE_T(NAME)
@@ -52,8 +55,6 @@ extern "C" {
 #define SIG_BITS CGRAPH_FLOAT8_SIG_BITS
 #define SIG_OFS CGRAPH_FLOAT8_SIG_OFS
 #define SIG_EPS CGRAPH_FLOAT8_SIG_EPS
-#define DATA_NAME int8
-#define DATA_ID ID_T(INT8)
 
 /** template module */
 #include "cgraph_template_float_soft.ht"

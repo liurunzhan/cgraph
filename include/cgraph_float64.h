@@ -23,6 +23,9 @@ extern "C" {
 #define TYPE_FLOAT64
 #include "cgraph_template.h"
 
+#define DATA_NAME int64
+#define DATA_ID ID_T(INT64)
+
 #define ARG cgraph_float64_t
 #define NAME float64
 #define TYPE TYPE_T(NAME)
@@ -52,8 +55,6 @@ extern "C" {
 #define SIG_BITS CGRAPH_FLOAT64_SIG_BITS
 #define SIG_OFS CGRAPH_FLOAT64_SIG_OFS
 #define SIG_EPS CGRAPH_FLOAT64_SIG_EPS
-#define DATA_NAME int64
-#define DATA_ID ID_T(INT64)
 
 /** template module */
 #include "cgraph_template_float.ht"

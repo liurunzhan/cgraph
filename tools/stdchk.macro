@@ -1,0 +1,3 @@
+#ifdef {macro}
+#define __{macro}
+#endif

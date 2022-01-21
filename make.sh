@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Step 0 : running ./tools/run.sh"
+chmod +x ./tools/run.sh; ./tools/run.sh
+
 echo "Step 1 : running autogen.sh"
 chmod +x ./autogen.sh; ./autogen.sh
 

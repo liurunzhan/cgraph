@@ -109,30 +109,93 @@ TYPE FUNCTION(NAME, format)(const TYPE cthis) {
 }
 
 /**                              private apis                                 */
-__INLINE TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
+__INLINE TYPE FUNCTION(NAME, zero)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ZERO;
+  FRACTION_DEN(res) = DATA_ONE;
 
-__INLINE TYPE FUNCTION(NAME, one)(void) { return ONE; }
+  return res;
+}
 
-__INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
+__INLINE TYPE FUNCTION(NAME, one)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ONE;
+  FRACTION_DEN(res) = DATA_ONE;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, ones)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ONES;
+  FRACTION_DEN(res) = DATA_ONE;
+
+  return res;
+}
 
 TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
   FRACTION_NUM(res) = FUNCTION(DATA_NAME, rand)();
   FRACTION_DEN(res) = FUNCTION(DATA_NAME, rand)();
+
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, min)(void) { return MIN; }
+__INLINE TYPE FUNCTION(NAME, min)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ONE;
+  FRACTION_DEN(res) = DATA_MIN;
 
-__INLINE TYPE FUNCTION(NAME, max)(void) { return MAX; }
+  return res;
+}
 
-__INLINE TYPE FUNCTION(NAME, nan)(void) { return NAN; }
+__INLINE TYPE FUNCTION(NAME, max)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_MAX;
+  FRACTION_DEN(res) = DATA_ONE;
 
-__INLINE TYPE FUNCTION(NAME, inf)(void) { return INF; }
+  return res;
+}
 
-__INLINE TYPE FUNCTION(NAME, pinf)(void) { return PINF; }
+__INLINE TYPE FUNCTION(NAME, nan)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ZERO;
+  FRACTION_DEN(res) = DATA_ZERO;
 
-__INLINE TYPE FUNCTION(NAME, ninf)(void) { return NINF; }
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, inf)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ONE;
+  FRACTION_DEN(res) = DATA_ZERO;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, pinf)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ONE;
+  FRACTION_DEN(res) = DATA_ZERO;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, ninf)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = -DATA_ONE;
+  FRACTION_DEN(res) = DATA_ZERO;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, eps)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = DATA_ONE;
+  FRACTION_DEN(res) = DATA_MIN;
+
+  return res;
+}
 
 TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t data) {
   TYPE res = FUNCTION(NAME, zero)();

@@ -23,16 +23,6 @@ extern "C" {
 #define TYPE_STRING
 #include "cgraph_template.h"
 
-#define NAME string
-#define TYPE TYPE_T(NAME)
-#define ID ID_T(STRING)
-#define BITS (8 * sizeof(TYPE))
-#define OUT_FMT "%s"
-#define ZERO(x) FUNCTION(NAME, zero)((x))
-#define ONE(x) FUNCTION(NAME, one)((x))
-#define ONES(x) FUNCTION(NAME, ones)((x))
-#define MIN(x) FUNCTION(NAME, min)((x))
-#define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME char
 #define DATA_UNAME uchar
@@ -47,6 +37,17 @@ extern "C" {
 #define DATA_ONES ('1')
 #define DATA_MIN (' ')
 #define DATA_MAX ('~')
+
+#define NAME string
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(STRING)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT "%s"
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
+#define MIN(x) FUNCTION(NAME, min)((x))
+#define MAX(x) FUNCTION(NAME, max)((x))
 
 /**
  * @struct cgraph_string_t

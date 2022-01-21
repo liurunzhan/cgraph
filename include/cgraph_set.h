@@ -24,12 +24,13 @@ extern "C" {
 #define TYPE_SET
 #include "cgraph_template.h"
 
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
 #define NAME set
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(SET)
 #define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_set_t

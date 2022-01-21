@@ -31,6 +31,9 @@ extern "C" {
 #define TYPE_FLOAT128_SIZE64
 #endif
 
+#define DATA_NAME int128
+#define DATA_ID ID_T(INT128)
+
 #define ARG cgraph_float128_t
 #define NAME float128
 #define TYPE TYPE_T(NAME)
@@ -52,8 +55,6 @@ extern "C" {
 #define HASH_OFS CGRAPH_FLOAT128_HASH_OFS
 #define FRAC_BITS CGRAPH_FLOAT128_FRAC_BITS
 #define EXP_BITS CGRAPH_FLOAT128_EXP_BITS
-#define DATA_NAME int128
-#define DATA_ID ID_T(INT128)
 
 /** template module */
 #include "cgraph_template_float.ht"

@@ -23,24 +23,6 @@ extern "C" {
 #define TYPE_FRACTION
 #include "cgraph_template.h"
 
-#define NAME fraction
-#define TYPE TYPE_T(NAME)
-#define ID ID_T(FRACTION)
-#define BITS (8 * sizeof(TYPE))
-#define IN_FMT "%d/%d"
-#define OUT_FMT "%d/%d"
-#define OUT_FMT_NUM "%d"
-#define ZERO ((TYPE){{0, 1}})
-#define ONE ((TYPE){{1, 1}})
-#define ONES ((TYPE){{CGRAPH_INT_MIN, 1}})
-#define MIN ((TYPE){{CGRAPH_INT_MIN, 1}})
-#define MAX ((TYPE){{CGRAPH_INT_MAX, 1}})
-#define NAN ((TYPE){{0, 0}})
-#define INF ((TYPE){{1, 0}})
-#define PINF ((TYPE){{1, 0}})
-#define NINF ((TYPE){{-1, 0}})
-#define EPS ((TYPE){{-1, CGRAPH_INT_MIN}})
-#define EPS_LEN (8 * sizeof(TYPE))
 #define DATA_NAME int
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT)
@@ -53,6 +35,38 @@ extern "C" {
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
 #define DATA_LSB (DATA_ONE)
 #define DATA_EPS CGRAPH_INT_EPS
+
+#define NAME fraction
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(FRACTION)
+#define BITS (8 * sizeof(TYPE))
+#define IN_FMT "%d/%d"
+#define OUT_FMT "%d/%d"
+#define OUT_FMT_NUM "%d"
+#if __STDC_VERSION__ >= 199901L
+#define ZERO ((TYPE){{DATA_ZERO, DATA_ONE}})
+#define ONE ((TYPE){{DATA_ONE, DATA_ONE}})
+#define ONES ((TYPE){{DATA_ONES, DATA_ONE}})
+#define MIN ((TYPE){{DATA_ONE, DATA_MIN}})
+#define MAX ((TYPE){{DATA_MAX, DATA_ONE}})
+#define NAN ((TYPE){{DATA_ZERO, DATA_ZERO}})
+#define INF ((TYPE){{DATA_ONE, DATA_ZERO}})
+#define PINF ((TYPE){{DATA_ONE, DATA_ZERO}})
+#define NINF ((TYPE){{-DATA_ONE, DATA_ZERO}})
+#define EPS ((TYPE){{DATA_ONE, DATA_MIN}})
+#else
+#define ZERO FUNCTION(NAME, zero)()
+#define ONE FUNCTION(NAME, one)()
+#define ONES FUNCTION(NAME, ones)()
+#define MIN FUNCTION(NAME, min)()
+#define MAX FUNCTION(NAME, max)()
+#define NAN FUNCTION(NAME, nan)()
+#define INF FUNCTION(NAME, inf)()
+#define PINF FUNCTION(NAME, pinf)()
+#define NINF FUNCTION(NAME, ninf)()
+#define EPS FUNCTION(NAME, eps)()
+#endif
+#define EPS_LEN (8 * sizeof(TYPE))
 
 /**
  * @struct cgraph_fraction_t
@@ -70,6 +84,8 @@ typedef struct {
 #define CGRAPH_FRACTION_CBUF_SIZE CGRAPH_CBUF_SIZE0
 #include "cgraph_template_cbuf.ht"
 #include "cgraph_template_data.ht"
+
+extern TYPE FUNCTION(NAME, eps)(void);
 
 /** initial functions */
 extern TYPE FUNCTION(NAME, initnd)(const DATA_TYPE num, const DATA_TYPE den);

@@ -3,6 +3,9 @@
 
 AC_PREREQ([2.69])
 AC_INIT([cgraph], [0.0.0], [liurunzhan@sina.com], [cgraph], [https://github.com/liurunzhan/cgraph])
+AC_SUBST([PACKAGE_AUTHOR], [liurunzhan])
+AC_SUBST([PACKAGE_LISENCE], [GPL-3.0])
+AC_SUBST([PACKAGE_BRIEF], ["A C Library for Graph And Mathematical Analysis"])
 AC_CONFIG_SRCDIR([include/cgraph.h])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([-Wall -Werror])
@@ -89,7 +92,7 @@ AC_FUNC_ALLOCA
 AC_FUNC_MEMCMP
 AC_FUNC_MKTIME
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([memset memcpy strcpy srand rand])
+AC_CHECK_FUNCS([alloc calloc realloc memset memcpy strcpy srand rand])
 
 # Checks for DEBUG or RELEASE mode
 AC_ARG_ENABLE(debug,

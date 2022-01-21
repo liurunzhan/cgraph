@@ -23,22 +23,6 @@ extern "C" {
 #define TYPE_COMPLEX
 #include "cgraph_template.h"
 
-#define NAME complex
-#define TYPE TYPE_T(NAME)
-#define ID ID_T(COMPLEX)
-#define BITS (sizeof(TYPE))
-#define IN_FMT "%lf+i%lf"
-#define OUT_FMT "%g+i%g"
-#define OUT_FMT_REAL "%g"
-#define ZERO ((TYPE){{0.0, 0.0}})
-#define ONE ((TYPE){{1.0, 0.0}})
-#define ONES ((TYPE){{1.0, 1.0}})
-#define MIN ((TYPE){{CGRAPH_FLOAT64_MIN, CGRAPH_FLOAT64_MIN}})
-#define MAX ((TYPE){{CGRAPH_FLOAT64_MAX, CGRAPH_FLOAT64_MAX}})
-#define NAN ((TYPE){{CGRAPH_FLOAT64_NAN, CGRAPH_FLOAT64_NAN}})
-#define INF ((TYPE){{CGRAPH_FLOAT64_INF, CGRAPH_FLOAT64_INF}})
-#define PINF ((TYPE){{CGRAPH_FLOAT64_PINF, CGRAPH_FLOAT64_PINF}})
-#define NINF ((TYPE){{CGRAPH_FLOAT64_NINF, CGRAPH_FLOAT64_NINF}})
 #define DATA_NAME float64
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(FLOAT64)
@@ -48,8 +32,41 @@ extern "C" {
 #define DATA_ONES (1.0)
 #define DATA_MIN CGRAPH_FLOAT64_MIN
 #define DATA_MAX CGRAPH_FLOAT64_MAX
+#define DATA_NAN CGRAPH_FLOAT64_NAN
+#define DATA_INF CGRAPH_FLOAT64_INF
+#define DATA_PINF CGRAPH_FLOAT64_PINF
+#define DATA_NINF CGRAPH_FLOAT64_NINF
 #define DATA_EPS CGRAPH_FLOAT64_EPS
 #define DATA_EPS_LEN CGRAPH_FLOAT64_BITS
+
+#define NAME complex
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(COMPLEX)
+#define BITS (sizeof(TYPE))
+#define IN_FMT "%lf+i%lf"
+#define OUT_FMT "%g+i%g"
+#define OUT_FMT_REAL "%g"
+#if __STDC_VERSION__ >= 199901L
+#define ZERO ((TYPE){{DATA_ZERO, DATA_ZERO}})
+#define ONE ((TYPE){{DATA_ONE, DATA_ZERO}})
+#define ONES ((TYPE){{DATA_ONE, DATA_ONE}})
+#define MIN ((TYPE){{DATA_MIN, DATA_MIN}})
+#define MAX ((TYPE){{DATA_MAX, DATA_MAX}})
+#define NAN ((TYPE){{DATA_NAN, DATA_NAN}})
+#define INF ((TYPE){{DATA_INF, DATA_INF}})
+#define PINF ((TYPE){{DATA_PINF, DATA_PINF}})
+#define NINF ((TYPE){{DATA_NINF, DATA_NINF}})
+#else
+#define ZERO FUNCTION(NAME, zero)()
+#define ONE FUNCTION(NAME, one)()
+#define ONES FUNCTION(NAME, ones)()
+#define MIN FUNCTION(NAME, min)()
+#define MAX FUNCTION(NAME, max)()
+#define NAN FUNCTION(NAME, nan)()
+#define INF FUNCTION(NAME, inf)()
+#define PINF FUNCTION(NAME, pinf)()
+#define NINF FUNCTION(NAME, ninf)()
+#endif
 
 /**
  * @struct cgraph_complex_t

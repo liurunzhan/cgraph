@@ -23,6 +23,8 @@ extern "C" {
 #define TYPE_INT128
 #include "cgraph_template.h"
 
+#define DATA_TYPE __INT128_DTYPE
+
 #define ARG cgraph_long_t
 #define NAME int128
 #define TYPE TYPE_T(NAME)
@@ -51,7 +53,6 @@ extern "C" {
 #define EPS16 CGRAPH_INT128_EPS16
 #define EPS32 CGRAPH_INT128_EPS32
 #define EPS64 CGRAPH_INT128_EPS64
-#define DATA_TYPE __INT128_DTYPE
 
 /** template module */
 #define CGRAPH_INT128_CBUF_SIZE CGRAPH_CBUF_SIZE0

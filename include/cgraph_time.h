@@ -23,23 +23,6 @@ extern "C" {
 #define TYPE_TIME
 #include "cgraph_template.h"
 
-#define NAME time
-#define TYPE TYPE_T(NAME)
-#define ID ID_T(TIME)
-#define BITS (8 * sizeof(TYPE))
-#define OUT_FMT0 "%u%u"
-#define ZERO0 ((TYPE){0, {{0, 0}}})
-#define ONE0 ((TYPE){0, {{0, 1}}})
-#define ONES0 ((TYPE){1, {{1, 1}}})
-#define OUT_FMT1 "%u-%u-%u %u:%u:%u"
-#define ZERO1 ((TYPE){0, {{0, 0, 0, 0, 0, 0}}})
-#define ONE1 ((TYPE){0, {{0, 0, 0, 0, 0, 1}}})
-#define ONES1 ((TYPE){1, {{1, 1, 1, 1, 1, 1}}})
-#define ZERO ZERO0
-#define ONE ONE0
-#define ONES ONE0
-#define MIN (0)
-#define MAX (1)
 #define DATA_NAME int32
 #define DATA_UNAME uint32
 #define DATA_TYPE TYPE_T(DATA_UNAME)
@@ -56,6 +39,36 @@ extern "C" {
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
 #define DATA_LSB (DATA_ONE)
 #define DATA_EPS CGRAPH_UINT32_EPS
+
+#define NAME time
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(TIME)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT0 "%u%u"
+#if __STDC_VERSION__ >= 199901L
+#define ZERO0 ((TYPE){0, {{0, 0}}})
+#define ONE0 ((TYPE){0, {{0, 1}}})
+#define ONES0 ((TYPE){1, {{1, 1}}})
+#else
+#define ZERO0 FUNCTION(NAME, zero0)()
+#define ONE0 FUNCTION(NAME, one0)()
+#define ONES0 FUNCTION(NAME, ones0)()
+#endif
+#define OUT_FMT1 "%u-%u-%u %u:%u:%u"
+#if __STDC_VERSION__ >= 199901L
+#define ZERO1 ((TYPE){0, {{0, 0, 0, 0, 0, 0}}})
+#define ONE1 ((TYPE){0, {{0, 0, 0, 0, 0, 1}}})
+#define ONES1 ((TYPE){1, {{1, 1, 1, 1, 1, 1}}})
+#else
+#define ZERO1 FUNCTION(NAME, zero1)()
+#define ONE1 FUNCTION(NAME, one1)()
+#define ONES1 FUNCTION(NAME, ones1)()
+#endif
+#define ZERO ZERO0
+#define ONE ONE0
+#define ONES ONE0
+#define MIN (0)
+#define MAX (1)
 
 /** macro parameters defined in TYPE 0 */
 #define CGRAPH_TIME_TYPE0 (0)

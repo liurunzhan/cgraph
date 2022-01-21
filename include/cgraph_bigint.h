@@ -23,16 +23,6 @@ extern "C" {
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 
-#define NAME bigint
-#define TYPE TYPE_T(NAME)
-#define ID ID_T(BIGINT)
-#define BITS (8 * sizeof(TYPE))
-#define OUT_FMT "%s"
-#define ZERO(x) FUNCTION(NAME, zero)((x))
-#define ONE(x) FUNCTION(NAME, one)((x))
-#define ONES(x) FUNCTION(NAME, ones)((x))
-#define MIN(x) FUNCTION(NAME, min)((x))
-#define MAX(x) FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME int8
 #define DATA_UNAME uint8
@@ -51,6 +41,17 @@ extern "C" {
 #define DATA_MSB (0x01U << (DATA_BITS - 1))
 #define DATA_LSB (0x01U)
 #define DATA_EPS CGRAPH_UINT8_EPS
+
+#define NAME bigint
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BIGINT)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT "%s"
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
+#define MIN(x) FUNCTION(NAME, min)((x))
+#define MAX(x) FUNCTION(NAME, max)((x))
 
 /**
  * @struct cgraph_bigint_t

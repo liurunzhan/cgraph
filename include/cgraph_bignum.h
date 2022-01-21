@@ -25,16 +25,6 @@ extern "C" {
 #define TYPE_BIGNUM
 #include "cgraph_template.h"
 
-#define NAME bignum
-#define TYPE TYPE_T(NAME)
-#define ID ID_T(BIGNUM)
-#define BITS (8 * sizeof(TYPE))
-#define OUT_FMT "%s"
-#define ZERO(x) FUNCTION(NAME, zero)((x))
-#define ONE(x) FUNCTION(NAME, one)((x))
-#define ONES(x) FUNCTION(NAME, ones)((x))
-#define MIN FUNCTION(NAME, min)((x))
-#define MAX FUNCTION(NAME, max)((x))
 #define TYPE_WITH_DATA
 #define DATA_NAME int8
 #define DATA_UNAME uint8
@@ -50,6 +40,17 @@ extern "C" {
 #define DATA_ONES (1)
 #define DATA_MIN (0)
 #define DATA_MAX (9)
+
+#define NAME bignum
+#define TYPE TYPE_T(NAME)
+#define ID ID_T(BIGNUM)
+#define BITS (8 * sizeof(TYPE))
+#define OUT_FMT "%s"
+#define ZERO(x) FUNCTION(NAME, zero)((x))
+#define ONE(x) FUNCTION(NAME, one)((x))
+#define ONES(x) FUNCTION(NAME, ones)((x))
+#define MIN FUNCTION(NAME, min)((x))
+#define MAX FUNCTION(NAME, max)((x))
 
 /**
  * @struct cgraph_bignum_t

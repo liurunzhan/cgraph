@@ -1,9 +1,9 @@
 {
 	"package" : "@PACKAGE@",
 	"version" : "@VERSION@",
-	"author" : "liurunzhan",
+	"author" : "@PACKAGE_AUTHOR@",
 	"email" : "@PACKAGE_BUGREPORT@",
 	"date" : "2021-03-31",
-	"lisence" : "GPL-3.0",
+	"lisence" : "@PACKAGE_LISENCE@",
 	"url" : "@PACKAGE_URL@"
 }

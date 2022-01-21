@@ -33,7 +33,7 @@ cloc:
 	cloc include src --force-lang=C,ct --force-lang="C/C++ Header",ht --include-ext=c,ct,h,ht
 
 cloc-all:
-	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --exclude-ext=in,md --not-match-f="Makefile$$"
+	cloc include src test tools --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=in,md --not-match-f="Makefile$$"
 
 update:
 	git clean -xf

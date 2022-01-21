@@ -90,11 +90,29 @@ __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
 }
 
 /**                         initial function */
-__INLINE TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
+__INLINE TYPE FUNCTION(NAME, zero)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_ZERO;
+  COMPLEX_IMAG(res) = DATA_ZERO;
 
-__INLINE TYPE FUNCTION(NAME, one)(void) { return ONE; }
+  return res;
+}
 
-__INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
+__INLINE TYPE FUNCTION(NAME, one)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_ONE;
+  COMPLEX_IMAG(res) = DATA_ZERO;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, ones)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_ONE;
+  COMPLEX_IMAG(res) = DATA_ONE;
+
+  return res;
+}
 
 TYPE FUNCTION(NAME, rand)(void) {
   TYPE res;
@@ -104,17 +122,53 @@ TYPE FUNCTION(NAME, rand)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, min)(void) { return MIN; }
+__INLINE TYPE FUNCTION(NAME, min)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_MIN;
+  COMPLEX_IMAG(res) = DATA_MIN;
 
-__INLINE TYPE FUNCTION(NAME, max)(void) { return MAX; }
+  return res;
+}
 
-__INLINE TYPE FUNCTION(NAME, nan)(void) { return NAN; }
+__INLINE TYPE FUNCTION(NAME, max)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_MAX;
+  COMPLEX_IMAG(res) = DATA_MAX;
 
-__INLINE TYPE FUNCTION(NAME, inf)(void) { return INF; }
+  return res;
+}
 
-__INLINE TYPE FUNCTION(NAME, pinf)(void) { return PINF; }
+__INLINE TYPE FUNCTION(NAME, nan)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_NAN;
+  COMPLEX_IMAG(res) = DATA_NAN;
 
-__INLINE TYPE FUNCTION(NAME, ninf)(void) { return NINF; }
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, inf)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_INF;
+  COMPLEX_IMAG(res) = DATA_INF;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, pinf)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_PINF;
+  COMPLEX_IMAG(res) = DATA_PINF;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, ninf)(void) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_NINF;
+  COMPLEX_IMAG(res) = DATA_NINF;
+
+  return res;
+}
 
 TYPE FUNCTION(NAME, initma)(const DATA_TYPE mag, const DATA_TYPE angle) {
   TYPE res;

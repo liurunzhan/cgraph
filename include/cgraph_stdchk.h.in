@@ -20,6 +20,17 @@ extern "C" {
 /** package details */
 #define __VERSION "@VERSION@"
 
+/*******************************************************************************
+ * MACRO GROUP : cpu details
+ * WORDS_BIGENDIAN
+ * MACRO GROUP : compiler details
+ * HAVE_FUNC HAVE_LONG_LONG HAVE_LONG_DOUBLE
+ * MACRO GROUP : library details
+ * HAVE_LIBM STDC_HEADERS HAVE_FLOAT_H HAVE_INTTYPES_H HAVE_MATH_H
+ * HAVE_MEMORY_H HAVE_STDARG_H HAVE_LIMITS_H
+ * HAVE_DIRENT_H HAVE_DLFCN_H HAVE_IO_H
+ ******************************************************************************/
+
 /** cpu details */
 #ifdef WORDS_BIGENDIAN
 #define __WORDS_BIGENDIAN
@@ -45,6 +56,42 @@ extern "C" {
 
 #ifdef STDC_HEADERS
 #define __STDC_HEADERS
+#endif
+
+#ifdef HAVE_FLOAT_H
+#define __HAVE_FLOAT_H
+#endif
+
+#ifdef HAVE_INTTYPES_H
+#define __HAVE_INTTYPES_H
+#endif
+
+#ifdef HAVE_MATH_H
+#define __HAVE_MATH_H
+#endif
+
+#ifdef HAVE_MEMORY_H
+#define __HAVE_MEMORY_H
+#endif
+
+#ifdef HAVE_STDARG_H
+#define __HAVE_STDARG_H
+#endif
+
+#ifdef HAVE_LIMITS_H
+#define __HAVE_LIMITS_H
+#endif
+
+#ifdef HAVE_DIRENT_H
+#define __HAVE_DIRENT_H
+#endif
+
+#ifdef HAVE_DLFCN_H
+#define __HAVE_DLFCN_H
+#endif
+
+#ifdef HAVE_IO_H
+#define __HAVE_IO_H
 #endif
 
 #ifdef __cplusplus

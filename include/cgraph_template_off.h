@@ -48,6 +48,22 @@
  * TYPE_MATRIX TYPE_BIGMAT TYPE_SPAMAT
  * TYPE_MATRIX3D TYPE_BIGMAT3D TYPE_SPAMAT3D
  * TYPE_DFRAME TYPE_LIST TYPE_TREE TYPE_SET TYPE_DICT TYPE_QUEUE
+ * MACRO GROUP : DATA TYPE ELEMENT
+ * TYPE_WITH_DATA
+ * DATA_TYPE DATA_ID DATA_NAME DATA_UNAME
+ * DATA_BITS DATA_BYTES DATA_BITS_LOG2 DATA_BITS_LOG2_EPS
+ * DATA_UTYPE DATA_END
+ * DATA_ZERO DATA_ONE DATA_ONES
+ * DATA_MAX DATA_MIN DATA_BIAS
+ * DATA_MAX1 DATA_MIN1 DATA_BIAS1
+ * DATA_NAN DATA_INF DATA_PINF DATA_NINF
+ * DATA_MSB DATA_LSB DATA_EPS DATA_EPS_LEN
+ * DATA_EQ DATA_NE DATA_GR DATA_GE DATA_LS DATA_LE
+ * DATA_TEST
+ * DATA_TOBOOL DATA_TOLOGIC
+ * DATA_ISBOOL DATA_ISLOGIC
+ * DATA_ISNAN DATA_ISPINF DATA_ISNINF DATA_ISINF
+ * DATA_ISPOS DATA_ISNEG
  * MACRO GROUP : ELEMENT BASE
  * ARG TYPE TYPE_PTR
  * NAME ID BITS BITS_LOG2
@@ -58,21 +74,6 @@
  * MIN MAX NAN INF PINF NINF
  * MSB LSB
  * EPS EPS_LEN
- * MACRO GROUP : DATA TYPE ELEMENT
- * TYPE_WITH_DATA
- * DATA_TYPE DATA_ID DATA_NAME DATA_UNAME
- * DATA_BITS DATA_BYTES DATA_BITS_LOG2 DATA_BITS_LOG2_EPS
- * DATA_UTYPE DATA_END
- * DATA_ZERO DATA_ONE DATA_ONES
- * DATA_MAX DATA_MIN DATA_BIAS
- * DATA_MAX1 DATA_MIN1 DATA_BIAS1
- * DATA_MSB DATA_LSB DATA_EPS DATA_EPS_LEN
- * DATA_EQ DATA_NE DATA_GR DATA_GE DATA_LS DATA_LE
- * DATA_TEST
- * DATA_TOBOOL DATA_TOLOGIC
- * DATA_ISBOOL DATA_ISLOGIC
- * DATA_ISNAN DATA_ISPINF DATA_ISNINF DATA_ISINF
- * DATA_ISPOS DATA_ISNEG
  * HASH_OFS
  * FRAC_BITS FRAC_EPS FRAC_OFS
  * FLOAT_SOFT_TOFRAC FLOAT_SOFT_FRAC FLOAT_SOFT_FRAC_CLR FLOAT_SOFT_FRAC_SET
@@ -177,6 +178,51 @@
   #define TYPE_SET 
   #define TYPE_DICT 
   #define TYPE_QUEUE 
+  #define TYPE_WITH_DATA 
+  #define DATA_TYPE 
+  #define DATA_ID 
+  #define DATA_NAME 
+  #define DATA_UNAME 
+  #define DATA_BITS 
+  #define DATA_BYTES 
+  #define DATA_BITS_LOG2 
+  #define DATA_BITS_LOG2_EPS 
+  #define DATA_UTYPE 
+  #define DATA_END 
+  #define DATA_ZERO 
+  #define DATA_ONE 
+  #define DATA_ONES 
+  #define DATA_MAX 
+  #define DATA_MIN 
+  #define DATA_BIAS 
+  #define DATA_MAX1 
+  #define DATA_MIN1 
+  #define DATA_BIAS1 
+  #define DATA_NAN 
+  #define DATA_INF 
+  #define DATA_PINF 
+  #define DATA_NINF 
+  #define DATA_MSB 
+  #define DATA_LSB 
+  #define DATA_EPS 
+  #define DATA_EPS_LEN 
+  #define DATA_EQ 
+  #define DATA_NE 
+  #define DATA_GR 
+  #define DATA_GE 
+  #define DATA_LS 
+  #define DATA_LE 
+  #define DATA_TEST 
+  #define DATA_TOBOOL 
+  #define DATA_TOLOGIC 
+  #define DATA_ISBOOL 
+  #define DATA_ISLOGIC 
+  #define DATA_ISNAN 
+  #define DATA_ISPINF 
+  #define DATA_ISNINF 
+  #define DATA_ISINF 
+  #define DATA_ISPOS 
+  #define DATA_ISNEG 
   #define ARG 
   #define TYPE 
   #define TYPE_PTR 
@@ -210,47 +256,6 @@
   #define LSB 
   #define EPS 
   #define EPS_LEN 
-  #define TYPE_WITH_DATA 
-  #define DATA_TYPE 
-  #define DATA_ID 
-  #define DATA_NAME 
-  #define DATA_UNAME 
-  #define DATA_BITS 
-  #define DATA_BYTES 
-  #define DATA_BITS_LOG2 
-  #define DATA_BITS_LOG2_EPS 
-  #define DATA_UTYPE 
-  #define DATA_END 
-  #define DATA_ZERO 
-  #define DATA_ONE 
-  #define DATA_ONES 
-  #define DATA_MAX 
-  #define DATA_MIN 
-  #define DATA_BIAS 
-  #define DATA_MAX1 
-  #define DATA_MIN1 
-  #define DATA_BIAS1 
-  #define DATA_MSB 
-  #define DATA_LSB 
-  #define DATA_EPS 
-  #define DATA_EPS_LEN 
-  #define DATA_EQ 
-  #define DATA_NE 
-  #define DATA_GR 
-  #define DATA_GE 
-  #define DATA_LS 
-  #define DATA_LE 
-  #define DATA_TEST 
-  #define DATA_TOBOOL 
-  #define DATA_TOLOGIC 
-  #define DATA_ISBOOL 
-  #define DATA_ISLOGIC 
-  #define DATA_ISNAN 
-  #define DATA_ISPINF 
-  #define DATA_ISNINF 
-  #define DATA_ISINF 
-  #define DATA_ISPOS 
-  #define DATA_ISNEG 
   #define HASH_OFS 
   #define FRAC_BITS 
   #define FRAC_EPS 
@@ -618,6 +623,187 @@
 #undef TYPE_QUEUE
 #endif
 
+/** DATA TYPE ELEMENT */
+#ifdef TYPE_WITH_DATA
+#undef TYPE_WITH_DATA
+#endif
+
+#ifdef DATA_TYPE
+#undef DATA_TYPE
+#endif
+
+#ifdef DATA_ID
+#undef DATA_ID
+#endif
+
+#ifdef DATA_NAME
+#undef DATA_NAME
+#endif
+
+#ifdef DATA_UNAME
+#undef DATA_UNAME
+#endif
+
+#ifdef DATA_BITS
+#undef DATA_BITS
+#endif
+
+#ifdef DATA_BYTES
+#undef DATA_BYTES
+#endif
+
+#ifdef DATA_BITS_LOG2
+#undef DATA_BITS_LOG2
+#endif
+
+#ifdef DATA_BITS_LOG2_EPS
+#undef DATA_BITS_LOG2_EPS
+#endif
+
+#ifdef DATA_UTYPE
+#undef DATA_UTYPE
+#endif
+
+#ifdef DATA_END
+#undef DATA_END
+#endif
+
+#ifdef DATA_ZERO
+#undef DATA_ZERO
+#endif
+
+#ifdef DATA_ONE
+#undef DATA_ONE
+#endif
+
+#ifdef DATA_ONES
+#undef DATA_ONES
+#endif
+
+#ifdef DATA_MAX
+#undef DATA_MAX
+#endif
+
+#ifdef DATA_MIN
+#undef DATA_MIN
+#endif
+
+#ifdef DATA_BIAS
+#undef DATA_BIAS
+#endif
+
+#ifdef DATA_MAX1
+#undef DATA_MAX1
+#endif
+
+#ifdef DATA_MIN1
+#undef DATA_MIN1
+#endif
+
+#ifdef DATA_BIAS1
+#undef DATA_BIAS1
+#endif
+
+#ifdef DATA_NAN
+#undef DATA_NAN
+#endif
+
+#ifdef DATA_INF
+#undef DATA_INF
+#endif
+
+#ifdef DATA_PINF
+#undef DATA_PINF
+#endif
+
+#ifdef DATA_NINF
+#undef DATA_NINF
+#endif
+
+#ifdef DATA_MSB
+#undef DATA_MSB
+#endif
+
+#ifdef DATA_LSB
+#undef DATA_LSB
+#endif
+
+#ifdef DATA_EPS
+#undef DATA_EPS
+#endif
+
+#ifdef DATA_EPS_LEN
+#undef DATA_EPS_LEN
+#endif
+
+#ifdef DATA_EQ
+#undef DATA_EQ
+#endif
+
+#ifdef DATA_NE
+#undef DATA_NE
+#endif
+
+#ifdef DATA_GR
+#undef DATA_GR
+#endif
+
+#ifdef DATA_GE
+#undef DATA_GE
+#endif
+
+#ifdef DATA_LS
+#undef DATA_LS
+#endif
+
+#ifdef DATA_LE
+#undef DATA_LE
+#endif
+
+#ifdef DATA_TEST
+#undef DATA_TEST
+#endif
+
+#ifdef DATA_TOBOOL
+#undef DATA_TOBOOL
+#endif
+
+#ifdef DATA_TOLOGIC
+#undef DATA_TOLOGIC
+#endif
+
+#ifdef DATA_ISBOOL
+#undef DATA_ISBOOL
+#endif
+
+#ifdef DATA_ISLOGIC
+#undef DATA_ISLOGIC
+#endif
+
+#ifdef DATA_ISNAN
+#undef DATA_ISNAN
+#endif
+
+#ifdef DATA_ISPINF
+#undef DATA_ISPINF
+#endif
+
+#ifdef DATA_ISNINF
+#undef DATA_ISNINF
+#endif
+
+#ifdef DATA_ISINF
+#undef DATA_ISINF
+#endif
+
+#ifdef DATA_ISPOS
+#undef DATA_ISPOS
+#endif
+
+#ifdef DATA_ISNEG
+#undef DATA_ISNEG
+#endif
+
 /** ELEMENT BASE */
 #ifdef ARG
 #undef ARG
@@ -749,171 +935,6 @@
 
 #ifdef EPS_LEN
 #undef EPS_LEN
-#endif
-
-/** DATA TYPE ELEMENT */
-#ifdef TYPE_WITH_DATA
-#undef TYPE_WITH_DATA
-#endif
-
-#ifdef DATA_TYPE
-#undef DATA_TYPE
-#endif
-
-#ifdef DATA_ID
-#undef DATA_ID
-#endif
-
-#ifdef DATA_NAME
-#undef DATA_NAME
-#endif
-
-#ifdef DATA_UNAME
-#undef DATA_UNAME
-#endif
-
-#ifdef DATA_BITS
-#undef DATA_BITS
-#endif
-
-#ifdef DATA_BYTES
-#undef DATA_BYTES
-#endif
-
-#ifdef DATA_BITS_LOG2
-#undef DATA_BITS_LOG2
-#endif
-
-#ifdef DATA_BITS_LOG2_EPS
-#undef DATA_BITS_LOG2_EPS
-#endif
-
-#ifdef DATA_UTYPE
-#undef DATA_UTYPE
-#endif
-
-#ifdef DATA_END
-#undef DATA_END
-#endif
-
-#ifdef DATA_ZERO
-#undef DATA_ZERO
-#endif
-
-#ifdef DATA_ONE
-#undef DATA_ONE
-#endif
-
-#ifdef DATA_ONES
-#undef DATA_ONES
-#endif
-
-#ifdef DATA_MAX
-#undef DATA_MAX
-#endif
-
-#ifdef DATA_MIN
-#undef DATA_MIN
-#endif
-
-#ifdef DATA_BIAS
-#undef DATA_BIAS
-#endif
-
-#ifdef DATA_MAX1
-#undef DATA_MAX1
-#endif
-
-#ifdef DATA_MIN1
-#undef DATA_MIN1
-#endif
-
-#ifdef DATA_BIAS1
-#undef DATA_BIAS1
-#endif
-
-#ifdef DATA_MSB
-#undef DATA_MSB
-#endif
-
-#ifdef DATA_LSB
-#undef DATA_LSB
-#endif
-
-#ifdef DATA_EPS
-#undef DATA_EPS
-#endif
-
-#ifdef DATA_EPS_LEN
-#undef DATA_EPS_LEN
-#endif
-
-#ifdef DATA_EQ
-#undef DATA_EQ
-#endif
-
-#ifdef DATA_NE
-#undef DATA_NE
-#endif
-
-#ifdef DATA_GR
-#undef DATA_GR
-#endif
-
-#ifdef DATA_GE
-#undef DATA_GE
-#endif
-
-#ifdef DATA_LS
-#undef DATA_LS
-#endif
-
-#ifdef DATA_LE
-#undef DATA_LE
-#endif
-
-#ifdef DATA_TEST
-#undef DATA_TEST
-#endif
-
-#ifdef DATA_TOBOOL
-#undef DATA_TOBOOL
-#endif
-
-#ifdef DATA_TOLOGIC
-#undef DATA_TOLOGIC
-#endif
-
-#ifdef DATA_ISBOOL
-#undef DATA_ISBOOL
-#endif
-
-#ifdef DATA_ISLOGIC
-#undef DATA_ISLOGIC
-#endif
-
-#ifdef DATA_ISNAN
-#undef DATA_ISNAN
-#endif
-
-#ifdef DATA_ISPINF
-#undef DATA_ISPINF
-#endif
-
-#ifdef DATA_ISNINF
-#undef DATA_ISNINF
-#endif
-
-#ifdef DATA_ISINF
-#undef DATA_ISINF
-#endif
-
-#ifdef DATA_ISPOS
-#undef DATA_ISPOS
-#endif
-
-#ifdef DATA_ISNEG
-#undef DATA_ISNEG
 #endif
 
 #ifdef HASH_OFS

@@ -23,12 +23,13 @@ extern "C" {
 #define TYPE_DFRAME
 #include "cgraph_template.h"
 
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
 #define NAME dframe
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(DFRAME)
 #define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_dframe_t

@@ -23,12 +23,13 @@ extern "C" {
 #define TYPE_SPAMAT
 #include "cgraph_template.h"
 
+#define TYPE_WITH_DATA
+#define DATA_TYPE cgraph_stl_t
+
 #define NAME spamat
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(SPAMAT)
 #define ZERO NULL
-#define TYPE_WITH_DATA
-#define DATA_TYPE cgraph_stl_t
 
 /**
  * @struct cgraph_spamat_t
