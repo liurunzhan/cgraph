@@ -191,6 +191,14 @@ __INLINE TYPE FUNCTION(NAME, ninf)(void) {
 
 __INLINE TYPE FUNCTION(NAME, eps)(void) {
   TYPE res;
+  FRACTION_NUM(res) = DATA_MIN;
+  FRACTION_DEN(res) = DATA_MIN;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, acc)(void) {
+  TYPE res;
   FRACTION_NUM(res) = DATA_ONE;
   FRACTION_DEN(res) = DATA_MIN;
 
@@ -262,11 +270,8 @@ TYPE FUNCTION(NAME, initd)(const DATA_TYPE den) {
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  cgraph_int_t flag = -1,
-               num_flag =
-                   (FRACTION_NUM(x) | (FRACTION_NUM(x) >> (DATA_BITS - 1))),
-               den_flag =
-                   (FRACTION_NUM(x) | (FRACTION_NUM(x) >> (DATA_BITS - 1)));
+  cgraph_int_t flag = -1, num_flag = CGRAPH_BFLAG(FRACTION_NUM(x), DATA_BITS),
+               den_flag = CGRAPH_BFLAG(FRACTION_DEN(x), DATA_BITS);
   if ((0 == num_flag) || (0 == den_flag)) {
     flag = 0;
   } else if (num_flag == den_flag) {
@@ -274,6 +279,10 @@ __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   }
 
   return flag;
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, isint)(const TYPE x) {
+  return CGRAPH_TEST(1 == FRACTION_DEN(x));
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
@@ -302,12 +311,12 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST(-1 == FUNCTION(NAME, signbit)(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
-  return CGRAPH_TEST(EQ(x, MIN));
+__INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
+  return EQ(x, MAX);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
-  return CGRAPH_TEST(EQ(x, MAX));
+__INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
+  return EQ(x, MIN);
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
@@ -326,15 +335,23 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
-cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+__INLINE cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
-cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+__INLINE cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   return GR(x, y);
 }
 
-TYPE FUNCTION(NAME, abs)(const TYPE x) {
+__INLINE TYPE FUNCTION(NAME, opp)(const TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = -FRACTION_NUM(x);
+  FRACTION_DEN(res) = FRACTION_DEN(x);
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, abs)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = CGRAPH_ABS(FRACTION_NUM(x));
   FRACTION_DEN(res) = CGRAPH_ABS(FRACTION_DEN(x));
@@ -342,15 +359,7 @@ TYPE FUNCTION(NAME, abs)(const TYPE x) {
   return res;
 }
 
-TYPE FUNCTION(NAME, opp)(const TYPE x) {
-  TYPE res;
-  FRACTION_NUM(res) = -FRACTION_NUM(x);
-  FRACTION_DEN(res) = -FRACTION_DEN(x);
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, inv)(const TYPE x) {
+__INLINE TYPE FUNCTION(NAME, inv)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_NUM(x);
@@ -358,10 +367,26 @@ TYPE FUNCTION(NAME, inv)(const TYPE x) {
   return res;
 }
 
+__INLINE TYPE FUNCTION(NAME, pow2)(const TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x);
+  FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x);
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, pow3)(const TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x) * FRACTION_NUM(x);
+  FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x) * FRACTION_DEN(x);
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
   TYPE res;
   FRACTION_NUM(res) =
-      FRACTION_NUM(x) * FRACTION_DEN(y) + FRACTION_DEN(x) * FRACTION_NUM(y);
+      (FRACTION_NUM(x) * FRACTION_DEN(y)) + (FRACTION_DEN(x) * FRACTION_NUM(y));
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
 
   return res;
@@ -370,7 +395,7 @@ TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
 TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
   TYPE res;
   FRACTION_NUM(res) =
-      FRACTION_NUM(x) * FRACTION_DEN(y) - FRACTION_DEN(x) * FRACTION_NUM(y);
+      (FRACTION_NUM(x) * FRACTION_DEN(y)) - (FRACTION_DEN(x) * FRACTION_NUM(y));
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
 
   return res;
@@ -415,7 +440,7 @@ TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
 
 TYPE FUNCTION(NAME, ceil)(const TYPE x) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x) / FRACTION_DEN(x) * FRACTION_DEN(x);
+  FRACTION_NUM(res) = (FRACTION_NUM(x) / FRACTION_DEN(x)) * FRACTION_DEN(x);
   if (FRACTION_NUM(res) != FRACTION_NUM(x)) {
     FRACTION_NUM(res) += FRACTION_DEN(x);
   }
@@ -426,7 +451,7 @@ TYPE FUNCTION(NAME, ceil)(const TYPE x) {
 
 TYPE FUNCTION(NAME, floor)(const TYPE x) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x) / FRACTION_DEN(x) * FRACTION_DEN(x);
+  FRACTION_NUM(res) = (FRACTION_NUM(x) / FRACTION_DEN(x)) * FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_DEN(x);
 
   return res;
@@ -463,14 +488,14 @@ TYPE FUNCTION(NAME, sqrt)(const TYPE x) { return x; }
 TYPE FUNCTION(NAME, unit)(const DATA_TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = x;
-  FRACTION_DEN(res) = 1;
+  FRACTION_DEN(res) = DATA_ONE;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x) {
   TYPE res;
-  FRACTION_NUM(res) = 1;
+  FRACTION_NUM(res) = DATA_ONE;
   FRACTION_DEN(res) = x;
 
   return res;
@@ -521,7 +546,7 @@ TYPE FUNCTION(NAME, pown)(const TYPE x, const DATA_TYPE y) {
 
 TYPE FUNCTION(NAME, addd)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x) * y + FRACTION_DEN(x);
+  FRACTION_NUM(res) = (FRACTION_NUM(x) * y) + FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * y;
 
   return res;
@@ -529,7 +554,7 @@ TYPE FUNCTION(NAME, addd)(const TYPE x, const DATA_TYPE y) {
 
 TYPE FUNCTION(NAME, subd)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x) * y - FRACTION_DEN(x);
+  FRACTION_NUM(res) = (FRACTION_NUM(x) * y) - FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * y;
 
   return res;

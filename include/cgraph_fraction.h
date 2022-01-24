@@ -53,7 +53,7 @@ extern "C" {
 #define INF ((TYPE){{DATA_ONE, DATA_ZERO}})
 #define PINF ((TYPE){{DATA_ONE, DATA_ZERO}})
 #define NINF ((TYPE){{-DATA_ONE, DATA_ZERO}})
-#define EPS ((TYPE){{DATA_ONE, DATA_MIN}})
+#define EPS ((TYPE){{DATA_MIN, DATA_MIN}})
 #else
 #define ZERO FUNCTION(NAME, zero)()
 #define ONE FUNCTION(NAME, one)()
@@ -86,11 +86,14 @@ typedef struct {
 #include "cgraph_template_data.ht"
 
 extern TYPE FUNCTION(NAME, eps)(void);
+extern TYPE FUNCTION(NAME, acc)(void);
 
 /** initial functions */
 extern TYPE FUNCTION(NAME, initnd)(const DATA_TYPE num, const DATA_TYPE den);
 extern TYPE FUNCTION(NAME, initn)(const DATA_TYPE num);
 extern TYPE FUNCTION(NAME, initd)(const DATA_TYPE den);
+
+extern cgraph_bool_t FUNCTION(NAME, isint)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y);
@@ -104,8 +107,9 @@ extern TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE FUNCTION(NAME, opp)(const TYPE x);
-extern TYPE FUNCTION(NAME, abs)(const TYPE x);
+extern TYPE FUNCTION(NAME, inv)(const TYPE x);
+extern TYPE FUNCTION(NAME, pow2)(const TYPE x);
+extern TYPE FUNCTION(NAME, pow3)(const TYPE x);
 extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);

@@ -60,6 +60,8 @@ extern "C" {
 #endif
 #define MATH_CONST_LOG10 (M_LN10) /** MATH_CONST_LOG10 : log_e(10) */
 
+#define MATH_CONST_LOG10_INV (1.0 / M_LN10)
+
 #ifndef NAN
 #define NAN (0.0 / 0.0)
 #endif

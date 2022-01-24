@@ -109,8 +109,8 @@ extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, std)(const TYPE x);
 extern TYPE FUNCTION(NAME, conj)(const TYPE x);
-extern TYPE FUNCTION(NAME, opp)(const TYPE x);
-extern TYPE FUNCTION(NAME, inv)(const TYPE x);
+extern TYPE FUNCTION(NAME, pow2)(const TYPE x);
+extern TYPE FUNCTION(NAME, pow3)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul1i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul2i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul3i)(const TYPE x);

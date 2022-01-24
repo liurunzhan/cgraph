@@ -126,20 +126,20 @@ TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
 
 TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y) {
   UTYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y);
-  if ((1 == _x) || (1 == _y)) {
-    _x = 1;
-  } else if ((0 == _x) || (0 == _y)) {
-    _x = 0;
-  } else {
-    while (_x != _y) {
-      if (_x < _y) {
-        SWAP(_x, _y);
-      }
-      _x -= _y;
-      if ((1 == _x) || (1 == _y)) {
-        _x = 1;
-        break;
-      }
+  if (1 >= _x) {
+    return _x;
+  }
+  if ((1 >= _y)) {
+    return _y;
+  }
+  while (_x != _y) {
+    if (_x < _y) {
+      SWAP(_x, _y);
+    }
+    _x -= _y;
+    if ((1 == _x) || (1 == _y)) {
+      _x = 1;
+      break;
     }
   }
 

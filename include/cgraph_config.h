@@ -588,6 +588,7 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_NOT(x) (~(x))
 #define CGRAPH_XNOR(x, y) CGRAPH_NOT(CGRAPH_XOR(x, y))
 #define CGRAPH_BIT(x, pos) (((x) >> (pos)) & CGRAPH_BOOL_EPS)
+#define CGRAPH_BFLAG(x, bits) (x | (x >> ((bits)-1)))
 #define CGRAPH_BSET(x, pos) ((x) | (CGRAPH_BOOL_EPS << (pos)))
 #define CGRAPH_BCLR(x, pos) ((x) & (~(CGRAPH_BOOL_EPS << (pos))))
 #define CGRAPH_BITS(x, from, to)                                               \

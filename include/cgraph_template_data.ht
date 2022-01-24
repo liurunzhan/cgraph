@@ -57,8 +57,8 @@ extern cgraph_bool_t FUNCTION(NAME, isX)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isXZ)(const TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, opp)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, format)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, int)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
@@ -225,8 +225,8 @@ extern cgraph_bool_t FUNCTION(NAME, isX)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x);
 extern cgraph_bool_t FUNCTION(NAME, isXZ)(const TYPE x);
 
-extern TYPE FUNCTION(NAME, abs)(TYPE x);
 extern TYPE FUNCTION(NAME, opp)(TYPE x);
+extern TYPE FUNCTION(NAME, abs)(TYPE x);
 extern TYPE FUNCTION(NAME, format)(TYPE x);
 extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y);
