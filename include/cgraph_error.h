@@ -38,14 +38,16 @@ typedef enum {
   CGRAPH_ERROR_DIVISOR_EQUAL_TO_ZERO = 6, /** DIVISOR EQUAL TO ZERO */
   CGRAPH_ERROR_MATH_ERROR = 7,            /** MATH ERROR */
   CGRAPH_ERROR_FILE_HANDLE_EMPTY = 8,     /** FILE HANDLE EMPTY */
-  CGRAPH_ERROR_FILE_HANDLE_ERROR = 9      /** FILE HANDLE ERROR */
+  CGRAPH_ERROR_FILE_HANDLE_ERROR = 9,     /** FILE HANDLE ERROR */
+  CGRAPH_ERROR_OBJECT_HANDLE_EMPTY = 10,  /** OBJECT HANDLE EMPTY */
+  CGRAPH_ERROR_OBJECT_HANDLE_ERROR = 11   /** OBJECT HANDLE ERROR */
 } cgraph_error_t;
 
-#define CGRAPH_ERROR_SIZE (10)
+#define CGRAPH_ERROR_SIZE (12)
 
 #ifdef DEBUG
 #define cgraph_error_log(reason)                                               \
-  cgraph_error((reason), (__LINE__), (__FILE__), (__FUNCTION))
+  cgraph_error((reason), (__LINE__), (__FILE__), (__FUNCTION__))
 #else
 #define cgraph_error_log(reason) ((void)0)
 #endif
@@ -98,11 +100,11 @@ cgraph_error_fsnprintf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t len,
 #define CGRAPH_ERROR_STYLE "[%s>%ld] [%s] "
 #define CGRAPH_ERROR_STYLE_ENTRY __FILE__, __LINE__
 #define CGRAPH_ERROR_FUNCTION_STYLE "[%s>%s>%ld] [%s] "
-#define CGRAPH_ERROR_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
+#define CGRAPH_ERROR_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION__, __LINE__
 #define CGRAPH_ERROR_TIME_STYLE "[%s@%s>%ld] [%s] "
 #define CGRAPH_ERROR_TIME_STYLE_ENTRY __FILE__, __LINE__
 #define CGRAPH_ERROR_TIME_FUNCTION_STYLE "[%s@%s>%s>%ld] [%s] "
-#define CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION, __LINE__
+#define CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION__, __LINE__
 
 #ifdef __cplusplus
 }

@@ -11,6 +11,8 @@
  */
 
 /** fraction part of software-defined signed float point number */
+#define TYPE_PTR TYPE
+
 #define FLOAT_SOFT_TOFRAC(a) ((((a) << 1) & FRAC_EPS) << FRAC_OFS)
 #define FLOAT_SOFT_FRAC(a)                                                     \
   ((((a) >> FRAC_OFS) & FRAC_EPS) || (0x01 << FRAC_BITS))
@@ -41,7 +43,6 @@
 #define INT(a, b, c) FUNCTION(NAME, idiv_s)((a), (b))
 #define FEXP(a) FUNCTION(NAME, fexp_s)((a))
 
-#define TYPE_PTR TYPE
 #define FREXP(a, b, c) FUNCTION(NAME, frexp_s)((a), (b))
 #define FMOD(a, b, c) FUNCTION(NAME, fmod_s)((a), (b))
 #define MODF(a, b, c) FUNCTION(NAME, modf_s)((a), (b))

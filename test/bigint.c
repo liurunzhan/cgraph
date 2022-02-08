@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   bigint8->len = 5;
   FUNCTION(NAME, fprintln)(stdout, bigint8);
   for (i = 0; i < 33; i++) {
-    cgraph_file_fprintfln(stdout, "%ld : ", i);
+    cgraph_file_fprintfln(stdout, "%ld : %ld", i, bigint8->len);
     FUNCTION(NAME, fprintln)(stdout, bigint8 = FUNCTION(NAME, shr)(bigint8, i));
     FUNCTION(NAME, fprintln)(stdout, bigint8 = FUNCTION(NAME, shl)(bigint8, i));
   }
@@ -102,9 +102,19 @@ int main(int argc, char *argv[]) {
   bigint8->len = 5;
   FUNCTION(NAME, fprintln)(stdout, bigint8);
   for (i = 0; i < 33; i++) {
-    cgraph_file_fprintfln(stdout, "%ld : ", i);
+    cgraph_file_fprintfln(stdout, "%ld : %ld", i, bigint8->len);
     FUNCTION(NAME, fprintln)(stdout, bigint8 = FUNCTION(NAME, shl)(bigint8, i));
     FUNCTION(NAME, fprintln)(stdout, bigint8 = FUNCTION(NAME, shr)(bigint8, i));
+  }
+  bigint8 = FUNCTION(NAME, zero)(bigint8);
+  for (i = 0; i < 5; i++) {
+    cgraph_file_fprintfln(stdout, "%ld : %ld", i, bigint8->len);
+    FUNCTION(NAME, fprintln)(stdout, bigint8 = FUNCTION(NAME, add1)(bigint8));
+  }
+  bigint8->postive = CGRAPH_FALSE;
+  for (i = 0; i < 5; i++) {
+    cgraph_file_fprintfln(stdout, "%ld : %ld", i, bigint8->len);
+    FUNCTION(NAME, fprintln)(stdout, bigint8 = FUNCTION(NAME, add1)(bigint8));
   }
 
   FUNCTION(NAME, free)(bigint1);

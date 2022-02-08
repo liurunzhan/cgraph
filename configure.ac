@@ -11,7 +11,6 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_CONFIG_MACRO_DIR([m4])
 PKG_PROG_PKG_CONFIG
-AC_COPYRIGHT([GPL-3.0])
 
 # cite from autoconf-archive : 
 # https://www.gnu.org/software/autoconf-archive/The-Macros.html

@@ -473,6 +473,19 @@ __INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
   return DIV(x, y, NULL);
 }
 
+__INLINE TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
+  return MOD(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
+  return (x+y) / 2;
+}
+
+/** hmean(x, y) = 1/(1/x+1/y) = (xy)/(x+y) */
+__INLINE TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
+  return (x*y)/(x+y);
+}
+
 cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return CGRAPH_TEST(x);

@@ -16,9 +16,9 @@ cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x) {
 }
 
 cgraph_bool_t cgraph_string_to_bool(const cgraph_string_t *cthis) {
-  cgraph_bool_t res = CGRAPH_FALSE, error = CGRAPH_FALSE;
+  cgraph_bool_t res = CGRAPH_FALSE;
   if (NULL != cthis) {
-    res = cgraph_bool_decode(cthis->data, cthis->len, &error);
+    res = cgraph_bool_decode(cthis->data, cthis->len, NULL);
   }
 
   return res;

@@ -57,7 +57,7 @@
  * DATA_MAX DATA_MIN DATA_BIAS
  * DATA_MAX1 DATA_MIN1 DATA_BIAS1
  * DATA_NAN DATA_INF DATA_PINF DATA_NINF
- * DATA_MSB DATA_LSB DATA_EPS DATA_EPS_LEN
+ * DATA_MSB DATA_LSB DATA_MASK DATA_EPS DATA_EPS_LEN
  * DATA_EQ DATA_NE DATA_GR DATA_GE DATA_LS DATA_LE
  * DATA_TEST
  * DATA_TOBOOL DATA_TOLOGIC
@@ -67,13 +67,13 @@
  * MACRO GROUP : ELEMENT BASE
  * ARG TYPE TYPE_PTR
  * NAME ID BITS BITS_LOG2
- * UNAME UTYPE UID IN_FMT OUT_FMT OUT_FMT_REAL OUT_FMT_NUM
+ * UNAME UTYPE UID IN_FMT IN_FMT_IMAG OUT_FMT OUT_FMT_REAL OUT_FMT_IMAG
+ * OUT_FMT_NUM
  * ZERO0 ONE0 ONES0
  * ZERO1 ONE1 ONES1
  * ZERO ONE ONES
  * MIN MAX NAN INF PINF NINF
- * MSB LSB
- * EPS EPS_LEN
+ * MSB LSB MASK EPS EPS_LEN
  * HASH_OFS
  * FRAC_BITS FRAC_EPS FRAC_OFS
  * FLOAT_SOFT_TOFRAC FLOAT_SOFT_FRAC FLOAT_SOFT_FRAC_CLR FLOAT_SOFT_FRAC_SET
@@ -204,6 +204,7 @@
   #define DATA_NINF 
   #define DATA_MSB 
   #define DATA_LSB 
+  #define DATA_MASK 
   #define DATA_EPS 
   #define DATA_EPS_LEN 
   #define DATA_EQ 
@@ -234,8 +235,10 @@
   #define UTYPE 
   #define UID 
   #define IN_FMT 
+  #define IN_FMT_IMAG 
   #define OUT_FMT 
   #define OUT_FMT_REAL 
+  #define OUT_FMT_IMAG 
   #define OUT_FMT_NUM 
   #define ZERO0 
   #define ONE0 
@@ -254,6 +257,7 @@
   #define NINF 
   #define MSB 
   #define LSB 
+  #define MASK 
   #define EPS 
   #define EPS_LEN 
   #define HASH_OFS 
@@ -728,6 +732,10 @@
 #undef DATA_LSB
 #endif
 
+#ifdef DATA_MASK
+#undef DATA_MASK
+#endif
+
 #ifdef DATA_EPS
 #undef DATA_EPS
 #endif
@@ -849,12 +857,20 @@
 #undef IN_FMT
 #endif
 
+#ifdef IN_FMT_IMAG
+#undef IN_FMT_IMAG
+#endif
+
 #ifdef OUT_FMT
 #undef OUT_FMT
 #endif
 
 #ifdef OUT_FMT_REAL
 #undef OUT_FMT_REAL
+#endif
+
+#ifdef OUT_FMT_IMAG
+#undef OUT_FMT_IMAG
 #endif
 
 #ifdef OUT_FMT_NUM
@@ -927,6 +943,10 @@
 
 #ifdef LSB
 #undef LSB
+#endif
+
+#ifdef MASK
+#undef MASK
 #endif
 
 #ifdef EPS

@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
   cgraph_verilog_sync(stdout, 2);
   cgraph_verilog_filter(stdout, 2);
   cgraph_verilog_simple(stdout, 2);
-  cgraph_verilog_edgedet(stdout);
+  cgraph_verilog_edgedect(stdout);
   cgraph_verilog_fifo(stdout, 8, 16);
   cgraph_verilog_shift(stdout, 8);
   cgraph_verilog_crc(stdout, 8);

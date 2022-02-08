@@ -73,9 +73,8 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintfln(
       stdout, OUT_FMT,
       FUNCTION(NAME, Diff_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
-  cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, Eqt_binary_search)(1.0, 2.0, function_x2));
+  cgraph_file_fprintfln(stdout, OUT_FMT,
+                        FUNCTION(NAME, Eqt_bsearch)(1.0, 2.0, function_x2));
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, issubsym)(matrix1, 2, 2));
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, issubsym)(matrix2, 2, 2));
 

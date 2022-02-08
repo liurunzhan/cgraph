@@ -4,20 +4,22 @@
 #include "cgraph_error.h"
 #include "cgraph_file.h"
 
-static const cgraph_char_t *__cgraph_error_strings__[] = {
+static const cgraph_char_t *__cgraph_error_strings__[CGRAPH_ERROR_SIZE] = {
     "NO ERROR",
     "ERROR",
     "OUT OF MEMORY",
     "OUT OF INDEX",
     "INFINITE",
-    "NOT A NUMBER",
+    "NOT A NUMBER(NaN)",
     "DIVISOR EQUAL TO ZERO",
     "MATH ERROR",
     "FILE HANDLE EMPTY",
-    "FILE HANDLE ERROR"};
+    "FILE HANDLE ERROR",
+    "OBJECT HANDLE EMPTY",
+    "OBJECT HANDLE ERROR"};
 
 const cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason) {
-  return (((CGRAPH_ERROR_SIZE > reason) && (0 <= reason))
+  return (((0 <= reason) && (CGRAPH_ERROR_SIZE > reason))
               ? __cgraph_error_strings__[reason]
               : NULL);
 }

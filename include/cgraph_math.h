@@ -99,10 +99,13 @@ extern cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_toupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
+extern cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
+                                        const cgraph_char_t datay);
+extern cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
                                          const cgraph_char_t datay);
 
 extern cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isoct(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isbinhd(const cgraph_char_t data);
@@ -110,6 +113,11 @@ extern cgraph_bool_t cgraph_math_isbinst(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isbinmd(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isbined(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isbintl(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isocthd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isoctst(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isoctmd(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isocted(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_isocttl(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdechd(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdecst(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdecmd(const cgraph_char_t data);

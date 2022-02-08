@@ -3,10 +3,11 @@ NAME    : cgraph
 BREIF   : A C library for graph and mathematical analysis
 AUTHOR  : liurunzhan
 E-MAIL  : liurunzhan@sina.com
+URL     : https://github.com/liurunzhan/cgraph
 ////////////////////////////////////////////////////////////////////////////////
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<        HISTORY       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ////////////////////////////////////////////////////////////////////////////////
 DATE    : 2020-01-12
 VERSION : 0.0.0
-NOTE    : create project
+NOTE    : create project and its hierarchy
 ////////////////////////////////////////////////////////////////////////////////

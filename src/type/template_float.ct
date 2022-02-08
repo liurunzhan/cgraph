@@ -225,8 +225,21 @@ __INLINE TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y) {
   return res;
 }
 
-TYPE FUNCTION(NAME, Eqt_binary_search)(const TYPE start, const TYPE end,
-                                       FUNCPTR(NAME, pfunc1) func) {
+__INLINE TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
+  return MOD(x, y, NULL);
+}
+
+__INLINE TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
+  return 0.5 * (x + y);
+}
+
+/** hmean(x, y) = 1/(1/x+1/y) = (xy)/(x+y) */
+__INLINE TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
+  return (x * y) / (x + y);
+}
+
+TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
+                                 FUNCPTR(NAME, pfunc1) func) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
   if (FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {

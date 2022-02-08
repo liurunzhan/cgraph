@@ -633,25 +633,11 @@ cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE *cthis) {
 }
 
 TYPE *FUNCTION(NAME, chomp)(TYPE *cthis) {
-#ifdef __PLAT_WINDOWS
-  if ((NULL != cthis) && (1 < cthis->len)) {
-    cgraph_size_t len_1 = cthis->len - 1, len_2 = len_1 - 1;
-    if ((__PLAT_LEND_C0 == cthis->data[len_2]) &&
-        (__PLAT_LEND_C1 == cthis->data[len_1])) {
-      cthis->len = len_2;
-      cthis->data[len_2] = '\0';
-    }
+  if ((NULL != cthis) && (__PLAT_LEND_SIZE < cthis->len)) {
+    cthis->len -= cgraph_math_isnliney(cthis->data[cthis->len - 2],
+                                       cthis->data[cthis->len - 1]);
+    cthis->data[cthis->len] = '\0';
   }
-#else
-  if (CGRAPH_HASDATA(cthis)) {
-    cgraph_size_t len_1 = cthis->len - 1;
-    cgraph_file_fprintfln(stdout, "len : %ld", len_1);
-    if (__PLAT_LEND_C == cthis->data[len_1]) {
-      cthis->len = len_1;
-      cthis->data[len_1] = '\0';
-    }
-  }
-#endif
 
   return cthis;
 }

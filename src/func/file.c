@@ -1,4 +1,5 @@
 #include "cgraph_error.h"
+#include "cgraph_math.h"
 #include "cgraph_memory.h"
 
 #include "cgraph_file.h"
@@ -140,11 +141,7 @@ cgraph_char_t *cgraph_file_path(cgraph_char_t *buffer, const cgraph_size_t size,
     cgraph_size_t i = 0, split_pos = 0;
     for (; ('\0' != path[i]) && (i < _size); i++) {
       buffer[i] = path[i];
-#if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
-      if ((__PLAT_LEND_C0 == path[i]) && (__PLAT_LEND_C1 == path[i + 1])) {
-#else
-      if (__PLAT_LEND_C == path[i]) {
-#endif
+      if (cgraph_math_isnline(path[i], path[i + 1])) {
         split_pos = i;
       }
     }
@@ -164,20 +161,17 @@ cgraph_char_t *cgraph_file_name(cgraph_char_t *buffer, const cgraph_size_t size,
   if (CGRAPH_ISSTR(path) && CGRAPH_ISBUF(buffer, _size)) {
     cgraph_size_t i = 0, split_pos = 0;
     for (; '\0' != path[i]; i++) {
-#if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
-      if ((__PLAT_LEND_C0 == path[i]) && (__PLAT_LEND_C1 == path[i + 1])) {
-        if ('\0' != path[i + 2]) {
-#else
-      if (__PLAT_LEND_C == path[i]) {
-        if ('\0' != path[i + 1]) {
-#endif
+      cgraph_int_t num = cgraph_math_isnline(path[i], path[i + 1]);
+      if (num > 0) {
+        num -= 1;
+        if ('\0' != path[i + num]) {
           split_pos = i;
         } else {
           split_pos = -1;
         }
       }
     }
-    if (0 < split_pos) {
+    if (0 <= split_pos) {
       cgraph_char_t *path_ptr = (cgraph_char_t *)&(path[split_pos]);
       for (i = 0; ('\0' != path_ptr[i]) && (i < _size); i++) {
         buffer[i] = path_ptr[i];

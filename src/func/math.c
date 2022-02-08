@@ -148,17 +148,30 @@ __INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
   return CGRAPH_TEST(__PLAT_PSPLIT_C == data);
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnline(const cgraph_char_t datax,
+__INLINE cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
+                                          const cgraph_char_t datay) {
+#ifdef __CGRAPH_PLAT_WINDOWS
+  return ((__PLAT_LEND_C0 == datax) && (__PLAT_LEND_C1 == datay)) ? 2 : 0;
+#else
+  return __PLAT_LEND_C == datax;
+#endif
+}
+
+__INLINE cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
                                            const cgraph_char_t datay) {
 #ifdef __CGRAPH_PLAT_WINDOWS
-  return CGRAPH_TEST((__PLAT_LEND_C0 != datax) && (__PLAT_LEND_C1 != datay));
+  return ((__PLAT_LEND_C0 == datax) && (__PLAT_LEND_C1 == datay)) ? 2 : 0;
 #else
-  return CGRAPH_TEST(__PLAT_LEND_C != datax);
+  return __PLAT_LEND_C == datay;
 #endif
 }
 
 __INLINE cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' == data) || ('1' == data));
+}
+
+__INLINE extern cgraph_bool_t cgraph_math_isoct(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' <= data) && ('7' >= data));
 }
 
 __INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
@@ -186,6 +199,26 @@ __INLINE cgraph_bool_t cgraph_math_isbined(const cgraph_char_t data) {
 }
 
 __INLINE cgraph_bool_t cgraph_math_isbintl(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isocthd(const cgraph_char_t data) {
+  return CGRAPH_TEST(isspace(data) || ('0' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isoctst(const cgraph_char_t data) {
+  return CGRAPH_TEST(('1' <= data) && ('7' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isoctmd(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' <= data) && ('7' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isocted(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' <= data) && ('7' >= data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isocttl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 

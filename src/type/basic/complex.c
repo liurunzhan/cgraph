@@ -1,4 +1,3 @@
-
 #include "cgraph_base.h"
 #include "cgraph_float64.h"
 
@@ -32,7 +31,14 @@ TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
     cgraph_int_t hit =
         sscanf(cstr, IN_FMT, &(COMPLEX_REAL(res)), &(COMPLEX_IMAG(res)));
     if ((0 == hit) || (EOF == hit)) {
-      _error = CGRAPH_TRUE;
+      hit = sscanf(cstr, IN_FMT_IMAG, &(COMPLEX_IMAG(res)));
+      if (1 == hit) {
+        COMPLEX_REAL(res) = DATA_ZERO;
+      } else {
+        _error = CGRAPH_TRUE;
+      }
+    } else if (1 == hit) {
+      COMPLEX_IMAG(res) = DATA_ZERO;
     }
   }
   if (NULL != error) {
@@ -44,12 +50,19 @@ TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   cgraph_size_t len = 0;
-  if (DATA_EQ(0.0, COMPLEX_IMAG(cthis))) {
-    len = cgraph_file_fprintf(fp, OUT_FMT_REAL, COMPLEX_REAL(cthis));
-  } else {
-    len = cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
-                              COMPLEX_IMAG(cthis));
-  }
+  cgraph_file_fprintfln(stdout, "%g %g", DATA_EPS, CGRAPH_FLOAT64_EPS);
+  len = cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
+                            COMPLEX_IMAG(cthis));
+  /*
+if (FUNCTION(NAME, isreal)(cthis)) {
+len = cgraph_file_fprintf(fp, OUT_FMT_REAL, COMPLEX_REAL(cthis));
+} else if (FUNCTION(NAME, isimag)(cthis)) {
+len = cgraph_file_fprintf(fp, OUT_FMT_IMAG, COMPLEX_IMAG(cthis));
+} else {
+len = cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
+                        COMPLEX_IMAG(cthis));
+}
+*/
 
   return len;
 }
@@ -58,8 +71,10 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
   cgraph_size_t len = 0;
-  if (DATA_EQ(0.0, COMPLEX_IMAG(cthis))) {
+  if (FUNCTION(NAME, isreal)(cthis)) {
     len = cgraph_file_snprintf(cbuf, size, OUT_FMT_REAL, COMPLEX_REAL(cthis));
+  } else if (FUNCTION(NAME, isimag)(cthis)) {
+    len = cgraph_file_snprintf(cbuf, size, OUT_FMT_IMAG, COMPLEX_IMAG(cthis));
   } else {
     len = cgraph_file_snprintf(cbuf, size, OUT_FMT, COMPLEX_REAL(cthis),
                                COMPLEX_IMAG(cthis));
@@ -287,8 +302,8 @@ TYPE FUNCTION(NAME, opp)(const TYPE x) {
 
 TYPE FUNCTION(NAME, abs)(const TYPE x) {
   TYPE res;
-  COMPLEX_REAL(res) = fabs(COMPLEX_REAL(x));
-  COMPLEX_IMAG(res) = fabs(COMPLEX_IMAG(x));
+  COMPLEX_REAL(res) = FUNCTION(NAME, mag)(x);
+  COMPLEX_IMAG(res) = 0.0;
 
   return res;
 }
@@ -401,8 +416,8 @@ TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
 }
 
 TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
-  TYPE res;
   DATA_TYPE mag2_inv = FUNCTION(NAME, mag2_inv)(y);
+  TYPE res;
   COMPLEX_REAL(res) = mag2_inv * ((COMPLEX_REAL(x) * COMPLEX_REAL(y)) +
                                   (COMPLEX_IMAG(x) * COMPLEX_IMAG(y)));
   COMPLEX_IMAG(res) = mag2_inv * ((COMPLEX_IMAG(x) * COMPLEX_REAL(y)) -
@@ -444,8 +459,8 @@ TYPE FUNCTION(NAME, log10)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, exp)(const TYPE x) {
-  TYPE res;
   DATA_TYPE mag = exp(COMPLEX_REAL(x));
+  TYPE res;
   COMPLEX_REAL(res) = mag * cos(COMPLEX_IMAG(x));
   COMPLEX_IMAG(res) = mag * sin(COMPLEX_IMAG(x));
 
@@ -453,9 +468,9 @@ TYPE FUNCTION(NAME, exp)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
-  TYPE res;
   DATA_TYPE mag = sqrt(FUNCTION(NAME, mag)(x)),
             angle = 0.5 * FUNCTION(NAME, angle)(x);
+  TYPE res;
   COMPLEX_REAL(res) = mag * cos(angle);
   COMPLEX_IMAG(res) = mag * sin(angle);
 
@@ -487,6 +502,22 @@ TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
   COMPLEX_IMAG(res) = COMPLEX_IMAG(x) - COMPLEX_IMAG(y) * COMPLEX_REAL(res);
 
   return res;
+}
+
+TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
+  TYPE res = FUNCTION(NAME, add)(x, y);
+  COMPLEX_REAL(res) = 0.5 * COMPLEX_REAL(res);
+  COMPLEX_IMAG(res) = 0.5 * COMPLEX_IMAG(res);
+
+  return res;
+}
+
+/** hmean(x, y) = 1/(1/x+1/y) = (xy)/(x+y) */
+TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
+  TYPE mul = FUNCTION(NAME, mul)(x, y);
+  TYPE sum = FUNCTION(NAME, add)(x, y);
+
+  return FUNCTION(NAME, div)(mul, sum);
 }
 
 TYPE FUNCTION(NAME, sin)(const TYPE x) {
@@ -614,6 +645,14 @@ TYPE FUNCTION(NAME, atan)(const TYPE x) {
   return res;
 }
 
+__INLINE cgraph_bool_t FUNCTION(NAME, isreal)(const TYPE x) {
+  return CGRAPH_TEST(DATA_EQ(COMPLEX_IMAG(x), 0.0));
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, isimag)(const TYPE x) {
+  return CGRAPH_TEST(DATA_EQ(COMPLEX_REAL(x), 0.0));
+}
+
 __INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISPOS(x));
 }
@@ -651,6 +690,14 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+#ifdef DEBUG
+  cgraph_file_fprintfln(
+      stdout, "%g %g ? %d", COMPLEX_REAL(x), COMPLEX_REAL(y),
+      (fabs(COMPLEX_REAL(x) - COMPLEX_REAL(y)) < CGRAPH_FLOAT64_EPS));
+  cgraph_file_fprintfln(
+      stdout, "%g %g ? %d", COMPLEX_IMAG(x), COMPLEX_IMAG(y),
+      (fabs(COMPLEX_IMAG(x) - COMPLEX_IMAG(y)) < CGRAPH_FLOAT64_EPS));
+#endif
   return EQ(x, y);
 }
 
@@ -687,9 +734,10 @@ TYPE FUNCTION(NAME, mulr)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y) {
+  DATA_TYPE inv_y = 1.0 / y;
   TYPE res;
-  COMPLEX_REAL(res) = COMPLEX_REAL(x) / y;
-  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) / y;
+  COMPLEX_REAL(res) = inv_y * COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = inv_y * COMPLEX_IMAG(x);
 
   return res;
 }

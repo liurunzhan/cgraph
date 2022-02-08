@@ -67,6 +67,8 @@ extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, idiv)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, mod)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, mean)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, hmean)(const TYPE *x, const TYPE *y, TYPE *z);
 
 extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y);
@@ -105,7 +107,7 @@ extern TYPE *FUNCTION(NAME, index)(const TYPE **cthis, const cgraph_size_t len,
 extern TYPE **FUNCTION(NAME, swap)(TYPE **cthis, const cgraph_size_t xstart,
                                    const cgraph_size_t ystart,
                                    const cgraph_size_t len);
-extern TYPE **FUNCTION(NAME, swap_jump)(TYPE **cthis,
+extern TYPE **FUNCTION(NAME, jswap)(TYPE **cthis,
                                         const cgraph_size_t xoffset,
                                         const cgraph_size_t yoffset,
                                         const cgraph_size_t unit,
@@ -234,6 +236,8 @@ extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y);
 
 extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y);
@@ -272,7 +276,7 @@ extern TYPE *FUNCTION(NAME, index)(const TYPE *cthis, const cgraph_size_t len,
 extern TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t xstart,
                                   const cgraph_size_t ystart,
                                   const cgraph_size_t len);
-extern TYPE *FUNCTION(NAME, swap_jump)(TYPE *cthis, const cgraph_size_t xoffset,
+extern TYPE *FUNCTION(NAME, jswap)(TYPE *cthis, const cgraph_size_t xoffset,
                                        const cgraph_size_t yoffset,
                                        const cgraph_size_t unit,
                                        const cgraph_size_t len);

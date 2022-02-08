@@ -44,8 +44,10 @@ extern "C" {
 #define ID ID_T(COMPLEX)
 #define BITS (sizeof(TYPE))
 #define IN_FMT "%lf+i%lf"
+#define IN_FMT_IMAG "i%lf"
 #define OUT_FMT "%g+i%g"
 #define OUT_FMT_REAL "%g"
+#define OUT_FMT_IMAG "i%g"
 #if __STDC_VERSION__ >= 199901L
 #define ZERO ((TYPE){{DATA_ZERO, DATA_ZERO}})
 #define ONE ((TYPE){{DATA_ONE, DATA_ZERO}})
@@ -79,7 +81,7 @@ typedef struct {
 #define COMPLEX_REAL(x) ((x).data[0])
 #define COMPLEX_IMAG(x) ((x).data[1])
 #define COMPLEX_MAG2(x)                                                        \
-  (COMPLEX_REAL(x) * COMPLEX_REAL(x) + COMPLEX_IMAG(x) * COMPLEX_IMAG(x))
+  ((COMPLEX_REAL(x) * COMPLEX_REAL(x)) + (COMPLEX_IMAG(x) * COMPLEX_IMAG(x)))
 
 /** template module */
 #define CGRAPH_COMPLEX_CBUF_SIZE CGRAPH_CBUF_SIZE0
@@ -98,6 +100,9 @@ extern TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n,
                                      const cgraph_int_t i);
 
 /** complex number mathematical functions */
+extern cgraph_bool_t FUNCTION(NAME, isreal)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isimag)(const TYPE x);
+
 extern DATA_TYPE FUNCTION(NAME, real)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, imag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag2)(const TYPE x);

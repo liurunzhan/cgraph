@@ -31,9 +31,7 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
     break;
   }
   default: {
-#ifdef DEBUG
-
-#endif
+    cgraph_file_fprintf(stderr, "undefined logic value");
     break;
   }
   }
@@ -44,22 +42,80 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
 TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
                             cgraph_bool_t *error) {
   TYPE res = CGRAPH_LX;
-  if (NULL != error) {
-    *error = CGRAPH_FALSE;
-  }
-  if ((NULL != cstr) && (1 == len)) {
-    if ('0' == cstr[0]) {
+  cgraph_bool_t _error = CGRAPH_TRUE;
+  if (NULL != cstr) {
+    _error = CGRAPH_FALSE;
+    switch (cstr[0]) {
+    case '0': {
       res = CGRAPH_L0;
-    } else if ('1' == cstr[0]) {
-      res = CGRAPH_L1;
-    } else if (('Z' == cstr[0]) || ('z' == cstr[0])) {
-      res = CGRAPH_LZ;
-    } else if (('X' == cstr[0]) || ('x' == cstr[0])) {
-      res = CGRAPH_LX;
-    } else if (NULL != error) {
-      *error = CGRAPH_TRUE;
+      break;
     }
+    case '1': {
+      res = CGRAPH_L1;
+      break;
+    }
+    case 'Z':
+    case 'z': {
+      res = CGRAPH_LZ;
+      break;
+    }
+    case 'X':
+    case 'x': {
+      res = CGRAPH_LX;
+      break;
+    }
+    default: {
+      cgraph_file_fprintf(stderr, "undefined logic value %c", cstr[0]);
+      _error = CGRAPH_TRUE;
+      break;
+    }
+    }
+  }
+  if (NULL != error) {
+    *error = _error;
   }
 
   return res;
+}
+
+TYPE *FUNCTION(NAME, decodes)(const cgraph_char_t *cstr,
+                              const cgraph_size_t len, cgraph_bool_t *error,
+                              TYPE *cthis) {
+  cgraph_bool_t _error = CGRAPH_TRUE;
+  if (NULL != cstr) {
+    _error = CGRAPH_FALSE;
+    CGRAPH_LOOP(i, 0, len)
+    switch (cstr[i]) {
+    case '0': {
+      cthis[i] = CGRAPH_L0;
+      break;
+    }
+    case '1': {
+      cthis[i] = CGRAPH_L1;
+      break;
+    }
+    case 'Z':
+    case 'z': {
+      cthis[i] = CGRAPH_LZ;
+      break;
+    }
+    case 'X':
+    case 'x': {
+      cthis[i] = CGRAPH_LX;
+      break;
+    }
+    default: {
+      cgraph_file_fprintf(stderr, "undefined logic value %c at %ld", cstr[i],
+                          i);
+      _error = CGRAPH_TRUE;
+      break;
+    }
+    }
+    CGRAPH_LOOP_END
+  }
+  if (NULL != error) {
+    *error = _error;
+  }
+
+  return cthis;
 }

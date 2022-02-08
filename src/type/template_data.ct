@@ -905,15 +905,13 @@ TYPE *FUNCTION(NAME, swap)(TYPE *cthis, const cgraph_size_t xstart,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, swap_jump)(TYPE **cthis, const cgraph_size_t xoffset,
-                                 const cgraph_size_t yoffset,
-                                 const cgraph_size_t unit,
-                                 const cgraph_size_t len)
+TYPE **FUNCTION(NAME, jswap)(TYPE **cthis, const cgraph_size_t xoffset,
+                             const cgraph_size_t yoffset,
+                             const cgraph_size_t unit, const cgraph_size_t len)
 #else
-TYPE *FUNCTION(NAME, swap_jump)(TYPE *cthis, const cgraph_size_t xoffset,
-                                const cgraph_size_t yoffset,
-                                const cgraph_size_t unit,
-                                const cgraph_size_t len)
+TYPE *FUNCTION(NAME, jswap)(TYPE *cthis, const cgraph_size_t xoffset,
+                            const cgraph_size_t yoffset,
+                            const cgraph_size_t unit, const cgraph_size_t len)
 #endif
 {
   cgraph_size_t i = 0, _xindex = xoffset, _yindex = yoffset;
@@ -932,13 +930,12 @@ TYPE *FUNCTION(NAME, trans)(TYPE *cthis, const cgraph_size_t row,
                             const cgraph_size_t col)
 #endif
 {
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return cthis;
 }
@@ -951,13 +948,12 @@ TYPE *FUNCTION(NAME, subsym)(TYPE *cthis, const cgraph_size_t row,
                              const cgraph_size_t col)
 #endif
 {
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return cthis;
 }
@@ -971,16 +967,15 @@ cgraph_bool_t FUNCTION(NAME, issubsym)(TYPE *cthis, const cgraph_size_t row,
 #endif
 {
   cgraph_bool_t flag = CGRAPH_TRUE;
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = 0; j < col; j++) {
-      if (NE(cthis[row_i + j], cthis[col * j + i])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
-    }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, 0, col)
+  if (NE(cthis[row_i + j], cthis[col * j + i])) {
+    flag = CGRAPH_FALSE;
+    break;
   }
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return flag;
 }
@@ -994,16 +989,15 @@ cgraph_bool_t FUNCTION(NAME, isupptri)(TYPE *cthis, const cgraph_size_t row,
 #endif
 {
   cgraph_bool_t flag = CGRAPH_TRUE;
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = 0; j < i; j++) {
-      if (!FUNCTION(NAME, iszero)(cthis[row_i + j])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
-    }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, 0, i)
+  if (!FUNCTION(NAME, iszero)(cthis[row_i + j])) {
+    flag = CGRAPH_FALSE;
+    break;
   }
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return flag;
 }
@@ -1017,16 +1011,15 @@ cgraph_bool_t FUNCTION(NAME, islowtri)(TYPE *cthis, const cgraph_size_t row,
 #endif
 {
   cgraph_bool_t flag = CGRAPH_TRUE;
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      if (!FUNCTION(NAME, iszero)(cthis[row_i + j])) {
-        flag = CGRAPH_FALSE;
-        break;
-      }
-    }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  if (!FUNCTION(NAME, iszero)(cthis[row_i + j])) {
+    flag = CGRAPH_FALSE;
+    break;
   }
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return flag;
 }
@@ -1060,13 +1053,12 @@ TYPE *FUNCTION(NAME, rot2I)(TYPE *cthis, const cgraph_size_t row,
                             const cgraph_size_t col)
 #endif
 {
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return cthis;
 }
@@ -1079,13 +1071,12 @@ TYPE *FUNCTION(NAME, rot3I)(TYPE *cthis, const cgraph_size_t row,
                             const cgraph_size_t col)
 #endif
 {
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return cthis;
 }
@@ -1109,13 +1100,12 @@ TYPE *FUNCTION(NAME, rot_1I)(TYPE *cthis, const cgraph_size_t row,
                              const cgraph_size_t col)
 #endif
 {
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return cthis;
 }
@@ -1128,13 +1118,12 @@ TYPE *FUNCTION(NAME, rot_2I)(TYPE *cthis, const cgraph_size_t row,
                              const cgraph_size_t col)
 #endif
 {
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return cthis;
 }
@@ -1147,13 +1136,12 @@ TYPE *FUNCTION(NAME, rot_3I)(TYPE *cthis, const cgraph_size_t row,
                              const cgraph_size_t col)
 #endif
 {
-  cgraph_size_t i = 0, j;
-  for (; i < row; i++) {
-    cgraph_size_t row_i = i * row;
-    for (j = i + 1; j < col; j++) {
-      SWAP(cthis[row_i + j], cthis[col * j + i]);
-    }
-  }
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
 
   return cthis;
 }

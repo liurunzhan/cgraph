@@ -600,13 +600,11 @@ typedef unsigned __int64 __cgraph_uint64;
 #endif
 
 #if (__STDC_VERSION__ >= 199901L) || defined(__HAVE_FUNC) || defined(__func__)
-#define __FUNCTION __func__
-#elif defined(__FUNCTION__)
-#define __FUNCTION __FUNCTION__
+#define __FUNCTION__ __func__
 #elif defined(__function__)
-#define __FUNCTION __function__
-#else
-#define __FUNCTION NULL
+#define __FUNCTION__ __function__
+#elif !defined(__FUNCTION__)
+#define __FUNCTION__ NULL
 #endif
 
 #if __STDC_VERSION__ >= 199901L

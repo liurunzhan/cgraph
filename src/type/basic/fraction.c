@@ -45,11 +45,10 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   TYPE fmt = FUNCTION(NAME, format)(cthis);
   cgraph_size_t len = 0;
   if (1 == FRACTION_DEN(fmt)) {
-    len = cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT_NUM,
-                               FRACTION_NUM(fmt));
+    len = cgraph_file_fprintf(fp, OUT_FMT_NUM, FRACTION_NUM(fmt));
   } else {
-    len = cgraph_file_snprintf(CGRAPH_CBUF_PTR, CGRAPH_CBUF_SIZE, OUT_FMT,
-                               FRACTION_NUM(fmt), FRACTION_DEN(fmt));
+    len =
+        cgraph_file_fprintf(fp, OUT_FMT, FRACTION_NUM(fmt), FRACTION_DEN(fmt));
   }
 
   return len;
@@ -97,8 +96,8 @@ TYPE FUNCTION(NAME, format)(const TYPE cthis) {
   DATA_TYPE gcd =
       FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
   if ((1 != gcd) && (0 != gcd)) {
-    FRACTION_NUM(res) = FRACTION_NUM(res) / gcd;
-    FRACTION_DEN(res) = FRACTION_DEN(res) / gcd;
+    FRACTION_NUM(res) /= gcd;
+    FRACTION_DEN(res) /= gcd;
   }
   if (0 > FRACTION_DEN(res)) {
     FRACTION_NUM(res) = -FRACTION_NUM(res);
@@ -436,6 +435,21 @@ TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
       (FRACTION_DEN(y) * FRACTION_NUM(x)) % (FRACTION_DEN(x) * FRACTION_NUM(y));
 
   return res;
+}
+
+TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
+  TYPE res = FUNCTION(NAME, add)(x, y);
+  FRACTION_DEN(res) = 2 * FRACTION_DEN(res);
+
+  return res;
+}
+
+/** hmean(x, y) = 1/(1/x+1/y) = (xy)/(x+y) */
+TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
+  TYPE mul = FUNCTION(NAME, mul)(x, y);
+  TYPE sum = FUNCTION(NAME, add)(x, y);
+
+  return FUNCTION(NAME, div)(mul, sum);
 }
 
 TYPE FUNCTION(NAME, ceil)(const TYPE x) {

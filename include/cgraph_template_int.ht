@@ -29,7 +29,7 @@
   ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define INT(a, b, c)                                                           \
   ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define MOD(a, b, c) (SUB((a), INT(a, b)))
+#define MOD(a, b, c) (SUB((a), INT(a, b, NULL), NULL))
 
 #define EQ(a, b) ((a) == (b))
 #define NE(a, b) ((a) != (b))
@@ -76,7 +76,7 @@
   ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define INT(a, b, c)                                                           \
   ((((a) == CGRAPH_TRUE) && ((b) == CGRAPH_TRUE)) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define MOD(a, b, c) (SUB((a), INT(a, b)))
+#define MOD(a, b, c) (SUB((a), INT(a, b, NULL), NULL))
 
 #define EQ(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) == (b) : CGRAPH_LX)
 #define NE(a, b) ((DATA_ISBOOL(a) && DATA_ISBOOL(b)) ? (a) != (b) : CGRAPH_LX)
