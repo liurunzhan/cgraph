@@ -29,7 +29,7 @@ extern "C" {
 #define DATA_BITS CGRAPH_INT_BITS
 #define DATA_ZERO (0)
 #define DATA_ONE (1)
-#define DATA_ONES CGRAPH_INT_MIN
+#define DATA_ONES CGRAPH_INT_MAX
 #define DATA_MIN CGRAPH_INT_MIN
 #define DATA_MAX CGRAPH_INT_MAX
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))

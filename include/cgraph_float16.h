@@ -31,8 +31,8 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT16)
 #define BITS CGRAPH_FLOAT16_BITS
-#define IN_FMT "%g"
-#define OUT_FMT "%g"
+#define IN_FMT "%d"
+#define OUT_FMT "%d"
 #define ZERO (0)
 #define ONE (CGRAPH_FLOAT16_EXP_BIAS << CGRAPH_FLOAT16_EXP_OFS)
 #define ONES ONE

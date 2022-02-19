@@ -106,278 +106,306 @@
  * CGRAPH_MATRIX3D_SIZE_IJ CGRAPH_MATRIX3D_SIZE_IK MATRIX3D_SIZE_JK
  * CGRAPH_MATRIX3D_SIZE
  * MACRO GROUP : DATA TYPE MATHEMATICAL FUNCTIONS, CHECKED BY "template_check.h"
- * ASSIGN ADD SUB MUL DIV DIVF INT FEXP FREXP FMOD MODF MOD EQ
- * NE GR GE LS LE CEIL FLOOR POW ABS SIN COS TAN ASIN ACOS ATAN SINH COSH TANH
- * LOG LOG2 LOG10
- * EXP SQRT SWAP
- * ROL3 ROR3 ROL4 ROR4 DATA_SWAP
- * MACRO GROUP : DEFINED C-TYPE BUFFER
+ * ASSIGN ADD SUB MUL DIV DIVF INT FEXP FREXP FMOD MODF MOD
+ * BOOLEAN_EQ BOOLEAN_NE BOOLEAN_GR BOOLEAN_GE BOOLEAN_LS BOOLEAN_LE
+ * BOOLEAN_AND BOOLEAN_NAND BOOLEAN_ANDN BOOLEAN_OR BOOLEAN_NOR BOOLEAN_ORN
+ * BOOLEAN_ABS BOOLEAN_NOT BOOLEAN_XOR BOOLEAN_XNOR
+ * EQ NE GR GE LS LE
+ * AND NAND ANDN OR NOR ORN NOT XOR XNOR
+ * CEIL FLOOR POW ABS SIN COS TAN ASIN ACOS ATAN SINH COSH TANH
+ * LOG LOG2 LOG10 EXP SQRT
+ * SWAP ROL3 ROR3 ROL4 ROR4
+ * DATA_SWAP MACRO GROUP : DEFINED C-TYPE BUFFER
  * CGRAPH_CBUF_SIZE CGRAPH_CBUF_PTR CGRAPH_CBUF_LEN
  ******************************************************************************/
 
 /*
   defined macro variables:
-  #define CONCAT1V 
-  #define CONCAT1 
-  #define CONCAT2V 
-  #define CONCAT2 
-  #define CONCAT3V 
-  #define CONCAT3 
-  #define CONCAT4V 
-  #define CONCAT4 
-  #define TYPE_T 
-  #define ID_T 
-  #define STRUCT 
-  #define STRING 
-  #define FUNCPTR 
-  #define FUNCTION 
-  #define TYPE_OBJECT 
-  #define TYPE_HOBJECT 
-  #define TYPE_GOBJECT 
-  #define TYPE_MOBJECT 
-  #define TYPE_M3OBJECT 
-  #define TYPE_POBJECT 
-  #define TYPE_FLOAT8 
-  #define TYPE_FLOAT16 
-  #define TYPE_FLOAT32 
-  #define TYPE_FLOAT64 
-  #define TYPE_FLOAT128 
-  #define TYPE_FLOAT128_SIZE64 
-  #define TYPE_FLOAT128_SIZE80 
-  #define TYPE_FLOAT128_SIZE128 
-  #define TYPE_BOOL 
-  #define TYPE_LOGIC 
-  #define TYPE_INT 
-  #define TYPE_LONG 
-  #define TYPE_LONG_SIZE32 
-  #define TYPE_LONG_SIZE64 
-  #define TYPE_INT8 
-  #define TYPE_INT16 
-  #define TYPE_INT32 
-  #define TYPE_INT64 
-  #define TYPE_INT128 
-  #define TYPE_INT128_SIZE64 
-  #define TYPE_INT128_SIZE128 
-  #define TYPE_TIME 
-  #define TYPE_COMPLEX 
-  #define TYPE_FRACTION 
-  #define TYPE_BIGINT 
-  #define TYPE_BIGNUM 
-  #define TYPE_STRING 
-  #define TYPE_BITSET 
-  #define TYPE_VECTOR 
-  #define TYPE_MATRIX 
-  #define TYPE_BIGMAT 
-  #define TYPE_SPAMAT 
-  #define TYPE_MATRIX3D 
-  #define TYPE_BIGMAT3D 
-  #define TYPE_SPAMAT3D 
-  #define TYPE_DFRAME 
-  #define TYPE_LIST 
-  #define TYPE_TREE 
-  #define TYPE_SET 
-  #define TYPE_DICT 
-  #define TYPE_QUEUE 
-  #define TYPE_WITH_DATA 
-  #define DATA_TYPE 
-  #define DATA_ID 
-  #define DATA_NAME 
-  #define DATA_UNAME 
-  #define DATA_BITS 
-  #define DATA_BYTES 
-  #define DATA_BITS_LOG2 
-  #define DATA_BITS_LOG2_EPS 
-  #define DATA_UTYPE 
-  #define DATA_END 
-  #define DATA_ZERO 
-  #define DATA_ONE 
-  #define DATA_ONES 
-  #define DATA_MAX 
-  #define DATA_MIN 
-  #define DATA_BIAS 
-  #define DATA_MAX1 
-  #define DATA_MIN1 
-  #define DATA_BIAS1 
-  #define DATA_NAN 
-  #define DATA_INF 
-  #define DATA_PINF 
-  #define DATA_NINF 
-  #define DATA_MSB 
-  #define DATA_LSB 
-  #define DATA_MASK 
-  #define DATA_EPS 
-  #define DATA_EPS_LEN 
-  #define DATA_EQ 
-  #define DATA_NE 
-  #define DATA_GR 
-  #define DATA_GE 
-  #define DATA_LS 
-  #define DATA_LE 
-  #define DATA_TEST 
-  #define DATA_TOBOOL 
-  #define DATA_TOLOGIC 
-  #define DATA_ISBOOL 
-  #define DATA_ISLOGIC 
-  #define DATA_ISNAN 
-  #define DATA_ISPINF 
-  #define DATA_ISNINF 
-  #define DATA_ISINF 
-  #define DATA_ISPOS 
-  #define DATA_ISNEG 
-  #define ARG 
-  #define TYPE 
-  #define TYPE_PTR 
-  #define NAME 
-  #define ID 
-  #define BITS 
-  #define BITS_LOG2 
-  #define UNAME 
-  #define UTYPE 
-  #define UID 
-  #define IN_FMT 
-  #define IN_FMT_IMAG 
-  #define OUT_FMT 
-  #define OUT_FMT_REAL 
-  #define OUT_FMT_IMAG 
-  #define OUT_FMT_NUM 
-  #define ZERO0 
-  #define ONE0 
-  #define ONES0 
-  #define ZERO1 
-  #define ONE1 
-  #define ONES1 
-  #define ZERO 
-  #define ONE 
-  #define ONES 
-  #define MIN 
-  #define MAX 
-  #define NAN 
-  #define INF 
-  #define PINF 
-  #define NINF 
-  #define MSB 
-  #define LSB 
-  #define MASK 
-  #define EPS 
-  #define EPS_LEN 
-  #define HASH_OFS 
-  #define FRAC_BITS 
-  #define FRAC_EPS 
-  #define FRAC_OFS 
-  #define FLOAT_SOFT_TOFRAC 
-  #define FLOAT_SOFT_FRAC 
-  #define FLOAT_SOFT_FRAC_CLR 
-  #define FLOAT_SOFT_FRAC_SET 
-  #define EXP_BITS 
-  #define EXP_EPS 
-  #define EXP_OFS 
-  #define EXP_BIAS 
-  #define FLOAT_SOFT_TOEXP 
-  #define FLOAT_SOFT_EXP 
-  #define FLOAT_SOFT_EXP_CLR 
-  #define FLOAT_SOFT_EXP_SET 
-  #define SIG_BITS 
-  #define SIG_EPS 
-  #define SIG_OFS 
-  #define FLOAT_SOFT_TOSIG 
-  #define FLOAT_SOFT_SIG 
-  #define FLOAT_SOFT_SIG_CLR 
-  #define FLOAT_SOFT_SIG_SET 
-  #define EPS1 
-  #define EPS2 
-  #define EPS4 
-  #define EPS8 
-  #define EPS16 
-  #define EPS32 
-  #define EPS64 
-  #define COPY_SIZE 
-  #define OBJECT 
-  #define CGRAPH_OBJECT_BASE 
-  #define CGRAPH_OBJECT_ROOT 
-  #define CGRAPH_OBJECT_DATA_START 
-  #define CGRAPH_BASE 
-  #define CGRAPH_SIZE 
-  #define CGRAPH_LEN 
-  #define CGRAPH_DATA_START 
-  #define CGRAPH_DATA_END 
-  #define CGRAPH_DATA_ROOT 
-  #define CGRAPH_ISNULL 
-  #define CGRAPH_HASMEM 
-  #define CGRAPH_ISEMPTY 
-  #define CGRAPH_HASDATA 
-  #define CGRAPH_DATA_BITS_CHECKER 
-  #define CGRAPH_DATA_BYTES_CHECKER 
-  #define CGRAPH_STRUCTURE_BASE 
-  #define CGRAPH_STRUCTURE_PTR1 
-  #define CGRAPH_STRUCTURE_PTR2 
-  #define CGRAPH_STRUCTURE_ROOT 
-  #define CGRAPH_MATRIX_INDEXES 
-  #define MATRIX_ROW 
-  #define MATRIX_COLUMN 
-  #define MATRIX_SIZE 
-  #define CGRAPH_MATRIX_ROW 
-  #define CGRAPH_MATRIX_COLUMN 
-  #define CGRAPH_MATRIX_SIZE 
-  #define CGRAPH_MATRIX3D_INDEXES 
-  #define MATRIX3D_INDEX_I 
-  #define MATRIX3D_INDEX_J 
-  #define MATRIX3D_INDEX_K 
-  #define MATRIX3D_SIZE_IJ 
-  #define MATRIX3D_SIZE_IK 
-  #define MATRIX3D_SIZE_JK 
-  #define MATRIX3D_SIZE 
-  #define CGRAPH_MATRIX3D_INDEX_I 
-  #define CGRAPH_MATRIX3D_INDEX_J 
-  #define CGRAPH_MATRIX3D_INDEX_K 
-  #define CGRAPH_MATRIX3D_SIZE_IJ 
-  #define CGRAPH_MATRIX3D_SIZE_IK 
-  #define MATRIX3D_SIZE_JK 
-  #define CGRAPH_MATRIX3D_SIZE 
-  #define ASSIGN 
-  #define ADD 
-  #define SUB 
-  #define MUL 
-  #define DIV 
-  #define DIVF 
-  #define INT 
-  #define FEXP 
-  #define FREXP 
-  #define FMOD 
-  #define MODF 
-  #define MOD 
-  #define EQ 
-  #define NE 
-  #define GR 
-  #define GE 
-  #define LS 
-  #define LE 
-  #define CEIL 
-  #define FLOOR 
-  #define POW 
-  #define ABS 
-  #define SIN 
-  #define COS 
-  #define TAN 
-  #define ASIN 
-  #define ACOS 
-  #define ATAN 
-  #define SINH 
-  #define COSH 
-  #define TANH 
-  #define LOG 
-  #define LOG2 
-  #define LOG10 
-  #define EXP 
-  #define SQRT 
-  #define SWAP 
-  #define ROL3 
-  #define ROR3 
-  #define ROL4 
-  #define ROR4 
-  #define DATA_SWAP 
-  #define CGRAPH_CBUF_SIZE 
-  #define CGRAPH_CBUF_PTR 
-  #define CGRAPH_CBUF_LEN 
+  #define CONCAT1V
+  #define CONCAT1
+  #define CONCAT2V
+  #define CONCAT2
+  #define CONCAT3V
+  #define CONCAT3
+  #define CONCAT4V
+  #define CONCAT4
+  #define TYPE_T
+  #define ID_T
+  #define STRUCT
+  #define STRING
+  #define FUNCPTR
+  #define FUNCTION
+  #define TYPE_OBJECT
+  #define TYPE_HOBJECT
+  #define TYPE_GOBJECT
+  #define TYPE_MOBJECT
+  #define TYPE_M3OBJECT
+  #define TYPE_POBJECT
+  #define TYPE_FLOAT8
+  #define TYPE_FLOAT16
+  #define TYPE_FLOAT32
+  #define TYPE_FLOAT64
+  #define TYPE_FLOAT128
+  #define TYPE_FLOAT128_SIZE64
+  #define TYPE_FLOAT128_SIZE80
+  #define TYPE_FLOAT128_SIZE128
+  #define TYPE_BOOL
+  #define TYPE_LOGIC
+  #define TYPE_INT
+  #define TYPE_LONG
+  #define TYPE_LONG_SIZE32
+  #define TYPE_LONG_SIZE64
+  #define TYPE_INT8
+  #define TYPE_INT16
+  #define TYPE_INT32
+  #define TYPE_INT64
+  #define TYPE_INT128
+  #define TYPE_INT128_SIZE64
+  #define TYPE_INT128_SIZE128
+  #define TYPE_TIME
+  #define TYPE_COMPLEX
+  #define TYPE_FRACTION
+  #define TYPE_BIGINT
+  #define TYPE_BIGNUM
+  #define TYPE_STRING
+  #define TYPE_BITSET
+  #define TYPE_VECTOR
+  #define TYPE_MATRIX
+  #define TYPE_BIGMAT
+  #define TYPE_SPAMAT
+  #define TYPE_MATRIX3D
+  #define TYPE_BIGMAT3D
+  #define TYPE_SPAMAT3D
+  #define TYPE_DFRAME
+  #define TYPE_LIST
+  #define TYPE_TREE
+  #define TYPE_SET
+  #define TYPE_DICT
+  #define TYPE_QUEUE
+  #define TYPE_WITH_DATA
+  #define DATA_TYPE
+  #define DATA_ID
+  #define DATA_NAME
+  #define DATA_UNAME
+  #define DATA_BITS
+  #define DATA_BYTES
+  #define DATA_BITS_LOG2
+  #define DATA_BITS_LOG2_EPS
+  #define DATA_UTYPE
+  #define DATA_END
+  #define DATA_ZERO
+  #define DATA_ONE
+  #define DATA_ONES
+  #define DATA_MAX
+  #define DATA_MIN
+  #define DATA_BIAS
+  #define DATA_MAX1
+  #define DATA_MIN1
+  #define DATA_BIAS1
+  #define DATA_NAN
+  #define DATA_INF
+  #define DATA_PINF
+  #define DATA_NINF
+  #define DATA_MSB
+  #define DATA_LSB
+  #define DATA_MASK
+  #define DATA_EPS
+  #define DATA_EPS_LEN
+  #define DATA_EQ
+  #define DATA_NE
+  #define DATA_GR
+  #define DATA_GE
+  #define DATA_LS
+  #define DATA_LE
+  #define DATA_TEST
+  #define DATA_TOBOOL
+  #define DATA_TOLOGIC
+  #define DATA_ISBOOL
+  #define DATA_ISLOGIC
+  #define DATA_ISNAN
+  #define DATA_ISPINF
+  #define DATA_ISNINF
+  #define DATA_ISINF
+  #define DATA_ISPOS
+  #define DATA_ISNEG
+  #define ARG
+  #define TYPE
+  #define TYPE_PTR
+  #define NAME
+  #define ID
+  #define BITS
+  #define BITS_LOG2
+  #define UNAME
+  #define UTYPE
+  #define UID
+  #define IN_FMT
+  #define IN_FMT_IMAG
+  #define OUT_FMT
+  #define OUT_FMT_REAL
+  #define OUT_FMT_IMAG
+  #define OUT_FMT_NUM
+  #define ZERO0
+  #define ONE0
+  #define ONES0
+  #define ZERO1
+  #define ONE1
+  #define ONES1
+  #define ZERO
+  #define ONE
+  #define ONES
+  #define MIN
+  #define MAX
+  #define NAN
+  #define INF
+  #define PINF
+  #define NINF
+  #define MSB
+  #define LSB
+  #define MASK
+  #define EPS
+  #define EPS_LEN
+  #define HASH_OFS
+  #define FRAC_BITS
+  #define FRAC_EPS
+  #define FRAC_OFS
+  #define FLOAT_SOFT_TOFRAC
+  #define FLOAT_SOFT_FRAC
+  #define FLOAT_SOFT_FRAC_CLR
+  #define FLOAT_SOFT_FRAC_SET
+  #define EXP_BITS
+  #define EXP_EPS
+  #define EXP_OFS
+  #define EXP_BIAS
+  #define FLOAT_SOFT_TOEXP
+  #define FLOAT_SOFT_EXP
+  #define FLOAT_SOFT_EXP_CLR
+  #define FLOAT_SOFT_EXP_SET
+  #define SIG_BITS
+  #define SIG_EPS
+  #define SIG_OFS
+  #define FLOAT_SOFT_TOSIG
+  #define FLOAT_SOFT_SIG
+  #define FLOAT_SOFT_SIG_CLR
+  #define FLOAT_SOFT_SIG_SET
+  #define EPS1
+  #define EPS2
+  #define EPS4
+  #define EPS8
+  #define EPS16
+  #define EPS32
+  #define EPS64
+  #define COPY_SIZE
+  #define OBJECT
+  #define CGRAPH_OBJECT_BASE
+  #define CGRAPH_OBJECT_ROOT
+  #define CGRAPH_OBJECT_DATA_START
+  #define CGRAPH_BASE
+  #define CGRAPH_SIZE
+  #define CGRAPH_LEN
+  #define CGRAPH_DATA_START
+  #define CGRAPH_DATA_END
+  #define CGRAPH_DATA_ROOT
+  #define CGRAPH_ISNULL
+  #define CGRAPH_HASMEM
+  #define CGRAPH_ISEMPTY
+  #define CGRAPH_HASDATA
+  #define CGRAPH_DATA_BITS_CHECKER
+  #define CGRAPH_DATA_BYTES_CHECKER
+  #define CGRAPH_STRUCTURE_BASE
+  #define CGRAPH_STRUCTURE_PTR1
+  #define CGRAPH_STRUCTURE_PTR2
+  #define CGRAPH_STRUCTURE_ROOT
+  #define CGRAPH_MATRIX_INDEXES
+  #define MATRIX_ROW
+  #define MATRIX_COLUMN
+  #define MATRIX_SIZE
+  #define CGRAPH_MATRIX_ROW
+  #define CGRAPH_MATRIX_COLUMN
+  #define CGRAPH_MATRIX_SIZE
+  #define CGRAPH_MATRIX3D_INDEXES
+  #define MATRIX3D_INDEX_I
+  #define MATRIX3D_INDEX_J
+  #define MATRIX3D_INDEX_K
+  #define MATRIX3D_SIZE_IJ
+  #define MATRIX3D_SIZE_IK
+  #define MATRIX3D_SIZE_JK
+  #define MATRIX3D_SIZE
+  #define CGRAPH_MATRIX3D_INDEX_I
+  #define CGRAPH_MATRIX3D_INDEX_J
+  #define CGRAPH_MATRIX3D_INDEX_K
+  #define CGRAPH_MATRIX3D_SIZE_IJ
+  #define CGRAPH_MATRIX3D_SIZE_IK
+  #define MATRIX3D_SIZE_JK
+  #define CGRAPH_MATRIX3D_SIZE
+  #define ASSIGN
+  #define ADD
+  #define SUB
+  #define MUL
+  #define DIV
+  #define DIVF
+  #define INT
+  #define FEXP
+  #define FREXP
+  #define FMOD
+  #define MODF
+  #define MOD
+  #define BOOLEAN_EQ
+  #define BOOLEAN_NE
+  #define BOOLEAN_GR
+  #define BOOLEAN_GE
+  #define BOOLEAN_LS
+  #define BOOLEAN_LE
+  #define BOOLEAN_AND
+  #define BOOLEAN_NAND
+  #define BOOLEAN_ANDN
+  #define BOOLEAN_OR
+  #define BOOLEAN_NOR
+  #define BOOLEAN_ORN
+  #define BOOLEAN_ABS
+  #define BOOLEAN_NOT
+  #define BOOLEAN_XOR
+  #define BOOLEAN_XNOR
+  #define EQ
+  #define NE
+  #define GR
+  #define GE
+  #define LS
+  #define LE
+  #define AND
+  #define NAND
+  #define ANDN
+  #define OR
+  #define NOR
+  #define ORN
+  #define NOT
+  #define XOR
+  #define XNOR
+  #define CEIL
+  #define FLOOR
+  #define POW
+  #define ABS
+  #define SIN
+  #define COS
+  #define TAN
+  #define ASIN
+  #define ACOS
+  #define ATAN
+  #define SINH
+  #define COSH
+  #define TANH
+  #define LOG
+  #define LOG2
+  #define LOG10
+  #define EXP
+  #define SQRT
+  #define SWAP
+  #define ROL3
+  #define ROR3
+  #define ROL4
+  #define ROR4
+  #define CGRAPH_CBUF_SIZE
+  #define CGRAPH_CBUF_PTR
+  #define CGRAPH_CBUF_LEN
 */
 
 /** BASE */
@@ -1303,6 +1331,70 @@
 #undef MOD
 #endif
 
+#ifdef BOOLEAN_EQ
+#undef BOOLEAN_EQ
+#endif
+
+#ifdef BOOLEAN_NE
+#undef BOOLEAN_NE
+#endif
+
+#ifdef BOOLEAN_GR
+#undef BOOLEAN_GR
+#endif
+
+#ifdef BOOLEAN_GE
+#undef BOOLEAN_GE
+#endif
+
+#ifdef BOOLEAN_LS
+#undef BOOLEAN_LS
+#endif
+
+#ifdef BOOLEAN_LE
+#undef BOOLEAN_LE
+#endif
+
+#ifdef BOOLEAN_AND
+#undef BOOLEAN_AND
+#endif
+
+#ifdef BOOLEAN_NAND
+#undef BOOLEAN_NAND
+#endif
+
+#ifdef BOOLEAN_ANDN
+#undef BOOLEAN_ANDN
+#endif
+
+#ifdef BOOLEAN_OR
+#undef BOOLEAN_OR
+#endif
+
+#ifdef BOOLEAN_NOR
+#undef BOOLEAN_NOR
+#endif
+
+#ifdef BOOLEAN_ORN
+#undef BOOLEAN_ORN
+#endif
+
+#ifdef BOOLEAN_ABS
+#undef BOOLEAN_ABS
+#endif
+
+#ifdef BOOLEAN_NOT
+#undef BOOLEAN_NOT
+#endif
+
+#ifdef BOOLEAN_XOR
+#undef BOOLEAN_XOR
+#endif
+
+#ifdef BOOLEAN_XNOR
+#undef BOOLEAN_XNOR
+#endif
+
 #ifdef EQ
 #undef EQ
 #endif
@@ -1325,6 +1417,42 @@
 
 #ifdef LE
 #undef LE
+#endif
+
+#ifdef AND
+#undef AND
+#endif
+
+#ifdef NAND
+#undef NAND
+#endif
+
+#ifdef ANDN
+#undef ANDN
+#endif
+
+#ifdef OR
+#undef OR
+#endif
+
+#ifdef NOR
+#undef NOR
+#endif
+
+#ifdef ORN
+#undef ORN
+#endif
+
+#ifdef NOT
+#undef NOT
+#endif
+
+#ifdef XOR
+#undef XOR
+#endif
+
+#ifdef XNOR
+#undef XNOR
 #endif
 
 #ifdef CEIL
@@ -1417,10 +1545,6 @@
 
 #ifdef ROR4
 #undef ROR4
-#endif
-
-#ifdef DATA_SWAP
-#undef DATA_SWAP
 #endif
 
 /** DEFINED C-TYPE BUFFER */

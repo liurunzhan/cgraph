@@ -625,12 +625,12 @@ cgraph_int32_t cgraph_rand32(void) { return __cgraph_rand32_intptr(); }
   Methode : X(n+1) <- (a * X(n) + b) % m
   a = 16807 or 48271
   b = 0
-  m = 2147483647 (MATH_CONST_RAND32_MAX, 2^31 - 1 or 2 << 31 - 1)
+  m = 2147483647 (RAND32_MAX, 2^31 - 1 or 2 << 31 - 1)
   returning a 32-bit integer [1, 2147483647]
   X(0) = 1
 */
 cgraph_int32_t cgraph_rand32_miller(void) {
-  const cgraph_int32_t a = 48271, m = MATH_CONST_RAND32_MAX;
+  const cgraph_int32_t a = 48271, m = RAND32_MAX;
   const cgraph_int32_t m_div_a = m / a, m_mod_a = m % a;
   cgraph_int32_t hi = __cgraph_rand32_seed / m_div_a,
                  lo = __cgraph_rand32_seed % m_div_a;
@@ -660,11 +660,11 @@ cgraph_float32_t cgraph_rand32_normal(const cgraph_float32_t mu,
   static cgraph_float32_t U, V, Z;
   static cgraph_bool_t phase = CGRAPH_FALSE;
   if (CGRAPH_TRUE == phase) {
-    U = (1.0 * __cgraph_rand32_intptr() + 1.0) / (MATH_CONST_RAND32_MAX + 2.0);
-    V = 1.0 * __cgraph_rand32_intptr() / (MATH_CONST_RAND32_MAX + 1.0);
-    Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
+    U = (1.0 * __cgraph_rand32_intptr() + 1.0) / (RAND32_MAX + 2.0);
+    V = 1.0 * __cgraph_rand32_intptr() / (RAND32_MAX + 1.0);
+    Z = sqrt(-2.0 * log(U)) * sin(2.0 * M_PI * V);
   } else {
-    Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V);
+    Z = sqrt(-2.0 * log(U)) * cos(2.0 * M_PI * V);
   }
   phase ^= CGRAPH_TRUE;
 
@@ -696,7 +696,7 @@ cgraph_int64_t cgraph_rand64(void) { return __cgraph_rand64_intptr(); }
   X(0) = 1
 */
 cgraph_int64_t cgraph_rand64_mmix(void) {
-  const cgraph_int64_t a = __RAND64_A, b = __RAND64_B, m = __RAND64_M;
+  const cgraph_int64_t a = RAND64_A, b = RAND64_B, m = RAND64_M;
   const cgraph_int64_t a_mod_m = a % m, b_mod_m = b % m;
   cgraph_int64_t seed_mod_m = __cgraph_rand64_seed % m;
   __cgraph_rand64_seed = ((a_mod_m * seed_mod_m) % m + b_mod_m) % m;
@@ -725,11 +725,11 @@ cgraph_float64_t cgraph_rand64_normal(const cgraph_float64_t mu,
   static cgraph_float64_t U, V, Z;
   static cgraph_bool_t phase = CGRAPH_FALSE;
   if (CGRAPH_TRUE == phase) {
-    U = (1.0 * __cgraph_rand64_intptr() + 1.0) / (MATH_CONST_RAND64_MAX + 2.0);
-    V = 1.0 * __cgraph_rand64_intptr() / (MATH_CONST_RAND64_MAX + 1.0);
-    Z = sqrt(-2.0 * log(U)) * sin(2.0 * MATH_CONST_PI * V);
+    U = (1.0 * __cgraph_rand64_intptr() + 1.0) / (RAND64_MAX + 2.0);
+    V = 1.0 * __cgraph_rand64_intptr() / (RAND64_MAX + 1.0);
+    Z = sqrt(-2.0 * log(U)) * sin(2.0 * M_PI * V);
   } else {
-    Z = sqrt(-2.0 * log(U)) * cos(2.0 * MATH_CONST_PI * V);
+    Z = sqrt(-2.0 * log(U)) * cos(2.0 * M_PI * V);
   }
   phase ^= CGRAPH_TRUE;
 
@@ -751,6 +751,21 @@ cgraph_size_t cgraph_rand_size(const cgraph_size_t size) {
 #else
   return __cgraph_rand32_intptr() % size;
 #endif
+}
+
+cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x) { return ceil(x); }
+
+cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x) {
+  return floor(x);
+}
+
+cgraph_float64_t cgraph_math_log2(const cgraph_float64_t x) {
+  return log(x) / M_LN2;
+}
+
+cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
+                                  const cgraph_float64_t x) {
+  return log(x) / log(n);
 }
 
 cgraph_size_t cgraph_math_count(const cgraph_int_t x, const cgraph_int_t n) {
@@ -786,16 +801,11 @@ cgraph_size_t cgraph_math_rngcnt(const cgraph_int_t x, const cgraph_int_t n) {
   return cnt;
 }
 
-cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
-                                  const cgraph_float64_t x) {
-  return log(x) / log(n);
-}
-
-__INLINE cgraph_int_t cgraph_math_pow2(const cgraph_int_t n) {
+__INLINE cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n) {
   return (n >= 0) ? (1 << n) : 0;
 }
 
-cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
+cgraph_int_t cgraph_math_log2i(const cgraph_int_t x) {
   cgraph_int_t res = 0, num = x;
   while (num > 1) {
     num = num >> 1;
@@ -805,12 +815,12 @@ cgraph_int_t cgraph_math_log2(const cgraph_int_t x) {
   return res;
 }
 
-__INLINE cgraph_int_t cgraph_math_mod2(const cgraph_int_t x) {
-  return (x > 0) ? (x & 0x01U) : 0;
+__INLINE cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x) {
+  return (x & 0x01U);
 }
 
-__INLINE cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
-                                        const cgraph_int_t n) {
+__INLINE cgraph_int_t cgraph_math_mod2in(const cgraph_int_t x,
+                                         const cgraph_int_t n) {
   return (x & (~(CGRAPH_INT_MIN << n)));
 }
 
@@ -822,17 +832,17 @@ __INLINE cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data) {
   return (data ^ (data << 1));
 }
 
-__INLINE cgraph_int_t cgraph_math_ceil(const cgraph_int_t x,
-                                       const cgraph_int_t y) {
+__INLINE cgraph_int_t cgraph_math_ceili(const cgraph_int_t x,
+                                        const cgraph_int_t y) {
   return (x + y - 1) / y;
 }
 
-__INLINE cgraph_int_t cgraph_math_floor(const cgraph_int_t x,
-                                        const cgraph_int_t y) {
+__INLINE cgraph_int_t cgraph_math_floori(const cgraph_int_t x,
+                                         const cgraph_int_t y) {
   return x / y;
 }
 
-cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n) {
+cgraph_int_t cgraph_math_powi(const cgraph_int_t x, const cgraph_int_t n) {
   cgraph_int_t res = 1, _x = x, _n = n;
   while (_n > 0) {
     if (_n & 1) {
@@ -845,8 +855,8 @@ cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n) {
   return res;
 }
 
-cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n,
-                                 const cgraph_int_t mod) {
+cgraph_int_t cgraph_math_powi_mod(const cgraph_int_t x, const cgraph_int_t n,
+                                  const cgraph_int_t mod) {
   cgraph_int_t res = 1, _x = x, _n = n;
   while (_n > 0) {
     if (_n & 1) {
@@ -859,7 +869,7 @@ cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x, const cgraph_int_t n,
   return res % mod;
 }
 
-cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y) {
+cgraph_int_t cgraph_math_muli(const cgraph_int_t x, const cgraph_int_t y) {
   cgraph_int_t res = 0, _x = x, _y = y;
   while (_y > 0) {
     if (_y & 1) {
@@ -872,8 +882,8 @@ cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y) {
   return res;
 }
 
-cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x, const cgraph_int_t y,
-                                 const cgraph_int_t mod) {
+cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x, const cgraph_int_t y,
+                                  const cgraph_int_t mod) {
   cgraph_int_t res = 0, _x = x, _y = y;
   while (_y > 0) {
     if (_y & 1) {

@@ -44,6 +44,7 @@ extern "C" {
 #define ONES CGRAPH_TRUE
 #define MIN CGRAPH_BOOL_MIN
 #define MAX CGRAPH_BOOL_MAX
+#define NAN CGRAPH_FALSE
 #define MSB (ONE)
 #define LSB (ONE)
 #define EPS CGRAPH_BOOL_EPS

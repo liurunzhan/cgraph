@@ -42,9 +42,10 @@ extern "C" {
 #define UID ID_T(ULONG)
 #define ZERO (0)
 #define ONE (1)
-#define ONES CGRAPH_LONG_MIN
+#define ONES CGRAPH_LONG_MAX
 #define MIN CGRAPH_LONG_MIN
 #define MAX CGRAPH_LONG_MAX
+#define NAN ZERO
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPS CGRAPH_LONG_EPS
@@ -55,6 +56,7 @@ extern "C" {
 #define EPS8 CGRAPH_LONG_EPS8
 #define EPS16 CGRAPH_LONG_EPS16
 #define EPS32 CGRAPH_LONG_EPS32
+#define EPS64 CGRAPH_LONG_EPS64
 
 /** template module */
 #include "cgraph_template_int.ht"

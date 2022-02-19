@@ -119,3 +119,11 @@ TYPE *FUNCTION(NAME, decodes)(const cgraph_char_t *cstr,
 
   return cthis;
 }
+
+cgraph_bool_t FUNCTION(NAME, leq)(const TYPE x, const TYPE y) {
+  return CGRAPH_TEST(DATA_EQ(x, y));
+}
+
+cgraph_bool_t FUNCTION(NAME, lne)(const TYPE x, const TYPE y) {
+  return CGRAPH_TEST(DATA_NE(x, y));
+}

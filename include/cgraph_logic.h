@@ -38,6 +38,7 @@ extern "C" {
 #define ONES CGRAPH_L1
 #define MIN CGRAPH_LOGIC_MIN
 #define MAX CGRAPH_LOGIC_MAX
+#define NAN CGRAPH_LX
 #define MSB CGRAPH_L1
 #define LSB CGRAPH_LZ
 #define EPS CGRAPH_LOGIC_EPS
@@ -46,11 +47,8 @@ extern "C" {
 /** template module */
 #include "cgraph_template_int.ht"
 
-#define LOGIC_AND(x, y) FUNCTION(NAME, and)((x), (y))
-#define LOGIC_OR(x, y) FUNCTION(NAME, or)((x), (y))
-#define LOGIC_NOT(x) FUNCTION(NAME, not )((x))
-#define LOGIC_XOR(x, y) FUNCTION(NAME, xor)((x), (y))
-#define LOGIC_XNOR(x, y) FUNCTION(NAME, xnor)((x), (y))
+extern cgraph_bool_t FUNCTION(NAME, leq)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, lne)(const TYPE x, const TYPE y);
 
 #ifdef __cplusplus
 }

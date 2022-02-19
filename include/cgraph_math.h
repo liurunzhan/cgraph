@@ -24,53 +24,89 @@ extern "C" {
 /**                const numbers defined and used in this library */
 #define MATH_ERROR (-1) /**MATH ERROR */
 
-#ifndef M_PI
-#define M_PI (3.14159265358979323846)
-#endif
-#define MATH_CONST_PI (M_PI) /** MATH_CONST_PI pi */
-
-#define M_2PI (6.28318530717958647693)
-#define MATH_CONST_2PI (M_2PI) /** MATH_CONST_2PI : 2*pi */
-
-#ifndef M_PI_2
-#define M_PI_2 (1.57079632679489661923)
-#endif
-#define MATH_CONST_PI_2 (M_PI_2) /** MATH_CONST_PI_2 : pi/2 */
-
-#ifndef M_2_PI
-#define M_2_PI (1.57079632679489661923)
-#endif
-#define MATH_CONST_2_PI (M_PI_2) /** MATH_CONST_2_PI : 2/pi */
-
 #ifndef M_E
-#define M_E (2.71828182845904523536)
-#endif
-#define MATH_CONST_E (M_E) /** MATH_CONST_E : e */
+#define M_E (2.7182818284590452354)
+#endif /** M_E : e */
 
-#define M_PHI (0.61803398874989484820)
-#define MATH_CONST_PHI (M_PHI) /** MATH_CONST_PHI : (sqrt(5)-1)/2 */
+#ifndef M_1_E
+#define M_1_E (0.367879441171442321596)
+#endif /** M_E : 1/e */
+
+#ifndef M_LOG2E
+#define M_LOG2E (1.4426950408889634074)
+#endif /** M_LOG2E : log_2(e) */
+
+#ifndef M_LOG10E
+#define M_LOG10E (0.43429448190325182765)
+#endif /** M_LOG10E : log_10(e) */
 
 #ifndef M_LN2
-#define M_LN2 (0.69314718055994530942)
-#endif
-#define MATH_CONST_LOG2 (M_LN2) /** MATH_CONST_LOG2 : log_e(2) */
+#define M_LN2 (0.693147180559945309417)
+#endif /** M_LN2 : log_e(2) */
+
+#ifndef M_1_LN2
+#define M_1_LN2 (1.44269504088896340736)
+#endif /** M_LN2 : 1/log_e(2) */
 
 #ifndef M_LN10
 #define M_LN10 (2.30258509299404568402)
-#endif
-#define MATH_CONST_LOG10 (M_LN10) /** MATH_CONST_LOG10 : log_e(10) */
+#endif /** M_LN10 : log_e(10) */
 
-#define MATH_CONST_LOG10_INV (1.0 / M_LN10)
+#ifndef M_1_LN10
+#define M_1_LN10 (0.43429448190325182765) /** M_1_LN10 : 1/log_e(10) */
+#endif
+
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif /** M_PI pi */
+
+#ifndef M_2PI
+#define M_2PI (6.28318530717958647693) /** M_2PI : 2*pi */
+#endif
+
+#ifndef M_PI_2
+#define M_PI_2 (1.57079632679489661923)
+#endif /** M_PI_2 : pi/2 */
+
+#ifndef M_PI_2
+#define M_PI_4 (0.78539816339744830962)
+#endif /** M_PI_4 : pi/4 */
+
+#ifndef M_1_PI
+#define M_1_PI (0.31830988618379067154)
+#endif /** M_1_PI : 1/pi */
+
+#ifndef M_2_PI
+#define M_2_PI (0.63661977236758134308)
+#endif /** M_2_PI : 2/pi */
+
+#ifndef M_2_SQRTPI
+#define M_2_SQRTPI (1.12837916709551257390)
+#endif /** M_2_SQRTPI : 2/sqrt(pi) */
+
+#ifndef M_SQRT2
+#define M_SQRT2 (1.41421356237309504880)
+#endif /** M_SQRT2 : sqrt(2) */
+
+#ifndef M_SQRT1_2
+#define M_SQRT1_2 (0.70710678118654752440)
+#endif /** M_SQRT1_2 : sqrt(1/2) */
+
+#ifndef M_PHI
+#define M_PHI (0.61803398874989484820)
+#endif /** M_PHI : (sqrt(5)-1)/2 */
+
+#ifndef M_1_PHI
+#define M_1_PHI (1.61803398874989484820)
+#endif /** M_1_PHI : (sqrt(5)+1)/2 */
 
 #ifndef NAN
 #define NAN (0.0 / 0.0)
-#endif
-#define MATH_CONST_NAN (NAN) /** MATH_CONST_NAN : nan */
+#endif /** NAN : nan */
 
 #ifndef INFINITY
 #define INFINITY (1.0 / 0.0)
-#endif
-#define MATH_CONST_INFINITY (INFINITY) /** MATH_CONST_INFINITY : infinity */
+#endif /** INFINITY : infinity */
 
 extern cgraph_size_t cgraph_math_subc(cgraph_char_t *x, const cgraph_size_t len,
                                       const cgraph_char_t ch);
@@ -142,10 +178,9 @@ extern cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data);
 extern cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data);
-#ifdef cgraph_math_dec2hex
-#undef cgraph_math_dec2hex
-#endif
+#ifndef cgraph_math_dec2hex
 #define cgraph_math_dec2hex(data) cgraph_math_dec2uhex((data))
+#endif
 extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data);
 extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data);
 extern cgraph_size_t cgraph_math_binlen(const cgraph_char_t *data,
@@ -185,11 +220,10 @@ extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
                                         const cgraph_int_t data);
 
 /** 32-bit random number */
-#ifdef MATH_CONST_RAND32_MAX
-#undef MATH_CONST_RAND32_MAX
+#ifndef RAND32_MAX
+#define RAND32_MAX CGRAPH_INT32_MAX
 #endif
 
-#define MATH_CONST_RAND32_MAX CGRAPH_INT32_MAX
 typedef cgraph_int32_t (*cgraph_rand32_intptr_t)(void);
 extern void cgraph_rand32_intptr(cgraph_rand32_intptr_t ptr);
 extern void cgraph_rand32_seed(const cgraph_int32_t seed);
@@ -202,11 +236,14 @@ extern cgraph_float32_t cgraph_rand32_normal(const cgraph_float32_t mu,
                                              const cgraph_float32_t sigma);
 
 /** 64-bit random number */
-#ifdef MATH_CONST_RAND64_MAX
-#undef MATH_CONST_RAND64_MAX
+#ifndef RAND64_MAX
+#define RAND64_MAX CGRAPH_INT64_MAX
 #endif
 
-#define MATH_CONST_RAND64_MAX CGRAPH_INT64_MAX
+#define RAND64_A __EXTENSION__(6364136223846793005ULL)
+#define RAND64_B __EXTENSION__(1442695040888963407ULL)
+#define RAND64_M __EXTENSION__(18446744073709551615ULL)
+
 typedef cgraph_int64_t (*cgraph_rand64_intptr_t)(void);
 extern void cgraph_rand64_intptr(cgraph_rand64_intptr_t ptr);
 extern void cgraph_rand64_seed(const cgraph_int64_t seed);
@@ -225,32 +262,38 @@ extern cgraph_logic_t cgraph_rand_logic(void);
 extern cgraph_size_t cgraph_rand_size(const cgraph_size_t size);
 
 /** external mathematical functions */
+extern cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x);
+extern cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x);
+extern cgraph_float64_t cgraph_math_log2(const cgraph_float64_t x);
+extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
+                                         const cgraph_float64_t x);
+
 extern cgraph_size_t cgraph_math_count(const cgraph_int_t x,
                                        const cgraph_int_t n);
 extern cgraph_size_t cgraph_math_rngcnt(const cgraph_int_t x,
                                         const cgraph_int_t n);
-extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
-                                         const cgraph_float64_t x);
-extern cgraph_int_t cgraph_math_ceil(const cgraph_int_t x,
-                                     const cgraph_int_t y);
-extern cgraph_int_t cgraph_math_floor(const cgraph_int_t x,
-                                      const cgraph_int_t y);
-extern cgraph_int_t cgraph_math_pow2(const cgraph_int_t n);
-extern cgraph_int_t cgraph_math_log2(const cgraph_int_t n);
-extern cgraph_int_t cgraph_math_mod2(const cgraph_int_t x);
-extern cgraph_int_t cgraph_math_mod2n(const cgraph_int_t x,
-                                      const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_log2i(const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x);
+extern cgraph_int_t cgraph_math_mod2in(const cgraph_int_t x,
+                                       const cgraph_int_t n);
 extern cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data);
 extern cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data);
 
-extern cgraph_int_t cgraph_math_pow(const cgraph_int_t x, const cgraph_int_t n);
-extern cgraph_int_t cgraph_math_pow_mod(const cgraph_int_t x,
-                                        const cgraph_int_t n,
-                                        const cgraph_int_t mod);
-extern cgraph_int_t cgraph_math_mul(const cgraph_int_t x, const cgraph_int_t y);
-extern cgraph_int_t cgraph_math_mul_mod(const cgraph_int_t x,
-                                        const cgraph_int_t y,
-                                        const cgraph_int_t mod);
+extern cgraph_int_t cgraph_math_ceili(const cgraph_int_t x,
+                                      const cgraph_int_t y);
+extern cgraph_int_t cgraph_math_floori(const cgraph_int_t x,
+                                       const cgraph_int_t y);
+extern cgraph_int_t cgraph_math_powi(const cgraph_int_t x,
+                                     const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_powi_mod(const cgraph_int_t x,
+                                         const cgraph_int_t n,
+                                         const cgraph_int_t mod);
+extern cgraph_int_t cgraph_math_muli(const cgraph_int_t x,
+                                     const cgraph_int_t y);
+extern cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x,
+                                         const cgraph_int_t y,
+                                         const cgraph_int_t mod);
 
 /** Function : sigmoid */
 extern cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x);

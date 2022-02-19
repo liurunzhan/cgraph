@@ -36,9 +36,10 @@ extern "C" {
 #define UID ID_T(UINT32)
 #define ZERO (0)
 #define ONE (1)
-#define ONES CGRAPH_INT32_MIN
+#define ONES CGRAPH_INT32_MAX
 #define MIN CGRAPH_INT32_MIN
 #define MAX CGRAPH_INT32_MAX
+#define NAN ZERO
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
 #define EPS CGRAPH_INT32_EPS

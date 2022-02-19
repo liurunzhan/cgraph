@@ -179,11 +179,11 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isX)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isx)(const TYPE x) {
   return FUNCTION(NAME, isnan)(x);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isz)(const TYPE x) {
   return FUNCTION(NAME, isinf)(x);
 }
 

@@ -244,7 +244,7 @@ TYPE FUNCTION(NAME, initi)(const DATA_TYPE imag) {
 }
 
 TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i) {
-  DATA_TYPE angle = DATA_ONE * MATH_CONST_2PI * i / n;
+  DATA_TYPE angle = DATA_ONE * M_2PI * i / n;
   TYPE res;
   COMPLEX_REAL(res) = cos(angle);
   COMPLEX_IMAG(res) = sin(angle);
@@ -253,7 +253,7 @@ TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i) {
 }
 
 TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i) {
-  DATA_TYPE angle = DATA_ONE * MATH_CONST_2PI * i / n;
+  DATA_TYPE angle = DATA_ONE * M_2PI * i / n;
   TYPE res;
   COMPLEX_REAL(res) = cos(angle);
   COMPLEX_IMAG(res) = -sin(angle);
@@ -444,16 +444,16 @@ TYPE FUNCTION(NAME, log)(const TYPE x) {
 
 TYPE FUNCTION(NAME, log2)(const TYPE x) {
   TYPE res = FUNCTION(NAME, log)(x);
-  COMPLEX_REAL(res) = COMPLEX_REAL(res) / MATH_CONST_LOG2;
-  COMPLEX_IMAG(res) = COMPLEX_IMAG(res) / MATH_CONST_LOG2;
+  COMPLEX_REAL(res) = COMPLEX_REAL(res) / M_LN2;
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(res) / M_LN2;
 
   return res;
 }
 
 TYPE FUNCTION(NAME, log10)(const TYPE x) {
   TYPE res = FUNCTION(NAME, log)(x);
-  COMPLEX_REAL(res) = MATH_CONST_LOG10_INV * COMPLEX_REAL(res);
-  COMPLEX_IMAG(res) = MATH_CONST_LOG10_INV * COMPLEX_IMAG(res);
+  COMPLEX_REAL(res) = M_1_LN10 * COMPLEX_REAL(res);
+  COMPLEX_IMAG(res) = M_1_LN10 * COMPLEX_IMAG(res);
 
   return res;
 }
@@ -639,7 +639,7 @@ TYPE FUNCTION(NAME, atan)(const TYPE x) {
        log_log = FUNCTION(NAME, sub)(FUNCTION(NAME, log)(x_i),
                                      FUNCTION(NAME, log)(x__i));
   TYPE res;
-  COMPLEX_REAL(res) = 0.5 * (MATH_CONST_PI + COMPLEX_IMAG(log_log));
+  COMPLEX_REAL(res) = 0.5 * (M_PI + COMPLEX_IMAG(log_log));
   COMPLEX_IMAG(res) = -0.5 * COMPLEX_REAL(log_log);
 
   return res;
@@ -794,7 +794,7 @@ TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y) {
 /** @brief Fast Fourier Transform (fft) */
 TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len) {
   if ((NULL != cthis) && (0 < len) && (0 == (len & 0x01))) {
-    cgraph_size_t i, j, k, times = cgraph_math_log2(len);
+    cgraph_size_t i, j, k, times = cgraph_math_log2i(len);
     for (i = 0, j = len / 2; i < (len - 2); i++) {
       cgraph_size_t k = len / 2;
       if (i < j) {
@@ -807,9 +807,9 @@ TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len) {
       j += k;
     }
     for (i = 0; i < times; i++) {
-      cgraph_size_t group0 = cgraph_math_pow2(i), group1 = group0 / 2;
+      cgraph_size_t group0 = cgraph_math_pow2i(i), group1 = group0 / 2;
       for (j = 0; j < group1; j++) {
-        cgraph_size_t n = j * cgraph_math_pow2(len - times);
+        cgraph_size_t n = j * cgraph_math_pow2i(len - times);
         for (k = i; k < len; j += group0) {
           cgraph_size_t group2 = k + group1;
           TYPE wn = FUNCTION(NAME, unit)(len, n),

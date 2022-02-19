@@ -5,7 +5,8 @@
 cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t max = cgraph_math_pow2(len), max_1 = max - 1, len_1 = len - 1;
+    cgraph_size_t max = cgraph_math_pow2i(len), max_1 = max - 1,
+                  len_1 = len - 1;
     flag = CGRAPH_TRUE;
     cgraph_file_fprintfln(
         fp,
@@ -45,7 +46,8 @@ cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
 cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t max = cgraph_math_pow2(len), max_1 = max - 1, len_1 = len - 1;
+    cgraph_size_t max = cgraph_math_pow2i(len), max_1 = max - 1,
+                  len_1 = len - 1;
     cgraph_file_fprintfln(
         fp,
         "module clkgen_odd (" __PLAT_LEND "   rstn," __PLAT_LEND
@@ -105,7 +107,8 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
 cgraph_bool_t cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {
-    cgraph_size_t max = cgraph_math_pow2(len), max_1 = max - 1, len_1 = len - 1;
+    cgraph_size_t max = cgraph_math_pow2i(len), max_1 = max - 1,
+                  len_1 = len - 1;
     cgraph_file_fprintfln(
         fp,
         "module clkgen (" __PLAT_LEND "   rstn," __PLAT_LEND

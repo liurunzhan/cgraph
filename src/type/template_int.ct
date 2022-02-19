@@ -100,7 +100,7 @@ __INLINE TYPE FUNCTION(NAME, min)(void) { return MIN; }
 
 __INLINE TYPE FUNCTION(NAME, max)(void) { return MAX; }
 
-__INLINE TYPE FUNCTION(NAME, nan)(void) { return MIN; }
+__INLINE TYPE FUNCTION(NAME, nan)(void) { return NAN; }
 
 __INLINE TYPE FUNCTION(NAME, inf)(void) { return MAX; }
 
@@ -211,51 +211,29 @@ __INLINE cgraph_bool_t FUNCTION(NAME,
 }
 
 __INLINE UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits) {
-  return (UTYPE)(x << bits);
+  return (x << bits) & EPS;
 }
 
 __INLINE UTYPE FUNCTION(NAME, shr)(const UTYPE x, const cgraph_size_t bits) {
-  return (UTYPE)(x >> bits);
+  return (x >> bits) & EPS;
 }
 
 __INLINE UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y) {
-#ifdef TYPE_LOGIC
-  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_AND(x, y) : CGRAPH_LX;
-#else
-  return CGRAPH_AND(x, y);
-#endif
+  return AND(x, y);
 }
 
 __INLINE UTYPE FUNCTION(NAME, or)(const UTYPE x, const UTYPE y) {
-#ifdef TYPE_LOGIC
-  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_OR(x, y) : CGRAPH_LX;
-#else
-  return CGRAPH_OR(x, y);
-#endif
+  return OR(x, y);
 }
 
-__INLINE UTYPE FUNCTION(NAME, not )(const UTYPE x) {
-#ifdef TYPE_LOGIC
-  return DATA_ISBOOL(x) ? CGRAPH_NOT(x) : CGRAPH_LX;
-#else
-  return CGRAPH_NOT(x);
-#endif
-}
+__INLINE UTYPE FUNCTION(NAME, not )(const UTYPE x) { return NOT(x); }
 
 __INLINE UTYPE FUNCTION(NAME, xor)(const UTYPE x, const UTYPE y) {
-#ifdef TYPE_LOGIC
-  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_XOR(x, y) : CGRAPH_LX;
-#else
-  return CGRAPH_XOR(x, y);
-#endif
+  return XOR(x, y);
 }
 
 __INLINE UTYPE FUNCTION(NAME, xnor)(const UTYPE x, const UTYPE y) {
-#ifdef TYPE_LOGIC
-  return DATA_ISBOOL(x) && DATA_ISBOOL(y) ? CGRAPH_XNOR(x, y) : CGRAPH_LX;
-#else
-  return CGRAPH_XNOR(x, y);
-#endif
+  return XNOR(x, y);
 }
 
 __INLINE UTYPE FUNCTION(NAME, bit)(const UTYPE x,
@@ -425,7 +403,7 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_FALSE;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isX)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isx)(const TYPE x) {
 #if defined(TYPE_LOGIC)
   return CGRAPH_TEST((CGRAPH_LX == x));
 #else
@@ -433,7 +411,7 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isX)(const TYPE x) {
 #endif
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isz)(const TYPE x) {
 #if defined(TYPE_LOGIC)
   return CGRAPH_TEST((CGRAPH_LZ == x));
 #else
@@ -441,9 +419,9 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isZ)(const TYPE x) {
 #endif
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isXZ)(const TYPE x) {
+__INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
 #if defined(TYPE_LOGIC)
-  return CGRAPH_TEST(((UTYPE)~0x01) & x);
+  return CGRAPH_TEST(DATA_ISNAN(x));
 #else
   return CGRAPH_FALSE;
 #endif
@@ -478,12 +456,12 @@ __INLINE TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
 }
 
 __INLINE TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
-  return (x+y) / 2;
+  return (x + y) / 2;
 }
 
 /** hmean(x, y) = 1/(1/x+1/y) = (xy)/(x+y) */
 __INLINE TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
-  return (x*y)/(x+y);
+  return (x * y) / (x + y);
 }
 
 cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
@@ -542,7 +520,7 @@ UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
   for (i = 0; i < BITS; i++) {
     msb = (((res ^ temp) >> (BITS - 1)) & 1);
     if (msb == 1) {
-      res = (((res << 1) ^ ONES) & poly);
+      res = (((res << 1) ^ EPS) & poly);
     } else {
       res = (res << 1);
     }
@@ -556,7 +534,7 @@ TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL)
   return CGRAPH_AND(x, y);
 #elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isXZ)(x) || FUNCTION(NAME, isXZ)(y))
+  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y))
              ? CGRAPH_LX
              : CGRAPH_AND(x, y);
 #else
@@ -577,8 +555,8 @@ TYPE FUNCTION(NAME, mul_mod_s)(const TYPE x, const TYPE y, const TYPE mod) {
 #if defined(TYPE_BOOL)
   return CGRAPH_FALSE == mod ? CGRAPH_FALSE : CGRAPH_AND(x, y);
 #elif defined(TYPE_LOGIC)
-  return ((FUNCTION(NAME, isXZ)(x) || FUNCTION(NAME, isXZ)(y) ||
-           FUNCTION(NAME, isXZ)(mod)) ||
+  return ((FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y) ||
+           FUNCTION(NAME, isnan)(mod)) ||
           (CGRAPH_FALSE == mod))
              ? CGRAPH_LX
              : CGRAPH_AND(x, y);
@@ -600,7 +578,7 @@ UTYPE FUNCTION(NAME, udiv_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL)
   return (CGRAPH_FALSE == y) ? CGRAPH_FALSE : x;
 #elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isXZ)(x) || FUNCTION(NAME, isXZ)(y) ||
+  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y) ||
           (CGRAPH_FALSE == y))
              ? CGRAPH_LX
              : x;
@@ -646,7 +624,7 @@ UTYPE FUNCTION(NAME, upow_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL)
   return x;
 #elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isXZ)(x) || FUNCTION(NAME, isXZ)(y)) ? CGRAPH_LX : x;
+  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y)) ? CGRAPH_LX : x;
 #else
   UTYPE res = 1, _x = x, _y = y;
   while (_y) {
@@ -665,7 +643,7 @@ TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL)
   return x;
 #elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isXZ)(x) || FUNCTION(NAME, isXZ)(y)) ? CGRAPH_LX : x;
+  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y)) ? CGRAPH_LX : x;
 #else
   TYPE res = 1, _x = x, _y = y;
   while (_y > 0) {

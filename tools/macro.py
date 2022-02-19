@@ -109,7 +109,7 @@ def arg_parse():
 					print("  defined macro variables:", file=fout)
 					for macro in macros:
 						for variable in macro.variables:
-							print("  #define %s " % variable, file=fout)
+							print("  #define %s" % variable, file=fout)
 					print("*/", file=fout)
 				print("", file=fout)
 				for macro in macros:
