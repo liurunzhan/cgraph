@@ -45,15 +45,9 @@ typedef enum {
 
 #define CGRAPH_ERROR_SIZE (12)
 
-#ifdef DEBUG
-#define cgraph_error_log(reason)                                               \
-  cgraph_error((reason), (__LINE__), (__FILE__), (__FUNCTION__))
-#else
-#define cgraph_error_log(reason) ((void)0)
-#endif
-
-cgraph_size_t cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
-                           cgraph_char_t *file, const cgraph_char_t *function);
+cgraph_size_t cgraph_error_print(cgraph_error_t reason,
+                                 const cgraph_size_t line, cgraph_char_t *file,
+                                 const cgraph_char_t *function);
 
 extern const cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason);
 extern cgraph_size_t cgraph_error_details_md(FILE *fout);
@@ -74,7 +68,7 @@ cgraph_bool_t cgraph_error_chptr(FILE *fp);
 cgraph_bool_t cgraph_error_chptr_by_file(const cgraph_char_t *file);
 
 extern const cgraph_char_t *cgraph_error_level(const cgraph_level_t level);
-extern void cgraph_error_time(void);
+extern const cgraph_char_t *cgraph_error_time(void);
 extern cgraph_size_t cgraph_error_printf(const cgraph_char_t *file,
                                          const cgraph_char_t *function,
                                          const cgraph_size_t line,
@@ -105,6 +99,39 @@ cgraph_error_fsnprintf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t len,
 #define CGRAPH_ERROR_TIME_STYLE_ENTRY __FILE__, __LINE__
 #define CGRAPH_ERROR_TIME_FUNCTION_STYLE "[%s@%s>%s>%ld] [%s] "
 #define CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY __FILE__, __FUNCTION__, __LINE__
+
+#ifdef __AV_ARGS__
+
+#ifdef DEBUG
+#define cgraph_error_log(level, format, ...)                                   \
+  cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format,        \
+                      ##__AV_ARGS__)
+#else
+#define cgraph_error_log(level, format, ...) ((void)0)
+#endif
+
+#elif defined(__GNUC__) || defined(__clang__)
+
+#if 0
+#ifdef DEBUG
+#define cgraph_error_log(level, format, args...)
+cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format, ##args)
+#else
+#define cgraph_error_log(level, format, args...) ((void)0)
+#endif
+#endif
+
+#else
+
+#ifdef DBEUG
+#define cgraph_error_log(level, format, args)                                  \
+  (cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, ""),          \
+   cgraph_error_printf(NULL, NULL, NULL, level, format, args))
+#else
+#define cgraph_error_log(level, format, args) ((void)0)
+#endif
+
+#endif
 
 #ifdef __cplusplus
 }

@@ -85,7 +85,6 @@ AC_C_INLINE
 AX_C_VAR_FUNC
 AC_C_BIGENDIAN
 
-
 # Checks for library functions.
 AC_FUNC_ALLOCA
 AC_FUNC_MEMCMP

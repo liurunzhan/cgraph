@@ -38,11 +38,11 @@ extern "C" {
 #define ONES CGRAPH_L1
 #define MIN CGRAPH_LOGIC_MIN
 #define MAX CGRAPH_LOGIC_MAX
+#define MASK CGRAPH_LOGIC_MASK
+#define EPSILON CGRAPH_L1
 #define NAN CGRAPH_LX
 #define MSB CGRAPH_L1
 #define LSB CGRAPH_LZ
-#define EPS CGRAPH_LOGIC_EPS
-#define EPS_LEN CGRAPH_LOGIC_BITS
 
 /** template module */
 #include "cgraph_template_int.ht"

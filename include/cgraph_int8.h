@@ -39,14 +39,14 @@ extern "C" {
 #define ONES CGRAPH_INT8_MAX
 #define MIN CGRAPH_INT8_MIN
 #define MAX CGRAPH_INT8_MAX
+#define MASK CGRAPH_INT8_MASK
+#define EPSILON CGRAPH_INT8_EPSILON
 #define NAN ZERO
 #define MSB (ONE << (BITS - 1))
 #define LSB (ONE)
-#define EPS CGRAPH_INT8_EPS
-#define EPS_LEN CGRAPH_INT8_BITS
-#define EPS1 (0xAAU)
-#define EPS2 (0xCCU)
-#define EPS4 (0xF0U)
+#define MASK1 (0xAAU)
+#define MASK2 (0xCCU)
+#define MASK4 (0xF0U)
 
 /** template module */
 #include "cgraph_template_int.ht"

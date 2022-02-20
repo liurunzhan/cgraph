@@ -1,16 +1,9 @@
 
 DISTCLEANFILES = Makefile.in Makefile
 
-if DEBUG
-MODE_FLAGS  = -DDEBUG
-else
-MODE_FLAGS  = 
-endif
-FLAGS       = -I$(top_srcdir)/include -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
-
 AM_LDFLAGS  = -L$(top_srcdir)/src -lcgraph
-AM_CFLAGS   = $(FLAGS)
-AM_CPPFLAGS = $(FLAGS)
+AM_CFLAGS   = -I$(top_srcdir)/include $(COMPILE_FLAGS)
+AM_CPPFLAGS = -I$(top_srcdir)/include $(COMPILE_FLAGS)
 
 TESTS = bigint bigmat bigmat3d bignum bitset cgraph complex float8 float16 float128 fraction bool logic int int128 long time matrix matrix3d spamat spamat3d string vector verilog version game
 

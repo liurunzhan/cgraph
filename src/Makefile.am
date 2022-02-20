@@ -12,14 +12,8 @@ libgame_la  = $(src_dir)/game/libgame.la
 
 SOURCES = version.c
 
-if DEBUG
-MODE_FLAGS            =-DDEBUG
-else
-MODE_FLAGS            =
-endif
-FLAGS                 = -I$(include_dir) -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
 lib_LTLIBRARIES       = libcgraph.la
-libcgraph_la_CFLAGS   = $(FLAGS)
+libcgraph_la_CFLAGS   = -I$(include_dir) $(COMPILE_FLAGS)
 libcgraph_la_LDFLAGS  = -lm -no-undefined
 libcgraph_la_SOURCES  = $(SOURCES)
 libcgraph_la_LIBADD   = $(libfunc_la) $(libtype_la) $(libgraph_la) $(libgame_la)

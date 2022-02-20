@@ -9,14 +9,8 @@ STRUCTURE_SOURCES = dframe.c dict.c list.c queue.c tree.c
 
 SOURCES = $(MATRIX_SOURCES) $(STRUCTURE_SOURCES)
 
-if DEBUG
-MODE_FLAGS              = -DDEBUG
-else
-MODE_FLAGS              =
-endif
-FLAGS                   = -I$(include_dir) -I$(type_dir) -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
 noinst_LTLIBRARIES      = libstructure.la
-libstructure_la_CFLAGS  = $(FLAGS)
+libstructure_la_CFLAGS  = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)
 libstructure_la_LDFLAGS = -lm -no-undefined
 libstructure_la_SOURCES = $(SOURCES)
 

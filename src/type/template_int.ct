@@ -2,7 +2,7 @@
 
 __INLINE cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return CGRAPH_TEST(0 == (cthis & (~EPS)));
+  return CGRAPH_TEST(0 == (cthis & (~MASK)));
 #else
   return CGRAPH_TRUE;
 #endif
@@ -86,7 +86,7 @@ TYPE FUNCTION(NAME, rand)(void) {
 #if defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
   return cgraph_rand64();
 #else
-  return cgraph_rand32() & EPS;
+  return cgraph_rand32() & MASK;
 #endif
 }
 
@@ -211,11 +211,11 @@ __INLINE cgraph_bool_t FUNCTION(NAME,
 }
 
 __INLINE UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits) {
-  return (x << bits) & EPS;
+  return (x << bits) & MASK;
 }
 
 __INLINE UTYPE FUNCTION(NAME, shr)(const UTYPE x, const cgraph_size_t bits) {
-  return (x >> bits) & EPS;
+  return (x >> bits) & MASK;
 }
 
 __INLINE UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y) {
@@ -280,18 +280,18 @@ __INLINE UTYPE FUNCTION(NAME, swapbit)(const UTYPE x) {
   return x;
 #else
   UTYPE res = x;
-  res = ((res & EPS1) >> 1) | ((res & ~EPS1) << 1);
-  res = ((res & EPS2) >> 2) | ((res & ~EPS2) << 2);
-  res = ((res & EPS4) >> 4) | ((res & ~EPS4) << 4);
+  res = ((res & MASK1) >> 1) | ((res & ~MASK1) << 1);
+  res = ((res & MASK2) >> 2) | ((res & ~MASK2) << 2);
+  res = ((res & MASK4) >> 4) | ((res & ~MASK4) << 4);
 #if defined(TYPE_INT16)
-  res = ((res & EPS8) >> 8) | ((res & ~EPS8) << 8);
+  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
 #elif defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
-  res = ((res & EPS8) >> 8) | ((res & ~EPS8) << 8);
-  res = ((res & EPS16) >> 16) | ((res & ~EPS16) << 16);
+  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
+  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
 #elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & EPS8) >> 8) | ((res & ~EPS8) << 8);
-  res = ((res & EPS16) >> 16) | ((res & ~EPS16) << 16);
-  res = ((res & EPS32) >> 32) | ((res & ~EPS32) << 32);
+  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
+  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
+  res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
 #endif
 
   return res;
@@ -304,14 +304,14 @@ __INLINE UTYPE FUNCTION(NAME, swapbyte)(const UTYPE x) {
 #else
   UTYPE res = x;
 #if defined(TYPE_INT16)
-  res = ((res & EPS8) >> 8) | ((res & ~EPS8) << 8);
+  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
 #elif defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
-  res = ((res & EPS8) >> 8) | ((res & ~EPS8) << 8);
-  res = ((res & EPS16) >> 16) | ((res & ~EPS16) << 16);
+  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
+  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
 #elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & EPS8) >> 8) | ((res & ~EPS8) << 8);
-  res = ((res & EPS16) >> 16) | ((res & ~EPS16) << 16);
-  res = ((res & EPS32) >> 32) | ((res & ~EPS32) << 32);
+  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
+  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
+  res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
 #endif
 
   return res;
@@ -324,10 +324,10 @@ __INLINE UTYPE FUNCTION(NAME, swaphfwd)(const UTYPE x) {
 #else
   UTYPE res = x;
 #if defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
-  res = ((res & EPS16) >> 16) | ((res & ~EPS16) << 16);
+  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
 #elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & EPS16) >> 16) | ((res & ~EPS16) << 16);
-  res = ((res & EPS32) >> 32) | ((res & ~EPS32) << 32);
+  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
+  res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
 #endif
 
   return res;
@@ -340,7 +340,7 @@ __INLINE UTYPE FUNCTION(NAME, swapword)(const UTYPE x) {
 #else
   UTYPE res = x;
 #if defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & EPS32) >> 32) | ((res & ~EPS32) << 32);
+  res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
 #endif
 
   return res;
@@ -515,12 +515,12 @@ UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly) {
 
 UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
                           const UTYPE poly) {
-  UTYPE res = (predata & EPS), temp = (data & res & EPS), msb = 0;
+  UTYPE res = (predata & MASK), temp = (data & res & MASK), msb = 0;
   cgraph_size_t i = 0;
   for (i = 0; i < BITS; i++) {
     msb = (((res ^ temp) >> (BITS - 1)) & 1);
     if (msb == 1) {
-      res = (((res << 1) ^ EPS) & poly);
+      res = (((res << 1) ^ MASK) & poly);
     } else {
       res = (res << 1);
     }

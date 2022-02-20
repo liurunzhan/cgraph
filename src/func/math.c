@@ -737,11 +737,11 @@ cgraph_float64_t cgraph_rand64_normal(const cgraph_float64_t mu,
 }
 
 cgraph_bool_t cgraph_rand_bool(void) {
-  return __cgraph_rand32_intptr() & CGRAPH_BOOL_EPS;
+  return __cgraph_rand32_intptr() & CGRAPH_BOOL_MASK;
 }
 
 cgraph_logic_t cgraph_rand_logic(void) {
-  return __cgraph_rand32_intptr() & CGRAPH_LOGIC_EPS;
+  return __cgraph_rand32_intptr() & CGRAPH_LOGIC_MASK;
 }
 
 /** random size */

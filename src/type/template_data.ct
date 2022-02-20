@@ -240,10 +240,9 @@ __INLINE cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE cthis) {
 #endif
 
 #ifdef TYPE_WITH_DATA
-__INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE *x,
-                                                  const TYPE *y) {
+__INLINE cgraph_int_t FUNCTION(NAME, cmpsignbit)(const TYPE *x, const TYPE *y) {
 #else
-__INLINE cgraph_int_t FUNCTION(NAME, cmp_signbit)(const TYPE x, const TYPE y) {
+__INLINE cgraph_int_t FUNCTION(NAME, cmpsignbit)(const TYPE x, const TYPE y) {
 #endif
   return CGRAPH_TEST(FUNCTION(NAME, signbit)(x) == FUNCTION(NAME, signbit)(y));
 }
@@ -573,7 +572,7 @@ cgraph_size_t FUNCTION(NAME, fprintln)(FILE *fp, const TYPE cthis) {
 }
 
 #ifdef TYPE_WITH_DATA
-cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE *cthis) {
+cgraph_size_t FUNCTION(NAME, datfprintln)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t i;
@@ -594,7 +593,7 @@ cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE *cthis) {
   return len;
 }
 #else
-cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE cthis) {
+cgraph_size_t FUNCTION(NAME, datfprintln)(FILE *fp, const TYPE cthis) {
   return 0;
 }
 #endif

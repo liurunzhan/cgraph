@@ -7,12 +7,7 @@ OBJECT_SOURCES = gobject.c hobject.c m3object.c mobject.c object.c snode.c
 
 SOURCES = $(OBJECT_SOURCES)
 
-if DEBUG
-MODE_FLAGS            = -DDEBUG
-else
-MODE_FLAGS            =
-endif
-FLAGS                 = -I$(include_dir) -I$(type_dir) -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
+FLAGS                 = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)
 noinst_LTLIBRARIES    = libobject.la
 libobject_la_CFLAGS   = $(FLAGS)
 libobject_la_LDFLAGS  = -lm -no-undefined

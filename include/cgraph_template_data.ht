@@ -23,7 +23,7 @@ extern cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
                                               const cgraph_size_t len);
 extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, cmpsignbit)(const TYPE *x, const TYPE *y);
 extern TYPE *FUNCTION(NAME, zero)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, one)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, ones)(TYPE *cthis);
@@ -181,7 +181,7 @@ extern cgraph_size_t FUNCTION(NAME, println)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                              const cgraph_size_t size,
                                              const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, datfprintln)(FILE *fp, const TYPE *cthis);
 
 #else
 
@@ -193,7 +193,7 @@ extern cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, cmplen)(const TYPE cthis,
                                             const cgraph_size_t len);
 extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x);
-extern cgraph_bool_t FUNCTION(NAME, cmp_signbit)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, cmpsignbit)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, zero)(void);
 extern TYPE FUNCTION(NAME, one)(void);
 extern TYPE FUNCTION(NAME, ones)(void);
@@ -351,6 +351,6 @@ extern cgraph_size_t FUNCTION(NAME, println)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                              const cgraph_size_t size,
                                              const TYPE cthis);
-extern cgraph_size_t FUNCTION(NAME, dt_fprintln)(FILE *fp, const TYPE cthis);
+extern cgraph_size_t FUNCTION(NAME, datfprintln)(FILE *fp, const TYPE cthis);
 
 #endif

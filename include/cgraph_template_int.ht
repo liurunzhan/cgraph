@@ -29,11 +29,11 @@
 #define BOOLEAN_XNOR(a, b) ((a) == (b))
 
 #if defined(TYPE_BOOL)
-#define DATA_TEST(a) (!((~EPS) & (a)))
-#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
-#define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
-#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_EPS) & (a)))
-#define DATA_ISLOGIC(a) (!((~CGRAPH_LOGIC_EPS) & (a)))
+#define DATA_TEST(a) (!((~EPSILON) & (a)))
+#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_TOLOGIC(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_MASK) & (a)))
+#define DATA_ISLOGIC(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_ISBOOL2V(a, b) (DATA_ISBOOL(a) && DATA_ISBOOL(b))
 #define DATA_ISLOGIC2V(a, b) (DATA_ISLOGIC(a) && DATA_ISLOGIC(b))
 
@@ -58,14 +58,14 @@
 #define ADD(a, b, c) XOR(a, b)
 #define SUB(a, b, c) ANDN(a, b)
 #define MUL(a, b, c) AND(a, b)
-#define DIV(a, b, c) (ABS(b) ? (a) : CGRAPH_FALSE)
+#define DIV(a, b, c) (ABS(b) ? ABS(a) : CGRAPH_FALSE)
 #define DIVF(a, b, c) DIV(a, b, c)
 #define INT(a, b, c) AND(a, b)
 #define MOD(a, b, c) (SUB((a), INT(a, b, NULL), NULL))
 
 #define CEIL(a, b) ceil((a))
 #define FLOOR(a, b) floor((a))
-#define POW(a, b) ABS(b)
+#define POW(a, b) (NOT(a) && ABS(b))
 #define SIN(a, b) sin((a))
 #define COS(a, b) cos((a))
 #define TAN(a, b) tan((a))
@@ -83,11 +83,11 @@
 
 #elif defined(TYPE_LOGIC)
 #define DATA_ISNAN(a) (!((~ONE) & (a)))
-#define DATA_TEST(a) (!((~EPS) & (a)))
-#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
-#define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
-#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_EPS) & (a)))
-#define DATA_ISLOGIC(a) (!((~CGRAPH_LOGIC_EPS) & (a)))
+#define DATA_TEST(a) (!((~EPSILON) & (a)))
+#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_TOLOGIC(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_MASK) & (a)))
+#define DATA_ISLOGIC(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_ISBOOL2V(a, b) (DATA_ISBOOL(a) && DATA_ISBOOL(b))
 #define DATA_ISLOGIC2V(a, b) (DATA_ISLOGIC(a) && DATA_ISLOGIC(b))
 
@@ -115,15 +115,17 @@
 #define SUB(a, b, c) (DATA_ISBOOL2V(a, b) ? BOOLEAN_ANDN(a, b) : CGRAPH_LX)
 #define MUL(a, b, c) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
 #define DIV(a, b, c)                                                           \
-  (DATA_ISBOOL2V(a, b) ? (BOOLEAN_ABS(b) ? (a) : CGRAPH_FALSE) : CGRAPH_LX)
+  (DATA_ISBOOL2V(a, b) ? (BOOLEAN_ABS(b) ? BOOLEAN_ABS(a) : CGRAPH_FALSE)      \
+                       : CGRAPH_LX)
 #define DIVF(a, b, c) DIV(a, b, c)
 #define INT(a, b, c) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
 #define MOD(a, b, c)                                                           \
-  (DATA_ISBOOL2V(a, b) ? (SUB((a), INT(a, b, NULL), NULL)) : CGRAPH_LX)
+  (DATA_ISBOOL2V(a, b) ? (BOOLEAN_ANDN((a), BOOLEAN_AND(a, b))) : CGRAPH_LX)
 
 #define CEIL(a, b) (DATA_ISBOOL2V(a, b) ? ceil((a)) : CGRAPH_LX)
 #define FLOOR(a, b) (DATA_ISBOOL2V(a, b) ? floor((a)) : CGRAPH_LX)
-#define POW(a, b) (DATA_ISBOOL2V(a, b) ? ((a)) : CGRAPH_LX)
+#define POW(a, b)                                                              \
+  (DATA_ISBOOL2V(a, b) ? (BOOLEAN_NOT(a) && BOOLEAN_ABS(b)) : CGRAPH_LX)
 #define SIN(a, b) (DATA_ISBOOL2V(a, b) ? sin((a)) : CGRAPH_LX)
 #define COS(a, b) (DATA_ISBOOL2V(a, b) ? cos((a)) : CGRAPH_LX)
 #define TAN(a, b) (DATA_ISBOOL2V(a, b) ? tan((a)) : CGRAPH_LX)
@@ -143,10 +145,10 @@
     defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64) ||       \
     defined(TYPE_INT128)
 #define DATA_TEST(a) ((DATA_MIN != (a)) && (DATA_MAX != (a)))
-#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_EPS)
-#define DATA_TOLOGIC(a) ((a)&CGRAPH_LOGIC_EPS)
-#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_EPS) & (a)))
-#define DATA_ISLOGIC(a) (!((~CGRAPH_LOGIC_EPS) & (a)))
+#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_TOLOGIC(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_MASK) & (a)))
+#define DATA_ISLOGIC(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 
 #define EQ(a, b) ((a) == (b))
 #define NE(a, b) ((a) != (b))

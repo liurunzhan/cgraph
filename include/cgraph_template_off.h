@@ -51,13 +51,13 @@
  * MACRO GROUP : DATA TYPE ELEMENT
  * TYPE_WITH_DATA
  * DATA_TYPE DATA_ID DATA_NAME DATA_UNAME
- * DATA_BITS DATA_BYTES DATA_BITS_LOG2 DATA_BITS_LOG2_EPS
+ * DATA_BITS DATA_BYTES DATA_BITS_LOG2 DATA_BITS_LOG2_EPSILON
  * DATA_UTYPE DATA_END
  * DATA_ZERO DATA_ONE DATA_ONES
  * DATA_MAX DATA_MIN DATA_BIAS
  * DATA_MAX1 DATA_MIN1 DATA_BIAS1
  * DATA_NAN DATA_INF DATA_PINF DATA_NINF
- * DATA_MSB DATA_LSB DATA_MASK DATA_EPS DATA_EPS_LEN
+ * DATA_MSB DATA_LSB DATA_MASK DATA_EPSILON DATA_EPSILON_LEN
  * DATA_EQ DATA_NE DATA_GR DATA_GE DATA_LS DATA_LE
  * DATA_TEST
  * DATA_TOBOOL DATA_TOLOGIC
@@ -73,15 +73,15 @@
  * ZERO1 ONE1 ONES1
  * ZERO ONE ONES
  * MIN MAX NAN INF PINF NINF
- * MSB LSB MASK EPS EPS_LEN
- * HASH_OFS
- * FRAC_BITS FRAC_EPS FRAC_OFS
+ * MSB LSB MASK EPSILON EPSILON_LEN
+ * HASH_OFFSET
+ * FRAC_BITS FRAC_MASK FRAC_OFFSET
  * FLOAT_SOFT_TOFRAC FLOAT_SOFT_FRAC FLOAT_SOFT_FRAC_CLR FLOAT_SOFT_FRAC_SET
- * EXP_BITS EXP_EPS EXP_OFS EXP_BIAS
+ * EXP_BITS EXP_MASK EXP_OFFSET EXP_BIAS
  * FLOAT_SOFT_TOEXP FLOAT_SOFT_EXP FLOAT_SOFT_EXP_CLR FLOAT_SOFT_EXP_SET
- * SIG_BITS SIG_EPS SIG_OFS
+ * SIG_BITS SIG_MASK SIG_OFFSET
  * FLOAT_SOFT_TOSIG FLOAT_SOFT_SIG FLOAT_SOFT_SIG_CLR FLOAT_SOFT_SIG_SET
- * EPS1 EPS2 EPS4 EPS8 EPS16 EPS32 EPS64
+ * MASK1 MASK2 MASK4 MASK8 MASK16 MASK32 MASK64
  * MACRO GROUP : COPYED MEMORY SIZE WITHOUT FUNCPTR MEMORY SIZE
  * COPY_SIZE
  * MACRO GROUP : OBJECT TYPE
@@ -190,7 +190,7 @@
   #define DATA_BITS
   #define DATA_BYTES
   #define DATA_BITS_LOG2
-  #define DATA_BITS_LOG2_EPS
+  #define DATA_BITS_LOG2_EPSILON
   #define DATA_UTYPE
   #define DATA_END
   #define DATA_ZERO
@@ -209,8 +209,8 @@
   #define DATA_MSB
   #define DATA_LSB
   #define DATA_MASK
-  #define DATA_EPS
-  #define DATA_EPS_LEN
+  #define DATA_EPSILON
+  #define DATA_EPSILON_LEN
   #define DATA_EQ
   #define DATA_NE
   #define DATA_GR
@@ -262,38 +262,38 @@
   #define MSB
   #define LSB
   #define MASK
-  #define EPS
-  #define EPS_LEN
-  #define HASH_OFS
+  #define EPSILON
+  #define EPSILON_LEN
+  #define HASH_OFFSET
   #define FRAC_BITS
-  #define FRAC_EPS
-  #define FRAC_OFS
+  #define FRAC_MASK
+  #define FRAC_OFFSET
   #define FLOAT_SOFT_TOFRAC
   #define FLOAT_SOFT_FRAC
   #define FLOAT_SOFT_FRAC_CLR
   #define FLOAT_SOFT_FRAC_SET
   #define EXP_BITS
-  #define EXP_EPS
-  #define EXP_OFS
+  #define EXP_MASK
+  #define EXP_OFFSET
   #define EXP_BIAS
   #define FLOAT_SOFT_TOEXP
   #define FLOAT_SOFT_EXP
   #define FLOAT_SOFT_EXP_CLR
   #define FLOAT_SOFT_EXP_SET
   #define SIG_BITS
-  #define SIG_EPS
-  #define SIG_OFS
+  #define SIG_MASK
+  #define SIG_OFFSET
   #define FLOAT_SOFT_TOSIG
   #define FLOAT_SOFT_SIG
   #define FLOAT_SOFT_SIG_CLR
   #define FLOAT_SOFT_SIG_SET
-  #define EPS1
-  #define EPS2
-  #define EPS4
-  #define EPS8
-  #define EPS16
-  #define EPS32
-  #define EPS64
+  #define MASK1
+  #define MASK2
+  #define MASK4
+  #define MASK8
+  #define MASK16
+  #define MASK32
+  #define MASK64
   #define COPY_SIZE
   #define OBJECT
   #define CGRAPH_OBJECT_BASE
@@ -688,8 +688,8 @@
 #undef DATA_BITS_LOG2
 #endif
 
-#ifdef DATA_BITS_LOG2_EPS
-#undef DATA_BITS_LOG2_EPS
+#ifdef DATA_BITS_LOG2_EPSILON
+#undef DATA_BITS_LOG2_EPSILON
 #endif
 
 #ifdef DATA_UTYPE
@@ -764,12 +764,12 @@
 #undef DATA_MASK
 #endif
 
-#ifdef DATA_EPS
-#undef DATA_EPS
+#ifdef DATA_EPSILON
+#undef DATA_EPSILON
 #endif
 
-#ifdef DATA_EPS_LEN
-#undef DATA_EPS_LEN
+#ifdef DATA_EPSILON_LEN
+#undef DATA_EPSILON_LEN
 #endif
 
 #ifdef DATA_EQ
@@ -977,28 +977,28 @@
 #undef MASK
 #endif
 
-#ifdef EPS
-#undef EPS
+#ifdef EPSILON
+#undef EPSILON
 #endif
 
-#ifdef EPS_LEN
-#undef EPS_LEN
+#ifdef EPSILON_LEN
+#undef EPSILON_LEN
 #endif
 
-#ifdef HASH_OFS
-#undef HASH_OFS
+#ifdef HASH_OFFSET
+#undef HASH_OFFSET
 #endif
 
 #ifdef FRAC_BITS
 #undef FRAC_BITS
 #endif
 
-#ifdef FRAC_EPS
-#undef FRAC_EPS
+#ifdef FRAC_MASK
+#undef FRAC_MASK
 #endif
 
-#ifdef FRAC_OFS
-#undef FRAC_OFS
+#ifdef FRAC_OFFSET
+#undef FRAC_OFFSET
 #endif
 
 #ifdef FLOAT_SOFT_TOFRAC
@@ -1021,12 +1021,12 @@
 #undef EXP_BITS
 #endif
 
-#ifdef EXP_EPS
-#undef EXP_EPS
+#ifdef EXP_MASK
+#undef EXP_MASK
 #endif
 
-#ifdef EXP_OFS
-#undef EXP_OFS
+#ifdef EXP_OFFSET
+#undef EXP_OFFSET
 #endif
 
 #ifdef EXP_BIAS
@@ -1053,12 +1053,12 @@
 #undef SIG_BITS
 #endif
 
-#ifdef SIG_EPS
-#undef SIG_EPS
+#ifdef SIG_MASK
+#undef SIG_MASK
 #endif
 
-#ifdef SIG_OFS
-#undef SIG_OFS
+#ifdef SIG_OFFSET
+#undef SIG_OFFSET
 #endif
 
 #ifdef FLOAT_SOFT_TOSIG
@@ -1077,32 +1077,32 @@
 #undef FLOAT_SOFT_SIG_SET
 #endif
 
-#ifdef EPS1
-#undef EPS1
+#ifdef MASK1
+#undef MASK1
 #endif
 
-#ifdef EPS2
-#undef EPS2
+#ifdef MASK2
+#undef MASK2
 #endif
 
-#ifdef EPS4
-#undef EPS4
+#ifdef MASK4
+#undef MASK4
 #endif
 
-#ifdef EPS8
-#undef EPS8
+#ifdef MASK8
+#undef MASK8
 #endif
 
-#ifdef EPS16
-#undef EPS16
+#ifdef MASK16
+#undef MASK16
 #endif
 
-#ifdef EPS32
-#undef EPS32
+#ifdef MASK32
+#undef MASK32
 #endif
 
-#ifdef EPS64
-#undef EPS64
+#ifdef MASK64
+#undef MASK64
 #endif
 
 /** COPYED MEMORY SIZE WITHOUT FUNCPTR MEMORY SIZE */

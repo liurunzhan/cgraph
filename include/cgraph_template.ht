@@ -25,11 +25,11 @@
 #if defined(TYPE_TIME)
 
 #elif defined(TYPE_COMPLEX)
-#define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPS)
-#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPS)
-#define DATA_GR(a, b) (((a) - (b)) > DATA_EPS)
+#define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
+#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
+#define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
 #define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
-#define DATA_LS(a, b) (((b) - (a)) > DATA_EPS)
+#define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
 #define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
 
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)

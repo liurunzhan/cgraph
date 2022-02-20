@@ -10,9 +10,9 @@ static const cgraph_char_t *__cgraph_false__ = CGRAPH_BOOL_FALSE;
 static const cgraph_size_t __cgraph_false_len__ = CGRAPH_BOOL_FALSE_LEN;
 static const cgraph_size_t __cgraph_false_size__ = (__cgraph_false_len__ + 1);
 
-cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
-  return (CGRAPH_FALSE == x) ? (cgraph_char_t *)__cgraph_false__
-                             : (cgraph_char_t *)__cgraph_true__;
+cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
+  return (CGRAPH_FALSE == cthis) ? (cgraph_char_t *)__cgraph_false__
+                                 : (cgraph_char_t *)__cgraph_true__;
 }
 
 TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,

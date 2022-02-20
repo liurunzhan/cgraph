@@ -24,8 +24,9 @@ const cgraph_char_t *cgraph_error_reason(const cgraph_error_t reason) {
               : NULL);
 }
 
-cgraph_size_t cgraph_error(cgraph_error_t reason, const cgraph_size_t line,
-                           cgraph_char_t *file, const cgraph_char_t *function) {
+cgraph_size_t cgraph_error_print(cgraph_error_t reason,
+                                 const cgraph_size_t line, cgraph_char_t *file,
+                                 const cgraph_char_t *function) {
   cgraph_size_t len = 0;
   const cgraph_char_t *reason_name = cgraph_error_reason(reason);
   const cgraph_char_t *level_name = cgraph_error_level(CGRAPH_LEVEL_ERROR);
@@ -110,11 +111,12 @@ const cgraph_char_t *cgraph_error_level(const cgraph_level_t level) {
 
 static cgraph_char_t __cgraph_time_cbuf__[CGRAPH_TIME_CBUF_SIZE];
 
-void cgraph_error_time(void) {
+const cgraph_char_t *cgraph_error_time(void) {
   time_t local_time;
   time(&local_time);
   strftime(__cgraph_time_cbuf__, CGRAPH_TIME_CBUF_SIZE, CGRAPH_TIME_FMT,
            localtime(&local_time));
+  return __cgraph_time_cbuf__;
 }
 
 static FILE *cgraph_error_ptr = NULL;
@@ -156,21 +158,24 @@ cgraph_size_t cgraph_error_printf(const cgraph_char_t *file,
   cgraph_size_t len = 0;
   FILE *fp = (NULL == cgraph_error_ptr ? stderr : cgraph_error_ptr);
   const cgraph_char_t *level_name = cgraph_error_level(level);
-  if (CGRAPH_ISFILE(fp) && (NULL != format) && (NULL != level_name)) {
-    va_list args;
-    va_start(args, format);
-    cgraph_file_vsnprintf(__cgraph_log_cbuf__, CGRAPH_LOG_CBUF_SIZE, format,
-                          args);
-    va_end(args);
-    cgraph_error_time();
-    if (NULL != function) {
-      len = cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
-                                  __cgraph_time_cbuf__, file, function, line,
-                                  level_name, __cgraph_log_cbuf__);
-    } else {
-      len = cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_STYLE "%s",
-                                  __cgraph_time_cbuf__, file, line, level_name,
-                                  __cgraph_log_cbuf__);
+  if (CGRAPH_ISFILE(fp) && (NULL != level_name)) {
+    if (NULL != file) {
+      if (NULL != function) {
+        len = cgraph_file_fprintf(fp, CGRAPH_ERROR_TIME_FUNCTION_STYLE,
+                                  cgraph_error_time(), file, function, line,
+                                  level_name);
+      } else {
+        len = cgraph_file_fprintf(fp, CGRAPH_ERROR_TIME_STYLE,
+                                  cgraph_error_time(), file, line, level_name);
+      }
+    }
+    if (NULL != format) {
+      va_list args;
+      va_start(args, format);
+      cgraph_file_vsnprintf(__cgraph_log_cbuf__, CGRAPH_LOG_CBUF_SIZE, format,
+                            args);
+      va_end(args);
+      len += cgraph_file_fprintfln(fp, "%s", __cgraph_log_cbuf__);
     }
   }
 #ifdef DEBUG
@@ -196,21 +201,24 @@ cgraph_size_t cgraph_error_fprintf(FILE *fp, const cgraph_char_t *file,
                                    const cgraph_char_t *format, ...) {
   cgraph_size_t len = 0;
   const cgraph_char_t *level_name = cgraph_error_level(level);
-  if (CGRAPH_ISFILE(fp) && (NULL != format)) {
-    va_list args;
-    va_start(args, format);
-    cgraph_file_vsnprintf(__cgraph_log_cbuf__, CGRAPH_LOG_CBUF_SIZE, format,
-                          args);
-    va_end(args);
-    cgraph_error_time();
-    if (NULL != function) {
-      len = cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
-                                  __cgraph_time_cbuf__, file, function, line,
-                                  level_name, __cgraph_log_cbuf__);
-    } else {
-      len = cgraph_file_fprintfln(fp, CGRAPH_ERROR_TIME_STYLE "%s",
-                                  __cgraph_time_cbuf__, file, line, level_name,
-                                  __cgraph_log_cbuf__);
+  if (CGRAPH_ISFILE(fp) && (NULL != level_name)) {
+    if (NULL != file) {
+      if (NULL != function) {
+        len = cgraph_file_fprintf(fp, CGRAPH_ERROR_TIME_FUNCTION_STYLE,
+                                  cgraph_error_time(), file, function, line,
+                                  level_name);
+      } else {
+        len = cgraph_file_fprintf(fp, CGRAPH_ERROR_TIME_STYLE,
+                                  cgraph_error_time(), file, line, level_name);
+      }
+    }
+    if (NULL != format) {
+      va_list args;
+      va_start(args, format);
+      cgraph_file_vsnprintf(__cgraph_log_cbuf__, CGRAPH_LOG_CBUF_SIZE, format,
+                            args);
+      va_end(args);
+      len += cgraph_file_fprintfln(fp, "%s", __cgraph_log_cbuf__);
     }
   }
 #ifdef DEBUG
@@ -238,22 +246,22 @@ cgraph_size_t cgraph_error_snprintf(cgraph_char_t *cbuf, cgraph_size_t size,
   cgraph_size_t len = 0;
   FILE *fp = (NULL == cgraph_error_ptr ? stderr : cgraph_error_ptr);
   const cgraph_char_t *level_name = cgraph_error_level(level);
-  if (CGRAPH_ISFILE(fp) && CGRAPH_ISBUF(cbuf, size) && (NULL != format)) {
-    va_list args;
-    va_start(args, format);
-    cgraph_file_vsnprintf(__cgraph_log_cbuf__, CGRAPH_LOG_CBUF_SIZE, format,
-                          args);
-    va_end(args);
-    cgraph_error_time();
-    if (NULL != function) {
-      len = cgraph_file_snprintf(cbuf, size,
-                                 CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
-                                 __cgraph_time_cbuf__, file, function, line,
-                                 level_name, __cgraph_log_cbuf__);
-    } else {
-      len = cgraph_file_snprintf(cbuf, size, CGRAPH_ERROR_TIME_STYLE "%s",
-                                 __cgraph_time_cbuf__, file, line, level_name,
-                                 __cgraph_log_cbuf__);
+  if (CGRAPH_ISFILE(fp) && CGRAPH_ISBUF(cbuf, size) && (NULL != level_name)) {
+    if (NULL != file) {
+      if (NULL != function) {
+        len = cgraph_file_snprintf(cbuf, size, CGRAPH_ERROR_TIME_FUNCTION_STYLE,
+                                   cgraph_error_time(), file, function, line,
+                                   level_name);
+      } else {
+        len = cgraph_file_snprintf(cbuf, size, CGRAPH_ERROR_TIME_STYLE,
+                                   cgraph_error_time(), file, line, level_name);
+      }
+    }
+    if (NULL != format) {
+      va_list args;
+      va_start(args, format);
+      len += cgraph_file_vsnprintf(cbuf, size - len, format, args);
+      va_end(args);
     }
   }
 #ifdef DEBUG
@@ -283,24 +291,26 @@ cgraph_error_fsnprintf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t size,
                        const cgraph_char_t *format, ...) {
   cgraph_size_t len = 0;
   const cgraph_char_t *level_name = cgraph_error_level(level);
-  if (CGRAPH_ISFILE(fp) && CGRAPH_ISBUF(cbuf, size) && (NULL != format)) {
-    va_list args;
-    va_start(args, format);
-    cgraph_file_vsnprintf(__cgraph_log_cbuf__, CGRAPH_LOG_CBUF_SIZE, format,
-                          args);
-    va_end(args);
-    cgraph_error_time();
-    if (NULL != function) {
-      len = cgraph_file_snprintf(cbuf, size,
-                                 CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
-                                 __cgraph_time_cbuf__, file, function, line,
-                                 level_name, __cgraph_log_cbuf__);
-    } else {
-      len = cgraph_file_snprintf(cbuf, size, CGRAPH_ERROR_TIME_STYLE "%s",
-                                 __cgraph_time_cbuf__, file, line, level_name,
-                                 __cgraph_log_cbuf__);
+  if (CGRAPH_ISFILE(fp) && CGRAPH_ISBUF(cbuf, size) && (NULL != level_name)) {
+    if (NULL != file) {
+      if (NULL != function) {
+        len = cgraph_file_snprintf(cbuf, size,
+                                   CGRAPH_ERROR_TIME_FUNCTION_STYLE "%s",
+                                   cgraph_error_time(), file, function, line,
+                                   level_name, __cgraph_log_cbuf__);
+      } else {
+        len = cgraph_file_snprintf(cbuf, size, CGRAPH_ERROR_TIME_STYLE "%s",
+                                   cgraph_error_time(), file, line, level_name,
+                                   __cgraph_log_cbuf__);
+      }
     }
-    cgraph_file_fputs(cbuf, len, fp);
+    if (NULL != format) {
+      va_list args;
+      va_start(args, format);
+      len += cgraph_file_vsnprintf(cbuf, size - len, format, args);
+      va_end(args);
+    }
+    len = cgraph_file_fputs(cbuf, len, fp);
   }
 #ifdef DEBUG
   else {

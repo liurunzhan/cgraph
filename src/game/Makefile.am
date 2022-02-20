@@ -1,13 +1,7 @@
 SOURCES = sudoku.c cmdarg.c verilog.c
 
-if DEBUG
-MODE_FLAGS            = -DDEBUG
-else
-MODE_FLAGS            = 
-endif
-FLAGS                 = -I$(top_srcdir)/include -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
 noinst_LTLIBRARIES    = libgame.la
-libgame_la_CFLAGS     = $(FLAGS)
+libgame_la_CFLAGS     = -I$(top_srcdir)/include $(COMPILE_FLAGS)
 libgame_la_LDFLAGS    = -lm -no-undefined
 libgame_la_SOURCES    = $(SOURCES)
 

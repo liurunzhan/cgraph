@@ -13,6 +13,14 @@ libdir     = $(prefix)/lib
 testdir    = $(prefix)/test
 docdir     = $(prefix)/doc
 
+if DEBUG
+MODE_FLAGS    =-DDEBUG
+else
+MODE_FLAGS    =
+endif
+COMPILE_FLAGS = -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
+export COMPILE_FLAGS
+
 pkgconfigdir = @libdir@/pkgconfig
 pkgconfig_DATA = cgraph.pc
 

@@ -13,14 +13,8 @@ TIME_SOURCES = time.c
 
 SOURCES = $(INT_SOURCES) $(FLOAT_SOURCES) $(COMPLEX_SOURCES) $(TIME_SOURCES)
 
-if DEBUG
-MODE_FLAGS            = -DDEBUG
-else
-MODE_FLAGS            =
-endif
-FLAGS                 = -I$(include_dir) -I$(type_dir) -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
 noinst_LTLIBRARIES    = libbasic.la
-libbasic_la_CFLAGS    = $(FLAGS)
+libbasic_la_CFLAGS    = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)
 libbasic_la_LDFLAGS   = -lm -no-undefined
 libbasic_la_SOURCES   = $(SOURCES)
 

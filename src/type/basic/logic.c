@@ -11,9 +11,9 @@ static const cgraph_char_t *__cgraph_L1__ = CGRAPH_LOGIC_L1;
 static const cgraph_char_t *__cgraph_LZ__ = CGRAPH_LOGIC_LZ;
 static const cgraph_char_t *__cgraph_LX__ = CGRAPH_LOGIC_LX;
 
-cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) {
+cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
   cgraph_char_t *res = NULL;
-  switch (x) {
+  switch (cthis) {
   case CGRAPH_L0: {
     res = (cgraph_char_t *)__cgraph_L0__;
     break;

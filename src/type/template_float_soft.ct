@@ -20,7 +20,7 @@
  */
 
 TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x | (((1U << y) & FRAC_EPS) << FRAC_OFS));
+  return (TYPE)(x | (((1U << y) & FRAC_MASK) << FRAC_OFFSET));
 }
 
 TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y) {
@@ -28,7 +28,7 @@ TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y) {
 }
 
 TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x & ((~((1U << y) & FRAC_EPS)) << FRAC_OFS));
+  return (TYPE)(x & ((~((1U << y) & FRAC_MASK)) << FRAC_OFFSET));
 }
 
 TYPE FUNCTION(NAME, clrfracs_s)(const TYPE x) { return FLOAT_SOFT_FRAC_CLR(x); }
@@ -76,7 +76,7 @@ TYPE FUNCTION(NAME, divfrac_s)(const TYPE x, const cgraph_int_t y) {
 }
 
 TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x | (((1U << y) & EXP_EPS) << EXP_OFS));
+  return (TYPE)(x | (((1U << y) & EXP_MASK) << EXP_OFFSET));
 }
 
 TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y) {
@@ -84,7 +84,7 @@ TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y) {
 }
 
 TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x & ((~((1U << y) & EXP_EPS)) << EXP_OFS));
+  return (TYPE)(x & ((~((1U << y) & EXP_MASK)) << EXP_OFFSET));
 }
 
 TYPE FUNCTION(NAME, clrexps_s)(const TYPE x) { return FLOAT_SOFT_EXP_CLR(x); }
@@ -156,11 +156,11 @@ cgraph_float64_t FUNCTION(NAME, tof64)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, opp_s)(const TYPE x) {
-  return (TYPE)(x ^ (SIG_EPS << SIG_OFS));
+  return (TYPE)(x ^ (SIG_MASK << SIG_OFFSET));
 }
 
 TYPE FUNCTION(NAME, fabs_s)(const TYPE x) {
-  return (TYPE)(x | (SIG_EPS << SIG_OFS));
+  return (TYPE)(x | (SIG_MASK << SIG_OFFSET));
 }
 
 TYPE FUNCTION(NAME, inv_s)(const TYPE x) {
@@ -248,12 +248,11 @@ TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
 }
 
 cgraph_int_t FUNCTION(NAME, frexp_s)(const TYPE x, cgraph_int_t *y) {
-  TYPE res = FLOAT_SOFT_FRAC(x);
   if (NULL != y) {
     *y = FLOAT_SOFT_EXP(x);
   }
 
-  return res;
+  return FLOAT_SOFT_FRAC(x);
 }
 
 TYPE FUNCTION(NAME, int_s)(const TYPE x, const TYPE y) {
@@ -293,7 +292,20 @@ TYPE FUNCTION(NAME, modf_s)(const TYPE x, const TYPE *y) {
 }
 
 TYPE FUNCTION(NAME, abs_s)(const TYPE x) {
-  TYPE res = 0;
+  TYPE res = (TYPE)x;
+#if __PLAT_ENDIAN == __PLAT_ENDIAN_LITTLE
+  ((cgraph_uint8_t *)(&res))[0] &= 0x7F;
+#elif __PLAT_ENDIAN == __PLAT_ENDIAN_BIG
+  ((cgraph_uint8_t *)(&res))[TYPE_BITS - 1] &= 0x7F;
+#else
+  cgraph_bool_t isbigendian = CGRAPH_TRUE;
+  cgraph_file_os(NULL, NULL, NULL, &isbigendian);
+  if (CGRAPH_TRUE == isbigendian) {
+    ((cgraph_uint8_t *)(&res))[TYPE_BITS - 1] &= 0x7F;
+  } else {
+    ((cgraph_uint8_t *)(&res))[0] &= 0x7F;
+  }
+#endif
 
   return res;
 }

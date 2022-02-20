@@ -735,10 +735,13 @@ static const cgraph_char_t *_platform = __PLAT_NAME;
 static const cgraph_char_t *_path_split = __PLAT_PSPLIT;
 static const cgraph_char_t *_line_end = __PLAT_LEND;
 
+/** judge platform information */
+#if __PLAT_ENDIAN == __PLAT_ENDIAN_NONE
 const static union cgraph_endian_t {
   cgraph_int32_t num;
-  cgraph_int8_t byte[4];
+  cgraph_uint8_t byte[4];
 } cgraph_file_endian = {1};
+#endif
 
 void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
                     cgraph_char_t **line_end, cgraph_bool_t *isbigendian) {

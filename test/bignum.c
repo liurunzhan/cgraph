@@ -26,18 +26,18 @@ int main(int argc, char *argv[]) {
 
   FUNCTION(NAME, initc)(bignum10, num7, cgraph_strlen(num7));
   FUNCTION(NAME, fprintln)(stdout, bignum10);
-  FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
+  FUNCTION(NAME, datfprintln)(stdout, bignum10);
   FUNCTION(NAME, initc)(bignum10, &num7[1], cgraph_strlen(num7) - 1);
   FUNCTION(NAME, fprintln)(stdout, bignum10);
-  FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
+  FUNCTION(NAME, datfprintln)(stdout, bignum10);
   for (i = 0; i < 50; i++) {
     cgraph_file_fprintfln(stdout, "i = %ld", i);
     FUNCTION(NAME, fprintln)
     (stdout, (bignum10 = FUNCTION(NAME, mul10)(bignum10, i)));
-    FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
+    FUNCTION(NAME, datfprintln)(stdout, bignum10);
     FUNCTION(NAME, fprintln)
     (stdout, (bignum10 = FUNCTION(NAME, div10)(bignum10, i)));
-    FUNCTION(NAME, dt_fprintln)(stdout, bignum10);
+    FUNCTION(NAME, datfprintln)(stdout, bignum10);
   }
 
   FUNCTION(NAME, fprint)(stdout, bignum6);

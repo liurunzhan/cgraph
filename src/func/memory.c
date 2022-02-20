@@ -174,6 +174,28 @@ void *cgraph_memscpy(void *trg_mem, const void *src_mem,
   return trg_mem;
 }
 
+cgraph_size_t cgraph_memlen(const void *memory, const cgraph_uint8_t end) {
+  cgraph_size_t len = 0;
+  cgraph_addr_t res = (cgraph_addr_t)memory;
+  if (NULL != res) {
+    for (; end != *res; res++, len++) {
+    }
+  }
+
+  return len;
+}
+
+void *cgraph_memend(const void *memory, const cgraph_uint8_t end) {
+  cgraph_addr_t res = (cgraph_addr_t)memory;
+  if (NULL != res) {
+    for (; end != *res; res++) {
+    }
+    res -= 1;
+  }
+
+  return res;
+}
+
 cgraph_bool_t cgraph_memcmp(const void *x_mem, const void *y_mem,
                             const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
@@ -287,6 +309,17 @@ void cgraph_free(void *memory) {
 
 cgraph_size_t cgraph_strlen(const cgraph_char_t *string) {
   return CGRAPH_ISSTR(string) ? strlen(string) : 0;
+}
+
+cgraph_char_t *cgraph_strend(const cgraph_char_t *string) {
+  cgraph_char_t *res = (cgraph_char_t *)string;
+  if (CGRAPH_ISSTR(string)) {
+    while ('\0' != *(++res)) {
+    }
+    res -= 1;
+  }
+
+  return res;
 }
 
 cgraph_char_t *cgraph_strcpy(cgraph_char_t *trg_str,

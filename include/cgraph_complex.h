@@ -36,8 +36,8 @@ extern "C" {
 #define DATA_INF CGRAPH_FLOAT64_INF
 #define DATA_PINF CGRAPH_FLOAT64_PINF
 #define DATA_NINF CGRAPH_FLOAT64_NINF
-#define DATA_EPS CGRAPH_FLOAT64_EPS
-#define DATA_EPS_LEN CGRAPH_FLOAT64_BITS
+#define DATA_EPSILON CGRAPH_FLOAT64_EPSILON
+#define DATA_EPSILON_LEN CGRAPH_FLOAT64_BITS
 
 #define NAME complex
 #define TYPE TYPE_T(NAME)
@@ -111,6 +111,7 @@ extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, std)(const TYPE x);
 extern TYPE FUNCTION(NAME, conj)(const TYPE x);

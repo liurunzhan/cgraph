@@ -13,19 +13,19 @@
 /** fraction part of software-defined signed float point number */
 #define TYPE_PTR TYPE
 
-#define FLOAT_SOFT_TOFRAC(a) ((((a) << 1) & FRAC_EPS) << FRAC_OFS)
+#define FLOAT_SOFT_TOFRAC(a) ((((a) << 1) & FRAC_MASK) << FRAC_OFFSET)
 #define FLOAT_SOFT_FRAC(a)                                                     \
-  ((((a) >> FRAC_OFS) & FRAC_EPS) || (0x01 << FRAC_BITS))
-#define FLOAT_SOFT_FRAC_CLR(a) ((a) & (~(FRAC_EPS << FRAC_OFS)))
-#define FLOAT_SOFT_FRAC_SET(a, b) ((a) | (((b)&FRAC_EPS) << FRAC_OFS))
-#define FLOAT_SOFT_TOEXP(a) (((a)&EXP_EPS) << EXP_OFS)
-#define FLOAT_SOFT_EXP(a) (((a) >> EXP_OFS) & EXP_EPS)
-#define FLOAT_SOFT_EXP_CLR(a) ((a) & (~(EXP_EPS << EXP_OFS)))
-#define FLOAT_SOFT_EXP_SET(a, b) ((a) | (((b)&EXP_EPS) << EXP_OFS))
-#define FLOAT_SOFT_TOSIG(a) (((a)&SIG_EPS) << SIG_OFS)
-#define FLOAT_SOFT_SIG(a) (((a) >> SIG_OFS) & SIG_EPS)
-#define FLOAT_SOFT_SIG_CLR(a) ((a) & (~(SIG_EPS << SIG_EPS)))
-#define FLOAT_SOFT_SIG_SET(a) ((a) | (SIG_EPS << SIG_OFS))
+  ((((a) >> FRAC_OFFSET) & FRAC_MASK) || (0x01 << FRAC_BITS))
+#define FLOAT_SOFT_FRAC_CLR(a) ((a) & (~(FRAC_MASK << FRAC_OFFSET)))
+#define FLOAT_SOFT_FRAC_SET(a, b) ((a) | (((b)&FRAC_MASK) << FRAC_OFFSET))
+#define FLOAT_SOFT_TOEXP(a) (((a)&EXP_MASK) << EXP_OFFSET)
+#define FLOAT_SOFT_EXP(a) (((a) >> EXP_OFFSET) & EXP_MASK)
+#define FLOAT_SOFT_EXP_CLR(a) ((a) & (~(EXP_MASK << EXP_OFFSET)))
+#define FLOAT_SOFT_EXP_SET(a, b) ((a) | (((b)&EXP_MASK) << EXP_OFFSET))
+#define FLOAT_SOFT_TOSIG(a) (((a)&SIG_MASK) << SIG_OFFSET)
+#define FLOAT_SOFT_SIG(a) (((a) >> SIG_OFFSET) & SIG_MASK)
+#define FLOAT_SOFT_SIG_CLR(a) ((a) & (~(SIG_MASK << SIG_MASK)))
+#define FLOAT_SOFT_SIG_SET(a) ((a) | (SIG_MASK << SIG_OFFSET))
 
 #define DATA_TEST(a) ((MIN < (a)) && (MAX > (a)))
 #define DATA_ISNAN(a) ((a) != (a))

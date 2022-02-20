@@ -11,9 +11,9 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   } else {
     TYPE ipart = floor(cthis), fpart = cthis - ipart;
     cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
-                  hash_fpart =
-                      (cgraph_size_t)(((TYPE)ABS(fpart - EPS)) * EPS_LEN);
-    hash = (hash_ipart << HASH_OFS) ^ hash_fpart;
+                  hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) *
+                                               EPSILON_LEN);
+    hash = (hash_ipart << HASH_OFFSET) ^ hash_fpart;
   }
 
   return CGRAPH_ABS(hash);
@@ -242,13 +242,13 @@ TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
                                  FUNCPTR(NAME, pfunc1) func) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
-  if (FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
+  if (FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
     return CGRAPH_MIN(_start, _end);
   }
   do {
     _middle = 0.5 * (_start + _end);
     _middle_res = func(_middle);
-    if (!FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
+    if (!FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
       _end = _middle;
       _end_res = _middle_res;
     } else {
@@ -280,13 +280,13 @@ TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start, const TYPE end,
                                                FUNCPTR(NAME, pfunc1) func) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
-  if (FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
+  if (FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
     return CGRAPH_MIN(_start, _end);
   }
   do {
     _middle = (_start * _end_res - _end * _start_res) / (_end_res - _start_res);
     _middle_res = func(_middle);
-    if (!FUNCTION(NAME, cmp_signbit)(_start_res, _end_res)) {
+    if (!FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
       _end = _middle;
       _end_res = _middle_res;
     } else {

@@ -53,16 +53,16 @@ extern "C" {
 #endif /** M_LN10 : log_e(10) */
 
 #ifndef M_1_LN10
-#define M_1_LN10 (0.43429448190325182765) /** M_1_LN10 : 1/log_e(10) */
-#endif
+#define M_1_LN10 (0.43429448190325182765)
+#endif /** M_1_LN10 : 1/log_e(10) */
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
 #endif /** M_PI pi */
 
 #ifndef M_2PI
-#define M_2PI (6.28318530717958647693) /** M_2PI : 2*pi */
-#endif
+#define M_2PI (6.28318530717958647693)
+#endif /** M_2PI : 2*pi */
 
 #ifndef M_PI_2
 #define M_PI_2 (1.57079632679489661923)

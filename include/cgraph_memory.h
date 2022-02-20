@@ -36,6 +36,9 @@ extern void *cgraph_memcpy(void *trg_mem, const void *src_mem,
 extern void *cgraph_memscpy(void *trg_mem, const void *src_mem,
                             const cgraph_size_t trg_size,
                             const cgraph_size_t src_len);
+extern cgraph_size_t cgraph_memlen(const void *memory,
+                                   const cgraph_uint8_t end);
+extern void *cgraph_memend(const void *memory, const cgraph_uint8_t end);
 extern cgraph_bool_t cgraph_memcmp(const void *x_mem, const void *y_mem,
                                    const cgraph_size_t len);
 extern void *cgraph_memrev(void *memory, cgraph_size_t len);
@@ -51,6 +54,7 @@ extern void cgraph_free(void *memory);
  * 2) with error information added
  */
 extern cgraph_size_t cgraph_strlen(const cgraph_char_t *string);
+extern cgraph_char_t *cgraph_strend(const cgraph_char_t *string);
 extern cgraph_char_t *cgraph_strcpy(cgraph_char_t *trg_str,
                                     const cgraph_char_t *src_str);
 extern cgraph_char_t *cgraph_strncpy(cgraph_char_t *trg_str,

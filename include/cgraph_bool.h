@@ -44,11 +44,11 @@ extern "C" {
 #define ONES CGRAPH_TRUE
 #define MIN CGRAPH_BOOL_MIN
 #define MAX CGRAPH_BOOL_MAX
+#define MASK CGRAPH_BOOL_MASK
+#define EPSILON CGRAPH_BOOL_TRUE
 #define NAN CGRAPH_FALSE
 #define MSB (ONE)
 #define LSB (ONE)
-#define EPS CGRAPH_BOOL_EPS
-#define EPS_LEN CGRAPH_BOOL_BITS
 
 /** template module */
 #include "cgraph_template_int.ht"

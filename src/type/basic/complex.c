@@ -50,19 +50,14 @@ TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   cgraph_size_t len = 0;
-  cgraph_file_fprintfln(stdout, "%g %g", DATA_EPS, CGRAPH_FLOAT64_EPS);
-  len = cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
-                            COMPLEX_IMAG(cthis));
-  /*
-if (FUNCTION(NAME, isreal)(cthis)) {
-len = cgraph_file_fprintf(fp, OUT_FMT_REAL, COMPLEX_REAL(cthis));
-} else if (FUNCTION(NAME, isimag)(cthis)) {
-len = cgraph_file_fprintf(fp, OUT_FMT_IMAG, COMPLEX_IMAG(cthis));
-} else {
-len = cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
-                        COMPLEX_IMAG(cthis));
-}
-*/
+  if (FUNCTION(NAME, isreal)(cthis)) {
+    len = cgraph_file_fprintf(fp, OUT_FMT_REAL, COMPLEX_REAL(cthis));
+  } else if (FUNCTION(NAME, isimag)(cthis)) {
+    len = cgraph_file_fprintf(fp, OUT_FMT_IMAG, COMPLEX_IMAG(cthis));
+  } else {
+    len = cgraph_file_fprintf(fp, OUT_FMT, COMPLEX_REAL(cthis),
+                              COMPLEX_IMAG(cthis));
+  }
 
   return len;
 }
@@ -299,6 +294,8 @@ TYPE FUNCTION(NAME, opp)(const TYPE x) {
 
   return res;
 }
+
+DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x) { return FUNCTION(NAME, mag)(x); }
 
 TYPE FUNCTION(NAME, abs)(const TYPE x) {
   TYPE res;
@@ -690,14 +687,6 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
-#ifdef DEBUG
-  cgraph_file_fprintfln(
-      stdout, "%g %g ? %d", COMPLEX_REAL(x), COMPLEX_REAL(y),
-      (fabs(COMPLEX_REAL(x) - COMPLEX_REAL(y)) < CGRAPH_FLOAT64_EPS));
-  cgraph_file_fprintfln(
-      stdout, "%g %g ? %d", COMPLEX_IMAG(x), COMPLEX_IMAG(y),
-      (fabs(COMPLEX_IMAG(x) - COMPLEX_IMAG(y)) < CGRAPH_FLOAT64_EPS));
-#endif
   return EQ(x, y);
 }
 

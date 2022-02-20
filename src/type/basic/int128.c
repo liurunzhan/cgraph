@@ -25,3 +25,11 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
 
   return CGRAPH_CBUF_PTR;
 }
+
+TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
+                            cgraph_bool_t *error) {
+  TYPE res;
+	
+
+  return res;
+}

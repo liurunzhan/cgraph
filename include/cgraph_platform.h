@@ -99,17 +99,14 @@ typedef enum {
 #define __PLAT_ENDIAN_BIG (0)
 #define __PLAT_ENDIAN_LITTLE (1)
 #define __PLAT_ENDIAN_NONE (2)
-/** Big-Endian architecture */
 #if defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                        \
-    defined(__WORDS_BIGENDIAN)
+    defined(__WORDS_BIGENDIAN) /** Big-Endian architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_BIG
-/** Little-endian architecture */
 #elif defined(__LITTLE_ENDIAN__) || defined(__LITTLE_ENDIAN) ||                \
-    defined(__WORDS_LITTLEENDIAN)
+    defined(__WORDS_LITTLEENDIAN) /** Little-endian architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
-/** Undefined architecture */
-#else
-#define __PLAT_ENDIAN __PLAT_ENDIAN_NONE
+#else /** Undefined architecture */
+#define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
 #endif
 
 #ifndef __WORDSIZE
@@ -218,36 +215,45 @@ typedef unsigned int uint32_t;
 #define UINT32_MIN (0U)
 
 #if (__STDC_VERSION__ < 199901L) && (!defined(HAVE_LONG_LONG))
-#if defined(_MSC_VER)
-typedef signed __int64 int64_t;
-typedef unsigned __int64 uint64_t;
-#else /** __GNUC__ or __clang__ defined */
+#if defined(__GNUC__) || defined(__clang__)
 __EXTENSION__ typedef signed long long int64_t;
 __EXTENSION__ typedef unsigned long long uint64_t;
+#elif defined(_MSC_VER)
+typedef signed __int64 int64_t;
+typedef unsigned __int64 uint64_t;
+#else /**   */
+typedef signed long long int64_t;
+typedef unsigned long long uint64_t;
 #endif
 #endif
 
-#define INT8_EPS INT8_MIN
+#define INT8_MASK INT8_MIN
+#define INT8_EPSILON (1)
 #define INT8_BITS (8)
 #define INT8_BITS_LOG2 (3)
 
-#define UINT8_EPS UINT8_MAX
+#define UINT8_MASK UINT8_MAX
+#define UINT8_EPSILON (1U)
 #define UINT8_BITS INT8_BITS
 #define UINT8_BITS_LOG2 INT8_BITS_LOG2
 
-#define INT16_EPS INT16_MIN
+#define INT16_MASK INT16_MIN
+#define INT16_EPSILON (1)
 #define INT16_BITS (16)
 #define INT16_BITS_LOG2 (4)
 
-#define UINT16_EPS UINT16_MAX
+#define UINT16_MASK UINT16_MAX
+#define UINT16_EPSILON (1U)
 #define UINT16_BITS INT16_BITS
 #define UINT16_BITS_LOG2 INT16_BITS_LOG2
 
-#define INT32_EPS INT32_MIN
+#define INT32_MASK INT32_MIN
+#define INT32_EPSILON (1)
 #define INT32_BITS (32)
 #define INT32_BITS_LOG2 (5)
 
-#define UINT32_EPS UINT32_MAX
+#define UINT32_MASK UINT32_MASK
+#define UINT32_EPSILON (1U)
 #define UINT32_BITS INT32_BITS
 #define UINT32_BITS_LOG2 INT32_BITS_LOG2
 
@@ -291,79 +297,33 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 #endif
 #define UINT64_MIN __EXTENSION__(0LL)
 
-#define INT64_EPS1 __EXTENSION__(0xAAAAAAAAAAAAAAAAULL)
-#define INT64_EPS2 __EXTENSION__(0xCCCCCCCCCCCCCCCCULL)
-#define INT64_EPS4 __EXTENSION__(0xF0F0F0F0F0F0F0F0ULL)
-#define INT64_EPS8 __EXTENSION__(0xFF00FF00FF00FF00ULL)
-#define INT64_EPS16 __EXTENSION__(0xFFFF0000FFFF0000ULL)
-#define INT64_EPS32 __EXTENSION__(0xFFFFFFFF00000000ULL)
-#define INT64_EPS64 __EXTENSION__(0xFFFFFFFFFFFFFFFFULL)
-
-#define UINT64_EPS1 __EXTENSION__(0xAAAAAAAAAAAAAAAAULL)
-#define UINT64_EPS2 __EXTENSION__(0xCCCCCCCCCCCCCCCCULL)
-#define UINT64_EPS4 __EXTENSION__(0xF0F0F0F0F0F0F0F0ULL)
-#define UINT64_EPS8 __EXTENSION__(0xFF00FF00FF00FF00ULL)
-#define UINT64_EPS16 __EXTENSION__(0xFFFF0000FFFF0000ULL)
-#define UINT64_EPS32 __EXTENSION__(0xFFFFFFFF00000000ULL)
-#define UINT64_EPS64 __EXTENSION__(0xFFFFFFFFFFFFFFFFULL)
-
-#define INT64_EPS INT64_MIN
 #define INT64_BITS (64)
 #define INT64_BITS_LOG2 (6)
+#define INT64_MASK INT64_MIN
+#define INT64_MASK1 __EXTENSION__(0xAAAAAAAAAAAAAAAAULL)
+#define INT64_MASK2 __EXTENSION__(0xCCCCCCCCCCCCCCCCULL)
+#define INT64_MASK4 __EXTENSION__(0xF0F0F0F0F0F0F0F0ULL)
+#define INT64_MASK8 __EXTENSION__(0xFF00FF00FF00FF00ULL)
+#define INT64_MASK16 __EXTENSION__(0xFFFF0000FFFF0000ULL)
+#define INT64_MASK32 __EXTENSION__(0xFFFFFFFF00000000ULL)
+#define INT64_MASK64 __EXTENSION__(0xFFFFFFFFFFFFFFFFULL)
+#define INT64_EPSILON __EXTENSION__(1LL)
 
-#define UINT64_EPS UINT64_MAX
 #define UINT64_BITS INT64_BITS
 #define UINT64_BITS_LOG INT64_BITS_LOG2
-
-#if __WORDSIZE == 64
-#define LONG_EPS UINT64_MAX
-#define LONG_EPS1 UINT64_EPS1
-#define LONG_EPS2 UINT64_EPS2
-#define LONG_EPS4 UINT64_EPS4
-#define LONG_EPS8 UINT64_EPS8
-#define LONG_EPS16 UINT64_EPS16
-#define LONG_EPS32 UINT64_EPS32
-#define LONG_BITS UINT64_BITS
-
-#define ULONG_EPS UINT64_MAX
-#define ULONG_EPS1 UINT64_EPS1
-#define ULONG_EPS2 UINT64_EPS2
-#define ULONG_EPS4 UINT64_EPS4
-#define ULONG_EPS8 UINT64_EPS8
-#define ULONG_EPS16 UINT64_EPS16
-#define ULONG_EPS32 UINT64_EPS32
-#define ULONG_BITS UINT64_BITS
-#elif __WORDSIZE == 32
-#define LONG_EPS UINT32_MAX
-#define LONG_EPS1 (0xAAAAAAAAUL)
-#define LONG_EPS2 (0xCCCCCCCCUL)
-#define LONG_EPS4 (0xF0F0F0F0U)
-#define LONG_EPS8 (0xFF00FF00U)
-#define LONG_EPS16 (0xFFFF0000U)
-#define LONG_EPS32 (0xFFFFFFFFU)
-#define LONG_BITS UINT32_BITS
-
-#define ULONG_EPS UINT32_MAX
-#define ULONG_EPS1 (0xAAAAAAAAUL)
-#define ULONG_EPS2 (0xCCCCCCCCUL)
-#define ULONG_EPS4 (0xF0F0F0F0U)
-#define ULONG_EPS8 (0xFF00FF00U)
-#define ULONG_EPS16 (0xFFFF0000U)
-#define ULONG_EPS32 (0xFFFFFFFFU)
-#define ULONG_BITS UINT32_BITS
-#endif
+#define UINT64_MASK UINT64_MAX
+#define UINT64_MASK1 __EXTENSION__(0xAAAAAAAAAAAAAAAAULL)
+#define UINT64_MASK2 __EXTENSION__(0xCCCCCCCCCCCCCCCCULL)
+#define UINT64_MASK4 __EXTENSION__(0xF0F0F0F0F0F0F0F0ULL)
+#define UINT64_MASK8 __EXTENSION__(0xFF00FF00FF00FF00ULL)
+#define UINT64_MASK16 __EXTENSION__(0xFFFF0000FFFF0000ULL)
+#define UINT64_MASK32 __EXTENSION__(0xFFFFFFFF00000000ULL)
+#define UINT64_MASK64 __EXTENSION__(0xFFFFFFFFFFFFFFFFULL)
+#define UINT64_EPSILON __EXTENSION__(1ULL)
 
 /** integer type input and output style */
 #ifndef SCNd64
-#if defined(_MSC_VER)
-
-#define SCNd64 "I64d"
-#define PRId64 "I64d"
-#define SCNu64 "I64u"
-#define PRIu64 "I64u"
-
-#else /** __GNUC__ or __clang__ defined */
-
+#if defined(__GNUC__) || defined(__clang__)
 #ifdef __PLAT_WINDOWS
 #define SCNd64 "I64d"
 #define PRId64 "I64d"
@@ -375,8 +335,62 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 #define SCNu64 "llu"
 #define PRIu64 "llu"
 #endif
-
+#elif defined(_MSC_VER)
+#define SCNd64 "I64d"
+#define PRId64 "I64d"
+#define SCNu64 "I64u"
+#define PRIu64 "I64u"
+#else /**   */
+#ifdef __PLAT_WINDOWS
+#define SCNd64 "I64d"
+#define PRId64 "I64d"
+#define SCNu64 "I64u"
+#define PRIu64 "I64u"
+#else
+#define SCNd64 "lld"
+#define PRId64 "lld"
+#define SCNu64 "llu"
+#define PRIu64 "llu"
 #endif
+#endif
+#endif
+
+#if __WORDSIZE == 64
+#define LONG_MASK UINT64_MAX
+#define LONG_MASK1 UINT64_MASK1
+#define LONG_MASK2 UINT64_MASK2
+#define LONG_MASK4 UINT64_MASK4
+#define LONG_MASK8 UINT64_MASK8
+#define LONG_MASK16 UINT64_MASK16
+#define LONG_MASK32 UINT64_MASK32
+#define LONG_BITS UINT64_BITS
+
+#define ULONG_MASK UINT64_MAX
+#define ULONG_MASK1 UINT64_MASK1
+#define ULONG_MASK2 UINT64_MASK2
+#define ULONG_MASK4 UINT64_MASK4
+#define ULONG_MASK8 UINT64_MASK8
+#define ULONG_MASK16 UINT64_MASK16
+#define ULONG_MASK32 UINT64_MASK32
+#define ULONG_BITS UINT64_BITS
+#elif __WORDSIZE == 32
+#define LONG_MASK UINT32_MAX
+#define LONG_MASK1 (0xAAAAAAAAUL)
+#define LONG_MASK2 (0xCCCCCCCCUL)
+#define LONG_MASK4 (0xF0F0F0F0U)
+#define LONG_MASK8 (0xFF00FF00U)
+#define LONG_MASK16 (0xFFFF0000U)
+#define LONG_MASK32 (0xFFFFFFFFU)
+#define LONG_BITS UINT32_BITS
+
+#define ULONG_MASK UINT32_MAX
+#define ULONG_MASK1 (0xAAAAAAAAUL)
+#define ULONG_MASK2 (0xCCCCCCCCUL)
+#define ULONG_MASK4 (0xF0F0F0F0U)
+#define ULONG_MASK8 (0xFF00FF00U)
+#define ULONG_MASK16 (0xFFFF0000U)
+#define ULONG_MASK32 (0xFFFFFFFFU)
+#define ULONG_BITS UINT32_BITS
 #endif
 
 #define SCNdlg "ld"
@@ -390,37 +404,40 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 typedef int64_t int128_t;
 #define INT128_MIN (-1)
 #define INT128_MAX (0)
-#define INT128_EPS (0)
+#define INT128_MASK INT64_MASK
+#define INT128_EPSILON (1)
 #define INT128_DIG (128)
 #define INT128_BITS (8 * sizeof(int128_t))
 #define INT128_BITS_LOG2 (7)
 #define INT128_IN_FMT "s"
 #define INT128_OUT_FMT "s"
-#define INT128_EPS1 INT64_EPS1
-#define INT128_EPS2 INT64_EPS2
-#define INT128_EPS4 INT64_EPS4
-#define INT128_EPS8 INT64_EPS8
-#define INT128_EPS16 INT64_EPS16
-#define INT128_EPS32 INT64_EPS32
-#define INT128_EPS64 INT64_EPS64
+
+#define INT128_MASK1 INT64_MASK1
+#define INT128_MASK2 INT64_MASK2
+#define INT128_MASK4 INT64_MASK4
+#define INT128_MASK8 INT64_MASK8
+#define INT128_MASK16 INT64_MASK16
+#define INT128_MASK32 INT64_MASK32
+#define INT128_MASK64 INT64_MASK64
 #define INT128_DTYPE __int128
 
 typedef uint64_t uint128_t;
 #define UINT128_MIN (0)
 #define UINT128_MAX (1)
-#define UINT128_EPS (0)
+#define UINT128_MASK UINT64_MASK
+#define UINT128_EPSILON (1)
 #define UINT128_DIG (128)
 #define UINT128_BITS (8 * sizeof(uint128_t))
 #define UINT128_BITS_LOG2 (7)
 #define SCNd128 "s"
 #define PRId128 "s"
-#define UINT128_EPS1 UINT64_EPS1
-#define UINT128_EPS2 UINT64_EPS2
-#define UINT128_EPS4 UINT64_EPS4
-#define UINT128_EPS8 UINT64_EPS8
-#define UINT128_EPS16 UINT64_EPS16
-#define UINT128_EPS32 UINT64_EPS32
-#define UINT128_EPS64 UINT64_EPS64
+#define UINT128_MASK1 UINT64_MASK1
+#define UINT128_MASK2 UINT64_MASK2
+#define UINT128_MASK4 UINT64_MASK4
+#define UINT128_MASK8 UINT64_MASK8
+#define UINT128_MASK16 UINT64_MASK16
+#define UINT128_MASK32 UINT64_MASK32
+#define UINT128_MASK64 UINT64_MASK64
 #define UINT128_DTYPE uint128_t
 
 #else
@@ -428,37 +445,39 @@ typedef uint64_t uint128_t;
 typedef int64_t int128_t;
 #define INT128_MIN INT64_MIN
 #define INT128_MAX INT64_MAX
-#define INT128_EPS INT64_EPS
+#define INT128_MASK INT64_MASK
+#define INT128_EPSILON INT64_EPSILON
 #define INT128_DIG INT64_DIG
 #define INT128_BITS (8 * sizeof(int128_t))
 #define INT128_BITS_LOG2 INT64_BITS_LOG2
 #define SCNd128 "s"
 #define PRId128 "s"
-#define INT128_EPS1 INT64_EPS1
-#define INT128_EPS2 INT64_EPS2
-#define INT128_EPS4 INT64_EPS4
-#define INT128_EPS8 INT64_EPS8
-#define INT128_EPS16 INT64_EPS16
-#define INT128_EPS32 INT64_EPS32
-#define INT128_EPS64 INT64_EPS64
+#define INT128_MASK1 INT64_MASK1
+#define INT128_MASK2 INT64_MASK2
+#define INT128_MASK4 INT64_MASK4
+#define INT128_MASK8 INT64_MASK8
+#define INT128_MASK16 INT64_MASK16
+#define INT128_MASK32 INT64_MASK32
+#define INT128_MASK64 INT64_MASK64
 #define INT128_DTYPE int128_t
 
 typedef uint64_t uint128_t;
 #define UINT128_MIN UINT64_MIN
 #define UINT128_MAX UINT64_MAX
-#define UINT128_EPS UINT64_EPS
+#define UINT128_MASK UINT64_MASK
+#define UINT128_EPSILON UINT64_EPSILON
 #define UINT128_DIG UINT64_DIG
 #define UINT128_BITS (8 * sizeof(uint128_t))
 #define UINT128_BITS_LOG2 UINT64_BITS_LOG2
 #define UINT128_IN_FMT "s"
 #define UINT128_OUT_FMT "s"
-#define UINT128_EPS1 UINT64_EPS1
-#define UINT128_EPS2 UINT64_EPS2
-#define UINT128_EPS4 UINT64_EPS4
-#define UINT128_EPS8 UINT64_EPS8
-#define UINT128_EPS16 UINT64_EPS16
-#define UINT128_EPS32 UINT64_EPS32
-#define UINT128_EPS64 UINT64_EPS64
+#define UINT128_MASK1 UINT64_MASK1
+#define UINT128_MASK2 UINT64_MASK2
+#define UINT128_MASK4 UINT64_MASK4
+#define UINT128_MASK8 UINT64_MASK8
+#define UINT128_MASK16 UINT64_MASK16
+#define UINT128_MASK32 UINT64_MASK32
+#define UINT128_MASK64 UINT64_MASK64
 #define UINT128_DTYPE uint128_t
 #endif
 
@@ -471,32 +490,83 @@ typedef uint64_t uint128_t;
 #define CONST_INFINITY (1.0 / 0.0)
 #endif
 
+/**
+ * 8-bit float point number
+ * sign bit 1
+ * exp bit 3 (bias=5)
+ * fra bit 4
+ * value(sign, exp, bias, fra) = sign * fra * 2^(exp + bias)
+ */
+/** @{ */
 #define FLT8_MIN UINT8_MIN
 #define FLT8_MAX UINT8_MAX
 #define FLT8_NAN CONST_NAN
 #define FLT8_INF CONST_INFINITY
 #define FLT8_PINF CONST_INFINITY
 #define FLT8_NINF (-CONST_INFINITY)
-#define FLT8_EPS UINT8_EPS
-#define FLT8_DIG UINT8_EPS
+#define FLT8_EPSILON UINT8_EPSILON
+#define FLT8_DIG UINT8_EPSILON
+#define FLT8_MASK UINT8_MASK
+#define FLT8_EXP_DIG (3)
+#define FLT8_EXP_BIAS (0)
+#define FLT8_EXP_BITS FLT8_EXP_DIG
+#define FLT8_EXP_MASK (0x07U)
+#define FLT8_EXP_OFFSET (0)
+#define FLT8_FRAC_DIG (4)
+#define FLT8_FRAC_BIAS FLT8_EXP_BITS
+#define FLT8_FRAC_BITS FLT8_FRAC_DIG
+#define FLT8_FRAC_MASK (0x0FU)
+#define FLT8_FRAC_OFFSET (0)
+#define FLT8_SIG_DIG (0)
+#define FLT8_SIG_MASK (0)
+/** @} */
+
+/**
+ * 16-bit float point number
+ * sign bit 1
+ * exp bit 5 (bias=15)
+ * fra bit 10
+ * value(sign, exp, bias, fra) = sign * fra * 2^(exp + bias)
+ */
+/** @{ */
 #define FLT16_MIN UINT16_MIN
 #define FLT16_MAX UINT16_MAX
-#define FLT16_NAN CONST_NAN
+#define FLT16_NAN (0)
 #define FLT16_INF CONST_INFINITY
 #define FLT16_PINF CONST_INFINITY
 #define FLT16_NINF (-CONST_INFINITY)
-#define FLT16_EPS UINT16_EPS
-#define FLT16_DIG UINT16_EPS
-#define FLT_EPS UINT32_EPS
+#define FLT16_EPSILON UINT16_EPSILON
+#define FLT16_DIG (0)
+#define FLT16_MASK UINT16_MASK
+#define FLT16_EXP_DIG (5)
+#define FLT16_EXP_BIAS (0)
+#define FLT16_EXP_BITS FLT16_EXP_DIG
+#define FLT16_EXP_MASK (0x1FU)
+#define FLT16_EXP_OFFSET (0)
+#define FLT16_FRAC_DIG (10)
+#define FLT16_FRAC_BIAS (0)
+#define FLT16_FRAC_BITS FLT16_FRAC_DIG
+#define FLT16_FRAC_MASK (0x3FFU)
+#define FLT16_FRAC_OFFSET (0)
+#define FLT16_SIG_DIG (0)
+#define FLT16_SIG_MASK (0)
+/** @} */
+
+/** 32-bit float point number */
+/** @{ */
 #define FLT_NAN CONST_NAN
 #define FLT_INF CONST_INFINITY
 #define FLT_PINF CONST_INFINITY
 #define FLT_NINF (-CONST_INFINITY)
-#define DBL_EPS UINT64_EPS
+/** @} */
+
+/** 64-bit float point number */
+/** @{ */
 #define DBL_NAN CONST_NAN
 #define DBL_INF CONST_INFINITY
 #define DBL_PINF CONST_INFINITY
 #define DBL_NINF (-CONST_INFINITY)
+/** @} */
 
 /**< 128-bit float number */
 #if __STDC_VERSION__ >= 199901L || defined(__HAVE_LONG_DOUBLE)
@@ -508,18 +578,18 @@ typedef uint64_t uint128_t;
 #define __FLOAT128_INF (1.0 / 0.0)
 #define __FLOAT128_PINF (1.0 / 0.0)
 #define __FLOAT128_NINF (-1.0 / 0.0)
-#define __FLOAT128_EPS UINT128_EPS
+#define __FLOAT128_EPSILON UINT128_MASK
 #define __FLOAT128_DIG LDBL_DIG
 #define __FLOAT128_BITS (8 * sizeof(__FLOAT128))
 #define __FLOAT128_IN_FMT "Lg"
 #define __FLOAT128_OUT_FMT "Lg"
-#define __FLOAT128_HASH_OFS (12)
+#define __FLOAT128_HASH_OFFSET (12)
 #define __FLOAT128_FRA_BITS (15)
-#define __FLOAT128_FRA_OFS (0)
-#define __FLOAT128_FRA_EPS (0x7FFF)
+#define __FLOAT128_FRA_OFFSET (0)
+#define __FLOAT128_FRA_EPSILON (0x7FFF)
 #define __FLOAT128_EXP_BITS (64)
-#define __FLOAT128_EXP_OFS __FLOAT128_FRA_BITS
-#define __FLOAT128_EXP_EPS UINT64_EPS
+#define __FLOAT128_EXP_OFFSET __FLOAT128_FRA_BITS
+#define __FLOAT128_EXP_MASK UINT64_MASK
 #else
 #define __WITH_FLOAT128_SIZE64
 #define __FLOAT128 double
@@ -529,18 +599,18 @@ typedef uint64_t uint128_t;
 #define __FLOAT128_INF (1.0 / 0.0)
 #define __FLOAT128_PINF (1.0 / 0.0)
 #define __FLOAT128_NINF (-1.0 / 0.0)
-#define __FLOAT128_EPS DBL_EPS
+#define __FLOAT128_EPSILON DBL_EPSILON
 #define __FLOAT128_DIG DBL_DIG
 #define __FLOAT128_BITS (8 * sizeof(__FLOAT128))
 #define __FLOAT128_IN_FMT "g"
 #define __FLOAT128_OUT_FMT "g"
-#define __FLOAT128_HASH_OFS (8)
+#define __FLOAT128_HASH_OFFSET (8)
 #define __FLOAT128_FRA_BITS (11)
-#define __FLOAT128_FRA_OFS (0)
-#define __FLOAT128_FRA_EPS (0x7FFFU)
+#define __FLOAT128_FRA_OFFSET (0)
+#define __FLOAT128_FRA_EPSILON (0x7FFFU)
 #define __FLOAT128_EXP_BITS (52)
-#define __FLOAT128_EXP_OFS __FLOAT128_FRA_BITS
-#define __FLOAT128_EXP_EPS __extension__(0xFFFFFFFFFFFFFULL)
+#define __FLOAT128_EXP_OFFSET __FLOAT128_FRA_BITS
+#define __FLOAT128_EXP_MASK __extension__(0xFFFFFFFFFFFFFULL)
 #endif
 
 #if (__STDC_VERSION__ >= 201112L)
@@ -553,12 +623,14 @@ typedef uint64_t uint128_t;
 #define __TYPE_ELEMENT(type, element) ((type).element)
 #endif
 
+#ifndef __FUNCTION__
 #if (__STDC_VERSION__ >= 199901L) || defined(__HAVE_FUNC) || defined(__func__)
 #define __FUNCTION__ __func__
 #elif defined(__function__)
 #define __FUNCTION__ __function__
-#elif !defined(__FUNCTION__)
+#else
 #define __FUNCTION__ NULL
+#endif
 #endif
 
 #if __STDC_VERSION__ >= 199901L

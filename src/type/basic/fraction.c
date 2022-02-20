@@ -188,10 +188,18 @@ __INLINE TYPE FUNCTION(NAME, ninf)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, eps)(void) {
+__INLINE TYPE FUNCTION(NAME, mask)(void) {
   TYPE res;
-  FRACTION_NUM(res) = DATA_MIN;
-  FRACTION_DEN(res) = DATA_MIN;
+  FRACTION_NUM(res) = DATA_MASK;
+  FRACTION_DEN(res) = DATA_MASK;
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, epsilon)(void) {
+  TYPE res;
+  FRACTION_NUM(res) = 1;
+  FRACTION_DEN(res) = DATA_MAX;
 
   return res;
 }
@@ -348,6 +356,10 @@ __INLINE TYPE FUNCTION(NAME, opp)(const TYPE x) {
   FRACTION_DEN(res) = FRACTION_DEN(x);
 
   return res;
+}
+
+cgraph_float64_t FUNCTION(NAME, fabs)(const TYPE x) {
+  return fabs(FRACTION_VALUE(x));
 }
 
 __INLINE TYPE FUNCTION(NAME, abs)(const TYPE x) {

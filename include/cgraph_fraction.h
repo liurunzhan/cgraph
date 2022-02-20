@@ -32,9 +32,10 @@ extern "C" {
 #define DATA_ONES CGRAPH_INT_MAX
 #define DATA_MIN CGRAPH_INT_MIN
 #define DATA_MAX CGRAPH_INT_MAX
+#define DATA_MASK CGRAPH_INT_MASK
+#define DATA_EPSILON CGRAPH_INT_EPSILON
 #define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
 #define DATA_LSB (DATA_ONE)
-#define DATA_EPS CGRAPH_INT_EPS
 
 #define NAME fraction
 #define TYPE TYPE_T(NAME)
@@ -53,7 +54,8 @@ extern "C" {
 #define INF ((TYPE){{DATA_ONE, DATA_ZERO}})
 #define PINF ((TYPE){{DATA_ONE, DATA_ZERO}})
 #define NINF ((TYPE){{-DATA_ONE, DATA_ZERO}})
-#define EPS ((TYPE){{DATA_MIN, DATA_MIN}})
+#define MASK ((TYPE){{DATA_MASK, DATA_MASK}})
+#define EPSILON ((TYPE){{1, DATA_MAX}})
 #else
 #define ZERO FUNCTION(NAME, zero)()
 #define ONE FUNCTION(NAME, one)()
@@ -64,9 +66,9 @@ extern "C" {
 #define INF FUNCTION(NAME, inf)()
 #define PINF FUNCTION(NAME, pinf)()
 #define NINF FUNCTION(NAME, ninf)()
-#define EPS FUNCTION(NAME, eps)()
+#define MASK FUNCTION(NAME, mask)()
+#define EPSILON FUNCTION(NAME, epsilon)()
 #endif
-#define EPS_LEN (8 * sizeof(TYPE))
 
 /**
  * @struct cgraph_fraction_t
@@ -85,7 +87,8 @@ typedef struct {
 #include "cgraph_template_cbuf.ht"
 #include "cgraph_template_data.ht"
 
-extern TYPE FUNCTION(NAME, eps)(void);
+extern TYPE FUNCTION(NAME, mask)(void);
+extern TYPE FUNCTION(NAME, epsilon)(void);
 extern TYPE FUNCTION(NAME, acc)(void);
 
 /** initial functions */
@@ -114,6 +117,8 @@ extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);
 extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
+
+extern cgraph_float64_t FUNCTION(NAME, fabs)(const TYPE x);
 
 #ifdef __cplusplus
 }

@@ -1,13 +1,7 @@
 SOURCES = dy_graph.c st_graph.c
 
-if DEBUG
-MODE_FLAGS            = -DDEBUG
-else
-MODE_FLAGS            = 
-endif
-FLAGS                 = -I$(top_srcdir)/include -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
 noinst_LTLIBRARIES    = libgraph.la
-libgraph_la_CFLAGS    = $(FLAGS)
+libgraph_la_CFLAGS    = -I$(top_srcdir)/include $(COMPILE_FLAGS)
 libgraph_la_LDFLAGS   = -lm -no-undefined
 libgraph_la_SOURCES   = $(SOURCES)
 

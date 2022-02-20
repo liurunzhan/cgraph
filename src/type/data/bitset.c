@@ -5,15 +5,15 @@
 #include "cgraph_bitset.h"
 
 /** private apis  */
-#define BITSET_BIT_EPS1(pos) (__bitset_bit_eps1__[BITSET_BIT_POSTION(pos)])
-#define BITSET_BIT_EPS0(pos) (__bitset_bit_eps0__[BITSET_BIT_POSTION(pos)])
-#define BITSET_BIT_REPS1(pos) (__bitset_bit_reps1__[BITSET_BIT_POSTION(pos)])
-#define BITSET_BIT_LEPS1(pos) (__bitset_bit_leps1__[BITSET_BIT_POSTION(pos)])
+#define BITSET_BIT_MASK1(pos) (__bitset_bit_mask1__[BITSET_BIT_POSTION(pos)])
+#define BITSET_BIT_MASK0(pos) (__bitset_bit_mask0__[BITSET_BIT_POSTION(pos)])
+#define BITSET_BIT_RMASK1(pos) (__bitset_bit_rmask1__[BITSET_BIT_POSTION(pos)])
+#define BITSET_BIT_LMASK1(pos) (__bitset_bit_lmask1__[BITSET_BIT_POSTION(pos)])
 
-#define BITSET_GET_REPS1(x) BITSET_BIT_REPS1(BITSET_BITNUM(x))
-#define BITSET_GET_RHALFEPS1(x) BITSET_BIT_REPS1(BITSET_HALF(x))
-#define BITSET_GET_LEPS1(x) BITSET_BIT_LEPS1(BITSET_BITNUM(x))
-#define BITSET_GET_LHALFEPS1(x) BITSET_BIT_LEPS1(BITSET_HALF(x))
+#define BITSET_GET_RMASK1(x) BITSET_BIT_RMASK1(BITSET_BITNUM(x))
+#define BITSET_GET_RHALFMASK1(x) BITSET_BIT_RMASK1(BITSET_HALF(x))
+#define BITSET_GET_LMASK1(x) BITSET_BIT_LMASK1(BITSET_BITNUM(x))
+#define BITSET_GET_LHALFMASK1(x) BITSET_BIT_LMASK1(BITSET_HALF(x))
 
 #define BITSET_BITPOS_UPDATE(x, pos)                                           \
   do {                                                                         \
@@ -21,7 +21,7 @@
     BITSET_BITNUM(x) = BITSET_POS2NUM(BITSET_BITPOS(x));                       \
     BITSET_HALF(x) = (BITSET_BITNUM(x) - 4);                                   \
     BITSET_GRHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
-    (x)->data[(x)->len - 1] &= BITSET_GET_REPS1(x);                            \
+    (x)->data[(x)->len - 1] &= BITSET_GET_RMASK1(x);                           \
   } while (0)
 #define BITSET_BITNUM_UPDATE(x, num)                                           \
   do {                                                                         \
@@ -29,16 +29,16 @@
     BITSET_BITNUM(x) = (num);                                                  \
     BITSET_HALF(x) = (BITSET_BITNUM(x) - 4);                                   \
     BITSET_GRHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
-    (x)->data[(x)->len - 1] &= BITSET_GET_REPS1(x);                            \
+    (x)->data[(x)->len - 1] &= BITSET_GET_RMASK1(x);                           \
   } while (0)
 
-static const DATA_TYPE __bitset_bit_eps1__[DATA_BITS] = {
+static const DATA_TYPE __bitset_bit_mask1__[DATA_BITS] = {
     0x80U, 0x01U, 0x02U, 0x04U, 0x08U, 0x10U, 0x20U, 0x40U};
-static const DATA_TYPE __bitset_bit_eps0__[DATA_BITS] = {
+static const DATA_TYPE __bitset_bit_mask0__[DATA_BITS] = {
     0x7FU, 0xFEU, 0xFDU, 0xFBU, 0xF7U, 0xEFU, 0xDFU, 0xBFU};
-static const DATA_TYPE __bitset_bit_reps1__[DATA_BITS] = {
+static const DATA_TYPE __bitset_bit_rmask1__[DATA_BITS] = {
     0xFFU, 0x01U, 0x03U, 0x07U, 0x0FU, 0x1FU, 0x3FU, 0x7FU};
-static const DATA_TYPE __bitset_bit_leps1__[DATA_BITS] = {
+static const DATA_TYPE __bitset_bit_lmask1__[DATA_BITS] = {
     0x00U, 0xFEU, 0xFCU, 0xF8U, 0xF0U, 0xE0U, 0xC0U, 0x80U};
 
 /** template module */
@@ -61,11 +61,11 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
 #endif
     fputs("0b", fp);
     for (j = BITSET_BITNUM(cthis); j > 0; j--) {
-      fputc(cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j)), fp);
+      fputc(cgraph_math_dec2bin(*data & BITSET_BIT_MASK1(j)), fp);
     }
     for (i = 1, data--; i < cthis->len; i++, data--) {
       for (j = DATA_BITS; j > 0; j--) {
-        fputc(cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j)), fp);
+        fputc(cgraph_math_dec2bin(*data & BITSET_BIT_MASK1(j)), fp);
       }
     }
   }
@@ -81,11 +81,11 @@ cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
     len = 2 + cthis->len * 2;
     fputs("0x", fp);
     if (BITSET_GRHALF(cthis)) {
-      fputc(cgraph_math_dec2hex((*data >> 4) & BITSET_GET_RHALFEPS1(cthis)),
+      fputc(cgraph_math_dec2hex((*data >> 4) & BITSET_GET_RHALFMASK1(cthis)),
             fp);
       fputc(cgraph_math_dec2hex((*(data)) & 0xFU), fp);
     } else {
-      fputc(cgraph_math_dec2hex(*(data)&BITSET_GET_REPS1(cthis)), fp);
+      fputc(cgraph_math_dec2hex(*(data)&BITSET_GET_RMASK1(cthis)), fp);
     }
     for (i = 1, data--; i < cthis->len; i++, data--) {
       fputc(cgraph_math_dec2hex((*data >> 4) & 0xFU), fp);
@@ -112,11 +112,11 @@ cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuf,
     cbuf[len++] = '0';
     cbuf[len++] = 'b';
     for (j = BITSET_BITNUM(cthis); j > DATA_BITS; j--) {
-      cbuf[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j));
+      cbuf[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_MASK1(j));
     }
     for (i = 1, data--; i < cthis->len; data--, i++) {
       for (j = DATA_BITS; (len < _size) && (0 < j); j--) {
-        cbuf[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_EPS1(j));
+        cbuf[len++] = cgraph_math_dec2bin(*data & BITSET_BIT_MASK1(j));
       }
     }
     cbuf[len] = '\0';
@@ -136,11 +136,11 @@ cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuf,
     cbuf[len++] = 'x';
     if (BITSET_GRHALF(cthis)) {
       cbuf[len++] =
-          cgraph_math_dec2hex((*data >> 4) & BITSET_GET_RHALFEPS1(cthis));
+          cgraph_math_dec2hex((*data >> 4) & BITSET_GET_RHALFMASK1(cthis));
       cbuf[len++] = cgraph_math_dec2hex((*(data) >> 4) & 0xFU);
     } else {
       cbuf[len++] =
-          cgraph_math_dec2hex((*(data) >> 4) & BITSET_GET_REPS1(cthis));
+          cgraph_math_dec2hex((*(data) >> 4) & BITSET_GET_RMASK1(cthis));
     }
     for (i = 1, data--; i < cthis->len; data--, i++) {
       if (len > _size) {
@@ -162,8 +162,8 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   cgraph_size_t hash = 0;
   if (NULL != cthis) {
     cgraph_size_t i = cthis->len - 1;
-    hash =
-        (hash << 4) ^ (hash >> 28) ^ (cthis->data[i] & BITSET_GET_REPS1(cthis));
+    hash = (hash << 4) ^ (hash >> 28) ^
+           (cthis->data[i] & BITSET_GET_RMASK1(cthis));
     for (i--; i >= 0; i--) {
       hash = (hash << 4) ^ (hash >> 28) ^ cthis->data[i];
     }
@@ -229,7 +229,7 @@ TYPE *FUNCTION(NAME, set)(TYPE *cthis, const cgraph_size_t postion) {
     cgraph_size_t bits = BITSET_BITS_NUM(cthis),
                   _postion = BITSET_POS2POS(postion, bits);
     if (_postion <= bits) {
-      cthis->data[BITSET_BYTE_POSTION(_postion)] |= BITSET_BIT_EPS1(_postion);
+      cthis->data[BITSET_BYTE_POSTION(_postion)] |= BITSET_BIT_MASK1(_postion);
     }
   }
 
@@ -241,7 +241,7 @@ TYPE *FUNCTION(NAME, clr)(TYPE *cthis, const cgraph_size_t postion) {
     cgraph_size_t bits = BITSET_BITS_NUM(cthis),
                   _postion = BITSET_POS2POS(postion, bits);
     if (_postion <= bits) {
-      cthis->data[BITSET_BYTE_POSTION(_postion)] &= BITSET_BIT_EPS0(_postion);
+      cthis->data[BITSET_BYTE_POSTION(_postion)] &= BITSET_BIT_MASK0(_postion);
     }
   }
 
@@ -509,8 +509,8 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   if ((NULL != x) && (NULL != y) && (x->len == y->len) &&
       (BITSET_BITNUM(x) == BITSET_BITNUM(y))) {
     DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
-    DATA_TYPE xd_bits = *xd & BITSET_GET_REPS1(x),
-              yd_bits = *yd & BITSET_GET_REPS1(y);
+    DATA_TYPE xd_bits = *xd & BITSET_GET_RMASK1(x),
+              yd_bits = *yd & BITSET_GET_RMASK1(y);
     if (xd_bits == yd_bits) {
       cgraph_size_t i = 1;
       for (xd--, yd--, flag = CGRAPH_TRUE; i < x->len; i++, xd--, yd--) {
@@ -533,8 +533,8 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
     if (x->len == y->len) {
       if (BITSET_BITNUM(x) == BITSET_BITNUM(y)) {
         DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
-        DATA_TYPE xd_bits = *xd & BITSET_GET_REPS1(x),
-                  yd_bits = *yd & BITSET_GET_REPS1(y);
+        DATA_TYPE xd_bits = *xd & BITSET_GET_RMASK1(x),
+                  yd_bits = *yd & BITSET_GET_RMASK1(y);
         if (xd_bits == yd_bits) {
           cgraph_size_t i = 1;
           for (xd--, yd--; (*xd == *yd) && (i < x->len); i++, xd--, yd--) {
@@ -682,7 +682,7 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis) {
 TYPE *FUNCTION(NAME, unit)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_memset(cthis->data, DATA_MAX, cthis->len);
-    cthis->data[cthis->len - 1] &= BITSET_GET_REPS1(cthis);
+    cthis->data[cthis->len - 1] &= BITSET_GET_RMASK1(cthis);
   }
 
   return cthis;
@@ -691,7 +691,7 @@ TYPE *FUNCTION(NAME, unit)(TYPE *cthis) {
 TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_memset(cthis->data, DATA_MIN, cthis->len);
-    cthis->data[cthis->len - 1] &= BITSET_GET_REPS1(cthis);
+    cthis->data[cthis->len - 1] &= BITSET_GET_RMASK1(cthis);
   }
 
   return cthis;

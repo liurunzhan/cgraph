@@ -61,17 +61,17 @@ static TYPE *FUNCTION(NAME, _datadd)(TYPE *x, TYPE *y, TYPE *z) {
   cgraph_int_t sum;
   for (i = 0; i < len; i++, xd++, yd++, zd++) {
     sum = (*xd + *yd + carry);
-    *zd = sum & DATA_EPS;
+    *zd = sum & DATA_MASK;
     carry = sum >> DATA_BITS;
   }
   for (; i < x->len; i++, xd++, zd++) {
     sum = (*xd + carry);
-    *zd = sum & DATA_EPS;
+    *zd = sum & DATA_MASK;
     carry = sum >> DATA_BITS;
   }
   for (; i < y->len; i++, yd++, zd++) {
     sum = (*yd + carry);
-    *zd = sum & DATA_EPS;
+    *zd = sum & DATA_MASK;
     carry = sum >> DATA_BITS;
   }
   if (0 != carry) {
@@ -129,7 +129,7 @@ static TYPE *FUNCTION(NAME, _datadd1)(TYPE *cthis) {
   DATA_TYPE *xd = &(cthis->data[0]);
   CGRAPH_LOOP(i, 0, cthis->len)
   sum = *xd + carry;
-  *(xd++) = sum & DATA_EPS;
+  *(xd++) = sum & DATA_MASK;
   carry = sum >> DATA_BITS;
   CGRAPH_LOOP_END
   if (0 != carry) {
@@ -474,7 +474,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
         for (carry = 0, j = 0, yd = &(y->data[0]), zd = &(z->data[i]);
              j < y->len; j++, yd++, zd++) {
           sum = *zd + (*xd) * (*yd) + carry;
-          *zd = sum & DATA_EPS;
+          *zd = sum & DATA_MASK;
           carry = sum >> DATA_BITS;
         }
         *zd = carry;
@@ -907,7 +907,7 @@ TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4) {
       if ('.' != *ipv4_ptr) {
         byte = byte * 10 + (*ipv4_ptr - '0');
       } else {
-        cthis->data[cthis->len++] = (byte & DATA_EPS);
+        cthis->data[cthis->len++] = (byte & DATA_MASK);
         split_cnt += 1;
         byte = 0;
       }
@@ -936,7 +936,7 @@ TYPE *FUNCTION(NAME, ipv6)(TYPE *cthis, const cgraph_char_t *ipv6) {
       } else {
         cgraph_size_t bits = 16 - DATA_BITS;
         for (; bits >= 0; bits -= DATA_BITS) {
-          cthis->data[cthis->len++] = ((byte >> bits) & DATA_EPS);
+          cthis->data[cthis->len++] = ((byte >> bits) & DATA_MASK);
         }
         byte = 0;
         split_cnt += 1;
