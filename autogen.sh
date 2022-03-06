@@ -141,4 +141,5 @@ echo ">>> then please run ./configure with options you want to generate Makefile
 else
 echo ">>> ERROR : configure with errors happen"
 echo ">>> please check all needed tools and files, and then re-run this script"
+exit 1
 fi

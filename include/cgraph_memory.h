@@ -48,6 +48,19 @@ extern void *cgraph_memrchr(const void *memory, cgraph_int_t ch,
                             const cgraph_size_t len);
 extern void cgraph_free(void *memory);
 
+extern cgraph_size_t cgraph_bitlen(const void *memory, const cgraph_size_t len);
+
+typedef cgraph_bool_t (*cgraph_memeq0_func_t)(const void *data);
+extern cgraph_size_t cgraph_datlen(const void *memory, const cgraph_size_t len,
+                                   const cgraph_size_t datsize,
+                                   cgraph_memeq0_func_t func);
+
+typedef cgraph_bool_t (*cgraph_memeq_func_t)(const void *x, const void *y);
+extern cgraph_bool_t cgraph_datcmp(const void *trg_mem, const void *src_mem,
+                                   const cgraph_size_t len,
+                                   const cgraph_size_t datsize,
+                                   cgraph_memeq_func_t func);
+
 /*
  * c-type string management functions:
  * 1) is packaged with standard library functions

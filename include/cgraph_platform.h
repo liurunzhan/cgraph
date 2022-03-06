@@ -498,13 +498,13 @@ typedef uint64_t uint128_t;
  * value(sign, exp, bias, fra) = sign * fra * 2^(exp + bias)
  */
 /** @{ */
-#define FLT8_MIN UINT8_MIN
-#define FLT8_MAX UINT8_MAX
-#define FLT8_NAN CONST_NAN
-#define FLT8_INF CONST_INFINITY
-#define FLT8_PINF CONST_INFINITY
-#define FLT8_NINF (-CONST_INFINITY)
-#define FLT8_EPSILON UINT8_EPSILON
+#define FLT8_MIN (0xEFU)
+#define FLT8_MAX (0x6FU)
+#define FLT8_NAN (0x7FU)
+#define FLT8_INF (0x70U)
+#define FLT8_PINF FLT8_INF
+#define FLT8_NINF (0xF0U)
+#define FLT8_EPSILON (0x10U)
 #define FLT8_DIG UINT8_EPSILON
 #define FLT8_MASK UINT8_MASK
 #define FLT8_EXP_DIG (3)
@@ -529,13 +529,13 @@ typedef uint64_t uint128_t;
  * value(sign, exp, bias, fra) = sign * fra * 2^(exp + bias)
  */
 /** @{ */
-#define FLT16_MIN UINT16_MIN
-#define FLT16_MAX UINT16_MAX
-#define FLT16_NAN (0)
-#define FLT16_INF CONST_INFINITY
-#define FLT16_PINF CONST_INFINITY
-#define FLT16_NINF (-CONST_INFINITY)
-#define FLT16_EPSILON UINT16_EPSILON
+#define FLT16_MIN (0xFEFFU)
+#define FLT16_MAX (0x7EFFU)
+#define FLT16_NAN (0x7FFFU)
+#define FLT16_INF (0x7C00U)
+#define FLT16_PINF FLT16_INF
+#define FLT16_NINF (0xFC00U)
+#define FLT16_EPSILON (0x0100U)
 #define FLT16_DIG (0)
 #define FLT16_MASK UINT16_MASK
 #define FLT16_EXP_DIG (5)

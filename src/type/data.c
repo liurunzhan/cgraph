@@ -2,6 +2,12 @@
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
+cgraph_logic_t cgraph_bool_to_logic(const cgraph_bool_t x) { return x; }
+
+cgraph_bool_t cgraph_logic_to_bool(const cgraph_logic_t x) {
+  return (CGRAPH_L1 == x) ? CGRAPH_TRUE : CGRAPH_FALSE;
+}
+
 cgraph_string_t *cgraph_bool_to_string(const cgraph_bool_t x) {
 
   cgraph_char_t *data = cgraph_bool_encode(x);
@@ -108,4 +114,100 @@ cgraph_bigint_t *cgraph_bitset_to_bigint(const cgraph_bitset_t *cthis) {
   }
 
   return bigint;
+}
+
+cgraph_float16_t cgraph_float8_to_float16(const cgraph_float8_t x) {
+  cgraph_float16_t res;
+
+  return res;
+}
+
+cgraph_float32_t cgraph_float8_to_float32(const cgraph_float8_t x) {
+  cgraph_float32_t res;
+
+  return res;
+}
+
+cgraph_float64_t cgraph_float8_to_float64(const cgraph_float8_t x) {
+  cgraph_float64_t res;
+
+  return res;
+}
+
+cgraph_float128_t cgraph_float8_to_float128(const cgraph_float8_t x) {
+  cgraph_float128_t res;
+
+  return res;
+}
+
+cgraph_float8_t cgraph_float16_to_float8(const cgraph_float16_t x) {
+  cgraph_float8_t res;
+
+  return res;
+}
+
+cgraph_float32_t cgraph_float16_to_float32(const cgraph_float16_t x) {
+  cgraph_float32_t res;
+
+  return res;
+}
+
+cgraph_float64_t cgraph_float16_to_float64(const cgraph_float16_t x) {
+  cgraph_float64_t res;
+
+  return res;
+}
+
+cgraph_float128_t cgraph_float16_to_float128(const cgraph_float16_t x) {
+  cgraph_float128_t res;
+
+  return res;
+}
+
+cgraph_float8_t cgraph_float32_to_float8(const cgraph_float32_t x) {
+  cgraph_float8_t res;
+
+  return res;
+}
+
+cgraph_float16_t cgraph_float32_to_float16(const cgraph_float32_t x) {
+  cgraph_float16_t res;
+
+  return res;
+}
+
+cgraph_float64_t cgraph_float32_to_float64(const cgraph_float32_t x) {
+  cgraph_float64_t res;
+
+  return res;
+}
+
+cgraph_float128_t cgraph_float32_to_float128(const cgraph_float32_t x) {
+  cgraph_float128_t res;
+
+  return res;
+}
+
+cgraph_float8_t cgraph_float64_to_float8(const cgraph_float64_t x) {
+  cgraph_float8_t res;
+
+  return res;
+}
+
+cgraph_float16_t cgraph_float64_to_float16(const cgraph_float64_t x) {
+  cgraph_float16_t res;
+
+  return res;
+}
+
+cgraph_float32_t cgraph_float64_to_float32(const cgraph_float64_t x) {
+  cgraph_float32_t res;
+
+  return res;
+}
+
+cgraph_float128_t cgraph_float64_to_float128(const cgraph_float64_t x) {
+  cgraph_float128_t res;
+
+  return res;
 }

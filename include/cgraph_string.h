@@ -30,7 +30,7 @@ extern "C" {
 #define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(CHAR)
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
-#define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitsceil)((x))
+#define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitceil)((x))
 #define DATA_END ('\0')
 #define DATA_ZERO ('0')
 #define DATA_ONE ('1')

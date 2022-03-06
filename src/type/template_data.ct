@@ -644,14 +644,13 @@ TYPE **FUNCTION(NAME, zeros1v)(TYPE **cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, zeros1v)(TYPE *cthis, const cgraph_size_t len) {
 #endif
   if (NULL != cthis) {
-    cgraph_size_t i;
-    for (i = 0; i < len; i++) {
+    CGRAPH_LOOP(i, 0, len)
 #ifdef TYPE_WITH_DATA
-      cthis[i] = FUNCTION(NAME, zero)(cthis[i]);
+    cthis[i] = FUNCTION(NAME, zero)(cthis[i]);
 #else
-      cthis[i] = FUNCTION(NAME, zero)();
+    cthis[i] = FUNCTION(NAME, zero)();
 #endif
-    }
+    CGRAPH_LOOP_END
   }
 
   return cthis;
@@ -663,14 +662,13 @@ TYPE **FUNCTION(NAME, ones1v)(TYPE **cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, ones1v)(TYPE *cthis, const cgraph_size_t len) {
 #endif
   if (NULL != cthis) {
-    cgraph_size_t i;
-    for (i = 0; i < len; i++) {
+    CGRAPH_LOOP(i, 0, len)
 #ifdef TYPE_WITH_DATA
-      cthis[i] = FUNCTION(NAME, one)(cthis[i]);
+    cthis[i] = FUNCTION(NAME, one)(cthis[i]);
 #else
-      cthis[i] = FUNCTION(NAME, one)();
+    cthis[i] = FUNCTION(NAME, one)();
 #endif
-    }
+    CGRAPH_LOOP_END
   }
 
   return cthis;
@@ -682,14 +680,13 @@ TYPE **FUNCTION(NAME, rand1v)(TYPE **cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, rand1v)(TYPE *cthis, const cgraph_size_t len) {
 #endif
   if (NULL != cthis) {
-    cgraph_size_t i;
-    for (i = 0; i < len; i++) {
+    CGRAPH_LOOP(i, 0, len)
 #ifdef TYPE_WITH_DATA
-      cthis[i] = FUNCTION(NAME, rand)(cthis[i]);
+    cthis[i] = FUNCTION(NAME, rand)(cthis[i]);
 #else
-      cthis[i] = FUNCTION(NAME, rand)();
+    cthis[i] = FUNCTION(NAME, rand)();
 #endif
-    }
+    CGRAPH_LOOP_END
   }
 
   return cthis;
@@ -783,10 +780,9 @@ TYPE *FUNCTION(NAME, for1v)(TYPE *x, const cgraph_size_t len,
                             cgraph_pfunc1_t func)
 #endif
 {
-  cgraph_size_t i = 0;
-  for (; i < len; i++) {
-    func((TYPE *)&x[i]);
-  }
+  CGRAPH_LOOP(i, 0, len)
+  func((TYPE *)&x[i]);
+  CGRAPH_LOOP_END
 
   return x;
 }
@@ -799,10 +795,9 @@ TYPE *FUNCTION(NAME, for2v)(const TYPE *x, TYPE *y, const cgraph_size_t len,
                             cgraph_pfunc2_t func)
 #endif
 {
-  cgraph_size_t i = 0;
-  for (; i < len; i++) {
-    func((TYPE *)&x[i], &y[i]);
-  }
+  CGRAPH_LOOP(i, 0, len)
+  func((TYPE *)&x[i], &y[i]);
+  CGRAPH_LOOP_END
 
   return y;
 }
@@ -815,10 +810,9 @@ TYPE FUNCTION(NAME, for2vc)(const TYPE *x, TYPE y, const cgraph_size_t len,
                             cgraph_pfunc2_t func)
 #endif
 {
-  cgraph_size_t i = 0;
-  for (; i < len; i++) {
-    func((TYPE *)&x[i], (TYPE *)&y);
-  }
+  CGRAPH_LOOP(i, 0, len)
+  func((TYPE *)&x[i], (TYPE *)&y);
+  CGRAPH_LOOP_END
 
   return y;
 }
@@ -831,10 +825,9 @@ TYPE *FUNCTION(NAME, for3v)(const TYPE *x, const TYPE *y, TYPE *z,
                             const cgraph_size_t len, cgraph_pfunc3_t func)
 #endif
 {
-  cgraph_size_t i = 0;
-  for (; i < len; i++) {
-    func((TYPE *)&x[i], (TYPE *)&y[i], &z[i]);
-  }
+  CGRAPH_LOOP(i, 0, len)
+  func((TYPE *)&x[i], (TYPE *)&y[i], &z[i]);
+  CGRAPH_LOOP_END
 
   return z;
 }
@@ -847,10 +840,9 @@ TYPE FUNCTION(NAME, for3vvc)(const TYPE *x, const TYPE *y, TYPE z,
                              const cgraph_size_t len, cgraph_pfunc3_t func)
 #endif
 {
-  cgraph_size_t i = 0;
-  for (; i < len; i++) {
-    func((TYPE *)&x[i], (TYPE *)&y[i], (TYPE *)&z);
-  }
+  CGRAPH_LOOP(i, 0, len)
+  func((TYPE *)&x[i], (TYPE *)&y[i], (TYPE *)&z);
+  CGRAPH_LOOP_END
 
   return z;
 }
@@ -863,10 +855,9 @@ TYPE *FUNCTION(NAME, for3vcv)(const TYPE *x, const TYPE y, TYPE *z,
                               const cgraph_size_t len, cgraph_pfunc3_t func)
 #endif
 {
-  cgraph_size_t i = 0;
-  for (; i < len; i++) {
-    func((TYPE *)&x[i], (TYPE *)&y, &z[i]);
-  }
+  CGRAPH_LOOP(i, 0, len)
+  func((TYPE *)&x[i], (TYPE *)&y, &z[i]);
+  CGRAPH_LOOP_END
 
   return z;
 }
@@ -879,10 +870,9 @@ TYPE FUNCTION(NAME, for3cvc)(const TYPE x, const TYPE *y, TYPE z,
                              const cgraph_size_t len, cgraph_pfunc3_t func)
 #endif
 {
-  cgraph_size_t i = 0;
-  for (; i < len; i++) {
-    func((TYPE *)&x, (TYPE *)&y[i], (TYPE *)&z);
-  }
+  CGRAPH_LOOP(i, 0, len)
+  func((TYPE *)&x, (TYPE *)&y[i], (TYPE *)&z);
+  CGRAPH_LOOP_END
 
   return z;
 }

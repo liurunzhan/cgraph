@@ -97,6 +97,7 @@ stamp-h1
 ar-lib
 *.tar.gz
 /cgraph-*
+build.log
 
 # Doc/Markdown Files
 *.orig
@@ -106,6 +107,12 @@ doc/*
 !doc/build-gtk-doc.sh
 !doc/*.pl
 !doc/Introduction.md
+!doc/cgraph-decl.txt
+!doc/cgraph-overrides.txt
+!doc/cgraph-docs.xml
+!doc/cgraph-sections.txt
+!doc/cgraph.types
+src/*.txt
 
 # Compile Scripts
 [0-9]*

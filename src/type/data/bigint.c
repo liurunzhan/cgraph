@@ -648,8 +648,8 @@ TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis) {
 TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
   if ((NULL != cthis) && (0 < bits)) {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitsfloor)(bits),
-                  byte = FUNCTION(DATA_NAME, bitsmod)(bits),
+    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(bits),
+                  byte = FUNCTION(DATA_NAME, bitmod)(bits),
                   byte_right = DATA_BITS - byte;
     cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, cthis->size,
                                     cthis->len + bytes + 1, &flag);
@@ -674,8 +674,8 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
 
 TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
   if (CGRAPH_HASDATA(cthis) && (0 < bits)) {
-    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitsfloor)(bits),
-                  byte = FUNCTION(DATA_NAME, bitsmod)(bits),
+    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(bits),
+                  byte = FUNCTION(DATA_NAME, bitmod)(bits),
                   byte_left = DATA_BITS - byte;
     cgraph_size_t i = 0, j = bytes, _len = cthis->len - 1;
     DATA_TYPE msk = ~(-1U << byte);

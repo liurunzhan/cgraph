@@ -7,28 +7,35 @@
  * msb                                    lsb
  * [sign bit] [exponent bits] [fraction bits]
  * x = frac * 2 ^ (exp - bias)
- * |          | sig(ub) | exp(ub) | frac(ub) | bias(ud) |
+ * |          | sig(ub) | exp(ub) | bias(ud) | frac(ub) |
  * |   :-:    |   :-:   |   :-:   |   :-:    |   :-:    |
- * | float8   |    1    |     3   |      4   |       3  |
- * | float16  |    1    |     7   |      8   |      63  |
- * | float32  |    1    |     8   |     23   |     127  |
- * | float64  |    1    |    11   |     52   |    1023  |
- * | float80  |    1    |    15   |     63   |   16383  |
- * | float128 |    1    |    15   |    112   |   16383  |
- * where ub means unsigned bit
- *       ud means unsigned decimal number
+ * | float8   |    1    |     3   |       3  |      4   |
+ * | float16  |    1    |     7   |      63  |      8   |
+ * | float32  |    1    |     8   |     127  |     23   |
+ * | float64  |    1    |    11   |    1023  |     52   |
+ * | float80  |    1    |    15   |   16383  |     63   |
+ * | float128 |    1    |    15   |   16383  |    112   |
+ * where
+ *   1) ub is unsigned bit
+ *   2) ud is unsigned decimal number
  */
 
-TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x | (((1U << y) & FRAC_MASK) << FRAC_OFFSET));
+TYPE FUNCTION(NAME, tofrac_s)(const cgraph_int_t x) {
+  cgraph_size_t bits = x;
+
+  return x;
+}
+
+TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t bit) {
+  return (TYPE)(x | (((1U << bit) & FRAC_MASK) << FRAC_OFFSET));
 }
 
 TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y) {
   return FLOAT_SOFT_FRAC_SET(x, y);
 }
 
-TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x & ((~((1U << y) & FRAC_MASK)) << FRAC_OFFSET));
+TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t bit) {
+  return (TYPE)(x & ((~((1U << bit) & FRAC_MASK)) << FRAC_OFFSET));
 }
 
 TYPE FUNCTION(NAME, clrfracs_s)(const TYPE x) { return FLOAT_SOFT_FRAC_CLR(x); }
@@ -75,16 +82,16 @@ TYPE FUNCTION(NAME, divfrac_s)(const TYPE x, const cgraph_int_t y) {
   return res;
 }
 
-TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x | (((1U << y) & EXP_MASK) << EXP_OFFSET));
+TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t bit) {
+  return (TYPE)(x | (((1U << bit) & EXP_MASK) << EXP_OFFSET));
 }
 
 TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y) {
   return FLOAT_SOFT_EXP_SET(x, y);
 }
 
-TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y) {
-  return (TYPE)(x & ((~((1U << y) & EXP_MASK)) << EXP_OFFSET));
+TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t bit) {
+  return (TYPE)(x & ((~((1U << bit) & EXP_MASK)) << EXP_OFFSET));
 }
 
 TYPE FUNCTION(NAME, clrexps_s)(const TYPE x) { return FLOAT_SOFT_EXP_CLR(x); }
@@ -155,12 +162,29 @@ cgraph_float64_t FUNCTION(NAME, tof64)(const TYPE x) {
   return res;
 }
 
+TYPE FUNCTION(NAME, format_s)(const TYPE x) {
+  TYPE res;
+  DATA_TYPE exp = FLOAT_SOFT_EXP(x), frac = FLOAT_SOFT_FRAC_FMT(x);
+  while (0 == (frac & (0x01U << (FRAC_OFFSET - 1)))) {
+    frac >>= 1;
+    exp += 1;
+  }
+  res = FLOAT_SOFT_TOFRAC(frac);
+  res += FLOAT_SOFT_TOEXP(exp);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, one_s)(void) { return EXP_MASK << EXP_OFFSET; }
+
+TYPE FUNCTION(NAME, zero_s)(void) { return 0; }
+
 TYPE FUNCTION(NAME, opp_s)(const TYPE x) {
   return (TYPE)(x ^ (SIG_MASK << SIG_OFFSET));
 }
 
 TYPE FUNCTION(NAME, fabs_s)(const TYPE x) {
-  return (TYPE)(x | (SIG_MASK << SIG_OFFSET));
+  return (x & (~(SIG_MASK << SIG_OFFSET)));
 }
 
 TYPE FUNCTION(NAME, inv_s)(const TYPE x) {
@@ -170,9 +194,7 @@ TYPE FUNCTION(NAME, inv_s)(const TYPE x) {
 }
 
 cgraph_bool_t FUNCTION(NAME, eq_s)(const TYPE x, const TYPE y) {
-  cgraph_bool_t flag = CGRAPH_FALSE;
-
-  return flag;
+  return FUNCTION(NAME, fabs_s)(FUNCTION(NAME, sub_s)(x, y)) < EPSILON;
 }
 
 cgraph_bool_t FUNCTION(NAME, ne_s)(const TYPE x, const TYPE y) {
@@ -181,13 +203,14 @@ cgraph_bool_t FUNCTION(NAME, ne_s)(const TYPE x, const TYPE y) {
 
 cgraph_bool_t FUNCTION(NAME, gr_s)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((FLOAT_SOFT_EXP(x) > FLOAT_SOFT_EXP(y)) ||
-      ((FLOAT_SOFT_EXP(x) == FLOAT_SOFT_EXP(y)) &&
-       (FLOAT_SOFT_FRAC(x) > FLOAT_SOFT_FRAC(y)))) {
+  DATA_TYPE x_sig = FLOAT_SOFT_SIG(x), x_exp = FLOAT_SOFT_EXP(x),
+            x_frac = FLOAT_SOFT_FRAC(x);
+  DATA_TYPE y_sig = FLOAT_SOFT_SIG(y), y_exp = FLOAT_SOFT_EXP(y),
+            y_frac = FLOAT_SOFT_FRAC(y);
+  if ((x_exp > y_exp) || ((x_exp == y_exp) && (x_frac > y_frac))) {
     flag = CGRAPH_TRUE;
   }
-  if ((FLOAT_SOFT_SIG(x) > FLOAT_SOFT_SIG(y)) ||
-      ((FLOAT_SOFT_SIG(x) == FLOAT_SOFT_SIG(y)) && FLOAT_SOFT_SIG(x))) {
+  if ((x_sig > y_sig) || ((x_sig == y_sig) && x_sig)) {
     flag = CGRAPH_NTEST(flag);
   }
 
@@ -206,21 +229,53 @@ cgraph_bool_t FUNCTION(NAME, le_s)(const TYPE x, const TYPE y) {
   return CGRAPH_NTEST(FUNCTION(NAME, gr)(x, y));
 }
 
+cgraph_bool_t FUNCTION(NAME, isone_s)(const TYPE x) {
+  DATA_TYPE exp = FLOAT_SOFT_EXP(x), frac = FLOAT_SOFT_FRAC_FMT(x);
+
+  return (EXP_MASK == exp) && (0 == frac);
+}
+
+cgraph_bool_t FUNCTION(NAME, iszero_s)(const TYPE x) {
+  DATA_TYPE exp = FLOAT_SOFT_EXP(x), frac = FLOAT_SOFT_FRAC_FMT(x);
+
+  return (0 == exp) && (0 == frac);
+}
+
+cgraph_bool_t FUNCTION(NAME, test_s)(const TYPE x) {
+  return FUNCTION(NAME, ls_s)(x, MAX) && FUNCTION(NAME, gr_s)(x, MIN);
+}
+
+cgraph_bool_t FUNCTION(NAME, isnan_s)(const TYPE x) {
+  DATA_TYPE exp = FLOAT_SOFT_EXP(x), frac = FLOAT_SOFT_FRAC_FMT(x);
+
+  return (EXP_MASK == exp) && frac;
+}
+
+cgraph_bool_t FUNCTION(NAME, ispinf_s)(const TYPE x) { return PINF == x; }
+
+cgraph_bool_t FUNCTION(NAME, isninf_s)(const TYPE x) { return NINF == x; }
+
+cgraph_bool_t FUNCTION(NAME, isinf_s)(const TYPE x) {
+  return (PINF == x) || (NINF == x);
+}
+
 TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {
-  TYPE res, _x = x, _y = y;
-  while (1) {
-    if (FLOAT_SOFT_EXP(_x) > FLOAT_SOFT_EXP(_y)) {
-      _y = FUNCTION(NAME, addexp_s)(_y, 1);
-      _y = FUNCTION(NAME, shrfrac_s)(_y, 1);
-    } else if (FLOAT_SOFT_EXP(_x) < FLOAT_SOFT_EXP(_y)) {
-      _x = FUNCTION(NAME, addexp_s)(_x, 1);
-      _x = FUNCTION(NAME, shlfrac_s)(_x, 1);
+  DATA_TYPE x_sig = FLOAT_SOFT_SIG(x), x_exp = FLOAT_SOFT_EXP(x),
+            x_frac = FLOAT_SOFT_FRAC(x);
+  DATA_TYPE y_sig = FLOAT_SOFT_SIG(y), y_exp = FLOAT_SOFT_EXP(y),
+            y_frac = FLOAT_SOFT_FRAC(y);
+  TYPE res;
+  while (x_exp != y_exp) {
+    if (x_exp > y_exp) {
+      y_frac >>= 1;
+      y_exp += 1;
     } else {
-      break;
+      x_frac <<= 1;
+      x_exp -= 1;
     }
   }
-  res = FLOAT_SOFT_TOFRAC(FLOAT_SOFT_FRAC(_x) + FLOAT_SOFT_FRAC(_y));
-  res += FLOAT_SOFT_TOEXP(FLOAT_SOFT_EXP(_x));
+  res = FLOAT_SOFT_TOFRAC(x_frac + y_frac);
+  res += FLOAT_SOFT_TOEXP(x_exp);
 
   return res;
 }
@@ -230,21 +285,33 @@ TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y) {
 }
 
 TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
-  TYPE res = FLOAT_SOFT_TOEXP(FLOAT_SOFT_EXP(x) + FLOAT_SOFT_EXP(y));
-  res += FLOAT_SOFT_TOFRAC(FLOAT_SOFT_FRAC(x) * FLOAT_SOFT_FRAC(y));
-  res = (FLOAT_SOFT_SIG(x) == FLOAT_SOFT_SIG(y)) ? FUNCTION(NAME, fabs_s)(res)
-                                                 : FUNCTION(NAME, opp_s)(res);
+  DATA_TYPE x_sig = FLOAT_SOFT_SIG(x), x_exp = FLOAT_SOFT_EXP(x),
+            x_frac = FLOAT_SOFT_FRAC(x);
+  DATA_TYPE y_sig = FLOAT_SOFT_SIG(y), y_exp = FLOAT_SOFT_EXP(y),
+            y_frac = FLOAT_SOFT_FRAC(y);
+  TYPE res = FLOAT_SOFT_TOEXP(x_exp + y_exp);
+  res += FLOAT_SOFT_TOFRAC(x_frac * y_frac);
+  res = (x_sig == y_sig) ? FUNCTION(NAME, fabs_s)(res)
+                         : FUNCTION(NAME, opp_s)(res);
 
   return res;
 }
 
 TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
-  TYPE res = FLOAT_SOFT_TOEXP(FLOAT_SOFT_EXP(x) - FLOAT_SOFT_EXP(y));
-  res += FLOAT_SOFT_TOFRAC(FLOAT_SOFT_FRAC(x) / FLOAT_SOFT_FRAC(y));
-  res = (FLOAT_SOFT_SIG(x) == FLOAT_SOFT_SIG(y)) ? FUNCTION(NAME, fabs_s)(res)
-                                                 : FUNCTION(NAME, opp_s)(res);
+  DATA_TYPE x_sig = FLOAT_SOFT_SIG(x), x_exp = FLOAT_SOFT_EXP(x),
+            x_frac = FLOAT_SOFT_FRAC(x);
+  DATA_TYPE y_sig = FLOAT_SOFT_SIG(y), y_exp = FLOAT_SOFT_EXP(y),
+            y_frac = FLOAT_SOFT_FRAC(y);
+  TYPE res = FLOAT_SOFT_TOEXP(x_exp - y_exp);
+  res += FLOAT_SOFT_TOFRAC(x_frac / y_frac);
+  res = (x_sig == y_sig) ? FUNCTION(NAME, fabs_s)(res)
+                         : FUNCTION(NAME, opp_s)(res);
 
   return res;
+}
+
+cgraph_int_t FUNCTION(NAME, signbit_s)(const TYPE x) {
+  return (x >> SIG_OFFSET) & SIG_MASK;
 }
 
 cgraph_int_t FUNCTION(NAME, frexp_s)(const TYPE x, cgraph_int_t *y) {
@@ -292,22 +359,7 @@ TYPE FUNCTION(NAME, modf_s)(const TYPE x, const TYPE *y) {
 }
 
 TYPE FUNCTION(NAME, abs_s)(const TYPE x) {
-  TYPE res = (TYPE)x;
-#if __PLAT_ENDIAN == __PLAT_ENDIAN_LITTLE
-  ((cgraph_uint8_t *)(&res))[0] &= 0x7F;
-#elif __PLAT_ENDIAN == __PLAT_ENDIAN_BIG
-  ((cgraph_uint8_t *)(&res))[TYPE_BITS - 1] &= 0x7F;
-#else
-  cgraph_bool_t isbigendian = CGRAPH_TRUE;
-  cgraph_file_os(NULL, NULL, NULL, &isbigendian);
-  if (CGRAPH_TRUE == isbigendian) {
-    ((cgraph_uint8_t *)(&res))[TYPE_BITS - 1] &= 0x7F;
-  } else {
-    ((cgraph_uint8_t *)(&res))[0] &= 0x7F;
-  }
-#endif
-
-  return res;
+  return (x & (~(SIG_MASK << SIG_OFFSET)));
 }
 
 TYPE FUNCTION(NAME, log_s)(const TYPE x) {

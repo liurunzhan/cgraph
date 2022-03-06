@@ -41,6 +41,6 @@ clean-local:
 distclean-local:
 	-rm -rf .deps
 
-@VALGRIND_CHECK_RULES@
-VALGRIND_SUPPRESSIONS_FILES = my-project.supp
-EXTRA_DIST = my-project.supp
+# @VALGRIND_CHECK_RULES@
+# VALGRIND_SUPPRESSIONS_FILES = my-project.supp
+# EXTRA_DIST = my-project.supp

@@ -6,12 +6,12 @@ inc="$root/include"
 
 if [ ! -d $tool ]; then
   echo "$tool does not exist"
-  exit 0
+  exit 1
 fi
 
 if [ ! -d $inc ]; then
   echo "$inc does not exist"
-  exit 0
+  exit 1
 fi
 
 echo "Step 0 : updatting source files by template"
@@ -22,8 +22,8 @@ python3 $tool/macro.py $inc/cgraph_stdchk.h.in -t $tool/stdchk.macro -c "" --nov
 echo "Step 1 : running autogen.sh to generate configure"
 chmod +x $root/autogen.sh; $root/autogen.sh
 
-echo "Step 2 : running configure to generate Makefiles"
-$root/configure
+echo "Step 2 : running \'configure $*' to generate Makefiles"
+chmod +x $root/configure; $root/configure $*
 
 echo "Step 3 : updatting source files"
 for file in `ls $inc/*`; do
@@ -35,9 +35,6 @@ for file in `ls $inc/*`; do
 done
 
 num=20
-if [ -n $1 ] 
-then
-  num=$1
-fi
-echo "Step 4 : use $num threads to do \'make check\'"
-make check -j$num
+echo "Step 4 : using $num threads to do \'make\' and \'make check\'"
+make -j$num
+make check -j$num 2> build.log

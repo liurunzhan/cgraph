@@ -8,7 +8,7 @@
  * <tr><th>Email   <td> liurunzhan@sina.com
  * </table>
  * @section Overview
- * This library is used to solve problems in graph and mathematical problems
+ * This library is used to solve the graph and mathematical problems.
  * @section Description
  *
  * @section Usage Description

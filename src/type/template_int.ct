@@ -171,27 +171,27 @@ __INLINE TYPE FUNCTION(NAME, floor2x)(const TYPE x, const TYPE y) {
   return x / y;
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, bitsceil)(const cgraph_size_t bits) {
+__INLINE cgraph_size_t FUNCTION(NAME, bitceil)(const cgraph_size_t bits) {
   return (bits + BITS - 1) & (~(BITS - 1));
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, ubitsceil)(const cgraph_size_t bits) {
+__INLINE cgraph_size_t FUNCTION(NAME, ubitceil)(const cgraph_size_t bits) {
   return (bits + BITS - 1) & (~(BITS - 1));
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, bitsfloor)(const cgraph_size_t bits) {
+__INLINE cgraph_size_t FUNCTION(NAME, bitfloor)(const cgraph_size_t bits) {
   return bits >> BITS_LOG2;
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, ubitsfloor)(const cgraph_size_t bits) {
+__INLINE cgraph_size_t FUNCTION(NAME, ubitfloor)(const cgraph_size_t bits) {
   return bits >> BITS_LOG2;
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, bitsmod)(const cgraph_size_t bits) {
+__INLINE cgraph_size_t FUNCTION(NAME, bitmod)(const cgraph_size_t bits) {
   return bits & (BITS - 1);
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, ubitsmod)(const cgraph_size_t bits) {
+__INLINE cgraph_size_t FUNCTION(NAME, ubitmod)(const cgraph_size_t bits) {
   return bits & (BITS - 1);
 }
 
@@ -258,21 +258,24 @@ __INLINE UTYPE FUNCTION(NAME, bits)(const UTYPE x, const cgraph_size_t from,
                                     const cgraph_size_t to) {
   cgraph_size_t _from = CGRAPH_POS(from, BITS), _to = CGRAPH_POS(to, BITS);
   return (_to > _from) ? CGRAPH_BITS(x, _from, _to)
-                       : (((_to < _from) ? CGRAPH_BITS(x, _to, _from) : 0));
+                       : (((_to < _from) ? CGRAPH_BITS(x, _to, _from)
+                                         : ((x >> from) & ONE)));
 }
 
 __INLINE UTYPE FUNCTION(NAME, sets)(const UTYPE x, const cgraph_size_t from,
                                     const cgraph_size_t to) {
   cgraph_size_t _from = CGRAPH_POS(from, BITS), _to = CGRAPH_POS(to, BITS);
   return (_to > _from) ? CGRAPH_BSETS(x, _from, _to)
-                       : ((_to < _from) ? CGRAPH_BSETS(x, _to, _from) : x);
+                       : ((_to < _from) ? CGRAPH_BSETS(x, _to, _from)
+                                        : (x | (ONE << from)));
 }
 
 __INLINE UTYPE FUNCTION(NAME, clrs)(const UTYPE x, const cgraph_size_t from,
                                     const cgraph_size_t to) {
   cgraph_size_t _from = CGRAPH_POS(from, BITS), _to = CGRAPH_POS(to, BITS);
   return (_to > _from) ? CGRAPH_BCLRS(x, _from, _to)
-                       : ((_to < _from) ? CGRAPH_BCLRS(x, _to, _from) : x);
+                       : ((_to < _from) ? CGRAPH_BCLRS(x, _to, _from)
+                                        : (x & (~(ONE << from))));
 }
 
 __INLINE UTYPE FUNCTION(NAME, swapbit)(const UTYPE x) {

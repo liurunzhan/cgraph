@@ -4,6 +4,9 @@
 #include "cgraph_error.h"
 #include "cgraph_memory.h"
 
+static cgraph_bool_t cgraph_uint8_dateq0(const void *data);
+static cgraph_bool_t cgraph_uint8_dateq(const void *x, const void *y);
+
 void *cgraph_calloc(const cgraph_size_t size) {
 #ifdef DEBUG
   if (0 >= size) {
@@ -176,9 +179,9 @@ void *cgraph_memscpy(void *trg_mem, const void *src_mem,
 
 cgraph_size_t cgraph_memlen(const void *memory, const cgraph_uint8_t end) {
   cgraph_size_t len = 0;
-  cgraph_addr_t res = (cgraph_addr_t)memory;
-  if (NULL != res) {
-    for (; end != *res; res++, len++) {
+  if (NULL != memory) {
+    cgraph_addr_t ptr = (cgraph_addr_t)memory;
+    for (; end != *ptr; ptr++, len++) {
     }
   }
 
@@ -186,14 +189,14 @@ cgraph_size_t cgraph_memlen(const void *memory, const cgraph_uint8_t end) {
 }
 
 void *cgraph_memend(const void *memory, const cgraph_uint8_t end) {
-  cgraph_addr_t res = (cgraph_addr_t)memory;
-  if (NULL != res) {
-    for (; end != *res; res++) {
+  cgraph_addr_t ptr = (cgraph_addr_t)memory;
+  if (NULL != memory) {
+    for (; end != *ptr; ptr++) {
     }
-    res -= 1;
+    ptr -= 1;
   }
 
-  return res;
+  return ptr;
 }
 
 cgraph_bool_t cgraph_memcmp(const void *x_mem, const void *y_mem,
@@ -246,9 +249,9 @@ void *cgraph_memrev(void *memory, cgraph_size_t len) {
 
 void *cgraph_memchr(const void *memory, cgraph_int_t ch,
                     const cgraph_size_t len) {
-  void *res = NULL;
+  void *ptr = NULL;
   if ((NULL != memory) && (0 < len)) {
-    res = memchr(memory, ch, len);
+    ptr = memchr(memory, ch, len);
   }
 #ifdef DEBUG
   else {
@@ -263,19 +266,19 @@ void *cgraph_memchr(const void *memory, cgraph_int_t ch,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 void *cgraph_memrchr(const void *memory, cgraph_int_t ch,
                      const cgraph_size_t len) {
-  void *res = NULL;
+  void *ptr = NULL;
   if ((NULL != memory) && (0 < len)) {
     cgraph_addr_t mem_ptr = ((cgraph_addr_t)memory) + len;
     cgraph_size_t i = 0;
     while ((ch != *(mem_ptr--)) && (len > (i++))) {
     }
     if (i < len) {
-      res = mem_ptr;
+      ptr = mem_ptr;
     }
   }
 #ifdef DEBUG
@@ -291,7 +294,7 @@ void *cgraph_memrchr(const void *memory, cgraph_int_t ch,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 void cgraph_free(void *memory) {
@@ -307,19 +310,87 @@ void cgraph_free(void *memory) {
 #endif
 }
 
+cgraph_size_t cgraph_bitlen(const void *memory, const cgraph_size_t len) {
+  cgraph_size_t bits = 0;
+  if ((NULL != memory) && (0 < len)) {
+    cgraph_addr_t ptr = (cgraph_addr_t)memory;
+    cgraph_size_t i = 0;
+    for (; (0 == *ptr) && (i < len); i++, ptr++) {
+    }
+    bits = ((len - i) << 3) + 1;
+  }
+
+  return bits;
+}
+
+cgraph_bool_t cgraph_uint8_dateq0(const void *data) {
+  return (0 == *(cgraph_addr_t)data);
+}
+
+cgraph_size_t cgraph_datlen(const void *memory, const cgraph_size_t len,
+                            const cgraph_size_t datsize,
+                            cgraph_memeq0_func_t func) {
+  cgraph_size_t datlen = len;
+  if ((NULL != memory) && (0 < len)) {
+    cgraph_size_t _datsize = datsize;
+    cgraph_memeq0_func_t _func = func;
+    cgraph_addr_t ptr = (cgraph_addr_t)memory;
+    if (NULL == func) {
+      _datsize = 1;
+      _func = cgraph_uint8_dateq0;
+    }
+    for (; _func(ptr) && (0 < datlen); ptr += _datsize, datlen--) {
+    }
+  }
+
+  return datlen;
+}
+
+cgraph_bool_t cgraph_uint8_dateq(const void *x, const void *y) {
+  return *(cgraph_addr_t)x == *(cgraph_addr_t)y;
+}
+
+cgraph_bool_t cgraph_datcmp(const void *trg_mem, const void *src_mem,
+                            const cgraph_size_t len,
+                            const cgraph_size_t datsize,
+                            cgraph_memeq_func_t func) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if ((NULL != trg_mem) && (NULL != src_mem) && (0 < len)) {
+    cgraph_size_t _datsize = datsize;
+    cgraph_memeq_func_t _func = func;
+    cgraph_addr_t trg_ptr = (cgraph_addr_t)trg_mem,
+                  src_ptr = (cgraph_addr_t)src_mem;
+    if (NULL == func) {
+      _datsize = 1;
+      _func = cgraph_uint8_dateq;
+    }
+    res = CGRAPH_TRUE;
+    CGRAPH_LOOP(i, 0, len)
+    if (!_func(trg_ptr, src_ptr)) {
+      res = CGRAPH_FALSE;
+      break;
+    }
+    trg_ptr += _datsize;
+    src_ptr += _datsize;
+    CGRAPH_LOOP_END
+  }
+
+  return res;
+}
+
 cgraph_size_t cgraph_strlen(const cgraph_char_t *string) {
   return CGRAPH_ISSTR(string) ? strlen(string) : 0;
 }
 
 cgraph_char_t *cgraph_strend(const cgraph_char_t *string) {
-  cgraph_char_t *res = (cgraph_char_t *)string;
+  cgraph_char_t *ptr = (cgraph_char_t *)string;
   if (CGRAPH_ISSTR(string)) {
-    while ('\0' != *(++res)) {
+    while ('\0' != *(++ptr)) {
     }
-    res -= 1;
+    ptr -= 1;
   }
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strcpy(cgraph_char_t *trg_str,
@@ -642,9 +713,9 @@ cgraph_char_t *cgraph_strstok(cgraph_char_t *string, const cgraph_char_t *sep,
 }
 
 cgraph_char_t *cgraph_strchr(const cgraph_char_t *string, cgraph_int_t ch) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(string)) {
-    res = strchr(string, ch);
+    ptr = strchr(string, ch);
   }
 #ifdef DEBUG
   else {
@@ -653,18 +724,18 @@ cgraph_char_t *cgraph_strchr(const cgraph_char_t *string, cgraph_int_t ch) {
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strnchr(const cgraph_char_t *string, cgraph_int_t ch,
                               const cgraph_size_t len) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(string) && (0 < len)) {
     cgraph_size_t i = 0;
     cgraph_char_t *str_ptr = (cgraph_char_t *)string;
     for (; ('\0' != *str_ptr) && (i < len); i++, str_ptr++) {
       if (ch == *str_ptr) {
-        res = str_ptr;
+        ptr = str_ptr;
         break;
       }
     }
@@ -683,12 +754,12 @@ cgraph_char_t *cgraph_strnchr(const cgraph_char_t *string, cgraph_int_t ch,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strchrn(const cgraph_char_t *string, cgraph_int_t ch,
                               const cgraph_size_t num) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(string) && (0 < num)) {
     cgraph_size_t cnt = 0;
     cgraph_char_t *str_ptr = (cgraph_char_t *)string;
@@ -696,7 +767,7 @@ cgraph_char_t *cgraph_strchrn(const cgraph_char_t *string, cgraph_int_t ch,
       if (ch == *str_ptr) {
         cnt += 1;
         if (cnt >= num) {
-          res = str_ptr;
+          ptr = str_ptr;
           break;
         }
       }
@@ -717,13 +788,13 @@ cgraph_char_t *cgraph_strchrn(const cgraph_char_t *string, cgraph_int_t ch,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strrchr(const cgraph_char_t *string, cgraph_int_t ch) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(string)) {
-    res = strrchr(string, ch);
+    ptr = strrchr(string, ch);
   }
 #ifdef DEBUG
   else {
@@ -732,18 +803,18 @@ cgraph_char_t *cgraph_strrchr(const cgraph_char_t *string, cgraph_int_t ch) {
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strnrchr(const cgraph_char_t *string, cgraph_int_t ch,
                                const cgraph_size_t len) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(string) && (0 < len)) {
     cgraph_char_t *str_ptr = (cgraph_char_t *)string;
     cgraph_size_t i = 0;
     for (; ('\0' != *str_ptr) && (i < len); str_ptr++, i++) {
       if (ch == *str_ptr) {
-        res = str_ptr;
+        ptr = str_ptr;
       }
     }
   }
@@ -761,26 +832,26 @@ cgraph_char_t *cgraph_strnrchr(const cgraph_char_t *string, cgraph_int_t ch,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strrchrn(const cgraph_char_t *string, cgraph_int_t ch,
                                const cgraph_size_t num) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(string) && (0 < num)) {
     cgraph_char_t *str_ptr = (cgraph_char_t *)string;
     for (; '\0' != *str_ptr; str_ptr++) {
       if (ch == *str_ptr) {
-        res = str_ptr;
+        ptr = str_ptr;
       }
     }
-    if (NULL != res) {
+    if (NULL != ptr) {
       cgraph_size_t cnt = 0;
-      for (str_ptr = res; string != str_ptr; str_ptr--) {
+      for (str_ptr = ptr; string != str_ptr; str_ptr--) {
         if (ch == *str_ptr) {
           cnt += 1;
           if (cnt >= num) {
-            res = str_ptr;
+            ptr = str_ptr;
             break;
           }
         }
@@ -802,14 +873,14 @@ cgraph_char_t *cgraph_strrchrn(const cgraph_char_t *string, cgraph_int_t ch,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strstr(const cgraph_char_t *src_str,
                              cgraph_char_t *trg_str) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(src_str) && CGRAPH_ISSTR(trg_str)) {
-    res = strstr(src_str, trg_str);
+    ptr = strstr(src_str, trg_str);
   }
 #ifdef DEBUG
   else {
@@ -824,12 +895,12 @@ cgraph_char_t *cgraph_strstr(const cgraph_char_t *src_str,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strnstr(const cgraph_char_t *src_str,
                               cgraph_char_t *trg_str, const cgraph_size_t len) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(src_str) && CGRAPH_ISSTR(trg_str) && (0 < len)) {
   }
 #ifdef DEBUG
@@ -850,12 +921,12 @@ cgraph_char_t *cgraph_strnstr(const cgraph_char_t *src_str,
   }
 #endif
 
-  return res;
+  return ptr;
 }
 
 cgraph_char_t *cgraph_strstrn(const cgraph_char_t *src_str,
                               cgraph_char_t *trg_str, const cgraph_size_t num) {
-  cgraph_char_t *res = NULL;
+  cgraph_char_t *ptr = NULL;
   if (CGRAPH_ISSTR(src_str) && CGRAPH_ISSTR(trg_str) && (0 < num)) {
   }
 #ifdef DEBUG
@@ -877,5 +948,5 @@ cgraph_char_t *cgraph_strstrn(const cgraph_char_t *src_str,
   }
 #endif
 
-  return res;
+  return ptr;
 }

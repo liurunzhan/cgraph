@@ -1,5 +1,8 @@
 SUBDIRS=src test doc
 
+PROJECT=cgraph
+export PROJECT
+
 # project directories
 src_dir     = $(top_srcdir)/src
 include_dir = $(top_srcdir)/include
@@ -22,11 +25,11 @@ COMPILE_FLAGS = -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
 export COMPILE_FLAGS
 
 pkgconfigdir = @libdir@/pkgconfig
-pkgconfig_DATA = cgraph.pc
+pkgconfig_DATA = $(PROJECT).pc
 
-EXTRA_DIST = autogen.sh cgraph.pc Doxyfile README.md
+EXTRA_DIST = autogen.sh $(PROJECT).pc Doxyfile README.md
 
-DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure cgraph.pc Doxyfile depcomp gtk-doc.m4 gtk-doc.make install-sh libtool ltmain.sh Makefile.in Makefile missing test-driver
+DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure $(PROJECT).pc Doxyfile depcomp gtk-doc.m4 gtk-doc.make install-sh libtool ltmain.sh Makefile.in Makefile missing test-driver
 
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache

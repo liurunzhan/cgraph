@@ -53,10 +53,10 @@ DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.xml
 # gtk-doc will search all .c and .h files beneath these paths
 # for inline comments documenting functions and macros.
 # e.g. DOC_SOURCE_DIR=$(top_srcdir)/gtk $(top_srcdir)/gdk
-DOC_SOURCE_DIR=$(INC) $(SRC)
+DOC_SOURCE_DIR=$(INC) $(SRC) $(SRC_FUNC) $(SRC_TYPE) $(SRC_TYPE_BASIC) $(SRC_TYPE_DATA_DIR) $(SRC_TYPE_OBJECT) $(SRC_TYPE_STRUCTURE) $(SRC_GAME) $(SRC_GRAPH)
 
 # Extra options to pass to gtkdoc-scangobj. Normally not needed.
-SCANGOBJ_OPTIONS=--module=$(DOC_MODULE)
+SCANGOBJ_OPTIONS=--module=$(DOC_MODULE) --rebuild-sections --rebuild-types 
 
 # Extra options to supply to gtkdoc-scan.
 # e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED"
@@ -112,13 +112,13 @@ include $(top_srcdir)/gtk-doc.make
 
 # Comment this out if you don't want 'make check' to test you doc status
 # and run some sanity checks
-## if ENABLE_GTK_DOC
-## TESTS_ENVIRONMENT = \
-##   DOC_MODULE=$(DOC_MODULE) DOC_MAIN_SGML_FILE=$(DOC_MAIN_SGML_FILE) \
-##   SRCDIR=$(abs_srcdir) BUILDDIR=$(abs_builddir)
-## TESTS = $(GTKDOC_CHECK)
-## endif
+if ENABLE_GTK_DOC
+TESTS_ENVIRONMENT = \
+  DOC_MODULE=$(DOC_MODULE) DOC_MAIN_SGML_FILE=$(DOC_MAIN_SGML_FILE) \
+  SRCDIR=$(abs_srcdir) BUILDDIR=$(abs_builddir)
+TESTS = $(GTKDOC_CHECK)
+endif
 
 -include $(top_srcdir)/git.mk
 
-DISTCLEANFILES = Makefile.in Makefile $(DOC_MODULE)-*.*
+DISTCLEANFILES = Makefile.in Makefile $(DOC_MODULE)-*.* $(DOC_MODULE).* *.log

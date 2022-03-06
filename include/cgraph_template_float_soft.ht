@@ -13,11 +13,15 @@
 /** fraction part of software-defined signed float point number */
 #define TYPE_PTR TYPE
 
+#define FLOAT_SOFT(sig, exp, frac)                                             \
+  ((TYPE)(((sig) << SIG_OFFSET) | (((exp)&EXP_MASK) << EXP_OFFSET) |           \
+          (((frac)&FRAC_MASK) << FRAC_OFFSET)))
 #define FLOAT_SOFT_TOFRAC(a) ((((a) << 1) & FRAC_MASK) << FRAC_OFFSET)
-#define FLOAT_SOFT_FRAC(a)                                                     \
-  ((((a) >> FRAC_OFFSET) & FRAC_MASK) || (0x01 << FRAC_BITS))
+#define FLOAT_SOFT_FRAC_FMT(a) (((a) >> FRAC_OFFSET) & FRAC_MASK)
+#define FLOAT_SOFT_FRAC(a) (FLOAT_SOFT_FRAC_FMT(a) | (0x01U << FRAC_BITS))
 #define FLOAT_SOFT_FRAC_CLR(a) ((a) & (~(FRAC_MASK << FRAC_OFFSET)))
 #define FLOAT_SOFT_FRAC_SET(a, b) ((a) | (((b)&FRAC_MASK) << FRAC_OFFSET))
+
 #define FLOAT_SOFT_TOEXP(a) (((a)&EXP_MASK) << EXP_OFFSET)
 #define FLOAT_SOFT_EXP(a) (((a) >> EXP_OFFSET) & EXP_MASK)
 #define FLOAT_SOFT_EXP_CLR(a) ((a) & (~(EXP_MASK << EXP_OFFSET)))
@@ -27,13 +31,13 @@
 #define FLOAT_SOFT_SIG_CLR(a) ((a) & (~(SIG_MASK << SIG_MASK)))
 #define FLOAT_SOFT_SIG_SET(a) ((a) | (SIG_MASK << SIG_OFFSET))
 
-#define DATA_TEST(a) ((MIN < (a)) && (MAX > (a)))
-#define DATA_ISNAN(a) ((a) != (a))
-#define DATA_ISPINF(a) (MAX < (a))
-#define DATA_ISNINF(a) (MIN > (a))
-#define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
-#define DATA_ISPOS(a) (!FUNCTION(NAME, signbit)((a)))
-#define DATA_ISNEG(a) FUNCTION(NAME, signbit)((a))
+#define DATA_TEST(a) FUNCTION(NAME, test_s)((a))
+#define DATA_ISNAN(a) FUNCTION(NAME, isnan_s)((a))
+#define DATA_ISPINF(a) FUNCTION(NAME, ispinf_s)((a))
+#define DATA_ISNINF(a) FUNCTION(NAME, isninf_s)((a))
+#define DATA_ISINF(a) FUNCTION(NAME, isinf_s)((a))
+#define DATA_ISPOS(a) (!FUNCTION(NAME, signbit_s)((a)))
+#define DATA_ISNEG(a) FUNCTION(NAME, signbit_s)((a))
 
 #define ADD(a, b, c) FUNCTION(NAME, add_s)((a), (b))
 #define SUB(a, b, c) FUNCTION(NAME, sub_s)((a), (b))
@@ -74,9 +78,9 @@
 #define EXP(a) FUNCTION(NAME, exp_s)((a))
 #define SQRT(a) FUNCTION(NAME, sqrt_s)((a))
 
-extern TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, setfrac_s)(const TYPE x, const cgraph_int_t bit);
 extern TYPE FUNCTION(NAME, setfracs_s)(const TYPE x, const cgraph_int_t y);
-extern TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, clrfrac_s)(const TYPE x, const cgraph_int_t bit);
 extern TYPE FUNCTION(NAME, clrfracs_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, shlfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, shrfrac_s)(const TYPE x, const cgraph_int_t y);
@@ -86,9 +90,9 @@ extern TYPE FUNCTION(NAME, mulfrac_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, divfrac_s)(const TYPE x, const cgraph_int_t y);
 
 /** exponent part of software-defined signed float point number */
-extern TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, setexp_s)(const TYPE x, const cgraph_int_t bit);
 extern TYPE FUNCTION(NAME, setexps_s)(const TYPE x, const cgraph_int_t y);
-extern TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t y);
+extern TYPE FUNCTION(NAME, clrexp_s)(const TYPE x, const cgraph_int_t bit);
 extern TYPE FUNCTION(NAME, clrexps_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, shlexp_s)(const TYPE x, const cgraph_int_t y);
 extern TYPE FUNCTION(NAME, shrexp_s)(const TYPE x, const cgraph_int_t y);
@@ -103,6 +107,9 @@ extern cgraph_float32_t FUNCTION(NAME, tof32_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, initf64_s)(const cgraph_float64_t x);
 extern cgraph_float64_t FUNCTION(NAME, tof64_s)(const TYPE x);
 
+extern TYPE FUNCTION(NAME, format_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, one_s)(void);
+extern TYPE FUNCTION(NAME, zero_s)(void);
 extern TYPE FUNCTION(NAME, opp_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, fabs_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, inv_s)(const TYPE x);
@@ -114,10 +121,19 @@ extern cgraph_bool_t FUNCTION(NAME, ge_s)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ls_s)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, le_s)(const TYPE x, const TYPE y);
 
+extern cgraph_bool_t FUNCTION(NAME, isone_s)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, iszero_s)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, test_s)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isnan_s)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, ispinf_s)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isninf_s)(const TYPE x);
+extern cgraph_bool_t FUNCTION(NAME, isinf_s)(const TYPE x);
+
 extern TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y);
+extern cgraph_int_t FUNCTION(NAME, signbit_s)(const TYPE x);
 extern cgraph_int_t FUNCTION(NAME, frexp_s)(const TYPE x, cgraph_int_t *y);
 extern TYPE FUNCTION(NAME, idiv_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod_s)(const TYPE x, const TYPE y);

@@ -31,7 +31,7 @@ extern "C" {
 #define DATA_ID ID_T(UINT8)
 #define DATA_BITS CGRAPH_UINT8_BITS
 #define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
-#define DATA_BYTES(x) FUNCTION(NAME, ubitsceil)((x))
+#define DATA_BYTES(x) FUNCTION(NAME, ubitceil)((x))
 #define DATA_END (0)
 #define DATA_ZERO (0)
 #define DATA_ONE (1)

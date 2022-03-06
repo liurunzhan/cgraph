@@ -1,3 +1,9 @@
+/**
+ * SECTION: file
+ * @short_description: file handle functions
+ * @title: file
+ */
+
 #include "cgraph_error.h"
 #include "cgraph_math.h"
 #include "cgraph_memory.h"

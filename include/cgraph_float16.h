@@ -24,6 +24,7 @@ extern "C" {
 #include "cgraph_template.h"
 
 #define DATA_NAME int16
+#define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT16)
 
 #define ARG cgraph_int_t
@@ -31,10 +32,10 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT16)
 #define BITS CGRAPH_FLOAT16_BITS
-#define IN_FMT "%d"
-#define OUT_FMT "%d"
-#define ZERO (0)
-#define ONE (CGRAPH_FLOAT16_EXP_BIAS << CGRAPH_FLOAT16_EXP_OFFSET)
+#define IN_FMT CGRAPH_FLOAT16_IN_FMT
+#define OUT_FMT CGRAPH_FLOAT16_OUT_FMT
+#define ZERO FUNCTION(NAME, zero_s)()
+#define ONE FUNCTION(NAME, one_s)()
 #define ONES ONE
 #define MIN CGRAPH_FLOAT16_MIN
 #define MAX CGRAPH_FLOAT16_MAX

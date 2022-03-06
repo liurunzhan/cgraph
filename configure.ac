@@ -49,6 +49,7 @@ AX_VALGRIND_DFLT([memcheck], [on])
 AX_VALGRIND_CHECK
 
 # Checks for gtk-doc.
+# check for gtk-doc
 GTK_DOC_CHECK([1.14], [--flavour no-tmpl])
 
 # Checks for libraries.

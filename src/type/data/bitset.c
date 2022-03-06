@@ -197,14 +197,14 @@ TYPE *FUNCTION(NAME, updatenum)(TYPE *cthis, const cgraph_size_t num) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, bitscalloc)(const cgraph_size_t len_bits,
-                                 const cgraph_size_t size_bits) {
+TYPE *FUNCTION(NAME, bitcalloc)(const cgraph_size_t len_bits,
+                                const cgraph_size_t size_bits) {
   cgraph_size_t size = (0 < size_bits) ? size_bits : len_bits;
   TYPE *cthis =
-      FUNCTION(NAME, calloc)(DATA_ID, FUNCTION(DATA_NAME, ubitsceil)(size));
+      FUNCTION(NAME, calloc)(DATA_ID, FUNCTION(DATA_NAME, ubitceil)(size));
   if (NULL != cthis) {
     cthis->len =
-        (0 < size_bits) ? FUNCTION(DATA_NAME, ubitsceil)(len_bits) : size;
+        (0 < size_bits) ? FUNCTION(DATA_NAME, ubitceil)(len_bits) : size;
     BITSET_BITNUM(cthis) = BITSET_BIT_POSTION(len_bits);
   }
 
@@ -348,8 +348,8 @@ TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min,
 TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
   if ((NULL != cthis) && (0 < bits)) {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitsfloor)(bits),
-                  byte = FUNCTION(DATA_NAME, bitsmod)(bits),
+    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(bits),
+                  byte = FUNCTION(DATA_NAME, bitmod)(bits),
                   byte_right = DATA_BITS - byte;
     cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, cthis->size,
                                     cthis->len + bytes + 1, &flag);
@@ -378,8 +378,8 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
 
 TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
   if (CGRAPH_HASDATA(cthis) && (0 < bits)) {
-    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitsfloor)(bits),
-                  byte = FUNCTION(DATA_NAME, bitsmod)(bits),
+    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(bits),
+                  byte = FUNCTION(DATA_NAME, bitmod)(bits),
                   byte_left = DATA_BITS - byte;
     cgraph_size_t i = 0, j = bytes, _len = cthis->len - 1;
     cgraph_int_t sum = BITSET_BITNUM(cthis) - BITSET_POS2NUM(byte);

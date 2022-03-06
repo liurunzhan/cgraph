@@ -203,12 +203,12 @@ extern TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod2)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, ceil2x)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, floor2x)(const TYPE x, const TYPE y);
-extern cgraph_size_t FUNCTION(NAME, bitsceil)(const cgraph_size_t bits);
-extern cgraph_size_t FUNCTION(NAME, bitsfloor)(const cgraph_size_t bits);
-extern cgraph_size_t FUNCTION(NAME, bitsmod)(const cgraph_size_t bits);
-extern cgraph_size_t FUNCTION(NAME, ubitsceil)(const cgraph_size_t bits);
-extern cgraph_size_t FUNCTION(NAME, ubitsfloor)(const cgraph_size_t bits);
-extern cgraph_size_t FUNCTION(NAME, ubitsmod)(const cgraph_size_t bits);
+extern cgraph_size_t FUNCTION(NAME, bitceil)(const cgraph_size_t bits);
+extern cgraph_size_t FUNCTION(NAME, bitfloor)(const cgraph_size_t bits);
+extern cgraph_size_t FUNCTION(NAME, bitmod)(const cgraph_size_t bits);
+extern cgraph_size_t FUNCTION(NAME, ubitceil)(const cgraph_size_t bits);
+extern cgraph_size_t FUNCTION(NAME, ubitfloor)(const cgraph_size_t bits);
+extern cgraph_size_t FUNCTION(NAME, ubitmod)(const cgraph_size_t bits);
 
 extern cgraph_bool_t FUNCTION(NAME, inrange)(const TYPE start, const TYPE end,
                                              const TYPE num);

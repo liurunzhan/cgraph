@@ -1,3 +1,9 @@
+/**
+ * SECTION: error
+ * @short_description: error handle functions
+ * @title: error
+ */
+
 #include <stdio.h>
 #include <time.h>
 
