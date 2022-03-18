@@ -84,7 +84,7 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
     z = FUNCTION(NAME, realloc)(z, type, z_size, len, &error);
     if (CGRAPH_FALSE == error) {
       OBJECT(type, for3v)
-      (x->data, y->data, z->data, len, (cgraph_pfunc3_t)OBJECT(type, div));
+      (x->data, y->data, z->data, len, OBJECT(type, div));
     }
   }
 

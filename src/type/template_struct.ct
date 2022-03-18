@@ -83,7 +83,7 @@ TYPE *FUNCTION(NAME, realloc)(TYPE *cthis, const cgraph_type_t type,
   }
   cthis = (TYPE *)cgraph_realloc(cthis, size,
                                  FUNCTION(NAME, msize)(_type, new_size), error);
-  if ((NULL != cthis) || (CGRAPH_FALSE == *error)) {
+  if ((NULL != error) && (CGRAPH_FALSE == *error)) {
     cthis = FUNCTION(NAME, _update)(cthis, _type, -1, new_size);
   }
 

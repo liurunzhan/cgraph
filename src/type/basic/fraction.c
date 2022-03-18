@@ -42,13 +42,12 @@ TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
 }
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  TYPE fmt = FUNCTION(NAME, format)(cthis);
   cgraph_size_t len = 0;
-  if (1 == FRACTION_DEN(fmt)) {
-    len = cgraph_file_fprintf(fp, OUT_FMT_NUM, FRACTION_NUM(fmt));
+  if (1 == FRACTION_DEN(cthis)) {
+    len = cgraph_file_fprintf(fp, OUT_FMT_NUM, FRACTION_NUM(cthis));
   } else {
-    len =
-        cgraph_file_fprintf(fp, OUT_FMT, FRACTION_NUM(fmt), FRACTION_DEN(fmt));
+    len = cgraph_file_fprintf(fp, OUT_FMT, FRACTION_NUM(cthis),
+                              FRACTION_DEN(cthis));
   }
 
   return len;
@@ -57,13 +56,12 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
 cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  TYPE fmt = FUNCTION(NAME, format)(cthis);
   cgraph_size_t len = 0;
-  if (1 == FRACTION_DEN(fmt)) {
-    len = cgraph_file_snprintf(cbuf, size, OUT_FMT_NUM, FRACTION_NUM(fmt));
+  if (1 == FRACTION_DEN(cthis)) {
+    len = cgraph_file_snprintf(cbuf, size, OUT_FMT_NUM, FRACTION_NUM(cthis));
   } else {
-    len = cgraph_file_snprintf(cbuf, size, OUT_FMT, FRACTION_NUM(fmt),
-                               FRACTION_DEN(fmt));
+    len = cgraph_file_snprintf(cbuf, size, OUT_FMT, FRACTION_NUM(cthis),
+                               FRACTION_DEN(cthis));
   }
 
   return len;
@@ -95,7 +93,7 @@ TYPE FUNCTION(NAME, format)(const TYPE cthis) {
   TYPE res = cthis;
   DATA_TYPE gcd =
       FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
-  if ((1 != gcd) && (0 != gcd)) {
+  if ((1 < gcd)) {
     FRACTION_NUM(res) /= gcd;
     FRACTION_DEN(res) /= gcd;
   }
@@ -379,7 +377,7 @@ __INLINE TYPE FUNCTION(NAME, inv)(const TYPE x) {
 }
 
 __INLINE TYPE FUNCTION(NAME, pow2)(const TYPE x) {
-  TYPE res;
+  TYPE res = FUNCTION(NAME, format)(x);
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x);
 
@@ -387,7 +385,7 @@ __INLINE TYPE FUNCTION(NAME, pow2)(const TYPE x) {
 }
 
 __INLINE TYPE FUNCTION(NAME, pow3)(const TYPE x) {
-  TYPE res;
+  TYPE res = FUNCTION(NAME, format)(x);
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x) * FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x) * FRACTION_DEN(x);
 
@@ -400,7 +398,7 @@ TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
       (FRACTION_NUM(x) * FRACTION_DEN(y)) + (FRACTION_DEN(x) * FRACTION_NUM(y));
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
@@ -409,7 +407,7 @@ TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
       (FRACTION_NUM(x) * FRACTION_DEN(y)) - (FRACTION_DEN(x) * FRACTION_NUM(y));
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
@@ -417,7 +415,7 @@ TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(y);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
@@ -425,7 +423,7 @@ TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_DEN(y);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_NUM(y);
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
@@ -437,7 +435,7 @@ TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
                           ? FRACTION_DEN(x)
                           : (DATA_TYPE)pow(FRACTION_DEN(x), FRACTION_VALUE(y));
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
@@ -446,22 +444,25 @@ TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
   FRACTION_NUM(res) =
       (FRACTION_DEN(y) * FRACTION_NUM(x)) % (FRACTION_DEN(x) * FRACTION_NUM(y));
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
   TYPE res = FUNCTION(NAME, add)(x, y);
-  FRACTION_DEN(res) = 2 * FRACTION_DEN(res);
+  if (FUNCTION(DATA_NAME, isodd)(FRACTION_NUM(res))) {
+    FRACTION_DEN(res) = 2 * FRACTION_DEN(res);
+  } else {
+    FRACTION_DEN(res) = FRACTION_DEN(res) / 2;
+  }
 
   return res;
 }
 
 /** hmean(x, y) = 1/(1/x+1/y) = (xy)/(x+y) */
 TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
-  TYPE mul = FUNCTION(NAME, mul)(x, y);
-  TYPE sum = FUNCTION(NAME, add)(x, y);
+  TYPE mul = FUNCTION(NAME, mul)(x, y), sum = FUNCTION(NAME, add)(x, y);
 
-  return FUNCTION(NAME, div)(mul, sum);
+  return FUNCTION(NAME, format)(FUNCTION(NAME, div)(mul, sum));
 }
 
 TYPE FUNCTION(NAME, ceil)(const TYPE x) {
@@ -509,7 +510,21 @@ TYPE FUNCTION(NAME, log10)(const TYPE x) { return x; }
 
 TYPE FUNCTION(NAME, exp)(const TYPE x) { return x; }
 
-TYPE FUNCTION(NAME, sqrt)(const TYPE x) { return x; }
+TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = FUNCTION(DATA_NAME, usqrt_s)(FRACTION_NUM(x));
+  FRACTION_DEN(res) = FUNCTION(DATA_NAME, usqrt_s)(FRACTION_DEN(x));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, sqrt_inv)(const TYPE x) {
+  TYPE res;
+  FRACTION_NUM(res) = FUNCTION(DATA_NAME, usqrt_s)(FRACTION_DEN(x));
+  FRACTION_DEN(res) = FUNCTION(DATA_NAME, usqrt_s)(FRACTION_NUM(x));
+
+  return res;
+}
 
 TYPE FUNCTION(NAME, unit)(const DATA_TYPE x) {
   TYPE res;
@@ -545,16 +560,28 @@ TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y) {
 
 TYPE FUNCTION(NAME, muln)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x) * y;
-  FRACTION_DEN(res) = FRACTION_DEN(x);
+  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_DEN(x), y);
+  if (1 < gcd) {
+    FRACTION_NUM(res) = FRACTION_NUM(x) * (y / gcd);
+    FRACTION_DEN(res) = FRACTION_DEN(x) / gcd;
+  } else {
+    FRACTION_NUM(res) = FRACTION_NUM(x) * y;
+    FRACTION_DEN(res) = FRACTION_DEN(x);
+  }
 
   return res;
 }
 
 TYPE FUNCTION(NAME, divn)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x);
-  FRACTION_DEN(res) = FRACTION_DEN(x) * y;
+  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(x), y);
+  if (1 < gcd) {
+    FRACTION_NUM(res) = FRACTION_NUM(x) / gcd;
+    FRACTION_DEN(res) = FRACTION_DEN(x) * (y / gcd);
+  } else {
+    FRACTION_NUM(res) = FRACTION_NUM(x);
+    FRACTION_DEN(res) = FRACTION_DEN(x) * y;
+  }
 
   return res;
 }
@@ -575,7 +602,7 @@ TYPE FUNCTION(NAME, addd)(const TYPE x, const DATA_TYPE y) {
   FRACTION_NUM(res) = (FRACTION_NUM(x) * y) + FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * y;
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, subd)(const TYPE x, const DATA_TYPE y) {
@@ -583,21 +610,33 @@ TYPE FUNCTION(NAME, subd)(const TYPE x, const DATA_TYPE y) {
   FRACTION_NUM(res) = (FRACTION_NUM(x) * y) - FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * y;
 
-  return res;
+  return FUNCTION(NAME, format)(res);
 }
 
 TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x);
-  FRACTION_DEN(res) = FRACTION_DEN(x) * y;
+  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(x), y);
+  if (1 < gcd) {
+    FRACTION_NUM(res) = FRACTION_NUM(x) / gcd;
+    FRACTION_DEN(res) = FRACTION_DEN(x) * (y / gcd);
+  } else {
+    FRACTION_NUM(res) = FRACTION_NUM(x);
+    FRACTION_DEN(res) = FRACTION_DEN(x) * y;
+  }
 
   return res;
 }
 
 TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
-  FRACTION_NUM(res) = FRACTION_NUM(x) * y;
-  FRACTION_DEN(res) = FRACTION_DEN(x);
+  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_DEN(x), y);
+  if (1 < gcd) {
+    FRACTION_NUM(res) = FRACTION_NUM(x) * (y / gcd);
+    FRACTION_DEN(res) = FRACTION_DEN(x) / gcd;
+  } else {
+    FRACTION_NUM(res) = FRACTION_NUM(x) * y;
+    FRACTION_DEN(res) = FRACTION_DEN(x);
+  }
 
   return res;
 }

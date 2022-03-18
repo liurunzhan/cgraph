@@ -407,7 +407,7 @@ typedef int64_t int128_t;
 #define INT128_MASK INT64_MASK
 #define INT128_EPSILON (1)
 #define INT128_DIG (128)
-#define INT128_BITS (8 * sizeof(int128_t))
+#define INT128_BITS (128)
 #define INT128_BITS_LOG2 (7)
 #define INT128_IN_FMT "s"
 #define INT128_OUT_FMT "s"
@@ -426,8 +426,8 @@ typedef uint64_t uint128_t;
 #define UINT128_MAX (1)
 #define UINT128_MASK UINT64_MASK
 #define UINT128_EPSILON (1)
-#define UINT128_DIG (128)
-#define UINT128_BITS (8 * sizeof(uint128_t))
+#define UINT128_DIG UINT64_DIG
+#define UINT128_BITS UINT64_BITS
 #define UINT128_BITS_LOG2 (7)
 #define SCNd128 "s"
 #define PRId128 "s"

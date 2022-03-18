@@ -4,9 +4,6 @@
 #include "cgraph_error.h"
 #include "cgraph_memory.h"
 
-static cgraph_bool_t cgraph_uint8_dateq0(const void *data);
-static cgraph_bool_t cgraph_uint8_dateq(const void *x, const void *y);
-
 void *cgraph_calloc(const cgraph_size_t size) {
 #ifdef DEBUG
   if (0 >= size) {
@@ -323,55 +320,35 @@ cgraph_size_t cgraph_bitlen(const void *memory, const cgraph_size_t len) {
   return bits;
 }
 
-cgraph_bool_t cgraph_uint8_dateq0(const void *data) {
-  return (0 == *(cgraph_addr_t)data);
-}
-
 cgraph_size_t cgraph_datlen(const void *memory, const cgraph_size_t len,
                             const cgraph_size_t datsize,
-                            cgraph_memeq0_func_t func) {
+                            cgraph_bool_t (*func)(const void *data)) {
   cgraph_size_t datlen = len;
   if ((NULL != memory) && (0 < len)) {
-    cgraph_size_t _datsize = datsize;
-    cgraph_memeq0_func_t _func = func;
     cgraph_addr_t ptr = (cgraph_addr_t)memory;
-    if (NULL == func) {
-      _datsize = 1;
-      _func = cgraph_uint8_dateq0;
-    }
-    for (; _func(ptr) && (0 < datlen); ptr += _datsize, datlen--) {
+    for (; func(ptr) && (0 < datlen); ptr += datsize, datlen--) {
     }
   }
 
   return datlen;
 }
 
-cgraph_bool_t cgraph_uint8_dateq(const void *x, const void *y) {
-  return *(cgraph_addr_t)x == *(cgraph_addr_t)y;
-}
-
-cgraph_bool_t cgraph_datcmp(const void *trg_mem, const void *src_mem,
-                            const cgraph_size_t len,
-                            const cgraph_size_t datsize,
-                            cgraph_memeq_func_t func) {
+cgraph_bool_t
+cgraph_datcmp(const void *trg_mem, const void *src_mem, const cgraph_size_t len,
+              const cgraph_size_t datsize,
+              cgraph_bool_t (*func)(const void *x, const void *y)) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if ((NULL != trg_mem) && (NULL != src_mem) && (0 < len)) {
-    cgraph_size_t _datsize = datsize;
-    cgraph_memeq_func_t _func = func;
     cgraph_addr_t trg_ptr = (cgraph_addr_t)trg_mem,
                   src_ptr = (cgraph_addr_t)src_mem;
-    if (NULL == func) {
-      _datsize = 1;
-      _func = cgraph_uint8_dateq;
-    }
     res = CGRAPH_TRUE;
     CGRAPH_LOOP(i, 0, len)
-    if (!_func(trg_ptr, src_ptr)) {
+    if (!func(trg_ptr, src_ptr)) {
       res = CGRAPH_FALSE;
       break;
     }
-    trg_ptr += _datsize;
-    src_ptr += _datsize;
+    trg_ptr += datsize;
+    src_ptr += datsize;
     CGRAPH_LOOP_END
   }
 

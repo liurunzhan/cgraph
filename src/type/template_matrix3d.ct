@@ -7,13 +7,16 @@ TYPE *FUNCTION(NAME, create)(const cgraph_type_t type,
   cgraph_size_t size = index_i * index_j * index_k;
   TYPE *cthis = FUNCTION(NAME, calloc)(type, size);
   if (NULL != cthis) {
-    MATRIX3D_INDEX_I(cthis) = index_i;
-    MATRIX3D_INDEX_J(cthis) = index_j;
-    MATRIX3D_INDEX_K(cthis) = index_k;
+    MATRIX3D_INDEX_SET(cthis, index_i, index_j, index_k);
     cthis->len = size;
   }
 
   return cthis;
+}
+
+TYPE *FUNCTION(NAME, retype)(TYPE *cthis, const cgraph_type_t type) {
+  return FUNCTION(NAME, realloc)(cthis, type, CGRAPH_SIZE(cthis),
+                                 CGRAPH_SIZE(cthis), NULL);
 }
 
 TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
@@ -23,23 +26,9 @@ TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
   cgraph_size_t old_size = FUNCTION(NAME, size_ijk)(cthis);
   cgraph_size_t new_size = index_i * index_j * index_k;
   cgraph_bool_t error = CGRAPH_FALSE;
-  if (old_size < new_size) {
-    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
-    if (CGRAPH_FALSE == error) {
-    }
-  } else if (old_size == new_size) {
-  } else {
-    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
-    if (0 != new_size) {
-
-    } else {
-      error = CGRAPH_TRUE;
-    }
-  }
+  cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
   if (CGRAPH_FALSE == error) {
-    MATRIX3D_INDEX_I(cthis) = index_i;
-    MATRIX3D_INDEX_J(cthis) = index_j;
-    MATRIX3D_INDEX_K(cthis) = index_k;
+    MATRIX3D_INDEX_SET(cthis, index_i, index_j, index_k);
     cthis->len = new_size;
   }
 
@@ -55,18 +44,6 @@ __INLINE cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis) {
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis) {
-  return CGRAPH_MATRIX3D_INDEX_K(cthis);
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, size_i)(const TYPE *cthis) {
-  return CGRAPH_MATRIX3D_INDEX_I(cthis);
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, size_j)(const TYPE *cthis) {
-  return CGRAPH_MATRIX3D_INDEX_J(cthis);
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, size_k)(const TYPE *cthis) {
   return CGRAPH_MATRIX3D_INDEX_K(cthis);
 }
 
@@ -87,52 +64,102 @@ __INLINE cgraph_size_t FUNCTION(NAME, size_ijk)(const TYPE *cthis) {
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
-  return CGRAPH_TEST((0 == CGRAPH_MATRIX3D_INDEX_I(cthis)) &&
-                     (0 == CGRAPH_MATRIX3D_INDEX_J(cthis)) &&
-                     (0 == CGRAPH_MATRIX3D_INDEX_K(cthis)));
+  cgraph_bool_t res = CGRAPH_TRUE;
+  if (NULL != cthis) {
+    res = (0 == MATRIX3D_INDEX_I(cthis)) || (0 == MATRIX3D_INDEX_J(cthis)) ||
+          (0 == MATRIX3D_INDEX_K(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
-  return CGRAPH_TEST((1 == CGRAPH_MATRIX3D_INDEX_I(cthis)) &&
-                     (1 == CGRAPH_MATRIX3D_INDEX_J(cthis)) &&
-                     (1 == CGRAPH_MATRIX3D_INDEX_K(cthis)));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX3D_INDEX_I(cthis)) && (1 == MATRIX3D_INDEX_J(cthis)) &&
+          (1 == MATRIX3D_INDEX_K(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
-  return CGRAPH_TEST(
-      (CGRAPH_MATRIX3D_INDEX_I(cthis) == CGRAPH_MATRIX3D_INDEX_J(cthis)) &&
-      (CGRAPH_MATRIX3D_INDEX_I(cthis) == CGRAPH_MATRIX3D_INDEX_K(cthis)));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (MATRIX3D_INDEX_I(cthis) == MATRIX3D_INDEX_J(cthis)) &&
+          (MATRIX3D_INDEX_I(cthis) == MATRIX3D_INDEX_K(cthis)) &&
+          (1 < MATRIX3D_INDEX_I(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_i)(const TYPE *cthis) {
-  return CGRAPH_TEST((1 == CGRAPH_MATRIX3D_INDEX_J(cthis)) &&
-                     (1 == CGRAPH_MATRIX3D_INDEX_K(cthis)));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX3D_INDEX_J(cthis)) && (1 == MATRIX3D_INDEX_K(cthis)) &&
+          (1 < MATRIX3D_INDEX_I(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_j)(const TYPE *cthis) {
-  return CGRAPH_TEST((1 == CGRAPH_MATRIX3D_INDEX_I(cthis)) &&
-                     (1 == CGRAPH_MATRIX3D_INDEX_K(cthis)));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX3D_INDEX_I(cthis)) &&
+          (1 == MATRIX3D_INDEX_K(cthis) && (1 < MATRIX3D_INDEX_J(cthis)));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_k)(const TYPE *cthis) {
-  return CGRAPH_TEST((1 == CGRAPH_MATRIX3D_INDEX_I(cthis)) &&
-                     (1 == CGRAPH_MATRIX3D_INDEX_J(cthis)));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX3D_INDEX_I(cthis)) && (1 == MATRIX3D_INDEX_J(cthis)) &&
+          (1 < MATRIX3D_INDEX_K(cthis));
+  }
+
+  return res;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_ixj)(const TYPE *cthis) {
-  return CGRAPH_TEST(1 == CGRAPH_MATRIX3D_INDEX_K(cthis));
+__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_ij)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX3D_INDEX_K(cthis)) && (1 < MATRIX3D_INDEX_I(cthis)) &&
+          (1 < MATRIX3D_INDEX_J(cthis));
+  }
+
+  return res;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_ixk)(const TYPE *cthis) {
-  return CGRAPH_TEST(1 == CGRAPH_MATRIX3D_INDEX_J(cthis));
+__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_ik)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX3D_INDEX_J(cthis)) && (1 < MATRIX3D_INDEX_I(cthis)) &&
+          (1 < MATRIX3D_INDEX_K(cthis));
+  }
+
+  return res;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_jxk)(const TYPE *cthis) {
-  return CGRAPH_TEST(1 == CGRAPH_MATRIX3D_INDEX_I(cthis));
+__INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d_jk)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX3D_INDEX_I(cthis)) && (1 < MATRIX3D_INDEX_J(cthis)) &&
+          (1 < MATRIX3D_INDEX_K(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismatrix3d)(const TYPE *cthis) {
-  return CGRAPH_TEST((1 != CGRAPH_MATRIX3D_INDEX_I(cthis)) &&
-                     (1 != CGRAPH_MATRIX3D_INDEX_J(cthis)) &&
-                     (1 != CGRAPH_MATRIX3D_INDEX_K(cthis)));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 < MATRIX3D_INDEX_I(cthis)) && (1 < MATRIX3D_INDEX_J(cthis)) &&
+          (1 < MATRIX3D_INDEX_K(cthis));
+  }
+
+  return res;
 }

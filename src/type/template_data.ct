@@ -752,12 +752,12 @@ void FUNCTION(NAME, descsort1v)(TYPE *cthis, const cgraph_size_t start,
 #ifdef TYPE_WITH_DATA
 cgraph_bool_t FUNCTION(NAME, cmp1v)(const TYPE **x, const TYPE **y,
                                     const cgraph_size_t len,
-                                    cgraph_pfunc3_t func) {
+                                    void (*func)(void *x, void *y, void *res)) {
   TYPE **_x = (TYPE **)x, **_y = (TYPE **)y;
 #else
 cgraph_bool_t FUNCTION(NAME, cmp1v)(const TYPE *x, const TYPE *y,
                                     const cgraph_size_t len,
-                                    cgraph_pfunc3_t func) {
+                                    void (*func)(void *x, void *y, void *res)) {
   TYPE *_x = (TYPE *)x, *_y = (TYPE *)y;
 #endif
   cgraph_bool_t flag = CGRAPH_FALSE;
@@ -774,10 +774,10 @@ cgraph_bool_t FUNCTION(NAME, cmp1v)(const TYPE *x, const TYPE *y,
 
 #ifdef TYPE_WITH_DATA
 TYPE **FUNCTION(NAME, for1v)(TYPE **x, const cgraph_size_t len,
-                             cgraph_pfunc1_t func)
+                             void (*func)(void *x))
 #else
 TYPE *FUNCTION(NAME, for1v)(TYPE *x, const cgraph_size_t len,
-                            cgraph_pfunc1_t func)
+                            void (*func)(void *x))
 #endif
 {
   CGRAPH_LOOP(i, 0, len)
@@ -789,10 +789,10 @@ TYPE *FUNCTION(NAME, for1v)(TYPE *x, const cgraph_size_t len,
 
 #ifdef TYPE_WITH_DATA
 TYPE **FUNCTION(NAME, for2v)(const TYPE **x, TYPE **y, const cgraph_size_t len,
-                             cgraph_pfunc2_t func)
+                             void (*func)(void *x, void *y))
 #else
 TYPE *FUNCTION(NAME, for2v)(const TYPE *x, TYPE *y, const cgraph_size_t len,
-                            cgraph_pfunc2_t func)
+                            void (*func)(void *x, void *y))
 #endif
 {
   CGRAPH_LOOP(i, 0, len)
@@ -804,10 +804,10 @@ TYPE *FUNCTION(NAME, for2v)(const TYPE *x, TYPE *y, const cgraph_size_t len,
 
 #ifdef TYPE_WITH_DATA
 TYPE *FUNCTION(NAME, for2vc)(const TYPE **x, TYPE *y, const cgraph_size_t len,
-                             cgraph_pfunc2_t func)
+                             void (*func)(void *x, void *y))
 #else
 TYPE FUNCTION(NAME, for2vc)(const TYPE *x, TYPE y, const cgraph_size_t len,
-                            cgraph_pfunc2_t func)
+                            void (*func)(void *x, void *y))
 #endif
 {
   CGRAPH_LOOP(i, 0, len)
@@ -819,10 +819,12 @@ TYPE FUNCTION(NAME, for2vc)(const TYPE *x, TYPE y, const cgraph_size_t len,
 
 #ifdef TYPE_WITH_DATA
 TYPE **FUNCTION(NAME, for3v)(const TYPE **x, const TYPE **y, TYPE **z,
-                             const cgraph_size_t len, cgraph_pfunc3_t func)
+                             const cgraph_size_t len,
+                             void (*func)(void *x, void *y, void *res))
 #else
 TYPE *FUNCTION(NAME, for3v)(const TYPE *x, const TYPE *y, TYPE *z,
-                            const cgraph_size_t len, cgraph_pfunc3_t func)
+                            const cgraph_size_t len,
+                            void (*func)(void *x, void *y, void *res))
 #endif
 {
   CGRAPH_LOOP(i, 0, len)
@@ -834,10 +836,12 @@ TYPE *FUNCTION(NAME, for3v)(const TYPE *x, const TYPE *y, TYPE *z,
 
 #ifdef TYPE_WITH_DATA
 TYPE *FUNCTION(NAME, for3vvc)(const TYPE **x, const TYPE **y, TYPE *z,
-                              const cgraph_size_t len, cgraph_pfunc3_t func)
+                              const cgraph_size_t len,
+                              void (*func)(void *x, void *y, void *res))
 #else
 TYPE FUNCTION(NAME, for3vvc)(const TYPE *x, const TYPE *y, TYPE z,
-                             const cgraph_size_t len, cgraph_pfunc3_t func)
+                             const cgraph_size_t len,
+                             void (*func)(void *x, void *y, void *res))
 #endif
 {
   CGRAPH_LOOP(i, 0, len)
@@ -849,10 +853,12 @@ TYPE FUNCTION(NAME, for3vvc)(const TYPE *x, const TYPE *y, TYPE z,
 
 #ifdef TYPE_WITH_DATA
 TYPE **FUNCTION(NAME, for3vcv)(const TYPE **x, const TYPE *y, TYPE **z,
-                               const cgraph_size_t len, cgraph_pfunc3_t func)
+                               const cgraph_size_t len,
+                               void (*func)(void *x, void *y, void *res))
 #else
 TYPE *FUNCTION(NAME, for3vcv)(const TYPE *x, const TYPE y, TYPE *z,
-                              const cgraph_size_t len, cgraph_pfunc3_t func)
+                              const cgraph_size_t len,
+                              void (*func)(void *x, void *y, void *res))
 #endif
 {
   CGRAPH_LOOP(i, 0, len)
@@ -864,10 +870,12 @@ TYPE *FUNCTION(NAME, for3vcv)(const TYPE *x, const TYPE y, TYPE *z,
 
 #ifdef TYPE_WITH_DATA
 TYPE *FUNCTION(NAME, for3cvc)(const TYPE *x, const TYPE **y, TYPE *z,
-                              const cgraph_size_t len, cgraph_pfunc3_t func)
+                              const cgraph_size_t len,
+                              void (*func)(void *x, void *y, void *res))
 #else
 TYPE FUNCTION(NAME, for3cvc)(const TYPE x, const TYPE *y, TYPE z,
-                             const cgraph_size_t len, cgraph_pfunc3_t func)
+                             const cgraph_size_t len,
+                             void (*func)(void *x, void *y, void *res))
 #endif
 {
   CGRAPH_LOOP(i, 0, len)

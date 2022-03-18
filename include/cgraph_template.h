@@ -26,12 +26,6 @@
 #define FUNCPTR(a, b) CONCAT4(cgraph, a, b, t)
 #define FUNCTION(a, b) CONCAT3(cgraph, a, b)
 
-/**property inheritance of object types */
-#define CGRAPH_OBJECT_BASE cgraph_element_t element;
-
-#define CGRAPH_OBJECT_ROOT DATA_TYPE data;
-#define CGRAPH_OBJECT_DATA_START(x) (&((x)->data[0]))
-
 /**property inheritance of data and structure types */
 #define CGRAPH_BASE cgraph_size_t size, len;
 #define CGRAPH_SIZE(x) ((NULL != (x)) ? (x)->size : 0)
@@ -46,6 +40,12 @@
   ((NULL != (x)) && ((bits / DATA_BITS) <= (x)->len))
 #define CGRAPH_DATA_BYTES_CHECKER(x, bits)                                     \
   ((NULL != (x)) && ((bits / DATA_BYTES) <= (x)->len))
+
+/**property inheritance of object types */
+#define CGRAPH_OBJECT_BASE cgraph_element_t element;
+
+#define CGRAPH_OBJECT_ROOT DATA_TYPE data;
+#define CGRAPH_OBJECT_DATA_START(x) (&((x)->data[0]))
 
 #if (__STDC_VERSION__ >= 199901L)
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, root[];
@@ -66,17 +66,30 @@
 #define CGRAPH_MATRIX_INDEXES cgraph_size_t row, column;
 #define MATRIX_ROW(x) ((x)->row)
 #define MATRIX_COLUMN(x) ((x)->column)
+#define MATRIX_INDEX_SET(x, row, column)                                       \
+  do {                                                                         \
+    MATRIX_ROW(x) = (row);                                                     \
+    MATRIX_COLUMN(x) = (column);                                               \
+  } while (0)
+
 #define MATRIX_SIZE(x) (MATRIX_ROW(x) * MATRIX_COLUMN(x))
 
 #define CGRAPH_MATRIX_ROW(x) ((NULL != (x)) ? MATRIX_ROW(x) : 0)
 #define CGRAPH_MATRIX_COLUMN(x) ((NULL != (x)) ? MATRIX_COLUMN(x) : 0)
-#define CGRAPH_MATRIX_SIZE(x) (CGRAPH_MATRIX_ROW(x) * CGRAPH_MATRIX_COLUMN(x))
+#define CGRAPH_MATRIX_SIZE(x) ((NULL != (x)) ? MATRIX_SIZE(x) : 0)
 
 /** 3D MATRIX */
 #define CGRAPH_MATRIX3D_INDEXES cgraph_size_t index_i, index_j, index_k;
 #define MATRIX3D_INDEX_I(x) ((x)->index_i)
 #define MATRIX3D_INDEX_J(x) ((x)->index_j)
 #define MATRIX3D_INDEX_K(x) ((x)->index_k)
+#define MATRIX3D_INDEX_SET(x, index_i, index_j, index_k)                       \
+  do {                                                                         \
+    MATRIX3D_INDEX_I(x) = (index_i);                                           \
+    MATRIX3D_INDEX_J(x) = (index_j);                                           \
+    MATRIX3D_INDEX_K(x) = (index_k);                                           \
+  } while (0)
+
 #define MATRIX3D_SIZE_IJ(x) (MATRIX3D_INDEX_I(x) * MATRIX3D_INDEX_J(x))
 #define MATRIX3D_SIZE_IK(x) (MATRIX3D_INDEX_I(x) * MATRIX3D_INDEX_K(x))
 #define MATRIX3D_SIZE_JK(x) (MATRIX3D_INDEX_J(x) * MATRIX3D_INDEX_K(x))
@@ -86,12 +99,7 @@
 #define CGRAPH_MATRIX3D_INDEX_I(x) ((NULL != (x)) ? MATRIX3D_INDEX_I(x) : 0)
 #define CGRAPH_MATRIX3D_INDEX_J(x) ((NULL != (x)) ? MATRIX3D_INDEX_J(x) : 0)
 #define CGRAPH_MATRIX3D_INDEX_K(x) ((NULL != (x)) ? MATRIX3D_INDEX_K(x) : 0)
-#define CGRAPH_MATRIX3D_SIZE_IJ(x)                                             \
-  (CGRAPH_MATRIX3D_INDEX_I(x) * CGRAPH_MATRIX3D_INDEX_J(x))
-#define CGRAPH_MATRIX3D_SIZE_IK(x)                                             \
-  (CGRAPH_MATRIX3D_INDEX_I(x) * CGRAPH_MATRIX3D_INDEX_K(x))
-#define CGRAPH_MATRIX3D_SIZE_JK(x)                                             \
-  (CGRAPH_MATRIX3D_INDEX_J(x) * CGRAPH_MATRIX3D_INDEX_K(x))
-#define CGRAPH_MATRIX3D_SIZE(x)                                                \
-  (CGRAPH_MATRIX3D_INDEX_I(x) * CGRAPH_MATRIX3D_INDEX_J(x) *                   \
-   CGRAPH_MATRIX3D_INDEX_K(x))
+#define CGRAPH_MATRIX3D_SIZE_IJ(x) ((NULL != (x)) ? MATRIX3D_SIZE_IJ(x) : 0)
+#define CGRAPH_MATRIX3D_SIZE_IK(x) ((NULL != (x)) ? MATRIX3D_SIZE_IK(x) : 0)
+#define CGRAPH_MATRIX3D_SIZE_JK(x) ((NULL != (x)) ? MATRIX3D_SIZE_JK(x) : 0)
+#define CGRAPH_MATRIX3D_SIZE(x) ((NULL != (x)) ? MATRIX3D_SIZE(x) : 0)

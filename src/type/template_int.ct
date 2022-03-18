@@ -73,7 +73,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return x | (x >> (BITS - 1));
+  return CGRAPH_BFLAG(x, BITS);
 }
 
 __INLINE TYPE FUNCTION(NAME, zero)(void) { return ZERO; }
@@ -90,7 +90,11 @@ TYPE FUNCTION(NAME, rand)(void) {
 #endif
 }
 
-UTYPE FUNCTION(NAME, urand)(void) { return FUNCTION(NAME, rand)(); }
+UTYPE FUNCTION(NAME, urand)(void) { return (UTYPE)FUNCTION(NAME, rand)(); }
+
+__INLINE TYPE FUNCTION(NAME, inv)(const TYPE x) {
+  return (ONE == x) ? ONE : ZERO;
+}
 
 __INLINE TYPE FUNCTION(NAME, unit)(void) { return ONE; }
 
@@ -132,16 +136,26 @@ TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y) {
   if ((1 >= _y)) {
     return _y;
   }
-  while (_x != _y) {
-    if (_x < _y) {
-      SWAP(_x, _y);
+#if BITS > 16
+  if (_x > (_y << 8) || (_y > (_x << 8))) {
+    while ((_x %= _y) && (_y %= _x)) {
     }
-    _x -= _y;
-    if ((1 == _x) || (1 == _y)) {
-      _x = 1;
-      break;
+    _x += _y;
+  } else {
+#endif
+    while (_x != _y) {
+      if (_x < _y) {
+        SWAP(_x, _y);
+      }
+      _x -= _y;
+      if ((1 == _x) || (1 == _y)) {
+        _x = 1;
+        break;
+      }
     }
+#if BITS > 16
   }
+#endif
 
   return (TYPE)_x;
 }
@@ -208,6 +222,114 @@ __INLINE cgraph_bool_t FUNCTION(NAME,
   return CGRAPH_TEST(
       0 <= (TYPE)(((UTYPE)num - (UTYPE)start0) | ((UTYPE)end0 - (UTYPE)num) |
                   ((UTYPE)num - (UTYPE)start1) | ((UTYPE)end1 - (UTYPE)num)));
+}
+
+cgraph_size_t FUNCTION(NAME, startswith0)(const TYPE x) {
+  cgraph_size_t cnt = 0;
+  UTYPE mask = MSB;
+  for (; mask && (!(mask & x)); mask >>= 1, cnt++) {
+  }
+
+  return cnt;
+}
+
+cgraph_size_t FUNCTION(NAME, startswith1)(const TYPE x) {
+  cgraph_size_t cnt = 0;
+  UTYPE mask = MSB;
+  for (; mask && (mask & x); mask >>= 1, cnt++) {
+  }
+
+  return cnt;
+}
+
+cgraph_size_t FUNCTION(NAME, endswith0)(const TYPE x) {
+  cgraph_size_t cnt = 0;
+  UTYPE mask = LSB;
+  for (; mask && (!(mask & x)); mask <<= 1, cnt++) {
+  }
+
+  return cnt;
+}
+
+cgraph_size_t FUNCTION(NAME, endswith1)(const TYPE x) {
+  cgraph_size_t cnt = 0;
+  UTYPE mask = LSB;
+  for (; mask && (!(mask & x)); mask <<= 1, cnt++) {
+  }
+
+  return cnt;
+}
+
+cgraph_size_t FUNCTION(NAME, max0)(const TYPE x) {
+  cgraph_size_t cnt = 0, len = 0;
+  UTYPE mask = LSB;
+  CGRAPH_LOOP(i, 0, BITS)
+  if (!(mask & x)) {
+    cnt += 1;
+    if (len < cnt) {
+      len = cnt;
+    }
+  } else {
+    cnt = 0;
+  }
+  mask <<= 1;
+  CGRAPH_LOOP_END
+
+  return len;
+}
+
+cgraph_size_t FUNCTION(NAME, max1)(const TYPE x) {
+  cgraph_size_t cnt = 0, len = 0;
+  UTYPE mask = LSB;
+  CGRAPH_LOOP(i, 0, BITS)
+  if (mask & x) {
+    cnt += 1;
+    if (len < cnt) {
+      len = cnt;
+    }
+  } else {
+    cnt = 0;
+  }
+  mask <<= 1;
+  CGRAPH_LOOP_END
+
+  return len;
+}
+
+cgraph_size_t FUNCTION(NAME, min0)(const TYPE x) {
+  cgraph_size_t cnt = 0, len = BITS;
+  UTYPE mask = LSB;
+  CGRAPH_LOOP(i, 0, BITS)
+  if (!(mask & x)) {
+    cnt += 1;
+    if (len > cnt) {
+      len = cnt;
+    }
+  } else {
+    cnt = 0;
+  }
+  mask <<= 1;
+  CGRAPH_LOOP_END
+
+  return len;
+}
+
+cgraph_size_t FUNCTION(NAME, min1)(const TYPE x) {
+  cgraph_size_t cnt = 0, len = BITS;
+  UTYPE mask = LSB;
+  CGRAPH_LOOP(i, 0, BITS)
+  if (mask & x) {
+    cnt += 1;
+    if (len > cnt) {
+      len = cnt;
+    }
+  } else {
+    cnt = 0;
+  }
+  mask <<= 1;
+  CGRAPH_LOOP_END
+
+  return len;
 }
 
 __INLINE UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits) {
@@ -533,228 +655,4 @@ UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
   return res;
 }
 
-TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
-#if defined(TYPE_BOOL)
-  return CGRAPH_AND(x, y);
-#elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y))
-             ? CGRAPH_LX
-             : CGRAPH_AND(x, y);
-#else
-  TYPE res = 0, _x = x, _y = y;
-  while (_y > 0) {
-    if (_y & 1) {
-      res += _x;
-    }
-    _x <<= 1;
-    _y >>= 1;
-  }
-
-  return res;
-#endif
-}
-
-TYPE FUNCTION(NAME, mul_mod_s)(const TYPE x, const TYPE y, const TYPE mod) {
-#if defined(TYPE_BOOL)
-  return CGRAPH_FALSE == mod ? CGRAPH_FALSE : CGRAPH_AND(x, y);
-#elif defined(TYPE_LOGIC)
-  return ((FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y) ||
-           FUNCTION(NAME, isnan)(mod)) ||
-          (CGRAPH_FALSE == mod))
-             ? CGRAPH_LX
-             : CGRAPH_AND(x, y);
-#else
-  TYPE res = 0, _x = x, _y = y;
-  while (_y > 0) {
-    if (_y & 1) {
-      res = (res + _x) % mod;
-    }
-    _x = (_x << 1) % mod;
-    _y >>= 1;
-  }
-
-  return res % mod;
-#endif
-}
-
-UTYPE FUNCTION(NAME, udiv_s)(const UTYPE x, const UTYPE y) {
-#if defined(TYPE_BOOL)
-  return (CGRAPH_FALSE == y) ? CGRAPH_FALSE : x;
-#elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y) ||
-          (CGRAPH_FALSE == y))
-             ? CGRAPH_LX
-             : x;
-#else
-  UTYPE _x = x, _y = y, res = 0;
-  if (_x > _y) {
-    cgraph_size_t st = BITS - 1, ed = 0, md;
-    while (st > ed) {
-      md = (st + ed) >> 1;
-      if (_x > (_y = y << md)) {
-        ed = md + 1;
-      } else if (_x < _y) {
-        st = md - 1;
-      } else {
-        return 1 << md;
-      }
-    }
-
-    for (; (st >= 0) && _x; st--) {
-      if (_x >= (_y = y << st)) {
-        _x -= _y;
-        res += 1 << st;
-      }
-    }
-  }
-
-  return res;
-#endif
-}
-
-TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return FUNCTION(NAME, udiv_s)(x, y);
-#else
-  TYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y),
-       res = FUNCTION(NAME, udiv_s)(_x, _y);
-
-  return ((x ^ y) >> (BITS - 1)) ? -res : res;
-#endif
-}
-
-UTYPE FUNCTION(NAME, upow_s)(const UTYPE x, const UTYPE y) {
-#if defined(TYPE_BOOL)
-  return x;
-#elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y)) ? CGRAPH_LX : x;
-#else
-  UTYPE res = 1, _x = x, _y = y;
-  while (_y) {
-    if (_y & 0x01) {
-      res *= _x;
-    }
-    _y >>= 1;
-    _x *= _x;
-  }
-
-  return res;
-#endif
-}
-
-TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE y) {
-#if defined(TYPE_BOOL)
-  return x;
-#elif defined(TYPE_LOGIC)
-  return (FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y)) ? CGRAPH_LX : x;
-#else
-  TYPE res = 1, _x = x, _y = y;
-  while (_y > 0) {
-    if (_y & 0x01) {
-      res *= _x;
-    }
-    _y >>= 1;
-    _x *= _x;
-  }
-
-  return res;
-#endif
-}
-
-UTYPE FUNCTION(NAME, upow_mod_s)(const UTYPE x, const UTYPE n,
-                                 const UTYPE mod) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
-  UTYPE res = 1, _x = x, _n = n;
-  while (_n) {
-    if (_n & 0x01) {
-      res = (res * _x) % mod;
-    }
-    _n >>= 1;
-    _x = (_x * _x) % mod;
-  }
-
-  return res % mod;
-#endif
-}
-
-TYPE FUNCTION(NAME, pow_mod_s)(const TYPE x, const TYPE n, const TYPE mod) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
-  TYPE res = 1, _x = x, _n = n;
-  while (_n > 0) {
-    if (_n & 0x01) {
-      res = (res * _x) % mod;
-    }
-    _n >>= 1;
-    _x = (_x * _x) % mod;
-  }
-
-  return res % mod;
-#endif
-}
-
-UTYPE FUNCTION(NAME, ucomb2_s)(const UTYPE x) {
-  UTYPE _x = 1 << x, y = _x + 1, msk = _x - 1;
-
-  return (FUNCTION(NAME, upow_s)(y, x) >> ((x >> 1) * x)) & msk;
-}
-
-UTYPE FUNCTION(NAME, ucomb_s)(const UTYPE x, const UTYPE y) {
-  UTYPE res = 1;
-
-  return res;
-}
-
-UTYPE FUNCTION(NAME, ufact_s)(const UTYPE x) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
-  if (x <= 1) {
-    return x;
-  }
-  if (x & 0x01) {
-    return x * FUNCTION(NAME, ufact_s)(x - 1);
-  } else {
-    UTYPE res = FUNCTION(NAME, ufact_s)(x >> 1);
-    return FUNCTION(NAME, ucomb2_s)(x) * res * res;
-  }
-#endif
-}
-
-UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
-  UTYPE each = 0, res = 0, _x = x, y = 0;
-  cgraph_size_t i;
-  for (i = 0; i < (BITS >> 1); i++, _x <<= 2) {
-    res <<= 1;
-    each = ((each << 2) + (_x >> (BITS - 2)));
-    if (each >= (y = (res << 1) + 1)) {
-      each -= y;
-      res++;
-    }
-  }
-
-  return res;
-#endif
-}
-
-UTYPE FUNCTION(NAME, usqrt_mod_s)(const UTYPE x, const UTYPE y) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
-  return 0;
-#endif
-}
-
-UTYPE FUNCTION(NAME, usqrt_modp_s)(const UTYPE x, const UTYPE p) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
-  return 0;
-#endif
-}
+#include "template_int_soft.ct"

@@ -10,7 +10,6 @@
 cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if ((NULL != cthis) && (NULL != x)) {
-    cgraph_size_t i;
     cgraph_type_t type = CGRAPH_DTYPE_TYPE(cthis);
     CGRAPH_LOOP(i, 0, cthis->len)
     res = CGRAPH_TRUE;

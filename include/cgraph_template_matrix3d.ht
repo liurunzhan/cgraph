@@ -16,6 +16,7 @@ extern TYPE *FUNCTION(NAME, create)(const cgraph_type_t type,
                                     const cgraph_size_t index_i,
                                     const cgraph_size_t index_j,
                                     const cgraph_size_t index_k);
+extern TYPE *FUNCTION(NAME, retype)(TYPE *cthis, const cgraph_type_t type);
 extern TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
                                     const cgraph_size_t index_i,
                                     const cgraph_size_t index_j,
@@ -23,9 +24,6 @@ extern TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
 extern cgraph_size_t FUNCTION(NAME, index_i)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_j)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, index_k)(const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, size_i)(const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, size_j)(const TYPE *cthis);
-extern cgraph_size_t FUNCTION(NAME, size_k)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, size_ij)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, size_ik)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, size_jk)(const TYPE *cthis);
@@ -35,7 +33,7 @@ extern cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_i)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_j)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_k)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_ixj)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_ixk)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_jxk)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_ij)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_ik)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, ismatrix3d_jk)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, ismatrix3d)(const TYPE *cthis);

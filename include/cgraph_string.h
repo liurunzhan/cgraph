@@ -19,6 +19,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
+#include "cgraph_int8.h"
+
 #include "cgraph_template_off.h"
 #define TYPE_STRING
 #include "cgraph_template.h"
@@ -30,7 +32,7 @@ extern "C" {
 #define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(CHAR)
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
-#define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitceil)((x))
+#define DATA_BYTES(x) FUNCTION(int8, ubitceil)((x))
 #define DATA_END ('\0')
 #define DATA_ZERO ('0')
 #define DATA_ONE ('1')
@@ -97,15 +99,23 @@ extern TYPE *FUNCTION(NAME, chomp)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, strip)(TYPE *cthis, const cgraph_char_t *data);
 extern TYPE *FUNCTION(NAME, lstrip)(TYPE *cthis, const cgraph_char_t *data);
 extern TYPE *FUNCTION(NAME, rstrip)(TYPE *cthis, const cgraph_char_t *data);
-extern TYPE *FUNCTION(NAME, stripc)(TYPE *cthis, const DATA_TYPE data);
-extern TYPE *FUNCTION(NAME, lstripc)(TYPE *cthis, const DATA_TYPE data);
-extern TYPE *FUNCTION(NAME, rstripc)(TYPE *cthis, const DATA_TYPE data);
+extern TYPE *FUNCTION(NAME, stripc)(TYPE *cthis, const DATA_TYPE ch);
+extern TYPE *FUNCTION(NAME, lstripc)(TYPE *cthis, const DATA_TYPE ch);
+extern TYPE *FUNCTION(NAME, rstripc)(TYPE *cthis, const DATA_TYPE ch);
 extern cgraph_bool_t FUNCTION(NAME, startswith)(const TYPE *cthis,
                                                 const DATA_TYPE *cstr,
                                                 const cgraph_size_t len);
 extern cgraph_bool_t FUNCTION(NAME, endswith)(const TYPE *cthis,
                                               const DATA_TYPE *cstr,
                                               const cgraph_size_t len);
+
+extern cgraph_bool_t FUNCTION(NAME, startswithc)(const TYPE *cthis,
+                                                 const DATA_TYPE ch);
+extern cgraph_bool_t FUNCTION(NAME, endswithc)(const TYPE *cthis,
+                                               const DATA_TYPE ch);
+
+extern cgraph_bool_t FUNCTION(NAME, isutf8)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, len_utf8)(const TYPE *cthis);
 
 #ifdef __cplusplus
 }

@@ -5,13 +5,16 @@ TYPE *FUNCTION(NAME, create)(const cgraph_type_t type, const cgraph_size_t row,
   cgraph_size_t size = row * column;
   TYPE *cthis = FUNCTION(NAME, calloc)(type, size);
   if (NULL != cthis) {
-    cgraph_file_fprintfln(stdout, "row : %ld column : %ld", row, column);
-    MATRIX_ROW(cthis) = row;
-    MATRIX_COLUMN(cthis) = column;
+    MATRIX_INDEX_SET(cthis, row, column);
     cthis->len = size;
   }
 
   return cthis;
+}
+
+TYPE *FUNCTION(NAME, retype)(TYPE *cthis, const cgraph_type_t type) {
+  return FUNCTION(NAME, realloc)(cthis, type, CGRAPH_SIZE(cthis),
+                                 CGRAPH_SIZE(cthis), NULL);
 }
 
 TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
@@ -20,51 +23,20 @@ TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
   cgraph_size_t old_size = FUNCTION(NAME, size_rowcol)(cthis);
   cgraph_size_t new_size = row * column;
   cgraph_bool_t error = CGRAPH_FALSE;
-  if (old_size < new_size) {
-    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
-    if (CGRAPH_FALSE == error) {
-    }
-  } else if (old_size == new_size) {
-
-  } else {
-    cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
-    if (0 != new_size) {
-    } else {
-      error = CGRAPH_TRUE;
-    }
-  }
+  cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
   if (CGRAPH_FALSE == error) {
-    MATRIX_ROW(cthis) = row;
-    MATRIX_COLUMN(cthis) = column;
+    MATRIX_INDEX_SET(cthis, row, column);
     cthis->len = new_size;
   }
 
   return cthis;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
-  return CGRAPH_TEST((0 == CGRAPH_MATRIX_ROW(cthis)) &&
-                     (0 == CGRAPH_MATRIX_COLUMN(cthis)));
-}
-
-__INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
-  return CGRAPH_TEST((1 == CGRAPH_MATRIX_ROW(cthis)) &&
-                     (1 == CGRAPH_MATRIX_COLUMN(cthis)));
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, index_row)(const TYPE *cthis) {
   return CGRAPH_MATRIX_ROW(cthis);
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis) {
-  return CGRAPH_MATRIX_COLUMN(cthis);
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, size_row)(const TYPE *cthis) {
-  return CGRAPH_MATRIX_ROW(cthis);
-}
-
-__INLINE cgraph_size_t FUNCTION(NAME, size_column)(const TYPE *cthis) {
+__INLINE cgraph_size_t FUNCTION(NAME, index_column)(const TYPE *cthis) {
   return CGRAPH_MATRIX_COLUMN(cthis);
 }
 
@@ -72,19 +44,57 @@ __INLINE cgraph_size_t FUNCTION(NAME, size_rowcol)(const TYPE *cthis) {
   return CGRAPH_MATRIX_SIZE(cthis);
 }
 
+__INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_TRUE;
+  if (NULL != cthis) {
+    res = (0 == MATRIX_ROW(cthis)) || (0 == MATRIX_COLUMN(cthis));
+  }
+
+  return res;
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX_ROW(cthis)) && (1 == MATRIX_COLUMN(cthis));
+  }
+
+  return res;
+}
+
 __INLINE cgraph_bool_t FUNCTION(NAME, issquare)(const TYPE *cthis) {
-  return CGRAPH_TEST(CGRAPH_MATRIX_ROW(cthis) == CGRAPH_MATRIX_COLUMN(cthis));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res =
+        (MATRIX_ROW(cthis) == MATRIX_COLUMN(cthis)) && (1 < MATRIX_ROW(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismatrix_row)(const TYPE *cthis) {
-  return CGRAPH_TEST(1 == CGRAPH_MATRIX_COLUMN(cthis));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX_COLUMN(cthis)) && (1 < MATRIX_ROW(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismatrix_column)(const TYPE *cthis) {
-  return CGRAPH_TEST(1 == CGRAPH_MATRIX_ROW(cthis));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 == MATRIX_ROW(cthis)) && (1 < MATRIX_COLUMN(cthis));
+  }
+
+  return res;
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ismatrix)(const TYPE *cthis) {
-  return CGRAPH_TEST((1 != CGRAPH_MATRIX_COLUMN(cthis)) &&
-                     (1 != CGRAPH_MATRIX_ROW(cthis)));
+  cgraph_bool_t res = CGRAPH_FALSE;
+  if (NULL != cthis) {
+    res = (1 < MATRIX_COLUMN(cthis)) && (1 < MATRIX_ROW(cthis));
+  }
+
+  return res;
 }

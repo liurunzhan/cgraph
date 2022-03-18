@@ -30,7 +30,7 @@
 # of using the various options.
 
 # The name of the module, e.g. 'glib'.
-DOC_MODULE=cgraph
+DOC_MODULE=$(PROJECT)
 
 INC=$(top_srcdir)/include
 SRC=$(top_srcdir)/src

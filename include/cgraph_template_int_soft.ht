@@ -19,10 +19,22 @@ extern UTYPE FUNCTION(NAME, unot_s)(const UTYPE x);
 extern UTYPE FUNCTION(NAME, uxor_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, uxnor_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, uabs_s)(const UTYPE x);
+
 extern UTYPE FUNCTION(NAME, uadd_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, usub_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, umul_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, udiv_s)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, upow_s)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, upow_mod_s)(const UTYPE x, const UTYPE n,
+                                        const UTYPE mod);
+extern UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x);
+extern UTYPE FUNCTION(NAME, usqrt_inv_s)(const UTYPE x);
+extern UTYPE FUNCTION(NAME, usqrt_mod_s)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, usqrt_modp_s)(const UTYPE x, const UTYPE p);
+
+extern UTYPE FUNCTION(NAME, ucomb2_s)(const UTYPE x);
+extern UTYPE FUNCTION(NAME, ucomb_s)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, ufact_s)(const UTYPE x);
 
 /** software_defined signed integer number functions */
 extern TYPE FUNCTION(NAME, shl_s)(const TYPE x, const cgraph_size_t bits);
@@ -32,7 +44,16 @@ extern TYPE FUNCTION(NAME, or_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, not_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, xor_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, abs_s)(const TYPE x);
+
 extern TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, mul_mod_s)(const TYPE x, const TYPE y,
+                                      const TYPE mod);
 extern TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE n);
+extern TYPE FUNCTION(NAME, pow_mod_s)(const TYPE x, const TYPE n,
+                                      const TYPE mod);
+
+extern TYPE FUNCTION(NAME, sqrt_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, sqrt_inv_s)(const TYPE x);

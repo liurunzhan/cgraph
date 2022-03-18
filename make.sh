@@ -22,8 +22,19 @@ python3 $tool/macro.py $inc/cgraph_stdchk.h.in -t $tool/stdchk.macro -c "" --nov
 echo "Step 1 : running autogen.sh to generate configure"
 chmod +x $root/autogen.sh; $root/autogen.sh
 
-echo "Step 2 : running \'configure $*' to generate Makefiles"
-chmod +x $root/configure; $root/configure $*
+number=20
+arguments=""
+for i in $*; do
+	argument_header=`echo $i | cut -c -2`
+  if [ $argument_header = "-j" ]; then
+    number=`echo $i | cut -c 3-`
+  else
+    arguments="$arguments $i"
+  fi
+done
+
+echo "Step 2 : running \'configure $arguments' to generate Makefiles"
+chmod +x $root/configure; $root/configure $arguments
 
 echo "Step 3 : updatting source files"
 for file in `ls $inc/*`; do
@@ -34,7 +45,6 @@ for file in `ls $inc/*`; do
   fi
 done
 
-num=20
-echo "Step 4 : using $num threads to do \'make\' and \'make check\'"
-make -j$num
-make check -j$num 2> build.log
+echo "Step 4 : using $number threads to do \'make\' and \'make check\'"
+make -j$number
+make check -j$number 2> build.log

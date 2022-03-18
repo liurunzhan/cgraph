@@ -36,6 +36,8 @@
 #define DATA_ISLOGIC(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_ISBOOL2V(a, b) (DATA_ISBOOL(a) && DATA_ISBOOL(b))
 #define DATA_ISLOGIC2V(a, b) (DATA_ISLOGIC(a) && DATA_ISLOGIC(b))
+#define DATA_FUNC(a) (DATA_ISBOOL(a) ? (a) : CGRAPH_FALSE)
+#define DATA_CFUNC(a, b) (((a) && DATA_ISBOOL(b)) ? (b) : CGRAPH_FALSE)
 
 #define EQ(a, b) BOOLEAN_EQ(a, b)
 #define NE(a, b) BOOLEAN_NE(a, b)
@@ -63,9 +65,10 @@
 #define INT(a, b, c) AND(a, b)
 #define MOD(a, b, c) (SUB((a), INT(a, b, NULL), NULL))
 
-#define CEIL(a, b) ceil((a))
-#define FLOOR(a, b) floor((a))
-#define POW(a, b) (NOT(a) && ABS(b))
+#define SIGNBIT(a) ABS(a)
+#define CEIL(a, b) ABS(a)
+#define FLOOR(a, b) ABS(a)
+#define POW(a, b, c) (NOT(a) && ABS(b))
 #define SIN(a, b) sin((a))
 #define COS(a, b) cos((a))
 #define TAN(a, b) tan((a))
@@ -82,14 +85,16 @@
 #define SQRT(a, b) sqrt((a))
 
 #elif defined(TYPE_LOGIC)
-#define DATA_ISNAN(a) (!((~ONE) & (a)))
-#define DATA_TEST(a) (!((~EPSILON) & (a)))
+#define DATA_ISNAN(a) (!((~CGRAPH_BOOL_MASK) & (a)))
+#define DATA_TEST(a) (!((~MASK) & (a)))
 #define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_MASK)
 #define DATA_TOLOGIC(a) ((a)&CGRAPH_BOOL_MASK)
 #define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_ISLOGIC(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_ISBOOL2V(a, b) (DATA_ISBOOL(a) && DATA_ISBOOL(b))
 #define DATA_ISLOGIC2V(a, b) (DATA_ISLOGIC(a) && DATA_ISLOGIC(b))
+#define DATA_FUNC(a) (DATA_ISBOOL(a) ? (a) : CGRAPH_LX)
+#define DATA_CFUNC(a, b) (((a) && DATA_ISBOOL(a)) ? (b) : CGRAPH_LX)
 
 #define DATA_EQ(a, b) ((a) == (b))
 #define DATA_NE(a, b) ((a) != (b))
@@ -122,9 +127,10 @@
 #define MOD(a, b, c)                                                           \
   (DATA_ISBOOL2V(a, b) ? (BOOLEAN_ANDN((a), BOOLEAN_AND(a, b))) : CGRAPH_LX)
 
-#define CEIL(a, b) (DATA_ISBOOL2V(a, b) ? ceil((a)) : CGRAPH_LX)
-#define FLOOR(a, b) (DATA_ISBOOL2V(a, b) ? floor((a)) : CGRAPH_LX)
-#define POW(a, b)                                                              \
+#define SIGNBIT(a) ABS(a)
+#define CEIL(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_ABS((a)) : CGRAPH_LX)
+#define FLOOR(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_ABS((a)) : CGRAPH_LX)
+#define POW(a, b, c)                                                           \
   (DATA_ISBOOL2V(a, b) ? (BOOLEAN_NOT(a) && BOOLEAN_ABS(b)) : CGRAPH_LX)
 #define SIN(a, b) (DATA_ISBOOL2V(a, b) ? sin((a)) : CGRAPH_LX)
 #define COS(a, b) (DATA_ISBOOL2V(a, b) ? cos((a)) : CGRAPH_LX)
@@ -171,8 +177,9 @@
 #define INT(a, b, c) ((a) / (b))
 #define MOD(a, b, c) ((a) % (b))
 
-#define CEIL(a) (a)
-#define FLOOR(a) (a)
+#define SIGNBIT(a) ((((UTYPE)(a)) >> (BITS - 1)) & MSB)
+#define CEIL(a) CGRAPH_ABS(a)
+#define FLOOR(a) CGRAPH_ABS(a)
 #define POW(a, b) pow((a), (b))
 #define ABS(a) CGRAPH_ABS((a))
 #define SIN(a) sin((a))
@@ -217,6 +224,15 @@ extern cgraph_bool_t FUNCTION(NAME, in2ranges)(const TYPE start0,
                                                const TYPE start1,
                                                const TYPE end1, const TYPE num);
 
+extern cgraph_size_t FUNCTION(NAME, startswith0)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, startswith1)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, endswith0)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, endswith1)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, max0)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, max1)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, min0)(const TYPE x);
+extern cgraph_size_t FUNCTION(NAME, min1)(const TYPE x);
+
 extern UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits);
 extern UTYPE FUNCTION(NAME, shr)(const UTYPE x, const cgraph_size_t bits);
 extern UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y);
@@ -244,20 +260,4 @@ extern UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly);
 extern UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
                                  const UTYPE poly);
 
-extern TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, mul_mod_s)(const TYPE x, const TYPE y,
-                                      const TYPE mod);
-extern UTYPE FUNCTION(NAME, udiv_s)(const UTYPE x, const UTYPE y);
-extern TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y);
-extern UTYPE FUNCTION(NAME, upow_s)(const UTYPE x, const UTYPE y);
-extern TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE n);
-extern UTYPE FUNCTION(NAME, upow_mod_s)(const UTYPE x, const UTYPE n,
-                                        const UTYPE mod);
-extern TYPE FUNCTION(NAME, pow_mod_s)(const TYPE x, const TYPE n,
-                                      const TYPE mod);
-extern UTYPE FUNCTION(NAME, ucomb2_s)(const UTYPE x);
-extern UTYPE FUNCTION(NAME, ucomb_s)(const UTYPE x, const UTYPE y);
-extern UTYPE FUNCTION(NAME, ufact_s)(const UTYPE x);
-extern UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x);
-extern UTYPE FUNCTION(NAME, usqrt_mod_s)(const UTYPE x, const UTYPE y);
-extern UTYPE FUNCTION(NAME, usqrt_modp_s)(const UTYPE x, const UTYPE p);
+#include "cgraph_template_int_soft.ht"

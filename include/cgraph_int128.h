@@ -23,8 +23,6 @@ extern "C" {
 #define TYPE_INT128
 #include "cgraph_template.h"
 
-#define DATA_TYPE __INT128_DTYPE
-
 #define ARG cgraph_long_t
 #define NAME int128
 #define TYPE TYPE_T(NAME)

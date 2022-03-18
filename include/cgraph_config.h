@@ -612,7 +612,7 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_ISBUF(x, len) ((NULL != (x)) && (0 < (len)))
 #define CGRAPH_ISNBUF(x, len) ((NULL == (x)) || (0 >= (len)))
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
-#define CGRAPH_NTEST(x) ((x) ^ CGRAPH_BOOL_MASK)
+#define CGRAPH_NTEST(x) ((x) ? CGRAPH_FALSE : CGRAPH_TRUE)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define CGRAPH_ABS(x) ((0 > (x)) ? (-(x)) : (x))
@@ -781,10 +781,6 @@ typedef struct {
 #define CGRAPH_GTYPE_GDYNAMIC(a) ((a)->element.g_dynamic)
 /** @} */
 
-typedef void (*cgraph_pfunc1_t)(void *x);
-typedef void (*cgraph_pfunc2_t)(void *x, void *y);
-typedef void (*cgraph_pfunc3_t)(void *x, void *y, void *res);
-
 /**
  * @struct cgraph_vtable_t
  * @brief virtual table of each type
@@ -863,20 +859,20 @@ size, excludes data pointer size */
   void (*const exp)(void *x, void *y);
   void (*const sqrt)(void *x, void *y);
   void *(*const cmp)(void *x, void *y, void *z, const cgraph_size_t len,
-                     cgraph_pfunc3_t func);
-  void *(*const for1v)(void *x, const cgraph_size_t len, cgraph_pfunc1_t func);
+                     void (*func)(void *x, void *y, void *res));
+  void *(*const for1v)(void *x, const cgraph_size_t len, void (*func)(void *x));
   void *(*const for2v)(void *x, void *y, const cgraph_size_t len,
-                       cgraph_pfunc2_t func);
+                       void (*func)(void *x, void *y));
   void *(*const for2vc)(void *x, void *y, const cgraph_size_t len,
-                        cgraph_pfunc2_t func);
+                        void (*func)(void *x, void *y));
   void *(*const for3v)(void *x, void *y, void *z, const cgraph_size_t len,
-                       cgraph_pfunc3_t func);
+                       void (*func)(void *x, void *y, void *res));
   void *(*const for3vvc)(void *x, void *y, void *z, const cgraph_size_t len,
-                         cgraph_pfunc3_t func);
+                         void (*func)(void *x, void *y, void *res));
   void *(*const for3vcv)(void *x, void *y, void *z, const cgraph_size_t len,
-                         cgraph_pfunc3_t func);
+                         void (*func)(void *x, void *y, void *res));
   void *(*const for3cvc)(void *x, void *y, void *z, const cgraph_size_t len,
-                         cgraph_pfunc3_t func);
+                         void (*func)(void *x, void *y, void *res));
   void (*const tend)(void);
 } cgraph_vtable_t;
 

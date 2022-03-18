@@ -94,6 +94,7 @@ extern TYPE *FUNCTION(NAME, log2)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, log10)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, exp)(const TYPE *x, TYPE *y);
 extern TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y);
+extern TYPE *FUNCTION(NAME, sqrt_inv)(const TYPE *x, TYPE *y);
 
 extern TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data);
 extern cgraph_float32_t FUNCTION(NAME, tof32_s)(const TYPE *cthis);
@@ -262,6 +263,7 @@ extern TYPE FUNCTION(NAME, log2)(const TYPE x);
 extern TYPE FUNCTION(NAME, log10)(const TYPE x);
 extern TYPE FUNCTION(NAME, exp)(const TYPE x);
 extern TYPE FUNCTION(NAME, sqrt)(const TYPE x);
+extern TYPE FUNCTION(NAME, sqrt_inv)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, initf32)(const cgraph_float32_t x);
 extern cgraph_float32_t FUNCTION(NAME, tof32)(const TYPE x);
