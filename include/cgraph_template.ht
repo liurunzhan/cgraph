@@ -122,7 +122,8 @@
 #define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
 #define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
 #define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
-#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a))
+#define CUBE(a, b) FUNCTION(NAME, cube)((a))
 
 #elif defined(TYPE_FRACTION)
 #define DATA_TEST(a) ((0 != FRACTION_DEN(a)))
@@ -189,7 +190,8 @@
 #define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
 #define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
 #define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
-#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a))
+#define CUBE(a, b) FUNCTION(NAME, cube)((a))
 
 #elif defined(TYPE_BIGINT)
 
@@ -240,6 +242,7 @@
 #define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
 #define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
 #define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+#define CUBE(a, b) FUNCTION(NAME, cube)((a), (b))
 
 #elif defined(TYPE_BIGNUM)
 
@@ -290,6 +293,7 @@
 #define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
 #define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
 #define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+#define CUBE(a, b) FUNCTION(NAME, cube)((a), (b))
 
 #elif defined(TYPE_STRING)
 
@@ -340,6 +344,7 @@
 #define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
 #define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
 #define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+#define CUBE(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #elif defined(TYPE_BITSET)
 
@@ -390,6 +395,7 @@
 #define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
 #define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
 #define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
+#define CUBE(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
 #elif defined(TYPE_VECTOR) || defined(TYPE_MATRIX) || defined(TYPE_BIGMAT) ||  \
     defined(TYPE_SPAMAT) || defined(TYPE_MATRIX3D) ||                          \

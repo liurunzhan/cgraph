@@ -31,6 +31,7 @@ extern UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x);
 extern UTYPE FUNCTION(NAME, usqrt_inv_s)(const UTYPE x);
 extern UTYPE FUNCTION(NAME, usqrt_mod_s)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, usqrt_modp_s)(const UTYPE x, const UTYPE p);
+extern UTYPE FUNCTION(NAME, ucube_s)(const UTYPE x);
 
 extern UTYPE FUNCTION(NAME, ucomb2_s)(const UTYPE x);
 extern UTYPE FUNCTION(NAME, ucomb_s)(const UTYPE x, const UTYPE y);
@@ -57,3 +58,4 @@ extern TYPE FUNCTION(NAME, pow_mod_s)(const TYPE x, const TYPE n,
 
 extern TYPE FUNCTION(NAME, sqrt_s)(const TYPE x);
 extern TYPE FUNCTION(NAME, sqrt_inv_s)(const TYPE x);
+extern TYPE FUNCTION(NAME, cube_s)(const TYPE x);

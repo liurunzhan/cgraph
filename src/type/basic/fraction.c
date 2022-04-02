@@ -377,7 +377,7 @@ __INLINE TYPE FUNCTION(NAME, inv)(const TYPE x) {
 }
 
 __INLINE TYPE FUNCTION(NAME, pow2)(const TYPE x) {
-  TYPE res = FUNCTION(NAME, format)(x);
+  TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x);
 
@@ -385,7 +385,7 @@ __INLINE TYPE FUNCTION(NAME, pow2)(const TYPE x) {
 }
 
 __INLINE TYPE FUNCTION(NAME, pow3)(const TYPE x) {
-  TYPE res = FUNCTION(NAME, format)(x);
+  TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x) * FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x) * FRACTION_DEN(x);
 

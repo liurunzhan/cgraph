@@ -146,41 +146,41 @@ extern TYPE FUNCTION(NAME, pi)(void);
 extern cgraph_int_t FUNCTION(NAME, fexp)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
-                                        FUNCPTR(NAME, pfunc1) func);
+                                        TYPE func(const TYPE x));
 extern TYPE FUNCTION(NAME, Eqt_secant_method)(const TYPE start, const TYPE end,
-                                              FUNCPTR(NAME, pfunc1) func);
+                                              TYPE func(const TYPE x));
 extern TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start,
                                                       const TYPE end,
-                                                      FUNCPTR(NAME, pfunc1)
-                                                          func);
+                                                      TYPE func(const TYPE x));
 extern TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x,
-                                            FUNCPTR(NAME, pfunc1) func);
+                                            TYPE func(const TYPE x));
 extern TYPE FUNCTION(NAME, Eqt_fixed_point_lambda)(const TYPE x,
                                                    const TYPE lambda,
-                                                   FUNCPTR(NAME, pfunc1) func);
+                                                   TYPE func(const TYPE x));
 
 extern TYPE FUNCTION(NAME, Diff)(const TYPE x, const TYPE step,
-                                 FUNCPTR(NAME, pfunc1) func);
+                                 TYPE func(const TYPE x));
+extern TYPE
+    FUNCTION(NAME, Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                        const TYPE y_start, const TYPE step,
+                                        TYPE func(const TYPE x, const TYPE y));
 extern TYPE FUNCTION(NAME,
-                     Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                          const TYPE y_start, const TYPE step,
-                                          FUNCPTR(NAME, pfunc2) func);
-extern TYPE FUNCTION(NAME, Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                          const TYPE y_start, const TYPE step,
-                                          FUNCPTR(NAME, pfunc2) func);
+                     Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                    const TYPE y_start, const TYPE step,
+                                    TYPE func(const TYPE x, const TYPE y));
 extern TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start,
                                                   const TYPE end,
                                                   const TYPE step,
-                                                  FUNCPTR(NAME, pfunc1) func);
+                                                  TYPE func(const TYPE x));
 extern TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
                                               const TYPE step,
-                                              FUNCPTR(NAME, pfunc1) func);
+                                              TYPE func(const TYPE x));
 extern TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start,
                                                 const TYPE end, const TYPE step,
-                                                FUNCPTR(NAME, pfunc1) func);
+                                                TYPE func(const TYPE x));
 extern TYPE FUNCTION(NAME, Int_range_cotes)(const TYPE start, const TYPE end,
                                             const TYPE step,
-                                            FUNCPTR(NAME, pfunc1) func);
+                                            TYPE func(const TYPE x));
 
 extern TYPE FUNCTION(NAME, logistic)(const TYPE x);
 extern TYPE FUNCTION(NAME, gamma)(const TYPE x, const TYPE step);

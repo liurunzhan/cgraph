@@ -23,7 +23,6 @@
 #define ID_T(a) CONCAT3(CGRAPH, a, T)
 #define STRUCT(a) CONCAT3(_cgraph, a, struct_)
 #define STRING(a) CONCAT1(a)
-#define FUNCPTR(a, b) CONCAT4(cgraph, a, b, t)
 #define FUNCTION(a, b) CONCAT3(cgraph, a, b)
 
 /**property inheritance of data and structure types */

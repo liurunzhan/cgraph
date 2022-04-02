@@ -87,11 +87,14 @@ TYPE FUNCTION(NAME, abs)(const TYPE x) { return ABS(x); }
  *        where x(0) = 0.5 * x
  */
 TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
-  TYPE _x, _y = 0.5 * x;
-  do {
-    _x = _y;
-    _y = 0.5 * (_x + x / _x);
-  } while (NE(_x, _y));
+  TYPE _x, _y = MATH_ERROR;
+  if (GR(x, ZERO)) {
+    _y = 0.5 * x;
+    do {
+      _x = _y;
+      _y = 0.5 * (_x + x / _x);
+    } while (NE(_x, _y));
+  }
 
   return _y;
 }
@@ -219,7 +222,7 @@ __INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
 }
 
 __INLINE TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y) {
-  TYPE_PTR res = 0.0;
+  TYPE res = 0.0;
   MODF(x / y, &res, NULL);
 
   return res;
@@ -239,7 +242,7 @@ __INLINE TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
 }
 
 TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
-                                 FUNCPTR(NAME, pfunc1) func) {
+                                 TYPE func(const TYPE x)) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
   if (FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
@@ -261,7 +264,7 @@ TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
 }
 
 TYPE FUNCTION(NAME, Eqt_secant_method)(const TYPE start, const TYPE end,
-                                       FUNCPTR(NAME, pfunc1) func) {
+                                       TYPE func(const TYPE x)) {
   TYPE _x0 = start, _x1 = end, _x2;
   TYPE _x0_res = func(start), _x1_res = func(end), _x2_res;
   do {
@@ -277,7 +280,7 @@ TYPE FUNCTION(NAME, Eqt_secant_method)(const TYPE start, const TYPE end,
 }
 
 TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start, const TYPE end,
-                                               FUNCPTR(NAME, pfunc1) func) {
+                                               TYPE func(const TYPE x)) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
   if (FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
@@ -302,7 +305,7 @@ TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start, const TYPE end,
  * @brief
  *   x = f(x)
  */
-TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x, FUNCPTR(NAME, pfunc1) func) {
+TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x, TYPE func(const TYPE x)) {
   TYPE _x, _y = x;
   do {
     _x = _y;
@@ -313,7 +316,7 @@ TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x, FUNCPTR(NAME, pfunc1) func) {
 }
 
 TYPE FUNCTION(NAME, Eqt_fixed_point_lambda)(const TYPE x, const TYPE lambda,
-                                            FUNCPTR(NAME, pfunc1) func) {
+                                            TYPE func(const TYPE x)) {
   TYPE _x, _y = x;
   do {
     _x = _y;
@@ -328,7 +331,7 @@ TYPE FUNCTION(NAME, Eqt_fixed_point_lambda)(const TYPE x, const TYPE lambda,
  *
  */
 TYPE FUNCTION(NAME, Diff)(const TYPE x, const TYPE step,
-                          FUNCPTR(NAME, pfunc1) func) {
+                          TYPE func(const TYPE x)) {
   return (func(x + step) - func(x)) / x;
 }
 
@@ -343,9 +346,10 @@ TYPE FUNCTION(NAME, Diff)(const TYPE x, const TYPE step,
  *        k3 = f(x(n)+delta/2, y(n)+delta/2*k2)
  *        k4 = f(x(n)+delta, y(n)+delta*k3)
  */
-TYPE FUNCTION(NAME, Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                         const TYPE y_start, const TYPE step,
-                                         FUNCPTR(NAME, pfunc2) func) {
+TYPE FUNCTION(NAME,
+              Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                   const TYPE y_start, const TYPE step,
+                                   TYPE func(const TYPE x, const TYPE y)) {
   TYPE _step_2 = 0.5 * step, _step_6 = step / 6.0, _step_3 = step / 3.0;
   TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
   do {
@@ -363,7 +367,7 @@ TYPE FUNCTION(NAME, Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
 
 TYPE FUNCTION(NAME, Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
                                    const TYPE y_start, const TYPE step,
-                                   FUNCPTR(NAME, pfunc2) func) {
+                                   TYPE func(const TYPE x, const TYPE y)) {
   TYPE _step_3 = step / 3.0, _step_8 = 0.125 * step, _step3_8 = 0.375 * step;
   TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
   do {
@@ -385,7 +389,7 @@ TYPE FUNCTION(NAME, Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
  *
  */
 TYPE FUNCTION(NAME, Int)(const TYPE x, const TYPE step,
-                         FUNCPTR(NAME, pfunc1) func) {
+                         TYPE func(const TYPE x)) {
   return 0.5 * x * (func(x) + func(x + step));
 }
 
@@ -396,7 +400,7 @@ TYPE FUNCTION(NAME, Int)(const TYPE x, const TYPE step,
  */
 TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start, const TYPE end,
                                            const TYPE step,
-                                           FUNCPTR(NAME, pfunc1) func) {
+                                           TYPE func(const TYPE x)) {
   TYPE _step = 0.5 * step, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
@@ -429,7 +433,7 @@ TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start, const TYPE end,
  */
 TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
                                        const TYPE step,
-                                       FUNCPTR(NAME, pfunc1) func) {
+                                       TYPE func(const TYPE x)) {
   TYPE _step = step / 6.0, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
@@ -463,7 +467,7 @@ TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
  */
 TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start, const TYPE end,
                                          const TYPE step,
-                                         FUNCPTR(NAME, pfunc1) func) {
+                                         TYPE func(const TYPE x)) {
   TYPE _step = 0.125 * step, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
@@ -499,8 +503,7 @@ TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start, const TYPE end,
  *             )
  */
 TYPE FUNCTION(NAME, Int_range_cotes)(const TYPE start, const TYPE end,
-                                     const TYPE step,
-                                     FUNCPTR(NAME, pfunc1) func) {
+                                     const TYPE step, TYPE func(const TYPE x)) {
   TYPE _step = step / 90.0, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;

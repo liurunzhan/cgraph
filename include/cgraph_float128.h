@@ -32,7 +32,10 @@ extern "C" {
 #endif
 
 #define DATA_NAME int128
+#define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT128)
+#define DATA_UNAME uint128
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
 
 #define ARG cgraph_float128_t
 #define NAME float128

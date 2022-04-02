@@ -82,7 +82,8 @@
 #define LOG2(a, b) (log((a)) / log(2.0))
 #define LOG10(a, b) log10((a))
 #define EXP(a, b) exp((a))
-#define SQRT(a, b) sqrt((a))
+#define SQRT(a, b) (a)
+#define CUBE(a, b) (a)
 
 #elif defined(TYPE_LOGIC)
 #define DATA_ISNAN(a) (!((~CGRAPH_BOOL_MASK) & (a)))
@@ -145,7 +146,8 @@
 #define LOG2(a, b) (DATA_ISBOOL2V(a, b) ? (log((a)) / log(2.0)) : CGRAPH_LX)
 #define LOG10(a, b) (DATA_ISBOOL2V(a, b) ? log10((a)) : CGRAPH_LX)
 #define EXP(a, b) (DATA_ISBOOL2V(a, b) ? exp((a)) : CGRAPH_LX)
-#define SQRT(a, b) (DATA_ISBOOL2V(a, b) ? sqrt((a)) : CGRAPH_LX)
+#define SQRT(a, b) (DATA_ISBOOL2V(a, b) ? (a) : CGRAPH_LX)
+#define CUBE(a, b) (DATA_ISBOOL2V(a, b) ? (a) : CGRAPH_LX)
 
 #elif defined(TYPE_INT) || defined(TYPE_LONG) || defined(TYPE_INT8) ||         \
     defined(TYPE_INT16) || defined(TYPE_INT32) || defined(TYPE_INT64) ||       \
@@ -195,7 +197,8 @@
 #define LOG2(a) (log((a)) / log(2.0))
 #define LOG10(a) log10((a))
 #define EXP(a) exp((a))
-#define SQRT(a) sqrt((a))
+#define SQRT(a) FUNCTION(NAME, sqrt_s)((a))
+#define CUBE(a) FUNCTION(NAME, cube_s)((a))
 #endif
 
 #include "cgraph_template_data.ht"

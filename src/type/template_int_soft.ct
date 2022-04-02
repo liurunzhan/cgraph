@@ -23,10 +23,7 @@ UTYPE FUNCTION(NAME, ushl_s)(const UTYPE x, const cgraph_size_t bits) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return DATA_CFUNC((0 == bits), x);
 #else
-  UTYPE res = ZERO, tmp = x;
-  DATA_TYPE *data = (DATA_TYPE *)&tmp;
-
-  return res;
+  return (0 <= bits) ? ((x << bits) & MASK) : (x >> (-bits));
 #endif
 }
 
@@ -34,10 +31,7 @@ UTYPE FUNCTION(NAME, ushr_s)(const UTYPE x, const cgraph_size_t bits) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return DATA_CFUNC((0 == bits), x);
 #else
-  UTYPE res = ZERO, tmp = x;
-  DATA_TYPE *data = (DATA_TYPE *)&tmp;
-
-  return res;
+  return (0 <= bits) ? (x >> bits) : ((x << (-bits)) & MASK);
 #endif
 }
 
@@ -91,7 +85,7 @@ UTYPE FUNCTION(NAME, usub_s)(const UTYPE x, const UTYPE y) {
             *resd = (DATA_TYPE *)&res, carry = 0;
   cgraph_size_t i = sizeof(UTYPE) / sizeof(DATA_TYPE);
   for (; i > 0; i--, xd++, yd++, resd++) {
-    *resd = *xd * *yd + carry;
+    *resd = *xd + *yd + carry;
     if ((*resd < *xd) || (*resd < *yd)) {
       carry = 1;
     } else {
@@ -107,7 +101,16 @@ UTYPE FUNCTION(NAME, umul_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return MUL(x, y, NULL);
 #else
+  TYPE res = 0, _x = x, _y = y;
+  while (_y > 0) {
+    if (_y & 1) {
+      res += _x;
+    }
+    _x <<= 1;
+    _y >>= 1;
+  }
 
+  return res;
 #endif
 }
 
@@ -179,9 +182,7 @@ UTYPE FUNCTION(NAME, upow_mod_s)(const UTYPE x, const UTYPE n,
 }
 
 UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x) {
-#if defined(TYPE_BOOL)
-  return x;
-#elif defined(TYPE_LOGIC)
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return DATA_FUNC(x);
 #else
   UTYPE each = 0, res = 0, _x = x, y = 0;
@@ -199,25 +200,48 @@ UTYPE FUNCTION(NAME, usqrt_s)(const UTYPE x) {
 #endif
 }
 
-UTYPE FUNCTION(NAME, usqrt_inv_s)(const UTYPE x) {}
+UTYPE FUNCTION(NAME, usqrt_inv_s)(const UTYPE x) {
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return DATA_FUNC(x);
+#else
+  return 0;
+#endif
+}
 
 UTYPE FUNCTION(NAME, usqrt_mod_s)(const UTYPE x, const UTYPE y) {
-#if defined(TYPE_BOOL)
-
-#elif defined(TYPE_LOGIC)
-
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return DATA_FUNC(x);
 #else
   return 0;
 #endif
 }
 
 UTYPE FUNCTION(NAME, usqrt_modp_s)(const UTYPE x, const UTYPE p) {
-#if defined(TYPE_BOOL)
-
-#elif defined(TYPE_LOGIC)
-
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return DATA_FUNC(x);
 #else
   return 0;
+#endif
+}
+
+UTYPE FUNCTION(NAME, ucube_s)(const UTYPE x) {
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return DATA_FUNC(x);
+#else
+  TYPE res = x;
+  if (1 < x) {
+    for (res = 1; res < x; res += 2) {
+      if (x < (res * res * res)) {
+        break;
+      }
+    }
+    res -= 1;
+    if (x < (res * res * res)) {
+      res -= 1;
+    }
+  }
+
+  return res;
 #endif
 }
 
@@ -261,7 +285,8 @@ TYPE FUNCTION(NAME, shl_s)(const TYPE x, const cgraph_size_t bits) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return DATA_CFUNC((0 == bits), x);
 #else
-
+  return (0 <= bits) ? ((0 <= x) ? ((x << bits) & (~MSB)) : -((-x) << bits))
+                     : ((0 <= x) ? (x >> bits) : -((-x) >> bits));
 #endif
 }
 
@@ -269,7 +294,9 @@ TYPE FUNCTION(NAME, shr_s)(const TYPE x, const cgraph_size_t bits) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return DATA_CFUNC((0 == bits), x);
 #else
-
+  return (0 <= bits)
+             ? ((0 <= x) ? (x >> bits) : -((-x) >> bits))
+             : ((0 <= x) ? (x << bits) & (~MSB) : -((-x) << bits) & MASK);
 #endif
 }
 
@@ -277,10 +304,18 @@ TYPE FUNCTION(NAME, and_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return AND(x, y);
 #else
+  TYPE res;
   if (SIGNBIT(x) == SIGNBIT(y)) {
+    if (0 <= x) {
+      res = AND(x, y);
+    } else {
+      res = -AND(-x, -y);
+    }
+  } else {
+    res = AND(ABS(x), ABS(y));
   }
 
-  return 0;
+  return res;
 #endif
 }
 
@@ -288,23 +323,39 @@ TYPE FUNCTION(NAME, or_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return OR(x, y);
 #else
+  TYPE res;
+  if (SIGNBIT(x) == SIGNBIT(y)) {
+    if (0 <= x) {
+      res = OR(x, y);
+    } else {
+      res = -OR(-x, -y);
+    }
+  } else {
+    res = -OR(ABS(x), ABS(y));
+  }
 
+  return res;
 #endif
 }
 
-TYPE FUNCTION(NAME, not_s)(const TYPE x) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return NOT(x);
-#else
-
-#endif
-}
+TYPE FUNCTION(NAME, not_s)(const TYPE x) { return NOT(x); }
 
 TYPE FUNCTION(NAME, xor_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return XOR(x, y);
 #else
+  TYPE res;
+  if (SIGNBIT(x) == SIGNBIT(y)) {
+    if (0 <= x) {
+      res = OR(x, y);
+    } else {
+      res = OR(-x, -y);
+    }
+  } else {
+    res = -OR(ABS(x), ABS(y));
+  }
 
+  return res;
 #endif
 }
 
@@ -312,7 +363,18 @@ TYPE FUNCTION(NAME, xnor_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return XNOR(x, y);
 #else
+  TYPE res;
+  if (SIGNBIT(x) == SIGNBIT(y)) {
+    if (0 <= x) {
+      res = -OR(x, y);
+    } else {
+      res = -OR(-x, -y);
+    }
+  } else {
+    res = OR(ABS(x), ABS(y));
+  }
 
+  return res;
 #endif
 }
 
@@ -322,7 +384,9 @@ TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return ADD(x, y, NULL);
 #else
+  TYPE res;
 
+  return res;
 #endif
 }
 
@@ -330,7 +394,9 @@ TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return SUB(x, y, NULL);
 #else
+  TYPE res;
 
+  return res;
 #endif
 }
 
@@ -338,16 +404,10 @@ TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return MUL(x, y, NULL);
 #else
-  TYPE res = 0, _x = x, _y = y;
-  while (_y > 0) {
-    if (_y & 1) {
-      res += _x;
-    }
-    _x <<= 1;
-    _y >>= 1;
-  }
+  TYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y),
+       res = FUNCTION(NAME, umul_s)(_x, _y);
 
-  return res;
+  return (SIGNBIT(x) != SIGNBIT(y)) ? -res : res;
 #endif
 }
 
@@ -381,7 +441,7 @@ TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
   TYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y),
        res = FUNCTION(NAME, udiv_s)(_x, _y);
 
-  return ((x ^ y) >> (BITS - 1)) ? -res : res;
+  return (SIGNBIT(x) != SIGNBIT(y)) ? -res : res;
 #endif
 }
 
@@ -421,6 +481,14 @@ TYPE FUNCTION(NAME, pow_mod_s)(const TYPE x, const TYPE n, const TYPE mod) {
 #endif
 }
 
-TYPE FUNCTION(NAME, sqrt_s)(const TYPE x) {}
+TYPE FUNCTION(NAME, sqrt_s)(const TYPE x) {
+  return (0 <= x) ? FUNCTION(NAME, usqrt_s)(x) : MATH_ERROR;
+}
 
-TYPE FUNCTION(NAME, sqrt_inv_s)(const TYPE x) {}
+TYPE FUNCTION(NAME, sqrt_inv_s)(const TYPE x) {
+  return (0 <= x) ? FUNCTION(NAME, usqrt_inv_s)(x) : MATH_ERROR;
+}
+
+TYPE FUNCTION(NAME, cube_s)(const TYPE x) {
+  return (0 <= x) ? FUNCTION(NAME, ucube_s)(x) : -FUNCTION(NAME, ucube_s)(-x);
+}

@@ -26,8 +26,10 @@ extern "C" {
 #define DATA_NAME int8
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT8)
+#define DATA_UNAME uint8
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
 
-#define ARG cgraph_int_t
+#define ARG cgraph_float64_t
 #define NAME float8
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(FLOAT8)

@@ -1,7 +1,9 @@
+#include <math.h>
+
 int main(int argc, char *argv[]) {
   fprintf(stdout, "name : %s", STRING(TYPE));
   cgraph_file_fprintfln(stdout, "size : %ld", sizeof(TYPE));
-#if !defined(TYPE_BOOL) && !defined(TYPE_LOGIC)
+#if !(defined(TYPE_BOOL) || defined(TYPE_LOGIC))
   CGRAPH_LOOP(i, -5, 5)
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, isodd)(i));
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, iseven)(i));
@@ -23,8 +25,16 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintfln(stdout, OUT_FMT, -64 >> 2);
   cgraph_file_fprintfln(stdout, OUT_FMT, -127 >> 2);
   cgraph_file_fprintfln(stdout, OUT_FMT, (127 ^ 127) >> (BITS - 1));
-  cgraph_file_fprintfln(stdout, "%d %d %d", 23, 17,
+  cgraph_file_fprintfln(stdout, "GCD : %d %d %d", 23, 17,
                         FUNCTION(NAME, gcd)(23, 17));
+  CGRAPH_LOOP(i, 0, 255)
+  if (((TYPE)pow(i, 1.0 / 3.0)) != FUNCTION(NAME, ucube_s)(i)) {
+    cgraph_file_fprintfln(stdout, "CUBE : %u %g %u", i, pow(i, 1.0 / 3.0),
+                          FUNCTION(NAME, ucube_s)(i));
+  }
+  CGRAPH_LOOP_END
+  cgraph_file_fprintfln(stdout, "CUBE : %u %g %u", MAX, pow(MAX, 1.0 / 3.0),
+                        FUNCTION(NAME, ucube_s)(MAX));
 #endif
 
   return 0;

@@ -162,6 +162,13 @@ cgraph_float64_t FUNCTION(NAME, tof64)(const TYPE x) {
   return res;
 }
 
+TYPE FUNCTION(NAME, initsef_s)(const cgraph_bool_t signbit, const DATA_TYPE exp,
+                               const DATA_UTYPE frac) {
+  TYPE res;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, format_s)(const TYPE x) {
   TYPE res;
   DATA_TYPE exp = FLOAT_SOFT_EXP(x), frac = FLOAT_SOFT_FRAC_FMT(x);
@@ -290,7 +297,7 @@ TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
   DATA_TYPE y_sig = FLOAT_SOFT_SIG(y), y_exp = FLOAT_SOFT_EXP(y),
             y_frac = FLOAT_SOFT_FRAC(y);
   TYPE res = FLOAT_SOFT_TOEXP(x_exp + y_exp);
-  res += FLOAT_SOFT_TOFRAC(x_frac * y_frac);
+  res += FLOAT_SOFT_TOFRAC(x_frac) * FLOAT_SOFT_TOFRAC(y_frac);
   res = (x_sig == y_sig) ? FUNCTION(NAME, fabs_s)(res)
                          : FUNCTION(NAME, opp_s)(res);
 
@@ -303,7 +310,7 @@ TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
   DATA_TYPE y_sig = FLOAT_SOFT_SIG(y), y_exp = FLOAT_SOFT_EXP(y),
             y_frac = FLOAT_SOFT_FRAC(y);
   TYPE res = FLOAT_SOFT_TOEXP(x_exp - y_exp);
-  res += FLOAT_SOFT_TOFRAC(x_frac / y_frac);
+  res += FLOAT_SOFT_TOFRAC(x_frac) / FLOAT_SOFT_TOFRAC(y_frac);
   res = (x_sig == y_sig) ? FUNCTION(NAME, fabs_s)(res)
                          : FUNCTION(NAME, opp_s)(res);
 
@@ -352,7 +359,7 @@ TYPE FUNCTION(NAME, fmod_s)(const TYPE x, const TYPE y) {
   return res;
 }
 
-TYPE FUNCTION(NAME, modf_s)(const TYPE x, const TYPE *y) {
+TYPE FUNCTION(NAME, modf_s)(const TYPE x, TYPE *y) {
   TYPE res = 0;
 
   return res;
@@ -387,6 +394,12 @@ TYPE FUNCTION(NAME, exp_s)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, sqrt_s)(const TYPE x) {
+  TYPE res = 0;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, cube_s)(const TYPE x) {
   TYPE res = 0;
 
   return res;

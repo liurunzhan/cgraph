@@ -14,11 +14,6 @@
 
 #ifdef TYPE_WITH_DATA
 
-typedef TYPE *(*FUNCPTR(NAME, pfunc1))(const TYPE *cthis);
-typedef TYPE *(*FUNCPTR(NAME, pfunc2))(const TYPE *x, const TYPE *y);
-typedef TYPE *(*FUNCPTR(NAME, pfunc3))(const TYPE *x, const TYPE *y,
-                                       const TYPE *z);
-
 extern cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
                                               const cgraph_size_t len);
@@ -185,10 +180,6 @@ extern cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
 extern cgraph_size_t FUNCTION(NAME, datfprintln)(FILE *fp, const TYPE *cthis);
 
 #else
-
-typedef TYPE (*FUNCPTR(NAME, pfunc1))(const TYPE x);
-typedef TYPE (*FUNCPTR(NAME, pfunc2))(const TYPE x, const TYPE y);
-typedef TYPE (*FUNCPTR(NAME, pfunc3))(const TYPE x, const TYPE y, const TYPE z);
 
 extern cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, cmplen)(const TYPE cthis,

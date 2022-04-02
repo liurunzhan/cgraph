@@ -24,7 +24,10 @@ extern "C" {
 #include "cgraph_template.h"
 
 #define DATA_NAME int32
+#define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT32)
+#define DATA_UNAME uint8
+#define DATA_UTYPE TYPE_T(DATA_UNAME)
 
 #define ARG cgraph_float64_t
 #define NAME float32

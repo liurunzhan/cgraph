@@ -1,7 +1,7 @@
 
 DISTCLEANFILES = Makefile.in Makefile
 
-AM_LDFLAGS  = -L$(top_srcdir)/src -lcgraph
+AM_LDFLAGS  = -L$(top_srcdir)/src -lcgraph -lm
 AM_CFLAGS   = -I$(top_srcdir)/include $(COMPILE_FLAGS)
 AM_CPPFLAGS = -I$(top_srcdir)/include $(COMPILE_FLAGS)
 
