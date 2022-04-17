@@ -439,7 +439,6 @@ typedef uint64_t uint128_t;
 #define UINT128_MASK32 UINT64_MASK32
 #define UINT128_MASK64 UINT64_MASK64
 #define UINT128_DTYPE uint128_t
-
 #else
 #define __WITH_INT128_SIZE64
 typedef int64_t int128_t;
@@ -448,7 +447,7 @@ typedef int64_t int128_t;
 #define INT128_MASK INT64_MASK
 #define INT128_EPSILON INT64_EPSILON
 #define INT128_DIG INT64_DIG
-#define INT128_BITS (8 * sizeof(int128_t))
+#define INT128_BITS (64)
 #define INT128_BITS_LOG2 INT64_BITS_LOG2
 #define SCNd128 "s"
 #define PRId128 "s"
@@ -467,7 +466,7 @@ typedef uint64_t uint128_t;
 #define UINT128_MASK UINT64_MASK
 #define UINT128_EPSILON UINT64_EPSILON
 #define UINT128_DIG UINT64_DIG
-#define UINT128_BITS (8 * sizeof(uint128_t))
+#define UINT128_BITS (64)
 #define UINT128_BITS_LOG2 UINT64_BITS_LOG2
 #define UINT128_IN_FMT "s"
 #define UINT128_OUT_FMT "s"
@@ -633,11 +632,17 @@ typedef uint64_t uint128_t;
 #endif
 #endif
 
+/**
+ * @details the moemory size to allocate objects
+ */
+/** @{ */
 #if __STDC_VERSION__ >= 199901L
 #define __TYPE_PTRSIZE (1)
 #else
 #define __TYPE_PTRSIZE (2)
 #endif
+
+/** @} */
 
 /**
  * a simple way to use for-loop block locally, in c89/c90, c99 or higher

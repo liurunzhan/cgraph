@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_object.h"
 
-/***/
+/** object cgraph_matrix_t header */
 #include "cgraph_matrix.h"
 
 /** template module */

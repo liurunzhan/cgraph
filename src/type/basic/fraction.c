@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_int.h"
 
-/***/
+/** object cgraph_fraction_t header */
 #include "cgraph_fraction.h"
 
 /** template module */
@@ -67,7 +67,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
   return len;
 }
 
-/**                               public apis */
+/** @brief public apis */
 /*
   fnv-1a hash function (Fowler-Noll-Vo hash function, proposed by Glenn
   Fowler，Landon Curt Noll and Phong Vo in 1991): begin_of_algorithm hash =

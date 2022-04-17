@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_hobject.h"
 
-/***/
+/** object cgraph_dict_t header */
 #include "cgraph_dict.h"
 
 /** template module */

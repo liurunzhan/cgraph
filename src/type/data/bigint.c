@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_int8.h"
 
-/***/
+/** object cgraph_bigint_t header */
 #include "cgraph_bigint.h"
 
 #define CGRAPH_CBUF_SIZE CGRAPH_BIGINT_CBUF_SIZE

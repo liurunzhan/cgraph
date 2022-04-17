@@ -365,3 +365,15 @@ static void *FUNCTION(NAME, _cmp)(void *x, void *y, void *z,
   return z;
 }
 #endif
+
+void FUNCTION(NAME, details)(void) {
+  cgraph_file_fprintfln(stdout, "name : %s", FUNCTION(NAME, tname)());
+  cgraph_file_fprintfln(stdout, "id : %d", FUNCTION(NAME, tid)());
+  cgraph_file_fprintfln(stdout, "size : %d-byte", FUNCTION(NAME, tsize)());
+  cgraph_file_fprintfln(stdout, "point size : %d-byte",
+                        FUNCTION(NAME, tptrsize)());
+  cgraph_file_fprintfln(stdout, "data size : %d-byte",
+                        FUNCTION(NAME, tdatsize)());
+  cgraph_file_fprintfln(stdout, "has sub-data : %s",
+                        FUNCTION(NAME, thasdata)() ? "true" : "false");
+}

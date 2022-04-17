@@ -1,6 +1,6 @@
 #include "cgraph_object_base.h"
 
-/***/
+/** object cgraph_hobject_t header */
 #include "cgraph_hobject.h"
 
 /** template module */

@@ -1,6 +1,6 @@
 #include "cgraph_base.h"
 
-/***/
+/** object cgraph_int128_t header */
 #include "cgraph_int128.h"
 
 /** template module */
@@ -29,7 +29,6 @@ cgraph_char_t *FUNCTION(NAME, encode)(const TYPE cthis) {
 TYPE FUNCTION(NAME, decode)(const cgraph_char_t *cstr, const cgraph_size_t len,
                             cgraph_bool_t *error) {
   TYPE res;
-	
 
   return res;
 }

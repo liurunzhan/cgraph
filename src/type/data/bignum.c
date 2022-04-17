@@ -5,7 +5,7 @@
 #include "cgraph_float32.h"
 #include "cgraph_float64.h"
 
-/***/
+/** object cgraph_bignum_t header */
 #include "cgraph_bignum.h"
 
 #define CGRAPH_CBUF_SIZE CGRAPH_BIGNUM_CBUF_SIZE

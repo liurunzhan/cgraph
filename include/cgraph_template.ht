@@ -414,20 +414,20 @@
 #define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
 #endif
 
-#define ADD(a, b, c) __UNDEFINED
-#define SUB(a, b, c) __UNDEFINED
-#define MUL(a, b, c) __UNDEFINED
-#define DIV(a, b, c) __UNDEFINED
-#define DIVF(a, b, c) __UNDEFINED
-#define INT(a, b, c) __UNDEFINED
-#define MOD(a, b, c) __UNDEFINED
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
+#define DIVF(a, b, c) FUNCTION(NAME, divf)((a), (b))
+#define INT(a, b, c) FUNCTION(NAME, int)((a), (b))
+#define MOD(a, b, c) FUNCTION(NAME, mod)((a), (b))
 
-#define EQ(a, b) __UNDEFINED
-#define NE(a, b) __UNDEFINED
-#define GR(a, b) __UNDEFINED
-#define GE(a, b) __UNDEFINED
-#define LS(a, b) __UNDEFINED
-#define LE(a, b) __UNDEFINED
+#define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
+#define NE(a, b) FUNCTION(NAME, ne)((a), (b))
+#define GR(a, b) FUNCTION(NAME, gr)((a), (b))
+#define GE(a, b) FUNCTION(NAME, ge)((a), (b))
+#define LS(a, b) FUNCTION(NAME, ls)((a), (b))
+#define LE(a, b) FUNCTION(NAME, le)((a), (b))
 #endif
 
 #ifdef TYPE_WITH_DATA

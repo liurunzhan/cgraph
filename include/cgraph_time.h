@@ -206,6 +206,8 @@ extern TYPE FUNCTION(NAME, sub0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul0)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div0)(const TYPE x, const TYPE y);
 
+extern TYPE FUNCTION(NAME, localtime0)(void);
+
 /** apis of TYPE 1 in cgraph_time_t */
 extern cgraph_size_t FUNCTION(NAME, hash1)(const TYPE cthis);
 extern cgraph_size_t FUNCTION(NAME, fprint1)(FILE *fp, const TYPE cthis);
@@ -249,6 +251,8 @@ extern TYPE FUNCTION(NAME, add1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul1)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div1)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, localtime1)(void);
 
 extern TYPE FUNCTION(NAME, localtime)(void);
 extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,

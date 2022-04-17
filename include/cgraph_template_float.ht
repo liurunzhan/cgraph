@@ -145,42 +145,55 @@ extern TYPE FUNCTION(NAME, pi)(void);
 
 extern cgraph_int_t FUNCTION(NAME, fexp)(const TYPE x);
 
-extern TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
-                                        TYPE func(const TYPE x));
-extern TYPE FUNCTION(NAME, Eqt_secant_method)(const TYPE start, const TYPE end,
-                                              TYPE func(const TYPE x));
-extern TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start,
-                                                      const TYPE end,
-                                                      TYPE func(const TYPE x));
-extern TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x,
-                                            TYPE func(const TYPE x));
-extern TYPE FUNCTION(NAME, Eqt_fixed_point_lambda)(const TYPE x,
-                                                   const TYPE lambda,
+extern TYPE FUNCTION(NAME, rmin)(const TYPE start, const TYPE end,
+                                 TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, rmin_gradient_descent)(const TYPE start,
+                                                  const TYPE end,
+                                                  const TYPE alpha,
+                                                  TYPE func(const TYPE x));
+
+extern TYPE FUNCTION(NAME, rmax)(const TYPE start, const TYPE end,
+                                 TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, rmax_gradient_boosting)(const TYPE start,
+                                                   const TYPE end,
+                                                   const TYPE alpha,
                                                    TYPE func(const TYPE x));
 
-extern TYPE FUNCTION(NAME, Diff)(const TYPE x, const TYPE step,
-                                 TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, reqt_bsearch)(const TYPE start, const TYPE end,
+                                         TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, reqt_secant_method)(const TYPE start, const TYPE end,
+                                               TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, reqt_inverse_interpolation)(const TYPE start,
+                                                       const TYPE end,
+                                                       TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, reqt_fixed_point)(const TYPE x,
+                                             TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, reqt_fixed_point_lambda)(const TYPE x,
+                                                    const TYPE lambda,
+                                                    TYPE func(const TYPE x));
+
+extern TYPE FUNCTION(NAME, sdiff)(const TYPE x, const TYPE step,
+                                  TYPE func(const TYPE x));
 extern TYPE
-    FUNCTION(NAME, Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                        const TYPE y_start, const TYPE step,
-                                        TYPE func(const TYPE x, const TYPE y));
+    FUNCTION(NAME, rdiff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                         const TYPE y_start, const TYPE step,
+                                         TYPE func(const TYPE x, const TYPE y));
 extern TYPE FUNCTION(NAME,
-                     Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                    const TYPE y_start, const TYPE step,
-                                    TYPE func(const TYPE x, const TYPE y));
-extern TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start,
-                                                  const TYPE end,
-                                                  const TYPE step,
-                                                  TYPE func(const TYPE x));
-extern TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
-                                              const TYPE step,
-                                              TYPE func(const TYPE x));
-extern TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start,
-                                                const TYPE end, const TYPE step,
-                                                TYPE func(const TYPE x));
-extern TYPE FUNCTION(NAME, Int_range_cotes)(const TYPE start, const TYPE end,
-                                            const TYPE step,
-                                            TYPE func(const TYPE x));
+                     rdiff_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                     const TYPE y_start, const TYPE step,
+                                     TYPE func(const TYPE x, const TYPE y));
+extern TYPE FUNCTION(NAME, rint_trapezoidal)(const TYPE start, const TYPE end,
+                                             const TYPE step,
+                                             TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, rint_simpson)(const TYPE start, const TYPE end,
+                                         const TYPE step,
+                                         TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, rint_simpson38)(const TYPE start, const TYPE end,
+                                           const TYPE step,
+                                           TYPE func(const TYPE x));
+extern TYPE FUNCTION(NAME, rint_cotes)(const TYPE start, const TYPE end,
+                                       const TYPE step,
+                                       TYPE func(const TYPE x));
 
 extern TYPE FUNCTION(NAME, logistic)(const TYPE x);
 extern TYPE FUNCTION(NAME, gamma)(const TYPE x, const TYPE step);

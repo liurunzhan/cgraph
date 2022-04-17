@@ -12,6 +12,8 @@
 
 #include "cgraph_template.ht"
 
+extern void FUNCTION(NAME, details)(void);
+
 #ifdef TYPE_WITH_DATA
 
 extern cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis);

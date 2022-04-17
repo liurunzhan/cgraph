@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_object.h"
 
-/***/
+/** object cgraph_bigmat3d_t header */
 #include "cgraph_bigmat3d.h"
 
 /** template module */

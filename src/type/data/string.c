@@ -2,7 +2,7 @@
 
 #include "cgraph_base.h"
 
-/***/
+/** object cgraph_string_t header */
 #include "cgraph_string.h"
 
 /** template module */
@@ -887,8 +887,8 @@ cgraph_bool_t FUNCTION(NAME, startswithc)(const TYPE *cthis,
                                           const DATA_TYPE ch) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != cthis) && (0 <= cthis->len)) {
-    flag = CGRAPH_TRUE;
     DATA_TYPE *data = &(cthis->data[0]);
+    flag = CGRAPH_TRUE;
     CGRAPH_LOOP(i, 0, cthis->len)
     if (ch != data[i]) {
       flag = CGRAPH_FALSE;
@@ -916,11 +916,143 @@ cgraph_bool_t FUNCTION(NAME, endswithc)(const TYPE *cthis, const DATA_TYPE ch) {
   return flag;
 }
 
+cgraph_bool_t FUNCTION(NAME, isgb2312)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_TRUE;
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if ((0xA1U <= cthis->data[i]) && (0xF7U >= cthis->data[i])) {
+      i += 1;
+      if ((0xA1U > cthis->data[i]) || (0xFEU < cthis->data[i])) {
+        res = CGRAPH_FALSE;
+        break;
+      }
+    } else if (0x7FU < cthis->data[i]) {
+      res = CGRAPH_FALSE;
+      break;
+    }
+    CGRAPH_LOOP_END
+  }
+
+  return res;
+}
+
+cgraph_size_t FUNCTION(NAME, len_gb2312)(const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (0x7FU >= cthis->data[i]) {
+      len += 1;
+    } else if ((0xA1U <= cthis->data[i]) && (0xF7U >= cthis->data[i])) {
+      i += 1;
+      if ((0xA1U <= cthis->data[i]) && (0xFEU >= cthis->data[i])) {
+        len += 1;
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+    CGRAPH_LOOP_END
+  }
+
+  return len;
+}
+
+cgraph_bool_t FUNCTION(NAME, isgbk)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_TRUE;
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if ((0x81U <= cthis->data[i]) && (0xFEU >= cthis->data[i])) {
+      i += 1;
+      if ((0x40U > cthis->data[i]) || (0xFEU < cthis->data[i]) ||
+          (0x7FU == cthis->data[i])) {
+        res = CGRAPH_FALSE;
+        break;
+      }
+    } else if (0x7FU < cthis->data[i]) {
+      res = CGRAPH_FALSE;
+      break;
+    }
+    CGRAPH_LOOP_END
+  }
+
+  return res;
+}
+
+cgraph_size_t FUNCTION(NAME, len_gbk)(const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (0x7FU >= cthis->data[i]) {
+      len += 1;
+    } else if (cthis->data[i]) {
+      i += 1;
+      if ((0x40U <= cthis->data[i]) && (0xFEU >= cthis->data[i]) &&
+          (0x7FU != cthis->data[i])) {
+        len += 1;
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+    CGRAPH_LOOP_END
+  }
+
+  return len;
+}
+
+cgraph_bool_t FUNCTION(NAME, isbig5)(const TYPE *cthis) {
+  cgraph_bool_t res = CGRAPH_TRUE;
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if ((0x81U <= cthis->data[i]) && (0xFEU >= cthis->data[i])) {
+      i += 1;
+      if ((0x40U > cthis->data[i]) ||
+          ((0x7EU < cthis->data[i]) && (0xA1U > cthis->data[i])) ||
+          (0xFEU < cthis->data[i])) {
+        res = CGRAPH_FALSE;
+        break;
+      }
+    } else if (0x7FU < cthis->data[i]) {
+      res = CGRAPH_FALSE;
+      break;
+    }
+    CGRAPH_LOOP_END
+  }
+
+  return res;
+}
+
+cgraph_size_t FUNCTION(NAME, len_big5)(const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    CGRAPH_LOOP(i, 0, cthis->len)
+    if (0x7FU >= cthis->data[i]) {
+      len += 1;
+    } else if (cthis->data[i]) {
+      i += 1;
+      if (((0x40U <= cthis->data[i]) && (0x7EU >= cthis->data[i])) ||
+          ((0xA1U <= cthis->data[i]) && (0xFEU >= cthis->data[i]))) {
+        len += 1;
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+    CGRAPH_LOOP_END
+  }
+
+  return len;
+}
+
 cgraph_bool_t FUNCTION(NAME, isutf8)(const TYPE *cthis) {
   cgraph_bool_t res = CGRAPH_TRUE;
   if ((NULL != cthis) && (0 < cthis->len)) {
     CGRAPH_LOOP(i, 0, cthis->len)
-    cgraph_size_t msb_one_num = FUNCTION(int8, startswith1)(cthis->data[i]);
+    cgraph_size_t msb_one_num =
+        FUNCTION(DATA_INAME, startswith1)(cthis->data[i]);
     if (1 < msb_one_num && 7 > msb_one_num) {
       i += (msb_one_num - 1);
     } else if (0 != msb_one_num) {
@@ -937,7 +1069,8 @@ cgraph_size_t FUNCTION(NAME, len_utf8)(const TYPE *cthis) {
   cgraph_size_t len = 0;
   if ((NULL != cthis) && (0 < cthis->len)) {
     CGRAPH_LOOP(i, 0, cthis->len)
-    cgraph_size_t msb_one_num = FUNCTION(int8, startswith1)(cthis->data[i]);
+    cgraph_size_t msb_one_num =
+        FUNCTION(DATA_INAME, startswith1)(cthis->data[i]);
     if (1 < msb_one_num && 7 > msb_one_num) {
       i += (msb_one_num - 1);
       len += 1;

@@ -2,6 +2,38 @@
 #include "cgraph_math.h"
 #include "cgraph_verilog.h"
 
+cgraph_size_t cgraph_verilog_sampletime_min(const cgraph_size_t clk0_period,
+                                            const cgraph_size_t clk1_period,
+                                            const cgraph_int_t sync_cycle) {
+  cgraph_size_t res = 0;
+
+  return res;
+}
+
+cgraph_size_t cgraph_verilog_sampletime_max(const cgraph_size_t clk0_period,
+                                            const cgraph_size_t clk1_period,
+                                            const cgraph_int_t sync_cycle) {
+  cgraph_int_t res = 0;
+
+  return res;
+}
+
+cgraph_int_t cgraph_verilog_samplecycle_min(const cgraph_float64_t clk0_freq,
+                                            const cgraph_float64_t clk1_freq,
+                                            const cgraph_int_t sync_cycle) {
+  cgraph_int_t res = 0;
+
+  return res;
+}
+
+cgraph_int_t cgraph_verilog_samplecycle_max(const cgraph_float64_t clk0_freq,
+                                            const cgraph_float64_t clk1_freq,
+                                            const cgraph_int_t sync_cycle) {
+  cgraph_int_t res = 0;
+
+  return res;
+}
+
 cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (CGRAPH_ISFILE(fp)) {

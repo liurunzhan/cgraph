@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_float64.h"
 
-/***/
+/** object cgraph_complex_t header */
 #include "cgraph_complex.h"
 
 /** template module */
@@ -99,7 +99,7 @@ __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return DATA_ISPOS(x);
 }
 
-/**                         initial function */
+/** initial function */
 __INLINE TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_ZERO;
@@ -268,7 +268,7 @@ DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x) {
 }
 
 DATA_TYPE FUNCTION(NAME, mag)(const TYPE x) {
-#if __STDC_VERSION__ >= 199901L && defined(_MATH_H__)
+#if __STDC_VERSION__ >= 199901L
   return hypot(COMPLEX_REAL(x), COMPLEX_IMAG(x));
 #else
   return sqrt(COMPLEX_MAG2(x));
@@ -315,8 +315,8 @@ TYPE FUNCTION(NAME, inv)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, std)(const TYPE x) {
-  TYPE res;
   DATA_TYPE mag_inv = FUNCTION(NAME, mag_inv)(x);
+  TYPE res;
   COMPLEX_REAL(res) = mag_inv * COMPLEX_REAL(x);
   COMPLEX_IMAG(res) = mag_inv * COMPLEX_IMAG(x);
 
@@ -331,7 +331,10 @@ TYPE FUNCTION(NAME, conj)(const TYPE x) {
   return res;
 }
 
-/** (a+ib)^2 = (a^2-b^2) + i2ab */
+/**
+ * @brief power 2 function :
+ * (a+ib)^2 = (a^2-b^2) + i2ab
+ */
 TYPE FUNCTION(NAME, pow2)(const TYPE x) {
   TYPE res;
   COMPLEX_REAL(res) =
@@ -341,7 +344,10 @@ TYPE FUNCTION(NAME, pow2)(const TYPE x) {
   return res;
 }
 
-/** (a+ib)^3 = a^3+i3a^2b-3ab^2-ib3 = a(a^2-3b^2) + ib(3a^2-b^2) */
+/**
+ * @brief power 3 function :
+ *  (a+ib)^3 = a^3+i3a^2b-3ab^2-ib3 = a(a^2-3b^2) + ib(3a^2-b^2)
+ */
 TYPE FUNCTION(NAME, pow3)(const TYPE x) {
   DATA_TYPE real2 = COMPLEX_REAL(x) * COMPLEX_REAL(x),
             imag2 = COMPLEX_IMAG(x) * COMPLEX_IMAG(x);

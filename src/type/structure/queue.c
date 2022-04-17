@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_object.h"
 
-/***/
+/** object cgraph_queue_t header */
 #include "cgraph_queue.h"
 
 /** template module */

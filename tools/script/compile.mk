@@ -85,12 +85,21 @@ DIR = .
 INC = $(DIR)$(PSEP)include
 SRC = $(DIR)$(PSEP)src
 TST = $(DIR)$(PSEP)test
+TOL = $(DIR)$(PSEP)tool
 LIB = $(DIR)$(PSEP)lib
 DOC = $(DIR)$(PSEP)doc
 
 .PHONY: all test memchk gtkdoc doxygen format clean distclean update help
 
-all:
+PREPARSED = $(INC)$(PSEP)cgraph_template_off.h $(INC)$(PSEP)cgraph_template_check.h
+
+$(INC)$(PSEP)cgraph_template_off.h:
+	-python3 $(TOL)$(PSEP)macro.py $(INC)$(PSEP)cgraph_template_off.h -t $(TOL)$(PSEP)template_off.macro -c "end of cgraph_template_off"
+
+$(INC)$(PSEP)cgraph_template_check.h:
+	-python3 $(TOL)$(PSEP)macro.py $(INC)$(PSEP)cgraph_template_check.h -t $(TOL)$(PSEP)template_check.macro -c "end of cgraph_template_check"
+
+all: $(PREPARSED)
 	@echo "compile cgraph in Platform $(MY_OS)"
 	$(MKDIR) $(MKDIRFLAGS) $(LIB)
 	$(MAKE) -C $(SRC) -f Makefile.mk

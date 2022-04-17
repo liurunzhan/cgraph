@@ -1,6 +1,6 @@
 #include "cgraph_base.h"
 
-/***/
+/** object cgraph_bool_t header */
 #include "cgraph_bool.h"
 
 static const cgraph_char_t *__cgraph_true__ = CGRAPH_BOOL_TRUE;

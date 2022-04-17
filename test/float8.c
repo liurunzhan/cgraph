@@ -1,7 +1,7 @@
 #include "cgraph_float8.h"
 
 #if 0
-/** template*/
+/** template */
 #include "test_float.ct"
 #else
 int main(int argc, char *argv[]) { return 0; }

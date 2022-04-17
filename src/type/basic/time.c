@@ -5,14 +5,13 @@
 #include "cgraph_base.h"
 #include "cgraph_int32.h"
 
-/***/
+/** object cgraph_time_t header */
 #include "cgraph_time.h"
 
-/** template module */
+/** @brief template module */
 #include "template_data.ct"
 
-/** common apis */
-
+/** @brief common apis */
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
   if (TIME_ISTYPE0(cthis)) {
     return FUNCTION(NAME, fprint0)(fp, cthis);

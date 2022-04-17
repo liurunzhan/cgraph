@@ -1,5 +1,6 @@
 #include "cgraph_object_base.h"
 
+/** object cgraph_object_t header */
 #include "cgraph_object.h"
 
 #define TYPE_OBJECT

@@ -36,8 +36,8 @@ extern "C" {
 #define BITS CGRAPH_FLOAT8_BITS
 #define IN_FMT CGRAPH_FLOAT8_IN_FMT
 #define OUT_FMT CGRAPH_FLOAT8_OUT_FMT
-#define ZERO FUNCTION(NAME, zero_s)()
-#define ONE FUNCTION(NAME, one_s)()
+#define ZERO FUNCTION(NAME, zero)()
+#define ONE FUNCTION(NAME, one)()
 #define ONES ONE
 #define MIN CGRAPH_FLOAT8_MIN
 #define MAX CGRAPH_FLOAT8_MAX

@@ -1,12 +1,14 @@
 int main(int argc, char *argv[]) {
   /*
-        TYPE *matrix = FUNCTION(NAME, calloc)(CGRAPH_INT8_T, 200);
-  fprintf(stdout, "len : %ld size : %ld\n", matrix->len, matrix->size);
-  fprintf(stdout, "row : %ld column : %ld\n", matrix->row, matrix->column);
-  FUNCTION(NAME, free)(matrix);
-        */
-  fprintf(stdout, "name : %s\n", STRING(TYPE));
-  fprintf(stdout, "name : %d\n", ID);
+    TYPE *matrix = FUNCTION(NAME, calloc)(CGRAPH_INT8_T, 200);
+    cgraph_file_fprintfln(stdout, "len : %ld size : %ld\n", matrix->len,
+  matrix->size);
+    cgraph_file_fprintfln(stdout, "row : %ld column : %ld\n",
+  matrix->row, matrix->column);
+    FUNCTION(NAME, free)(matrix);
+  */
+  cgraph_file_fprintfln(stdout, "check matrix apis");
+  FUNCTION(NAME, details)();
 
   return 0;
 }

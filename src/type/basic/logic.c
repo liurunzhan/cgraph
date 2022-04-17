@@ -1,6 +1,6 @@
 #include "cgraph_base.h"
 
-/***/
+/** object cgraph_logic_t header */
 #include "cgraph_logic.h"
 
 /** template module */

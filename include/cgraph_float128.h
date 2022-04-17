@@ -62,6 +62,8 @@ extern "C" {
 /** template module */
 #include "cgraph_template_float.ht"
 
+extern cgraph_char_t *FUNCTION(NAME, encode_s)(const TYPE x);
+
 #ifdef __cplusplus
 }
 #endif

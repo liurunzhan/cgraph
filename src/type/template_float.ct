@@ -1,5 +1,7 @@
 #include "template_data.ct"
 
+cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) { return ""; }
+
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   cgraph_size_t hash = 0;
   if (DATA_ISNAN(cthis)) {
@@ -24,13 +26,25 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
-  return fprintf(fp, OUT_FMT, cthis);
+  return fprintf(fp, OUT_FMT,
+#if defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64)
+                 cthis
+#else
+                 FUNCTION(NAME, encode)(cthis)
+#endif
+  );
 }
 
 cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
                                       const cgraph_size_t size,
                                       const TYPE cthis) {
-  return cgraph_file_snprintf(cbuf, size, OUT_FMT, cthis);
+  return cgraph_file_snprintf(cbuf, size, OUT_FMT,
+#if defined(TYPE_FLOAT32) || defined(TYPE_FLOAT64)
+                              cthis
+#else
+                              FUNCTION(NAME, encode)(cthis)
+#endif
+  );
 }
 
 TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,
@@ -222,10 +236,14 @@ __INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
 }
 
 __INLINE TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y) {
+#if __STDC_VERSION__ < 199901L
+  cgraph_float64_t res;
+#else
   TYPE res = 0.0;
+#endif
   MODF(x / y, &res, NULL);
 
-  return res;
+  return (TYPE)res;
 }
 
 __INLINE TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
@@ -241,8 +259,59 @@ __INLINE TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
   return (x * y) / (x + y);
 }
 
-TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
-                                 TYPE func(const TYPE x)) {
+/**
+ * @brief get the minimum value in given range [start, end]
+ */
+TYPE FUNCTION(NAME, rmin)(const TYPE start, const TYPE end,
+                          TYPE func(const TYPE x)) {
+  TYPE x_min = start, y_min = func(x_min), x = start, y = y_min;
+  while (LS(x, end)) {
+  }
+
+  return x_min;
+}
+
+/**
+ * @brief gradient descent to get the minimum value in given range [start,
+ * end]
+ */
+TYPE FUNCTION(NAME, rmin_gradient_descent)(const TYPE start, const TYPE end,
+                                           const TYPE alpha,
+                                           TYPE func(const TYPE x)) {
+  TYPE x_min = start, y_min = func(x_min), x, y;
+
+  return x_min;
+}
+
+/**
+ * @brief get the minimum value in given range [start, end]
+ */
+TYPE FUNCTION(NAME, rmax)(const TYPE start, const TYPE end,
+                          TYPE func(const TYPE x)) {
+  TYPE x_max = start, y_max = func(x_max), x, y;
+  while (1) {
+  }
+
+  return x_max;
+}
+
+/**
+ * @brief gradient boosting to get the minimum value in given range [start,
+ * end]
+ */
+TYPE FUNCTION(NAME, rmax_gradient_boosting)(const TYPE start, const TYPE end,
+                                            const TYPE alpha,
+                                            TYPE func(const TYPE x)) {
+  TYPE x_max = start, y_max = func(x_max), x, y;
+
+  return x_max;
+}
+
+/**
+ * @brief binary search to get the equation solution in given range [start, end]
+ */
+TYPE FUNCTION(NAME, reqt_bsearch)(const TYPE start, const TYPE end,
+                                  TYPE func(const TYPE x)) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
   if (FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
@@ -263,8 +332,11 @@ TYPE FUNCTION(NAME, Eqt_bsearch)(const TYPE start, const TYPE end,
   return _middle;
 }
 
-TYPE FUNCTION(NAME, Eqt_secant_method)(const TYPE start, const TYPE end,
-                                       TYPE func(const TYPE x)) {
+/**
+ * @brief binary search to get the equation solution in given range [start, end]
+ */
+TYPE FUNCTION(NAME, reqt_secant_method)(const TYPE start, const TYPE end,
+                                        TYPE func(const TYPE x)) {
   TYPE _x0 = start, _x1 = end, _x2;
   TYPE _x0_res = func(start), _x1_res = func(end), _x2_res;
   do {
@@ -279,8 +351,12 @@ TYPE FUNCTION(NAME, Eqt_secant_method)(const TYPE start, const TYPE end,
   return _x2;
 }
 
-TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start, const TYPE end,
-                                               TYPE func(const TYPE x)) {
+/**
+ * @brief binary search to get the equation solution in given range [start, end]
+ */
+TYPE FUNCTION(NAME, reqt_inverse_interpolation)(const TYPE start,
+                                                const TYPE end,
+                                                TYPE func(const TYPE x)) {
   TYPE _start = start, _end = end, _middle;
   TYPE _start_res = func(start), _end_res = func(end), _middle_res;
   if (FUNCTION(NAME, cmpsignbit)(_start_res, _end_res)) {
@@ -302,10 +378,10 @@ TYPE FUNCTION(NAME, Eqt_inverse_interpolation)(const TYPE start, const TYPE end,
 }
 
 /**
- * @brief
+ * @brief fixed point
  *   x = f(x)
  */
-TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x, TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, reqt_fixed_point)(const TYPE x, TYPE func(const TYPE x)) {
   TYPE _x, _y = x;
   do {
     _x = _y;
@@ -315,8 +391,8 @@ TYPE FUNCTION(NAME, Eqt_fixed_point)(const TYPE x, TYPE func(const TYPE x)) {
   return _y;
 }
 
-TYPE FUNCTION(NAME, Eqt_fixed_point_lambda)(const TYPE x, const TYPE lambda,
-                                            TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, reqt_fixed_point_lambda)(const TYPE x, const TYPE lambda,
+                                             TYPE func(const TYPE x)) {
   TYPE _x, _y = x;
   do {
     _x = _y;
@@ -330,8 +406,8 @@ TYPE FUNCTION(NAME, Eqt_fixed_point_lambda)(const TYPE x, const TYPE lambda,
  * @brief
  *
  */
-TYPE FUNCTION(NAME, Diff)(const TYPE x, const TYPE step,
-                          TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, sdiff)(const TYPE x, const TYPE step,
+                           TYPE func(const TYPE x)) {
   return (func(x + step) - func(x)) / x;
 }
 
@@ -347,9 +423,9 @@ TYPE FUNCTION(NAME, Diff)(const TYPE x, const TYPE step,
  *        k4 = f(x(n)+delta, y(n)+delta*k3)
  */
 TYPE FUNCTION(NAME,
-              Diff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                   const TYPE y_start, const TYPE step,
-                                   TYPE func(const TYPE x, const TYPE y)) {
+              rdiff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                    const TYPE y_start, const TYPE step,
+                                    TYPE func(const TYPE x, const TYPE y)) {
   TYPE _step_2 = 0.5 * step, _step_6 = step / 6.0, _step_3 = step / 3.0;
   TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
   do {
@@ -365,9 +441,9 @@ TYPE FUNCTION(NAME,
   return _y;
 }
 
-TYPE FUNCTION(NAME, Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                   const TYPE y_start, const TYPE step,
-                                   TYPE func(const TYPE x, const TYPE y)) {
+TYPE FUNCTION(NAME, rdiff_kutta_s4)(const TYPE x_start, const TYPE x_end,
+                                    const TYPE y_start, const TYPE step,
+                                    TYPE func(const TYPE x, const TYPE y)) {
   TYPE _step_3 = step / 3.0, _step_8 = 0.125 * step, _step3_8 = 0.375 * step;
   TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
   do {
@@ -388,19 +464,19 @@ TYPE FUNCTION(NAME, Diff_kutta_s4)(const TYPE x_start, const TYPE x_end,
  * @brief
  *
  */
-TYPE FUNCTION(NAME, Int)(const TYPE x, const TYPE step,
-                         TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, sint)(const TYPE x, const TYPE step,
+                          TYPE func(const TYPE x)) {
   return 0.5 * x * (func(x) + func(x + step));
 }
 
 /**
- * @brief trapezoidal Int operation
+ * @brief trapezoidal sint operation
  *        delta = x(n+1) - x(n)
  *        df = 0.5 * delta * (f(x(n)) + f(x(n+1)))
  */
-TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start, const TYPE end,
-                                           const TYPE step,
-                                           TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, rint_trapezoidal)(const TYPE start, const TYPE end,
+                                      const TYPE step,
+                                      TYPE func(const TYPE x)) {
   TYPE _step = 0.5 * step, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
@@ -423,7 +499,7 @@ TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start, const TYPE end,
 }
 
 /**
- * @brief simpson Int operation
+ * @brief simpson integral operation
  *        delta = x(n+1) - x(n)
  *        df = (delta / 6.0 * (
  *             f(x(n)) +
@@ -431,9 +507,8 @@ TYPE FUNCTION(NAME, Int_range_trapezoidal)(const TYPE start, const TYPE end,
  *             f(x(n+1))
  *             )
  */
-TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
-                                       const TYPE step,
-                                       TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, rint_simpson)(const TYPE start, const TYPE end,
+                                  const TYPE step, TYPE func(const TYPE x)) {
   TYPE _step = step / 6.0, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
@@ -457,7 +532,7 @@ TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
 }
 
 /**
- * @brief 3/8 rule simpson Int operation
+ * @brief 3/8 rule simpson integral operation
  *        delta = x(n+1) - x(n)
  *        df = 0.125 * delta * (
  *             f(x(n)) +
@@ -465,9 +540,8 @@ TYPE FUNCTION(NAME, Int_range_simpson)(const TYPE start, const TYPE end,
  *             f(x(n+1))
  *             )
  */
-TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start, const TYPE end,
-                                         const TYPE step,
-                                         TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, rint_simpson38)(const TYPE start, const TYPE end,
+                                    const TYPE step, TYPE func(const TYPE x)) {
   TYPE _step = 0.125 * step, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
@@ -494,7 +568,7 @@ TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start, const TYPE end,
 }
 
 /**
- * @brief cotes Int operation
+ * @brief cotes integral operation
  *        delta = x(n+1) - x(n)
  *        df = delta / 90.0 * (
  *             7.0 * (f(x(n)) + f(x(n+1))) +
@@ -502,8 +576,8 @@ TYPE FUNCTION(NAME, Int_range_simpson38)(const TYPE start, const TYPE end,
  *             12.0 * f(x(n) + delta * 0.5))
  *             )
  */
-TYPE FUNCTION(NAME, Int_range_cotes)(const TYPE start, const TYPE end,
-                                     const TYPE step, TYPE func(const TYPE x)) {
+TYPE FUNCTION(NAME, rint_cotes)(const TYPE start, const TYPE end,
+                                const TYPE step, TYPE func(const TYPE x)) {
   TYPE _step = step / 90.0, _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;

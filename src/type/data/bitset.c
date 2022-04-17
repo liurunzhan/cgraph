@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_int8.h"
 
-/***/
+/** object cgraph_bitset_t header */
 #include "cgraph_bitset.h"
 
 /** private apis  */

@@ -28,11 +28,12 @@ extern "C" {
 #define TYPE_WITH_DATA
 #define DATA_NAME char
 #define DATA_UNAME uchar
+#define DATA_INAME int8
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(CHAR)
 #define DATA_BITS (8 * sizeof(DATA_TYPE))
-#define DATA_BYTES(x) FUNCTION(int8, ubitceil)((x))
+#define DATA_BYTES(x) FUNCTION(DATA_INAME, ubitceil)((x))
 #define DATA_END ('\0')
 #define DATA_ZERO ('0')
 #define DATA_ONE ('1')
@@ -114,6 +115,12 @@ extern cgraph_bool_t FUNCTION(NAME, startswithc)(const TYPE *cthis,
 extern cgraph_bool_t FUNCTION(NAME, endswithc)(const TYPE *cthis,
                                                const DATA_TYPE ch);
 
+extern cgraph_bool_t FUNCTION(NAME, isgb2312)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, len_gb2312)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isgbk)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, len_gbk)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isbig5)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, len_big5)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isutf8)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, len_utf8)(const TYPE *cthis);
 

@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_mobject.h"
 
-/***/
+/** object cgraph_spamat_t header */
 #include "cgraph_spamat.h"
 
 /** template module */

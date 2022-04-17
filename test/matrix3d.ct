@@ -6,8 +6,8 @@ fprintf(stdout, "index_i : %ld index_j : %ld index_k : %ld\n",
     matrix->index_i, matrix->index_j, matrix->index_k);
 FUNCTION(NAME, free)(matrix);
 */
-  fprintf(stdout, "name : %s\n", STRING(TYPE));
-  fprintf(stdout, "name : %d\n", ID);
+  cgraph_file_fprintfln(stdout, "check 3d-matrix apis");
+  FUNCTION(NAME, details)();
 
   return 0;
 }

@@ -12,6 +12,8 @@
 
 #include "cgraph_template.ht"
 
+extern void FUNCTION(NAME, details)(void);
+
 extern cgraph_bool_t FUNCTION(NAME, find)(const TYPE *cthis, const void *x);
 extern TYPE *FUNCTION(NAME, push)(TYPE *cthis, const void *x);
 extern void *FUNCTION(NAME, pop)(TYPE *cthis);

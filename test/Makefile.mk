@@ -17,10 +17,10 @@ endif
 
 .PHONY: all test clean memchk
 
-all:
-
 compile:
 	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET_TEST) $(SOURCE) -L$(LIB) -static -l$(PRO) -lm
+
+all: compile
 
 test: compile
 	.$(PSEP)$(TARGET_TEST)

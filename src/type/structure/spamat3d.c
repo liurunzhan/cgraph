@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_m3object.h"
 
-/***/
+/** object cgraph_spamat3d_t header */
 #include "cgraph_spamat3d.h"
 
 /** template module */

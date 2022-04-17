@@ -36,9 +36,9 @@ extern "C" {
 #define BITS CGRAPH_FLOAT32_BITS
 #define IN_FMT "%g"
 #define OUT_FMT "%g"
-#define ZERO (0.0)
-#define ONE (1.0)
-#define ONES (1.0)
+#define ZERO (0.0f)
+#define ONE (1.0f)
+#define ONES (1.0f)
 #define MIN CGRAPH_FLOAT32_MIN
 #define MAX CGRAPH_FLOAT32_MAX
 #define NAN CGRAPH_FLOAT32_NAN

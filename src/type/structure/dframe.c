@@ -1,7 +1,7 @@
 #include "cgraph_base.h"
 #include "cgraph_object.h"
 
-/***/
+/** object cgraph_dframe_t header */
 #include "cgraph_dframe.h"
 
 /** template module */

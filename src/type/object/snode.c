@@ -1,4 +1,6 @@
 #include "cgraph_memory.h"
+
+/** object cgraph_snode_t header */
 #include "cgraph_snode.h"
 
 cgraph_snode1_t *cgraph_snode1_calloc(void) {

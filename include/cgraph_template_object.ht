@@ -10,21 +10,6 @@
  * @url https://github.com/liurunzhan/cgraph
  */
 
-#define ADD(a, b, c) __UNDEFINED
-#define SUB(a, b, c) __UNDEFINED
-#define MUL(a, b, c) __UNDEFINED
-#define DIV(a, b, c) __UNDEFINED
-#define DIVF(a, b, c) __UNDEFINED
-#define INT(a, b, c) __UNDEFINED
-#define MOD(a, b, c) __UNDEFINED
-
-#define EQ(a, b) __UNDEFINED
-#define NE(a, b) __UNDEFINED
-#define GR(a, b) __UNDEFINED
-#define GE(a, b) __UNDEFINED
-#define LS(a, b) __UNDEFINED
-#define LE(a, b) __UNDEFINED
-
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
 #define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))

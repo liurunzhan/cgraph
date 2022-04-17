@@ -4,4 +4,9 @@
 
 #include "cgraph_vector.h"
 
-int main(int argc, char *argv[]) { return 0; }
+int main(int argc, char *argv[]) {
+  cgraph_file_fprintfln(stdout, "check vector apis");
+  FUNCTION(NAME, details)();
+
+  return 0;
+}
