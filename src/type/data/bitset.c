@@ -468,6 +468,18 @@ TYPE *FUNCTION(NAME, swapword)(TYPE *cthis) {
   return cthis;
 }
 
+cgraph_size_t FUNCTION(NAME, abitlen)(const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if (NULL != cthis) {
+    len = (2 < cthis->len)
+              ? (((cthis->len - 1) * DATA_BITS) +
+                 cgraph_math_abitlen(cthis->data[cthis->len - 1]))
+              : ((1 == cthis->len) ? cgraph_math_abitlen(cthis->data[0]) : 0);
+  }
+
+  return len;
+}
+
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
     cgraph_size_t max_len = CGRAPH_MAX(x->len, y->len);

@@ -655,7 +655,7 @@ typedef uint64_t uint128_t;
   for (cgraph_size_t i = (start); (i) < (end); (i)++) {
 
 #define CGRAPH_RLOOP(i, start, end)                                            \
-  for (cgraph_size_t i = (start); (i) >= (end); (i)--) {
+  for (cgraph_size_t i = (start); (i) > (end); (i)--) {
 
 #define CGRAPH_LOOP_END }
 #else

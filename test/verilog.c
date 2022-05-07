@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
+  cgraph_verilog_fsm_gray(stdout, "", 8);
   cgraph_verilog_clkgen_even(stdout, 2);
   cgraph_verilog_clkgen_odd(stdout, 2);
   cgraph_verilog_clkgen(stdout, 2);

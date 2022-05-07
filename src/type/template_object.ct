@@ -4,19 +4,13 @@
  * @param NAME type name
  */
 cgraph_vtable_t *CGRAPH_OBJECTS_NAME(NAME)[] = {
-    &STRUCT(NAME),     &STRUCT(bool),
-    &STRUCT(logic),    &STRUCT(int),
-    &STRUCT(long),     &STRUCT(int8),
-    &STRUCT(int16),    &STRUCT(int32),
-    &STRUCT(int64),    &STRUCT(int128),
-    &STRUCT(float8),   &STRUCT(float16),
-    &STRUCT(float32),  &STRUCT(float64),
-    &STRUCT(float128), &STRUCT(time),
-    &STRUCT(complex),  &STRUCT(fraction),
-    &STRUCT(bigint),   &STRUCT(bignum),
-    &STRUCT(string),   &STRUCT(bitset),
-    &STRUCT(vector),   &STRUCT(matrix),
-    &STRUCT(bigmat),   NULL};
+    &STRUCT(NAME),    &STRUCT(bool),     &STRUCT(logic),    &STRUCT(int),
+    &STRUCT(long),    &STRUCT(int8),     &STRUCT(int16),    &STRUCT(int32),
+    &STRUCT(int64),   &STRUCT(int128),   &STRUCT(float8),   &STRUCT(float16),
+    &STRUCT(float32), &STRUCT(float64),  &STRUCT(float128), &STRUCT(time),
+    &STRUCT(complex), &STRUCT(fraction), &STRUCT(point2d),  &STRUCT(point3d),
+    &STRUCT(bigint),  &STRUCT(bignum),   &STRUCT(string),   &STRUCT(bitset),
+    &STRUCT(vector),  &STRUCT(matrix),   &STRUCT(bigmat),   NULL};
 
 #include "template_base.ct"
 

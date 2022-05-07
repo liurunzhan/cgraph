@@ -141,9 +141,9 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintfln(stdout, "isbigendian : %s",
                         cgraph_bool_encode(isbigendian));
   cgraph_file_fprintfln(stdout, "num : %d weight : %d cnt : %d", num, weight,
-                        cgraph_math_rngcnt(num, weight));
+                        cgraph_math_rdeccnt(num, weight));
   for (i = 0, cnt = 0; i <= num; i++) {
-    cnt += cgraph_math_count(i, weight);
+    cnt += cgraph_math_deccnt(i, weight);
   }
   cgraph_file_fprintfln(stdout, "num : %d weight : %d cnt : %d", num, weight,
                         cnt);

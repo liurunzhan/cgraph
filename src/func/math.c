@@ -753,9 +753,19 @@ cgraph_size_t cgraph_rand_size(const cgraph_size_t size) {
 #endif
 }
 
-cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x) { return ceil(x); }
+__INLINE cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle) {
+  return angle * M_PI / 180.0;
+}
 
-cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x) {
+__INLINE cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian) {
+  return radian * M_1_PI * 180.0;
+}
+
+__INLINE cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x) {
+  return ceil(x);
+}
+
+__INLINE cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x) {
   return floor(x);
 }
 
@@ -768,7 +778,7 @@ cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
   return log(x) / log(n);
 }
 
-cgraph_size_t cgraph_math_count(const cgraph_int_t x, const cgraph_int_t n) {
+cgraph_size_t cgraph_math_deccnt(const cgraph_int_t x, const cgraph_int_t n) {
   cgraph_size_t cnt = 0;
   if ((0 < x) && ((0 <= n) && (9 >= n))) {
     cgraph_int_t _x = x;
@@ -782,7 +792,7 @@ cgraph_size_t cgraph_math_count(const cgraph_int_t x, const cgraph_int_t n) {
   return cnt;
 }
 
-cgraph_size_t cgraph_math_rngcnt(const cgraph_int_t x, const cgraph_int_t n) {
+cgraph_size_t cgraph_math_rdeccnt(const cgraph_int_t x, const cgraph_int_t n) {
   cgraph_size_t cnt = 0;
   if ((0 < x) && ((0 <= n) && (9 >= n))) {
     cgraph_int_t _x = x, base = 1;
@@ -799,6 +809,16 @@ cgraph_size_t cgraph_math_rngcnt(const cgraph_int_t x, const cgraph_int_t n) {
   }
 
   return cnt;
+}
+
+cgraph_int_t cgraph_math_abitlen(const cgraph_uint_t data) {
+  cgraph_int_t res = 0, num = data;
+  while (0 != num) {
+    num = num >> 1;
+    res++;
+  }
+
+  return (0 == res) ? 1 : res;
 }
 
 __INLINE cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n) {
@@ -819,7 +839,7 @@ __INLINE cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x) {
   return (x & 0x01U);
 }
 
-__INLINE cgraph_int_t cgraph_math_mod2in(const cgraph_int_t x,
+__INLINE cgraph_int_t cgraph_math_rmod2i(const cgraph_int_t x,
                                          const cgraph_int_t n) {
   return (x & (~(CGRAPH_INT_MIN << n)));
 }
@@ -898,7 +918,7 @@ cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x, const cgraph_int_t y,
 
 /**
  * Function : sigmoid
- * Express  : f(x) = 1/(1+exp(-x))
+ * Express  : f(x) = 1.0/(1.0+exp(-x))
  */
 cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x) {
   return 1.0 / (1.0 + exp(-1.0 * x));
@@ -906,7 +926,7 @@ cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x) {
 
 /**
  * Function : tanh
- * Express  : f(x) = tanh(x) = 2/(1 + exp(-2x)) -1
+ * Express  : f(x) = tanh(x) = 2.0/(1.0 + exp(-2.0*x)) -1.0
  */
 cgraph_float64_t cgraph_math_tanh(const cgraph_float64_t x) {
   return (2.0 / (1.0 + exp(-2.0 * x)) - 1.0);
@@ -922,18 +942,18 @@ cgraph_float64_t cgraph_math_relu(const cgraph_float64_t x) {
 
 /**
  * Function : Leaky ReLU
- * Express  : f(x) = x, if x > 0
- *                 = ax, if x <= 0
+ * Express  : f(x) = x, if x > 0.0
+ *                 = ax, if x <= 0.0
  */
 cgraph_float64_t cgraph_math_leaky_relu(const cgraph_float64_t x,
                                         const cgraph_float64_t a) {
-  return ((x > 0.0) ? x : (a * x));
+  return ((0.0 < x) ? x : (a * x));
 }
 
 /**
  * Function : ELU
- * Express  : f(x) = x, if x > 0
- *                 = a(exp(x) - 1), if x <= 0
+ * Express  : f(x) = x, if x > 0.0
+ *                 = a(exp(x) - 1.0), if x <= 0.0
  */
 cgraph_float64_t cgraph_math_elu(const cgraph_float64_t x,
                                  const cgraph_float64_t a) {
@@ -942,8 +962,8 @@ cgraph_float64_t cgraph_math_elu(const cgraph_float64_t x,
 
 /**
  * Function : PReLU
- * Express  : f(x) = x, if x > 0
- *                 = ax, if x <= 0
+ * Express  : f(x) = x, if x > 0.0
+ *                 = ax, if x <= 0.0
  */
 cgraph_float64_t cgraph_math_prelu(const cgraph_float64_t x,
                                    const cgraph_float64_t a) {
@@ -960,8 +980,8 @@ cgraph_float64_t cgraph_math_swish(const cgraph_float64_t x) {
 
 /**
  * Function : Softplus
- * Express : f(x) = ln(1 + exp(x))
+ * Express : f(x) = ln(1.0 + exp(x))
  */
 cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x) {
-  return log(1 + exp(x));
+  return log(1.0 + exp(x));
 }

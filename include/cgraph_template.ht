@@ -193,6 +193,211 @@
 #define SQRT(a, b) FUNCTION(NAME, sqrt)((a))
 #define CUBE(a, b) FUNCTION(NAME, cube)((a))
 
+#elif defined(TYPE_POINT2D)
+#define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
+#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
+#define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
+#define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
+#define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
+#define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
+
+#if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
+#define DATA_TEST(a) (isnormal(POINT2D_X(a)) && isnormal(POINT2D_Y(a)))
+#define DATA_ISNAN(a) (isnan(POINT2D_X(a)) || isnan(POINT2D_Y(a)))
+#define DATA_ISPINF(a) ((0 < isinf(POINT2D_X(a))) || (0 < isinf(POINT2D_Y(a))))
+#define DATA_ISNINF(a) ((0 > isinf(POINT2D_X(a))) || (0 > isinf(POINT2D_Y(a))))
+#define DATA_ISINF(a) ((!isinf(POINT2D_X(a))) || (!isinf(POINT2D_Y(a))))
+#define DATA_ISPOS(a) (signbit(POINT2D_X(a)) && signbit(POINT2D_Y(a)))
+#define DATA_ISNEG(a) ((!signbit(POINT2D_X(a))) && (!signbit(POINT2D_Y(a))))
+#else
+#define DATA_TEST(a)                                                           \
+  ((DATA_MIN < POINT2D_X(a)) && (DATA_MAX > POINT2D_Y(a)) &&                   \
+   (DATA_MIN < POINT2D_X(a)) && (DATA_MAX > POINT2D_Y(a)))
+#define DATA_ISNAN(a)                                                          \
+  ((POINT2D_X(a) != POINT2D_X(a)) || (POINT2D_Y(a) != POINT2D_Y(a)))
+#define DATA_ISPINF(a) ((DATA_MAX < POINT2D_X(a)) || (DATA_MAX < POINT2D_Y(a)))
+#define DATA_ISNINF(a) ((DATA_MIN > POINT2D_X(a)) || (DATA_MIN > POINT2D_Y(a)))
+#define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
+#define DATA_ISPOS(a) (DATA_GR(POINT2D_X(a), 0.0) && DATA_GR(POINT2D_Y(a), 0.0))
+#define DATA_ISNEG(a) (DATA_LS(POINT2D_X(a), 0.0) || DATA_LS(POINT2D_Y(a), 0.0))
+#endif
+
+#define ADD(a, b, c)                                                           \
+  FUNCTION(NAME, add)                                                          \
+  ((a), (b))
+#define SUB(a, b, c)                                                           \
+  FUNCTION(NAME, sub)                                                          \
+  ((a), (b))
+#define MUL(a, b, c)                                                           \
+  FUNCTION(NAME, mul)                                                          \
+  ((a), (b))
+#define DIV(a, b, c)                                                           \
+  FUNCTION(NAME, mod)                                                          \
+  ((a), (b))
+#define DIVF(a, b, c)                                                          \
+  FUNCTION(NAME, div)                                                          \
+  ((a), (b))
+#define INT(a, b, c)                                                           \
+  FUNCTION(NAME, div)                                                          \
+  ((a), (b))
+#define MOD(a, b, c)                                                           \
+  FUNCTION(NAME, mod)                                                          \
+  ((a), (b))
+
+#define EQ(a, b)                                                               \
+  (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) && DATA_EQ(POINT2D_Y(a), POINT2D_Y(b)))
+#define NE(a, b)                                                               \
+  (DATA_NE(POINT2D_X(a), POINT2D_X(b)) || DATA_NE(POINT2D_Y(a), POINT2D_Y(b)))
+#define GR(a, b)                                                               \
+  (DATA_GR(POINT2D_X(a), POINT2D_X(b)) ||                                      \
+   (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
+    DATA_GR(POINT2D_Y(a), POINT2D_Y(b))))
+#define GE(a, b)                                                               \
+  (DATA_GE(POINT2D_X(a), POINT2D_X(b)) ||                                      \
+   (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
+    DATA_GE(POINT2D_Y(a), POINT2D_Y(b))))
+#define LS(a, b)                                                               \
+  (DATA_LS(POINT2D_X(a), POINT2D_X(b)) ||                                      \
+   (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
+    DATA_LS(POINT2D_Y(a), POINT2D_Y(b))))
+#define LE(a, b)                                                               \
+  (DATA_LE(POINT2D_X(a), POINT2D_X(b)) ||                                      \
+   (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
+    DATA_LE(POINT2D_Y(a), POINT2D_Y(b))))
+
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a))
+#define CUBE(a, b) FUNCTION(NAME, cube)((a))
+
+#elif defined(TYPE_POINT3D)
+#define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
+#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
+#define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
+#define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
+#define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
+#define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
+
+#if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
+#define DATA_TEST(a)                                                           \
+  (isnormal(POINT3D_X(a)) && isnormal(POINT3D_Y(a)) && isnormal(POINT3D_Z(a)))
+#define DATA_ISNAN(a)                                                          \
+  (isnan(POINT3D_X(a)) || isnan(POINT3D_Y(a)) || isnan(POINT3D_Z(a)))
+#define DATA_ISPINF(a)                                                         \
+  ((0 < isinf(POINT3D_X(a))) || (0 < isinf(POINT3D_Y(a))) ||                   \
+   (0 < isinf(POINT3D_Z(a))))
+#define DATA_ISNINF(a)                                                         \
+  ((0 > isinf(POINT3D_X(a))) || (0 > isinf(POINT3D_Y(a))) ||                   \
+   (0 > isinf(POINT3D_Z(a))))
+#define DATA_ISINF(a)                                                          \
+  ((!isinf(POINT3D_X(a))) || (!isinf(POINT3D_Y(a))) || (!isinf(POINT3D_Z(a))))
+#define DATA_ISPOS(a)                                                          \
+  (signbit(POINT3D_X(a)) && signbit(POINT3D_Y(a)) && signbit(POINT3D_Z(a)))
+#define DATA_ISNEG(a)                                                          \
+  ((!signbit(POINT3D_X(a))) && (!signbit(POINT3D_Y(a))) &&                     \
+   (!signbit(POINT3D_Z(a))))
+#else
+#define DATA_TEST(a)                                                           \
+  ((DATA_MIN < POINT3D_X(a)) && (DATA_MAX > POINT3D_X(a)) &&                   \
+   (DATA_MIN < POINT3D_Y(a)) && (DATA_MAX > POINT3D_Y(a)) &&                   \
+   (DATA_MIN < POINT3D_Z(a)) && (DATA_MAX > POINT3D_Z(a)))
+#define DATA_ISNAN(a)                                                          \
+  ((POINT3D_X(a) != POINT3D_X(a)) || (POINT3D_Y(a) != POINT3D_Y(a)) ||         \
+   (POINT3D_Z(a) != POINT3D_Z(a)))
+#define DATA_ISPINF(a)                                                         \
+  ((DATA_MAX < POINT3D_X(a)) || (DATA_MAX < POINT3D_Y(a)) ||                   \
+   (DATA_MAX < POINT3D_Z(a)))
+#define DATA_ISNINF(a)                                                         \
+  ((DATA_MIN > POINT3D_X(a)) || (DATA_MIN > POINT3D_Y(a)) ||                   \
+   (DATA_MIN > POINT3D_Z(a)))
+#define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
+#define DATA_ISPOS(a)                                                          \
+  (DATA_GR(POINT3D_X(a), 0.0) && DATA_GR(POINT3D_Y(a), 0.0) &&                 \
+   DATA_GR(POINT3D_Z(a), 0.0))
+#define DATA_ISNEG(a)                                                          \
+  (DATA_LS(POINT3D_X(a), 0.0) || DATA_LS(POINT3D_Y(a), 0.0) ||                 \
+   DATA_LS(POINT3D_Z(a), 0.0))
+#endif
+
+#define ADD(a, b, c)                                                           \
+  FUNCTION(NAME, add)                                                          \
+  ((a), (b))
+#define SUB(a, b, c)                                                           \
+  FUNCTION(NAME, sub)                                                          \
+  ((a), (b))
+#define MUL(a, b, c)                                                           \
+  FUNCTION(NAME, mul)                                                          \
+  ((a), (b))
+#define DIV(a, b, c)                                                           \
+  FUNCTION(NAME, mod)                                                          \
+  ((a), (b))
+#define DIVF(a, b, c)                                                          \
+  FUNCTION(NAME, div)                                                          \
+  ((a), (b))
+#define INT(a, b, c)                                                           \
+  FUNCTION(NAME, div)                                                          \
+  ((a), (b))
+#define MOD(a, b, c)                                                           \
+  FUNCTION(NAME, mod)                                                          \
+  ((a), (b))
+
+#define EQ(a, b)                                                               \
+  (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                      \
+   DATA_EQ(POINT3D_Y(a), POINT3D_Y(b)) && DATA_EQ(POINT3D_Z(a), POINT3D_Z(b)))
+#define NE(a, b)                                                               \
+  (DATA_NE(POINT3D_X(a), POINT3D_X(b)) || DATA_NE(POINT3D_Y(a), POINT3D_Y(b)))
+#define GR(a, b)                                                               \
+  (DATA_GR(POINT3D_X(a), POINT3D_X(b)) ||                                      \
+   (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
+    DATA_GR(POINT3D_Y(a), POINT3D_Y(b))))
+#define GE(a, b)                                                               \
+  (DATA_GE(POINT3D_X(a), POINT3D_X(b)) ||                                      \
+   (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
+    DATA_GE(POINT3D_Y(a), POINT3D_Y(b))))
+#define LS(a, b)                                                               \
+  (DATA_LS(POINT3D_X(a), POINT3D_X(b)) ||                                      \
+   (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
+    DATA_LS(POINT3D_Y(a), POINT3D_Y(b))))
+#define LE(a, b)                                                               \
+  (DATA_LE(POINT3D_X(a), POINT3D_X(b)) ||                                      \
+   (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
+    DATA_LE(POINT3D_Y(a), POINT3D_Y(b))))
+
+#define ABS(a) FUNCTION(NAME, abs)((a))
+#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
+#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
+#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
+#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
+#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
+#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
+#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
+#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
+#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
+#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
+#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
+#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
+#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
+#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
+#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
+#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
+#define SQRT(a, b) FUNCTION(NAME, sqrt)((a))
+#define CUBE(a, b) FUNCTION(NAME, cube)((a))
+
 #elif defined(TYPE_BIGINT)
 
 #define ADD(a, b, c)                                                           \

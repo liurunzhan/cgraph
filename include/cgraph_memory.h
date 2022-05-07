@@ -48,10 +48,11 @@ extern void *cgraph_memrchr(const void *memory, cgraph_int_t ch,
                             const cgraph_size_t len);
 extern void cgraph_free(void *memory);
 
-extern cgraph_size_t cgraph_bitlen(const void *memory, const cgraph_size_t len);
-extern cgraph_size_t cgraph_datlen(const void *memory, const cgraph_size_t len,
-                                   const cgraph_size_t datsize,
-                                   cgraph_bool_t (*func)(const void *data));
+extern cgraph_size_t cgraph_abitlen(const void *memory,
+                                    const cgraph_size_t len);
+extern cgraph_size_t cgraph_adatlen(const void *memory, const cgraph_size_t len,
+                                    const cgraph_size_t datsize,
+                                    cgraph_bool_t (*func)(const void *data));
 extern cgraph_bool_t
 cgraph_datcmp(const void *trg_mem, const void *src_mem, const cgraph_size_t len,
               const cgraph_size_t datsize,

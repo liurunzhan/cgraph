@@ -752,6 +752,18 @@ TYPE *FUNCTION(NAME, swapword)(TYPE *cthis) {
   return cthis;
 }
 
+cgraph_size_t FUNCTION(NAME, abitlen)(const TYPE *cthis) {
+  cgraph_size_t len = 0;
+  if (NULL != cthis) {
+    len = (2 < cthis->len)
+              ? (((cthis->len - 1) * DATA_BITS) +
+                 cgraph_math_abitlen(cthis->data[cthis->len - 1]))
+              : ((1 == cthis->len) ? cgraph_math_abitlen(cthis->data[0]) : 0);
+  }
+
+  return len;
+}
+
 cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis) {
   cgraph_size_t cnt = 0;
   if (NULL != cthis) {

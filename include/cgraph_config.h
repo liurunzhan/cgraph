@@ -609,6 +609,10 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_ISNFILE(x) ((NULL == (x)) || (0 != ferror((x))))
 #define CGRAPH_ISSTR(x) ((NULL != (x)) && ('\0' != *(x)))
 #define CGRAPH_ISNSTR(x) ((NULL == (x)) || ('\0' == *(x)))
+#define CGRAPH_ISSTR2V(x, y)                                                   \
+  (CGRAPH_ISSTR(x) && CGRAPH_ISSTR(y) && ((x) != (y)))
+#define CGRAPH_ISNSTR2V(x, y)                                                  \
+  (CGRAPH_ISNSTR(x) || CGRAPH_ISNSTR(y) || ((x) == (y)))
 #define CGRAPH_ISBUF(x, len) ((NULL != (x)) && (0 < (len)))
 #define CGRAPH_ISNBUF(x, len) ((NULL == (x)) || (0 >= (len)))
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
@@ -696,23 +700,25 @@ typedef enum {
   CGRAPH_TIME_T = 15,     /**< TYPE 15 : CGRAPH_TIME_T */
   CGRAPH_COMPLEX_T = 16,  /**< TYPE 16 : CGRAPH_COMPLEX_T */
   CGRAPH_FRACTION_T = 17, /**< TYPE 17 : CGRAPH_FRACTION_T */
-  CGRAPH_BITSET_T = 18,   /**< TYPE 18 : CGRAPH_BITSET_T */
-  CGRAPH_BIGINT_T = 19,   /**< TYPE 19 : CGRAPH_BIGINT_T */
-  CGRAPH_BIGNUM_T = 20,   /**< TYPE 20 : CGRAPH_BIGNUM_T */
-  CGRAPH_STRING_T = 21,   /**< TYPE 21 : CGRAPH_STRING_T */
-  CGRAPH_VECTOR_T = 22,   /**< TYPE 22 : CGRAPH_VECTOR_T */
-  CGRAPH_MATRIX_T = 23,   /**< TYPE 23 : CGRAPH_MATRIX_T */
-  CGRAPH_MATRIX3D_T = 24, /**< TYPE 24 : CGRAPH_MATRIX3D_T */
-  CGRAPH_BIGMAT_T = 25,   /**< TYPE 25 : CGRAPH_BIGMAT_T */
-  CGRAPH_BIGMAT3D_T = 26, /**< TYPE 26 : CGRAPH_BIGMAT3D_T */
-  CGRAPH_SPAMAT_T = 27,   /**< TYPE 27 : CGRAPH_SPAMAT_T */
-  CGRAPH_SPAMAT3D_T = 28, /**< TYPE 28 : CGRAPH_SPAMAT3D_T */
-  CGRAPH_DFRAME_T = 29,   /**< TYPE 29 : CGRAPH_DFRAME_T */
-  CGRAPH_DICT_T = 30,     /**< TYPE 30 : CGRAPH_DICT_T */
-  CGRAPH_SET_T = 31,      /**< TYPE 31 : CGRAPH_SET_T */
-  CGRAPH_LIST_T = 32,     /**< TYPE 32 : CGRAPH_LIST_T */
-  CGRAPH_QUEUE_T = 33,    /**< TYPE 33 : CGRAPH_QUEUE_T */
-  CGRAPH_TREE_T = 34,     /**< TYPE 34 : CGRAPH_TREE_T */
+  CGRAPH_POINT2D_T = 18,  /**< TYPE 18 : CGRAPH_POINT2D_T */
+  CGRAPH_POINT3D_T = 19,  /**< TYPE 19 : CGRAPH_POINT3D_T */
+  CGRAPH_BITSET_T = 20,   /**< TYPE 20 : CGRAPH_BITSET_T */
+  CGRAPH_BIGINT_T = 21,   /**< TYPE 21 : CGRAPH_BIGINT_T */
+  CGRAPH_BIGNUM_T = 22,   /**< TYPE 22 : CGRAPH_BIGNUM_T */
+  CGRAPH_STRING_T = 23,   /**< TYPE 23 : CGRAPH_STRING_T */
+  CGRAPH_VECTOR_T = 24,   /**< TYPE 24 : CGRAPH_VECTOR_T */
+  CGRAPH_MATRIX_T = 25,   /**< TYPE 25 : CGRAPH_MATRIX_T */
+  CGRAPH_MATRIX3D_T = 26, /**< TYPE 26 : CGRAPH_MATRIX3D_T */
+  CGRAPH_BIGMAT_T = 27,   /**< TYPE 27 : CGRAPH_BIGMAT_T */
+  CGRAPH_BIGMAT3D_T = 28, /**< TYPE 28 : CGRAPH_BIGMAT3D_T */
+  CGRAPH_SPAMAT_T = 29,   /**< TYPE 29 : CGRAPH_SPAMAT_T */
+  CGRAPH_SPAMAT3D_T = 30, /**< TYPE 30 : CGRAPH_SPAMAT3D_T */
+  CGRAPH_DFRAME_T = 31,   /**< TYPE 31 : CGRAPH_DFRAME_T */
+  CGRAPH_DICT_T = 32,     /**< TYPE 32 : CGRAPH_DICT_T */
+  CGRAPH_SET_T = 33,      /**< TYPE 33 : CGRAPH_SET_T */
+  CGRAPH_LIST_T = 34,     /**< TYPE 34 : CGRAPH_LIST_T */
+  CGRAPH_QUEUE_T = 35,    /**< TYPE 35 : CGRAPH_QUEUE_T */
+  CGRAPH_TREE_T = 36,     /**< TYPE 36 : CGRAPH_TREE_T */
   CGRAPH_MAX_T            /**< TYPE MX : CGRAPH_MAX_T */
 } cgraph_type_t;
 
@@ -722,7 +728,7 @@ typedef enum {
  * otherwise, this object is a data structural object
  */
 #define CGRAPH_DTYPE_NPTR_MIN CGRAPH_BOOL_T
-#define CGRAPH_DTYPE_NPTR_MAX CGRAPH_FRACTION_T
+#define CGRAPH_DTYPE_NPTR_MAX CGRAPH_POINT3D_T
 #define CGRAPH_DTYPE_PTR_MIN CGRAPH_BITSET_T
 #define CGRAPH_DTYPE_PTR_MAX CGRAPH_STRING_T
 #define CGRAPH_TYPE_MIN CGRAPH_VECTOR_T

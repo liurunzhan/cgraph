@@ -12,15 +12,15 @@ MAKE ?= make
 
 .PHONY: all test clean distclean help $(TOOLS) gtkdoc doxygen update branch cloc cloc-all format memchk
 
-all: CMD =
+all: CMD=all
 
-test: CMD = test
+test: CMD=test
 
-clean: CMD = clean
+clean: CMD=clean
 
-distclean: CMD = distclean
+distclean: CMD=distclean
 
-help: CMD= help
+help: CMD=help
 
 gtkdoc: CMD=gtkdoc
 

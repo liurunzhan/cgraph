@@ -33,11 +33,11 @@ DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure $(PROJECT).pc
 
 BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h
 
-$(include_dir)/cgraph_template_off.h:
-	-python3 $(tools_dir)/macro.py $(include_dir)/cgraph_template_off.h -t $(tools_dir)/template_off.macro -c "end of cgraph_template_off"
+$(include_dir)/cgraph_template_off.h: Makefile $(tools_dir)/template_off.macro
+	-python3 $(tools_dir)/macro.py $@ -t $(tools_dir)/template_off.macro -c "end of cgraph_template_off"
 
-$(include_dir)/cgraph_template_check.h:
-	-python3 $(tools_dir)/macro.py $(include_dir)/cgraph_template_check.h -t $(tools_dir)/template_check.macro -c "end of cgraph_template_check"
+$(include_dir)/cgraph_template_check.h: Makefile $(tools_dir)/template_check.macro
+	-python3 $(tools_dir)/macro.py $@ -t $(tools_dir)/template_check.macro -c "end of cgraph_template_check"
 
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache

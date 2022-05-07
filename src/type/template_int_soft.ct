@@ -164,9 +164,9 @@ UTYPE FUNCTION(NAME, upow_s)(const UTYPE x, const UTYPE y) {
 UTYPE FUNCTION(NAME, upow_mod_s)(const UTYPE x, const UTYPE n,
                                  const UTYPE mod) {
 #if defined(TYPE_BOOL)
-
+  return CGRAPH_TRUE;
 #elif defined(TYPE_LOGIC)
-
+  return CGRAPH_L0;
 #else
   UTYPE res = 1, _x = x, _n = n;
   while (_n) {

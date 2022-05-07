@@ -87,6 +87,8 @@ extern TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapword)(TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, abitlen)(const TYPE *cthis);
+
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
 

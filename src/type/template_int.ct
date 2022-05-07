@@ -332,6 +332,21 @@ cgraph_size_t FUNCTION(NAME, min1)(const TYPE x) {
   return len;
 }
 
+cgraph_size_t FUNCTION(NAME, abitlen)(const UTYPE data) {
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return 1;
+#else
+  UTYPE _data = data;
+  cgraph_size_t len = 0;
+  while (0 != _data) {
+    _data >>= 1;
+    len += 1;
+  }
+
+  return (0 == len) ? 1 : len;
+#endif
+}
+
 __INLINE UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits) {
   return (x << bits) & MASK;
 }

@@ -262,20 +262,24 @@ extern cgraph_logic_t cgraph_rand_logic(void);
 extern cgraph_size_t cgraph_rand_size(const cgraph_size_t size);
 
 /** external mathematical functions */
+extern cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle);
+extern cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian);
+
 extern cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_log2(const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                          const cgraph_float64_t x);
 
-extern cgraph_size_t cgraph_math_count(const cgraph_int_t x,
-                                       const cgraph_int_t n);
-extern cgraph_size_t cgraph_math_rngcnt(const cgraph_int_t x,
+extern cgraph_size_t cgraph_math_deccnt(const cgraph_int_t x,
                                         const cgraph_int_t n);
+extern cgraph_size_t cgraph_math_rdeccnt(const cgraph_int_t x,
+                                         const cgraph_int_t n);
+extern cgraph_int_t cgraph_math_abitlen(const cgraph_uint_t data);
 extern cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_log2i(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x);
-extern cgraph_int_t cgraph_math_mod2in(const cgraph_int_t x,
+extern cgraph_int_t cgraph_math_rmod2i(const cgraph_int_t x,
                                        const cgraph_int_t n);
 extern cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data);
 extern cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data);

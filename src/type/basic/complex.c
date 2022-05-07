@@ -96,7 +96,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return DATA_ISPOS(x);
+  return DATA_GR(0.0, COMPLEX_REAL(x)) + DATA_GR(0.0, COMPLEX_IMAG(x)) + 1;
 }
 
 /** initial function */

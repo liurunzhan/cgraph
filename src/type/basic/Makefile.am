@@ -11,7 +11,9 @@ COMPLEX_SOURCES = complex.c
 
 TIME_SOURCES = time.c
 
-SOURCES = $(INT_SOURCES) $(FLOAT_SOURCES) $(COMPLEX_SOURCES) $(TIME_SOURCES)
+POINT_SOURCES = point2d.c point3d.c
+
+SOURCES = $(INT_SOURCES) $(FLOAT_SOURCES) $(COMPLEX_SOURCES) $(TIME_SOURCES) $(POINT_SOURCES)
 
 noinst_LTLIBRARIES    = libbasic.la
 libbasic_la_CFLAGS    = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)

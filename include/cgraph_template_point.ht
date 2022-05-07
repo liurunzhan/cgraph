@@ -1,0 +1,7 @@
+extern TYPE FUNCTION(NAME, triangle_gcenter)(const TYPE a, const TYPE b,
+                                             const TYPE c);
+extern DATA_TYPE FUNCTION(NAME, triangle_size)(const TYPE a, const TYPE b,
+                                               const TYPE c);
+
+extern DATA_TYPE FUNCTION(NAME, circle_size)(const DATA_TYPE radian);
+extern DATA_TYPE FUNCTION(NAME, circle_circumference)(const DATA_TYPE radian);

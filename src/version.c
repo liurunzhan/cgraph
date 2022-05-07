@@ -23,7 +23,8 @@ void cgraph_version_parse(cgraph_char_t **version, cgraph_int_t *major,
 }
 
 cgraph_size_t cgraph_version_fprint(FILE *fp) {
-  return fprintf(fp, "Version of Library CGRAPH is %s", cgraph_version_string);
+  return cgraph_file_fprintf(fp, "Version of Library CGRAPH is %s",
+                             cgraph_version_string);
 }
 
 cgraph_size_t cgraph_version_print(void) {

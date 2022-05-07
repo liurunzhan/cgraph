@@ -17,16 +17,16 @@ endif
 
 .PHONY: all test clean memchk
 
-compile:
-	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET_TEST) $(SOURCE) -L$(LIB) -static -l$(PRO) -lm
-
 all: compile
 
+compile:
+	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET_TEST) $(SOURCE) -L$(LIB) -static -l$(PRO)
+
 test: compile
-	.$(PSEP)$(TARGET_TEST)
+	$(DIR)$(PSEP)$(TARGET_TEST)
 
 memchk: compile
-	$(MEMTOOL) $(MEMFLAGS) .$(PSEP)$(TARGET_TEST)
+	$(MEMTOOL) $(MEMFLAGS) $(DIR)$(PSEP)$(TARGET_TEST)
 
 clean:
 	$(RM) $(RMFLAGS) $(TARGET_TEST)

@@ -213,6 +213,7 @@ extern TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod2)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, ceil2x)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, floor2x)(const TYPE x, const TYPE y);
+extern cgraph_size_t FUNCTION(NAME, bitlen)(const cgraph_size_t bits);
 extern cgraph_size_t FUNCTION(NAME, bitceil)(const cgraph_size_t bits);
 extern cgraph_size_t FUNCTION(NAME, bitfloor)(const cgraph_size_t bits);
 extern cgraph_size_t FUNCTION(NAME, bitmod)(const cgraph_size_t bits);
@@ -236,6 +237,7 @@ extern cgraph_size_t FUNCTION(NAME, max1)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, min0)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, min1)(const TYPE x);
 
+extern cgraph_size_t FUNCTION(NAME, abitlen)(const UTYPE data);
 extern UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits);
 extern UTYPE FUNCTION(NAME, shr)(const UTYPE x, const cgraph_size_t bits);
 extern UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y);

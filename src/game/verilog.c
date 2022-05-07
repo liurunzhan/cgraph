@@ -1,37 +1,92 @@
-#include "cgraph_file.h"
-#include "cgraph_math.h"
+#include "cgraph_base.h"
 #include "cgraph_verilog.h"
 
-cgraph_size_t cgraph_verilog_sampletime_min(const cgraph_size_t clk0_period,
-                                            const cgraph_size_t clk1_period,
-                                            const cgraph_int_t sync_cycle) {
+cgraph_size_t
+cgraph_verilog_handshake_sampletime_min(const cgraph_size_t clk0_period,
+                                        const cgraph_size_t clk1_period,
+                                        const cgraph_size_t sync_cycle) {
   cgraph_size_t res = 0;
+  if ((0 < clk0_period) && (0 < clk1_period) && (0 < sync_cycle)) {
+    res = sync_cycle * clk0_period;
+  }
 
   return res;
 }
 
-cgraph_size_t cgraph_verilog_sampletime_max(const cgraph_size_t clk0_period,
-                                            const cgraph_size_t clk1_period,
-                                            const cgraph_int_t sync_cycle) {
-  cgraph_int_t res = 0;
+cgraph_size_t
+cgraph_verilog_handshake_sampletime_max(const cgraph_size_t clk0_period,
+                                        const cgraph_size_t clk1_period,
+                                        const cgraph_size_t sync_cycle) {
+  cgraph_size_t res = 0;
+  if ((0 < clk0_period) && (0 < clk1_period) && (0 < sync_cycle)) {
+    res = sync_cycle * (clk0_period + clk1_period);
+  }
 
   return res;
 }
 
-cgraph_int_t cgraph_verilog_samplecycle_min(const cgraph_float64_t clk0_freq,
-                                            const cgraph_float64_t clk1_freq,
-                                            const cgraph_int_t sync_cycle) {
-  cgraph_int_t res = 0;
+cgraph_size_t
+cgraph_verilog_handshake_samplecycle_min(const cgraph_float64_t clk0_freq,
+                                         const cgraph_float64_t clk1_freq,
+                                         const cgraph_size_t sync_cycle) {
+  cgraph_size_t res = 0;
+  if ((0.0 < clk0_freq) && (0.0 < clk1_freq) && (0 < sync_cycle)) {
+    res = sync_cycle;
+  }
 
   return res;
 }
 
-cgraph_int_t cgraph_verilog_samplecycle_max(const cgraph_float64_t clk0_freq,
-                                            const cgraph_float64_t clk1_freq,
-                                            const cgraph_int_t sync_cycle) {
-  cgraph_int_t res = 0;
+cgraph_size_t
+cgraph_verilog_handshake_samplecycle_max(const cgraph_float64_t clk0_freq,
+                                         const cgraph_float64_t clk1_freq,
+                                         const cgraph_size_t sync_cycle) {
+  cgraph_size_t res = 0;
+  if ((0.0 < clk0_freq) && (0.0 < clk1_freq) && (0 < sync_cycle)) {
+    res = sync_cycle *
+          (1 + (cgraph_size_t)cgraph_math_ceil(clk0_freq / clk1_freq));
+  }
 
   return res;
+}
+
+cgraph_bool_t cgraph_verilog_fsm_gray(FILE *fp, const cgraph_char_t *prefix,
+                                      const cgraph_int_t states) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (CGRAPH_ISFILE(fp)) {
+    cgraph_char_t *state_prefix = "FSM_STATE";
+    cgraph_int_t states_width = cgraph_math_abitlen(states);
+    if (CGRAPH_ISSTR(prefix)) {
+      state_prefix = (cgraph_char_t *)prefix;
+    }
+    CGRAPH_LOOP(i, 0, states)
+    cgraph_file_fprintfln(fp, "localparam %s%d = %d'h%x;", state_prefix, i,
+                          states_width, cgraph_math_bin2gray(i));
+    CGRAPH_LOOP_END
+    cgraph_file_fprintln(fp);
+    cgraph_file_fprintfln(fp, "reg [%d:0] %s_curr_state;", states_width,
+                          state_prefix);
+    cgraph_file_fprintfln(fp, "reg [%d:0] %s_nxt_state;" __PLAT_LEND,
+                          states_width, state_prefix);
+    cgraph_file_fprintfln(fp,
+                          "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
+                          "    case(%s_nxt_state)",
+                          state_prefix, state_prefix);
+    CGRAPH_LOOP(i, 0, states)
+    cgraph_file_fprintfln(fp, "        %s%d : begin  end", state_prefix, i);
+    CGRAPH_LOOP_END
+    cgraph_file_fprintfln(fp, "        default : begin %s_nxt_state = %s0; end",
+                          state_prefix, state_prefix);
+    cgraph_file_fprintfln(fp, "    endcase" __PLAT_LEND "end" __PLAT_LEND);
+    cgraph_file_fprintfln(fp,
+                          "always @(posedge clk) begin" __PLAT_LEND
+                          "    %s_curr_state <= %s_nxt_state;" __PLAT_LEND
+                          "end" __PLAT_LEND,
+                          state_prefix, state_prefix);
+    flag = CGRAPH_TRUE;
+  }
+
+  return flag;
 }
 
 cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
@@ -39,7 +94,6 @@ cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
   if (CGRAPH_ISFILE(fp)) {
     cgraph_size_t max = cgraph_math_pow2i(len), max_1 = max - 1,
                   len_1 = len - 1;
-    flag = CGRAPH_TRUE;
     cgraph_file_fprintfln(
         fp,
         "module clkgen_even (" __PLAT_LEND "   rstn," __PLAT_LEND
@@ -57,7 +111,7 @@ cgraph_bool_t cgraph_verilog_clkgen_even(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "      clk_cnt <= {%ld{1'b0}};", max);
     cgraph_file_fprintfln(fp, "    else if (cnten)");
     cgraph_file_fprintfln(fp, "      clk_cnt <= (clk_cnt + %ld'b1);", max);
-    cgraph_file_fprintfln(fp, "end");
+    cgraph_file_fprintfln(fp, "end" __PLAT_LEND);
     cgraph_file_fprintfln(fp, "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if (clken)" __PLAT_LEND
                               "    begin" __PLAT_LEND "        case(dr)");
@@ -96,7 +150,7 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "      clk_cnt_p <= {%ld{1'b0}};", max);
     cgraph_file_fprintfln(fp, "    else if (cnten)");
     cgraph_file_fprintfln(fp, "      clk_cnt_p <= (clk_cnt_p + %ld'b1);", max);
-    cgraph_file_fprintfln(fp, "end");
+    cgraph_file_fprintfln(fp, "end"__PLAT_LEND);
     cgraph_file_fprintfln(fp, "reg clko_p;" __PLAT_LEND __PLAT_LEND
                               "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if (clken)" __PLAT_LEND
@@ -104,10 +158,11 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
     CGRAPH_LOOP(i, 0, max)
     cgraph_file_fprintfln(fp, "        0x%lx : clko_p = clk_cnt_p[%ld];", i, i);
     CGRAPH_LOOP_END
-    cgraph_file_fprintfln(fp, "        default : clko_p = 1'bx;" __PLAT_LEND
-                              "        endcase" __PLAT_LEND
-                              "    end" __PLAT_LEND "    else" __PLAT_LEND
-                              "      clko_p = 1'b0;" __PLAT_LEND "end");
+    cgraph_file_fprintfln(fp,
+                          "        default : clko_p = 1'bx;" __PLAT_LEND
+                          "        endcase" __PLAT_LEND "    end" __PLAT_LEND
+                          "    else" __PLAT_LEND
+                          "      clko_p = 1'b0;" __PLAT_LEND "end" __PLAT_LEND);
     cgraph_file_fprintfln(fp, "reg [%ld:0] clk_cnt_n;" __PLAT_LEND, max_1);
     cgraph_file_fprintfln(fp,
                           "always @(negedge clki or negedge rstn)" __PLAT_LEND
@@ -115,7 +170,7 @@ cgraph_bool_t cgraph_verilog_clkgen_odd(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "      clk_cnt_n <= {%ld{1'b0}};", max);
     cgraph_file_fprintfln(fp, "    else if (cnten)");
     cgraph_file_fprintfln(fp, "      clk_cnt_n <= (clk_cnt_n + %ld'b1);", max);
-    cgraph_file_fprintfln(fp, "end");
+    cgraph_file_fprintfln(fp, "end" __PLAT_LEND);
     cgraph_file_fprintfln(fp, "reg clko_n;" __PLAT_LEND __PLAT_LEND
                               "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if (clken)" __PLAT_LEND
@@ -158,12 +213,12 @@ cgraph_bool_t cgraph_verilog_clkgen(FILE *fp, const cgraph_size_t len) {
     cgraph_file_fprintfln(fp, "      clk_cnt <= {%ld{1'b0}};", max);
     cgraph_file_fprintfln(fp, "    else if (cnten)");
     cgraph_file_fprintfln(fp, "      clk_cnt <= (clk_cnt + %ld'b1);", max);
-    cgraph_file_fprintfln(fp, "end");
+    cgraph_file_fprintfln(fp, "end" __PLAT_LEND);
     cgraph_file_fprintfln(fp, "always @(*)" __PLAT_LEND "begin" __PLAT_LEND
                               "    if (clken)" __PLAT_LEND
                               "    begin" __PLAT_LEND "        case(dr)");
     CGRAPH_LOOP(i, 0, max)
-    cgraph_file_fprintfln(fp, "        0x%lx : clko = clk_cnt[%ld];", i, i);
+    cgraph_file_fprintfln(fp, "        'h%lx : clko = clk_cnt[%ld];", i, i);
     CGRAPH_LOOP_END
     cgraph_file_fprintfln(fp, "        default : clko = 1'bx;" __PLAT_LEND
                               "        endcase" __PLAT_LEND
@@ -411,7 +466,7 @@ cgraph_bool_t cgraph_verilog_shift(FILE *fp, const cgraph_size_t len) {
                           "        reg_shift[%ld:0] <= {reg_shift[%ld:0], "
                           "1'b0};",
                           len_1, len_2);
-    cgraph_file_fprintfln(fp, "end");
+    cgraph_file_fprintfln(fp, "end" __PLAT_LEND);
     cgraph_file_fprintfln(fp, "assign dout = reg_shift[%ld];" __PLAT_LEND,
                           len_1);
     cgraph_file_fprintfln(fp, "endmodule");
