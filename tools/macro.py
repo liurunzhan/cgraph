@@ -95,11 +95,13 @@ def arg_parse():
 	parser.add_argument("file", help="parsed file")
 	parser.add_argument("-t", "--template", required=True, help="template macro file")
 	parser.add_argument("-c", "--comment", required=True, help="comment in the end of file")
+	parser.add_argument("-o", "--output", default="", help="output file")
 	parser.add_argument("--novar", action="store_false", help="do not add macro variables to file")
 	def func(args):
 		template = read_template_by_file(file=args.template)
 		macros, headers, ends = read_macro_by_file(file=args.file, template=template)
-		with open(args.file, "w") as fout:
+		output = args.output if args.output != "" else args.file
+		with open(output, "w") as fout:
 			for line in headers:
 				print(line, file=fout)
 			if len(macros) > 0:

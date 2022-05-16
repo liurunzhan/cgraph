@@ -22,8 +22,8 @@ for %%F in (%INC%\*) do (
 	)
 )
 
-@echo update source template in %INC%\cgraph_template_off.h
-python3 %TOOL%\macro.py %INC%\cgraph_template_off.h -t %TOOL%\template_off.macro -c "end of cgraph_template_off"
+@echo update source template in %INC%\cgraph_template_off.h.in
+python3 %TOOL%\macro.py %INC%\cgraph_template_off.h.in -o %INC%\cgraph_template_off.h -t %TOOL%\template_off.macro -c "end of cgraph_template_off"
 
 @echo update source template in %INC%\cgraph_template_check.h
-python3 %TOOL%\macro.py %INC%\cgraph_template_check.h -t %TOOL%\template_check.macro -c "end of cgraph_template_check"
+python3 %TOOL%\macro.py %INC%\cgraph_template_check.h.in -o %INC%\cgraph_template_check.h -t %TOOL%\template_check.macro -c "end of cgraph_template_check"

@@ -1,6 +1,7 @@
 DIR = .
 INC = $(DIR)$(PSEP)..$(PSEP)include
 LIB = $(DIR)$(PSEP)..$(PSEP)lib
+TOL = $(DIR)$(PSEP)..$(PSEP)tools
 FUNC  = func
 TYPE  = type
 GRAPH = graph
@@ -28,15 +29,23 @@ LIBSHARED_TYPE  = lib$(TYPE)$(LIBSHARED_SUFFIX)
 LIBSHARED_GRAPH = lib$(GRAPH)$(LIBSHARED_SUFFIX)
 LIBSHARED_GAME  = lib$(GAME)$(LIBSHARED_SUFFIX)
 
+PREDEPS = $(INC)$(PSEP)cgraph_template_off.h $(INC)$(PSEP)cgraph_template_check.h
+
 .PHONY: all clean distclean
 
 all: compile $(LIBSHARED_TARGET) $(LIBSTATIC_TARGET)
 
-compile:
+compile: $(PREDEPS)
 	$(MAKE) -C $(FUNC) -f Makefile.mk
 	$(MAKE) -C $(TYPE) -f Makefile.mk
 	$(MAKE) -C $(GRAPH) -f Makefile.mk
 	$(MAKE) -C $(GAME) -f Makefile.mk
+
+$(INC)$(PSEP)cgraph_template_off.h: $(INC)$(PSEP)cgraph_template_off.h.in
+	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_off.macro -c "end of cgraph_template_off"
+
+$(INC)$(PSEP)cgraph_template_check.h: $(INC)$(PSEP)cgraph_template_check.h.in
+	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_check.macro -c "end of cgraph_template_check"
 
 $(LIBSHARED_TARGET): $(OBJECT)
 	$(CC) $(CSFLAGS) -o $(LIBSHARED_TARGET) $(OBJECT) $(FUNC_DIR)$(LIBSHARED_FUNC) $(TYPE_DIR)$(LIBSHARED_TYPE) $(GRAPH_DIR)$(LIBSHARED_GRAPH) $(GAME_DIR)$(LIBSHARED_GAME)

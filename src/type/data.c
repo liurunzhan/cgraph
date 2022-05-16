@@ -2,6 +2,14 @@
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
+cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
+                                     const cgraph_point2d_t y) {
+  cgraph_point3d_t res = cgraph_point3d_zero();
+  POINT3D_Z(res) = cgraph_point2d_rdot(x, y);
+
+  return res;
+}
+
 cgraph_logic_t cgraph_bool_to_logic(const cgraph_bool_t x) { return x; }
 
 cgraph_bool_t cgraph_logic_to_bool(const cgraph_logic_t x) {

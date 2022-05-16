@@ -91,19 +91,11 @@ DOC = $(DIR)$(PSEP)doc
 
 .PHONY: all test memchk gtkdoc doxygen format clean distclean update help
 
-PREPARSED = $(INC)$(PSEP)cgraph_template_off.h $(INC)$(PSEP)cgraph_template_check.h
-
-all: $(PREPARSED)
+all:
 	@echo "compile cgraph in Platform $(MY_OS)"
 	$(MKDIR) $(MKDIRFLAGS) $(LIB)
 	$(MAKE) -C $(SRC) -f Makefile.mk all
 	$(MAKE) -C $(TST) -f Makefile.mk all
-
-$(INC)$(PSEP)cgraph_template_off.h: compile.mk $(TOL)$(PSEP)template_off.macro
-	-python3 $(TOL)$(PSEP)macro.py $(INC)$(PSEP)cgraph_template_off.h -t $(TOL)$(PSEP)template_off.macro -c "end of cgraph_template_off"
-
-$(INC)$(PSEP)cgraph_template_check.h: compile.mk $(TOL)$(PSEP)template_check.macro
-	-python3 $(TOL)$(PSEP)macro.py $(INC)$(PSEP)cgraph_template_check.h -t $(TOL)$(PSEP)template_check.macro -c "end of cgraph_template_check"
 
 test:
 	@echo "test cgraph in Platform $(MY_OS)"

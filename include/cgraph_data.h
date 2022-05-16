@@ -41,6 +41,9 @@ extern "C" {
 #include "cgraph_string.h"
 #include "cgraph_time.h"
 
+extern cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
+                                            const cgraph_point2d_t y);
+
 extern cgraph_logic_t cgraph_bool_to_logic(const cgraph_bool_t x);
 extern cgraph_bool_t cgraph_logic_to_bool(const cgraph_logic_t x);
 
