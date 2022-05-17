@@ -1,6 +1,27 @@
+extern DATA_TYPE FUNCTION(NAME, mag2)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, inv)(const TYPE x);
+
+extern DATA_TYPE FUNCTION(NAME, rmul)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, rdot)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, cosdangle)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, dangle)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, addf)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subf)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mulf)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divf)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, rol)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, ror)(const TYPE x, const DATA_TYPE angle);
+extern DATA_TYPE FUNCTION(NAME, rproj)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, proj)(const TYPE x, const TYPE y);
 
 extern cgraph_bool_t FUNCTION(NAME, istriangle)(const TYPE a, const TYPE b,
                                                 const TYPE c);

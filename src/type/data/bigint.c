@@ -616,7 +616,7 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
   return flag;
 }
 
-TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, fmt)(TYPE *cthis) {
   if (NULL != cthis) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     for (; (DATA_ZERO == *data) && (1 < cthis->len); data--, cthis->len--) {

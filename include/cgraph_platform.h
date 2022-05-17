@@ -1,6 +1,6 @@
 /**
  * @file cgraph_platform.h
- * @brief the configuration in different platforms
+ * @brief the configuration in different platforms and compilers
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph
@@ -109,6 +109,10 @@ typedef enum {
 #define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
 #endif
 
+#if (__PLAT_ENDIAN > __PLAT_ENDIAN_NONE) || (__PLAT_ENDIAN < __PLAT_ENDIAN_BIG)
+#error __PLAT_ENDIAN must be defined as one of <__PLAT_ENDIAN_BIG(0), __PLAT_ENDIAN_LITTLE(1) or __PLAT_ENDIAN_NONE(2)>
+#endif
+
 #ifndef __WORDSIZE
 #if defined(_WIN64) || defined(_M_X64) || defined(_M_AMD64) ||                 \
     defined(_M_IA64) || defined(_M_IX64) || defined(__x86_64__) ||             \
@@ -121,6 +125,12 @@ typedef enum {
 #else
 #define __WORDSIZE (32)
 #endif
+#endif
+
+#if !defined(__WORDSIZE)
+#error __WORDSIZE must be defined in this library
+#elif (__WORDSIZE != 32) && (__WORDSIZE != 64)
+#error __WORDSIZE must be defined as one of <32, 64>
 #endif
 
 #if __WORDSIZE == 64
@@ -136,6 +146,10 @@ typedef enum {
 
 #ifndef __STDC_VERSION__
 #define __STDC_VERSION__ (198901L)
+#endif
+
+#ifndef __STDC_VERSION__
+#error __STDC_VERSION__ must be defined in this library
 #endif
 
 /** Self-defined features in different compilers */
@@ -171,12 +185,20 @@ typedef enum {
 #endif
 #endif
 
+#ifndef __INLINE
+#error __INLINE must be defined in this library
+#endif
+
 #ifndef __EXTENSION__
 #if (__STDC_VERSION__ < 199901L) && (defined(__GNUC__) || defined(__clang__))
 #define __EXTENSION__ __extension__
 #else
 #define __EXTENSION__
 #endif
+#endif
+
+#ifndef __EXTENSION__
+#error __EXTENSION__ must be defined in this library
 #endif
 
 /** int types in different platforms */
@@ -221,7 +243,7 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 #elif defined(_MSC_VER)
 typedef signed __int64 int64_t;
 typedef unsigned __int64 uint64_t;
-#else /**   */
+#else /** TYPE long long int is defined as int64_t */
 typedef signed long long int64_t;
 typedef unsigned long long uint64_t;
 #endif

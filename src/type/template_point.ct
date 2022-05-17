@@ -1,0 +1,27 @@
+#include "template_data.ct"
+
+/* cosdangle(x, y) = (x * y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, cosdangle)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, rdot)(x, y) /
+         (FUNCTION(NAME, mag)(x) * FUNCTION(NAME, mag)(y));
+}
+
+/* dangle(x, y) = (x * y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, dangle)(const TYPE x, const TYPE y) {
+  return acos(FUNCTION(NAME, dangle)(x, y));
+}
+
+/* rproj(x, y) = |y| * (x * y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, rproj)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, rdot)(x, y) / FUNCTION(NAME, mag)(x);
+}
+
+/* proj(x, y) = x * (x*y) / |x|^2 */
+TYPE FUNCTION(NAME, proj)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mulf)(x, FUNCTION(NAME, rdot)(x, y) /
+                                     FUNCTION(NAME, mag2)(x));
+}
+
+DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mag)(FUNCTION(NAME, sub)(x, y));
+}

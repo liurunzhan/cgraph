@@ -46,7 +46,7 @@ TYPE FUNCTION(NAME, initsef)(const cgraph_bool_t signbit, const DATA_TYPE exp,
   return res;
 }
 
-TYPE FUNCTION(NAME, format)(const TYPE x) {
+TYPE FUNCTION(NAME, fmt)(const TYPE x) {
   TYPE res;
   DATA_TYPE exp = FLOAT_SOFT_EXP(x), frac = FLOAT_SOFT_FRAC_FMT(x);
   while (0 == (frac & (0x01U << (FRAC_OFFSET - 1)))) {

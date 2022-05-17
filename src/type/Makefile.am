@@ -23,13 +23,15 @@ INT_BASE_SOURCES = template_int.ct template_int_soft.ct
 
 FLOAT_BASE_SOURCES = template_float.ct template_float_soft.ct
 
+POINT_BASE_SOURCES = template_point.ct
+
 OBJECT_BASE_SOURCES = template_object.ct
 
 STRUCTURE_BASE_SOURCES = template_struct.ct
 
 MATRIX_BASE_SOURCES = template_matrix.ct template_matrix3d.ct
 
-SOURCES = $(BASE_SOURCES) $(DATA_BASE_SOURCES) $(INT_BASE_SOURCES) $(FLOAT_BASE_SOURCES) $(OBJECT_BASE_SOURCES) $(STRUCTURE_BASE_SOURCES) $(MATRIX_BASE_SOURCES) data.c
+SOURCES = $(BASE_SOURCES) $(DATA_BASE_SOURCES) $(INT_BASE_SOURCES) $(FLOAT_BASE_SOURCES) $(POINT_BASE_SOURCES) $(OBJECT_BASE_SOURCES) $(STRUCTURE_BASE_SOURCES) $(MATRIX_BASE_SOURCES) data.c
 
 noinst_LTLIBRARIES    = libtype.la
 libtype_la_CFLAGS     = -I$(include_dir) $(COMPILE_FLAGS)

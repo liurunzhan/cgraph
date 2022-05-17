@@ -36,10 +36,10 @@ PREDEPS = $(INC)$(PSEP)cgraph_template_off.h $(INC)$(PSEP)cgraph_template_check.
 all: compile $(LIBSHARED_TARGET) $(LIBSTATIC_TARGET)
 
 compile: $(PREDEPS)
-	$(MAKE) -C $(FUNC) -f Makefile.mk
-	$(MAKE) -C $(TYPE) -f Makefile.mk
-	$(MAKE) -C $(GRAPH) -f Makefile.mk
-	$(MAKE) -C $(GAME) -f Makefile.mk
+	$(MAKE) -C $(FUNC) -f Makefile.mk all
+	$(MAKE) -C $(TYPE) -f Makefile.mk all
+	$(MAKE) -C $(GRAPH) -f Makefile.mk all
+	$(MAKE) -C $(GAME) -f Makefile.mk all
 
 $(INC)$(PSEP)cgraph_template_off.h: $(INC)$(PSEP)cgraph_template_off.h.in
 	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_off.macro -c "end of cgraph_template_off"

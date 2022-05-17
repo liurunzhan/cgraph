@@ -111,12 +111,11 @@ extern cgraph_float64_t FUNCTION(NAME, tof64)(const TYPE x);
 extern TYPE FUNCTION(NAME, initsef)(const cgraph_bool_t signbit,
                                     const DATA_TYPE exp, const DATA_UTYPE frac);
 
-extern TYPE FUNCTION(NAME, format)(const TYPE x);
+extern TYPE FUNCTION(NAME, fmt)(const TYPE x);
 extern TYPE FUNCTION(NAME, one)(void);
 extern TYPE FUNCTION(NAME, zero)(void);
 extern TYPE FUNCTION(NAME, opp)(const TYPE x);
 extern TYPE FUNCTION(NAME, fabs)(const TYPE x);
-extern TYPE FUNCTION(NAME, inv)(const TYPE x);
 
 extern cgraph_bool_t FUNCTION(NAME, eq_s)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ne_s)(const TYPE x, const TYPE y);

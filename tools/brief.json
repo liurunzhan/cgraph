@@ -41,7 +41,7 @@
 	"cgraph_mobject.h" : "the apis of DATA TYPE cgraph_mobject_t",
 	"cgraph_object_base.h" : "the basic object type apis",
 	"cgraph_object.h" : "the apis of DATA TYPE cgraph_object_t",
-	"cgraph_platform.h" : "the configuration in different platforms",
+	"cgraph_platform.h" : "the configuration in different platforms and compilers",
 	"cgraph_point2d.h" : "the apis of DATA TYPE cgraph_point2d_t",
 	"cgraph_point3d.h" : "the apis of DATA TYPE cgraph_pont3d_t",
 	"cgraph_queue.h" : "the apis of STRUCTURE TYPE cgraph_queue_t",

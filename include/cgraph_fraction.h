@@ -110,7 +110,6 @@ extern TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE FUNCTION(NAME, inv)(const TYPE x);
 extern TYPE FUNCTION(NAME, pow2)(const TYPE x);
 extern TYPE FUNCTION(NAME, pow3)(const TYPE x);
 extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);

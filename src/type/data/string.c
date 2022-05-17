@@ -520,7 +520,7 @@ TYPE *FUNCTION(NAME, modc)(const TYPE *x, const DATA_TYPE y, TYPE *z) {
   return z;
 }
 
-TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, fmt)(TYPE *cthis) {
   if (NULL != cthis) {
     if (0 > cthis->len) {
       cthis->len = 0;

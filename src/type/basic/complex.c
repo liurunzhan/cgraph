@@ -287,6 +287,14 @@ DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mag)(FUNCTION(NAME, sub)(x, y));
 }
 
+TYPE FUNCTION(NAME, trans)(const TYPE x) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_IMAG(x);
+  COMPLEX_IMAG(res) = COMPLEX_REAL(x);
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, opp)(const TYPE x) {
   TYPE res;
   COMPLEX_REAL(res) = -COMPLEX_REAL(x);
@@ -773,9 +781,10 @@ TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y) {
+  DATA_TYPE inv_y = 1.0 / y;
   TYPE res;
-  COMPLEX_REAL(res) = COMPLEX_IMAG(x) / y;
-  COMPLEX_IMAG(res) = -DATA_ONE * COMPLEX_REAL(x) / y;
+  COMPLEX_REAL(res) = inv_y * COMPLEX_IMAG(x);
+  COMPLEX_IMAG(res) = -inv_y * COMPLEX_REAL(x);
 
   return res;
 }

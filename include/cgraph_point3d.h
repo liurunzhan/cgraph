@@ -87,6 +87,13 @@ typedef struct {
 
 #include "cgraph_template_point.ht"
 
+extern TYPE FUNCTION(NAME, xrol)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, xror)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, yrol)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, yror)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, zrol)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, zror)(const TYPE x, const DATA_TYPE angle);
+
 #ifdef __cplusplus
 }
 #endif

@@ -85,8 +85,6 @@ typedef struct {
 
 #include "cgraph_template_point.ht"
 
-extern DATA_TYPE FUNCTION(NAME, rmul)(const TYPE x, const TYPE y);
-
 #ifdef __cplusplus
 }
 #endif

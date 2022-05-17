@@ -920,11 +920,11 @@ TYPE *FUNCTION(NAME, jswap)(TYPE *cthis, const cgraph_size_t xoffset,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, trans)(TYPE **cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rtrans)(TYPE **cthis, const cgraph_size_t row,
+                              const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, trans)(TYPE *cthis, const cgraph_size_t row,
-                            const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rtrans)(TYPE *cthis, const cgraph_size_t row,
+                             const cgraph_size_t col)
 #endif
 {
   CGRAPH_LOOP(i, 0, row)
@@ -1022,11 +1022,11 @@ cgraph_bool_t FUNCTION(NAME, islowtri)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot1I)(TYPE **cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
-#else
-TYPE *FUNCTION(NAME, rot1I)(TYPE *cthis, const cgraph_size_t row,
+TYPE **FUNCTION(NAME, ror1)(TYPE **cthis, const cgraph_size_t row,
                             const cgraph_size_t col)
+#else
+TYPE *FUNCTION(NAME, ror1)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
 #endif
 {
   cgraph_size_t i = 0, j;
@@ -1043,11 +1043,11 @@ TYPE *FUNCTION(NAME, rot1I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot2I)(TYPE **cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
-#else
-TYPE *FUNCTION(NAME, rot2I)(TYPE *cthis, const cgraph_size_t row,
+TYPE **FUNCTION(NAME, ror2)(TYPE **cthis, const cgraph_size_t row,
                             const cgraph_size_t col)
+#else
+TYPE *FUNCTION(NAME, ror2)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
 #endif
 {
   CGRAPH_LOOP(i, 0, row)
@@ -1061,11 +1061,11 @@ TYPE *FUNCTION(NAME, rot2I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot3I)(TYPE **cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
-#else
-TYPE *FUNCTION(NAME, rot3I)(TYPE *cthis, const cgraph_size_t row,
+TYPE **FUNCTION(NAME, ror3)(TYPE **cthis, const cgraph_size_t row,
                             const cgraph_size_t col)
+#else
+TYPE *FUNCTION(NAME, ror3)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
 #endif
 {
   CGRAPH_LOOP(i, 0, row)
@@ -1079,40 +1079,22 @@ TYPE *FUNCTION(NAME, rot3I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot4I)(TYPE **cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
-#else
-TYPE *FUNCTION(NAME, rot4I)(TYPE *cthis, const cgraph_size_t row,
+TYPE **FUNCTION(NAME, ror4)(TYPE **cthis, const cgraph_size_t row,
                             const cgraph_size_t col)
+#else
+TYPE *FUNCTION(NAME, ror4)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
 #endif
 {
   return cthis;
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot_1I)(TYPE **cthis, const cgraph_size_t row,
-                              const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rol1)(TYPE **cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rot_1I)(TYPE *cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
-#endif
-{
-  CGRAPH_LOOP(i, 0, row)
-  cgraph_size_t row_i = i * row;
-  CGRAPH_LOOP(j, i + 1, col)
-  SWAP(cthis[row_i + j], cthis[col * j + i]);
-  CGRAPH_LOOP_END
-  CGRAPH_LOOP_END
-
-  return cthis;
-}
-
-#ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot_2I)(TYPE **cthis, const cgraph_size_t row,
-                              const cgraph_size_t col)
-#else
-TYPE *FUNCTION(NAME, rot_2I)(TYPE *cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rol1)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
 #endif
 {
   CGRAPH_LOOP(i, 0, row)
@@ -1126,11 +1108,11 @@ TYPE *FUNCTION(NAME, rot_2I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot_3I)(TYPE **cthis, const cgraph_size_t row,
-                              const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rol2)(TYPE **cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rot_3I)(TYPE *cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rol2)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
 #endif
 {
   CGRAPH_LOOP(i, 0, row)
@@ -1144,11 +1126,29 @@ TYPE *FUNCTION(NAME, rot_3I)(TYPE *cthis, const cgraph_size_t row,
 }
 
 #ifdef TYPE_WITH_DATA
-TYPE **FUNCTION(NAME, rot_4I)(TYPE **cthis, const cgraph_size_t row,
-                              const cgraph_size_t col)
+TYPE **FUNCTION(NAME, rol3)(TYPE **cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
 #else
-TYPE *FUNCTION(NAME, rot_4I)(TYPE *cthis, const cgraph_size_t row,
-                             const cgraph_size_t col)
+TYPE *FUNCTION(NAME, rol3)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
+#endif
+{
+  CGRAPH_LOOP(i, 0, row)
+  cgraph_size_t row_i = i * row;
+  CGRAPH_LOOP(j, i + 1, col)
+  SWAP(cthis[row_i + j], cthis[col * j + i]);
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
+
+  return cthis;
+}
+
+#ifdef TYPE_WITH_DATA
+TYPE **FUNCTION(NAME, rol4)(TYPE **cthis, const cgraph_size_t row,
+                            const cgraph_size_t col)
+#else
+TYPE *FUNCTION(NAME, rol4)(TYPE *cthis, const cgraph_size_t row,
+                           const cgraph_size_t col)
 #endif
 {
   return cthis;

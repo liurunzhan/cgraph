@@ -8,7 +8,13 @@
 #endif
 
 static cgraph_char_t __cgraph_cbuf__[CGRAPH_CBUF_SIZE];
-static cgraph_char_t *CGRAPH_CBUF_PTR = __cgraph_cbuf__;
+/**
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   NOTICE   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * The address that CGRAPH_CBUF_PTR points to can be changed by other processes,
+ * therefore, CGRAPH_CBUF_PTR is defined as "cgraph_char_t *volatile" to
+ * prevent from over-optimization by compilers.
+ */
+static cgraph_char_t *volatile CGRAPH_CBUF_PTR = __cgraph_cbuf__;
 
 #define CGRAPH_CBUF_LEN                                                        \
   (*(cgraph_size_t *)(CGRAPH_CBUF_PTR - sizeof(cgraph_size_t)))

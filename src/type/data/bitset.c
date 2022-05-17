@@ -570,7 +570,7 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
   return flag;
 }
 
-TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, fmt)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t num = BITSET_BITNUM(cthis);
     BITSET_BITNUM_UPDATE(cthis, num);

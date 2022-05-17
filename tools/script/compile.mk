@@ -130,6 +130,7 @@ distclean:
 	$(MAKE) -C $(SRC) -f Makefile.mk distclean
 	$(MAKE) -C $(TST) -f Makefile.mk distclean
 	$(MAKE) -C $(DOC) -f Makefile.mk distclean
+	$(RMDIR) $(RMDIRFLAGS) $(LIB)
 
 update:
 	git clean -xf

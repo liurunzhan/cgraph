@@ -290,7 +290,7 @@ TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
     }
   }
 
-  return FUNCTION(NAME, format)(cthis);
+  return FUNCTION(NAME, fmt)(cthis);
 }
 
 TYPE *FUNCTION(NAME, initf32)(TYPE *cthis, const cgraph_float32_t data) {
@@ -329,7 +329,7 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, format)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, fmt)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j, point = cthis->point + 1;
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
@@ -473,7 +473,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
     }
   }
 
-  return FUNCTION(NAME, format)(z);
+  return FUNCTION(NAME, fmt)(z);
 }
 
 TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z) {
@@ -508,7 +508,7 @@ TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
     }
   }
 
-  return FUNCTION(NAME, format)(z);
+  return FUNCTION(NAME, fmt)(z);
 }
 
 TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp) {
@@ -532,7 +532,7 @@ TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp) {
     }
   }
 
-  return FUNCTION(NAME, format)(cthis);
+  return FUNCTION(NAME, fmt)(cthis);
 }
 
 TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
@@ -552,7 +552,7 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
     }
   }
 
-  return FUNCTION(NAME, format)(z);
+  return FUNCTION(NAME, fmt)(z);
 }
 
 TYPE *FUNCTION(NAME, div10)(TYPE *cthis, const cgraph_size_t exp) {
@@ -566,7 +566,7 @@ TYPE *FUNCTION(NAME, div10)(TYPE *cthis, const cgraph_size_t exp) {
     }
   }
 
-  return FUNCTION(NAME, format)(cthis);
+  return FUNCTION(NAME, fmt)(cthis);
 }
 
 TYPE *FUNCTION(NAME, idiv)(const TYPE *x, const TYPE *y, TYPE *z) {
