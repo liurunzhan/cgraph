@@ -6,10 +6,11 @@ project(PRO, 'c', version: VERSION, license: LICENSE)
 dir = "."
 inc = join_paths(dir, "include")
 src = join_paths(dir, "src")
+src_type = join_paths(src, "type")
 tst = join_paths(dir, "test")
 lib = join_paths(dir, "lib")
 
-incdir = include_directories(inc)
+incdir = include_directories(inc, src_type)
 build_root(lib)
 source_root(dir)
 current_build_dir(lib)

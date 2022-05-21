@@ -1,4 +1,4 @@
-SOURCES = error.c file.c memory.c math.c
+SOURCES = error.c file.c memory.c math.c rand.c
 
 noinst_LTLIBRARIES    = libfunc.la
 libfunc_la_CFLAGS     = -I$(top_srcdir)/include $(COMPILE_FLAGS)

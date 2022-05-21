@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_cbuf.ht
- * @brief the template apis of a private C-type buffer
+ * @brief the common apis of a private C-type buffer
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

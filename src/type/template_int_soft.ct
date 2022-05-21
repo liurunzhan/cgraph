@@ -407,7 +407,7 @@ TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
   TYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y),
        res = FUNCTION(NAME, umul_s)(_x, _y);
 
-  return (SIGNBIT(x) != SIGNBIT(y)) ? -res : res;
+  return ((SIGNBIT(x) != SIGNBIT(y)) ? -res : res);
 #endif
 }
 
@@ -441,7 +441,7 @@ TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
   TYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y),
        res = FUNCTION(NAME, udiv_s)(_x, _y);
 
-  return (SIGNBIT(x) != SIGNBIT(y)) ? -res : res;
+  return ((SIGNBIT(x) != SIGNBIT(y)) ? -res : res);
 #endif
 }
 

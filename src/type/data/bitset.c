@@ -480,6 +480,31 @@ cgraph_size_t FUNCTION(NAME, abitlen)(const TYPE *cthis) {
   return len;
 }
 
+cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis) {
+  cgraph_size_t cnt = 0;
+  if (NULL != cthis) {
+    CGRAPH_LOOP(i, 0, cthis->len)
+    cnt += FUNCTION(DATA_NAME, cntones)(cthis->data[i]);
+    CGRAPH_LOOP_END
+  }
+
+  return cnt;
+}
+
+cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis) {
+  cgraph_size_t cnt = 0;
+  if (NULL != cthis) {
+    cgraph_size_t i, len = cthis->len - 1;
+    cnt = len * DATA_BITS;
+    for (i = 0; i < len; i++) {
+      cnt -= FUNCTION(DATA_NAME, cntones)(cthis->data[i]);
+    }
+    cnt += FUNCTION(DATA_NAME, cntzeros)(cthis->data[i]);
+  }
+
+  return cnt;
+}
+
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
     cgraph_size_t max_len = CGRAPH_MAX(x->len, y->len);

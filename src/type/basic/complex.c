@@ -283,6 +283,10 @@ DATA_TYPE FUNCTION(NAME, angle)(const TYPE x) {
   return atan2(COMPLEX_IMAG(x), COMPLEX_REAL(x));
 }
 
+DATA_TYPE FUNCTION(NAME, dangle)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, angle)(FUNCTION(NAME, div)(x, y));
+}
+
 DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mag)(FUNCTION(NAME, sub)(x, y));
 }

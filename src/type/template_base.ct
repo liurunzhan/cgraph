@@ -1,14 +1,27 @@
 /**
- * This is a data template file defined in GRAPH library.
+ * - Brief
+ * This is a data template file defined in library.
  *         | MACRO |      DESCRIPTION      |
  *         |  :-:  |          :-:          |
  *         | NAME  |       type name       |
- *         | TYPE  |        type           |
+ *         | TYPE  |         type          |
  *         | DTYPE | data type with pointer|
+ * - Hierarchy
+ * The hierarchy of template inheritance relations is listed as below.
+ * @startuml
+ * template_base.ct -> template_data.ct
+ * template_data.ct -> template_int.ct
+ * template_data.ct -> template_float.ct
+ * template_data.ct -> template_float_soft.ct
+ * template_data.ct -> template_point.ct
+ * template_base.ct -> template_struct.ct
+ * template_struct.ct -> template_matrix.ct
+ * template_struct.ct -> template_matrix3d.ct
+ * template_base.ct -> template_object.ct
+ * @enduml
  */
 
-/** functions defined with void * arguments to implement polymorphism and
- * virtual table */
+/** common functions defined to implement polymorphism and virtual table */
 static void *FUNCTION(NAME, _data)(const void *cthis);
 static cgraph_size_t FUNCTION(NAME, _len)(const void *cthis);
 static cgraph_size_t FUNCTION(NAME, _size)(const void *cthis);
@@ -61,6 +74,7 @@ static void *FUNCTION(NAME, _iter3cvc)(void *x, void *y, void *z,
                                        void (*func)(void *x, void *y, void *res));
 #endif
 
+/** virtual table defined with C-type struct */
 cgraph_vtable_t STRUCT(NAME) = {
     /**< private: */
     ID,             /**< cgraph_type_t t_id; */

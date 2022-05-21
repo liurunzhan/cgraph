@@ -18,7 +18,7 @@ extern "C" {
 #endif
 
 #if !(defined(__CGRAPH_H__) || defined(__CGRAPH_STRUCT_H__)) && defined(OBJECT)
-#error <cgraph_m3object.h> can not be included in the same file together with \
+#error <cgraph_m3object.h> cannot be included in the same file together with \
 <cgraph_object.h>, \
 <cgraph_hobject.h>, \
 <cgraph_gobject.h> or \

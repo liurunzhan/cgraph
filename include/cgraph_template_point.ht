@@ -1,14 +1,27 @@
+/**
+ * @file cgraph_template_point.ht
+ * @brief the common apis of point
+ * @author liurunzhan
+ * @email liurunzhan@sina.com
+ * @package cgraph
+ * @version 0.0.0
+ * @date 2021-03-31
+ * @lisence GPL-3.0
+ * @url https://github.com/liurunzhan/cgraph
+ */
+
+#include "cgraph_template_data.ht"
+
 extern DATA_TYPE FUNCTION(NAME, mag2)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
 
-extern TYPE FUNCTION(NAME, inv)(const TYPE x);
-
-extern DATA_TYPE FUNCTION(NAME, rmul)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, fmul)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
-extern DATA_TYPE FUNCTION(NAME, rdot)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, fdiv)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, cosdangle)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, dangle)(const TYPE x, const TYPE y);

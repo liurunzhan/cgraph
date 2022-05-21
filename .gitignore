@@ -130,7 +130,7 @@ tools/script/compile.hi
 test/*
 !test/*.c
 !test/*.ct
-!test/*.r
-!test/*.py
-!test/*.sql
-!test/*.csv
+!test/cgraph.r
+!test/cgraph.py
+!test/cgraph.sql
+!test/elements.csv

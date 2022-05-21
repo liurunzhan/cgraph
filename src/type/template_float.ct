@@ -71,9 +71,9 @@ __INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
 TYPE FUNCTION(NAME, rand)(void) {
 #ifdef TYPE_FLAOT32
-  return 1.0 * cgraph_rand32();
+  return 1.0 * cgraph_rand32_rand();
 #else
-  return 1.0 * cgraph_rand64();
+  return 1.0 * cgraph_rand64_rand();
 #endif
 }
 

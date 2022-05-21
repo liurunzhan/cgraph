@@ -47,6 +47,22 @@ DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x) {
   return DATA_ONE / FUNCTION(NAME, mag)(x);
 }
 
+DATA_TYPE FUNCTION(NAME, angle)(const TYPE x) {
+  return FUNCTION(NAME, xangle)(x);
+}
+
+DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x) {
+  return acos(POINT3D_X(x) / FUNCTION(NAME, mag)(x));
+}
+
+DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x) {
+  return acos(POINT3D_Y(x) / FUNCTION(NAME, mag)(x));
+}
+
+DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x) {
+  return acos(POINT3D_Z(x) / FUNCTION(NAME, mag)(x));
+}
+
 TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;
   POINT3D_X(res) = DATA_ZERO;
@@ -210,20 +226,20 @@ TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
   return res;
 }
 
-DATA_TYPE FUNCTION(NAME, rmul)(const TYPE x, const TYPE y) {
+DATA_TYPE FUNCTION(NAME, fmul)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mag)(FUNCTION(NAME, mul)(x, y));
 }
 
 TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
   TYPE res;
-  POINT3D_X(res) = FUNCTION(NAME, rdot)(x, y);
+  POINT3D_X(res) = FUNCTION(NAME, fdot)(x, y);
   POINT3D_Y(res) = DATA_ZERO;
   POINT3D_Z(res) = DATA_ZERO;
 
   return res;
 }
 
-__INLINE DATA_TYPE FUNCTION(NAME, rdot)(const TYPE x, const TYPE y) {
+__INLINE DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y) {
   return (POINT3D_X(x) * POINT3D_X(y)) + (POINT3D_Y(x) * POINT3D_Y(y)) +
          (POINT3D_Z(x) * POINT3D_Z(y));
 }

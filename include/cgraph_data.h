@@ -41,6 +41,9 @@ extern "C" {
 #include "cgraph_string.h"
 #include "cgraph_time.h"
 
+/** used to clear command macro variables */
+#include "cgraph_template_off.h"
+
 extern cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
                                             const cgraph_point2d_t y);
 

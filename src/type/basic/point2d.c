@@ -51,7 +51,15 @@ DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x) {
 }
 
 DATA_TYPE FUNCTION(NAME, angle)(const TYPE x) {
+  return FUNCTION(NAME, xangle)(x);
+}
+
+DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x) {
   return atan2(POINT2D_Y(x), POINT2D_X(x));
+}
+
+DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x) {
+  return atan2(POINT2D_X(x), POINT2D_Y(x));
 }
 
 TYPE FUNCTION(NAME, zero)(void) {
@@ -187,25 +195,25 @@ TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
 /* x (x) y = [x1, y1] x [x2, y2] = [ [x1 y1], [x2 y2] ] = x1*y2 - x2*y1 */
 TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
   TYPE res;
-  POINT2D_X(res) = FUNCTION(NAME, rmul)(x, y);
+  POINT2D_X(res) = FUNCTION(NAME, fmul)(x, y);
   POINT2D_Y(res) = DATA_ZERO;
 
   return res;
 }
 
-DATA_TYPE FUNCTION(NAME, rmul)(const TYPE x, const TYPE y) {
+DATA_TYPE FUNCTION(NAME, fmul)(const TYPE x, const TYPE y) {
   return (POINT2D_X(x) * POINT2D_Y(y)) - (POINT2D_X(y) * POINT2D_Y(x));
 }
 
 TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
   TYPE res;
-  POINT2D_X(res) = FUNCTION(NAME, rdot)(x, y);
+  POINT2D_X(res) = FUNCTION(NAME, fdot)(x, y);
   POINT2D_Y(res) = DATA_ZERO;
 
   return res;
 }
 
-__INLINE DATA_TYPE FUNCTION(NAME, rdot)(const TYPE x, const TYPE y) {
+__INLINE DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y) {
   return (POINT2D_X(x) * POINT2D_X(y)) + (POINT2D_Y(x) * POINT2D_Y(y));
 }
 
@@ -275,7 +283,7 @@ cgraph_bool_t FUNCTION(NAME, istriangle)(const TYPE a, const TYPE b,
   return DATA_NE(mul0, mul1);
 }
 
-/* three point concurrent formula (x2-x1)(y3-y1)=(x3-x1)(y2-y1) */
+/* three point concurrent fofmula (x2-x1)(y3-y1)=(x3-x1)(y2-y1) */
 cgraph_bool_t FUNCTION(NAME, isconcurrent)(const TYPE a, const TYPE b,
                                            const TYPE c) {
   DATA_TYPE mul0 =
@@ -291,7 +299,7 @@ cgraph_bool_t FUNCTION(NAME, iscoplanar)(const TYPE a, const TYPE b,
   return CGRAPH_TRUE;
 }
 
-/* triangle size formula S = 0.5 * |(x2-x1)(y3-y1)-(x3-x1)(y2-y1)| */
+/* triangle size fofmula S = 0.5 * |(x2-x1)(y3-y1)-(x3-x1)(y2-y1)| */
 DATA_TYPE FUNCTION(NAME, triangle_size)(const TYPE a, const TYPE b,
                                         const TYPE c) {
   DATA_TYPE mul0 =

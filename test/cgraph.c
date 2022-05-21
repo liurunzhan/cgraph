@@ -1,4 +1,5 @@
 #include "cgraph.h"
+#include <time.h>
 
 void printf_char(char data) {
   cgraph_file_fprintfln(stdout, "debug %x %x", 0xFF & data, 0xFF & data);
@@ -14,7 +15,7 @@ cgraph_float64_t function_x(cgraph_float64_t x) { return x * x; }
 int main(int argc, char *argv[]) {
   /*
   cgraph_char_t cbuf[100];
-  cgraph_fraction_t fraction = {-1, INT_MAX};
+  cgraph_fraction_t fraction = {-1, CGRAPH_INT_MAX};
   cgraph_int_t integer = 123;
   cgraph_float32_t real = 123.0, number = 0.1;
   cgraph_size_t i = 0;
@@ -117,6 +118,7 @@ int main(int argc, char *argv[]) {
   cgraph_size_t i, j, k;
   cgraph_int_t num = 987, weight = 1, cnt = 0;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
+  FILE *fp = cgraph_file_fopen("rand_seed.csv", "w");
   cgraph_cmdarg_fprintln(stdout, cmdarg);
   cgraph_file_fprintfln(stdout, "hello world");
   cgraph_file_fprintfln(stdout, "%s %ld", name,
@@ -153,6 +155,20 @@ int main(int argc, char *argv[]) {
                         cgraph_math_gcd(32, 256));
   cgraph_file_fprintfln(stdout, "lcm(%lu, %lu) = %lu", 32, 256,
                         cgraph_math_lcm(32, 256));
+  cgraph_rand32_init(cgraph_rand32_mt19937);
+  if (NULL != fp) {
+    CGRAPH_LOOP(i, 0, 100)
+    cgraph_uint32_t seed = time(NULL);
+    cgraph_file_fprintfln(stdout, "Set Rand Seed=%u", seed);
+    cgraph_rand32_srand(seed);
+    cgraph_file_fprintfln(stdout, "Get Rand Seed=%u", cgraph_rand32_seed());
+    cgraph_rand32_mt19937_init();
+    CGRAPH_LOOP(i, 0, 10000)
+    cgraph_file_fprintfln(fp, "%u", cgraph_rand32_rand() % 1000);
+    CGRAPH_LOOP_END
+    CGRAPH_LOOP_END
+    cgraph_file_fclose((fp));
+  }
 
   return 0;
 }

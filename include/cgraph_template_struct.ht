@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_struct.ht
- * @brief the template apis of STRUCTURE TYPE
+ * @brief the common apis of STRUCTURE TYPE
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

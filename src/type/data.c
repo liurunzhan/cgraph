@@ -5,7 +5,7 @@
 cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
                                      const cgraph_point2d_t y) {
   cgraph_point3d_t res = cgraph_point3d_zero();
-  POINT3D_Z(res) = cgraph_point2d_rdot(x, y);
+  POINT3D_Z(res) = cgraph_point2d_fdot(x, y);
 
   return res;
 }

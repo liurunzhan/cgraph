@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_int.ht
- * @brief the template apis of integer number
+ * @brief the common apis of integer number
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

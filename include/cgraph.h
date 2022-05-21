@@ -9,11 +9,13 @@
  * </table>
  * @section Overview
  * This library is used to solve the graph and mathematical problems.
+ *
  * @section Description
  *
- * @section Usage Description
+ * @section Usage
  *
- * @section
+ * @section Declearation
+ *
  */
 
 #ifndef __CGRAPH_H__
@@ -23,18 +25,23 @@
 extern "C" {
 #endif
 
-#include "cgraph_data.h"
-#include "cgraph_error.h"
-#include "cgraph_file.h"
-#include "cgraph_game.h"
+/** object types */
 #include "cgraph_gobject.h"
 #include "cgraph_hobject.h"
 #include "cgraph_m3object.h"
-#include "cgraph_math.h"
-#include "cgraph_memory.h"
 #include "cgraph_mobject.h"
 #include "cgraph_object.h"
+
+/** data and structure types */
+#include "cgraph_data.h"
 #include "cgraph_struct.h"
+
+#include "cgraph_error.h"
+#include "cgraph_file.h"
+#include "cgraph_game.h"
+#include "cgraph_math.h"
+#include "cgraph_memory.h"
+#include "cgraph_rand.h"
 #include "cgraph_version.h"
 
 #ifdef __cplusplus

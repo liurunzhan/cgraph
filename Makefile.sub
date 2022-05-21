@@ -70,7 +70,7 @@ SCRDIR = .$(PSEP)tools$(PSEP)script$(PSEP)
 
 ifeq ($(MAKELEVEL), 0)
 $(ALL):
-	echo "Makefile.sub can not be directly made"
+	echo "Makefile.sub cannot be directly made"
 	exit "$$?"
 endif
 

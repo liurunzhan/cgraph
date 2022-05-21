@@ -94,6 +94,10 @@ extern TYPE FUNCTION(NAME, yror)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, zrol)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, zror)(const TYPE x, const DATA_TYPE angle);
 
+extern DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x);
+
 #ifdef __cplusplus
 }
 #endif

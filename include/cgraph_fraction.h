@@ -34,8 +34,8 @@ extern "C" {
 #define DATA_MAX CGRAPH_INT_MAX
 #define DATA_MASK CGRAPH_INT_MASK
 #define DATA_EPSILON CGRAPH_INT_EPSILON
-#define DATA_MSB (DATA_ONE << (DATA_BITS - 1))
-#define DATA_LSB (DATA_ONE)
+#define DATA_MSB CGRAPH_INT_MSB
+#define DATA_LSB CGRAPH_INT_LSB
 
 #define NAME fraction
 #define TYPE TYPE_T(NAME)

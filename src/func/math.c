@@ -1,6 +1,7 @@
 #include <ctype.h>
 
 #include "cgraph_math.h"
+#include "cgraph_memory.h"
 
 cgraph_size_t cgraph_math_subc(cgraph_char_t *x, const cgraph_size_t len,
                                const cgraph_char_t ch) {
@@ -316,43 +317,20 @@ __INLINE cgraph_int_t cgraph_math_dec2dec(const cgraph_char_t data) {
 
 __INLINE cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data) {
   cgraph_int_t res = MATH_ERROR;
-  switch (data) {
-  case '0':
-  case '1':
-  case '2':
-  case '3':
-  case '4':
-  case '5':
-  case '6':
-  case '7':
-  case '8':
-  case '9': {
+  if (('0' <= data) && ('9' >= data)) {
     res = data - '0';
-    break;
+    goto SUCCESS;
   }
-  case 'A':
-  case 'B':
-  case 'C':
-  case 'D':
-  case 'E':
-  case 'F': {
+  if (('A' <= data) && ('F' >= data)) {
     res = data - 'A' + 10;
-    break;
+    goto SUCCESS;
   }
-  case 'a':
-  case 'b':
-  case 'c':
-  case 'd':
-  case 'e':
-  case 'f': {
+  if (('a' <= data) && ('f' >= data)) {
     res = data - 'a' + 10;
-    break;
-  }
-  default: {
-    break;
-  }
+    goto SUCCESS;
   }
 
+SUCCESS:
   return res;
 }
 
@@ -558,7 +536,7 @@ cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
   return res;
 }
 
-cgraph_bool_t cgraph_math_prime(const cgraph_int_t data) {
+cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data) {
   cgraph_bool_t flag = CGRAPH_TRUE;
   cgraph_int_t tmp;
   if (2 > data) {
@@ -583,174 +561,29 @@ cgraph_bool_t cgraph_math_prime(const cgraph_int_t data) {
 cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
                                  const cgraph_int_t data) {
   cgraph_size_t counter = 0;
-  if ((NULL != primes) && (NULL != isprime) && (data > 1)) {
-    cgraph_size_t j;
-    CGRAPH_LOOP(i, 0, data)
-    primes[i] = 0;
-    isprime[i] = CGRAPH_TRUE;
-    CGRAPH_LOOP_END
-    CGRAPH_LOOP(i, 2, data)
-    if (isprime[i] == CGRAPH_TRUE) {
-      primes[counter++] = i;
-    }
-    for (j = 0; (j < counter) && (i * primes[j] < data); j++) {
-      isprime[i * primes[j]] = CGRAPH_FALSE;
-      if (i % primes[j] == 0) {
-        break;
-      }
-    }
-    CGRAPH_LOOP_END
+  cgraph_size_t j;
+  if ((NULL == primes) || (NULL == isprime) || (0 >= data)) {
+    goto ERROR;
   }
+  CGRAPH_LOOP(i, 0, data)
+  primes[i] = 0;
+  isprime[i] = CGRAPH_TRUE;
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP(i, 2, data)
+  if (isprime[i] == CGRAPH_TRUE) {
+    primes[counter++] = i;
+  }
+  for (j = 0; (j < counter) && (i * primes[j] < data); j++) {
+    isprime[i * primes[j]] = CGRAPH_FALSE;
+    if (i % primes[j] == 0) {
+      break;
+    }
+  }
+  CGRAPH_LOOP_END
 
   return counter;
-}
-
-/** 32-bit integer random functions  */
-static cgraph_rand32_intptr_t __cgraph_rand32_intptr = cgraph_rand32_miller;
-
-void cgraph_rand32_intptr(cgraph_rand32_intptr_t ptr) {
-  __cgraph_rand32_intptr = ptr;
-}
-
-static cgraph_int32_t __cgraph_rand32_seed = 1;
-
-void cgraph_rand32_seed(const cgraph_int32_t seed) {
-  __cgraph_rand32_seed = seed;
-}
-
-cgraph_int32_t cgraph_rand32(void) { return __cgraph_rand32_intptr(); }
-
-/**
-  Author  : Park,  Miller
-  Methode : X(n+1) <- (a * X(n) + b) % m
-  a = 16807 or 48271
-  b = 0
-  m = 2147483647 (RAND32_MAX, 2^31 - 1 or 2 << 31 - 1)
-  returning a 32-bit integer [1, 2147483647]
-  X(0) = 1
-*/
-cgraph_int32_t cgraph_rand32_miller(void) {
-  const cgraph_int32_t a = 48271, m = RAND32_MAX;
-  const cgraph_int32_t m_div_a = m / a, m_mod_a = m % a;
-  cgraph_int32_t hi = __cgraph_rand32_seed / m_div_a,
-                 lo = __cgraph_rand32_seed % m_div_a;
-  __cgraph_rand32_seed = (a * lo - m_mod_a * hi);
-
-  return __cgraph_rand32_seed;
-}
-
-/**
- * 32-bit Mersenne Twister Algorithm
- *  @brief mt19937-32
- */
-cgraph_int32_t cgraph_rand32_mt19937(void) { return __cgraph_rand32_seed; }
-
-cgraph_int32_t cgraph_rand32_uniform(const cgraph_int32_t min,
-                                     const cgraph_int32_t max) {
-  return __cgraph_rand32_intptr() % (max - min) + min;
-}
-
-/*
-        Authors : Box and Muller
-        mu      : the average value of the normal distribution
-        sigma   : the variance of the normal distribution
-*/
-cgraph_float32_t cgraph_rand32_normal(const cgraph_float32_t mu,
-                                      const cgraph_float32_t sigma) {
-  static cgraph_float32_t U, V, Z;
-  static cgraph_bool_t phase = CGRAPH_FALSE;
-  if (CGRAPH_TRUE == phase) {
-    U = (1.0 * __cgraph_rand32_intptr() + 1.0) / (RAND32_MAX + 2.0);
-    V = 1.0 * __cgraph_rand32_intptr() / (RAND32_MAX + 1.0);
-    Z = sqrt(-2.0 * log(U)) * sin(2.0 * M_PI * V);
-  } else {
-    Z = sqrt(-2.0 * log(U)) * cos(2.0 * M_PI * V);
-  }
-  phase ^= CGRAPH_TRUE;
-
-  return Z * sigma + mu;
-}
-
-/** 64-bit integer random functions  */
-static cgraph_rand64_intptr_t __cgraph_rand64_intptr = cgraph_rand64_mmix;
-
-void cgraph_rand64_intptr(cgraph_rand64_intptr_t ptr) {
-  __cgraph_rand64_intptr = ptr;
-}
-
-static cgraph_int64_t __cgraph_rand64_seed = 0;
-
-void cgraph_rand64_seed(const cgraph_int64_t seed) {
-  __cgraph_rand64_seed = seed;
-}
-
-cgraph_int64_t cgraph_rand64(void) { return __cgraph_rand64_intptr(); }
-
-/**
-  Author  : MMIX by Donald Knuth
-  Methode : X(n+1) <- (a * X(n) + b) % m
-  a = 6364136223846793005LL
-  b = 1442695040888963407LL
-  m = 18446744073709551615LL
-  returning a 64-bit integer [1, 18446744073709551615]
-  X(0) = 1
-*/
-cgraph_int64_t cgraph_rand64_mmix(void) {
-  const cgraph_int64_t a = RAND64_A, b = RAND64_B, m = RAND64_M;
-  const cgraph_int64_t a_mod_m = a % m, b_mod_m = b % m;
-  cgraph_int64_t seed_mod_m = __cgraph_rand64_seed % m;
-  __cgraph_rand64_seed = ((a_mod_m * seed_mod_m) % m + b_mod_m) % m;
-
-  return __cgraph_rand64_seed;
-}
-
-/**
- * 64-bit Mersenne Twister Algorithm
- *  @brief mt19937-64
- */
-cgraph_int64_t cgraph_rand64_mt19937(void) { return __cgraph_rand64_seed; }
-
-cgraph_int64_t cgraph_rand64_uniform(const cgraph_int64_t min,
-                                     const cgraph_int64_t max) {
-  return __cgraph_rand64_intptr() % (max - min) + min;
-}
-
-/*
-        Authors : Box and Muller
-        mu      : the average value of the normal distribution
-        sigma   : the variance of the normal distribution
-*/
-cgraph_float64_t cgraph_rand64_normal(const cgraph_float64_t mu,
-                                      const cgraph_float64_t sigma) {
-  static cgraph_float64_t U, V, Z;
-  static cgraph_bool_t phase = CGRAPH_FALSE;
-  if (CGRAPH_TRUE == phase) {
-    U = (1.0 * __cgraph_rand64_intptr() + 1.0) / (RAND64_MAX + 2.0);
-    V = 1.0 * __cgraph_rand64_intptr() / (RAND64_MAX + 1.0);
-    Z = sqrt(-2.0 * log(U)) * sin(2.0 * M_PI * V);
-  } else {
-    Z = sqrt(-2.0 * log(U)) * cos(2.0 * M_PI * V);
-  }
-  phase ^= CGRAPH_TRUE;
-
-  return Z * sigma + mu;
-}
-
-cgraph_bool_t cgraph_rand_bool(void) {
-  return __cgraph_rand32_intptr() & CGRAPH_BOOL_MASK;
-}
-
-cgraph_logic_t cgraph_rand_logic(void) {
-  return __cgraph_rand32_intptr() & CGRAPH_LOGIC_MASK;
-}
-
-/** random size */
-cgraph_size_t cgraph_rand_size(const cgraph_size_t size) {
-#if __WORDSIZE == 64
-  return __cgraph_rand64_intptr() % size;
-#else
-  return __cgraph_rand32_intptr() % size;
-#endif
+ERROR:
+  return 0;
 }
 
 __INLINE cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle) {

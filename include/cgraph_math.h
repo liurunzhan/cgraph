@@ -214,52 +214,10 @@ extern cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
                                        const cgraph_uint64_t data,
                                        const cgraph_uint64_t poly);
 
-extern cgraph_bool_t cgraph_math_prime(const cgraph_int_t data);
+extern cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data);
 extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
                                         cgraph_int_t *isprime,
                                         const cgraph_int_t data);
-
-/** 32-bit random number */
-#ifndef RAND32_MAX
-#define RAND32_MAX CGRAPH_INT32_MAX
-#endif
-
-typedef cgraph_int32_t (*cgraph_rand32_intptr_t)(void);
-extern void cgraph_rand32_intptr(cgraph_rand32_intptr_t ptr);
-extern void cgraph_rand32_seed(const cgraph_int32_t seed);
-extern cgraph_int32_t cgraph_rand32(void);
-extern cgraph_int32_t cgraph_rand32_miller(void);
-extern cgraph_int32_t cgraph_rand32_mt19937(void);
-extern cgraph_int32_t cgraph_rand32_uniform(const cgraph_int32_t min,
-                                            const cgraph_int32_t max);
-extern cgraph_float32_t cgraph_rand32_normal(const cgraph_float32_t mu,
-                                             const cgraph_float32_t sigma);
-
-/** 64-bit random number */
-#ifndef RAND64_MAX
-#define RAND64_MAX CGRAPH_INT64_MAX
-#endif
-
-#define RAND64_A __EXTENSION__(6364136223846793005ULL)
-#define RAND64_B __EXTENSION__(1442695040888963407ULL)
-#define RAND64_M __EXTENSION__(18446744073709551615ULL)
-
-typedef cgraph_int64_t (*cgraph_rand64_intptr_t)(void);
-extern void cgraph_rand64_intptr(cgraph_rand64_intptr_t ptr);
-extern void cgraph_rand64_seed(const cgraph_int64_t seed);
-extern cgraph_int64_t cgraph_rand64(void);
-extern cgraph_int64_t cgraph_rand64_mmix(void);
-extern cgraph_int64_t cgraph_rand64_mt19937(void);
-extern cgraph_int64_t cgraph_rand64_uniform(const cgraph_int64_t min,
-                                            const cgraph_int64_t max);
-extern cgraph_float64_t cgraph_rand64_normal(const cgraph_float64_t mu,
-                                             const cgraph_float64_t sigma);
-
-extern cgraph_bool_t cgraph_rand_bool(void);
-extern cgraph_logic_t cgraph_rand_logic(void);
-
-/** random size */
-extern cgraph_size_t cgraph_rand_size(const cgraph_size_t size);
 
 /** external mathematical functions */
 extern cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle);

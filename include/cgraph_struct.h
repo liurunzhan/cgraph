@@ -65,6 +65,9 @@ extern "C" {
 */
 #include "cgraph_graph.h"
 
+/** used to clear command macro variables */
+#include "cgraph_template_off.h"
+
 #ifdef __cplusplus
 }
 #endif

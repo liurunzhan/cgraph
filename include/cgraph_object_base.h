@@ -17,6 +17,10 @@
 extern "C" {
 #endif
 
+#ifdef __CGRAPH_H__
+#error cannot be both included with <cgraph.h>, because all files have been included in both files
+#endif
+
 #include "cgraph_base.h"
 #include "cgraph_data.h"
 #include "cgraph_struct.h"

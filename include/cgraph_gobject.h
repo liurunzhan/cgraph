@@ -18,13 +18,15 @@ extern "C" {
 #endif
 
 #if !(defined(__CGRAPH_H__) || defined(__CGRAPH_STRUCT_H__)) && defined(OBJECT)
-#error <cgraph_gobject.h> can not be included in the same file together with \
+#error <cgraph_gobject.h> cannot be included in the same file together with \
 <cgraph_object.h>, \
 <cgraph_hobject.h>, \
 <cgraph_mobject.h> or \
 <cgraph_m3object.h>, \
 except in <cgraph.h> and <cgraph_struct.h>
 #endif
+
+#include "cgraph_string.h"
 
 #include "cgraph_config.h"
 

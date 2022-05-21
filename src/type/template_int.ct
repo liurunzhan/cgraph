@@ -84,9 +84,9 @@ __INLINE TYPE FUNCTION(NAME, ones)(void) { return ONES; }
 
 TYPE FUNCTION(NAME, rand)(void) {
 #if defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  return cgraph_rand64();
+  return cgraph_rand64_rand();
 #else
-  return cgraph_rand32() & MASK;
+  return cgraph_rand32_rand() & MASK;
 #endif
 }
 
@@ -162,7 +162,7 @@ TYPE FUNCTION(NAME, gcd)(const TYPE x, const TYPE y) {
 
 TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y) {
   TYPE gcd = FUNCTION(NAME, gcd)(x, y);
-  return (0 == gcd) ? 0 : ((1 == gcd) ? (x * y) : (x / gcd * y));
+  return ((0 == gcd) ? 0 : ((1 == gcd) ? (x * y) : (x / gcd * y)));
 }
 
 __INLINE TYPE FUNCTION(NAME, mod2)(const TYPE x, const TYPE y) {
@@ -611,7 +611,7 @@ cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
   TYPE _x = x;
   cgraph_size_t cnt = 0;
   for (cnt = 0; _x; cnt++) {
-    _x &= _x - 1;
+    _x &= (_x - 1);
   }
 
   return cnt;
@@ -627,8 +627,8 @@ cgraph_size_t FUNCTION(NAME, cntzeros)(const UTYPE x) {
   if (0 == _x) {
     cnt = 1;
   } else {
-    for (cnt = 0; _x; _x >>= 1) {
-      cnt += 1 & (1 ^ _x);
+    for (cnt = 0; _x; cnt++) {
+      _x |= (_x + 1);
     }
   }
 

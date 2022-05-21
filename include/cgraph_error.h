@@ -62,10 +62,11 @@ typedef enum {
   CGRAPH_LEVEL_FATAL = 5
 } cgraph_level_t;
 
+#define CGRAPH_LEVEL_DEFAULT CGRAPH_LEVEL_DEBUG
 #define CGRAPH_LEVEL_SIZE (6)
 
-cgraph_bool_t cgraph_error_chptr(FILE *fp);
-cgraph_bool_t cgraph_error_chptr_by_file(const cgraph_char_t *file);
+cgraph_bool_t cgraph_error_init(FILE *fp);
+cgraph_bool_t cgraph_error_init_by_file(const cgraph_char_t *file);
 
 extern const cgraph_char_t *cgraph_error_level(const cgraph_level_t level);
 extern const cgraph_char_t *cgraph_error_time(void);

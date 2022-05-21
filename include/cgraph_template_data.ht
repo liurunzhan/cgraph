@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_data.ht
- * @brief the template apis of DATA TYPE
+ * @brief the common apis of DATA TYPE
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

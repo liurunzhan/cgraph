@@ -81,9 +81,10 @@ typedef struct {
   ((POINT2D_X(x) * POINT2D_X(x)) + (POINT2D_Y(x) * POINT2D_Y(x)))
 
 /** template module */
-#include "cgraph_template_data.ht"
-
 #include "cgraph_template_point.ht"
+
+extern DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
 
 #ifdef __cplusplus
 }

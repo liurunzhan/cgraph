@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_matrix.ht
- * @brief the template apis of matrix
+ * @brief the common apis of matrix
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

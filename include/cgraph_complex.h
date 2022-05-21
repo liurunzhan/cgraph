@@ -27,9 +27,9 @@ extern "C" {
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(FLOAT64)
 #define DATA_BITS CGRAPH_FLOAT64_BITS
-#define DATA_ZERO (0.0)
-#define DATA_ONE (1.0)
-#define DATA_ONES (1.0)
+#define DATA_ZERO DBL_C(0.0)
+#define DATA_ONE DBL_C(1.0)
+#define DATA_ONES DBL_C(1.0)
 #define DATA_MIN CGRAPH_FLOAT64_MIN
 #define DATA_MAX CGRAPH_FLOAT64_MAX
 #define DATA_NAN CGRAPH_FLOAT64_NAN
@@ -86,6 +86,7 @@ typedef struct {
 /** template module */
 #define CGRAPH_COMPLEX_CBUF_SIZE CGRAPH_CBUF_SIZE0
 #include "cgraph_template_cbuf.ht"
+
 #include "cgraph_template_data.ht"
 
 /** initial function */
@@ -110,6 +111,7 @@ extern DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dangle)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x);
 

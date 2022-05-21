@@ -1,3 +1,9 @@
+#!/usr/bin/Rscript
+
 library(igraph)
 
-data <- read.csv("elements.csv", sep=",", header=TRUE, row.names=1, na.strings=c("NA"))
+file <- "elements.csv"
+if file.exists(file) {
+	data <- read.csv(file, sep=",", header=TRUE, row.names=1, na.strings=c("NA"))
+	print(data)
+}

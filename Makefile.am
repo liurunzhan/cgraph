@@ -1,6 +1,6 @@
-SUBDIRS=src test doc
+SUBDIRS = src test doc
 
-PROJECT=cgraph
+PROJECT = cgraph
 export PROJECT
 
 # project directories

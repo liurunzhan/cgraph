@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_int_soft.ht
- * @brief the template apis of software-defined integer point number
+ * @brief the common apis of software-defined integer point number
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

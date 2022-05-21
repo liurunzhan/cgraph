@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_matrix3d.ht
- * @brief the template apis of 3-d matrix
+ * @brief the common apis of 3-d matrix
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

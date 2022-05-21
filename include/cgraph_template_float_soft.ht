@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_float_soft.ht
- * @brief the template apis of software-defined float point number
+ * @brief the common apis of software-defined float point number
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

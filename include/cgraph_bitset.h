@@ -40,8 +40,8 @@ extern "C" {
 #define DATA_MAX CGRAPH_UINT8_MAX
 #define DATA_MASK CGRAPH_UINT8_MASK
 #define DATA_EPSILON CGRAPH_UINT8_EPSILON
-#define DATA_MSB (0x01U << (DATA_BITS - 1))
-#define DATA_LSB (0x01U)
+#define DATA_MSB CGRAPH_UINT8_MSB
+#define DATA_LSB CGRAPH_UINT8_LSB
 
 #define NAME bitset
 #define TYPE TYPE_T(NAME)
@@ -124,6 +124,9 @@ extern TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapword)(TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, abitlen)(const TYPE *cthis);
+
+extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);
+extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, and)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, or)(const TYPE *x, const TYPE *y, TYPE *z);

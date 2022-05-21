@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_float.ht
- * @brief the template apis of float point number
+ * @brief the common apis of float point number
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

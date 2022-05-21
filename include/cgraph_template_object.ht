@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_object.ht
- * @brief the template apis of objects
+ * @brief the common apis of objects
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph
