@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template_off.h
- * @brief undefine the common defined macros
+ * @brief undefine the common-defined macros
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

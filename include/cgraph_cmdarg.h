@@ -17,9 +17,12 @@
 extern "C" {
 #endif
 
-#include "cgraph_string.h"
+/** used to clear common-defined macro variables, except included only */
+#ifndef __CGRAPH_MACRO_CFLAG__
+#define __CGRAPH_MACRO_CFLAG__
+#endif
 
-#include "cgraph_template_off.h"
+#include "cgraph_string.h"
 
 /**
  * @struct cgraph_cmdarg_t
@@ -32,8 +35,8 @@ typedef struct {
   cgraph_char_t *data;
 } cgraph_cmdarg_t;
 
-#define CGRAPH_ISEMPTY(x) ((NULL == (x)) || (0 >= (x)->argc))
-#define CGRAPH_HASDATA(x) ((NULL != (x)) || (0 < (x)->argc))
+#define CMDARG_ISEMPTY(x) ((NULL == (x)) || (0 >= (x)->argc))
+#define CMDARG_HASDATA(x) ((NULL != (x)) || (0 < (x)->argc))
 
 extern cgraph_cmdarg_t *cgraph_cmdarg_calloc(int argc, char *argv[]);
 extern void cgraph_cmdarg_free(cgraph_cmdarg_t *cthis);

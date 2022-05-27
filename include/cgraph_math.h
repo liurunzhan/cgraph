@@ -92,6 +92,14 @@ extern "C" {
 #define M_SQRT1_2 (0.70710678118654752440)
 #endif /** M_SQRT1_2 : sqrt(1/2) */
 
+#ifndef M_SQRT3
+#define M_SQRT3 (1.73205080756887729353)
+#endif /** M_SQRT3 : sqrt(3) */
+
+#ifndef M_SQRT1_3
+#define M_SQRT1_3 (0.57735026918962576451)
+#endif /** M_SQRT1_3 : sqrt(1/3) */
+
 #ifndef M_PHI
 #define M_PHI (0.61803398874989484820)
 #endif /** M_PHI : (sqrt(5)-1)/2 */

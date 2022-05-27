@@ -87,16 +87,45 @@ typedef struct {
 
 #include "cgraph_template_point.ht"
 
+extern TYPE FUNCTION(NAME, mixed)(const TYPE x, const TYPE y, const TYPE z);
+extern DATA_TYPE FUNCTION(NAME, fmixed)(const TYPE x, const TYPE y,
+                                        const TYPE z);
+extern TYPE FUNCTION(NAME, triple)(const TYPE x, const TYPE y, const TYPE z);
+extern DATA_TYPE FUNCTION(NAME, det)(const TYPE x, const TYPE y, const TYPE z);
+
 extern TYPE FUNCTION(NAME, xrol)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, xror)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, yrol)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, yror)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, zrol)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, zror)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, arol)(const TYPE x, const TYPE r,
+                                 const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, aror)(const TYPE x, const TYPE r,
+                                 const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, arol_inv)(const TYPE x, const TYPE r,
+                                     const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, aror_inv)(const TYPE x, const TYPE r,
+                                     const DATA_TYPE angle);
 
 extern DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, scale)(const TYPE x, const TYPE rate);
+extern TYPE FUNCTION(NAME, lookat)(const TYPE x, const TYPE r, const TYPE u,
+                                   const TYPE d, const TYPE p);
+extern TYPE FUNCTION(NAME, glfrustum)(const TYPE x, const TYPE min,
+                                      const TYPE max);
+extern TYPE FUNCTION(NAME, glvolume)(const TYPE x, const TYPE min,
+                                     const TYPE max);
+
+extern TYPE FUNCTION(NAME, line)(const TYPE x, const TYPE y, TYPE *p);
+
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
 
 #ifdef __cplusplus
 }

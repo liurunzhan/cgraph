@@ -17,6 +17,11 @@
 extern "C" {
 #endif
 
+/** used to clear common-defined macro variables, except included only */
+#ifndef __CGRAPH_MACRO_CFLAG__
+#define __CGRAPH_MACRO_CFLAG__
+#endif
+
 #include "cgraph_bigint.h"
 #include "cgraph_bignum.h"
 #include "cgraph_bitset.h"
@@ -40,12 +45,6 @@ extern "C" {
 #include "cgraph_point3d.h"
 #include "cgraph_string.h"
 #include "cgraph_time.h"
-
-/** used to clear command macro variables */
-#include "cgraph_template_off.h"
-
-extern cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
-                                            const cgraph_point2d_t y);
 
 extern cgraph_logic_t cgraph_bool_to_logic(const cgraph_bool_t x);
 extern cgraph_bool_t cgraph_logic_to_bool(const cgraph_logic_t x);
@@ -81,6 +80,18 @@ extern cgraph_float8_t cgraph_float64_to_float8(const cgraph_float64_t x);
 extern cgraph_float16_t cgraph_float64_to_float16(const cgraph_float64_t x);
 extern cgraph_float32_t cgraph_float64_to_float32(const cgraph_float64_t x);
 extern cgraph_float128_t cgraph_float64_to_float128(const cgraph_float64_t x);
+
+extern cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
+                                            const cgraph_point2d_t y);
+extern cgraph_point3d_t cgraph_point2d_to_point3d(const cgraph_point2d_t x);
+extern cgraph_point2d_t cgraph_point3d_to_point2d(const cgraph_point3d_t x);
+
+extern cgraph_point2d_t
+cgraph_point3d_to_point2d_clarke(const cgraph_point3d_t x,
+                                 const cgraph_float64_t m);
+extern cgraph_point3d_t
+cgraph_point2d_to_point3d_clarke_inv(const cgraph_point2d_t x,
+                                     const cgraph_float64_t m);
 
 #ifdef __cplusplus
 }

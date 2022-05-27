@@ -73,6 +73,11 @@ extern cgraph_bool_t FUNCTION(NAME, multiple)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, hyper)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, dynamic)(const TYPE *cthis);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_H__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

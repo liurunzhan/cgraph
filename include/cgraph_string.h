@@ -124,6 +124,11 @@ extern cgraph_size_t FUNCTION(NAME, len_big5)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isutf8)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, len_utf8)(const TYPE *cthis);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

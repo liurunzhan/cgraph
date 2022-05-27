@@ -83,8 +83,23 @@ typedef struct {
 /** template module */
 #include "cgraph_template_point.ht"
 
+extern DATA_TYPE FUNCTION(NAME, havedist)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, det)(const TYPE x, const TYPE y);
+
 extern DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, park)(const TYPE x, const DATA_TYPE m,
+                                 const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, park_inv)(const TYPE x, const DATA_TYPE m,
+                                     const DATA_TYPE angle);
+
+extern TYPE FUNCTION(NAME, line)(const TYPE x, const TYPE y, DATA_TYPE *z);
+
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
 
 #ifdef __cplusplus
 }

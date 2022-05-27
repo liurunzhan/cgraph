@@ -126,6 +126,13 @@
 #define CUBE(a, b) FUNCTION(NAME, cube)((a))
 
 #elif defined(TYPE_FRACTION)
+#define DATA_EQ(a, b) ((a) == (b))
+#define DATA_NE(a, b) ((a) != (b))
+#define DATA_GR(a, b) ((a) > (b))
+#define DATA_GE(a, b) ((a) >= (b))
+#define DATA_LS(a, b) ((a) < (b))
+#define DATA_LE(a, b) ((a) <= (b))
+
 #define DATA_TEST(a) ((0 != FRACTION_DEN(a)))
 #define DATA_ISNAN(a) ((0 == FRACTION_DEN(a)) && (0 == FRACTION_NUM(a)))
 #define DATA_ISPINF(a) ((0 == FRACTION_DEN(a)) && (0 < FRACTION_NUM(a)))

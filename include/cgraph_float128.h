@@ -64,6 +64,11 @@ extern "C" {
 
 extern cgraph_char_t *FUNCTION(NAME, encode_s)(const TYPE x);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

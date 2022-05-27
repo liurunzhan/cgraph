@@ -1,36 +1,36 @@
 #include "template_data.ct"
 
-/* fabs(x) = ||x|| */
+/** \f$ fabs(x) = ||x|| \f$ */
 DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x) { return FUNCTION(NAME, mag)(x); }
 
-/* \f$fdiv(x, y) = (x / y) = (x * y) / (y * y) = (x * y) / (|y|^2)\f$ */
+/** \f$ fdiv(x, y) = (x / y) = (x * y) / (y * y) = (x * y) / (|y|^2) \f$ */
 DATA_TYPE FUNCTION(NAME, fdiv)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, fdot)(x, y) / FUNCTION(NAME, mag2)(y);
 }
 
-/* cosdangle(x, y) = (x * y) / (|x| * |y|) */
-DATA_TYPE FUNCTION(NAME, cosdangle)(const TYPE x, const TYPE y) {
+/** cosinangle(x, y) = (x * y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, cosinangle)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, fdot)(x, y) /
          (FUNCTION(NAME, mag)(x) * FUNCTION(NAME, mag)(y));
 }
 
-/* dangle(x, y) = (x * y) / (|x| * |y|) */
-DATA_TYPE FUNCTION(NAME, dangle)(const TYPE x, const TYPE y) {
-  return acos(FUNCTION(NAME, dangle)(x, y));
+/** inangle(x, y) = (x * y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, inangle)(const TYPE x, const TYPE y) {
+  return acos(FUNCTION(NAME, inangle)(x, y));
 }
 
-/* rproj(x, y) = |y| * (x * y) / (|x| * |y|) */
+/** rproj(x, y) = |y| * (x * y) / (|x| * |y|) */
 DATA_TYPE FUNCTION(NAME, rproj)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, fdot)(x, y) / FUNCTION(NAME, mag)(x);
 }
 
-/* proj(x, y) = x * (x * y) / |x|^2 */
+/** proj(x, y) = x * (x * y) / |x|^2 */
 TYPE FUNCTION(NAME, proj)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mulf)(x, FUNCTION(NAME, fdot)(x, y) /
                                      FUNCTION(NAME, mag2)(x));
 }
 
-/* dist(x, y) = ||x - y|| */
+/** dist(x, y) = ||x - y|| */
 DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mag)(FUNCTION(NAME, sub)(x, y));
 }

@@ -61,7 +61,8 @@ static const cgraph_char_t *__cgraph_types__[] = {
                                                                   * CGRAPH_INT8_T/CGRAPH_UINT8_T/CGRAPH_CHAR_T/CGRAPH_UCHAR_T
                                                                   */
     "CGRAPH_INT16_T/CGRAPH_UINT16_T",                            /**< TYPE  6 :
-                                                                    CGRAPH_INT16_T/CGRAPH_UINT16_T */
+                                                                                              CGRAPH_INT16_T/CGRAPH_UINT16_T
+                                                                  */
     "CGRAPH_INT32_T / CGRAPH_UINT32_T",                          /**< TYPE  7 :
                                                                     CGRAPH_INT32_T/CGRAPH_UINT32_T */
     "CGRAPH_INT64_T/CGRAPH_UINT64_T",                            /**< TYPE  8 :

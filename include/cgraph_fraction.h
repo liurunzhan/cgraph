@@ -81,6 +81,10 @@ typedef struct {
 #define FRACTION_NUM(x) ((x).data[0])
 #define FRACTION_DEN(x) ((x).data[1])
 #define FRACTION_VALUE(x) (1.0 * FRACTION_NUM(x) / FRACTION_DEN(x))
+#define FRACTION_GCD(x)                                                        \
+  FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(x), FRACTION_DEN(x))
+#define FRACTION_LCM(x)                                                        \
+  FUNCTION(DATA_NAME, lcm)(FRACTION_NUM(x), FRACTION_DEN(x))
 
 /** template module */
 #define CGRAPH_FRACTION_CBUF_SIZE CGRAPH_CBUF_SIZE0
@@ -98,6 +102,21 @@ extern TYPE FUNCTION(NAME, initd)(const DATA_TYPE den);
 
 extern cgraph_bool_t FUNCTION(NAME, isint)(const TYPE x);
 
+extern TYPE FUNCTION(NAME, pow2)(const TYPE x);
+extern TYPE FUNCTION(NAME, pow3)(const TYPE x);
+extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);
+extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
+
+extern DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x);
+
+extern DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dgcd)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dlcm)(const TYPE x);
+
 extern TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, muln)(const TYPE x, const DATA_TYPE y);
@@ -110,14 +129,10 @@ extern TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE FUNCTION(NAME, pow2)(const TYPE x);
-extern TYPE FUNCTION(NAME, pow3)(const TYPE x);
-extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
-
-extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);
-extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
-
-extern cgraph_float64_t FUNCTION(NAME, fabs)(const TYPE x);
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
 
 #ifdef __cplusplus
 }

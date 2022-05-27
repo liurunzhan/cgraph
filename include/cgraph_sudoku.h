@@ -17,6 +17,11 @@
 extern "C" {
 #endif
 
+/** used to clear common-defined macro variables, except included only */
+#ifndef __CGRAPH_MACRO_CFLAG__
+#define __CGRAPH_MACRO_CFLAG__
+#endif
+
 #include "cgraph_matrix.h"
 
 extern cgraph_matrix_t *cgraph_sudoku_calloc(const cgraph_size_t size);

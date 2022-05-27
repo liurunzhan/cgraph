@@ -1,6 +1,6 @@
 /**
  * @file cgraph_template.h
- * @brief define the common defined macros
+ * @brief define the common-defined macros
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

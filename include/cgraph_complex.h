@@ -111,9 +111,13 @@ extern DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
-extern DATA_TYPE FUNCTION(NAME, dangle)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, inangle)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x);
+
+extern DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, std)(const TYPE x);
 extern TYPE FUNCTION(NAME, conj)(const TYPE x);
@@ -167,6 +171,11 @@ extern TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, ifft)(TYPE *cthis, const cgraph_size_t len);
+
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
 
 #ifdef __cplusplus
 }

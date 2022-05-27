@@ -33,23 +33,23 @@ cgraph_uint32_t cgraph_rand32_rand(void) { return cgraph_rand32_intgen(); }
  * Arguments :
  * a = 16807 or 48271
  * b = 0
- * m = 2147483647 (RAND32_MAX = 2^31 - 1 or 2 << 31 - 1)
+ * m = 2147483647 (CGRAPH_UINT32_MAX = 2^31 - 1 or 2 << 31 - 1)
  * returning a 32-bit integer [1, 2147483647]
  */
+cgraph_uint32_t cgraph_rand32_miller(void) {
 #define MILLER_A UINT32_C(48271)
 #define MILLER_B (0)
-#define MILLER_M RAND32_MAX
-cgraph_uint32_t cgraph_rand32_miller(void) {
+#define MILLER_M CGRAPH_UINT32_MAX
   cgraph_int32_t hi = rand32_seed / (MILLER_M / MILLER_A),
                  lo = rand32_seed % (MILLER_M % MILLER_A);
 
   rand32_seed = (MILLER_A * lo - (MILLER_M % MILLER_A) * hi);
 
   return rand32_seed;
-}
 #undef MILLER_A
 #undef MILLER_B
 #undef MILLER_M
+}
 
 /**
  * @brief xorshift-32
@@ -57,24 +57,114 @@ cgraph_uint32_t cgraph_rand32_miller(void) {
  * Method    : Xorshift Algorithm
  * Arguments :
  */
+cgraph_uint32_t cgraph_rand32_xorshift(void) {
 #define XORSHIFT_A (13)
 #define XORSHIFT_B (17)
 #define XORSHIFT_C (5)
-cgraph_uint32_t cgraph_rand32_xorshift(void) {
   cgraph_uint32_t v = rand32_seed;
   v ^= (v << XORSHIFT_A);
   v ^= (v >> XORSHIFT_B);
   v ^= (v << XORSHIFT_C);
 
   return rand32_seed = v;
-}
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
+}
+
+/**
+ * @brief 32-bit xoshiro-128 algorithm
+ * Refered from https://prng.di.unimi.it
+ */
+#define XOSHIRO xoshiro128_32
+#define XOSHIRO_BITS (32)
+#define XOSHIRO_ROTL(x, k) (((x) << (k)) | ((x) >> (XOSHIRO_BITS - (k))))
+
+static cgraph_uint32_t XOSHIRO[4] = {UINT32_C(0), UINT32_C(0), UINT32_C(0),
+                                     UINT32_C(0)};
+
+void cgraph_rand32_xoshiro128_jump(cgraph_uint32_t (*xoshiro128)(void)) {
+  static const cgraph_uint32_t jump[4] = {
+      UINT32_C(0x8764000b), UINT32_C(0xf542d2d3), UINT32_C(0x6fa035c3),
+      UINT32_C(0x77f2db5b)};
+  cgraph_uint32_t states[4] = {UINT32_C(0), UINT32_C(0), UINT32_C(0),
+                               UINT32_C(0)};
+  CGRAPH_LOOP(i, 0, 4)
+  CGRAPH_LOOP(j, 0, XOSHIRO_BITS)
+  if (jump[i] & (UINT32_C(1) << j)) {
+    states[0] ^= XOSHIRO[0];
+    states[1] ^= XOSHIRO[1];
+    states[2] ^= XOSHIRO[2];
+    states[3] ^= XOSHIRO[3];
+  }
+  xoshiro128();
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
+
+  XOSHIRO[0] = states[0];
+  XOSHIRO[1] = states[1];
+  XOSHIRO[2] = states[2];
+  XOSHIRO[3] = states[3];
+}
+
+void cgraph_rand32_xoshiro128_longjmp(cgraph_uint32_t (*xoshiro128)(void)) {
+  static const cgraph_uint32_t jump[4] = {
+      UINT32_C(0xb523952e), UINT32_C(0xb523952e), UINT32_C(0xb523952e),
+      UINT32_C(0x1c580662)};
+  cgraph_uint32_t states[4] = {UINT32_C(0), UINT32_C(0), UINT32_C(0),
+                               UINT32_C(0)};
+  CGRAPH_LOOP(i, 0, 4)
+  CGRAPH_LOOP(j, 0, XOSHIRO_BITS)
+  if (jump[i] & (UINT32_C(1) << j)) {
+    states[0] ^= XOSHIRO[0];
+    states[1] ^= XOSHIRO[1];
+    states[2] ^= XOSHIRO[2];
+    states[3] ^= XOSHIRO[3];
+  }
+  xoshiro128();
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
+
+  XOSHIRO[0] = states[0];
+  XOSHIRO[1] = states[1];
+  XOSHIRO[2] = states[2];
+  XOSHIRO[3] = states[3];
+}
+
+cgraph_uint32_t cgraph_rand32_xoshiro128pp(void) {
+  cgraph_uint32_t res = XOSHIRO_ROTL(XOSHIRO[0] + XOSHIRO[3], 7) + XOSHIRO[0];
+  const uint64_t t = XOSHIRO[1] << 9;
+
+  XOSHIRO[2] ^= XOSHIRO[0];
+  XOSHIRO[3] ^= XOSHIRO[1];
+  XOSHIRO[1] ^= XOSHIRO[2];
+  XOSHIRO[0] ^= XOSHIRO[3];
+  XOSHIRO[2] ^= t;
+  XOSHIRO[3] = XOSHIRO_ROTL(XOSHIRO[3], 11);
+
+  return res;
+}
+
+cgraph_uint32_t cgraph_rand32_xoshiro128ss(void) {
+  cgraph_uint32_t res = XOSHIRO_ROTL(XOSHIRO[1] * 5, 7) * 9;
+  const uint64_t t = XOSHIRO[1] << 9;
+
+  XOSHIRO[2] ^= XOSHIRO[0];
+  XOSHIRO[3] ^= XOSHIRO[1];
+  XOSHIRO[1] ^= XOSHIRO[2];
+  XOSHIRO[0] ^= XOSHIRO[3];
+  XOSHIRO[2] ^= t;
+  XOSHIRO[3] = XOSHIRO_ROTL(XOSHIRO[3], 11);
+
+  return res;
+}
+#undef XOSHIRO
+#undef XOSHIRO_BITS
+#undef XOSHIRO_ROTL
 
 /**
  * @brief mt19937-32
- * Authors   :
+ * Authors   : Makoto Matsumoto and Takuji Nishimura
  * Method    : 32-bit Mersenne Twister Algorithm
  * Arguments :
  * (w, n, m, r) = (32, 624, 397, 31)
@@ -167,6 +257,22 @@ cgraph_uint32_t cgraph_rand32_mt19937(void) {
 #undef MT19937_L
 #undef MT19937_A_OR
 
+/**
+ * @brief xsh rr
+ */
+cgraph_uint32_t cgraph_rand32_pcg(void) {
+#define PCG_BITS (32)
+#define PCG_ROTR(x, k) (((x) >> (k)) | ((x) << (PCG_BITS - (k))))
+  const cgraph_uint64_t seed = cgraph_rand64_seed();
+  const cgraph_uint32_t data = (seed ^ (seed >> 18)) >> 27, bits = seed >> 59;
+  cgraph_rand64_srand(seed * UINT64_C(6364136223846793005) +
+                      UINT64_C(1442695040888963407));
+
+  return PCG_ROTR(data, bits);
+#undef PCG_BITS
+#undef PCG_ROTR
+}
+
 cgraph_uint32_t cgraph_rand32_uniform(const cgraph_uint32_t min,
                                       const cgraph_uint32_t max) {
   return cgraph_rand32_intgen() % (max - min) + min;
@@ -230,79 +336,167 @@ cgraph_uint64_t cgraph_rand64_rand(void) { return cgraph_rand64_intgen(); }
  * m = 18446744073709551615ULL
  * returning a 64-bit integer [1, 18446744073709551615ULL]
  */
+cgraph_uint64_t cgraph_rand64_mmix(void) {
 #define MMIX_A UINT64_C(6364136223846793005)
 #define MMIX_B UINT64_C(1442695040888963407)
 #define MMIX_M UINT64_C(18446744073709551615)
-cgraph_uint64_t cgraph_rand64_mmix(void) {
   rand64_seed = ((((MMIX_A % MMIX_M) * (rand64_seed % MMIX_M)) % MMIX_M +
                   (MMIX_B % MMIX_M)) %
                  MMIX_M);
 
   return rand64_seed;
-}
 #undef MMIX_A
 #undef MMIX_B
 #undef MMIX_M
+}
 
 /**
  * @brief xorshift-64
  */
+cgraph_uint64_t cgraph_rand64_xorshift(void) {
 #define XORSHIFT_A (13)
 #define XORSHIFT_B (7)
 #define XORSHIFT_C (17)
-cgraph_uint64_t cgraph_rand64_xorshift(void) {
   cgraph_uint64_t v = rand64_seed;
   v ^= (v << XORSHIFT_A);
   v ^= (v >> XORSHIFT_B);
   v ^= (v << XORSHIFT_C);
 
   return rand64_seed = v;
-}
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
+}
 
 /**  */
+cgraph_uint64_t cgraph_rand64_xorshift64s(void) {
 #define XORSHIFT_A (12)
 #define XORSHIFT_B (25)
 #define XORSHIFT_C (27)
-cgraph_uint64_t cgraph_rand64_xorshift64s(void) {
-  cgraph_uint64_t x = rand64_seed;
-  x ^= x >> XORSHIFT_A;
-  x ^= x << XORSHIFT_B;
-  x ^= x >> XORSHIFT_C;
-  rand64_seed = x;
-  return x * UINT64_C(0x2545F4914F6CDD1D);
-}
+  cgraph_uint64_t v = rand64_seed;
+  v ^= v >> XORSHIFT_A;
+  v ^= v << XORSHIFT_B;
+  v ^= v >> XORSHIFT_C;
+  rand64_seed = v;
+
+  return v * UINT64_C(0x2545F4914F6CDD1D);
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
+}
 
 /**  */
+cgraph_uint64_t cgraph_rand64_xorshift128p(void) {
 #define XORSHIFT_A (23)
 #define XORSHIFT_B (17)
 #define XORSHIFT_C (26)
-
-static cgraph_uint64_t xorshift_a = 0;
-static cgraph_uint64_t xorshift_b = 0;
-
-cgraph_uint64_t cgraph_rand64_xorshift128p(void) {
-  cgraph_uint64_t t = xorshift_a;
-  const cgraph_uint64_t s = xorshift_b;
-  xorshift_a = s;
+  static cgraph_uint64_t rand64_seed2 = 0;
+  cgraph_uint64_t t = rand64_seed;
+  const cgraph_uint64_t s = rand64_seed2;
+  rand64_seed = s;
   t ^= t << XORSHIFT_A;
   t ^= t >> XORSHIFT_B;
   t ^= s ^ (s >> XORSHIFT_C);
-  xorshift_b = t;
+  rand64_seed2 = t;
+
   return t + s;
-}
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
+}
+
+/**
+ * @brief 64-bit xoshiro-256 algorithm
+ * Refered from https://prng.di.unimi.it
+ */
+#define XOSHIRO xoshiro256_64
+#define XOSHIRO_BITS (64)
+#define XOSHIRO_ROTL(x, k) (((x) << (k)) | ((x) >> (XOSHIRO_BITS - (k))))
+static uint32_t XOSHIRO[4] = {UINT64_C(0), UINT64_C(0), UINT64_C(0),
+                              UINT64_C(0)};
+
+void cgraph_rand64_xoshiro256_jump(cgraph_uint64_t (*xoshiro256)(void)) {
+  static const cgraph_uint64_t jump[4] = {
+      UINT64_C(0x180ec6d33cfd0aba), UINT64_C(0xd5a61266f0c9392c),
+      UINT64_C(0xa9582618e03fc9aa), UINT64_C(0x39abdc4529b1661c)};
+  cgraph_uint64_t states[4] = {UINT64_C(0), UINT64_C(0), UINT64_C(0),
+                               UINT64_C(0)};
+  CGRAPH_LOOP(i, 0, 4)
+  CGRAPH_LOOP(j, 0, XOSHIRO_BITS)
+  if (jump[i] & (UINT64_C(1) << j)) {
+    states[0] ^= XOSHIRO[0];
+    states[1] ^= XOSHIRO[1];
+    states[2] ^= XOSHIRO[2];
+    states[3] ^= XOSHIRO[3];
+  }
+  xoshiro256();
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
+
+  XOSHIRO[0] = states[0];
+  XOSHIRO[1] = states[1];
+  XOSHIRO[2] = states[2];
+  XOSHIRO[3] = states[3];
+}
+
+void cgraph_rand64_xoshiro256_longjmp(cgraph_uint64_t (*xoshiro256)(void)) {
+  static const cgraph_uint64_t jump[4] = {
+      UINT64_C(0x76e15d3efefdcbbf), UINT64_C(0xc5004e441c522fb3),
+      UINT64_C(0x77710069854ee241), UINT64_C(0x39109bb02acbe635)};
+  cgraph_uint64_t states[4] = {UINT64_C(0), UINT64_C(0), UINT64_C(0),
+                               UINT64_C(0)};
+  CGRAPH_LOOP(i, 0, 4)
+  CGRAPH_LOOP(j, 0, XOSHIRO_BITS)
+  if (jump[i] & (UINT64_C(1) << j)) {
+    states[0] ^= XOSHIRO[0];
+    states[1] ^= XOSHIRO[1];
+    states[2] ^= XOSHIRO[2];
+    states[3] ^= XOSHIRO[3];
+  }
+  xoshiro256();
+  CGRAPH_LOOP_END
+  CGRAPH_LOOP_END
+
+  XOSHIRO[0] = states[0];
+  XOSHIRO[1] = states[1];
+  XOSHIRO[2] = states[2];
+  XOSHIRO[3] = states[3];
+}
+
+cgraph_uint64_t cgraph_rand64_xoshiro256pp(void) {
+  cgraph_uint64_t res = XOSHIRO_ROTL(XOSHIRO[0] + XOSHIRO[3], 23) + XOSHIRO[0];
+  const uint64_t t = XOSHIRO[1] << 17;
+
+  XOSHIRO[2] ^= XOSHIRO[0];
+  XOSHIRO[3] ^= XOSHIRO[1];
+  XOSHIRO[1] ^= XOSHIRO[2];
+  XOSHIRO[0] ^= XOSHIRO[3];
+  XOSHIRO[2] ^= t;
+  XOSHIRO[3] = XOSHIRO_ROTL(XOSHIRO[3], 45);
+
+  return res;
+}
+
+cgraph_uint64_t cgraph_rand64_xoshiro256ss(void) {
+  cgraph_uint64_t res = XOSHIRO_ROTL(XOSHIRO[1] * 5, 7) * 9;
+  const uint64_t t = XOSHIRO[1] << 17;
+
+  XOSHIRO[2] ^= XOSHIRO[0];
+  XOSHIRO[3] ^= XOSHIRO[1];
+  XOSHIRO[1] ^= XOSHIRO[2];
+  XOSHIRO[0] ^= XOSHIRO[3];
+  XOSHIRO[2] ^= t;
+  XOSHIRO[3] = XOSHIRO_ROTL(XOSHIRO[3], 45);
+
+  return res;
+}
+#undef XOSHIRO
+#undef XOSHIRO_BITS
+#undef XOSHIRO_ROTL
 
 /**
  * @brief mt19937-64
- * Authers   :
+ * Authers   : Makoto Matsumoto and Takuji Nishimura
  * Method    : 64-bit Mersenne Twister Algorithm
  * Arguments :
  * (w, n, m, r) = (64, 312, 156, 31)
@@ -394,6 +588,12 @@ cgraph_uint64_t cgraph_rand64_mt19937(void) {
 #undef MT19937_C
 #undef MT19937_L
 #undef MT19937_A_OR
+
+cgraph_uint64_t cgraph_rand64_pcg(void) {
+  cgraph_uint64_t seed;
+
+  return seed;
+}
 
 cgraph_uint64_t cgraph_rand64_uniform(const cgraph_uint64_t min,
                                       const cgraph_uint64_t max) {

@@ -2,14 +2,6 @@
 #include "cgraph_math.h"
 #include "cgraph_memory.h"
 
-cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
-                                     const cgraph_point2d_t y) {
-  cgraph_point3d_t res = cgraph_point3d_zero();
-  POINT3D_Z(res) = cgraph_point2d_fdot(x, y);
-
-  return res;
-}
-
 cgraph_logic_t cgraph_bool_to_logic(const cgraph_bool_t x) { return x; }
 
 cgraph_bool_t cgraph_logic_to_bool(const cgraph_logic_t x) {
@@ -216,6 +208,60 @@ cgraph_float32_t cgraph_float64_to_float32(const cgraph_float64_t x) {
 
 cgraph_float128_t cgraph_float64_to_float128(const cgraph_float64_t x) {
   cgraph_float128_t res;
+
+  return res;
+}
+
+cgraph_point3d_t cgraph_point2d_xmul(const cgraph_point2d_t x,
+                                     const cgraph_point2d_t y) {
+  cgraph_point3d_t res = cgraph_point3d_zero();
+  POINT3D_Z(res) = cgraph_point2d_fdot(x, y);
+
+  return res;
+}
+
+cgraph_point3d_t cgraph_point2d_to_point3d(const cgraph_point2d_t x) {
+  cgraph_point3d_t res = cgraph_point3d_zero();
+  POINT3D_X(res) = POINT2D_X(x);
+  POINT3D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+cgraph_point2d_t cgraph_point3d_to_point2d(const cgraph_point3d_t x) {
+  const cgraph_float64_t z_1 = -1.0 * POINT3D_Z(x);
+  cgraph_point2d_t res;
+  POINT2D_X(res) = POINT3D_X(x) * z_1;
+  POINT2D_Y(res) = POINT3D_Y(x) * z_1;
+
+  return res;
+}
+
+/**
+ * @brief Clarke Transfer
+ * [ua, ub] = [[1, -1/2, -1/2], [0, sqrt(3)/2, -sqrt(3)/2]] * [ua, ub, uc]
+ */
+cgraph_point2d_t cgraph_point3d_to_point2d_clarke(const cgraph_point3d_t x,
+                                                  const cgraph_float64_t m) {
+  cgraph_point2d_t res;
+  POINT2D_X(res) = m * (POINT3D_X(x) - 0.5 * POINT3D_Y(x) - 0.5 * POINT3D_Z(x));
+  POINT2D_Y(res) =
+      m * (0.5 * M_SQRT3 * POINT3D_Y(x) - 0.5 * M_SQRT3 * POINT3D_Z(x));
+
+  return res;
+}
+
+/**
+ * @brief Clarke Inverse Transfer
+ * [ua, ub, uc] = m * [[1, 0], [-1/2, sqrt(3)/2], [-1/2, -sqrt(3)/2]] * [ua, ub]
+ */
+cgraph_point3d_t
+cgraph_point2d_to_point3d_clarke_inv(const cgraph_point2d_t x,
+                                     const cgraph_float64_t m) {
+  cgraph_point3d_t res;
+  POINT3D_X(res) = m * (POINT2D_X(x));
+  POINT3D_Y(res) = m * (-0.5 * POINT2D_X(x) + 0.5 * M_SQRT3 * POINT2D_Y(x));
+  POINT3D_Z(res) = m * (-0.5 * POINT2D_X(x) - 0.5 * M_SQRT3 * POINT2D_Y(x));
 
   return res;
 }

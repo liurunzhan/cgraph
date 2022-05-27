@@ -95,6 +95,11 @@ extern cgraph_size_t FUNCTION(NAME, cntzeros)(const TYPE *cthis);
 extern TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4);
 extern TYPE *FUNCTION(NAME, ipv6)(TYPE *cthis, const cgraph_char_t *ipv6);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

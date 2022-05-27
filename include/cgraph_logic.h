@@ -50,6 +50,11 @@ extern "C" {
 extern cgraph_bool_t FUNCTION(NAME, leq)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, lne)(const TYPE x, const TYPE y);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

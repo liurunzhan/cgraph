@@ -81,6 +81,11 @@ extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
 extern TYPE *FUNCTION(NAME, mul10)(TYPE *cthis, const cgraph_size_t exp);
 extern TYPE *FUNCTION(NAME, div10)(TYPE *cthis, const cgraph_size_t exp);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

@@ -17,6 +17,11 @@
 extern "C" {
 #endif
 
+/** used to clear common-defined macro variables, except included only */
+#ifndef __CGRAPH_MACRO_CFLAG__
+#define __CGRAPH_MACRO_CFLAG__
+#endif
+
 #include "cgraph_cmdarg.h"
 #include "cgraph_sudoku.h"
 #include "cgraph_verilog.h"

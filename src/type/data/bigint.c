@@ -183,7 +183,7 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     fputs("0b", fp);
     CGRAPH_LOOP(i, 0, cthis->len)
-    CGRAPH_RLOOP(j, DATA_BITS - 1, 0)
+    CGRAPH_RLOOP(j, DATA_BITS - 1, -1)
     fputc(cgraph_math_dec2hex(0x1U & (*data >> j)), fp);
     CGRAPH_LOOP_END
     data--;
@@ -257,7 +257,7 @@ cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuf,
     cbuf[len++] = '0';
     cbuf[len++] = 'b';
     CGRAPH_LOOP(i, 0, cthis->len)
-    CGRAPH_RLOOP(j, DATA_BITS - 1, 0)
+    CGRAPH_RLOOP(j, DATA_BITS - 1, -1)
     cbuf[len++] = cgraph_math_dec2hex(0x1U & (*data >> j));
     if (len >= _size) {
       break;

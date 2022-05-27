@@ -91,8 +91,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 
 TYPE FUNCTION(NAME, fmt)(const TYPE cthis) {
   TYPE res = cthis;
-  DATA_TYPE gcd =
-      FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(cthis), FRACTION_DEN(cthis));
+  DATA_TYPE gcd = FRACTION_GCD(cthis);
   if ((1 < gcd)) {
     FRACTION_NUM(res) /= gcd;
     FRACTION_DEN(res) /= gcd;
@@ -275,8 +274,9 @@ TYPE FUNCTION(NAME, initd)(const DATA_TYPE den) {
 }
 
 __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  cgraph_int_t flag = -1, num_flag = CGRAPH_BFLAG(FRACTION_NUM(x), DATA_BITS),
-               den_flag = CGRAPH_BFLAG(FRACTION_DEN(x), DATA_BITS);
+  const cgraph_int_t num_flag = CGRAPH_BFLAG(FRACTION_NUM(x), DATA_BITS),
+                     den_flag = CGRAPH_BFLAG(FRACTION_DEN(x), DATA_BITS);
+  cgraph_int_t flag = -1;
   if ((0 == num_flag) || (0 == den_flag)) {
     flag = 0;
   } else if (num_flag == den_flag) {
@@ -295,11 +295,11 @@ __INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
-  return CGRAPH_TEST((1 == FRACTION_DEN(x)) && (FRACTION_NUM(x) & 1));
+  return CGRAPH_TEST((1 == FRACTION_DEN(x)) && (FRACTION_NUM(x) & DATA_LSB));
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
-  return CGRAPH_TEST((1 == FRACTION_DEN(x)) && ((~FRACTION_NUM(x)) & 1));
+  return CGRAPH_TEST((1 == FRACTION_DEN(x)) && ((~FRACTION_NUM(x)) & DATA_LSB));
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
@@ -356,9 +356,7 @@ __INLINE TYPE FUNCTION(NAME, opp)(const TYPE x) {
   return res;
 }
 
-cgraph_float64_t FUNCTION(NAME, fabs)(const TYPE x) {
-  return fabs(FRACTION_VALUE(x));
-}
+DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x) { return fabs(FRACTION_VALUE(x)); }
 
 __INLINE TYPE FUNCTION(NAME, abs)(const TYPE x) {
   TYPE res;
@@ -392,6 +390,24 @@ __INLINE TYPE FUNCTION(NAME, pow3)(const TYPE x) {
   return res;
 }
 
+DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x) {
+  return DATA_LS(FRACTION_NUM(x), FRACTION_DEN(x)) ? FRACTION_NUM(x)
+                                                   : FRACTION_DEN(x);
+}
+
+DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x) {
+  return DATA_GR(FRACTION_NUM(x), FRACTION_DEN(x)) ? FRACTION_NUM(x)
+                                                   : FRACTION_DEN(x);
+}
+
+DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x) {
+  return FRACTION_NUM(x) + FRACTION_DEN(x);
+}
+
+DATA_TYPE FUNCTION(NAME, dgcd)(const TYPE x) { return FRACTION_GCD(x); }
+
+DATA_TYPE FUNCTION(NAME, dlcm)(const TYPE x) { return FRACTION_LCM(x); }
+
 TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
   TYPE res;
   FRACTION_NUM(res) =
@@ -408,6 +424,10 @@ TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(y);
 
   return FUNCTION(NAME, fmt)(res);
+}
+
+TYPE FUNCTION(NAME, absub)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, abs)(FUNCTION(NAME, sub)(x, y));
 }
 
 TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
@@ -559,8 +579,8 @@ TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, muln)(const TYPE x, const DATA_TYPE y) {
+  const DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_DEN(x), y);
   TYPE res;
-  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_DEN(x), y);
   if (1 < gcd) {
     FRACTION_NUM(res) = FRACTION_NUM(x) * (y / gcd);
     FRACTION_DEN(res) = FRACTION_DEN(x) / gcd;
@@ -573,8 +593,8 @@ TYPE FUNCTION(NAME, muln)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divn)(const TYPE x, const DATA_TYPE y) {
+  const DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(x), y);
   TYPE res;
-  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(x), y);
   if (1 < gcd) {
     FRACTION_NUM(res) = FRACTION_NUM(x) / gcd;
     FRACTION_DEN(res) = FRACTION_DEN(x) * (y / gcd);
@@ -614,8 +634,8 @@ TYPE FUNCTION(NAME, subd)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y) {
+  const DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(x), y);
   TYPE res;
-  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_NUM(x), y);
   if (1 < gcd) {
     FRACTION_NUM(res) = FRACTION_NUM(x) / gcd;
     FRACTION_DEN(res) = FRACTION_DEN(x) * (y / gcd);
@@ -628,8 +648,8 @@ TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y) {
+  const DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_DEN(x), y);
   TYPE res;
-  DATA_TYPE gcd = FUNCTION(DATA_NAME, gcd)(FRACTION_DEN(x), y);
   if (1 < gcd) {
     FRACTION_NUM(res) = FRACTION_NUM(x) * (y / gcd);
     FRACTION_DEN(res) = FRACTION_DEN(x) / gcd;

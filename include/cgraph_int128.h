@@ -58,6 +58,11 @@ extern "C" {
 #include "cgraph_template_cbuf.ht"
 #include "cgraph_template_int.ht"
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

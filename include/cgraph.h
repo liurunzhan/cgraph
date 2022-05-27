@@ -25,6 +25,11 @@
 extern "C" {
 #endif
 
+/** used to clear common-defined macro variables, except included only */
+#ifndef __CGRAPH_MACRO_CFLAG__
+#define __CGRAPH_MACRO_CFLAG__
+#endif
+
 /** object types */
 #include "cgraph_gobject.h"
 #include "cgraph_hobject.h"

@@ -96,21 +96,25 @@ typedef enum {
 #endif
 
 /** Self-defined features in different structures */
-#define __PLAT_ENDIAN_BIG (0)
-#define __PLAT_ENDIAN_LITTLE (1)
+#define __PLAT_ENDIAN_LITTLE (0)
+#define __PLAT_ENDIAN_BIG (1)
 #define __PLAT_ENDIAN_NONE (2)
-#if defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                        \
-    defined(__WORDS_BIGENDIAN) /** Big-Endian architecture */
+#if defined(__LITTLE_ENDIAN__) || defined(__LITTLE_ENDIAN) ||                  \
+    defined(__WORDS_LITTLEENDIAN)
+/** Little-endian architecture */
+#define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
+#elif defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                      \
+    defined(__WORDS_BIGENDIAN)
+/** Big-Endian architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_BIG
-#elif defined(__LITTLE_ENDIAN__) || defined(__LITTLE_ENDIAN) ||                \
-    defined(__WORDS_LITTLEENDIAN) /** Little-endian architecture */
-#define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
-#else /** Undefined architecture */
-#define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
+#else
+/** Undefined architecture */
+#define __PLAT_ENDIAN __PLAT_ENDIAN_NONE
 #endif
 
-#if (__PLAT_ENDIAN > __PLAT_ENDIAN_NONE) || (__PLAT_ENDIAN < __PLAT_ENDIAN_BIG)
-#error __PLAT_ENDIAN must be defined as one of <__PLAT_ENDIAN_BIG(0), __PLAT_ENDIAN_LITTLE(1) or __PLAT_ENDIAN_NONE(2)>
+#if (__PLAT_ENDIAN < __PLAT_ENDIAN_LITTLE) ||                                  \
+    (__PLAT_ENDIAN > __PLAT_ENDIAN_NONE)
+#error __PLAT_ENDIAN must be defined as one of <__PLAT_ENDIAN_LITTLE(0), __PLAT_ENDIAN_BIG(1) or __PLAT_ENDIAN_NONE(2)>
 #endif
 
 #ifndef __WORDSIZE
@@ -153,44 +157,20 @@ typedef enum {
 #endif
 
 /** Self-defined features in different compilers */
-#ifndef __INLINE
-#if __STDC_VERSION__ >= 199901L
-#define __INLINE inline
-/** GNU C Compiler or Clang C Compiler */
-#elif defined(__GNUC__) || defined(__clang__)
-#define __INLINE __extension__ __inline__
-/** Microsoft C Compiler */
-#elif defined(_MSC_VER)
-#define __INLINE _inline
-/** Intel C Compiler */
-#elif defined(INTEL_COMPILER)
-#define __INLINE inline
-/** Digital Mars C Compiler */
-#elif defined(__DMC__)
-#define __INLINE inline
-/** Watcom C Compiler */
-#elif defined(__WATCOMC__)
-#define __INLINE inline
-/** ARM C Compiler */
-#elif defined(__CC_ARM)
-#define __INLINE Inline
-/** IAR C Compiler */
-#elif defined(ICCARM__)
-#define __INLINE inline
-/** TASKING C Compiler */
-#elif defined(__TASKING__)
-#define __INLINE inline
-#else
-#define __INLINE
-#endif
-#endif
-
-#ifndef __INLINE
-#error __INLINE must be defined in this library
-#endif
-
+/** @{ */
+/**
+ * extension features to cross C standards with compilers, such as integer
+ * definitions with different cpu bits in C89 environment, only defined and used
+ * in this header file
+ */
 #ifndef __EXTENSION__
-#if (__STDC_VERSION__ < 199901L) && (defined(__GNUC__) || defined(__clang__))
+#if __STDC_VERSION__ >= 199901L
+#define __EXTENSION__
+#elif defined(__MINGW_EXTENSION)
+/** for mingw gcc/clang compilers */
+#define __EXTENSION__ __MINGW_EXTENSION
+#elif defined(__GNUC__) || defined(__clang__)
+/** for gcc/clang Compilers */
 #define __EXTENSION__ __extension__
 #else
 #define __EXTENSION__
@@ -200,6 +180,46 @@ typedef enum {
 #ifndef __EXTENSION__
 #error __EXTENSION__ must be defined in this library
 #endif
+/** @} */
+
+/** inline function definitions to cross compilers */
+/** @{ */
+#ifndef __INLINE
+#if __STDC_VERSION__ >= 199901L
+#define __INLINE inline
+#elif defined(__GNUC__) || defined(__clang__)
+/** GNU C Compiler or Clang C Compiler */
+#define __INLINE __extension__ __inline__
+#elif defined(_MSC_VER)
+/** Microsoft C Compiler */
+#define __INLINE _inline
+#elif defined(INTEL_COMPILER)
+/** Intel C Compiler */
+#define __INLINE inline
+#elif defined(__DMC__)
+/** Digital Mars C Compiler */
+#define __INLINE inline
+#elif defined(__WATCOMC__)
+/** Watcom C Compiler */
+#define __INLINE inline
+#elif defined(__CC_ARM)
+/** ARM C Compiler */
+#define __INLINE Inline
+#elif defined(ICCARM__)
+/** IAR C Compiler */
+#define __INLINE inline
+#elif defined(__TASKING__)
+/** TASKING C Compiler */
+#define __INLINE inline
+#else
+#define __INLINE
+#endif
+#endif
+
+#ifndef __INLINE
+#error __INLINE must be defined in this library
+#endif
+/** @} */
 
 /** int types in different platforms */
 #if __STDC_VERSION__ >= 199901L
@@ -235,12 +255,25 @@ typedef enum {
 #endif
 /** @} */
 
+#define INT8_MSB (UINT8_C(0x01) << (INT8_BITS - 1))
+#define INT8_LSB (UINT8_C(0x01))
 #define UINT8_MSB (UINT8_C(0x01) << (UINT8_BITS - 1))
 #define UINT8_LSB (UINT8_C(0x01))
+
+#define INT16_MSB (UINT16_C(0x01) << (INT16_BITS - 1))
+#define INT16_LSB (UINT16_C(0x01))
 #define UINT16_MSB (UINT16_C(0x01) << (UINT16_BITS - 1))
 #define UINT16_LSB (UINT16_C(0x01))
+
+#define INT32_MSB (UINT32_C(0x01) << (INT32_BITS - 1))
+#define INT32_LSB (UINT32_C(0x01))
 #define UINT32_MSB (UINT32_C(0x01) << (UINT32_BITS - 1))
 #define UINT32_LSB (UINT32_C(0x01))
+
+#define INT_MSB (UINT_C(0x01) << (INT_BITS - 1))
+#define INT_LSB (UINT_C(0x01))
+#define UINT_MSB (UINT_C(0x01) << (UINT_BITS - 1))
+#define UINT_LSB (UINT_C(0x01))
 
 #ifndef INT8_MAX
 typedef signed char int8_t;
@@ -376,6 +409,8 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 #endif
 #endif
 
+#define INT64_MSB (UINT64_C(0x01) << (INT64_BITS - 1))
+#define INT64_LSB (UINT64_C(0x01))
 #define UINT64_MSB (UINT64_C(0x01) << (UINT64_BITS - 1))
 #define UINT64_LSB (UINT64_C(0x01))
 
@@ -487,6 +522,11 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 #define ULONG_BITS UINT32_BITS
 #define ULONG_BITS_LOG2 UINT32_BITS_LOG2
 #endif
+
+#define LONG_MSB (ULONG_C(0x01) << (LONG_BITS - 1))
+#define LONG_LSB (ULONG_C(0x01))
+#define ULONG_MSB (ULONG_C(0x01) << (ULONG_BITS - 1))
+#define ULONG_LSB (ULONG_C(0x01))
 
 #define SCNdl "ld"
 #define PRIdl "ld"
@@ -723,6 +763,8 @@ typedef uint64_t uint128_t;
 #define __FUNCTION__ __func__
 #elif defined(__function__)
 #define __FUNCTION__ __function__
+#elif defined(__FUNC__)
+#define __FUNCTION__ __FUNC__
 #else
 #define __FUNCTION__ NULL
 #endif
@@ -741,20 +783,20 @@ typedef uint64_t uint128_t;
 /** @} */
 
 /**
- * a simple way to use for-loop block locally, in c89/c90, c99 or higher
+ * A simple way to use for-loop block locally, in C89/C90, C99， C11 or higher,
  * which will
- * 1) reduce the use of global variables
- * 2) be more easier to do ptimization
+ * 1) limit the variable scope
+ * 2) remove the limitation of variable declearation in C89/C90.
+ * 3) be more easier to do optimization
  */
 #if __STDC_VERSION__ >= 199901L
 #define CGRAPH_BEGIN {
 #define CGRAPH_END }
-#define CGRAPH_LOOP(i, start, end)                                             \
-  for (cgraph_size_t i = (start); (i) < (end); (i)++) {
 
-#define CGRAPH_RLOOP(i, start, end)                                            \
-  for (cgraph_size_t i = (start); (i) > (end); (i)--) {
-
+#define CGRAPH_LOOP(itr, start, end)                                           \
+  for (cgraph_size_t itr = (start); (itr) < (end); (itr)++) {
+#define CGRAPH_RLOOP(itr, start, end)                                          \
+  for (cgraph_size_t itr = (start); (itr) > (end); (itr)--) {
 #define CGRAPH_LOOP_END }
 #else
 #define CGRAPH_BEGIN do {
@@ -762,15 +804,16 @@ typedef uint64_t uint128_t;
   }                                                                            \
   while (0)                                                                    \
     ;
-#define CGRAPH_LOOP(i, start, end)                                             \
-  do {                                                                         \
-    cgraph_size_t i;                                                           \
-    for ((i) = (start); (i) < (end); (i)++) {
 
-#define CGRAPH_RLOOP(i, start, end)                                            \
+#define CGRAPH_LOOP(itr, start, end)                                           \
   do {                                                                         \
-    cgraph_size_t i;                                                           \
-    for ((i) = (start); (i) >= (end); (i)--) {
+    cgraph_size_t itr;                                                         \
+    for ((itr) = (start); (itr) < (end); (itr)++) {
+
+#define CGRAPH_RLOOP(itr, start, end)                                          \
+  do {                                                                         \
+    cgraph_size_t itr;                                                         \
+    for ((itr) = (start); (itr) > (end); (itr)--) {
 
 #define CGRAPH_LOOP_END                                                        \
   }                                                                            \

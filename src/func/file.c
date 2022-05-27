@@ -818,10 +818,10 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
     *line_end = (cgraph_char_t *)_line_end;
   }
   if (NULL != isbigendian) {
-#if __PLAT_ENDIAN == __PLAT_ENDIAN_BIG
-    *isbigendian = CGRAPH_TRUE;
-#elif __PLAT_ENDIAN == __PLAT_ENDIAN_LITTLE
+#if __PLAT_ENDIAN == __PLAT_ENDIAN_LITTLE
     *isbigendian = CGRAPH_FALSE;
+#elif __PLAT_ENDIAN == __PLAT_ENDIAN_BIG
+    *isbigendian = CGRAPH_TRUE;
 #else
     *isbigendian = (cgraph_file_endian.byte[3] ? CGRAPH_TRUE : CGRAPH_FALSE);
 #endif

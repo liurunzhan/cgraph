@@ -62,6 +62,11 @@ typedef struct {
 extern cgraph_size_t FUNCTION(NAME, row)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, column)(const TYPE *cthis);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_H__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

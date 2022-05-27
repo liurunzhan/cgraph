@@ -76,8 +76,8 @@ struct tzhead {
 	char	tzh_magic[4];		/* TZ_MAGIC */
 	char	tzh_version[1];		/* '\0' or '2' as of 2005 */
 	char	tzh_reserved[15];	/* reserved--must be zero */
-	char	tzh_ttisgmtcnt[4];	/* coded number of trans. time flags */
-	char	tzh_ttisstdcnt[4];	/* coded number of trans. time flags */
+	char	tzh_ttisgmtcnt[4];	/* coded number of rev. time flags */
+	char	tzh_ttisstdcnt[4];	/* coded number of rev. time flags */
 	char	tzh_leapcnt[4];		/* coded number of leap seconds */
 	char	tzh_timecnt[4];		/* coded number of transition times */
 	char	tzh_typecnt[4];		/* coded number of local time types */

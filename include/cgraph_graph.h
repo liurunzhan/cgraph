@@ -68,6 +68,11 @@ typedef struct {
   } __TYPE_END(data);
 } cgraph_graph_t;
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

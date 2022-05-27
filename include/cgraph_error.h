@@ -124,7 +124,7 @@ cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format, ##args)
 
 #else
 
-#ifdef DBEUG
+#ifdef DEBUG
 #define cgraph_error_log(level, format, args)                                  \
   (cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, ""),          \
    cgraph_error_printf(NULL, NULL, NULL, level, format, args))

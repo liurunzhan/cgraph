@@ -45,6 +45,11 @@ typedef struct {
 
 extern cgraph_vector_t *FUNCTION(NAME, primes)(const cgraph_int_t data);
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

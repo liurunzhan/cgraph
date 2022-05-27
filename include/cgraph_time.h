@@ -306,6 +306,11 @@ extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,
 #define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
 #define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif

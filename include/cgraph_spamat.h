@@ -44,6 +44,11 @@ typedef struct {
 /** template module */
 #include "cgraph_template_matrix.ht"
 
+/** used to clear common-defined macro variables, except included only */
+#if defined(__CGRAPH_MACRO_CFLAG__)
+#include "cgraph_template_off.h"
+#endif
+
 #ifdef __cplusplus
 }
 #endif
