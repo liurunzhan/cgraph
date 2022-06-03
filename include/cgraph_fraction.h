@@ -121,12 +121,14 @@ extern TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, muln)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divn)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, pown)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE FUNCTION(NAME, addd)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subd)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, muld)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modd)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powd)(const TYPE x, const DATA_TYPE y);
 
 /** used to clear common-defined macro variables, except included only */

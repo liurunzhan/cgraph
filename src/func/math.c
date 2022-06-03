@@ -303,6 +303,30 @@ __INLINE cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
+__INLINE cgraph_bool_t cgraph_math_iscopt(const cgraph_char_t data) {
+  return cgraph_math_isnamst(data) ? CGRAPH_FALSE : cgraph_math_isnumst(data);
+}
+
+__INLINE cgraph_bool_t cgraph_math_iscdoc(const cgraph_char_t datax,
+                                          const cgraph_char_t datay) {
+  return CGRAPH_TEST((('/' == datax) && (('/' == datay) || ('*' == datay))) ||
+                     (('*' == datax) && ('/' == datay)));
+}
+
+__INLINE cgraph_bool_t cgraph_math_isclpair(const cgraph_char_t data) {
+  return CGRAPH_TEST(('(' == data) || ('[' == data) || ('{' == data) ||
+                     ('\'' == data) || ('\"' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_iscrpair(const cgraph_char_t data) {
+  return CGRAPH_TEST((')' == data) || (']' == data) || ('}' == data) ||
+                     ('\'' == data) || ('\"' == data));
+}
+
+__INLINE cgraph_bool_t cgraph_math_iscpair(const cgraph_char_t data) {
+  return cgraph_math_isclpair(data) ? CGRAPH_TRUE : cgraph_math_iscrpair(data);
+}
+
 __INLINE cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data) {
   return ('0' == data) ? 0 : 1;
 }
@@ -751,7 +775,7 @@ cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x, const cgraph_int_t y,
 
 /**
  * Function : sigmoid
- * Express  : f(x) = 1.0/(1.0+exp(-x))
+ * Express  : f(x) = 1.0 / (1.0 + exp(-x))
  */
 cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x) {
   return 1.0 / (1.0 + exp(-1.0 * x));
@@ -759,7 +783,9 @@ cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x) {
 
 /**
  * Function : tanh
- * Express  : f(x) = tanh(x) = 2.0/(1.0 + exp(-2.0*x)) -1.0
+ * Express  : f(x) = tanh(x)
+ *                 = (exp(x) - exp(-x)) / (exp(x) + exp(-x)))
+ *                 = 2.0 / (1.0 + exp(-2.0*x)) - 1.0
  */
 cgraph_float64_t cgraph_math_tanh(const cgraph_float64_t x) {
   return (2.0 / (1.0 + exp(-2.0 * x)) - 1.0);
@@ -776,7 +802,7 @@ cgraph_float64_t cgraph_math_relu(const cgraph_float64_t x) {
 /**
  * Function : Leaky ReLU
  * Express  : f(x) = x, if x > 0.0
- *                 = ax, if x <= 0.0
+ *                 = a * x, if x <= 0.0
  */
 cgraph_float64_t cgraph_math_leaky_relu(const cgraph_float64_t x,
                                         const cgraph_float64_t a) {
@@ -786,7 +812,7 @@ cgraph_float64_t cgraph_math_leaky_relu(const cgraph_float64_t x,
 /**
  * Function : ELU
  * Express  : f(x) = x, if x > 0.0
- *                 = a(exp(x) - 1.0), if x <= 0.0
+ *                 = a * (exp(x) - 1.0), if x <= 0.0
  */
 cgraph_float64_t cgraph_math_elu(const cgraph_float64_t x,
                                  const cgraph_float64_t a) {
@@ -796,7 +822,7 @@ cgraph_float64_t cgraph_math_elu(const cgraph_float64_t x,
 /**
  * Function : PReLU
  * Express  : f(x) = x, if x > 0.0
- *                 = ax, if x <= 0.0
+ *                 = a * x, if x <= 0.0
  */
 cgraph_float64_t cgraph_math_prelu(const cgraph_float64_t x,
                                    const cgraph_float64_t a) {

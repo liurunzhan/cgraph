@@ -31,6 +31,7 @@ EXTRA_DIST = autogen.sh $(PROJECT).pc Doxyfile README.md
 
 DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure $(PROJECT).pc Doxyfile depcomp gtk-doc.m4 gtk-doc.make install-sh libtool ltmain.sh Makefile.in Makefile missing test-driver
 
+if BUILT_IN_GIT_REPO
 BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h
 
 $(include_dir)/cgraph_template_off.h: $(include_dir)/cgraph_template_off.h.in $(tools_dir)/template_off.macro
@@ -38,6 +39,7 @@ $(include_dir)/cgraph_template_off.h: $(include_dir)/cgraph_template_off.h.in $(
 
 $(include_dir)/cgraph_template_check.h: $(include_dir)/cgraph_template_check.h.in $(tools_dir)/template_check.macro
 	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_check.macro -c "end of cgraph_template_check"
+endif
 
 distclean-local:
 	-rm -rf $(top_srcdir)/autom4te.cache

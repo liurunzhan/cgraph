@@ -445,6 +445,18 @@ TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
 #endif
 }
 
+/**
+ * (x / y) % mod = (x * y^(-1)) % mod = (x * y^(mod-2)) % mod
+ *               = ((x % mod) * ((y^(mod-2)) % mod)) % mod
+ */
+TYPE FUNCTION(NAME, div_mod_s)(const TYPE x, const TYPE y, const TYPE mod) {
+#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
+  return DIV(x, y, NULL);
+#else
+  return ((x % mod) * (FUNCTION(NAME, pow_mod_s)(y, mod - 2, mod) % mod)) % mod;
+#endif
+}
+
 TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return POW(x, y, NULL);

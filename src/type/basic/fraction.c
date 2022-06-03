@@ -606,6 +606,13 @@ TYPE FUNCTION(NAME, divn)(const TYPE x, const DATA_TYPE y) {
   return res;
 }
 
+/** mod(x, y) = (a/b) % y = (a * b^(-1)) % y = (a * b^(y-2)) % y */
+TYPE FUNCTION(NAME, modn)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, pown)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   FRACTION_NUM(res) = (FRACTION_NUM(x) == 0 || FRACTION_NUM(x) == 1)
@@ -657,6 +664,12 @@ TYPE FUNCTION(NAME, divd)(const TYPE x, const DATA_TYPE y) {
     FRACTION_NUM(res) = FRACTION_NUM(x) * y;
     FRACTION_DEN(res) = FRACTION_DEN(x);
   }
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modd)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
 
   return res;
 }

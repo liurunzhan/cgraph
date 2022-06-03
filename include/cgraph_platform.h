@@ -783,10 +783,10 @@ typedef uint64_t uint128_t;
 /** @} */
 
 /**
- * A simple way to use for-loop block locally, in C89/C90, C99， C11 or higher,
+ * A simple way to use for-loop block locally, in C89/C90, C99, C11 or higher,
  * which will
- * 1) limit the variable scope
- * 2) remove the limitation of variable declearation in C89/C90.
+ * 1) limit the variable scope, and reduce variable misusage
+ * 2) avoid the location limitation of variable declearation in C89/C90.
  * 3) be more easier to do optimization
  */
 #if __STDC_VERSION__ >= 199901L

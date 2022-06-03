@@ -148,6 +148,7 @@ extern cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
 extern cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
                                          const cgraph_char_t datay);
 
+/** used to parse C-style codes to C-style objects */
 extern cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isoct(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
@@ -182,7 +183,14 @@ extern cgraph_bool_t cgraph_math_isnamst(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isnammd(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isnamed(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_iscopt(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_iscdoc(const cgraph_char_t datax,
+                                        const cgraph_char_t datay);
+extern cgraph_bool_t cgraph_math_isclpair(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_iscrpair(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_iscpair(const cgraph_char_t data);
 
+/** translate C-style numbers by base */
 extern cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data);
@@ -214,6 +222,7 @@ extern cgraph_int_t cgraph_math_chbase(cgraph_int_t *old,
                                        const cgraph_size_t new_len,
                                        cgraph_int_t new_base);
 
+/** external mathematical functions */
 extern cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
                                        const cgraph_uint64_t y);
 extern cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
@@ -227,7 +236,6 @@ extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
                                         cgraph_int_t *isprime,
                                         const cgraph_int_t data);
 
-/** external mathematical functions */
 extern cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle);
 extern cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian);
 
@@ -265,24 +273,25 @@ extern cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x,
                                          const cgraph_int_t y,
                                          const cgraph_int_t mod);
 
-/** Function : sigmoid */
+/** Activation Functions defined in Neural Networks */
+/** Function 1 : sigmoid */
 extern cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x);
-/** Function : tanh */
+/** Function 2 : tanh */
 extern cgraph_float64_t cgraph_math_tanh(const cgraph_float64_t x);
-/** Function : ReLU */
+/** Function 3 : ReLU */
 extern cgraph_float64_t cgraph_math_relu(const cgraph_float64_t x);
-/** Function : Leaky ReLU */
+/** Function 4 : Leaky ReLU */
 extern cgraph_float64_t cgraph_math_leaky_relu(const cgraph_float64_t x,
                                                const cgraph_float64_t a);
-/** Function : ELU  */
+/** Function 5 : ELU  */
 extern cgraph_float64_t cgraph_math_elu(const cgraph_float64_t x,
                                         const cgraph_float64_t a);
-/** Function : PReLU */
+/** Function 6 : PReLU */
 extern cgraph_float64_t cgraph_math_prelu(const cgraph_float64_t x,
                                           const cgraph_float64_t a);
-/** Function : Swish */
+/** Function 7 : Swish */
 extern cgraph_float64_t cgraph_math_swish(const cgraph_float64_t x);
-/** Function : Softplus */
+/** Function 8 : Softplus */
 extern cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x);
 
 #ifdef __cplusplus

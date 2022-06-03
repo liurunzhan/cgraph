@@ -258,54 +258,6 @@ extern TYPE FUNCTION(NAME, localtime)(void);
 extern TYPE FUNCTION(NAME, initc)(cgraph_char_t *cthis,
                                   const cgraph_char_t *sep);
 
-#define EQ(a, b)                                                               \
-  FUNCTION(NAME, eq)                                                           \
-  ((a), (b))
-#define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
-#define GR(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
-  ((a), (b))
-#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
-#define LS(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
-  ((b), (a))
-#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
-
-#define ADD(a, b, c)                                                           \
-  FUNCTION(NAME, add1)                                                         \
-  ((a), (b))
-#define SUB(a, b, c)                                                           \
-  FUNCTION(NAME, sub1)                                                         \
-  ((a), (b))
-#define MUL(a, b, c)                                                           \
-  FUNCTION(NAME, mul1)                                                         \
-  ((a), (b))
-#define DIV(a, b, c)                                                           \
-  FUNCTION(NAME, div1)                                                         \
-  ((a), (b))
-#define DIVF(a, b, c) __UNDEFINED
-#define INT(a, b, c) __UNDEFINED
-#define MOD(a, b, c) __UNDEFINED
-
-#define ABS(a) FUNCTION(NAME, abs)((a))
-#define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
-#define FLOOR(a, b) FUNCTION(NAME, floor)((a), (b))
-#define POW(a, b) FUNCTION(NAME, pow)((a), (b))
-#define SIN(a, b) FUNCTION(NAME, sin)((a), (b))
-#define COS(a, b) FUNCTION(NAME, cos)((a), (b))
-#define TAN(a, b) FUNCTION(NAME, tan)((a), (b))
-#define ASIN(a, b) FUNCTION(NAME, asin)((a), (b))
-#define ACOS(a, b) FUNCTION(NAME, acos)((a), (b))
-#define ATAN(a, b) FUNCTION(NAME, atan)((a), (b))
-#define SINH(a, b) FUNCTION(NAME, sinh)((a), (b))
-#define COSH(a, b) FUNCTION(NAME, cosh)((a), (b))
-#define TANH(a, b) FUNCTION(NAME, tanh)((a), (b))
-#define LOG(a, b) FUNCTION(NAME, log)((a), (b))
-#define LOG2(a, b) FUNCTION(NAME, log2)((a), (b))
-#define LOG10(a, b) FUNCTION(NAME, log10)((a), (b))
-#define EXP(a, b) FUNCTION(NAME, exp)((a), (b))
-#define SQRT(a, b) FUNCTION(NAME, sqrt)((a), (b))
-
 /** used to clear common-defined macro variables, except included only */
 #if defined(__CGRAPH_MACRO_CFLAG__)
 #include "cgraph_template_off.h"

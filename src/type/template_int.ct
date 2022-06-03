@@ -373,6 +373,14 @@ __INLINE UTYPE FUNCTION(NAME, xnor)(const UTYPE x, const UTYPE y) {
   return XNOR(x, y);
 }
 
+__INLINE UTYPE FUNCTION(NAME, rotl)(const UTYPE x, const cgraph_size_t bits) {
+  return CGRAPH_ROTL(x, BITS, bits);
+}
+
+__INLINE UTYPE FUNCTION(NAME, rotr)(const UTYPE x, const cgraph_size_t bits) {
+  return CGRAPH_ROTR(x, BITS, bits);
+}
+
 __INLINE UTYPE FUNCTION(NAME, bit)(const UTYPE x,
                                    const cgraph_size_t position) {
   cgraph_size_t _position = CGRAPH_POS(position, BITS);

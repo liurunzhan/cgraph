@@ -245,6 +245,8 @@ extern UTYPE FUNCTION(NAME, or)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, not )(const UTYPE x);
 extern UTYPE FUNCTION(NAME, xor)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, xnor)(const UTYPE x, const UTYPE y);
+extern UTYPE FUNCTION(NAME, rotl)(const UTYPE x, const cgraph_size_t bits);
+extern UTYPE FUNCTION(NAME, rotr)(const UTYPE x, const cgraph_size_t bits);
 extern UTYPE FUNCTION(NAME, bit)(const UTYPE x, const cgraph_size_t position);
 extern UTYPE FUNCTION(NAME, set)(const UTYPE x, const cgraph_size_t position);
 extern UTYPE FUNCTION(NAME, clr)(const UTYPE x, const cgraph_size_t position);

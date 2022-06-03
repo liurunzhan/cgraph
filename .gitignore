@@ -81,6 +81,7 @@ confdefs.*
 conftest.*
 config.*
 configure
+configure~
 cgraph.pc
 !Configure.pl
 depcomp

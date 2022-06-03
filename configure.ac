@@ -59,7 +59,7 @@ AC_CHECK_LIB([m], [fabs pow sqrt log sin cos tan atan2])
 # Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_TIME
-AC_CHECK_HEADERS([float.h inttypes.h limits.h stdarg.h stddef.h stdint.h stdio.h stdlib.h string.h math.h unistd.h sys/stat.h dirent.h io.h windows.h])
+AC_CHECK_HEADERS([stdio.h stdlib.h string.h math.h float.h limits.h stdarg.h inttypes.h stddef.h stdint.h unistd.h sys/stat.h dirent.h io.h windows.h])
 AX_CREATE_STDINT_H(include/cgraph_stdint.h)
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -102,6 +102,10 @@ AC_ARG_ENABLE(debug,
   *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
 esac], [debug=false])
 AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
+
+# Checks for building in a git repo or not
+AC_CHECK_FILES([./include/cgraph_template_off.h.in ./tools/template_off.macro ./include/cgraph_template_check.h.in ./tools/template_check.macro ./tools/macro.py], AC_SUBST(in_git_repo, true), AC_SUBST(in_git_repo, false))
+AM_CONDITIONAL(BUILT_IN_GIT_REPO, test x$in_git_repo = xtrue)
 
 AC_CONFIG_FILES([Makefile
                  cgraph.pc

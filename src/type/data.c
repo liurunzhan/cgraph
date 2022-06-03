@@ -116,6 +116,88 @@ cgraph_bigint_t *cgraph_bitset_to_bigint(const cgraph_bitset_t *cthis) {
   return bigint;
 }
 
+cgraph_bigint_t *cgraph_string_md5(const cgraph_string_t *cthis) {
+#define MD5_A UINT32_C(0x67452301)
+#define MD5_B UINT32_C(0xEFCDAB89)
+#define MD5_C UINT32_C(0x98BADCFE)
+#define MD5_D UINT32_C(0x10325476)
+#define MD5_F(x, y, z) (((x) & (y)) | ((~(x)) & (z)))
+#define MD5_G(x, y, z) (((x) & (z)) | ((y) & (~(z))))
+#define MD5_H(x, y, z) ((x) ^ (y) ^ (z))
+#define MD5_I(x, y, z) ((y) ^ ((x) | (~(z))))
+#define MD5_BITS (32)
+#define MD5_ROTL(x, bits) CGRAPH_ROTL(x, MD5_BITS, bits)
+#define MD5_FF(a, b, c, d, x, s, ac)                                           \
+  do {                                                                         \
+    (a) += F(b, c, d) + (x) + (cgraph_uint32_t)(ac);                           \
+    (a) = MD5_ROTL(a, s);                                                      \
+    (a) += (b);                                                                \
+  } while (0)
+#define MD5_GG(a, b, c, d, x, s, ac)                                           \
+  do {                                                                         \
+    (a) += G(b, c, d) + (x) + (cgraph_uint32_t)(ac);                           \
+    (a) = MD5_ROTL(a, s);                                                      \
+    (a) += (b);                                                                \
+  } while (0)
+#define MD5_HH(a, b, c, d, x, s, ac)                                           \
+  do {                                                                         \
+    (a) += H(b, c, d) + (x) + (cgraph_uint32_t)(ac);                           \
+    (a) = MD5_ROTL(a, s);                                                      \
+    (a) += (b);                                                                \
+  } while (0)
+#define MD5_II(a, b, c, d, x, s, ac)                                           \
+  do {                                                                         \
+    (a) += I(b, c, d) + (x) + (cgraph_uint32_t)(ac);                           \
+    (a) = MD5_ROTL(a, s);                                                      \
+    (a) += (b);                                                                \
+  } while (0)
+  cgraph_bigint_t *bigint = NULL;
+  if ((NULL != cthis) &&
+      (NULL != (bigint = cgraph_bigint_calloc(CGRAPH_UINT8_T, 16)))) {
+  }
+
+  return bigint;
+#undef MD5_A
+#undef MD5_B
+#undef MD5_C
+#undef MD5_D
+#undef MD5_F
+#undef MD5_G
+#undef MD5_H
+#undef MD5_I
+#undef MD5_BITS
+#undef MD5_ROTL
+#undef MD5_FF
+#undef MD5_GG
+#undef MD5_HH
+#undef MD5_II
+}
+
+cgraph_bigint_t *cgraph_string_sha1(const cgraph_string_t *cthis) {
+#define SHA1_K_0_19 UINT32_C(0x5A827999)
+#define SHA1_K_20_39 UINT32_C(0x6ED9EBA1)
+#define SHA1_K_40_59 UINT32_C(0x8F1BBCDC)
+#define SHA1_K_60_79 UINT32_C(0xCA62C1D6)
+#define SHA1_F_0_19(b, c, d) (((b) & (c)) | ((~(b)) & (d)))
+#define SHA1_F_20_39(b, c, d) ((b) ^ (c) ^ (d))
+#define SHA1_F_40_59(b, c, d) (((b) & (c)) | ((b) & (d)) | ((c) & (d)))
+#define SHA1_F_60_79(b, c, d) ((b) ^ (c) ^ (d))
+  cgraph_bigint_t *bigint = NULL;
+  if ((NULL != cthis) &&
+      (NULL != (bigint = cgraph_bigint_calloc(CGRAPH_UINT8_T, 20)))) {
+  }
+
+  return bigint;
+#undef SHA1_K_0_19
+#undef SHA1_K_20_39
+#undef SHA1_K_40_59
+#undef SHA1_K_60_79
+#undef SHA1_F_0_19
+#undef SHA1_F_20_39
+#undef SHA1_F_40_59
+#undef SHA1_F_60_79
+}
+
 cgraph_float16_t cgraph_float8_to_float16(const cgraph_float8_t x) {
   cgraph_float16_t res;
 

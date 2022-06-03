@@ -61,6 +61,9 @@ extern cgraph_bigint_t *cgraph_bignum_to_bigint(const cgraph_bignum_t *cthis);
 extern cgraph_bitset_t *cgraph_bigint_to_bitset(const cgraph_bigint_t *cthis);
 extern cgraph_bigint_t *cgraph_bitset_to_bigint(const cgraph_bitset_t *cthis);
 
+extern cgraph_bigint_t *cgraph_string_md5(const cgraph_string_t *cthis);
+extern cgraph_bigint_t *cgraph_string_sha1(const cgraph_string_t *cthis);
+
 extern cgraph_float16_t cgraph_float8_to_float16(const cgraph_float8_t x);
 extern cgraph_float32_t cgraph_float8_to_float32(const cgraph_float8_t x);
 extern cgraph_float64_t cgraph_float8_to_float64(const cgraph_float8_t x);

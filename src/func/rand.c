@@ -78,7 +78,7 @@ cgraph_uint32_t cgraph_rand32_xorshift(void) {
  */
 #define XOSHIRO xoshiro128_32
 #define XOSHIRO_BITS (32)
-#define XOSHIRO_ROTL(x, k) (((x) << (k)) | ((x) >> (XOSHIRO_BITS - (k))))
+#define XOSHIRO_ROTL(x, bits) CGRAPH_ROTL(x, XOSHIRO_BITS, bits)
 
 static cgraph_uint32_t XOSHIRO[4] = {UINT32_C(0), UINT32_C(0), UINT32_C(0),
                                      UINT32_C(0)};
@@ -258,7 +258,7 @@ cgraph_uint32_t cgraph_rand32_mt19937(void) {
 #undef MT19937_A_OR
 
 /**
- * @brief xsh rr
+ * @brief PCG XSH-RR
  */
 cgraph_uint32_t cgraph_rand32_pcg(void) {
 #define PCG_BITS (32)
@@ -411,7 +411,7 @@ cgraph_uint64_t cgraph_rand64_xorshift128p(void) {
  */
 #define XOSHIRO xoshiro256_64
 #define XOSHIRO_BITS (64)
-#define XOSHIRO_ROTL(x, k) (((x) << (k)) | ((x) >> (XOSHIRO_BITS - (k))))
+#define XOSHIRO_ROTL(x, bits) CGRAPH_ROTL(x, XOSHIRO_BITS, bits)
 static uint32_t XOSHIRO[4] = {UINT64_C(0), UINT64_C(0), UINT64_C(0),
                               UINT64_C(0)};
 

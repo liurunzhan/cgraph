@@ -650,6 +650,8 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_XOR(x, y) ((x) ^ (y))
 #define CGRAPH_NOT(x) (~(x))
 #define CGRAPH_XNOR(x, y) CGRAPH_NOT(CGRAPH_XOR(x, y))
+#define CGRAPH_ROTL(x, BITS, bits) (((x) << (bits)) | ((x) >> (BITS - (bits))))
+#define CGRAPH_ROTR(x, BITS, bits) (((x) >> (bits)) | ((x) << (BITS - (bits))))
 #define CGRAPH_BIT(x, pos) (((x) >> (pos)) & CGRAPH_BOOL_MASK)
 #define CGRAPH_BFLAG(x, bits) (x | (x >> ((bits)-1)))
 #define CGRAPH_BSET(x, pos) ((x) | (CGRAPH_BOOL_MASK << (pos)))
