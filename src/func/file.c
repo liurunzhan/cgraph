@@ -12,12 +12,14 @@
 
 #include <stdlib.h>
 
-#if __PLAT_LEND_TYPE == __PLAT_LEND_UNIX
+#if (defined(__HAVE_DIRENT_H) && defined(__HAVE_SYS_STAT_H) &&                 \
+     defined(__HAVE_UNISTD_H)) ||                                              \
+    (__PLAT_LEND_TYPE == __PLAT_LEND_UNIX)
 #include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #define access access
-#else
+#elif (defined(__HAVE_IO_H) && defined(__HAVE_WINDOWS_H)) || (1 == 1)
 #include <io.h>
 #include <windows.h>
 #define access _access
@@ -29,17 +31,21 @@
 
 cgraph_bool_t cgraph_file_ispath(const cgraph_char_t *path) {
   cgraph_bool_t res = CGRAPH_FALSE;
+#ifdef access
   if (CGRAPH_ISSTR(path)) {
     res = CGRAPH_TEST(0 == access(path, F_OK));
   }
+#endif
 
   return res;
 }
 
 cgraph_bool_t cgraph_file_isfile(const cgraph_char_t *path) {
   cgraph_bool_t res = CGRAPH_FALSE;
+#ifdef access
   if (CGRAPH_ISSTR(path)) {
   }
+#endif
 
   return res;
 }
@@ -231,6 +237,7 @@ cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *root,
 
 cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
   cgraph_char_t **ext = NULL;
+#ifdef access
 #if __PLAT_LEND_TYPE == __PLAT_LEND_UNIX
   DIR *dptr;
   struct dirent *eptr;
@@ -254,6 +261,7 @@ cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
       }
     }
   }
+#endif
 #endif
 
   return ext;

@@ -223,6 +223,8 @@ extern cgraph_int_t cgraph_math_chbase(cgraph_int_t *old,
                                        cgraph_int_t new_base);
 
 /** external mathematical functions */
+extern cgraph_size_t cgraph_math_mod2(const cgraph_size_t x);
+extern cgraph_size_t cgraph_math_mod3(const cgraph_size_t x);
 extern cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
                                        const cgraph_uint64_t y);
 extern cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,

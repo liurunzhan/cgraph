@@ -214,25 +214,36 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
 
 __INLINE cgraph_int_t FUNCTION(NAME, fexp)(const TYPE x) {
   cgraph_int_t res = 0;
-  FREXP(x, &res, NULL);
+  FREXP(x, &res);
 
   return res;
 }
 
+__INLINE TYPE FUNCTION(NAME, int)(const TYPE x) {
+#if __STDC_VERSION__ < 199901L
+  cgraph_float64_t res;
+#else
+  TYPE res = ZERO;
+#endif
+  MODF(x, &res);
+
+  return (TYPE)res;
+}
+
 __INLINE TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
-  return ADD(x, y, NULL);
+  return ADD(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
-  return SUB(x, y, NULL);
+  return SUB(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
-  return MUL(x, y, NULL);
+  return MUL(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
-  return DIV(x, y, NULL);
+  return DIV(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y) {
@@ -241,13 +252,17 @@ __INLINE TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y) {
 #else
   TYPE res = 0.0;
 #endif
-  MODF(x / y, &res, NULL);
+  MODF(x / y, &res);
 
   return (TYPE)res;
 }
 
 __INLINE TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
-  return MOD(x, y, NULL);
+  return MOD(x, y);
+}
+
+__INLINE TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
+  return POW(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {

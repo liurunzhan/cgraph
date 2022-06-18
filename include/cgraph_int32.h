@@ -28,7 +28,7 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT32)
 #define BITS CGRAPH_INT32_BITS
-#define BITS_LOG2 CGRAPH_INT32_BITS_LOG2
+#define L2BITS CGRAPH_INT32_L2BITS
 #define IN_FMT CGRAPH_INT32_IN_FMT
 #define OUT_FMT CGRAPH_INT32_OUT_FMT
 #define UNAME uint32
@@ -42,14 +42,14 @@ extern "C" {
 #define MASK CGRAPH_INT32_MASK
 #define EPSILON CGRAPH_INT32_EPSILON
 #define NAN ZERO
-#define MSB (ONE << (BITS - 1))
-#define LSB (ONE)
+#define LSB CGRAPH_INT32_LSB
+#define MSB CGRAPH_INT32_MSB
 #define HASH_OFFSET (4)
-#define MASK1 (0xAAAAAAAAU)
-#define MASK2 (0xCCCCCCCCU)
-#define MASK4 (0xF0F0F0F0U)
-#define MASK8 (0xFF00FF00U)
-#define MASK16 (0xFFFF0000U)
+#define MASK1 CGRAPH_INT32_MASK1
+#define MASK2 CGRAPH_INT32_MASK2
+#define MASK4 CGRAPH_INT32_MASK4
+#define MASK8 CGRAPH_INT32_MASK8
+#define MASK16 CGRAPH_INT32_MASK16
 
 /** template module */
 #include "cgraph_template_int.ht"

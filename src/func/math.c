@@ -520,6 +520,14 @@ cgraph_int_t cgraph_math_chbase(cgraph_int_t *old, const cgraph_size_t old_len,
   return len;
 }
 
+__INLINE cgraph_size_t cgraph_math_mod2(const cgraph_size_t x) {
+  return (0 <= x) ? (x & USIZE_C(1)) : (-(x & USIZE_C(1)));
+}
+
+__INLINE cgraph_size_t cgraph_math_mod3(const cgraph_size_t x) {
+  return (0 <= x) ? (x % 3) : -((-x) % 3);
+}
+
 cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
                                 const cgraph_uint64_t y) {
   cgraph_uint64_t _x = x, _y = y;

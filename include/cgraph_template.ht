@@ -23,21 +23,21 @@
 #endif
 
 #if defined(TYPE_TIME)
-#define ADD(a, b, c)                                                           \
+#define ADD(a, b)                                                              \
   FUNCTION(NAME, add1)                                                         \
   ((a), (b))
-#define SUB(a, b, c)                                                           \
+#define SUB(a, b)                                                              \
   FUNCTION(NAME, sub1)                                                         \
   ((a), (b))
-#define MUL(a, b, c)                                                           \
+#define MUL(a, b)                                                              \
   FUNCTION(NAME, mul1)                                                         \
   ((a), (b))
-#define DIV(a, b, c)                                                           \
+#define DIV(a, b)                                                              \
   FUNCTION(NAME, div1)                                                         \
   ((a), (b))
-#define DIVF(a, b, c) __UNDEFINED
-#define INT(a, b, c) __UNDEFINED
-#define MOD(a, b, c) __UNDEFINED
+#define DIVF(a, b) __UNDEFINED
+#define INT(a, b) __UNDEFINED
+#define MOD(a, b) __UNDEFINED
 
 #define EQ(a, b)                                                               \
   FUNCTION(NAME, eq)                                                           \
@@ -107,25 +107,25 @@
   (DATA_LS(COMPLEX_REAL(a), 0.0) || DATA_LS(COMPLEX_IMAG(a), 0.0))
 #endif
 
-#define ADD(a, b, c)                                                           \
+#define ADD(a, b)                                                              \
   FUNCTION(NAME, add)                                                          \
   ((a), (b))
-#define SUB(a, b, c)                                                           \
+#define SUB(a, b)                                                              \
   FUNCTION(NAME, sub)                                                          \
   ((a), (b))
-#define MUL(a, b, c)                                                           \
+#define MUL(a, b)                                                              \
   FUNCTION(NAME, mul)                                                          \
   ((a), (b))
-#define DIV(a, b, c)                                                           \
+#define DIV(a, b)                                                              \
   FUNCTION(NAME, mod)                                                          \
   ((a), (b))
-#define DIVF(a, b, c)                                                          \
+#define DIVF(a, b)                                                             \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define INT(a, b, c)                                                           \
+#define INT(a, b)                                                              \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define MOD(a, b, c)                                                           \
+#define MOD(a, b)                                                              \
   FUNCTION(NAME, mod)                                                          \
   ((a), (b))
 
@@ -192,25 +192,25 @@
   (((0 < FRACTION_DEN(a)) && (0 > FRACTION_NUM(a))) ||                         \
    ((0 > FRACTION_DEN(a)) && (0 < FRACTION_NUM(a))))
 
-#define ADD(a, b, c)                                                           \
+#define ADD(a, b)                                                              \
   FUNCTION(NAME, add)                                                          \
   ((a), (b))
-#define SUB(a, b, c)                                                           \
+#define SUB(a, b)                                                              \
   FUNCTION(NAME, sub)                                                          \
   ((a), (b))
-#define MUL(a, b, c)                                                           \
+#define MUL(a, b)                                                              \
   FUNCTION(NAME, mul)                                                          \
   ((a), (b))
-#define DIV(a, b, c)                                                           \
+#define DIV(a, b)                                                              \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define DIVF(a, b, c)                                                          \
+#define DIVF(a, b)                                                             \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define INT(a, b, c)                                                           \
+#define INT(a, b)                                                              \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define MOD(a, b, c)                                                           \
+#define MOD(a, b)                                                              \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
 
@@ -276,25 +276,25 @@
 #define DATA_ISNEG(a) (DATA_LS(POINT2D_X(a), 0.0) || DATA_LS(POINT2D_Y(a), 0.0))
 #endif
 
-#define ADD(a, b, c)                                                           \
+#define ADD(a, b)                                                              \
   FUNCTION(NAME, add)                                                          \
   ((a), (b))
-#define SUB(a, b, c)                                                           \
+#define SUB(a, b)                                                              \
   FUNCTION(NAME, sub)                                                          \
   ((a), (b))
-#define MUL(a, b, c)                                                           \
+#define MUL(a, b)                                                              \
   FUNCTION(NAME, mul)                                                          \
   ((a), (b))
-#define DIV(a, b, c)                                                           \
+#define DIV(a, b)                                                              \
   FUNCTION(NAME, mod)                                                          \
   ((a), (b))
-#define DIVF(a, b, c)                                                          \
+#define DIVF(a, b)                                                             \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define INT(a, b, c)                                                           \
+#define INT(a, b)                                                              \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define MOD(a, b, c)                                                           \
+#define MOD(a, b)                                                              \
   FUNCTION(NAME, mod)                                                          \
   ((a), (b))
 
@@ -388,25 +388,25 @@
    DATA_LS(POINT3D_Z(a), 0.0))
 #endif
 
-#define ADD(a, b, c)                                                           \
+#define ADD(a, b)                                                              \
   FUNCTION(NAME, add)                                                          \
   ((a), (b))
-#define SUB(a, b, c)                                                           \
+#define SUB(a, b)                                                              \
   FUNCTION(NAME, sub)                                                          \
   ((a), (b))
-#define MUL(a, b, c)                                                           \
+#define MUL(a, b)                                                              \
   FUNCTION(NAME, mul)                                                          \
   ((a), (b))
-#define DIV(a, b, c)                                                           \
+#define DIV(a, b)                                                              \
   FUNCTION(NAME, mod)                                                          \
   ((a), (b))
-#define DIVF(a, b, c)                                                          \
+#define DIVF(a, b)                                                             \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define INT(a, b, c)                                                           \
+#define INT(a, b)                                                              \
   FUNCTION(NAME, div)                                                          \
   ((a), (b))
-#define MOD(a, b, c)                                                           \
+#define MOD(a, b)                                                              \
   FUNCTION(NAME, mod)                                                          \
   ((a), (b))
 
@@ -673,13 +673,13 @@
 #define OBJECT(type, opt) CGRAPH_M3OBJECT(type, opt)
 #endif
 
-#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
-#define DIVF(a, b, c) FUNCTION(NAME, divf)((a), (b))
-#define INT(a, b, c) FUNCTION(NAME, int)((a), (b))
-#define MOD(a, b, c) FUNCTION(NAME, mod)((a), (b))
+#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b), (c))
+#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b), (c))
+#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b), (c))
+#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
+#define DIVF(a, b, c) FUNCTION(NAME, divf)((a), (b), (c))
+#define INT(a, b, c) FUNCTION(NAME, div)((a), (b), (c))
+#define MOD(a, b, c) FUNCTION(NAME, mod)((a), (b), (c))
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define NE(a, b) FUNCTION(NAME, ne)((a), (b))

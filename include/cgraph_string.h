@@ -89,6 +89,8 @@ extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, lower)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, upper)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, flower)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, fupper)(TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, subc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,

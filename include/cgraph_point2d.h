@@ -86,9 +86,6 @@ typedef struct {
 extern DATA_TYPE FUNCTION(NAME, havedist)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, det)(const TYPE x, const TYPE y);
 
-extern DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x);
-extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
-
 extern TYPE FUNCTION(NAME, park)(const TYPE x, const DATA_TYPE m,
                                  const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, park_inv)(const TYPE x, const DATA_TYPE m,

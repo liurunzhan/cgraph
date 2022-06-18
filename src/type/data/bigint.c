@@ -188,7 +188,7 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
     CGRAPH_LOOP_END
     data--;
     CGRAPH_LOOP_END
-    len = 2 + (cthis->len << DATA_BITS_LOG2);
+    len = 2 + (cthis->len << DATA_L2BITS);
   }
 
   return len;

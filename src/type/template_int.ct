@@ -194,11 +194,11 @@ __INLINE cgraph_size_t FUNCTION(NAME, ubitceil)(const cgraph_size_t bits) {
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, bitfloor)(const cgraph_size_t bits) {
-  return bits >> BITS_LOG2;
+  return bits >> L2BITS;
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, ubitfloor)(const cgraph_size_t bits) {
-  return bits >> BITS_LOG2;
+  return bits >> L2BITS;
 }
 
 __INLINE cgraph_size_t FUNCTION(NAME, bitmod)(const cgraph_size_t bits) {
@@ -211,17 +211,26 @@ __INLINE cgraph_size_t FUNCTION(NAME, ubitmod)(const cgraph_size_t bits) {
 
 __INLINE cgraph_bool_t FUNCTION(NAME, inrange)(const TYPE start, const TYPE end,
                                                const TYPE num) {
-  return CGRAPH_TEST(
-      0 <= (TYPE)(((UTYPE)num - (UTYPE)start) | ((UTYPE)end - (UTYPE)num)));
+  return (start < end) ? CGRAPH_TEST((UTYPE)(num - start) < (end - start))
+                       : CGRAPH_TEST((UTYPE)(num - end) < (start - end));
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME,
                                 in2ranges)(const TYPE start0, const TYPE end0,
                                            const TYPE start1, const TYPE end1,
                                            const TYPE num) {
-  return CGRAPH_TEST(
-      0 <= (TYPE)(((UTYPE)num - (UTYPE)start0) | ((UTYPE)end0 - (UTYPE)num) |
-                  ((UTYPE)num - (UTYPE)start1) | ((UTYPE)end1 - (UTYPE)num)));
+  return FUNCTION(NAME, inrange)(start0, end0, num) &&
+         FUNCTION(NAME, inrange)(start1, end1, num);
+}
+
+__INLINE cgraph_bool_t FUNCTION(NAME,
+                                in3ranges)(const TYPE start0, const TYPE end0,
+                                           const TYPE start1, const TYPE end1,
+                                           const TYPE start2, const TYPE end2,
+                                           const TYPE num) {
+  return FUNCTION(NAME, inrange)(start0, end0, num) &&
+         FUNCTION(NAME, inrange)(start1, end1, num) &&
+         FUNCTION(NAME, inrange)(start2, end2, num);
 }
 
 cgraph_size_t FUNCTION(NAME, startswith0)(const TYPE x) {
@@ -347,12 +356,26 @@ cgraph_size_t FUNCTION(NAME, abitlen)(const UTYPE data) {
 #endif
 }
 
-__INLINE UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits) {
-  return (x << bits) & MASK;
+__INLINE TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t bits) {
+  const UTYPE ux = ABS(x), msb = (0 <= x) ? ZERO : MSB;
+
+  return ((0 <= bits) ? (ux << bits) : (ux >> bits)) | msb;
 }
 
-__INLINE UTYPE FUNCTION(NAME, shr)(const UTYPE x, const cgraph_size_t bits) {
-  return (x >> bits) & MASK;
+__INLINE TYPE FUNCTION(NAME, shr)(const TYPE x, const cgraph_size_t bits) {
+  return FUNCTION(NAME, shl)(x, -bits);
+}
+
+__INLINE TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t bits) {
+  if (0 <= x) {
+    return ((0 <= bits) ? ((x << bits) | (x >> (BITS - bits)))
+                        : ((x >> bits) | (x << (BITS - bits)))) &
+           MASK;
+  }
+}
+
+__INLINE TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t bits) {
+  return FUNCTION(NAME, rol)(x, -bits);
 }
 
 __INLINE UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y) {
@@ -512,11 +535,11 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x) {
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
-  return CGRAPH_TEST(x & 0x01);
+  return CGRAPH_TEST(x & LSB);
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
-  return CGRAPH_TEST((~x) & 0x01);
+  return CGRAPH_TEST((~x) & LSB);
 }
 
 __INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
@@ -584,23 +607,27 @@ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
 }
 
 __INLINE TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
-  return ADD(x, y, NULL);
+  return ADD(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
-  return SUB(x, y, NULL);
+  return SUB(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
-  return MUL(x, y, NULL);
+  return MUL(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
-  return DIV(x, y, NULL);
+  return DIV(x, y);
+}
+
+__INLINE TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
+  return POW(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
-  return MOD(x, y, NULL);
+  return MOD(x, y);
 }
 
 __INLINE TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {

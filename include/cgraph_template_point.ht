@@ -17,6 +17,11 @@ extern DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
+#if defined(TYPE_POINT3D)
+extern DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x);
+#endif
 
 extern DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x);
@@ -27,16 +32,106 @@ extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, fdiv)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
-extern DATA_TYPE FUNCTION(NAME, cosinangle)(const TYPE x, const TYPE y);
-extern DATA_TYPE FUNCTION(NAME, inangle)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, cosiangle)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, iangle)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, xdadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xdsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xdmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xdmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xdpow)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, ydadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ydsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ydmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, yddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ydmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ydpow)(const TYPE x, const TYPE y);
+
+#if defined(TYPE_POINT3D)
+extern TYPE FUNCTION(NAME, zdadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, zdsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, zdmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, zddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, zdmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, zdpow)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, xydadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xydsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xydmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xyddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xydmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xydpow)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, yzdadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, yzdsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, yzdmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, yzddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, yzdmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, yzdpow)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, xzdadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xzdsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xzdmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xzddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xzdmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, xzdpow)(const TYPE x, const TYPE y);
+#endif
 
 extern TYPE FUNCTION(NAME, addf)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subf)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, mulf)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divf)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modf)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powf)(const TYPE x, const DATA_TYPE y);
 
-extern TYPE FUNCTION(NAME, rol)(const TYPE x, const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, ror)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, addx)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subx)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mulx)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divx)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modx)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powx)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, addy)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, suby)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, muly)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divy)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mody)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powy)(const TYPE x, const DATA_TYPE y);
+
+#if defined(TYPE_POINT3D)
+extern TYPE FUNCTION(NAME, addz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mulz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powz)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, addxy)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subxy)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mulxy)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divxy)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modxy)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powxy)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, addyz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subyz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mulyz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divyz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modyz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powyz)(const TYPE x, const DATA_TYPE y);
+
+extern TYPE FUNCTION(NAME, addxz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, subxz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, mulxz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, divxz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modxz)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, powxz)(const TYPE x, const DATA_TYPE y);
+#endif
+
+extern TYPE FUNCTION(NAME, rotl)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, rotr)(const TYPE x, const DATA_TYPE angle);
 extern DATA_TYPE FUNCTION(NAME, rproj)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, proj)(const TYPE x, const TYPE y);
 

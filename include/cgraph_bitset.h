@@ -30,7 +30,7 @@ extern "C" {
 #define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(UINT8)
 #define DATA_BITS CGRAPH_UINT8_BITS
-#define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
+#define DATA_L2BITS CGRAPH_UINT8_L2BITS
 #define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitceil)((x))
 #define DATA_END (0)
 #define DATA_ZERO (0)
@@ -40,8 +40,8 @@ extern "C" {
 #define DATA_MAX CGRAPH_UINT8_MAX
 #define DATA_MASK CGRAPH_UINT8_MASK
 #define DATA_EPSILON CGRAPH_UINT8_EPSILON
-#define DATA_MSB CGRAPH_UINT8_MSB
 #define DATA_LSB CGRAPH_UINT8_LSB
+#define DATA_MSB CGRAPH_UINT8_MSB
 
 #define NAME bitset
 #define TYPE TYPE_T(NAME)
@@ -79,7 +79,7 @@ typedef struct {
 #define BITSET_HALF(x) (BITSET_BIT(x).half)
 #define BITSET_GRHALF(x) (BITSET_BIT(x).grhalf)
 #define BITSET_BITS_NUM(x)                                                     \
-  ((((x)->len - 1) << DATA_BITS_LOG2) + BITSET_BITNUM((x)))
+  ((((x)->len - 1) << DATA_L2BITS) + BITSET_BITNUM((x)))
 #define BITSET_BITNUM_GRHALF(x) BITSET_GRHALF(x)
 #define BITSET_BYTE_POSTION(postion) FUNCTION(DATA_NAME, bitfloor)((postion))
 #define BITSET_BIT_POSTION(postion) FUNCTION(DATA_NAME, bitmod)((postion))
@@ -117,8 +117,7 @@ extern TYPE *FUNCTION(NAME, sets)(TYPE *cthis, const cgraph_size_t min,
 extern TYPE *FUNCTION(NAME, clr)(TYPE *cthis, const cgraph_size_t pos);
 extern TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min,
                                   const cgraph_size_t max);
-extern TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits);
-extern TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits);
+
 extern TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);

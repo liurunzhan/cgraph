@@ -57,7 +57,7 @@ UTYPE FUNCTION(NAME, uabs_s)(const UTYPE x) {
 
 UTYPE FUNCTION(NAME, uadd_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return ADD(x, y, NULL);
+  return ADD(x, y);
 #else
   UTYPE res;
   DATA_TYPE *xd = (DATA_TYPE *)&x, *yd = (DATA_TYPE *)&y,
@@ -78,7 +78,7 @@ UTYPE FUNCTION(NAME, uadd_s)(const UTYPE x, const UTYPE y) {
 
 UTYPE FUNCTION(NAME, usub_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return SUB(x, y, NULL);
+  return SUB(x, y);
 #else
   UTYPE res;
   DATA_TYPE *xd = (DATA_TYPE *)&x, *yd = (DATA_TYPE *)&y,
@@ -99,7 +99,7 @@ UTYPE FUNCTION(NAME, usub_s)(const UTYPE x, const UTYPE y) {
 
 UTYPE FUNCTION(NAME, umul_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return MUL(x, y, NULL);
+  return MUL(x, y);
 #else
   TYPE res = 0, _x = x, _y = y;
   while (_y > 0) {
@@ -116,7 +116,7 @@ UTYPE FUNCTION(NAME, umul_s)(const UTYPE x, const UTYPE y) {
 
 UTYPE FUNCTION(NAME, udiv_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return DIV(x, y, NULL);
+  return DIV(x, y);
 #else
   UTYPE _x = x, _y = y, res = 0;
   if (_x > _y) {
@@ -146,7 +146,7 @@ UTYPE FUNCTION(NAME, udiv_s)(const UTYPE x, const UTYPE y) {
 
 UTYPE FUNCTION(NAME, upow_s)(const UTYPE x, const UTYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return POW(x, y, NULL);
+  return POW(x, y);
 #else
   UTYPE res = 1, _x = x, _y = y;
   while (_y) {
@@ -382,7 +382,7 @@ TYPE FUNCTION(NAME, abs_s)(const TYPE x) { return ABS(x); }
 
 TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return ADD(x, y, NULL);
+  return ADD(x, y);
 #else
   TYPE res;
 
@@ -392,7 +392,7 @@ TYPE FUNCTION(NAME, add_s)(const TYPE x, const TYPE y) {
 
 TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return SUB(x, y, NULL);
+  return SUB(x, y);
 #else
   TYPE res;
 
@@ -402,7 +402,7 @@ TYPE FUNCTION(NAME, sub_s)(const TYPE x, const TYPE y) {
 
 TYPE FUNCTION(NAME, mul_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return MUL(x, y, NULL);
+  return MUL(x, y);
 #else
   TYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y),
        res = FUNCTION(NAME, umul_s)(_x, _y);
@@ -436,7 +436,7 @@ TYPE FUNCTION(NAME, mul_mod_s)(const TYPE x, const TYPE y, const TYPE mod) {
 
 TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return DIV(x, y, NULL);
+  return DIV(x, y);
 #else
   TYPE _x = CGRAPH_ABS(x), _y = CGRAPH_ABS(y),
        res = FUNCTION(NAME, udiv_s)(_x, _y);
@@ -451,15 +451,19 @@ TYPE FUNCTION(NAME, div_s)(const TYPE x, const TYPE y) {
  */
 TYPE FUNCTION(NAME, div_mod_s)(const TYPE x, const TYPE y, const TYPE mod) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return DIV(x, y, NULL);
+  return DIV(x, y);
 #else
   return ((x % mod) * (FUNCTION(NAME, pow_mod_s)(y, mod - 2, mod) % mod)) % mod;
 #endif
 }
 
+TYPE FUNCTION(NAME, mod2_s)(const TYPE x, const TYPE y) {
+  return x & (((UTYPE)(ONE << y)) - ONE);
+}
+
 TYPE FUNCTION(NAME, pow_s)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return POW(x, y, NULL);
+  return POW(x, y);
 #else
   TYPE res = 1, _x = x, _y = y;
   while (_y > 0) {

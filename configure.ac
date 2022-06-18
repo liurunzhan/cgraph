@@ -104,14 +104,13 @@ esac], [debug=false])
 AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
 
 # Checks for building in a git repo or not
-AC_CHECK_FILES([./include/cgraph_template_off.h.in ./tools/template_off.macro ./include/cgraph_template_check.h.in ./tools/template_check.macro ./tools/macro.py], AC_SUBST(in_git_repo, true), AC_SUBST(in_git_repo, false))
+AC_CHECK_FILES([./include/cgraph_template_off.h.in ./tools/template_off.macro ./include/cgraph_template_check.h.in ./tools/template_check.macro $(include_dir)/cgraph_stdchk.h.in $(tools_dir)/stdchk.macro ./tools/macro.py], AC_SUBST(in_git_repo, true), AC_SUBST(in_git_repo, false))
 AM_CONDITIONAL(BUILT_IN_GIT_REPO, test x$in_git_repo = xtrue)
 
 AC_CONFIG_FILES([Makefile
                  cgraph.pc
 								 Doxyfile
                  doc/Makefile
-                 include/cgraph_stdchk.h
                  src/Makefile
 								 src/func/Makefile
 								 src/game/Makefile

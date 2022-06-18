@@ -307,6 +307,22 @@ TYPE *FUNCTION(NAME, upper)(TYPE *cthis) {
   return cthis;
 }
 
+TYPE *FUNCTION(NAME, flower)(TYPE *cthis) {
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    cthis->data[0] = cgraph_math_tolower(cthis->data[0]);
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, fupper)(TYPE *cthis) {
+  if ((NULL != cthis) && (0 < cthis->len)) {
+    cthis->data[0] = cgraph_math_toupper(cthis->data[0]);
+  }
+
+  return cthis;
+}
+
 TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,
                             const cgraph_size_t len) {
   if ((NULL != cthis) && (NULL != data)) {
@@ -329,9 +345,46 @@ TYPE *FUNCTION(NAME, initf)(TYPE *cthis, const cgraph_char_t *format, ...) {
   return cthis;
 }
 
+TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t len) {
+  if (NULL != cthis) {
+    if (0 <= len) {
+      const cgraph_size_t _len = CGRAPH_MIN(cthis->len, len);
+      cthis->data += _len;
+      cthis->len -= _len;
+    } else {
+      cthis->len = (len > (-cthis->len)) ? (cthis->len + len) : 0;
+      cthis->data[cthis->len] = '\0';
+    }
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t len) {
+  return FUNCTION(NAME, shl)(cthis, -len);
+}
+
+TYPE *FUNCTION(NAME, rol)(TYPE *cthis, const cgraph_size_t len) {
+  if (NULL != cthis) {
+    if (0 <= len) {
+      cgraph_size_t i = 0, j = len;
+      for (; j < cthis->len; i++, j++) {
+        DATA_SWAP(cthis->data[i], cthis->data[j]);
+      }
+    } else {
+    }
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, ror)(TYPE *cthis, const cgraph_size_t len) {
+  return FUNCTION(NAME, rol)(cthis, -len);
+}
+
 TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
-    cgraph_size_t _size = CGRAPH_SIZE(z), len = (x->len + y->len);
+    const cgraph_size_t _size = CGRAPH_SIZE(z), len = (x->len + y->len);
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, _size, len, &error);
     if (CGRAPH_FALSE == error) {

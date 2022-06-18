@@ -15,7 +15,6 @@
 extern void FUNCTION(NAME, details)(void);
 
 #ifdef TYPE_WITH_DATA
-
 extern cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
                                               const cgraph_size_t len);
@@ -61,7 +60,12 @@ extern TYPE *FUNCTION(NAME, abs)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, fmt)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, inv)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, std)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, int)(const TYPE *x, TYPE *y);
+extern TYPE *FUNCTION(NAME, int)(const TYPE *x, TYPE *z);
+extern TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits);
+extern TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits);
+extern TYPE *FUNCTION(NAME, rol)(TYPE *cthis, const cgraph_size_t bits);
+extern TYPE *FUNCTION(NAME, ror)(TYPE *cthis, const cgraph_size_t bits);
+
 extern TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, sub)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, absub)(const TYPE *x, const TYPE *y, TYPE *z);
@@ -69,6 +73,7 @@ extern TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, idiv)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, mod)(const TYPE *x, const TYPE *y, TYPE *z);
+extern TYPE *FUNCTION(NAME, pow)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, mean)(const TYPE *x, const TYPE *y, TYPE *z);
 extern TYPE *FUNCTION(NAME, hmean)(const TYPE *x, const TYPE *y, TYPE *z);
 
@@ -232,6 +237,12 @@ extern TYPE FUNCTION(NAME, abs)(const TYPE x);
 extern TYPE FUNCTION(NAME, inv)(const TYPE x);
 extern TYPE FUNCTION(NAME, fmt)(const TYPE x);
 extern TYPE FUNCTION(NAME, std)(const TYPE x);
+extern TYPE FUNCTION(NAME, int)(const TYPE x);
+extern TYPE FUNCTION(NAME, shl)(TYPE cthis, const cgraph_size_t bits);
+extern TYPE FUNCTION(NAME, shr)(TYPE cthis, const cgraph_size_t bits);
+extern TYPE FUNCTION(NAME, rol)(TYPE cthis, const cgraph_size_t bits);
+extern TYPE FUNCTION(NAME, ror)(TYPE cthis, const cgraph_size_t bits);
+
 extern TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, absub)(const TYPE x, const TYPE y);
@@ -240,7 +251,9 @@ extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, dmul)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, ddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, dpow)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y);
 

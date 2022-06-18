@@ -1,5 +1,13 @@
 /**
  * @mainpage cgraph
+ *                                          _
+ *                                         | |
+ *                 ___ __ _ _ __ __ _ _ __ | |__
+ *                / __/ _` | '__/ _` | '_ \| '_ \
+ *               | (_| (_| | | | (_| | |_) | | | |
+ *                \___\__, |_|  \__,_| .__/|_| |_|
+ *                     __/ |         | |
+ *                    |___/          |_|
  * <table>
  * <tr><th>Project <td> cgraph
  * <tr><th>Author  <td> Liu Runzhan
@@ -9,7 +17,6 @@
  * </table>
  * @section Overview
  * This library is used to solve the graph and mathematical problems.
- *
  * @section Description
  *
  * @section Usage

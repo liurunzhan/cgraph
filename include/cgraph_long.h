@@ -34,7 +34,7 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(LONG)
 #define BITS CGRAPH_LONG_BITS
-#define BITS_LOG2 CGRAPH_LONG_BITS_LOG2
+#define L2BITS CGRAPH_LONG_L2BITS
 #define IN_FMT "%ld"
 #define OUT_FMT "%ld"
 #define UNAME ulong
@@ -48,8 +48,8 @@ extern "C" {
 #define MASK CGRAPH_LONG_MASK
 #define EPSILON CGRAPH_LONG_EPSILON
 #define NAN ZERO
-#define MSB (ONE << (BITS - 1))
-#define LSB (ONE)
+#define LSB CGRAPH_LONG_LSB
+#define MSB CGRAPH_LONG_MSB
 #define MASK1 CGRAPH_LONG_MASK1
 #define MASK2 CGRAPH_LONG_MASK2
 #define MASK4 CGRAPH_LONG_MASK4

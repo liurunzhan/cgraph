@@ -171,7 +171,25 @@ TYPE FUNCTION(NAME, ninf)(void) {
   return res;
 }
 
-TYPE FUNCTION(NAME, rev)(const TYPE x) {
+__INLINE TYPE FUNCTION(NAME, rev)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_Z(x);
+  POINT3D_Y(res) = POINT3D_X(x);
+  POINT3D_Z(res) = POINT3D_Y(x);
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, rev2)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_Y(x);
+  POINT3D_Y(res) = POINT3D_Z(x);
+  POINT3D_Z(res) = POINT3D_X(x);
+
+  return res;
+}
+
+__INLINE TYPE FUNCTION(NAME, trans)(const TYPE x) {
   TYPE res;
   POINT3D_X(res) = POINT3D_Z(x);
   POINT3D_Y(res) = POINT3D_Y(x);
@@ -179,8 +197,6 @@ TYPE FUNCTION(NAME, rev)(const TYPE x) {
 
   return res;
 }
-
-TYPE FUNCTION(NAME, trans)(const TYPE x) { return x; }
 
 TYPE FUNCTION(NAME, opp)(const TYPE x) {
   TYPE res;
@@ -218,6 +234,63 @@ TYPE FUNCTION(NAME, std)(const TYPE x) {
   POINT3D_Z(res) = mag_inv * POINT3D_Z(x);
 
   return res;
+}
+
+TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t bits) {
+  TYPE res = x;
+  if (1 == bits) {
+    POINT3D_X(res) = DATA_ZERO;
+    POINT3D_Y(res) = POINT3D_X(x);
+    POINT3D_Z(res) = POINT3D_Y(x);
+  } else if (2 == bits) {
+    POINT3D_X(res) = DATA_ZERO;
+    POINT3D_Y(res) = DATA_ZERO;
+    POINT3D_Z(res) = POINT3D_X(x);
+  } else if (-1 == bits) {
+    POINT3D_X(res) = POINT3D_Y(x);
+    POINT3D_Y(res) = POINT3D_Z(x);
+    POINT3D_Z(res) = DATA_ZERO;
+  } else if (-2 == bits) {
+    POINT3D_X(res) = POINT3D_Z(x);
+    POINT3D_Y(res) = DATA_ZERO;
+    POINT3D_Z(res) = DATA_ZERO;
+  } else if (0 != bits) {
+    POINT3D_X(res) = DATA_ZERO;
+    POINT3D_Y(res) = DATA_ZERO;
+  }
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, shr)(const TYPE x, const cgraph_size_t bits) {
+  return FUNCTION(NAME, shl)(x, -bits);
+}
+
+TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t bits) {
+  TYPE res = x;
+  if (1 == cgraph_math_mod3(bits)) {
+    POINT3D_X(res) = POINT3D_Z(x);
+    POINT3D_Y(res) = POINT3D_X(x);
+    POINT3D_Z(res) = POINT3D_Y(x);
+  } else if (2 == cgraph_math_mod3(bits)) {
+    POINT3D_X(res) = POINT3D_Z(x);
+    POINT3D_Y(res) = POINT3D_Y(x);
+    POINT3D_Z(res) = POINT3D_X(x);
+  } else if (-1 == cgraph_math_mod3(bits)) {
+    POINT3D_X(res) = POINT3D_Y(x);
+    POINT3D_Y(res) = POINT3D_Z(x);
+    POINT3D_Z(res) = POINT3D_X(x);
+  } else if (-2 == cgraph_math_mod3(bits)) {
+    POINT3D_X(res) = POINT3D_Z(x);
+    POINT3D_Y(res) = POINT3D_Y(x);
+    POINT3D_Z(res) = POINT3D_X(x);
+  }
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t bits) {
+  return FUNCTION(NAME, rol)(x, -bits);
 }
 
 DATA_TYPE FUNCTION(NAME, mahadist)(const TYPE x, const TYPE y) {
@@ -334,6 +407,330 @@ TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
                               FUNCTION(NAME, mag2)(y));
 }
 
+TYPE FUNCTION(NAME, xdadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) + POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) - POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) / POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, mod)(POINT3D_X(x), POINT3D_X(y));
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, pow)(POINT3D_X(x), POINT3D_X(y));
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) + POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) - POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) * POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) / POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Y(x), POINT3D_Y(y));
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Y(x), POINT3D_Y(y));
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, zdadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) + POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, zdsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) - POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, zdmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) * POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, zddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) / POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, zdmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Z(x), POINT3D_Z(y));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, zdpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Z(x), POINT3D_Z(y));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xydadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) + POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x) + POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xydsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) - POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x) - POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xydmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x) * POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xyddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) / POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x) / POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xydmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, mod)(POINT3D_X(x), POINT3D_X(y));
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Y(x), POINT3D_Y(y));
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xydpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, pow)(POINT3D_X(x), POINT3D_X(y));
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Y(x), POINT3D_Y(y));
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xzdadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) + POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) + POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xzdsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) - POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) - POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xzdmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) * POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xzddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) / POINT3D_X(y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) / POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xzdmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, mod)(POINT3D_X(x), POINT3D_X(y));
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Z(x), POINT3D_Z(y));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xzdpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, pow)(POINT3D_X(x), POINT3D_X(y));
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Z(x), POINT3D_Z(y));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yzdadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) + POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x) + POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yzdsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) - POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x) - POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yzdmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) * POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x) * POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yzddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) / POINT3D_Y(y);
+  POINT3D_Z(res) = POINT3D_Z(x) / POINT3D_Z(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yzdmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Y(x), POINT3D_Y(y));
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Z(x), POINT3D_Z(y));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yzdpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Y(x), POINT3D_Y(y));
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Z(x), POINT3D_Z(y));
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, dmul)(const TYPE x, const TYPE y) {
   TYPE res;
   POINT3D_X(res) = POINT3D_X(x) * POINT3D_X(y);
@@ -380,25 +777,370 @@ TYPE FUNCTION(NAME, mulf)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divf)(const TYPE x, const DATA_TYPE y) {
-  const DATA_TYPE inv_y = 1.0 / y;
+  const DATA_TYPE y_inv = 1.0 / y;
   TYPE res;
-  POINT3D_X(res) = inv_y * POINT3D_X(x);
-  POINT3D_Y(res) = inv_y * POINT3D_Y(x);
-  POINT3D_Z(res) = inv_y * POINT3D_Z(x);
+  POINT3D_X(res) = y_inv * POINT3D_X(x);
+  POINT3D_Y(res) = y_inv * POINT3D_Y(x);
+  POINT3D_Z(res) = y_inv * POINT3D_Z(x);
 
   return res;
 }
 
-TYPE FUNCTION(NAME, ror)(const TYPE x, const DATA_TYPE angle) {
-  return FUNCTION(NAME, xror)(x, angle);
+TYPE FUNCTION(NAME, modf)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, mod)(POINT3D_X(x), y);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Z(x), y);
+
+  return res;
 }
 
-TYPE FUNCTION(NAME, rol)(const TYPE x, const DATA_TYPE angle) {
-  return FUNCTION(NAME, xrol)(x, angle);
+TYPE FUNCTION(NAME, powf)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, pow)(POINT3D_X(x), y);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Z(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) + y;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) - y;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mulx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * y;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) / y;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, mod)(POINT3D_X(x), y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, pow)(POINT3D_X(x), y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) + y;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, suby)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) - y;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, muly)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) * y;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) / y;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mody)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) + y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) - y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mulz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) * y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) / y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Z(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Z(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addxy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) + y;
+  POINT3D_Y(res) = POINT3D_Y(x) + y;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subxy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) - y;
+  POINT3D_Y(res) = POINT3D_Y(x) - y;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mulxy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * y;
+  POINT3D_Y(res) = POINT3D_Y(x) * y;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divxy)(const TYPE x, const DATA_TYPE y) {
+  const DATA_TYPE y_inv = 1.0 / y;
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * y_inv;
+  POINT3D_Y(res) = POINT3D_Y(x) * y_inv;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modxy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, mod)(POINT3D_X(x), y);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powxy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, pow)(POINT3D_X(x), y);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addxz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) + y;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) + y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subxz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) - y;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) - y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mulxz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * y;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) * y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divxz)(const TYPE x, const DATA_TYPE y) {
+  const DATA_TYPE y_inv = 1.0 / y;
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * y_inv;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) * y_inv;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modxz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, mod)(POINT3D_X(x), y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Z(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powxz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, pow)(POINT3D_X(x), y);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Z(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addyz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) + y;
+  POINT3D_Z(res) = POINT3D_Z(x) + y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subyz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) - y;
+  POINT3D_Z(res) = POINT3D_Z(x) - y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mulyz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) * y;
+  POINT3D_Z(res) = POINT3D_Z(x) * y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divyz)(const TYPE x, const DATA_TYPE y) {
+  const DATA_TYPE y_inv = 1.0 / y;
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) * y_inv;
+  POINT3D_Z(res) = POINT3D_Z(x) * y_inv;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modyz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, mod)(POINT3D_Z(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powyz)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Y(x), y);
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, pow)(POINT3D_Z(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rotr)(const TYPE x, const DATA_TYPE angle) {
+  return FUNCTION(NAME, xrotr)(x, angle);
+}
+
+TYPE FUNCTION(NAME, rotl)(const TYPE x, const DATA_TYPE angle) {
+  return FUNCTION(NAME, xrotl)(x, angle);
 }
 
 /* res = [[1, 0, 0], [0, cosy, -siny], [0, siny, cosy]] x */
-TYPE FUNCTION(NAME, xrol)(const TYPE x, const DATA_TYPE angle) {
+TYPE FUNCTION(NAME, xrotl)(const TYPE x, const DATA_TYPE angle) {
   const DATA_TYPE cos_angle = cos(angle), sin_angle = sin(angle);
   TYPE res;
   POINT3D_X(res) = POINT3D_X(x);
@@ -408,12 +1150,12 @@ TYPE FUNCTION(NAME, xrol)(const TYPE x, const DATA_TYPE angle) {
   return res;
 }
 
-TYPE FUNCTION(NAME, xror)(const TYPE x, const DATA_TYPE angle) {
-  return FUNCTION(NAME, xrol)(x, -angle);
+TYPE FUNCTION(NAME, xrotr)(const TYPE x, const DATA_TYPE angle) {
+  return FUNCTION(NAME, xrotl)(x, -angle);
 }
 
 /* res = [[cosy, 0, siny], [0, 1, 0], [-siny, 0, cosy]] x */
-TYPE FUNCTION(NAME, yrol)(const TYPE x, const DATA_TYPE angle) {
+TYPE FUNCTION(NAME, yrotl)(const TYPE x, const DATA_TYPE angle) {
   const DATA_TYPE cos_angle = cos(angle), sin_angle = sin(angle);
   TYPE res;
   POINT3D_X(res) = cos_angle * POINT3D_X(x) + sin_angle * POINT3D_Z(x);
@@ -423,12 +1165,12 @@ TYPE FUNCTION(NAME, yrol)(const TYPE x, const DATA_TYPE angle) {
   return res;
 }
 
-TYPE FUNCTION(NAME, yror)(const TYPE x, const DATA_TYPE angle) {
-  return FUNCTION(NAME, yrol)(x, -angle);
+TYPE FUNCTION(NAME, yrotr)(const TYPE x, const DATA_TYPE angle) {
+  return FUNCTION(NAME, yrotl)(x, -angle);
 }
 
 /* res = [[cosy, -siny, 0], [siny, cosy, 0], [0, 0, 1]] x */
-TYPE FUNCTION(NAME, zrol)(const TYPE x, const DATA_TYPE angle) {
+TYPE FUNCTION(NAME, zrotl)(const TYPE x, const DATA_TYPE angle) {
   const DATA_TYPE cos_angle = cos(angle), sin_angle = sin(angle);
   TYPE res;
   POINT3D_X(res) = cos_angle * POINT3D_X(x) - sin_angle * POINT3D_Y(x);
@@ -438,8 +1180,8 @@ TYPE FUNCTION(NAME, zrol)(const TYPE x, const DATA_TYPE angle) {
   return res;
 }
 
-TYPE FUNCTION(NAME, zror)(const TYPE x, const DATA_TYPE angle) {
-  return FUNCTION(NAME, zrol)(x, -angle);
+TYPE FUNCTION(NAME, zrotr)(const TYPE x, const DATA_TYPE angle) {
+  return FUNCTION(NAME, zrotl)(x, -angle);
 }
 
 TYPE FUNCTION(NAME, arol)(const TYPE x, const TYPE r, const DATA_TYPE angle) {

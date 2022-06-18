@@ -1,6 +1,18 @@
 # cgraph
 ________
+
 A C library for graph and mathematical analysis
+
+```shell
+                                                _                               
+                                               | |                              
+                       ___ __ _ _ __ __ _ _ __ | |__                            
+                      / __/ _` | '__/ _` | '_ \| '_ \                           
+                     | (_| (_| | | | (_| | |_) | | | |                          
+                      \___\__, |_|  \__,_| .__/|_| |_|                          
+                           __/ |         | |                                    
+                          |___/          |_|                                    
+```
 
 * [Compilation](#compilation)
   * [Standard way](#standard-way)

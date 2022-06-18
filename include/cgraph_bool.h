@@ -34,7 +34,7 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BOOL)
 #define BITS CGRAPH_BOOL_BITS
-#define BITS_LOG2 CGRAPH_BOOL_BITS_LOG2
+#define L2BITS CGRAPH_BOOL_L2BITS
 #define IN_FMT "%s"
 #define OUT_FMT "%s"
 #define UTYPE TYPE_T(NAME)
@@ -47,8 +47,8 @@ extern "C" {
 #define MASK CGRAPH_BOOL_MASK
 #define EPSILON CGRAPH_BOOL_TRUE
 #define NAN CGRAPH_FALSE
-#define MSB (ONE)
 #define LSB (ONE)
+#define MSB LSB
 
 /** template module */
 #include "cgraph_template_int.ht"

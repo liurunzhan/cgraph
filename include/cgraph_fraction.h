@@ -34,8 +34,8 @@ extern "C" {
 #define DATA_MAX CGRAPH_INT_MAX
 #define DATA_MASK CGRAPH_INT_MASK
 #define DATA_EPSILON CGRAPH_INT_EPSILON
-#define DATA_MSB CGRAPH_INT_MSB
 #define DATA_LSB CGRAPH_INT_LSB
+#define DATA_MSB CGRAPH_INT_MSB
 
 #define NAME fraction
 #define TYPE TYPE_T(NAME)
@@ -109,6 +109,9 @@ extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, unit)(const DATA_TYPE x);
 extern TYPE FUNCTION(NAME, unit_inv)(const DATA_TYPE x);
 
+extern TYPE FUNCTION(NAME, modf)(const TYPE x, TYPE *y);
+extern TYPE FUNCTION(NAME, frexp)(const TYPE x, DATA_TYPE *y);
+extern TYPE FUNCTION(NAME, ldexp)(const TYPE x, const DATA_TYPE y);
 extern DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x);
 
 extern DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x);
@@ -116,6 +119,20 @@ extern DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dgcd)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dlcm)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, ndadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ndsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ndmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, nddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ndmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ndpow)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, ddadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ddsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ddmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, dddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ddmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, ddpow)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, addn)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subn)(const TYPE x, const DATA_TYPE y);

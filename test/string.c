@@ -55,6 +55,10 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintf(stdout, "%s", string1->data);
   string1 = FUNCTION(NAME, chomp)(string1);
   cgraph_file_fprintfln(stdout, "%ld : %s", string1->len, string1->data);
+  string1 = FUNCTION(NAME, shl)(string1, 2);
+  cgraph_file_fprintfln(stdout, "SHL %ld : %s", string1->len, string1->data);
+  string1 = FUNCTION(NAME, shr)(string1, 2);
+  cgraph_file_fprintfln(stdout, "SHR %ld : %s", string1->len, string1->data);
 
   FUNCTION(NAME, free)(string);
   FUNCTION(NAME, free)

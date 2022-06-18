@@ -93,12 +93,14 @@ extern DATA_TYPE FUNCTION(NAME, fmixed)(const TYPE x, const TYPE y,
 extern TYPE FUNCTION(NAME, triple)(const TYPE x, const TYPE y, const TYPE z);
 extern DATA_TYPE FUNCTION(NAME, det)(const TYPE x, const TYPE y, const TYPE z);
 
-extern TYPE FUNCTION(NAME, xrol)(const TYPE x, const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, xror)(const TYPE x, const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, yrol)(const TYPE x, const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, yror)(const TYPE x, const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, zrol)(const TYPE x, const DATA_TYPE angle);
-extern TYPE FUNCTION(NAME, zror)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, rev2)(const TYPE x);
+
+extern TYPE FUNCTION(NAME, xrotl)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, xrotr)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, yrotl)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, yrotr)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, zrotl)(const TYPE x, const DATA_TYPE angle);
+extern TYPE FUNCTION(NAME, zrotr)(const TYPE x, const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, arol)(const TYPE x, const TYPE r,
                                  const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, aror)(const TYPE x, const TYPE r,
@@ -107,10 +109,6 @@ extern TYPE FUNCTION(NAME, arol_inv)(const TYPE x, const TYPE r,
                                      const DATA_TYPE angle);
 extern TYPE FUNCTION(NAME, aror_inv)(const TYPE x, const TYPE r,
                                      const DATA_TYPE angle);
-
-extern DATA_TYPE FUNCTION(NAME, xangle)(const TYPE x);
-extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
-extern DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, scale)(const TYPE x, const TYPE rate);
 extern TYPE FUNCTION(NAME, lookat)(const TYPE x, const TYPE r, const TYPE u,

@@ -57,18 +57,18 @@
 #define XOR(a, b) BOOLEAN_XOR(a, b)
 #define XNOR(a, b) BOOLEAN_XNOR(a, b)
 
-#define ADD(a, b, c) XOR(a, b)
-#define SUB(a, b, c) ANDN(a, b)
-#define MUL(a, b, c) AND(a, b)
-#define DIV(a, b, c) (ABS(b) ? ABS(a) : CGRAPH_FALSE)
-#define DIVF(a, b, c) DIV(a, b, c)
-#define INT(a, b, c) AND(a, b)
-#define MOD(a, b, c) (SUB((a), INT(a, b, NULL), NULL))
+#define ADD(a, b) XOR(a, b)
+#define SUB(a, b) ANDN(a, b)
+#define MUL(a, b) AND(a, b)
+#define DIV(a, b) (ABS(b) ? ABS(a) : CGRAPH_FALSE)
+#define DIVF(a, b) DIV(a, b)
+#define INT(a, b) AND(a, b)
+#define MOD(a, b) (SUB((a), INT(a, b)))
 
 #define SIGNBIT(a) ABS(a)
 #define CEIL(a, b) ABS(a)
 #define FLOOR(a, b) ABS(a)
-#define POW(a, b, c) (NOT(a) && ABS(b))
+#define POW(a, b) (NOT(a) && ABS(b))
 #define SIN(a, b) sin((a))
 #define COS(a, b) cos((a))
 #define TAN(a, b) tan((a))
@@ -117,21 +117,21 @@
 #define XOR(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_XOR(a, b) : CGRAPH_LX)
 #define XNOR(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_XNOR(a, b) : CGRAPH_LX)
 
-#define ADD(a, b, c) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
-#define SUB(a, b, c) (DATA_ISBOOL2V(a, b) ? BOOLEAN_ANDN(a, b) : CGRAPH_LX)
-#define MUL(a, b, c) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
-#define DIV(a, b, c)                                                           \
+#define ADD(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
+#define SUB(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_ANDN(a, b) : CGRAPH_LX)
+#define MUL(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
+#define DIV(a, b)                                                              \
   (DATA_ISBOOL2V(a, b) ? (BOOLEAN_ABS(b) ? BOOLEAN_ABS(a) : CGRAPH_FALSE)      \
                        : CGRAPH_LX)
-#define DIVF(a, b, c) DIV(a, b, c)
-#define INT(a, b, c) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
-#define MOD(a, b, c)                                                           \
+#define DIVF(a, b) DIV(a, b)
+#define INT(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_AND(a, b) : CGRAPH_LX)
+#define MOD(a, b)                                                              \
   (DATA_ISBOOL2V(a, b) ? (BOOLEAN_ANDN((a), BOOLEAN_AND(a, b))) : CGRAPH_LX)
 
 #define SIGNBIT(a) ABS(a)
 #define CEIL(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_ABS((a)) : CGRAPH_LX)
 #define FLOOR(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_ABS((a)) : CGRAPH_LX)
-#define POW(a, b, c)                                                           \
+#define POW(a, b)                                                              \
   (DATA_ISBOOL2V(a, b) ? (BOOLEAN_NOT(a) && BOOLEAN_ABS(b)) : CGRAPH_LX)
 #define SIN(a, b) (DATA_ISBOOL2V(a, b) ? sin((a)) : CGRAPH_LX)
 #define COS(a, b) (DATA_ISBOOL2V(a, b) ? cos((a)) : CGRAPH_LX)
@@ -171,13 +171,13 @@
 #define XOR(a, b) CGRAPH_XOR(a, b)
 #define XNOR(a, b) CGRAPH_XNOR(a, b)
 
-#define ADD(a, b, c) ((a) + (b))
-#define SUB(a, b, c) ((a) - (b))
-#define MUL(a, b, c) ((a) * (b))
-#define DIV(a, b, c) ((a) / (b))
-#define DIVF(a, b, c) (1.0 * (a) / (b))
-#define INT(a, b, c) ((a) / (b))
-#define MOD(a, b, c) ((a) % (b))
+#define ADD(a, b) ((a) + (b))
+#define SUB(a, b) ((a) - (b))
+#define MUL(a, b) ((a) * (b))
+#define DIV(a, b) ((a) / (b))
+#define DIVF(a, b) (1.0 * (a) / (b))
+#define INT(a, b) ((a) / (b))
+#define MOD(a, b) ((a) % (b))
 
 #define SIGNBIT(a) ((((UTYPE)(a)) >> (BITS - 1)) & MSB)
 #define CEIL(a) CGRAPH_ABS(a)
@@ -227,7 +227,11 @@ extern cgraph_bool_t FUNCTION(NAME, in2ranges)(const TYPE start0,
                                                const TYPE end0,
                                                const TYPE start1,
                                                const TYPE end1, const TYPE num);
-
+extern cgraph_bool_t FUNCTION(NAME,
+                              in3ranges)(const TYPE start0, const TYPE end0,
+                                         const TYPE start1, const TYPE end1,
+                                         const TYPE start2, const TYPE end2,
+                                         const TYPE num);
 extern cgraph_size_t FUNCTION(NAME, startswith0)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, startswith1)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, endswith0)(const TYPE x);
@@ -238,8 +242,6 @@ extern cgraph_size_t FUNCTION(NAME, min0)(const TYPE x);
 extern cgraph_size_t FUNCTION(NAME, min1)(const TYPE x);
 
 extern cgraph_size_t FUNCTION(NAME, abitlen)(const UTYPE data);
-extern UTYPE FUNCTION(NAME, shl)(const UTYPE x, const cgraph_size_t bits);
-extern UTYPE FUNCTION(NAME, shr)(const UTYPE x, const cgraph_size_t bits);
 extern UTYPE FUNCTION(NAME, and)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, or)(const UTYPE x, const UTYPE y);
 extern UTYPE FUNCTION(NAME, not )(const UTYPE x);

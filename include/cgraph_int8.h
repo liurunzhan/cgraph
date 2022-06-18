@@ -28,25 +28,25 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(INT8)
 #define BITS CGRAPH_INT8_BITS
-#define BITS_LOG2 CGRAPH_INT8_BITS_LOG2
+#define L2BITS CGRAPH_INT8_L2BITS
 #define IN_FMT CGRAPH_INT8_IN_FMT
 #define OUT_FMT CGRAPH_INT8_OUT_FMT
 #define UNAME uint8
 #define UTYPE TYPE_T(UNAME)
 #define UID ID_T(UINT8)
-#define ZERO (0)
-#define ONE (1)
+#define ZERO INT8_C(0)
+#define ONE INT8_C(1)
 #define ONES CGRAPH_INT8_MAX
 #define MIN CGRAPH_INT8_MIN
 #define MAX CGRAPH_INT8_MAX
 #define MASK CGRAPH_INT8_MASK
 #define EPSILON CGRAPH_INT8_EPSILON
 #define NAN ZERO
-#define MSB (ONE << (BITS - 1))
-#define LSB (ONE)
-#define MASK1 (0xAAU)
-#define MASK2 (0xCCU)
-#define MASK4 (0xF0U)
+#define LSB CGRAPH_INT8_LSB
+#define MSB CGRAPH_INT8_MSB
+#define MASK1 CGRAPH_INT8_MASK1
+#define MASK2 CGRAPH_INT8_MASK2
+#define MASK4 CGRAPH_INT8_MASK4
 
 /** template module */
 #include "cgraph_template_int.ht"

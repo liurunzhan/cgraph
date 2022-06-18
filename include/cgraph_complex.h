@@ -111,7 +111,7 @@ extern DATA_TYPE FUNCTION(NAME, mag2_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, mag_inv)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, angle)(const TYPE x);
-extern DATA_TYPE FUNCTION(NAME, inangle)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, iangle)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x);
 
@@ -127,9 +127,22 @@ extern TYPE FUNCTION(NAME, mul1i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul2i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul3i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul4i)(const TYPE x);
-extern TYPE FUNCTION(NAME, revert)(const TYPE x);
 extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, dot_conj)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, rdadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, rdsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, rdmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, rddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, rdmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, rdpow)(const TYPE x, const TYPE y);
+
+extern TYPE FUNCTION(NAME, idadd)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, idsub)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, idmul)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, iddiv)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, idmod)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, idpow)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, log)(const TYPE x);
 extern TYPE FUNCTION(NAME, log2)(const TYPE x);
@@ -161,12 +174,14 @@ extern TYPE FUNCTION(NAME, addr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, mulr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modr)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE FUNCTION(NAME, addi)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, subi)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y);
+extern TYPE FUNCTION(NAME, modi)(const TYPE x, const DATA_TYPE y);
 extern TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y);
 
 extern TYPE *FUNCTION(NAME, fft)(TYPE *cthis, const cgraph_size_t len);

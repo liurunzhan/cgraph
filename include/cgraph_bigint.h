@@ -30,7 +30,7 @@ extern "C" {
 #define DATA_UTYPE TYPE_T(DATA_UNAME)
 #define DATA_ID ID_T(UINT8)
 #define DATA_BITS CGRAPH_UINT8_BITS
-#define DATA_BITS_LOG2 CGRAPH_UINT8_BITS_LOG2
+#define DATA_L2BITS CGRAPH_UINT8_L2BITS
 #define DATA_BYTES(x) FUNCTION(NAME, ubitceil)((x))
 #define DATA_END (0)
 #define DATA_ZERO (0)
@@ -40,8 +40,8 @@ extern "C" {
 #define DATA_MAX CGRAPH_UINT8_MAX
 #define DATA_MASK CGRAPH_UINT8_MASK
 #define DATA_EPSILON CGRAPH_UINT8_EPSILON
-#define DATA_MSB CGRAPH_UINT8_MSB
 #define DATA_LSB CGRAPH_UINT8_LSB
+#define DATA_MSB CGRAPH_UINT8_MSB
 
 #define NAME bigint
 #define TYPE TYPE_T(NAME)
@@ -81,8 +81,6 @@ extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuf,
                                    const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data);
 
-extern TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits);
-extern TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits);
 extern TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);

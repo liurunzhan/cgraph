@@ -39,18 +39,18 @@
 #define DATA_ISPOS(a) (!FUNCTION(NAME, signbit)((a)))
 #define DATA_ISNEG(a) FUNCTION(NAME, signbit)((a))
 
-#define ADD(a, b, c) FUNCTION(NAME, add)((a), (b))
-#define SUB(a, b, c) FUNCTION(NAME, sub)((a), (b))
-#define MUL(a, b, c) FUNCTION(NAME, mul)((a), (b))
-#define DIV(a, b, c) FUNCTION(NAME, div)((a), (b))
-#define DIVF(a, b, c) FUNCTION(NAME, divf)((a), (b))
-#define INT(a, b, c) FUNCTION(NAME, idiv)((a), (b))
+#define ADD(a, b) FUNCTION(NAME, add)((a), (b))
+#define SUB(a, b) FUNCTION(NAME, sub)((a), (b))
+#define MUL(a, b) FUNCTION(NAME, mul)((a), (b))
+#define DIV(a, b) FUNCTION(NAME, div)((a), (b))
+#define DIVF(a, b) FUNCTION(NAME, divf)((a), (b))
+#define INT(a, b) FUNCTION(NAME, idiv)((a), (b))
 #define FEXP(a) FUNCTION(NAME, fexp)((a))
 
-#define FREXP(a, b, c) FUNCTION(NAME, frexp)((a), (b))
-#define FMOD(a, b, c) FUNCTION(NAME, fmod)((a), (b))
-#define MODF(a, b, c) FUNCTION(NAME, modf)((a), (b))
-#define MOD(a, b, c) FUNCTION(NAME, mod)((a), (b))
+#define FREXP(a, b) FUNCTION(NAME, frexp)((a), (b))
+#define FMOD(a, b) FUNCTION(NAME, fmod)((a), (b))
+#define MODF(a, b) FUNCTION(NAME, modf)((a), (b))
+#define MOD(a, b) FUNCTION(NAME, mod)((a), (b))
 
 #define EQ(a, b) FUNCTION(NAME, eq_s)((a), (b))
 #define NE(a, b) FUNCTION(NAME, ne_s)((a), (b))
@@ -137,7 +137,8 @@ extern TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y);
 extern cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x);
-extern cgraph_int_t FUNCTION(NAME, frexp)(const TYPE x, cgraph_int_t *y);
+extern TYPE FUNCTION(NAME, frexp)(const TYPE x, TYPE *y);
+extern TYPE FUNCTION(NAME, ldexp)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, fmod)(const TYPE x, const TYPE y);

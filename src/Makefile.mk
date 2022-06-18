@@ -33,22 +33,22 @@ LIBSHARED_GAME  = lib$(GAME)$(LIBSHARED_SUFFIX)
 
 all: compile $(LIBSHARED_TARGET) $(LIBSTATIC_TARGET)
 
-PREDEPS_FILES = $(INC)$(PSEP)cgraph_template_off.h.in $(TOL)$(PSEP)template_off.macro $(INC)$(PSEP)cgraph_template_check.h.in $(TOL)$(PSEP)template_check.macro $(TOL)$(PSEP)macro.py
+PREDEPS_FILES = $(INC)$(PSEP)cgraph_template_off.h.in $(TOL)$(PSEP)template_off.macro $(INC)$(PSEP)cgraph_template_check.h.in $(TOL)$(PSEP)template_check.macro $(INC)$(PSEP)cgraph_stdchk.h.in $(TOL)$(PSEP)stdchk.macro $(TOL)$(PSEP)macro.py
 PREDEPS_EXIST_FILES = $(wildcard $(PREDEPS_FILES))
 
 $(warning expecting PREDEPS is $(PREDEPS_FILES))
 $(warning existing  PREDEPS is $(PREDEPS_EXIST_FILES))
 
 ifeq ($(PREDEPS_FILES), $(PREDEPS_EXIST_FILES))
-PREDEPS = $(INC)$(PSEP)cgraph_template_off.h $(INC)$(PSEP)cgraph_template_check.h
+PREDEPS = $(INC)$(PSEP)cgraph_template_off.h $(INC)$(PSEP)cgraph_template_check.h $(INC)$(PSEP)cgraph_stdchk.h
 
 $(INC)$(PSEP)cgraph_template_off.h: $(INC)$(PSEP)cgraph_template_off.h.in $(TOL)$(PSEP)template_off.macro
-	echo "hello"
 	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_off.macro -c "end of cgraph_template_off"
 
 $(INC)$(PSEP)cgraph_template_check.h: $(INC)$(PSEP)cgraph_template_check.h.in $(TOL)$(PSEP)template_check.macro
-	echo "hello"
 	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_check.macro -c "end of cgraph_template_check"
+$(INC)$(PSEP)cgraph_stdchk.h: $(INC)$(PSEP)cgraph_stdchk.h.in $(TOL)$(PSEP)stdchk.macro
+	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)stdchk.macro -c "" --novar
 else
 PREDEPS = 
 endif

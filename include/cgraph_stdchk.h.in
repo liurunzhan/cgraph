@@ -17,8 +17,9 @@
 extern "C" {
 #endif
 
-/** package details */
-#define __VERSION "@VERSION@"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 /*******************************************************************************
  * MACRO GROUP : cpu details
@@ -28,7 +29,8 @@ extern "C" {
  * MACRO GROUP : library details
  * HAVE_LIBM STDC_HEADERS HAVE_FLOAT_H HAVE_INTTYPES_H HAVE_MATH_H
  * HAVE_MEMORY_H HAVE_STDARG_H HAVE_LIMITS_H
- * HAVE_DIRENT_H HAVE_DLFCN_H HAVE_IO_H
+ * HAVE_DIRENT_H HAVE_SYS_STAT_H HAVE_UNISTD_H HAVE_DLFCN_H
+ * HAVE_IO_H HAVE_WINDOWS_H
  ******************************************************************************/
 
 /** cpu details */
@@ -86,12 +88,24 @@ extern "C" {
 #define __HAVE_DIRENT_H
 #endif
 
+#ifdef HAVE_SYS_STAT_H
+#define __HAVE_SYS_STAT_H
+#endif
+
+#ifdef HAVE_UNISTD_H
+#define __HAVE_UNISTD_H
+#endif
+
 #ifdef HAVE_DLFCN_H
 #define __HAVE_DLFCN_H
 #endif
 
 #ifdef HAVE_IO_H
 #define __HAVE_IO_H
+#endif
+
+#ifdef HAVE_WINDOWS_H
+#define __HAVE_WINDOWS_H
 #endif
 
 #ifdef __cplusplus

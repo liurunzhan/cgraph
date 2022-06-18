@@ -28,7 +28,7 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(LOGIC)
 #define BITS CGRAPH_LOGIC_BITS
-#define BITS_LOG2 CGRAPH_LOGIC_BITS_LOG2
+#define L2BITS CGRAPH_LOGIC_L2BITS
 #define IN_FMT "%s"
 #define OUT_FMT "%s"
 #define UTYPE TYPE_T(NAME)

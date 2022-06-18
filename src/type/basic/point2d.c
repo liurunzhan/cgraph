@@ -162,7 +162,13 @@ TYPE FUNCTION(NAME, rev)(const TYPE x) {
   return res;
 }
 
-TYPE FUNCTION(NAME, trans)(const TYPE x) { return x; }
+__INLINE TYPE FUNCTION(NAME, trans)(const TYPE x) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_Y(x);
+  POINT2D_Y(res) = POINT2D_X(x);
+
+  return res;
+}
 
 TYPE FUNCTION(NAME, opp)(const TYPE x) {
   TYPE res;
@@ -196,6 +202,40 @@ TYPE FUNCTION(NAME, std)(const TYPE x) {
   POINT2D_Y(res) = mag_inv * POINT2D_Y(x);
 
   return res;
+}
+
+TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t bits) {
+  TYPE res = x;
+  if (1 == bits) {
+    POINT2D_X(res) = DATA_ZERO;
+    POINT2D_Y(res) = POINT2D_X(x);
+  } else if (-1 == bits) {
+    POINT2D_X(res) = POINT2D_Y(x);
+    POINT2D_Y(res) = DATA_ZERO;
+  } else if (0 != bits) {
+    POINT2D_X(res) = DATA_ZERO;
+    POINT2D_Y(res) = DATA_ZERO;
+  }
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, shr)(const TYPE x, const cgraph_size_t bits) {
+  return FUNCTION(NAME, shl)(x, -bits);
+}
+
+TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t bits) {
+  TYPE res = x;
+  if (1 == cgraph_math_mod2(bits)) {
+    POINT2D_X(res) = POINT2D_Y(x);
+    POINT2D_Y(res) = POINT2D_X(x);
+  }
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t bits) {
+  return FUNCTION(NAME, rol)(x, -bits);
 }
 
 DATA_TYPE FUNCTION(NAME, mahadist)(const TYPE x, const TYPE y) {
@@ -293,6 +333,102 @@ TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
   return res;
 }
 
+TYPE FUNCTION(NAME, xdadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) + POINT2D_X(y);
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) - POINT2D_X(y);
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) * POINT2D_X(y);
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) / POINT2D_X(y);
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = FUNCTION(DATA_NAME, mod)(POINT2D_X(x), POINT2D_X(y));
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, xdpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = FUNCTION(DATA_NAME, pow)(POINT2D_X(x), POINT2D_X(y));
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) + POINT2D_Y(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) - POINT2D_Y(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) * POINT2D_Y(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, yddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) / POINT2D_Y(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT2D_Y(x), POINT2D_Y(y));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ydpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT2D_Y(x), POINT2D_Y(y));
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, dmul)(const TYPE x, const TYPE y) {
   TYPE res;
   POINT2D_X(res) = POINT2D_X(x) * POINT2D_X(y);
@@ -334,16 +470,128 @@ TYPE FUNCTION(NAME, mulf)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divf)(const TYPE x, const DATA_TYPE y) {
-  const DATA_TYPE inv_y = 1.0 / y;
+  const DATA_TYPE y_inv = 1.0 / y;
   TYPE res;
-  POINT2D_X(res) = inv_y * POINT2D_X(x);
-  POINT2D_Y(res) = inv_y * POINT2D_Y(x);
+  POINT2D_X(res) = POINT2D_X(x) * y_inv;
+  POINT2D_Y(res) = POINT2D_Y(x) * y_inv;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modf)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = FUNCTION(DATA_NAME, mod)(POINT2D_X(x), y);
+  POINT2D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT2D_Y(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powf)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = FUNCTION(DATA_NAME, pow)(POINT2D_X(x), y);
+  POINT2D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT2D_Y(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) + y;
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, subx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) - y;
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mulx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) * y;
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x) / y;
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, modx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = FUNCTION(DATA_NAME, mod)(POINT2D_X(x), y);
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powx)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = FUNCTION(DATA_NAME, pow)(POINT2D_X(x), y);
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, addy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) + y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, suby)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) - y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, muly)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) * y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, divy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = POINT2D_Y(x) / y;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, mody)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = FUNCTION(DATA_NAME, mod)(POINT2D_Y(x), y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, powy)(const TYPE x, const DATA_TYPE y) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = FUNCTION(DATA_NAME, pow)(POINT2D_Y(x), y);
 
   return res;
 }
 
 /* res = [[cosy -siny], [siny cosy]] x */
-TYPE FUNCTION(NAME, rol)(const TYPE x, const DATA_TYPE angle) {
+TYPE FUNCTION(NAME, rotl)(const TYPE x, const DATA_TYPE angle) {
   const DATA_TYPE sin_angle = sin(angle), cos_angle = cos(angle);
   TYPE res;
   POINT2D_X(res) = cos_angle * POINT2D_X(x) - sin_angle * POINT2D_Y(x);
@@ -353,8 +601,8 @@ TYPE FUNCTION(NAME, rol)(const TYPE x, const DATA_TYPE angle) {
 }
 
 /* res = [[cosy -siny], [siny cosy]] x */
-TYPE FUNCTION(NAME, ror)(const TYPE x, const DATA_TYPE angle) {
-  return FUNCTION(NAME, rol)(x, -angle);
+TYPE FUNCTION(NAME, rotr)(const TYPE x, const DATA_TYPE angle) {
+  return FUNCTION(NAME, rotl)(x, -angle);
 }
 
 cgraph_bool_t FUNCTION(NAME, istriangle)(const TYPE a, const TYPE b,

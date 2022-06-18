@@ -32,13 +32,16 @@ EXTRA_DIST = autogen.sh $(PROJECT).pc Doxyfile README.md
 DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure $(PROJECT).pc Doxyfile depcomp gtk-doc.m4 gtk-doc.make install-sh libtool ltmain.sh Makefile.in Makefile missing test-driver
 
 if BUILT_IN_GIT_REPO
-BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h
+BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h $(include_dir)/cgraph_stdchk.h
 
 $(include_dir)/cgraph_template_off.h: $(include_dir)/cgraph_template_off.h.in $(tools_dir)/template_off.macro
 	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_off.macro -c "end of cgraph_template_off"
 
 $(include_dir)/cgraph_template_check.h: $(include_dir)/cgraph_template_check.h.in $(tools_dir)/template_check.macro
 	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_check.macro -c "end of cgraph_template_check"
+
+$(include_dir)/cgraph_stdchk.h: $(include_dir)/cgraph_stdchk.h.in $(tools_dir)/stdchk.macro
+	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/stdchk.macro -c "" --novar
 endif
 
 distclean-local:

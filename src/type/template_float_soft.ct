@@ -49,7 +49,7 @@ TYPE FUNCTION(NAME, initsef)(const cgraph_bool_t signbit, const DATA_TYPE exp,
 TYPE FUNCTION(NAME, fmt)(const TYPE x) {
   TYPE res;
   DATA_TYPE exp = FLOAT_SOFT_EXP(x), frac = FLOAT_SOFT_FRAC_FMT(x);
-  while (0 == (frac & (0x01U << (FRAC_OFFSET - 1)))) {
+  while (!(frac & (0x01U << (FRAC_OFFSET - 1)))) {
     frac >>= 1;
     exp += 1;
   }
@@ -166,7 +166,7 @@ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return (x >> SIG_OFFSET) & SIG_MASK;
 }
 
-cgraph_int_t FUNCTION(NAME, frexp)(const TYPE x, cgraph_int_t *y) {
+TYPE FUNCTION(NAME, frexp)(const TYPE x, TYPE *y) {
   if (NULL != y) {
     *y = FLOAT_SOFT_EXP(x);
   }
@@ -174,7 +174,11 @@ cgraph_int_t FUNCTION(NAME, frexp)(const TYPE x, cgraph_int_t *y) {
   return FLOAT_SOFT_FRAC(x);
 }
 
-TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, ldexp)(const TYPE x, const TYPE y) {
+  return FLOAT_SOFT(FLOAT_SOFT_SIG(x), FLOAT_SOFT_FRAC(x), FLOAT_SOFT_EXP(y));
+}
+
+TYPE FUNCTION(NAME, int)(const TYPE x) {
   TYPE res = 0;
 
   return res;

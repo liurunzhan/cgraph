@@ -19,8 +19,8 @@ extern "C" {
 
 #include "cgraph_config.h"
 
-#ifdef __VERSION
-#define CGRAPH_VERSION __VERSION
+#ifdef PACKAGE_VERSION
+#define CGRAPH_VERSION PACKAGE_VERSION
 #else
 #define CGRAPH_VERSION "0.0.0"
 #endif

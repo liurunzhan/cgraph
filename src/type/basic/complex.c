@@ -283,7 +283,7 @@ DATA_TYPE FUNCTION(NAME, angle)(const TYPE x) {
   return atan2(COMPLEX_IMAG(x), COMPLEX_REAL(x));
 }
 
-DATA_TYPE FUNCTION(NAME, inangle)(const TYPE x, const TYPE y) {
+DATA_TYPE FUNCTION(NAME, iangle)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, angle)(FUNCTION(NAME, div)(x, y));
 }
 
@@ -313,12 +313,18 @@ TYPE FUNCTION(NAME, rev)(const TYPE x) {
   return res;
 }
 
-TYPE FUNCTION(NAME, trans)(const TYPE x) { return FUNCTION(NAME, conj)(x); }
+__INLINE TYPE FUNCTION(NAME, trans)(const TYPE x) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_IMAG(x);
+  COMPLEX_IMAG(res) = COMPLEX_REAL(x);
+
+  return res;
+}
 
 TYPE FUNCTION(NAME, opp)(const TYPE x) {
   TYPE res;
   COMPLEX_REAL(res) = -COMPLEX_REAL(x);
-  COMPLEX_IMAG(res) = -COMPLEX_IMAG(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
 
   return res;
 }
@@ -411,14 +417,6 @@ TYPE FUNCTION(NAME, mul3i)(const TYPE x) {
 }
 TYPE FUNCTION(NAME, mul4i)(const TYPE x) { return x; }
 
-TYPE FUNCTION(NAME, revert)(const TYPE x) {
-  TYPE res;
-  COMPLEX_REAL(res) = COMPLEX_IMAG(x);
-  COMPLEX_IMAG(res) = COMPLEX_REAL(x);
-
-  return res;
-}
-
 /**                 one complex number and one complex number */
 TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {
   TYPE res;
@@ -473,6 +471,106 @@ TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
 
 TYPE FUNCTION(NAME, dot_conj)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mul)(FUNCTION(NAME, conj)(x), y);
+}
+
+TYPE FUNCTION(NAME, rdadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x) + COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rdsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x) - COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rdmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x) * COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x) / COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rdmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) =
+      FUNCTION(DATA_NAME, mod)(COMPLEX_REAL(x), COMPLEX_REAL(y));
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rdpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) =
+      FUNCTION(DATA_NAME, pow)(COMPLEX_REAL(x), COMPLEX_REAL(y));
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, idadd)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) + COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, idsub)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) - COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, idmul)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) * COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, iddiv)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) / COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, idmod)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) =
+      FUNCTION(DATA_NAME, mod)(COMPLEX_IMAG(x), COMPLEX_IMAG(y));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, idpow)(const TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) =
+      FUNCTION(DATA_NAME, pow)(COMPLEX_IMAG(x), COMPLEX_IMAG(y));
+
+  return res;
 }
 
 TYPE FUNCTION(NAME, dmul)(const TYPE x, const TYPE y) {
@@ -541,20 +639,16 @@ TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, exp)(res);
 }
 
-TYPE FUNCTION(NAME, int)(const TYPE x, const TYPE y) {
-  const DATA_TYPE res_real = FUNCTION(DATA_NAME, idiv)(COMPLEX_REAL(x),
-                                                       COMPLEX_REAL(y)),
-                  res_imag = FUNCTION(DATA_NAME, idiv)(COMPLEX_IMAG(x),
-                                                       COMPLEX_IMAG(y));
+TYPE FUNCTION(NAME, int)(const TYPE x) {
   TYPE res;
-  COMPLEX_REAL(res) = CGRAPH_MIN(res_real, res_imag);
-  COMPLEX_IMAG(res) = DATA_ZERO;
+  COMPLEX_REAL(res) = FUNCTION(DATA_NAME, int)(COMPLEX_REAL(x));
+  COMPLEX_IMAG(res) = FUNCTION(DATA_NAME, int)(COMPLEX_IMAG(x));
 
   return res;
 }
 
 TYPE FUNCTION(NAME, mod)(const TYPE x, const TYPE y) {
-  TYPE res = FUNCTION(NAME, int)(x, y);
+  TYPE res = FUNCTION(NAME, div)(x, y);
   COMPLEX_REAL(res) = COMPLEX_REAL(x) - COMPLEX_REAL(y) * COMPLEX_REAL(res);
   COMPLEX_IMAG(res) = COMPLEX_IMAG(x) - COMPLEX_IMAG(y) * COMPLEX_REAL(res);
 
@@ -783,10 +877,10 @@ TYPE FUNCTION(NAME, mulr)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y) {
-  const DATA_TYPE inv_y = 1.0 / y;
+  const DATA_TYPE y_inv = 1.0 / y;
   TYPE res;
-  COMPLEX_REAL(res) = inv_y * COMPLEX_REAL(x);
-  COMPLEX_IMAG(res) = inv_y * COMPLEX_IMAG(x);
+  COMPLEX_REAL(res) = COMPLEX_REAL(x) * y_inv;
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x) * y_inv;
 
   return res;
 }
@@ -827,10 +921,10 @@ TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y) {
-  const DATA_TYPE inv_y = 1.0 / y;
+  const DATA_TYPE y_inv = 1.0 / y;
   TYPE res;
-  COMPLEX_REAL(res) = inv_y * COMPLEX_IMAG(x);
-  COMPLEX_IMAG(res) = -inv_y * COMPLEX_REAL(x);
+  COMPLEX_REAL(res) = y_inv * COMPLEX_IMAG(x);
+  COMPLEX_IMAG(res) = -y_inv * COMPLEX_REAL(x);
 
   return res;
 }

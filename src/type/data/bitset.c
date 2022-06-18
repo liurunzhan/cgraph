@@ -356,7 +356,7 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
     if (CGRAPH_FALSE == flag) {
       cgraph_size_t j = cthis->len - 1, i = cthis->len + bytes;
       cgraph_int_t sum = BITSET_BITNUM(cthis) - BITSET_POS2NUM(byte);
-      DATA_TYPE msk = ~(-1U << byte);
+      const DATA_TYPE mask = ~(UINT32_C(-1) << byte);
       cthis->data[i] = cthis->data[j] >> byte_right;
       if (0 > sum) {
         sum += DATA_BITS;
@@ -383,10 +383,10 @@ TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
                   byte_left = DATA_BITS - byte;
     cgraph_size_t i = 0, j = bytes, _len = cthis->len - 1;
     cgraph_int_t sum = BITSET_BITNUM(cthis) - BITSET_POS2NUM(byte);
-    DATA_TYPE msk = ~(-1U << byte);
+    const DATA_TYPE mask = ~(UINT32_C(-1) << byte);
     for (; j < _len; i++, j++) {
       cthis->data[i] =
-          (cthis->data[j] >> byte) | ((cthis->data[j + 1] & msk) << byte_left);
+          (cthis->data[j] >> byte) | ((cthis->data[j + 1] & mask) << byte_left);
     }
     cthis->data[i] = cthis->data[j] >> byte;
     if (DATA_ZERO == cthis->data[i]) {

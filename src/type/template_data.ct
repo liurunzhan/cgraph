@@ -1266,9 +1266,9 @@ TYPE *FUNCTION(NAME, det2x2)(const TYPE **cthis, TYPE *res0, TYPE *res1,
 #else
 TYPE *FUNCTION(NAME, det2x2)(const TYPE *cthis, TYPE *res0, TYPE *res1,
                              TYPE *res) {
-  *res0 = MUL(cthis[0], cthis[2], *res0);
-  *res1 = MUL(cthis[1], cthis[3], *res1);
-  *res = SUB(*res0, *res1, *res);
+  *res0 = MUL(cthis[0], cthis[2]);
+  *res1 = MUL(cthis[1], cthis[3]);
+  *res = SUB(*res0, *res1);
 
   return res;
 }
@@ -1301,18 +1301,18 @@ TYPE *FUNCTION(NAME, det3x3)(const TYPE **cthis, TYPE *res0, TYPE *res1,
 #else
 TYPE *FUNCTION(NAME, det3x3)(const TYPE *cthis, TYPE *res0, TYPE *res1,
                              TYPE *res2, TYPE *res) {
-  *res0 = MUL(cthis[4], cthis[8], *res0);
-  *res1 = MUL(cthis[5], cthis[7], *res1);
-  *res2 = SUB(*res0, *res1, *res2);
-  *res0 = MUL(cthis[3], cthis[8], *res0);
-  *res1 = MUL(cthis[5], cthis[6], *res1);
-  *res = SUB(*res1, *res0, *res);
-  *res0 = ADD(*res, *res2, *res0);
+  *res0 = MUL(cthis[4], cthis[8]);
+  *res1 = MUL(cthis[5], cthis[7]);
+  *res2 = SUB(*res0, *res1);
+  *res0 = MUL(cthis[3], cthis[8]);
+  *res1 = MUL(cthis[5], cthis[6]);
+  *res = SUB(*res1, *res0);
+  *res0 = ADD(*res, *res2);
   *res = ASSIGN(*res0, *res);
-  *res0 = MUL(cthis[3], cthis[7], *res0);
-  *res1 = MUL(cthis[4], cthis[6], *res1);
-  *res2 = SUB(*res0, *res1, *res2);
-  *res0 = ADD(*res, *res2, *res0);
+  *res0 = MUL(cthis[3], cthis[7]);
+  *res1 = MUL(cthis[4], cthis[6]);
+  *res2 = SUB(*res0, *res1);
+  *res0 = ADD(*res, *res2);
   *res = ASSIGN(*res0, *res);
 
   return res;
@@ -1345,8 +1345,8 @@ TYPE *FUNCTION(NAME, conv)(const TYPE *x, const TYPE *y,
     res[i] = ZERO;
     for (j = 0; (j <= i) && (j < xlen); j++) {
       if (i < (ylen + j)) {
-        *res0 = MUL(x[j], y[i - j], *res0);
-        res[i] = ADD(res[i], *res0, res[i]);
+        *res0 = MUL(x[j], y[i - j]);
+        res[i] = ADD(res[i], *res0);
       }
     }
   }

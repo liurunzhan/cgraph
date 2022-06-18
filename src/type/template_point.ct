@@ -8,15 +8,15 @@ DATA_TYPE FUNCTION(NAME, fdiv)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, fdot)(x, y) / FUNCTION(NAME, mag2)(y);
 }
 
-/** cosinangle(x, y) = (x * y) / (|x| * |y|) */
-DATA_TYPE FUNCTION(NAME, cosinangle)(const TYPE x, const TYPE y) {
+/** cosiangle(x, y) = (x * y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, cosiangle)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, fdot)(x, y) /
          (FUNCTION(NAME, mag)(x) * FUNCTION(NAME, mag)(y));
 }
 
-/** inangle(x, y) = (x * y) / (|x| * |y|) */
-DATA_TYPE FUNCTION(NAME, inangle)(const TYPE x, const TYPE y) {
-  return acos(FUNCTION(NAME, inangle)(x, y));
+/** iangle(x, y) = (x * y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, iangle)(const TYPE x, const TYPE y) {
+  return acos(FUNCTION(NAME, iangle)(x, y));
 }
 
 /** rproj(x, y) = |y| * (x * y) / (|x| * |y|) */
