@@ -88,10 +88,10 @@ int main(int argc, char *argv[]) {
 
   cgraph_verilog_test();
 
-  cgraph_error_fsnprintf(stdout, cbuf, 100, CGRAPH_ERROR_STYLE_ENTRY,
-  __FUNCTION__, "%s %d %d", "hello", 1 , 2); cgraph_error_fprintf(stdout,
+  cgraph_error_fsnprintfln(stdout, cbuf, 100, CGRAPH_ERROR_STYLE_ENTRY,
+  __FUNCTION__, "%s %d %d", "hello", 1 , 2); cgraph_error_fprintfln(stdout,
   CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%s %d", "hello", 1);
-  cgraph_error_fprintf(stdout, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%d",
+  cgraph_error_fprintfln(stdout, CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, "%d",
   cgraph_fraction_ismin(fraction)); cgraph_string_free(string);
   cgraph_bignum_free(bignum);
   */

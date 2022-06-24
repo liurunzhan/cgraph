@@ -105,7 +105,7 @@ TYPE FUNCTION(NAME, fmt)(const TYPE cthis) {
 }
 
 /**                              private apis                                 */
-__INLINE TYPE FUNCTION(NAME, zero)(void) {
+__INLINE__ TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ZERO;
   FRACTION_DEN(res) = DATA_ONE;
@@ -113,7 +113,7 @@ __INLINE TYPE FUNCTION(NAME, zero)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, one)(void) {
+__INLINE__ TYPE FUNCTION(NAME, one)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ONE;
   FRACTION_DEN(res) = DATA_ONE;
@@ -121,7 +121,7 @@ __INLINE TYPE FUNCTION(NAME, one)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, ones)(void) {
+__INLINE__ TYPE FUNCTION(NAME, ones)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ONES;
   FRACTION_DEN(res) = DATA_ONE;
@@ -137,7 +137,7 @@ TYPE FUNCTION(NAME, rand)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, min)(void) {
+__INLINE__ TYPE FUNCTION(NAME, min)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ONE;
   FRACTION_DEN(res) = DATA_MIN;
@@ -145,7 +145,7 @@ __INLINE TYPE FUNCTION(NAME, min)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, max)(void) {
+__INLINE__ TYPE FUNCTION(NAME, max)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_MAX;
   FRACTION_DEN(res) = DATA_ONE;
@@ -153,7 +153,7 @@ __INLINE TYPE FUNCTION(NAME, max)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, nan)(void) {
+__INLINE__ TYPE FUNCTION(NAME, nan)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ZERO;
   FRACTION_DEN(res) = DATA_ZERO;
@@ -161,7 +161,7 @@ __INLINE TYPE FUNCTION(NAME, nan)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, inf)(void) {
+__INLINE__ TYPE FUNCTION(NAME, inf)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ONE;
   FRACTION_DEN(res) = DATA_ZERO;
@@ -169,7 +169,7 @@ __INLINE TYPE FUNCTION(NAME, inf)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, pinf)(void) {
+__INLINE__ TYPE FUNCTION(NAME, pinf)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ONE;
   FRACTION_DEN(res) = DATA_ZERO;
@@ -177,7 +177,7 @@ __INLINE TYPE FUNCTION(NAME, pinf)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, ninf)(void) {
+__INLINE__ TYPE FUNCTION(NAME, ninf)(void) {
   TYPE res;
   FRACTION_NUM(res) = -DATA_ONE;
   FRACTION_DEN(res) = DATA_ZERO;
@@ -185,7 +185,7 @@ __INLINE TYPE FUNCTION(NAME, ninf)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, mask)(void) {
+__INLINE__ TYPE FUNCTION(NAME, mask)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_MASK;
   FRACTION_DEN(res) = DATA_MASK;
@@ -193,7 +193,7 @@ __INLINE TYPE FUNCTION(NAME, mask)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, epsilon)(void) {
+__INLINE__ TYPE FUNCTION(NAME, epsilon)(void) {
   TYPE res;
   FRACTION_NUM(res) = 1;
   FRACTION_DEN(res) = DATA_MAX;
@@ -201,7 +201,7 @@ __INLINE TYPE FUNCTION(NAME, epsilon)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, acc)(void) {
+__INLINE__ TYPE FUNCTION(NAME, acc)(void) {
   TYPE res;
   FRACTION_NUM(res) = DATA_ONE;
   FRACTION_DEN(res) = DATA_MIN;
@@ -273,7 +273,7 @@ TYPE FUNCTION(NAME, initd)(const DATA_TYPE den) {
   return res;
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   const cgraph_int_t num_flag = CGRAPH_BFLAG(FRACTION_NUM(x), DATA_BITS),
                      den_flag = CGRAPH_BFLAG(FRACTION_DEN(x), DATA_BITS);
   cgraph_int_t flag = -1;
@@ -286,69 +286,69 @@ __INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return flag;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isint)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isint)(const TYPE x) {
   return CGRAPH_TEST(1 == FRACTION_DEN(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
   return CGRAPH_TEST((!FRACTION_NUM(x)) && FRACTION_DEN(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isodd)(const TYPE x) {
   return CGRAPH_TEST((1 == FRACTION_DEN(x)) && (FRACTION_NUM(x) & DATA_LSB));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, iseven)(const TYPE x) {
   return CGRAPH_TEST((1 == FRACTION_DEN(x)) && ((~FRACTION_NUM(x)) & DATA_LSB));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
   return CGRAPH_TEST(
       ((0 < FRACTION_NUM(x)) && (!(FRACTION_NUM(x) & (FRACTION_NUM(x) - 1)))) &&
       ((0 < FRACTION_DEN(x)) && (!(FRACTION_DEN(x) & (FRACTION_DEN(x) - 1)))));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
   return CGRAPH_TEST(1 == FUNCTION(NAME, signbit)(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST(-1 == FUNCTION(NAME, signbit)(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return EQ(x, MAX);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return EQ(x, MIN);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNAN(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISINF(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISPINF(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   return GR(x, y);
 }
 
-__INLINE TYPE FUNCTION(NAME, opp)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, opp)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = -FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x);
@@ -390,7 +390,7 @@ TYPE FUNCTION(NAME, ldexp)(const TYPE x, const DATA_TYPE y) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, trans)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, trans)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x);
@@ -400,7 +400,7 @@ __INLINE TYPE FUNCTION(NAME, trans)(const TYPE x) {
 
 DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x) { return fabs(FRACTION_VALUE(x)); }
 
-__INLINE TYPE FUNCTION(NAME, abs)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, abs)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = CGRAPH_ABS(FRACTION_NUM(x));
   FRACTION_DEN(res) = CGRAPH_ABS(FRACTION_DEN(x));
@@ -408,7 +408,7 @@ __INLINE TYPE FUNCTION(NAME, abs)(const TYPE x) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, inv)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, inv)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_NUM(x);
@@ -416,7 +416,7 @@ __INLINE TYPE FUNCTION(NAME, inv)(const TYPE x) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, rev)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, rev)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_DEN(x);
   FRACTION_DEN(res) = FRACTION_NUM(x);
@@ -424,7 +424,7 @@ __INLINE TYPE FUNCTION(NAME, rev)(const TYPE x) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, pow2)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, pow2)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x);
@@ -432,7 +432,7 @@ __INLINE TYPE FUNCTION(NAME, pow2)(const TYPE x) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, pow3)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, pow3)(const TYPE x) {
   TYPE res;
   FRACTION_NUM(res) = FRACTION_NUM(x) * FRACTION_NUM(x) * FRACTION_NUM(x);
   FRACTION_DEN(res) = FRACTION_DEN(x) * FRACTION_DEN(x) * FRACTION_DEN(x);

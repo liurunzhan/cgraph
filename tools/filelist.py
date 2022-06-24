@@ -74,14 +74,14 @@ class FileList(object):
 
 def arg_parse():
 	parser = argparse.ArgumentParser(description="update C-type macro definitions", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-	parser.add_argument("dirs", nargs="+", help="input directories")
-	parser.add_argument("--suffix", "-s", nargs="+", required=True, dest="suffixes", help="input suffixes")
-	parser.add_argument("--ignore_files", "-if", nargs="+", default=[], dest="ignore_files", help="ignore file names")
-	parser.add_argument("--ignore_dirs", "-id", nargs="+", default=[], dest="ignore_dirs", help="ignore directory names")
-	parser.add_argument("--ignore_paths", "-ip", nargs="+", default=[], dest="ignore_paths", help="ignore path names")
-	parser.add_argument("--output", "-o", default="", help="output filelist")
-	parser.add_argument("--output_type", "-t", default="filelist", choices=["filelist", "csv", "md"], help="output filelist type")
-	parser.add_argument("--combine", "-c", action="store_true", help="output filelist in a line of the given file")
+	parser.add_argument("dirs", nargs="+", type=str, help="input directories")
+	parser.add_argument("-s", "--suffix", nargs="+", required=True, dest="suffixes", type=str, help="input suffixes")
+	parser.add_argument("-if", "--ignore_files", nargs="+", default=[], dest="ignore_files", type=str, help="ignore file names")
+	parser.add_argument("-id", "--ignore_dirs", nargs="+", default=[], dest="ignore_dirs", type=str, help="ignore directory names")
+	parser.add_argument("-ip", "--ignore_paths", nargs="+", default=[], dest="ignore_paths", type=str, help="ignore path names")
+	parser.add_argument("-o", "--output", default="", type=str, help="output filelist")
+	parser.add_argument("-t", "--output_type", default="filelist", choices=["filelist", "csv", "md"], type=str, help="output filelist type")
+	parser.add_argument("-c", "--combine", action="store_true", help="output filelist in a line of the given file")
 	def func(args):
 		print("find Files with Suffixes (%s) and without Names (%s) in Directories (%s)" % (" ".join(args.suffixes), " ".join(args.ignore_files), " ".join(args.dirs)))
 		filelist = FileList(paths=args.dirs, suffixes=args.suffixes, ignore_files=args.ignore_files, ignore_dirs=args.ignore_dirs, ignore_paths=args.ignore_paths)

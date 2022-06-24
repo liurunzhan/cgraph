@@ -29,4 +29,4 @@ echo "update source template in $inc/cgraph_template_check.h"
 python3 $tool/macro.py $inc/cgraph_template_check.h.in -t $tool/template_check.macro -c "end of cgraph_template_check"
 
 echo "update source template in $inc/cgraph_stdchk.h.in"
-python3 $tool/macro.py $inc/cgraph_stdchk.h.in -t $tool/stdchk.macro -c "" --novar
+python3 $tool/macro.py $inc/cgraph_stdchk.h.in -t $tool/stdchk.macro -c "" --nodoc

@@ -1,21 +1,17 @@
 #!/usr/bin/Rscript
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 PRO <- "cgraph"
 DIR <- "."
 INC <- file.path(DIR, "include", fsep=.Platform$file.sep)
 SRC <- file.path(DIR, "src", fsep=.Platform$file.sep)
 SRC_FUNC  <- file.path(SRC, "func", fsep=.Platform$file.sep)
 SRC_TYPE  <- file.path(SRC, "type", fsep=.Platform$file.sep)
-SRC_TYPE_BASIC     <- file.path(SRC_TYPE, "basic", fsep=.Platform$file.sep)
-SRC_TYPE_DATA      <- file.path(SRC_TYPE, "data", fsep=.Platform$file.sep)
-SRC_TYPE_OBJECT    <- file.path(SRC_TYPE, "object", fsep=.Platform$file.sep)
-SRC_TYPE_STRUCTURE <- file.path(SRC_TYPE, "structure", fsep=.Platform$file.sep)
-SRC_GRAPH <- file.path(SRC, "graph", fsep=.Platform$file.sep)
-SRC_GAME  <- file.path(SRC, "game", fsep=.Platform$file.sep)
 TST <- file.path(DIR, "test", fsep=.Platform$file.sep)
 LIB <- file.path(DIR, "lib", fsep=.Platform$file.sep)
-
-SRCS <- list(SRC, SRC_FUNC, SRC_TYPE, SRC_TYPE_BASIC, SRC_TYPE_DATA, SRC_TYPE_OBJECT, SRC_TYPE_STRUCTURE, SRC_GRAPH, SRC_GAME)
 
 CC <- "cc"
 CFLAGS <- "-std=c89 -Wall -pedantic -fPIC"
@@ -32,10 +28,8 @@ if (MODE == "debug") {
 AR <- "ar"
 ARFLAGS <- "-rcs"
 
-CFILES <- list()
-for (dir in SRCS) {
-	CFILES <- c(CFILES, lapply(list.files(dir, pattern="*\\.c$"), function(x) { file.path(dir, x, fsep=.Platform$file.sep)}))
-}
+# get all source files from subdirectories
+CFILES <- lapply(list.files(SRC, pattern="^[^\\.].*?\\.c$", recursive=TRUE), function(x) { file.path(SRC, x, fsep=.Platform$file.sep)})
 
 TEST_FILES <- lapply(list.files(TST, pattern="*\\.c$"), function(x) { file.path(TST, x, fsep=.Platform$file.sep)})
 
@@ -56,7 +50,7 @@ if (.Platform$OS.type == "windows") {
 args <- commandArgs(trailingOnly = TRUE)
 script_name <- unlist(strsplit(commandArgs()[4], split="="))[2]
 if (length(args) == 0) {
-  if(!file.exists(LIB)) {
+  if (!file.exists(LIB)) {
     dir.create(LIB)
   }
   OFILES <- character()

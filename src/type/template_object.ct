@@ -14,10 +14,10 @@ cgraph_vtable_t *CGRAPH_OBJECTS_NAME(NAME)[] = {
 
 #include "template_base.ct"
 
-__INLINE static void *FUNCTION(NAME, _update)(void *cthis,
-                                              const cgraph_type_t type,
-                                              const cgraph_size_t len,
-                                              const cgraph_size_t size) {
+__INLINE__ static void *FUNCTION(NAME, _update)(void *cthis,
+                                                const cgraph_type_t type,
+                                                const cgraph_size_t len,
+                                                const cgraph_size_t size) {
   TYPE *_cthis = (TYPE *)cthis;
   if (NULL != _cthis) {
 #if defined(TYPE_OBJECT) || defined(TYPE_MOBJECT) || defined(TYPE_M3OBJECT) || \
@@ -36,11 +36,11 @@ __INLINE static void *FUNCTION(NAME, _update)(void *cthis,
   return _cthis;
 }
 
-__INLINE DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
+__INLINE__ DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
   return ((TYPE *)cthis)->data;
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
   TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t _len = 0;
   if (NULL != _cthis) {
@@ -52,7 +52,7 @@ __INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
   return _len;
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
   TYPE *_cthis = (TYPE *)cthis;
   cgraph_size_t _size = 0;
   if (NULL != _cthis) {
@@ -64,8 +64,8 @@ __INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
   return _size;
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
-                                             const cgraph_size_t size) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
+                                               const cgraph_size_t size) {
   return FUNCTION(NAME, tsize)();
 }
 
@@ -165,19 +165,19 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   return hash;
 }
 
-__INLINE cgraph_type_t FUNCTION(NAME, type)(const TYPE *cthis) {
+__INLINE__ cgraph_type_t FUNCTION(NAME, type)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_TYPE(cthis) : CGRAPH_FALSE;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isaccess)(const TYPE *cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isaccess)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_ACCESS(cthis) : CGRAPH_FALSE;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isconst)(const TYPE *cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isconst)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_CONST(cthis) : CGRAPH_FALSE;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ishash)(const TYPE *cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ishash)(const TYPE *cthis) {
   return (NULL != cthis) ? CGRAPH_DTYPE_HASH(cthis) : CGRAPH_FALSE;
 }
 
@@ -219,7 +219,7 @@ TYPE *FUNCTION(NAME, chtype)(TYPE *cthis, const cgraph_type_t type,
   return cthis;
 }
 
-__INLINE TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis) {
+__INLINE__ TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_ACCESS(cthis) = CGRAPH_TRUE;
   }
@@ -227,7 +227,7 @@ __INLINE TYPE *FUNCTION(NAME, setaccess)(TYPE *cthis) {
   return cthis;
 }
 
-__INLINE TYPE *FUNCTION(NAME, unsetaccess)(TYPE *cthis) {
+__INLINE__ TYPE *FUNCTION(NAME, unsetaccess)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_ACCESS(cthis) = CGRAPH_FALSE;
   }
@@ -235,7 +235,7 @@ __INLINE TYPE *FUNCTION(NAME, unsetaccess)(TYPE *cthis) {
   return cthis;
 }
 
-__INLINE TYPE *FUNCTION(NAME, setconst)(TYPE *cthis) {
+__INLINE__ TYPE *FUNCTION(NAME, setconst)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_CONST(cthis) = CGRAPH_TRUE;
   }
@@ -243,7 +243,7 @@ __INLINE TYPE *FUNCTION(NAME, setconst)(TYPE *cthis) {
   return cthis;
 }
 
-__INLINE TYPE *FUNCTION(NAME, unsetconst)(TYPE *cthis) {
+__INLINE__ TYPE *FUNCTION(NAME, unsetconst)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_CONST(cthis) = CGRAPH_FALSE;
   }
@@ -251,7 +251,7 @@ __INLINE TYPE *FUNCTION(NAME, unsetconst)(TYPE *cthis) {
   return cthis;
 }
 
-__INLINE TYPE *FUNCTION(NAME, sethash)(TYPE *cthis) {
+__INLINE__ TYPE *FUNCTION(NAME, sethash)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_HASH(cthis) = CGRAPH_TRUE;
   }
@@ -259,7 +259,7 @@ __INLINE TYPE *FUNCTION(NAME, sethash)(TYPE *cthis) {
   return cthis;
 }
 
-__INLINE TYPE *FUNCTION(NAME, unsethash)(TYPE *cthis) {
+__INLINE__ TYPE *FUNCTION(NAME, unsethash)(TYPE *cthis) {
   if (NULL != cthis) {
     CGRAPH_DTYPE_HASH(cthis) = CGRAPH_FALSE;
   }

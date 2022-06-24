@@ -9,10 +9,10 @@
 #error CGRAPH_MEMORY_FREED_SIZE cannot be UNDEFINED or SMALLER THAN CGRAPH_MEMORY_HEADER_SIZE
 #endif
 
-__INLINE static void *FUNCTION(NAME, _update)(void *cthis,
-                                              const cgraph_type_t type,
-                                              const cgraph_size_t len,
-                                              const cgraph_size_t size) {
+__INLINE__ static void *FUNCTION(NAME, _update)(void *cthis,
+                                                const cgraph_type_t type,
+                                                const cgraph_size_t len,
+                                                const cgraph_size_t size) {
   TYPE *_cthis = (TYPE *)cthis;
 #ifdef TYPE_WITH_DATA
   if (NULL != _cthis) {
@@ -36,15 +36,15 @@ __INLINE static void *FUNCTION(NAME, _update)(void *cthis,
 }
 
 #ifdef TYPE_WITH_DATA
-__INLINE DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
+__INLINE__ DATA_TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
   return ((TYPE *)cthis)->data;
 #else
-__INLINE TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
+__INLINE__ TYPE *FUNCTION(NAME, data)(const TYPE *cthis) {
   return (TYPE *)cthis;
 #endif
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
 #ifdef TYPE_WITH_DATA
   return CGRAPH_LEN(cthis);
 #else
@@ -52,7 +52,7 @@ __INLINE cgraph_size_t FUNCTION(NAME, len)(const TYPE *cthis) {
 #endif
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
 #ifdef TYPE_WITH_DATA
   return CGRAPH_SIZE(cthis);
 #else
@@ -60,8 +60,8 @@ __INLINE cgraph_size_t FUNCTION(NAME, size)(const TYPE *cthis) {
 #endif
 }
 
-__INLINE cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
-                                             const cgraph_size_t size) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, msize)(const cgraph_type_t type,
+                                               const cgraph_size_t size) {
 #ifdef TYPE_WITH_DATA
   return (0 < size) ? (sizeof(TYPE) +
                        (size + CGRAPH_MEMORY_FREED_SIZE) * sizeof(DATA_TYPE))
@@ -199,18 +199,18 @@ TYPE *FUNCTION(NAME, initdt)(TYPE *cthis, const TYPE *data,
 }
 
 #ifdef TYPE_WITH_DATA
-__INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE *cthis) {
   return CGRAPH_TEST((NULL == cthis) || (0 >= cthis->len) ||
                      (cthis->len > cthis->size));
 }
 #else
-__INLINE cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isempty)(const TYPE cthis) {
   return CGRAPH_FALSE;
 }
 #endif
 
 #ifdef TYPE_WITH_DATA
-__INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
 #if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
   return CGRAPH_TEST(CGRAPH_HASDATA(cthis) && (cthis->len <= cthis->size));
 #else
@@ -218,13 +218,13 @@ __INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE *cthis) {
 #endif
 }
 #else
-__INLINE cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isnumber)(const TYPE cthis) {
   return FUNCTION(NAME, check)(cthis);
 }
 #endif
 
 #ifdef TYPE_WITH_DATA
-__INLINE cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis) {
   cgraph_bool_t res = CGRAPH_TRUE;
   if ((NULL != cthis) && (cthis->root != cthis->data) &&
       (cthis->len < cthis->size)) {
@@ -234,15 +234,16 @@ __INLINE cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE *cthis) {
   return res;
 }
 #else
-__INLINE cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE cthis) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, need_realloc)(const TYPE cthis) {
   return CGRAPH_FALSE;
 }
 #endif
 
 #ifdef TYPE_WITH_DATA
-__INLINE cgraph_int_t FUNCTION(NAME, cmpsignbit)(const TYPE *x, const TYPE *y) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, cmpsignbit)(const TYPE *x,
+                                                   const TYPE *y) {
 #else
-__INLINE cgraph_int_t FUNCTION(NAME, cmpsignbit)(const TYPE x, const TYPE y) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, cmpsignbit)(const TYPE x, const TYPE y) {
 #endif
   return CGRAPH_TEST(FUNCTION(NAME, signbit)(x) == FUNCTION(NAME, signbit)(y));
 }
@@ -252,8 +253,8 @@ __INLINE cgraph_int_t FUNCTION(NAME, cmpsignbit)(const TYPE x, const TYPE y) {
  *
  */
 #ifdef TYPE_WITH_DATA
-__INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
-                                                const cgraph_size_t len) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
+                                                  const cgraph_size_t len) {
   cgraph_size_t _len = len;
   if (NULL != cthis) {
     _len = (0 >= _len) ? ((0 >= cthis->len) ? cthis->size : cthis->len)
@@ -263,8 +264,8 @@ __INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE *cthis,
   return _len;
 }
 #else
-__INLINE cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE cthis,
-                                                const cgraph_size_t len) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE cthis,
+                                                  const cgraph_size_t len) {
   return 1;
 }
 #endif

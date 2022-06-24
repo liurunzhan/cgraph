@@ -1,11 +1,26 @@
 //!/usr/bin/java --source 11
 
+// Date : 2022-07-01
+// A script to compile Library cgraph in Unix-like and Windows Platforms
+// gets source files iteratively from Directory src
+
 import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
 import java.lang.Runtime;
 
 public class Compile {
+  public static void getsubdirs(String path, List<String> dirs) {
+    File[] items = new File(path).listFiles()
+    for (File item : items) {
+      String filename = item.getName();
+      if (item.isDir() && !filename.startsWith(".")) {
+        dirs.add(item.getPath());
+        getsubdirs(item.getPath(), dirs);
+      }
+    }
+  }
+
   public static void main(String[] args) {
     String PRO = new String("cgraph");
     String DIR = new String(".");
@@ -31,7 +46,7 @@ public class Compile {
     
     String OS = System.getProperty("os.name");
     String LIBSHARED, LIBSTATIC, TSTFILE, TSTTARGET;
-    if(OS.matches("^[Ww]in")) {
+    if (OS.matches("^[Ww]in")) {
       // target files
       LIBSHARED = new String(LIB + File.separator + "lib" + PRO + ".dll");
       LIBSTATIC = new String(LIB + File.separator + "lib" + PRO + ".lib");
@@ -47,24 +62,34 @@ public class Compile {
       TSTTARGET = new String(TST + File.separator + PRO);
     }
     
+    // source files
+    // get all subdirectories
+    List<String> SRCS = new ArrayList<String>();
+    getsubdirs(SRC, SRCS);
+
+    // get all source files from subdirectories
     List<File> CFILES = new ArrayList<File>();
-    File[] FILES = new File(SRC).listFiles();
-    for (File file : FILES) {
-      if(file.isFile() && file.getName().endsWith(".c")) {
-        CFILES.add(file);
+    for (String dir : SRCS) {
+      File[] FILES = new File(dir).listFiles();
+      for (File file : FILES) {
+        String filename = file.getName();
+        if (file.isFile() && !filename.startsWith(".") && filename.endsWith(".c")) {
+          CFILES.add(file);
+        }
       }
     }
 
+
     String SCRIPT_NAME = Thread.currentThread().getStackTrace()[1].getFileName();
     if (args.length == 0) {
-      if(!(new File(LIB).exists())) {
+      if (!(new File(LIB).exists())) {
         new File(LIB).mkdir();
       }
       List<String> OFILES = new ArrayList<String>();
       for (File file : CFILES) {
-				String obj = file.getPath().replace(".c", ".o");
+        String obj = file.getPath().replace(".c", ".o");
         try {
-					String dep = file.getPath().replace(".c", ".d");
+          String dep = file.getPath().replace(".c", ".d");
           String cmd = String.format("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep);
           System.out.println(String.format("compile %s to %s", file, obj));
           Process program = Runtime.getRuntime().exec(cmd);

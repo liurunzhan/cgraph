@@ -1,12 +1,27 @@
 #!/usr/bin/env -S v run
 
 import os
+import regex
+
+fn getsubdirs(path, dirs) {
+  items := os.walk(path)
+  dir_mode := r"^[^\.]"
+  mut match_mode := regex.regex_opt(dir_mode) or { panic(err) }
+  for item in items {
+    subpath := os.join_path(path, item)
+    if os.is_dir(subpath) && match_mode.match_string(item) {
+      dirs << subpath
+      getsubdirs(subpath, dirs)
+    }
+  }
+}
 
 fn main() {
   pro := "cgraph"
   dir := "."
   inc := os.join_path(dir, "include")
   src := os.join_path(dir, "src")
+  src_type := os.join_path(src, "type")
   tst := os.join_path(dir, "test")
   lib := os.join_path(dir, "lib")
 
@@ -49,18 +64,36 @@ fn main() {
     tsttarget += os.join_path(tst, "${pro}")
   }
 
-  cfiles := os.walk_ext(src, ".c")
+  // 
+  mut srcs := []string{}
+  getsubdirs(src, srcs)
+
+  mut cfiles := []string{}
+  cfile_mode := r"^[^\.].*\.c$"
+  mut match_mode := regex.regex_opt(cfile_mode) or { panic(err) }
+  for dir in srcs {
+    for item in os.walk_ext(dir, ".c") {
+      subpath := os.join_path(dir, item)
+      if os.is_dir(subpath) && match_mode.match_string(item) {
+        dirs << subpath
+        getsubdirs(subpath, dirs)
+      }
+    }
+  }
+  
 
   if os.args.len == 1 {
     if !os.is_dir(lib) {
       os.mkdir(lib) ?
     }
     mut ofiles := []string{}
+    cfile_ext_mode := r"\.c$"
+    mut match_mode := regex.regex_opt(cfile_ext_mode) or { panic(err) }
     for file in cfiles {
-      obj := file.replace(".c", ".o")
-      dep := file.replace(".c", ".d")
+      obj := match_mode.replace(file, ".o")
+      dep := match_mode.replace(file, ".d")
       println("compile ${file} to ${obj}")
-      os.system("${cc} ${cflags} -I${inc} -c ${file} -o ${obj} -MD -MF ${dep}")
+      os.system("${cc} ${cflags} -I${inc} -I${src_type} -c ${file} -o ${obj} -MD -MF ${dep}")
       ofiles << obj
     }
     println("compile ${libshared}")
@@ -73,13 +106,15 @@ fn main() {
     println("test ${tsttarget} with ${os.join_path(tst, "elements.csv")}")
     os.system("${tsttarget} ${os.join_path(tst, "elements.csv")}")
   } else if os.args[1] == "clean" {
+    cfile_ext_mode := r"\.c$"
+    mut match_mode := regex.regex_opt(cfile_ext_mode) or { panic(err) }
     for file in cfiles {
-      obj := file.replace(".c", ".o")
+      obj := match_mode.replace(file, ".o")
       println("clean ${obj}")
       if os.exists(obj) {
         os.rm(obj) ?
       }
-      dep := file.replace(".c", ".d")
+      dep := match_mode.replace(file, ".d")
       println("clean ${dep}")
       if os.exists(dep) {
         os.rm(dep) ?
@@ -98,13 +133,15 @@ fn main() {
       os.rm(tsttarget) ?
     }
   } else if os.args[1] == "distclean" {
+    cfile_ext_mode := r"\.c$"
+    mut match_mode := regex.regex_opt(cfile_ext_mode) or { panic(err) }
     for file in cfiles {
-      obj := file.replace(".c", ".o")
+      obj := match_mode.replace(file, ".o")
       println("clean ${obj}")
       if os.exists(obj) {
         os.rm(obj) ?
       }
-      dep := file.replace(".c", ".d")
+      dep := match_mode.replace(file, ".d")
       println("clean ${dep}")
       if os.exists(dep) {
         os.rm(dep) ?

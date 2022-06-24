@@ -17,7 +17,7 @@ fi
 echo "Step 0 : updatting source files by template"
 # python3 $tool/macro.py $inc/cgraph_template_off.h -t $tool/template_off.macro -c "end of cgraph_template_off"
 # python3 $tool/macro.py $inc/cgraph_template_check.h -t $tool/template_check.macro -c "end of cgraph_template_check"
-# python3 $tool/macro.py $inc/cgraph_stdchk.h -t $tool/stdchk.macro -c "" --novar
+# python3 $tool/macro.py $inc/cgraph_stdchk.h -t $tool/stdchk.macro -c "" --nodoc
 
 echo "Step 1 : running autogen.sh to generate configure"
 chmod +x $root/autogen.sh; $root/autogen.sh

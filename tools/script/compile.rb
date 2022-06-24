@@ -1,9 +1,14 @@
 #!/usr/bin/ruby -w
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 $PRO = "cgraph"
 $DIR = "."
 $INC = File.join($DIR, "include")
 $SRC = File.join($DIR, "src")
+$SRC_TYPE = File.join($SRC, "type")
 $TST = File.join($DIR, "test")
 $LIB = File.join($DIR, "lib")
 
@@ -22,10 +27,29 @@ end
 $AR = "ar"
 $ARFLAGS = "-rcs"
 
+# source files
+# get all subdirectories
+def getsubdirs(path, dirs)
+  Dir.foreach(path) do |item|
+    subpath = File.join(path, item)
+    if File::directory?(subpath) && !(File::basename(item) =~ /^\./)
+      dirs << subpath
+      getsubdirs(subpath, dirs)
+    end
+  end
+end
+
+$SRCS = []
+getsubdirs($SRC, $SRCS)
+
+# get all source files from subdirectories
 $CFILES = []
-Dir.foreach($SRC) do |file|
-  if File.extname(file) =~ /\.c$/
-    $CFILES << File.join($SRC, file)
+for dir in $SRCS do
+  Dir.foreach(dir) do |item|
+    subpath = File.join(dir, item)
+    if File::file?(subpath) && (File.basename(item) =~ /^((?!\.).)*\.c$/)
+      $CFILES << subpath
+    end
   end
 end
 
@@ -45,42 +69,42 @@ else
   $TSTTARGET = File.join($TST, $PRO)
 end
 
-$args = ARGV
-if $args.size == 0
+args = ARGV
+if args.size == 0
   if not File.directory?($LIB)
     Dir::mkdir($LIB)
   end
   $OFILES = []
-  for $file in $CFILES do
-    $obj = $file.sub("\.c", ".o")
-    $dep = $file.sub("\.c", ".d")
-    puts("compile #{$file} to #{$obj}")
-    system("#{$CC} #{$CFLAGS} -I#{$INC} -c #{$file} -o #{$obj} -MD -MF #{$dep}")
-    $OFILES << $obj
+  for file in $CFILES do
+    obj = file.sub(/\.c$/, ".o")
+    dep = file.sub(/\.c$/, ".d")
+    puts("compile #{file} to #{obj}")
+    system("#{$CC} #{$CFLAGS} -I#{$INC} -I#{$SRC_TYPE} -c #{file} -o #{obj} -MD -MF #{dep}")
+    $OFILES << obj
   end
   puts("compile #{$LIBSHARED}")
   system("#{$CC} #{$CSFLAGS} -o #{$LIBSHARED} #{$OFILES.join(" ")}")
   puts("compile #{$LIBSTATIC}")
   system("#{$AR} #{$ARFLAGS} #{$LIBSTATIC} #{$OFILES.join(" ")}")
-elsif $args[0] == "test"
+elsif args[0] == "test"
   puts("compile #{$TSTFILE} to #{$TSTTARGET}")
   system("#{$CC} #{$CFLAGS} -I#{$INC} -o #{$TSTTARGET} #{$TSTFILE} -L#{$LIB} -static -l#{$PRO} -lm")
   puts("test #{$TSTTARGET} with #{File.join($TST, "elements.csv")}")
   system("#{$TSTTARGET} #{File.join($TST, "elements.csv")}")
-elsif $args[0] == "clean"
-  for $file in $CFILES do
-    $obj = $file.sub("\.c", ".o")
-		puts("clean #{$obj}")
-    if File::exist?($obj)
-      File::delete($obj)
+elsif args[0] == "clean"
+  for file in $CFILES do
+    obj = file.sub(/\.c$/, ".o")
+    puts("clean #{obj}")
+    if File::exist?(obj)
+      File::delete(obj)
     end
-    $dep = $file.sub("\.c", ".d")
-	  puts("clean #{$dep}")
-    if File::exist?($dep)
-      File::delete($dep)
+    dep = file.sub(/\.c$/, ".d")
+    puts("clean #{dep}")
+    if File::exist?(dep)
+      File::delete(dep)
     end
   end
-	puts("clean #{$LIBSTATIC}")
+  puts("clean #{$LIBSTATIC}")
   if File::exist?($LIBSTATIC)
     File::delete($LIBSTATIC)
   end
@@ -92,17 +116,17 @@ elsif $args[0] == "clean"
   if File::exist?($TSTTARGET)
     File::delete($TSTTARGET)
   end
-elsif $args[0] == "distclean"
-  for $file in $CFILES do
-    $obj = $file.sub("\.c", ".o")
-		puts("clean #{$obj}")
-    if File::exist?($obj)
-      File::delete($obj)
+elsif args[0] == "distclean"
+  for file in $CFILES do
+    obj = $file.sub(/\.c$/, ".o")
+    puts("clean #{obj}")
+    if File::exist?(obj)
+      File::delete(obj)
     end
-    $dep = $file.sub("\.c", ".d")
-	  puts("clean #{$dep}")
-    if File::exist?($dep)
-      File::delete($dep)
+    dep = $file.sub(/\.c$/, ".d")
+    puts("clean #{dep}")
+    if File::exist?(dep)
+      File::delete(dep)
     end
   end
   puts("clean #{$LIBSTATIC}")
@@ -121,7 +145,7 @@ elsif $args[0] == "distclean"
   if File::exist?($TSTTARGET)
     File::delete($TSTTARGET)
   end
-elsif $args[0] == "help"
+elsif args[0] == "help"
   puts("#{__FILE__} <target>")
   puts("<target>: ")
   puts("                    compile cgraph")
@@ -130,6 +154,6 @@ elsif $args[0] == "help"
   puts("          distclean clean all the generated files and directories")
   puts("          help      commands to this program")
 else
-  puts("#{$args[0]} is an unsupported command")
+  puts("#{args[0]} is an unsupported command")
   puts("use \"#{__FILE__} help\" to know all supported commands")
 end

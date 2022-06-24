@@ -1,11 +1,16 @@
 #!/usr/bin/perl6
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 use v6;
 
 my $PRO = "cgraph";
 my $DIR = ".";
 my $INC = $DIR.IO.add("include");
 my $SRC = $DIR.IO.add("src");
+my $SRC_TYPE = $SRC.IO.add("type");
 my $TST = $DIR.IO.add("test");
 my $LIB = $DIR.IO.add("lib");
 
@@ -25,12 +30,31 @@ my $AR = "ar";
 my $ARFLAGS = "-rcs";
 
 # source files
-my @CFILES;
-for (dir $SRC) -> $file {
-  if ($file ~~ /\.c$/) {
-    @CFILES.push($file);
+# get all subdirectories
+sub getsubdirs ($path, $dirs) {
+  for dir($path) -> $item {
+    if ($item.basename !~~ /^\./) {
+      if ($item.IO ~~ :d) {
+        $dirs.push($item);
+        getsubdirs($item, $dirs);
+      }
+    }
   }
 }
+
+my @SRCS = ();
+getsubdirs($SRC, @SRCS);
+
+# get all source files from subdirectories
+my @CFILES;
+for (@SRCS) -> $dir {
+  for dir($dir) -> $file {
+    if ($file ~~ /\.c$/) {
+      @CFILES.push($file);
+    }
+  }
+}
+
 my $LIBSHARED;
 my $LIBSTATIC;
 my $TSTFILE;
@@ -58,9 +82,9 @@ if (@args.elems eq 0) {
   my @OFILES;
   for @CFILES -> $file {
     my $obj = S/\.c$/\.o/ given $file;
-		my $dep = S/\.c$/\.d/ given $file;
+    my $dep = S/\.c$/\.d/ given $file;
     say("compile $file to $obj");
-    shell("$CC $CFLAGS -I$INC -c $file -o $obj -MD -MF $dep");
+    shell("$CC $CFLAGS -I$INC -I$SRC_TYPE -c $file -o $obj -MD -MF $dep");
     @OFILES.push($obj);
   }
   say("compile $LIBSHARED");

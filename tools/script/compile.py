@@ -1,13 +1,16 @@
 #!/usr/bin/python
 
-"""
-  This script is used to compile library by Python-2.7 or higher
-"""
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+# needs Python-2.7, Python3.4 or higher
+# TODO: A multiple definition issue while compiling shared library
 
 import os
 import sys
 import platform
 import shutil
+import subprocess
 
 try:
   import pathlib
@@ -20,18 +23,9 @@ PRO = "cgraph"
 DIR = "."
 INC = os.path.join(DIR, "include")
 SRC = os.path.join(DIR, "src")
-SRC_FUNC  = os.path.join(SRC, "func")
-SRC_TYPE  = os.path.join(SRC, "type")
-SRC_TYPE_BASIC     = os.path.join(SRC_TYPE, "basic")
-SRC_TYPE_DATA      = os.path.join(SRC_TYPE, "data")
-SRC_TYPE_OBJECT    = os.path.join(SRC_TYPE, "object")
-SRC_TYPE_STRUCTURE = os.path.join(SRC_TYPE, "structure")
-SRC_GRAPH = os.path.join(SRC, "graph")
-SRC_GAME  = os.path.join(SRC, "game")
+SRC_TYPE = os.path.join(SRC, "type")
 TST = os.path.join(DIR, "test")
 LIB = os.path.join(DIR, "lib")
-
-SRCS = [SRC, SRC_FUNC, SRC_TYPE, SRC_TYPE_BASIC, SRC_TYPE_DATA, SRC_TYPE_OBJECT, SRC_TYPE_STRUCTURE, SRC_GRAPH, SRC_GAME]
 
 CC = "cc"
 CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
@@ -47,28 +41,43 @@ elif MODE == "release":
 AR = "ar"
 ARFLAGS = "-rcs"
 
+# source files
+# get all subdirectories
+def getsubdirs(path, dirs):
+  for root, subdirs, files in os.walk(path):
+    for dir in subdirs:
+      if not dir.startswith("."):
+        subpath = os.path.join(root, dir)
+        dirs.append(subpath)
+        getsubdirs(subpath, dirs)
+
+SRCS = []
+getsubdirs(SRC, SRCS)
+
+# get all source files from subdirectories
+CFILES = []
+for dir in SRCS:
+  for root, subdirs, files in os.walk(dir):
+    for file in files:
+      if not file.startswith(".") and file.endswith(".c"):
+        CFILES.append(os.path.join(root, file))
+
 LIBSHARED = None
 LIBSTATIC = None
 TSTFILE = None
 TSTTARGET = None
 if platform.system() == "Windows":
   # target files
-  LIBSHARED = os.path.join(LIB, "lib%s.dll" % PRO)
-  LIBSTATIC = os.path.join(LIB, "lib%s.lib" % PRO)
+  LIBSHARED = os.path.join(LIB, "lib{PRO}.dll".format(PRO=PRO))
+  LIBSTATIC = os.path.join(LIB, "lib{PRO}.lib".format(PRO=PRO))
   # test files
   TSTSUFFIX = ".exe"
 else:
   # target files
-  LIBSHARED = os.path.join(LIB, "lib%s.so" % PRO)
-  LIBSTATIC = os.path.join(LIB, "lib%s.a" % PRO)
+  LIBSHARED = os.path.join(LIB, "lib{PRO}.so".format(PRO=PRO))
+  LIBSTATIC = os.path.join(LIB, "lib{PRO}.a".format(PRO=PRO))
   # test files
   TSTSUFFIX = ""
-
-CFILES = []
-for dir in SRCS:
-  for file in os.listdir(dir):
-    if not file.startswith(".") and os.path.splitext(file)[1] == ".c":
-      CFILES.append(os.path.join(dir, file))
 
 if __name__ == "__main__":
   args = sys.argv
@@ -79,73 +88,73 @@ if __name__ == "__main__":
     for file in CFILES:
       obj = file.replace(".c", ".o")
       dep = file.replace(".c", ".d")
-      print("compile %s to %s" % (file, obj))
-      os.system("%s %s -I%s -I%s -c %s -o %s -MD -MF %s" % (CC, CFLAGS, INC, SRC_TYPE, file, obj, dep))
+      print("compile {file} to {obj}".format(file=file, obj=obj))
+      subprocess.run("{CC} {CFLAGS} -I{INC} -I{SRC_TYPE} -c {file} -o {obj} -MD -MF {dep}".format(CC=CC, CFLAGS=CFLAGS, INC=INC, SRC_TYPE=SRC_TYPE, file=file, obj=obj, dep=dep), shell=True)
       OFILES.append(obj)
-    print("compile %s" % LIBSHARED)
-    os.system("%s %s -o %s %s" % (CC, CSFLAGS, LIBSHARED, " ".join(OFILES)))
-    print("compile %s" % LIBSTATIC)
-    os.system("%s %s %s %s" % (AR, ARFLAGS, LIBSTATIC, " ".join(OFILES)))
+    print("compile {LIBSHARED}".format(LIBSHARED=LIBSHARED))
+    subprocess.run("{CC} {CSFLAGS} -o {LIBSHARED} {OFILES}".format(CC=CC, CSFLAGS=CSFLAGS, LIBSHARED=LIBSHARED, OFILES=" ".join(OFILES)), shell=True)
+    print("compile {LIBSTATIC}".format(LIBSTATIC=LIBSTATIC))
+    subprocess.run("{AR} {ARFLAGS} {LIBSTATIC} {OFILES}".format(AR=AR, ARFLAGS=ARFLAGS, LIBSTATIC=LIBSTATIC, OFILES=" ".join(OFILES)), shell=True)
   elif args[1] == "test":
     for file in os.listdir(TST):
       if not file.startswith(".") and os.path.splitext(file)[1] == ".c":
         TSTFILE = os.path.join(TST, file)
         TSTTARGET = TSTFILE.replace(".c", TSTSUFFIX)
-        print("compile %s to %s" % (TSTFILE, TSTTARGET))
-        os.system("%s %s -I%s -o %s %s -L%s -static -l%s -lm" % (CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO))
-        print("test %s" % TSTTARGET)
-        os.system(TSTTARGET)
+        print("compile {TSTFILE} to {TSTTARGET}".format(TSTFILE=TSTFILE, TSTTARGET=TSTTARGET))
+        subprocess.run("{CC} {CFLAGS} -I{INC} -o {TSTTARGET} {TSTFILE} -L{LIB} -static -l{PRO} -lm".format(CC=CC, CFLAGS=CFLAGS, INC=INC, TSTTARGET=TSTTARGET, TSTFILE=TSTFILE, LIB=LIB, PRO=PRO), shell=True)
+        print("test {TSTTARGET}".format(TSTTARGET=TSTTARGET))
+        subprocess.run(TSTTARGET, shell=True)
   elif args[1] == "clean":
     for file in CFILES:
       obj = file.replace(".c", ".o")
-      print("clean %s" % obj)
+      print("clean {obj}".format(obj=obj))
       if pathlib.Path(obj).exists():
         os.remove(obj)
       dep = file.replace(".c", ".d")
-      print("clean %s" % dep)
+      print("clean {dep}".format(dep=dep))
       if pathlib.Path(dep).exists():
         os.remove(dep)
-    print("clean %s" % LIBSTATIC)
+    print("clean {LIBSTATIC}".format(LIBSTATIC=LIBSTATIC))
     if pathlib.Path(LIBSTATIC).exists():
       os.remove(LIBSTATIC)
-    print("clean %s" % LIBSHARED)
+    print("clean {LIBSHARED}".format(LIBSHARED=LIBSHARED))
     if pathlib.Path(LIBSHARED).exists():
       os.remove(LIBSHARED)
     for file in os.listdir(TST):
       if not file.startswith(".") and os.path.splitext(file)[1] == ".c":
         TSTFILE = os.path.join(TST, file)
         TSTTARGET = TSTFILE.replace(".c", TSTSUFFIX)
-        print("clean %s" % TSTTARGET)
+        print("clean {TSTTARGET}".format(TSTTARGET=TSTTARGET))
         if pathlib.Path(TSTTARGET).exists():
           os.remove(TSTTARGET)
   elif args[1] == "distclean":
     for file in CFILES:
       obj = file.replace(".c", ".o")
-      print("clean %s" % obj)
+      print("clean {obj}".format(obj=obj))
       if pathlib.Path(obj).exists():
         os.remove(obj)
       dep = file.replace(".c", ".d")
-      print("clean %s" % dep)
+      print("clean {dep}".format(dep=dep))
       if pathlib.Path(dep).exists():
         os.remove(dep)
-    print("clean %s" % LIBSTATIC)
+    print("clean {LIBSTATIC}".format(LIBSTATIC=LIBSTATIC))
     if pathlib.Path(LIBSTATIC).exists():
       os.remove(LIBSTATIC)
-    print("clean %s" % LIBSHARED)
+    print("clean {LIBSHARED}".format(LIBSHARED=LIBSHARED))
     if pathlib.Path(LIBSHARED).exists():
       os.remove(LIBSHARED)
-    print("clean %s" % LIB)
+    print("clean {LIB}".format(LIB=LIB))
     if pathlib.Path(LIB).exists():
       shutil.rmtree(LIB)
     for file in os.listdir(TST):
       if not file.startswith(".") and os.path.splitext(file)[1] == ".c":
         TSTFILE = os.path.join(TST, file)
         TSTTARGET = TSTFILE.replace(".c", TSTSUFFIX)
-        print("clean %s" % TSTTARGET)
+        print("clean {TSTTARGET}".format(TSTTARGET=TSTTARGET))
         if pathlib.Path(TSTTARGET).exists():
           os.remove(TSTTARGET)
   elif args[1] == "help":
-    print("%s <target>" % args[0])
+    print("{script} <target>".format(script=args[0]))
     print("<target>: ")
     print("                    compile cgraph")
     print("          test      test cgraph")
@@ -153,5 +162,5 @@ if __name__ == "__main__":
     print("          distclean clean all the generated files and directories")
     print("          help      commands to this program")
   else:
-    print("%s is an unsupported command" % args[0])
-    print("use \"%s help\" to know all supported commands" % args[0])
+    print("{script} is an unsupported command".format(script=args[0]))
+    print("use \"{script} help\" to know all supported commands".format(script=args[0]))

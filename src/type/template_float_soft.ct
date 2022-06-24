@@ -21,7 +21,7 @@
  */
 #include "template_data.ct"
 
-__INLINE cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) { return 0; }
+__INLINE__ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) { return 0; }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   cgraph_size_t hash = 0;
@@ -162,9 +162,7 @@ TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
   return res;
 }
 
-cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return (x >> SIG_OFFSET) & SIG_MASK;
-}
+cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) { return (x & SIG_MASK); }
 
 TYPE FUNCTION(NAME, frexp)(const TYPE x, TYPE *y) {
   if (NULL != y) {

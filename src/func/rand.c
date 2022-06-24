@@ -11,9 +11,9 @@ void cgraph_rand32_init(cgraph_uint32_t (*func)(void)) {
   }
 #ifdef DEBUG
   else {
-    cgraph_error_printf(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
-                        CGRAPH_LEVEL_WARN,
-                        "rand32 init handle is empty, use previous as default");
+    cgraph_error_printfln(
+        CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_WARN,
+        "rand32 init handle is empty, use previous as default");
   }
 #endif
 }
@@ -311,9 +311,9 @@ void cgraph_rand64_init(cgraph_uint64_t (*func)(void)) {
   }
 #ifdef DEBUG
   else {
-    cgraph_error_printf(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
-                        CGRAPH_LEVEL_WARN,
-                        "rand64 init handle is empty, use previous as default");
+    cgraph_error_printfln(
+        CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_WARN,
+        "rand64 init handle is empty, use previous as default");
   }
 #endif
 }

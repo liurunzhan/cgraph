@@ -35,8 +35,8 @@ extern "C" {
 #define DATA_L2BITS CGRAPH_UINT8_L2BITS
 #define DATA_BYTES(x) FUNCTION(DATA_NAME, ubitceil)((x))
 #define DATA_END (0)
-#define DATA_ZERO (0)
-#define DATA_ONE (1)
+#define DATA_ZERO UINT8_C(0)
+#define DATA_ONE UINT8_C(1)
 #define DATA_ONES (1)
 #define DATA_MIN (0)
 #define DATA_MAX (9)

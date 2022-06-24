@@ -2,6 +2,7 @@
 
 import os
 import re
+import json
 import argparse
 from enum import Enum
 
@@ -11,6 +12,16 @@ def read_template_by_file(file):
 		template = fin.read()
 	
 	return template
+
+def read_variable_by_file(file):
+	variables = {}
+	if os.path.isfile(file):
+		with open(file, "r") as fin:
+			data = json.load(fin)
+			for key in data:
+				variables["@%s@" % key] = data[key]
+	
+	return variables
 
 class Macro(object):
 	def __init__(self, group):
@@ -92,11 +103,12 @@ def read_macro_by_file(file, template):
 
 def arg_parse():
 	parser = argparse.ArgumentParser(description="update C-type macro definitions", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-	parser.add_argument("file", help="parsed file")
-	parser.add_argument("-t", "--template", required=True, help="template macro file")
-	parser.add_argument("-c", "--comment", required=True, help="comment in the end of file")
-	parser.add_argument("-o", "--output", default="", help="output file")
-	parser.add_argument("--novar", action="store_false", help="do not add macro variables to file")
+	parser.add_argument("file", type=str,help="parsed file")
+	parser.add_argument("-t", "--template", required=True, type=str,help="template macro file")
+	parser.add_argument("-c", "--comment", required=True, type=str, help="comment in the end of file")
+	parser.add_argument("-v", "--variable", default="", type=str, help="variable definition file")
+	parser.add_argument("-o", "--output", default="", type=str, help="output file")
+	parser.add_argument("--nodoc", action="store_false", help="do not add macro variables to the document of output file")
 	def func(args):
 		template = read_template_by_file(file=args.template)
 		macros, headers, ends = read_macro_by_file(file=args.file, template=template)
@@ -105,7 +117,7 @@ def arg_parse():
 			for line in headers:
 				print(line, file=fout)
 			if len(macros) > 0:
-				if args.novar:
+				if args.nodoc:
 					print("", file=fout)
 					print("/*", file=fout)
 					print("  defined macro variables:", file=fout)

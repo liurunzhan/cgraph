@@ -52,7 +52,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   return CGRAPH_TEST(CGRAPH_HASDATA(cthis) && (cthis->len <= cthis->size));
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
   return CGRAPH_TEST(NULL != cthis);
 }
 
@@ -367,11 +367,16 @@ TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t len) {
 TYPE *FUNCTION(NAME, rol)(TYPE *cthis, const cgraph_size_t len) {
   if (NULL != cthis) {
     if (0 <= len) {
-      cgraph_size_t i = 0, j = len;
-      for (; j < cthis->len; i++, j++) {
-        DATA_SWAP(cthis->data[i], cthis->data[j]);
-      }
+      const cgraph_size_t len_mod = len % cthis->len;
+      cgraph_strnrev(cthis->data, len_mod);
+      cgraph_strnrev(cthis->data + len_mod, cthis->len - len_mod);
+      cgraph_strnrev(cthis->data, cthis->len);
     } else {
+      const cgraph_size_t len_mod = len % cthis->len,
+                          rlen = cthis->len + len_mod;
+      cgraph_strnrev(cthis->data, rlen);
+      cgraph_strnrev(cthis->data + rlen, -len_mod);
+      cgraph_strnrev(cthis->data, cthis->len);
     }
   }
 

@@ -14,6 +14,7 @@ object Compile {
     val DIR : String = "."
     val INC : String = DIR + File.separator + "include"
     val SRC : String = DIR + File.separator + "src"
+    val SRC_TYPE : String = SRC + File.separator + "type"
     val TST : String = DIR + File.separator + "test"
     val LIB : String = DIR + File.separator + "lib"
 
@@ -51,10 +52,10 @@ object Compile {
         val obj : String = file.getPath().replaceAll(pattern, ".o")
         val dep : String = file.getPath().replaceAll(pattern, ".d")
         println("compile ${file} to ${obj}")
-        "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}" !
+        "${CC} ${CFLAGS} -I${INC} -I{SRC_TYPE} -c ${file} -o ${obj} -MD -MF ${dep}" !
         OFILES.append(obj)
       }
-			val OFILES_STRING : String = OFILES.mkString(" ")
+      val OFILES_STRING : String = OFILES.mkString(" ")
       println("compile ${LIBSHARED}")
       "${CC} ${CSFLAGS} -o ${LIBSHARED} ${OFILES_STRING}" !
       println("compile ${LIBSTATIC}")
@@ -62,7 +63,7 @@ object Compile {
     } else if (args(0) == "test") {
       println("compile ${TSTFILE} to ${TSTTARGET}")
       "${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm" !
-			val TSTFILE_CSV : String = TST + File.separator + "elements.csv" 
+      val TSTFILE_CSV : String = TST + File.separator + "elements.csv" 
       println("test ${TSTTARGET} with ${TSTFILE_CSV}")
       "${TSTTARGET} ${TSTFILE_CSV}" !
     } else if (args(0) == "clean") {

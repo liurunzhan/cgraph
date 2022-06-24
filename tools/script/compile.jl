@@ -1,9 +1,14 @@
 #!/usr/bin/julia
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 PRO = "cgraph"
 DIR = "."
 INC = joinpath(DIR, "include")
 SRC = joinpath(DIR, "src")
+SRC_TYPE = joinpath(SRC, "type")
 TST = joinpath(DIR, "test")
 LIB = joinpath(DIR, "lib")
 
@@ -40,10 +45,29 @@ else
   TSTTARGET = joinpath(TST, PRO)
 end
 
+# source files
+# get all subdirectories
+function getsubdirs(path, dirs)
+  for item in readdir(path)
+    subpath = joinpath(path, item)
+    if isdir(subpath) && nothing == match(r"^\.", item)
+      push!(dirs, subpath)
+      getsubdirs(subpath, dirs)
+    end
+  end
+end
+
+SRCS = []
+getsubdirs(SRC, SRCS)
+
+# get all source files from subdirectories
 CFILES = []
-for file in readdir(SRC)
-  if nothing != match(r".c$", file)
-    push!(CFILES, joinpath(SRC, file))
+for dir in SRCS
+  for item in readdir(dir)
+    subpath = joinpath(dir, item)
+    if isfile(subpath) && nothing != match(r"^((?!\.).)*\.c$", item)
+      push!(CFILES, subpath)
+    end
   end
 end
 
@@ -52,10 +76,10 @@ if length(args) == 0
   mkpath(LIB)
   OFILES = []
   for file in CFILES
-    obj = replace(file, r".c$"=>".o")
-		dep = replace(file, r".c$"=>".d")
+    obj = replace(file, r"\.c$"=>".o")
+    dep = replace(file, r"\.c$"=>".d")
     println("compile $file to $obj")
-    run(`$CC $CFLAGS -I$INC -c $file -o $obj -MD -MF $dep`)
+    run(`$CC $CFLAGS -I$INC -I$SRC_TYPE -c $file -o $obj -MD -MF $dep`)
     push!(OFILES, obj)
   end
   println("compile $LIBSHARED")
@@ -70,10 +94,10 @@ elseif args[1] == "test"
   run(`$TSTTARGET $tst_path`)
 elseif args[1] == "clean"
   for file in CFILES
-    obj = replace(file, r".c$"=>".o")
+    obj = replace(file, r"\.c$"=>".o")
     println("clean ", obj)
     rm(obj, force=true)
-    dep = replace(file, r".c$"=>".d")
+    dep = replace(file, r"\.c$"=>".d")
     println("clean ", dep)
     rm(dep, force=true)
   end
@@ -85,10 +109,10 @@ elseif args[1] == "clean"
   rm(TSTTARGET, force=true)
 elseif args[1] == "distclean"
   for file in CFILES
-    obj = replace(file, r".c$"=>".o")
+    obj = replace(file, r"\.c$"=>".o")
     println("clean ", obj)
     rm(obj, force=true)
-    dep = replace(file, r".c$"=>".d")
+    dep = replace(file, r"\.c$"=>".d")
     println("clean ", dep)
     rm(dep, force=true)
   end

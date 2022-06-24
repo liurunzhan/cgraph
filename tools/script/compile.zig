@@ -8,6 +8,7 @@ pub fn main() void {
   const PRO : []const u8 = "cgraph";
   const DIR : []const u8 = ".";
   const SRC = std.fs.path.join(DIR, "src");
+  const SRC_TYPE = std.fs.path.join(SRC, "type");
   const INC = std.fs.path.join(DIR, "include");
   const TST = std.fs.path.join(DIR, "test");
   const LIB = std.fs.path.join(DIR, "lib");
@@ -18,29 +19,29 @@ pub fn main() void {
 
   const MODE = "debug";
   if (MODE == "debug") {
-    CLFLAGS += " -g -DDEBUG";
+    CFLAGS += " -g -DDEBUG";
   } else if (MODE == "release") {
     CFLAGS += " -static -O2";
   }
 
   // package shared library
-  AR = "ar";
-  ARFLAGS = "-rcs";
-
+  const AR = "ar";
+  const ARFLAGS = "-rcs";
+  
   if (builtin.os == builtin.Os.windows) {
     // target files
-    const LIBSHARED = std.fs.path.join(lib, "lib{}.dll", .{pro});
-    const LIBSTATIC = std.fs.path.join(lib, "lib{}.lib", .{pro});
+    const LIBSHARED = std.fs.path.join(LIB, "lib{}.dll", .{PRO});
+    const LIBSTATIC = std.fs.path.join(LIB, "lib{}.lib", .{PRO});
     // test files
-    const TSTFILE = std.fs.path.join(tst, "{}.c", .{pro});
-    const TSTTARGET = std.fs.path.join(tst, "{}.exe", .{pro});
+    const TSTFILE = std.fs.path.join(TST, "{}.c", .{PRO});
+    const TSTTARGET = std.fs.path.join(TST, "{}.exe", .{PRO});
   } else {
     // target files
-    const LIBSHARED = std.fs.path.join(lib, "lib{}.so", .{pro});
-    const LIBSTATIC = std.fs.path.join(lib, "lib{}.a", .{pro});
+    const LIBSHARED = std.fs.path.join(LIB, "lib{}.so", .{PRO});
+    const LIBSTATIC = std.fs.path.join(LIB, "lib{}.a", .{PRO});
     // test files
-    const TSTFILE = std.fs.path.join(tst, "{}.c", .{pro});
-    const TSTTARGET = std.fs.path.join(tst, "{}", .{pro});
+    const TSTFILE = std.fs.path.join(TST, "{}.c", .{PRO});
+    const TSTTARGET = std.fs.path.join(TST, "{}", .{PRO});
   }
 
   var general_purpose_allocator = std.heap.GeneralPurposeAllocator(.{}){};
@@ -49,9 +50,9 @@ pub fn main() void {
   defer std.process.argsFree(gpa, args);
   
   if (args.len == 1) {
-		if (std.os.exists(LIB)) {
-			std.os.mkdir(LIB);
-		}
+    if (std.os.exists(LIB)) {
+      std.os.mkdir(LIB);
+    }
   } else if (args[1] == "test") {
     std.debug.print("hello world");
   } else if (args[1] == "clean") {

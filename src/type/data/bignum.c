@@ -212,7 +212,7 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
   return CGRAPH_ABS(hash);
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
   return ((NULL != cthis) ? cthis->postive : CGRAPH_FALSE);
 }
 
@@ -229,6 +229,56 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
   }
 
   return flag;
+}
+
+TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t len) {
+  if (NULL != cthis) {
+    const cgraph_size_t point = len + cthis->point;
+    if ((0 <= point) && (point < cthis->len)) {
+      cthis->point = point;
+    } else {
+      cgraph_size_t new_point = CGRAPH_ABS(point) + cthis->len;
+      cgraph_bool_t error = CGRAPH_FALSE;
+      if (0 == cthis->point) {
+        new_point += 1;
+      }
+      cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, cthis->size, new_point,
+                                      &error);
+      if (CGRAPH_FALSE == error) {
+        if (0 < point) {
+          cthis->point = (0 == cthis->point) ? (new_point - 1) : new_point;
+        } else {
+          cgraph_size_t i = cthis->len, j = new_point;
+          if (0 == cthis->point) {
+          }
+          for (; i > 0; i--, j--) {
+            cthis->data[j] = cthis->data[i];
+          }
+          cthis->point = 0;
+        }
+        cthis->len = new_point;
+      }
+    }
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t len) {
+  return FUNCTION(NAME, shl)(cthis, -len);
+}
+
+TYPE *FUNCTION(NAME, rol)(TYPE *cthis, const cgraph_size_t len) {
+  if (NULL != cthis) {
+    const cgraph_size_t len_mod = (cthis->point + len) % cthis->len;
+    cthis->point = (0 <= len_mod) ? len_mod : (cthis->len + len_mod);
+  }
+
+  return cthis;
+}
+
+TYPE *FUNCTION(NAME, ror)(TYPE *cthis, const cgraph_size_t len) {
+  return FUNCTION(NAME, rol)(cthis, -len);
 }
 
 TYPE *FUNCTION(NAME, initc)(TYPE *cthis, const cgraph_char_t *data,

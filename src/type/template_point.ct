@@ -14,9 +14,9 @@ DATA_TYPE FUNCTION(NAME, cosiangle)(const TYPE x, const TYPE y) {
          (FUNCTION(NAME, mag)(x) * FUNCTION(NAME, mag)(y));
 }
 
-/** iangle(x, y) = (x * y) / (|x| * |y|) */
+/** iangle(x, y) = acos((x * y) / (|x| * |y|)) */
 DATA_TYPE FUNCTION(NAME, iangle)(const TYPE x, const TYPE y) {
-  return acos(FUNCTION(NAME, iangle)(x, y));
+  return acos(FUNCTION(NAME, cosiangle)(x, y));
 }
 
 /** rproj(x, y) = |y| * (x * y) / (|x| * |y|) */

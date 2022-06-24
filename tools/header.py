@@ -92,9 +92,9 @@ def write_lines_to_file(lines, file):
 def arg_parse():
 	parser = argparse.ArgumentParser(description="update C-type macro definitions", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 	parser.add_argument("files", nargs="+", type=str, help="parsed source file")
-	parser.add_argument("-t", "--template", type=str, default="header.txt", help="template macro file")
-	parser.add_argument("-b", "--brief", default="brief.json", help="brief file")
-	parser.add_argument("-p", "--project", default="cgraph.json", help="project file")
+	parser.add_argument("-t", "--template", default="header.txt", type=str, help="template macro file")
+	parser.add_argument("-b", "--brief", default="brief.json", type=str,help="brief file")
+	parser.add_argument("-p", "--project", default="cgraph.json", type=str,help="project file")
 	def func(args):
 		project = parse_project(args.project)
 		brief = parse_brief(args.brief)

@@ -2,10 +2,10 @@
 
 set PRO="cgraph"
 set DIR="."
-set INC=${DIR}/"include"
-set SRC=${DIR}/"src"
-set TST=${DIR}/"test"
-set LIB=${DIR}/"lib"
+set INC="${DIR}/include"
+set SRC="${DIR}/src"
+set TST="${DIR}/test"
+set LIB="${DIR}/lib"
 
 set CC="cc"
 set CFLAGS="-std=c89 -Wall -pedantic -fPIC"
@@ -31,11 +31,11 @@ set CFILES=`ls ${SRC}/*.c`
 echo ${CFILES}
 
 # target files
-set LIBSHARED=${LIB}/lib${PRO}.so
-set LIBSTATIC=${LIB}/lib${PRO}.a
+set LIBSHARED="${LIB}/lib${PRO}.so"
+set LIBSTATIC="${LIB}/lib${PRO}.a"
 # test files
-set TSTFILE=${TST}/${PRO}.c
-set TSTTARGET=${TST}/${PRO}
+set TSTFILE="${TST}/${PRO}.c"
+set TSTTARGET="${TST}/${PRO}"
 
 if ( $#argv == 0 ) then
   foreach file ($CFILES)

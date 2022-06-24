@@ -70,26 +70,24 @@ cgraph_bool_t cgraph_error_init_by_file(const cgraph_char_t *file);
 
 extern const cgraph_char_t *cgraph_error_level(const cgraph_level_t level);
 extern const cgraph_char_t *cgraph_error_time(void);
-extern cgraph_size_t cgraph_error_printf(const cgraph_char_t *file,
-                                         const cgraph_char_t *function,
-                                         const cgraph_size_t line,
-                                         const cgraph_level_t level,
-                                         const cgraph_char_t *format, ...);
-extern cgraph_size_t cgraph_error_fprintf(FILE *fp, const cgraph_char_t *file,
-                                          const cgraph_char_t *function,
-                                          const cgraph_size_t line,
-                                          const cgraph_level_t level,
-                                          const cgraph_char_t *format, ...);
-extern cgraph_size_t
-cgraph_error_snprintf(cgraph_char_t *cbuf, cgraph_size_t len,
-                      const cgraph_char_t *file, const cgraph_char_t *function,
-                      const cgraph_size_t line, const cgraph_level_t level,
-                      const cgraph_char_t *format, ...);
-extern cgraph_size_t
-cgraph_error_fsnprintf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t len,
-                       const cgraph_char_t *file, const cgraph_char_t *function,
-                       const cgraph_size_t line, const cgraph_level_t level,
-                       const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_error_printfln(const cgraph_char_t *file,
+                                           const cgraph_char_t *function,
+                                           const cgraph_size_t line,
+                                           const cgraph_level_t level,
+                                           const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_error_fprintfln(FILE *fp, const cgraph_char_t *file,
+                                            const cgraph_char_t *function,
+                                            const cgraph_size_t line,
+                                            const cgraph_level_t level,
+                                            const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_error_snprintfln(
+    cgraph_char_t *cbuf, cgraph_size_t len, const cgraph_char_t *file,
+    const cgraph_char_t *function, const cgraph_size_t line,
+    const cgraph_level_t level, const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_error_fsnprintfln(
+    FILE *fp, cgraph_char_t *cbuf, cgraph_size_t len, const cgraph_char_t *file,
+    const cgraph_char_t *function, const cgraph_size_t line,
+    const cgraph_level_t level, const cgraph_char_t *format, ...);
 
 /** corresponding to the argument order of above function calling */
 #define CGRAPH_ERROR_STYLE "[%s>%ld] [%s] "
@@ -105,8 +103,8 @@ cgraph_error_fsnprintf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t len,
 
 #ifdef DEBUG
 #define cgraph_error_log(level, format, ...)                                   \
-  cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format,        \
-                      ##__AV_ARGS__)
+  cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format,      \
+                        ##__AV_ARGS__)
 #else
 #define cgraph_error_log(level, format, ...) ((void)0)
 #endif
@@ -116,7 +114,7 @@ cgraph_error_fsnprintf(FILE *fp, cgraph_char_t *cbuf, cgraph_size_t len,
 #if 0
 #ifdef DEBUG
 #define cgraph_error_log(level, format, args...)
-cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format, ##args)
+cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format, ##args)
 #else
 #define cgraph_error_log(level, format, args...) ((void)0)
 #endif
@@ -126,8 +124,8 @@ cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format, ##args)
 
 #ifdef DEBUG
 #define cgraph_error_log(level, format, args)                                  \
-  (cgraph_error_printf(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, ""),          \
-   cgraph_error_printf(NULL, NULL, NULL, level, format, args))
+  (cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, ""),        \
+   cgraph_error_printfln(NULL, NULL, NULL, level, format, args))
 #else
 #define cgraph_error_log(level, format, args) ((void)0)
 #endif

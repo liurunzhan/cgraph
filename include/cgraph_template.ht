@@ -73,11 +73,11 @@
 
 #elif defined(TYPE_COMPLEX)
 #define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
-#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
+#define DATA_NE(a, b) (fabs((a) - (b)) >= DATA_EPSILON)
 #define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
 #define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
-#define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
-#define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
+#define DATA_LS(a, b) DATA_GR(b, a)
+#define DATA_LE(a, b) DATA_GE(b, a)
 
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
 #define DATA_TEST(a) (isnormal(COMPLEX_REAL(a)) && isnormal(COMPLEX_IMAG(a)))
@@ -87,9 +87,9 @@
 #define DATA_ISNINF(a)                                                         \
   ((0 > isinf(COMPLEX_REAL(a))) || (0 > isinf(COMPLEX_IMAG(a))))
 #define DATA_ISINF(a) ((!isinf(COMPLEX_REAL(a))) || (!isinf(COMPLEX_IMAG(a))))
-#define DATA_ISPOS(a) (signbit(COMPLEX_REAL(a)) && signbit(COMPLEX_IMAG(a)))
-#define DATA_ISNEG(a)                                                          \
+#define DATA_ISPOS(a)                                                          \
   ((!signbit(COMPLEX_REAL(a))) && (!signbit(COMPLEX_IMAG(a))))
+#define DATA_ISNEG(a) (signbit(COMPLEX_REAL(a)) && signbit(COMPLEX_IMAG(a)))
 #else
 #define DATA_TEST(a)                                                           \
   ((DATA_MIN < COMPLEX_REAL(a)) && (DATA_MAX > COMPLEX_REAL(a)) &&             \
@@ -249,11 +249,11 @@
 
 #elif defined(TYPE_POINT2D)
 #define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
-#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
+#define DATA_NE(a, b) (fabs((a) - (b)) >= DATA_EPSILON)
 #define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
-#define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
-#define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
-#define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
+#define DATA_GE(a, b) (DATA_EQ(a, b) || DATA_GR(a, b))
+#define DATA_LS(a, b) DATA_GR(b, a)
+#define DATA_LE(a, b) DATA_GE(b, a)
 
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
 #define DATA_TEST(a) (isnormal(POINT2D_X(a)) && isnormal(POINT2D_Y(a)))
@@ -261,8 +261,8 @@
 #define DATA_ISPINF(a) ((0 < isinf(POINT2D_X(a))) || (0 < isinf(POINT2D_Y(a))))
 #define DATA_ISNINF(a) ((0 > isinf(POINT2D_X(a))) || (0 > isinf(POINT2D_Y(a))))
 #define DATA_ISINF(a) ((!isinf(POINT2D_X(a))) || (!isinf(POINT2D_Y(a))))
-#define DATA_ISPOS(a) (signbit(POINT2D_X(a)) && signbit(POINT2D_Y(a)))
-#define DATA_ISNEG(a) ((!signbit(POINT2D_X(a))) && (!signbit(POINT2D_Y(a))))
+#define DATA_ISPOS(a) ((!signbit(POINT2D_X(a))) && (!signbit(POINT2D_Y(a))))
+#define DATA_ISNEG(a) (signbit(POINT2D_X(a)) && signbit(POINT2D_Y(a)))
 #else
 #define DATA_TEST(a)                                                           \
   ((DATA_MIN < POINT2D_X(a)) && (DATA_MAX > POINT2D_Y(a)) &&                   \
@@ -341,11 +341,11 @@
 
 #elif defined(TYPE_POINT3D)
 #define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
-#define DATA_NE(a, b) (fabs((a) - (b)) > DATA_EPSILON)
+#define DATA_NE(a, b) (fabs((a) - (b)) >= DATA_EPSILON)
 #define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
-#define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
-#define DATA_LS(a, b) (((b) - (a)) > DATA_EPSILON)
-#define DATA_LE(a, b) (DATA_LS(a, b) || DATA_EQ(a, b))
+#define DATA_GE(a, b) (DATA_EQ(a, b) || DATA_GR(a, b))
+#define DATA_LS(a, b) DATA_GR(b, a)
+#define DATA_LE(a, b) DATA_GE(b, a)
 
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
 #define DATA_TEST(a)                                                           \
@@ -361,10 +361,11 @@
 #define DATA_ISINF(a)                                                          \
   ((!isinf(POINT3D_X(a))) || (!isinf(POINT3D_Y(a))) || (!isinf(POINT3D_Z(a))))
 #define DATA_ISPOS(a)                                                          \
-  (signbit(POINT3D_X(a)) && signbit(POINT3D_Y(a)) && signbit(POINT3D_Z(a)))
-#define DATA_ISNEG(a)                                                          \
   ((!signbit(POINT3D_X(a))) && (!signbit(POINT3D_Y(a))) &&                     \
    (!signbit(POINT3D_Z(a))))
+#define DATA_ISNEG(a)                                                          \
+  (signbit(POINT3D_X(a)) && signbit(POINT3D_Y(a)) && signbit(POINT3D_Z(a)))
+
 #else
 #define DATA_TEST(a)                                                           \
   ((DATA_MIN < POINT3D_X(a)) && (DATA_MAX > POINT3D_X(a)) &&                   \

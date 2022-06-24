@@ -177,7 +177,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE *cthis) {
                      (0 <= BITSET_BITNUM(cthis)) && (8 > BITSET_BITNUM(cthis)));
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
   return CGRAPH_TEST(NULL != cthis);
 }
 
@@ -345,11 +345,11 @@ TYPE *FUNCTION(NAME, clrs)(TYPE *cthis, const cgraph_size_t min,
 }
 
 /** need check  */
-TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
-  if ((NULL != cthis) && (0 < bits)) {
+TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t len) {
+  if ((NULL != cthis) && (0 < len)) {
     cgraph_bool_t flag = CGRAPH_FALSE;
-    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(bits),
-                  byte = FUNCTION(DATA_NAME, bitmod)(bits),
+    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(len),
+                  byte = FUNCTION(DATA_NAME, bitmod)(len),
                   byte_right = DATA_BITS - byte;
     cthis = FUNCTION(NAME, realloc)(cthis, DATA_ID, cthis->size,
                                     cthis->len + bytes + 1, &flag);
@@ -376,10 +376,10 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t bits) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t bits) {
-  if (CGRAPH_HASDATA(cthis) && (0 < bits)) {
-    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(bits),
-                  byte = FUNCTION(DATA_NAME, bitmod)(bits),
+TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t len) {
+  if (CGRAPH_HASDATA(cthis) && (0 < len)) {
+    cgraph_size_t bytes = FUNCTION(DATA_NAME, bitfloor)(len),
+                  byte = FUNCTION(DATA_NAME, bitmod)(len),
                   byte_left = DATA_BITS - byte;
     cgraph_size_t i = 0, j = bytes, _len = cthis->len - 1;
     cgraph_int_t sum = BITSET_BITNUM(cthis) - BITSET_POS2NUM(byte);

@@ -779,7 +779,7 @@ typedef enum {
   CGRAPH_LIST_T = 34,     /**< TYPE 34 : CGRAPH_LIST_T */
   CGRAPH_QUEUE_T = 35,    /**< TYPE 35 : CGRAPH_QUEUE_T */
   CGRAPH_TREE_T = 36,     /**< TYPE 36 : CGRAPH_TREE_T */
-  CGRAPH_MAX_T            /**< TYPE MX : CGRAPH_MAX_T */
+  CGRAPH_MAX_T = 36       /**< TYPE MX : CGRAPH_MAX_T */
 } cgraph_type_t;
 
 /**

@@ -23,7 +23,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   return CGRAPH_NTEST(DATA_ISNAN(cthis));
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return DATA_GR(0.0, POINT2D_X(x)) + DATA_GR(0.0, POINT2D_Y(x)) + 1;
 }
 
@@ -162,7 +162,7 @@ TYPE FUNCTION(NAME, rev)(const TYPE x) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, trans)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, trans)(const TYPE x) {
   TYPE res;
   POINT2D_X(res) = POINT2D_Y(x);
   POINT2D_Y(res) = POINT2D_X(x);
@@ -204,15 +204,15 @@ TYPE FUNCTION(NAME, std)(const TYPE x) {
   return res;
 }
 
-TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t bits) {
+TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t len) {
   TYPE res = x;
-  if (1 == bits) {
+  if (1 == len) {
     POINT2D_X(res) = DATA_ZERO;
     POINT2D_Y(res) = POINT2D_X(x);
-  } else if (-1 == bits) {
+  } else if (-1 == len) {
     POINT2D_X(res) = POINT2D_Y(x);
     POINT2D_Y(res) = DATA_ZERO;
-  } else if (0 != bits) {
+  } else if (0 != len) {
     POINT2D_X(res) = DATA_ZERO;
     POINT2D_Y(res) = DATA_ZERO;
   }
@@ -220,13 +220,13 @@ TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t bits) {
   return res;
 }
 
-TYPE FUNCTION(NAME, shr)(const TYPE x, const cgraph_size_t bits) {
-  return FUNCTION(NAME, shl)(x, -bits);
+TYPE FUNCTION(NAME, shr)(const TYPE x, const cgraph_size_t len) {
+  return FUNCTION(NAME, shl)(x, -len);
 }
 
-TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t bits) {
+TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t len) {
   TYPE res = x;
-  if (1 == cgraph_math_mod2(bits)) {
+  if (len & USIZE_C(1)) {
     POINT2D_X(res) = POINT2D_Y(x);
     POINT2D_Y(res) = POINT2D_X(x);
   }
@@ -234,8 +234,8 @@ TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t bits) {
   return res;
 }
 
-TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t bits) {
-  return FUNCTION(NAME, rol)(x, -bits);
+TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t len) {
+  return FUNCTION(NAME, rol)(x, -len);
 }
 
 DATA_TYPE FUNCTION(NAME, mahadist)(const TYPE x, const TYPE y) {
@@ -314,7 +314,7 @@ TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
 }
 
 /* x * y = [x1, y1] * [x2, y2] = x1*y1 + x2*y2 */
-__INLINE DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y) {
+__INLINE__ DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y) {
   return (POINT2D_X(x) * POINT2D_X(y)) + (POINT2D_Y(x) * POINT2D_Y(y));
 }
 

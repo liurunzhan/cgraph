@@ -1,5 +1,7 @@
-# a simple Makefile to compile cgraph and generate static and shared library, 
-# which crosses the platforms of windows and linux.
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+# designed to cross the platforms of windows and linux.
 
 export PRO = cgraph
 

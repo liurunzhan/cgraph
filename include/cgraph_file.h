@@ -73,6 +73,7 @@ extern cgraph_size_t cgraph_file_snprintf(cgraph_char_t *cbuf,
 extern cgraph_size_t cgraph_file_fsnprintf(FILE *fp, cgraph_char_t *cbuf,
                                            const cgraph_size_t size,
                                            const cgraph_char_t *format, ...);
+extern cgraph_size_t cgraph_file_fflush(FILE *fp);
 
 extern FILE *cgraph_file_fopen(cgraph_char_t *file, cgraph_char_t *mode);
 extern cgraph_bool_t cgraph_file_fclose(FILE *fp);

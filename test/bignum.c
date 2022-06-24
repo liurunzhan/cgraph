@@ -134,6 +134,16 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintfln(stdout, "test mul function");
   FUNCTION(NAME, mul)(bignum1, bignum2, bignum5);
   FUNCTION(NAME, fprintln)(stdout, bignum5);
+  cgraph_file_fprintfln(stdout, "point : %ld len : %ld", bignum5->point,
+                        bignum5->len);
+
+  FUNCTION(NAME, fprintln)(stdout, bignum5);
+  cgraph_file_fprintfln(stdout, "point : %ld len : %ld", bignum5->point,
+                        bignum5->len);
+  bignum5 = FUNCTION(NAME, shl)(bignum5, 2);
+  FUNCTION(NAME, fprintln)(stdout, bignum5);
+  cgraph_file_fprintfln(stdout, "point : %ld len : %ld", bignum5->point,
+                        bignum5->len);
 
   FUNCTION(NAME, free)(bignum1);
   FUNCTION(NAME, free)(bignum2);

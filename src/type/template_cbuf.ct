@@ -19,7 +19,7 @@ static cgraph_char_t *volatile CGRAPH_CBUF_PTR = __cgraph_cbuf__;
 #define CGRAPH_CBUF_LEN                                                        \
   (*(cgraph_size_t *)(CGRAPH_CBUF_PTR - sizeof(cgraph_size_t)))
 
-__INLINE cgraph_size_t FUNCTION(NAME, buflen)(void) {
+__INLINE__ cgraph_size_t FUNCTION(NAME, buflen)(void) {
   cgraph_size_t buflen = CGRAPH_CBUF_SIZE;
   if (__cgraph_cbuf__ != CGRAPH_CBUF_PTR) {
     buflen = CGRAPH_CBUF_LEN;
@@ -74,7 +74,7 @@ void FUNCTION(NAME, bufmem)(const cgraph_size_t size) {
   }
 }
 
-__INLINE void FUNCTION(NAME, bufdel)(void) {
+__INLINE__ void FUNCTION(NAME, bufdel)(void) {
   if (__cgraph_cbuf__ != CGRAPH_CBUF_PTR) {
     cgraph_char_t *ptr = CGRAPH_CBUF_PTR - sizeof(cgraph_size_t);
     cgraph_free(ptr);

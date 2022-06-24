@@ -143,7 +143,7 @@ typedef enum {
 
 /** C Standard */
 #ifndef __STDC__
-#error Only standard c is suppoted!!
+#error Only "Standard C" is suppoted!!
 #endif
 
 #ifndef __STDC_VERSION__
@@ -176,46 +176,46 @@ typedef enum {
 #endif
 
 #ifndef __EXTENSION__
-#error __EXTENSION__ must be defined in this library
+#error __EXTENSION__ must be defined in this library even if empty
 #endif
 /** @} */
 
 /** inline function definitions to cross compilers */
 /** @{ */
-#ifndef __INLINE
+#ifndef __INLINE__
 #if __STDC_VERSION__ >= 199901L
-#define __INLINE inline
+#define __INLINE__ inline
 #elif defined(__GNUC__) || defined(__clang__)
 /** GNU C Compiler or Clang C Compiler */
-#define __INLINE __extension__ __inline__
+#define __INLINE__ __extension__ __inline__
 #elif defined(_MSC_VER)
 /** Microsoft C Compiler */
-#define __INLINE _inline
+#define __INLINE__ _inline
 #elif defined(INTEL_COMPILER)
 /** Intel C Compiler */
-#define __INLINE inline
+#define __INLINE__ inline
 #elif defined(__DMC__)
 /** Digital Mars C Compiler */
-#define __INLINE inline
+#define __INLINE__ inline
 #elif defined(__WATCOMC__)
 /** Watcom C Compiler */
-#define __INLINE inline
+#define __INLINE__ inline
 #elif defined(__CC_ARM)
 /** ARM C Compiler */
-#define __INLINE Inline
+#define __INLINE__ Inline
 #elif defined(ICCARM__)
 /** IAR C Compiler */
-#define __INLINE inline
+#define __INLINE__ inline
 #elif defined(__TASKING__)
 /** TASKING C Compiler */
-#define __INLINE inline
+#define __INLINE__ inline
 #else
-#define __INLINE
+#define __INLINE__
 #endif
 #endif
 
-#ifndef __INLINE
-#error __INLINE must be defined in this library
+#ifndef __INLINE__
+#error __INLINE__ must be defined in this library even if empty
 #endif
 /** @} */
 

@@ -13,16 +13,16 @@ LIBSHARED_TARGET = $(LIB)$(PSEP)libbasic$(LIBSHARED_SUFFIX)
 
 all: $(LIBSHARED_TARGET) $(LIBSTATIC_TARGET)
 
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(INC) -I.. -c $< -o $@ -MD -MF $*.d
+
+-include $(DEPEND)
+
 $(LIBSHARED_TARGET): $(OBJECT)
 	$(CC) $(CSFLAGS) -o $(LIBSHARED_TARGET) $(OBJECT)
 
 $(LIBSTATIC_TARGET): $(OBJECT)
 	$(AR) $(ARFLAGS) $(LIBSTATIC_TARGET) $(OBJECT)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -I$(INC) -I.. -c $< -o $@ -MD -MF $*.d
-
--include $(DEPEND)
 
 clean:
 	$(RM) $(RMFLAGS) $(OBJECT) $(DEPEND) $(LIBSTATIC_TARGET) $(LIBSHARED_TARGET)

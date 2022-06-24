@@ -101,19 +101,19 @@ cgraph_size_t cgraph_math_kmpsub(const cgraph_char_t *x, cgraph_char_t *z,
   return _len;
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnum(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnum(const cgraph_char_t data) {
   return CGRAPH_TEST(isdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data) {
   return CGRAPH_TEST(isalnum(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data) {
   return CGRAPH_TEST(isalpha(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
 #if __STDC_VERSION__ >= 199901L
   return CGRAPH_TEST(isblank(data));
 #else
@@ -121,36 +121,36 @@ __INLINE cgraph_bool_t cgraph_math_isblank(const cgraph_char_t data) {
 #endif
 }
 
-__INLINE cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_islower(const cgraph_char_t data) {
   return CGRAPH_TEST(islower(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isprint(const cgraph_char_t data) {
   return CGRAPH_TEST(isprint(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data) {
   return CGRAPH_TEST(isupper(data));
 }
 
-__INLINE cgraph_char_t cgraph_math_toupper(const cgraph_char_t data) {
+__INLINE__ cgraph_char_t cgraph_math_toupper(const cgraph_char_t data) {
   return toupper(data);
 }
 
-__INLINE cgraph_char_t cgraph_math_tolower(const cgraph_char_t data) {
+__INLINE__ cgraph_char_t cgraph_math_tolower(const cgraph_char_t data) {
   return tolower(data);
 }
 
-__INLINE cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
   return CGRAPH_TEST(__PLAT_PSPLIT_C == data);
 }
 
-__INLINE cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
-                                          const cgraph_char_t datay) {
+__INLINE__ cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
+                                            const cgraph_char_t datay) {
 #ifdef __CGRAPH_PLAT_WINDOWS
   return ((__PLAT_LEND_C0 == datax) && (__PLAT_LEND_C1 == datay)) ? 2 : 0;
 #else
@@ -158,8 +158,8 @@ __INLINE cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
 #endif
 }
 
-__INLINE cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
-                                           const cgraph_char_t datay) {
+__INLINE__ cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
+                                             const cgraph_char_t datay) {
 #ifdef __CGRAPH_PLAT_WINDOWS
   return ((__PLAT_LEND_C0 == datax) && (__PLAT_LEND_C1 == datay)) ? 2 : 0;
 #else
@@ -167,179 +167,179 @@ __INLINE cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
 #endif
 }
 
-__INLINE cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' == data) || ('1' == data));
 }
 
-__INLINE extern cgraph_bool_t cgraph_math_isoct(const cgraph_char_t data) {
+__INLINE__ extern cgraph_bool_t cgraph_math_isoct(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' <= data) && ('7' >= data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data) {
   return CGRAPH_TEST(isdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_ishex(const cgraph_char_t data) {
   return CGRAPH_TEST(isxdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isbinhd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isbinhd(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data) || ('0' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isbinst(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isbinst(const cgraph_char_t data) {
   return CGRAPH_TEST('1' == data);
 }
 
-__INLINE cgraph_bool_t cgraph_math_isbinmd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isbinmd(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' == data) || ('1' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isbined(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isbined(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' == data) || ('1' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isbintl(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isbintl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isocthd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isocthd(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data) || ('0' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isoctst(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isoctst(const cgraph_char_t data) {
   return CGRAPH_TEST(('1' <= data) && ('7' >= data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isoctmd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isoctmd(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' <= data) && ('7' >= data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isocted(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isocted(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' <= data) && ('7' >= data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isocttl(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isocttl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isdechd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isdechd(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data) || ('0' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isdecst(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isdecst(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' != data) && isdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isdecmd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isdecmd(const cgraph_char_t data) {
   return CGRAPH_TEST(isdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isdeced(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isdeced(const cgraph_char_t data) {
   return CGRAPH_TEST(isdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isdectl(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isdectl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_ishexhd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_ishexhd(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data) || ('0' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_ishexst(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_ishexst(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' != data) && isxdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_ishexmd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_ishexmd(const cgraph_char_t data) {
   return CGRAPH_TEST(isxdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_ishexed(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_ishexed(const cgraph_char_t data) {
   return CGRAPH_TEST(isxdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_ishextl(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_ishextl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnumhd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnumhd(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data) || ('0' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnumst(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' != data) && isdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnummd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnummd(const cgraph_char_t data) {
   return CGRAPH_TEST(isdigit(data) || ('.' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnumed(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnumed(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' != data) && isdigit(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnumtl(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnumtl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data) || ('0' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnamhd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnamhd(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnamst(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnamst(const cgraph_char_t data) {
   return CGRAPH_TEST(isalpha(data) || ('_' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnammd(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnammd(const cgraph_char_t data) {
   return CGRAPH_TEST(isalnum(data) || ('_' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnamed(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnamed(const cgraph_char_t data) {
   return CGRAPH_TEST(isalnum(data) || ('_' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isnamtl(const cgraph_char_t data) {
   return CGRAPH_TEST(isspace(data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_iscopt(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_iscopt(const cgraph_char_t data) {
   return cgraph_math_isnamst(data) ? CGRAPH_FALSE : cgraph_math_isnumst(data);
 }
 
-__INLINE cgraph_bool_t cgraph_math_iscdoc(const cgraph_char_t datax,
-                                          const cgraph_char_t datay) {
+__INLINE__ cgraph_bool_t cgraph_math_iscdoc(const cgraph_char_t datax,
+                                            const cgraph_char_t datay) {
   return CGRAPH_TEST((('/' == datax) && (('/' == datay) || ('*' == datay))) ||
                      (('*' == datax) && ('/' == datay)));
 }
 
-__INLINE cgraph_bool_t cgraph_math_isclpair(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_isclpair(const cgraph_char_t data) {
   return CGRAPH_TEST(('(' == data) || ('[' == data) || ('{' == data) ||
                      ('\'' == data) || ('\"' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_iscrpair(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_iscrpair(const cgraph_char_t data) {
   return CGRAPH_TEST((')' == data) || (']' == data) || ('}' == data) ||
                      ('\'' == data) || ('\"' == data));
 }
 
-__INLINE cgraph_bool_t cgraph_math_iscpair(const cgraph_char_t data) {
+__INLINE__ cgraph_bool_t cgraph_math_iscpair(const cgraph_char_t data) {
   return cgraph_math_isclpair(data) ? CGRAPH_TRUE : cgraph_math_iscrpair(data);
 }
 
-__INLINE cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data) {
+__INLINE__ cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data) {
   return ('0' == data) ? 0 : 1;
 }
 
-__INLINE cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data) {
+__INLINE__ cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data) {
   return (0 == data) ? '0' : '1';
 }
 
-__INLINE cgraph_int_t cgraph_math_dec2dec(const cgraph_char_t data) {
+__INLINE__ cgraph_int_t cgraph_math_dec2dec(const cgraph_char_t data) {
   return (('0' <= data) && ('9' >= data)) ? (data - '0') : MATH_ERROR;
 }
 
-__INLINE cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data) {
+__INLINE__ cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data) {
   cgraph_int_t res = MATH_ERROR;
   if (('0' <= data) && ('9' >= data)) {
     res = data - '0';
@@ -362,7 +362,7 @@ static const cgraph_char_t __cgraph_math_dec2hex_upper__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-__INLINE cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data) {
+__INLINE__ cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data) {
   return (data >= 0 && data < 16) ? __cgraph_math_dec2hex_upper__[data] : '\0';
 }
 
@@ -370,7 +370,7 @@ static const cgraph_char_t __cgraph_math_dec2hex_lower__[16] = {
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-__INLINE cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data) {
+__INLINE__ cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data) {
   return (data >= 0 && data < 16) ? __cgraph_math_dec2hex_lower__[data] : '\0';
 }
 
@@ -520,12 +520,12 @@ cgraph_int_t cgraph_math_chbase(cgraph_int_t *old, const cgraph_size_t old_len,
   return len;
 }
 
-__INLINE cgraph_size_t cgraph_math_mod2(const cgraph_size_t x) {
+__INLINE__ cgraph_size_t cgraph_math_mod2(const cgraph_size_t x) {
   return (0 <= x) ? (x & USIZE_C(1)) : (-(x & USIZE_C(1)));
 }
 
-__INLINE cgraph_size_t cgraph_math_mod3(const cgraph_size_t x) {
-  return (0 <= x) ? (x % 3) : -((-x) % 3);
+__INLINE__ cgraph_size_t cgraph_math_mod3(const cgraph_size_t x) {
+  return (x % 3);
 }
 
 cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
@@ -618,19 +618,19 @@ ERROR:
   return 0;
 }
 
-__INLINE cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle) {
+__INLINE__ cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle) {
   return angle * M_PI / 180.0;
 }
 
-__INLINE cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian) {
+__INLINE__ cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian) {
   return radian * M_1_PI * 180.0;
 }
 
-__INLINE cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x) {
+__INLINE__ cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x) {
   return ceil(x);
 }
 
-__INLINE cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x) {
+__INLINE__ cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x) {
   return floor(x);
 }
 
@@ -686,7 +686,7 @@ cgraph_int_t cgraph_math_abitlen(const cgraph_uint_t data) {
   return (0 == res) ? 1 : res;
 }
 
-__INLINE cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n) {
+__INLINE__ cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n) {
   return (n >= 0) ? (1 << n) : 0;
 }
 
@@ -700,30 +700,30 @@ cgraph_int_t cgraph_math_log2i(const cgraph_int_t x) {
   return res;
 }
 
-__INLINE cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x) {
+__INLINE__ cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x) {
   return (x & 0x01U);
 }
 
-__INLINE cgraph_int_t cgraph_math_rmod2i(const cgraph_int_t x,
-                                         const cgraph_int_t n) {
+__INLINE__ cgraph_int_t cgraph_math_rmod2i(const cgraph_int_t x,
+                                           const cgraph_int_t n) {
   return (x & (~(CGRAPH_INT_MIN << n)));
 }
 
-__INLINE cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data) {
+__INLINE__ cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data) {
   return (data ^ (data >> 1));
 }
 
-__INLINE cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data) {
+__INLINE__ cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data) {
   return (data ^ (data << 1));
 }
 
-__INLINE cgraph_int_t cgraph_math_ceili(const cgraph_int_t x,
-                                        const cgraph_int_t y) {
+__INLINE__ cgraph_int_t cgraph_math_ceili(const cgraph_int_t x,
+                                          const cgraph_int_t y) {
   return (x + y - 1) / y;
 }
 
-__INLINE cgraph_int_t cgraph_math_floori(const cgraph_int_t x,
-                                         const cgraph_int_t y) {
+__INLINE__ cgraph_int_t cgraph_math_floori(const cgraph_int_t x,
+                                           const cgraph_int_t y) {
   return x / y;
 }
 

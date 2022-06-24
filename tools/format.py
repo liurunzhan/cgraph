@@ -26,8 +26,8 @@ def line_parser(file, mode):
 
 def arg_parse():
 	parser = argparse.ArgumentParser(description="update file style", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-	parser.add_argument("files", nargs="+", help="parsed source files")
-	parser.add_argument("-m", "--mode", required=True, choices=["win", "unix", "macos"], help="input suffixes")
+	parser.add_argument("files", nargs="+", type=str, help="parsed source files")
+	parser.add_argument("-m", "--mode", required=True, choices=["win", "unix", "macos"], type=str, help="input suffixes")
 	def func(args):
 		for file in args.files:
 			line_parser(file, mode=args.mode)

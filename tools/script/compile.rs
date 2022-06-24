@@ -10,6 +10,7 @@ fn main() {
   let DIR = path::Path::new(".");
   let INC = DIR.join("include");
   let SRC = DIR.join("src");
+  let SRC_TYPE = SRC.join("type");
   let TST = DIR.join("test");
   let LIB = DIR.join("lib");
 
@@ -61,7 +62,7 @@ fn main() {
     }
     for file in CFILES {
       let obj = file.with_extension("o");
-			let dep = file.with_extension("d");
+      let dep = file.with_extension("d");
       println!("compile {} to {}", file.display(), obj.display());
       if env::consts::OS == "windows" {
         Command::new("cmd")

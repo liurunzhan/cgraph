@@ -20,7 +20,7 @@ endif
 all: compile
 
 compile:
-	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET_TEST) $(SOURCE) -L$(LIB) -shared -lcgraph
+	$(CC) $(CFLAGS) -I$(INC) -o $(TARGET_TEST) $(SOURCE) -L$(LIB) -shared -l$(PRO)
 
 test: compile
 	$(DIR)$(PSEP)$(TARGET_TEST)

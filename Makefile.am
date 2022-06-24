@@ -16,12 +16,13 @@ libdir     = $(prefix)/lib
 testdir    = $(prefix)/test
 docdir     = $(prefix)/doc
 
-if DEBUG
-MODE_FLAGS    =-DDEBUG
-else
-MODE_FLAGS    =
+COMPILE_FLAGS = -Wall -pedantic -pedantic-errors
+if enable_debug
+COMPILE_FLAGS += -DDEBUG
 endif
-COMPILE_FLAGS = -Wall -pedantic -pedantic-errors $(MODE_FLAGS)
+# if enable_stdc
+# COMPILE_FLAGS += -std=$(stdc)
+# endif
 export COMPILE_FLAGS
 
 pkgconfigdir = @libdir@/pkgconfig
@@ -31,8 +32,8 @@ EXTRA_DIST = autogen.sh $(PROJECT).pc Doxyfile README.md
 
 DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure $(PROJECT).pc Doxyfile depcomp gtk-doc.m4 gtk-doc.make install-sh libtool ltmain.sh Makefile.in Makefile missing test-driver
 
-if BUILT_IN_GIT_REPO
-BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h $(include_dir)/cgraph_stdchk.h
+if built_in_git_repo
+BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h $(include_dir)/cgraph_stdchk.h $(src_dir)/version.c
 
 $(include_dir)/cgraph_template_off.h: $(include_dir)/cgraph_template_off.h.in $(tools_dir)/template_off.macro
 	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_off.macro -c "end of cgraph_template_off"
@@ -41,7 +42,10 @@ $(include_dir)/cgraph_template_check.h: $(include_dir)/cgraph_template_check.h.i
 	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_check.macro -c "end of cgraph_template_check"
 
 $(include_dir)/cgraph_stdchk.h: $(include_dir)/cgraph_stdchk.h.in $(tools_dir)/stdchk.macro
-	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/stdchk.macro -c "" --novar
+	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/stdchk.macro -c "" --nodoc
+
+$(src_dir)/version.c: $(include_dir)/cgraph_config.h
+	-python3 $(tools_dir)/enum2array.py $< -e cgraph_type_t -s $@ -a __cgraph_types__ -o $@
 endif
 
 distclean-local:

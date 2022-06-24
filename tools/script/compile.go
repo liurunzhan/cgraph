@@ -1,5 +1,9 @@
 #!/usr/bin/env gorun
 
+// Date : 2022-07-01
+// A script to compile Library cgraph in Unix-like and Windows Platforms
+// gets source files iteratively from Directory src
+
 package main
 
 import (
@@ -13,23 +17,27 @@ import (
   "strings"
 )
 
+func getsubdirs(path, dirs) {
+  dirs, _ := ioutil.ReadDir(entry)
+  for _, item := range dirs {
+    matched, _ := regexp.MatchString(`^(?!\.)`, item.Name())
+    if matched {
+      if item.IsDir() {
+        append(dirs, item)
+        getsubdirs(item, dirs)
+      }
+    }
+  }
+}
+
 func main() {
   var PRO string = "cgraph"
   var DIR string = "."
   var INC string = path.Join(DIR, "include")
   var SRC string = path.Join(DIR, "src")
-  var SRC_FUNC string = os.path.join(SRC, "func")
   var SRC_TYPE string = os.path.join(SRC, "type")
-  var SRC_TYPE_BASIC     string = os.path.join(SRC_TYPE, "basic")
-  var SRC_TYPE_DATA      string = os.path.join(SRC_TYPE, "data")
-  var SRC_TYPE_OBJECT    string = os.path.join(SRC_TYPE, "object")
-  var SRC_TYPE_STRUCTURE string = os.path.join(SRC_TYPE, "structure")
-  var SRC_GRAPH string = os.path.join(SRC, "graph")
-  var SRC_GAME  string = os.path.join(SRC, "game")
   var TST string = path.Join(DIR, "test")
   var LIB string = path.Join(DIR, "lib")
-
-  var SRCS string[] = [SRC, SRC_FUNC, SRC_TYPE, SRC_TYPE_BASIC, SRC_TYPE_DATA, SRC_TYPE_OBJECT, SRC_TYPE_STRUCTURE, SRC_GRAPH, SRC_GAME]
 
   var CC string = "cc"
   var CFLAGS []string = strings.Split("-std=c89 -Wall -pedantic -fPIC", " ")
@@ -44,6 +52,25 @@ func main() {
 
   var AR string = "ar"
   var ARFLAGS string = "-rcs"
+
+  // source files
+  // get all subdirectories
+  var SRCS []string
+  getsubdirs(SRC, SRCS)
+
+  // get all source files from subdirectories
+  var CFILES []string
+  for _, dir := range SRCS {
+    items, _ := ioutil.ReadDir(dir)
+    for _, item := range items {
+      if item.IsFile() {
+        matched, _ := regexp.MatchString(`^(?!\.).*?\.c$`, item.Name())
+        if matched {
+          CFILES = append(CFILES, path.Join(dir, item.Name()))
+        }
+      }
+    }
+  }
 
   var LIBSHARED string 
   var LIBSTATIC string 
@@ -60,19 +87,6 @@ func main() {
     LIBSTATIC = path.Join(LIB, "lib" + PRO + ".a")
     TSTFILE   = path.Join(TST, PRO + ".c")
     TSTTARGET = path.Join(TST, PRO)
-  }
-
-  var CFILES []string
-  for _, entry := range SRCS {
-    dir, _ := ioutil.ReadDir(entry)
-    for _, file := range dir {
-      if !file.IsDir() {
-        matched, _ := regexp.MatchString(`\.c$`, file.Name())
-        if matched {
-          CFILES = append(CFILES, path.Join(SRC, file.Name()))
-        }
-      }
-    }
   }
 
   var args []string = os.Args

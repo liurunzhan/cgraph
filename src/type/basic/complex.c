@@ -95,12 +95,12 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
   return flag;
 }
 
-__INLINE cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
+__INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
   return DATA_GR(0.0, COMPLEX_REAL(x)) + DATA_GR(0.0, COMPLEX_IMAG(x)) + 1;
 }
 
 /** initial function */
-__INLINE TYPE FUNCTION(NAME, zero)(void) {
+__INLINE__ TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_ZERO;
   COMPLEX_IMAG(res) = DATA_ZERO;
@@ -108,7 +108,7 @@ __INLINE TYPE FUNCTION(NAME, zero)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, one)(void) {
+__INLINE__ TYPE FUNCTION(NAME, one)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_ONE;
   COMPLEX_IMAG(res) = DATA_ZERO;
@@ -116,7 +116,7 @@ __INLINE TYPE FUNCTION(NAME, one)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, ones)(void) {
+__INLINE__ TYPE FUNCTION(NAME, ones)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_ONE;
   COMPLEX_IMAG(res) = DATA_ONE;
@@ -132,7 +132,7 @@ TYPE FUNCTION(NAME, rand)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, min)(void) {
+__INLINE__ TYPE FUNCTION(NAME, min)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_MIN;
   COMPLEX_IMAG(res) = DATA_MIN;
@@ -140,7 +140,7 @@ __INLINE TYPE FUNCTION(NAME, min)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, max)(void) {
+__INLINE__ TYPE FUNCTION(NAME, max)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_MAX;
   COMPLEX_IMAG(res) = DATA_MAX;
@@ -148,7 +148,7 @@ __INLINE TYPE FUNCTION(NAME, max)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, nan)(void) {
+__INLINE__ TYPE FUNCTION(NAME, nan)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_NAN;
   COMPLEX_IMAG(res) = DATA_NAN;
@@ -156,7 +156,7 @@ __INLINE TYPE FUNCTION(NAME, nan)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, inf)(void) {
+__INLINE__ TYPE FUNCTION(NAME, inf)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_INF;
   COMPLEX_IMAG(res) = DATA_INF;
@@ -164,7 +164,7 @@ __INLINE TYPE FUNCTION(NAME, inf)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, pinf)(void) {
+__INLINE__ TYPE FUNCTION(NAME, pinf)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_PINF;
   COMPLEX_IMAG(res) = DATA_PINF;
@@ -172,7 +172,7 @@ __INLINE TYPE FUNCTION(NAME, pinf)(void) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, ninf)(void) {
+__INLINE__ TYPE FUNCTION(NAME, ninf)(void) {
   TYPE res;
   COMPLEX_REAL(res) = DATA_NINF;
   COMPLEX_IMAG(res) = DATA_NINF;
@@ -313,7 +313,7 @@ TYPE FUNCTION(NAME, rev)(const TYPE x) {
   return res;
 }
 
-__INLINE TYPE FUNCTION(NAME, trans)(const TYPE x) {
+__INLINE__ TYPE FUNCTION(NAME, trans)(const TYPE x) {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_IMAG(x);
   COMPLEX_IMAG(res) = COMPLEX_REAL(x);
@@ -796,55 +796,55 @@ TYPE FUNCTION(NAME, atan)(const TYPE x) {
   return res;
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isreal)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isreal)(const TYPE x) {
   return CGRAPH_TEST(DATA_EQ(COMPLEX_IMAG(x), 0.0));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isimag)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isimag)(const TYPE x) {
   return CGRAPH_TEST(DATA_EQ(COMPLEX_REAL(x), 0.0));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISPOS(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNEG(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
   return EQ(x, ZERO);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ismax)(const TYPE x) {
   return EQ(x, MAX);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
   return EQ(x, MIN);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNAN(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isinf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISINF(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, ispinf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISPINF(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, isninf)(const TYPE x) {
   return CGRAPH_TEST(DATA_ISNINF(x));
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
-__INLINE cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+__INLINE__ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
   return GR(x, y);
 }
 
