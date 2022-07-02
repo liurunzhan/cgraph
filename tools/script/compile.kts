@@ -8,7 +8,8 @@ fun main(args: Array<String>) {
 	val DIR = "."
 	val INC = DIR + File.separator + "include"
 	val SRC = DIR + File.separator + "src"
-	val TST = DIR + File.separator + "test"
+	val SRC_TYPE = SRC + File.separator + "type"
+	val TST = DIR + File.separator + "tests"
 	val LIB = DIR + File.separator + "lib"
 
 	val CC = "cc"

@@ -37,7 +37,7 @@ cgraph_size_t cgraph_error_print(cgraph_error_t reason,
   const cgraph_char_t *reason_name = cgraph_error_reason(reason);
   const cgraph_char_t *level_name = cgraph_error_level(CGRAPH_LEVEL_ERROR);
   if (NULL == reason_name) {
-    goto ERROR;
+    goto CERROR;
   }
   if (NULL != function) {
     len = cgraph_file_fprintfln(stdout, CGRAPH_ERROR_FUNCTION_STYLE "%s", file,
@@ -48,7 +48,7 @@ cgraph_size_t cgraph_error_print(cgraph_error_t reason,
   }
 
   return len;
-ERROR:
+CERROR:
 #ifdef DEBUG
   cgraph_file_fprintfln(stderr,
                         CGRAPH_ERROR_STYLE "Undefined error type %d happens",
@@ -61,7 +61,7 @@ ERROR:
 cgraph_size_t cgraph_error_details_md(FILE *fp) {
   cgraph_size_t len = 0;
   if (CGRAPH_ISNFILE(fp)) {
-    goto ERROR;
+    goto CERROR;
   }
   len = cgraph_file_fprintfln(fp, "| ERROR TYPE | ERROR DETAIL |"
                                   "| :-: | :-: |");
@@ -71,7 +71,7 @@ cgraph_size_t cgraph_error_details_md(FILE *fp) {
   CGRAPH_LOOP_END
 
   return len;
-ERROR:
+CERROR:
 #ifdef DEBUG
   cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
                         CGRAPH_LEVEL_ERROR, "file handle is error");
@@ -83,7 +83,7 @@ ERROR:
 cgraph_size_t cgraph_error_details_csv(FILE *fp) {
   cgraph_size_t len = 0;
   if (CGRAPH_ISNFILE(fp)) {
-    goto ERROR;
+    goto CERROR;
   }
   len = cgraph_file_fprintfln(fp, "ERROR TYPE,ERROR DETAIL");
   CGRAPH_LOOP(i, 0, CGRAPH_ERROR_SIZE)
@@ -91,7 +91,7 @@ cgraph_size_t cgraph_error_details_csv(FILE *fp) {
   CGRAPH_LOOP_END
 
   return len;
-ERROR:
+CERROR:
 #ifdef DEBUG
   cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
                         CGRAPH_LEVEL_ERROR, "file handle is error");
@@ -169,7 +169,7 @@ cgraph_size_t cgraph_error_printfln(const cgraph_char_t *file,
   FILE *fp = (NULL == cgraph_error_ptr ? stderr : cgraph_error_ptr);
   const cgraph_char_t *level_name = cgraph_error_level(level);
   if (CGRAPH_ISNFILE(fp) || (NULL == level_name)) {
-    goto ERROR;
+    goto CERROR;
   }
   if (NULL != file) {
     if (NULL != function) {
@@ -191,7 +191,7 @@ cgraph_size_t cgraph_error_printfln(const cgraph_char_t *file,
   }
 
   return len;
-ERROR:
+CERROR:
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
     cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
@@ -214,7 +214,7 @@ cgraph_size_t cgraph_error_fprintfln(FILE *fp, const cgraph_char_t *file,
   cgraph_size_t len = 0;
   const cgraph_char_t *level_name = cgraph_error_level(level);
   if (CGRAPH_ISNFILE(fp) || (NULL == level_name)) {
-    goto ERROR;
+    goto CERROR;
   }
   if (NULL != file) {
     if (NULL != function) {
@@ -236,7 +236,7 @@ cgraph_size_t cgraph_error_fprintfln(FILE *fp, const cgraph_char_t *file,
   }
 
   return len;
-ERROR:
+CERROR:
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
     cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
@@ -261,7 +261,7 @@ cgraph_size_t cgraph_error_snprintfln(cgraph_char_t *cbuf, cgraph_size_t size,
   FILE *fp = (NULL == cgraph_error_ptr ? stderr : cgraph_error_ptr);
   const cgraph_char_t *level_name = cgraph_error_level(level);
   if (CGRAPH_ISNFILE(fp) || CGRAPH_ISNBUF(cbuf, size) || (NULL == level_name)) {
-    goto ERROR;
+    goto CERROR;
   }
   if (NULL != file) {
     if (NULL != function) {
@@ -281,7 +281,7 @@ cgraph_size_t cgraph_error_snprintfln(cgraph_char_t *cbuf, cgraph_size_t size,
   }
 
   return len;
-ERROR:
+CERROR:
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
     cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
@@ -310,7 +310,7 @@ cgraph_size_t cgraph_error_fsnprintfln(FILE *fp, cgraph_char_t *cbuf,
   cgraph_size_t len = 0;
   const cgraph_char_t *level_name = cgraph_error_level(level);
   if (CGRAPH_ISNFILE(fp) || CGRAPH_ISNBUF(cbuf, size) || (NULL == level_name)) {
-    goto ERROR;
+    goto CERROR;
   }
   if (NULL != file) {
     if (NULL != function) {
@@ -333,7 +333,7 @@ cgraph_size_t cgraph_error_fsnprintfln(FILE *fp, cgraph_char_t *cbuf,
   len = cgraph_file_fputs(cbuf, len, fp);
 
   return len;
-ERROR:
+CERROR:
 #ifdef DEBUG
   if (CGRAPH_ISNFILE(fp)) {
     cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,

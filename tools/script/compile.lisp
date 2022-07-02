@@ -4,7 +4,8 @@
 (setq DIR (pathname-directory "."))
 (setq INC (merge-pathnames "include" DIR))
 (setq SRC (merge-pathnames "src" DIR))
-(setq TST (merge-pathnames "test" DIR))
+(setq SRC_TYPE (merge-pathnames "type" SRC))
+(setq TST (merge-pathnames "tests" DIR))
 (setq LIB (merge-pathnames "lib" DIR))
 
 (setq CC "cc")

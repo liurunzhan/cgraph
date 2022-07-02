@@ -7,7 +7,7 @@ dir = "."
 inc = join_paths(dir, "include")
 src = join_paths(dir, "src")
 src_type = join_paths(src, "type")
-tst = join_paths(dir, "test")
+tst = join_paths(dir, "tests")
 lib = join_paths(dir, "lib")
 
 incdir = include_directories(inc, src_type)

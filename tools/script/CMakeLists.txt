@@ -15,7 +15,7 @@ set(CMAKE_BUILD_TYPE "Release")
 set(INC "${PROJECT_SOURCE_DIR}/include")
 set(SRC "${PROJECT_SOURCE_DIR}/src")
 set(LIB "${PROJECT_SOURCE_DIR}/lib")
-set(TST "${PROJECT_SOURCE_DIR}/test")
+set(TST "${PROJECT_SOURCE_DIR}/tests")
 set(DOC "${PROJECT_SOURCE_DIR}/doc")
 
 include_directories(${INC})

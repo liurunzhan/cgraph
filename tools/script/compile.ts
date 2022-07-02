@@ -6,7 +6,8 @@ let PRO : string = "cgraph";
 let DIR : string = ".";
 let INC : string = DIR + path.sep + "include";
 let SRC : string = DIR + path.sep + "src";
-let TST : string = DIR + path.sep + "test";
+let SRC_TYPE : string = SRC + path.sep + "type";
+let TST : string = DIR + path.sep + "tests";
 let LIB : string = DIR + path.sep + "lib";
 
 let CC : string = "cc";

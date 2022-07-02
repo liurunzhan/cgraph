@@ -8,7 +8,7 @@ let PRO : String = "cgraph"
 let DIR : String = "."
 let INC : String = DIR + "/include"
 let SRC : String = DIR + "/src"
-let TST : String = DIR + "/test"
+let TST : String = DIR + "/tests"
 let LIB : String = DIR + "/lib"
 
 let CC : String = "cc"

@@ -13,7 +13,7 @@ my $DIR = ".";
 my $INC = File::Spec->catdir($DIR, "include");
 my $SRC = File::Spec->catdir($DIR, "src");
 my $SRC_TYPE = File::Spec->catdir($SRC, "type");
-my $TST = File::Spec->catdir($DIR, "test");
+my $TST = File::Spec->catdir($DIR, "tests");
 my $LIB = File::Spec->catdir($DIR, "lib");
 
 my $CC = "cc";

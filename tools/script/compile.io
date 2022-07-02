@@ -4,7 +4,8 @@ PRO := "cgraph"
 DIR := "."
 INC := Directory clone setPath("#{DIR}/include" interpolate)
 SRC := Directory clone setPath("#{DIR}/src" interpolate)
-TST := Directory clone setPath("#{DIR}/test" interpolate)
+SRC_TYPE := Directory clone setPath("#{SRC}/type" interpolate)
+TST := Directory clone setPath("#{DIR}/tests" interpolate)
 LIB := Directory clone setPath("#{DIR}/lib" interpolate)
 
 CC := "cc"
@@ -53,7 +54,7 @@ if(args size == 1) then(
     obj := file asMutable replaceSeq(".c", ".o")
     dep := file asMutable replaceSeq(".c", ".d")
     "compile #{file} to #{obj}" interpolate println
-    System system("#{CC} #{CFLAGS} -I#{INC path} -c #{file} -o #{obj} -MD -MF #{dep}" interpolate )
+    System system("#{CC} #{CFLAGS} -I#{INC path} -I#{SRC_TYPE path} -c #{file} -o #{obj} -MD -MF #{dep}" interpolate )
     OFILES append(obj)
   )
   OFILES := OFILES join(" ")

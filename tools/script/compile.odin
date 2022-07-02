@@ -1,20 +1,21 @@
 #!/usr/bin/env -S odin run
 
-package main
+package compile
 
-import "core:os"
-import "core:path/filepath"
-import "core:os/os2"
-import "core:fmt"
-import "core:strings"
+import          "core:os"
+import filepath "core:path/filepath"
+import os2      "core:os/os2"
+import          "core:fmt"
+import          "core:strings"
 
 main :: proc() {
   PRO : string = "cgraph";
   DIR : string = ".";
-  INC : string = filepath.join(PRO, "include");
-  SRC : string = filepath.join(PRO, "src");
-  TST : string = filepath.join(PRO, "test");
-  LIB : string = filepath.join(PRO, "lib");
+  INC : string = filepath.join(DIR, "include");
+  SRC : string = filepath.join(DIR, "src");
+  SRC_TYPE : string = filepath.join(SRC, "type");
+  TST : string = filepath.join(DIR, "tests");
+  LIB : string = filepath.join(DIR, "lib");
 
   CC : string = "cc";
   CFLAGS : string[] = "-std=c89 -Wall -pedantic -fPIC";
@@ -54,7 +55,7 @@ main :: proc() {
   CFILES := make([dynamic]string);
   for file in filepath.walk(SRC) {
     if strings.has_suffix(file, ".c") {
-      CFILES.append(filepath.join(SRC, file));
+      append(&CFILES, filepath.join(SRC, file));
     }
   }
 
@@ -67,10 +68,10 @@ main :: proc() {
     for file in CFILES {
       obj : string = strings.replace(file, ".c", ".o");
       dep : string = strings.replace(file, ".c", ".d");
-      OFILES.append(obj);
+      append(&OFILES, obj);
     }
     fmt.println("compile ", file, " to ", obj);
-    // exec(fmt"{CC} {CFLAGS} -I{INC} -c {file} -o {obj} -MD -MF {dep}");
+    // exec(fmt"{CC} {CFLAGS} -I{INC} -I{SRC_TYPE} -c {file} -o {obj} -MD -MF {dep}");
     delete(OFILES);
   } else if args[1] == "test" {
     fmt.println("compile ", TSTFILE, " to ", TSTTARGET);

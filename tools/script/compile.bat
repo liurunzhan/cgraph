@@ -9,7 +9,8 @@ rem set DIR=%~dp0
 set DIR=.
 set INC=%DIR%\include
 set SRC=%DIR%\src
-set TST=%DIR%\test
+set SRC_TYPE=%SRC%\type
+set TST=%DIR%\tests
 set LIB=%DIR%\lib
 
 rem compiler configuration
@@ -55,12 +56,12 @@ set PAR="%~1"
 
 if %PAR% == "" (
   %MKDIR% %LIB%
-  for %%F in (%SRC%\*.c) do (
+  for /d %SRC% %%F in (*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
 		set dep=!file:.c=.d!
     echo compile !file! to !obj!
-    %CC% %CFLAGS% -I%INC% -c !file! -o !obj! -MD -MF !dep!
+    %CC% %CFLAGS% -I%INC% -I%SRC_TYPE% -c !file! -o !obj! -MD -MF !dep!
   )
   echo compile %LIBSHARED%
   %CC% %CSFLAGS% -o %LIBSHARED% %SRC%\*.o
@@ -72,7 +73,7 @@ if %PAR% == "" (
   echo test %TSTTARGET% with %TST%\elements.csv
   %TSTTARGET% %TST%\elements.csv
 ) else if %PAR% == "clean" (
-  for %%F in (%SRC%\*.c) do (
+  for /d %SRC% %%F in (*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
 		echo clean !obj!
@@ -85,7 +86,7 @@ if %PAR% == "" (
   %RM% %RMFLAGS% %LIBSTATIC%
   %RM% %RMFLAGS% %TSTTARGET%
 ) else if %PAR% == "distclean" (
-  for %%F in (%SRC%\*.c) do (
+  for /d %SRC% %%F in (*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
 		echo clean !obj!

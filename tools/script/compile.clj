@@ -7,7 +7,7 @@
 (def INC (str DIR File/separator "include"))
 (def SRC (str DIR File/separator "src"))
 (def SRC_TYPE (str SRC File/separator "type"))
-(def TST (str DIR File/separator "test"))
+(def TST (str DIR File/separator "tests"))
 (def LIB (str DIR File/separator "lib"))
 
 (def CC "cc")

@@ -1,5 +1,10 @@
 #!/usr/bin/env -S v run
 
+// Date : 2022-07-01
+// A script to compile Library cgraph in Unix-like and Windows Platforms
+// gets source files iteratively from Directory src
+// TODO : will check in the future
+
 import os
 import regex
 
@@ -22,7 +27,7 @@ fn main() {
   inc := os.join_path(dir, "include")
   src := os.join_path(dir, "src")
   src_type := os.join_path(src, "type")
-  tst := os.join_path(dir, "test")
+  tst := os.join_path(dir, "tests")
   lib := os.join_path(dir, "lib")
 
   cc := "cc"
@@ -64,10 +69,12 @@ fn main() {
     tsttarget += os.join_path(tst, "${pro}")
   }
 
-  // 
+  // source files
+	// get all subdirectories
   mut srcs := []string{}
   getsubdirs(src, srcs)
 
+  // get all source files from subdirectories
   mut cfiles := []string{}
   cfile_mode := r"^[^\.].*\.c$"
   mut match_mode := regex.regex_opt(cfile_mode) or { panic(err) }
@@ -80,7 +87,6 @@ fn main() {
       }
     }
   }
-  
 
   if os.args.len == 1 {
     if !os.is_dir(lib) {

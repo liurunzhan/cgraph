@@ -11,7 +11,7 @@ my $DIR = ".";
 my $INC = $DIR.IO.add("include");
 my $SRC = $DIR.IO.add("src");
 my $SRC_TYPE = $SRC.IO.add("type");
-my $TST = $DIR.IO.add("test");
+my $TST = $DIR.IO.add("tests");
 my $LIB = $DIR.IO.add("lib");
 
 my $CC = "cc";

@@ -4,10 +4,11 @@
 $PRO="cgraph"
 
 # directory tree
-$DIR=Split-Path -Parent $MyInvocation.MyCommand.Definition
+$DIR=Resolve-Path "."
 $INC=Join-Path $DIR "include"
 $SRC=Join-Path $DIR "src"
-$TST=Join-Path $DIR "test"
+$SRC_TYPE=Join-Path $SRC "type"
+$TST=Join-Path $DIR "tests"
 $LIB=Join-Path $DIR "lib"
 
 # compiler configuration
@@ -23,26 +24,36 @@ if($MODE -ceq "debug") {
 $CFLAGS=$CFLAGS.Split()
 
 # source files
-$CFILES=ls $SRC\*.c
-# target files
-$LIBSHARED=Join-Path $LIB "lib$PRO.dll"
-$LIBSTATIC=Join-Path $LIB "lib$PRO.lib"
-# test files
-$TSTFILE=Join-Path $TST "$PRO.c"
-$TSTTARGET=Join-Path $TST "$PRO.exe"
+$CFILES=@(Get-ChildItem -Path $SRC -File -Recurse -Include *.c)
+
+if($IsWindows) {
+	# target files
+	$LIBSHARED=Join-Path $LIB "lib$PRO.dll"
+	$LIBSTATIC=Join-Path $LIB "lib$PRO.lib"
+	# test files
+	$TSTFILE=Join-Path $TST "$PRO.c"
+	$TSTTARGET=Join-Path $TST "$PRO.exe"
+} else {
+	# target files
+	$LIBSHARED=Join-Path $LIB "lib$PRO.so"
+	$LIBSTATIC=Join-Path $LIB "lib$PRO.a"
+	# test files
+	$TSTFILE=Join-Path $TST "$PRO.c"
+	$TSTTARGET=Join-Path $TST "$PRO"
+}
+
 $TSTCSV=Join-Path $TST "elements.csv"
 
 # commands to $0
 $OPT=$args
-echo "$OPT"
 
 if($OPT.Count -eq 0) {
   mkdir -Path $LIB -Force
   foreach($file in $CFILES) {
     $obj=$file -replace "\.c", ".o"
-		$dep=$file -replace "\.d", ".o"
-    # echo "compile $file to $obj"
-    & cc $CFLAGS -I./include -c $file -o $obj -MD -MF $dep
+		$dep=$file -replace "\.c", ".d"
+		echo "compile $file to $obj"
+    & cc $CFLAGS -Iinclude -Isrc/type -c $file -o $obj -MD -MF $dep
   }
   echo "compile $LIBSHARED"
   cc -shared -o $LIBSHARED $SRC\*.o
@@ -50,7 +61,7 @@ if($OPT.Count -eq 0) {
   ar -rcs $LIBSTATIC $SRC\*.o
 } elseif($OPT[0] -ceq "test") {
   echo "compile $TSTFILE to $TSTTARGET"
-  & cc $CFLAGS -I./include -o $TSTTARGET $TSTFILE -L./lib -static -lcgraph -lm
+  & cc $CFLAGS -Iinclude -o $TSTTARGET $TSTFILE -Llib -static -l$PRO -lm
   echo "test $TSTTARGET with $TSTCSV"
   & $TSTTARGET $TSTCSV
 } elseif($OPT[0] -ceq "clean") {

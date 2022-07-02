@@ -5,7 +5,7 @@ main([Args]) ->
 	DIR = ".",
 	INC = DIR ++ "include",
 	SRC = DIR ++ "src",
-	TST = DIR ++ "test",
+	TST = DIR ++ "tests",
 	LIB = DIR ++ "lib",
 	io:format(LIB),
 	io:format(Args).

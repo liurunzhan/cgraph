@@ -86,7 +86,7 @@ endif
 DIR = .
 INC = $(DIR)$(PSEP)include
 SRC = $(DIR)$(PSEP)src
-TST = $(DIR)$(PSEP)test
+TST = $(DIR)$(PSEP)tests
 TOL = $(DIR)$(PSEP)tool
 LIB = $(DIR)$(PSEP)lib
 DOC = $(DIR)$(PSEP)doc

@@ -7,7 +7,8 @@ var PRO: string = "cgraph"
 var DIR: string = "."
 var INC: string = joinPath(DIR, "include")
 var SRC: string = joinPath(DIR, "src")
-var TST: string = joinPath(DIR, "test")
+var SRC_TYPE: string = joinPath(SRC, "type")
+var TST: string = joinPath(DIR, "tests")
 var LIB: string = joinPath(DIR, "lib")
 
 var CC: string = "cc"
@@ -46,7 +47,7 @@ else:
 
 var CFILES: seq[string]
 for kind, path in walkDir(SRC):
-  if((kind == pcFile) and (endsWith(path, ".c"))):
+  if((kind == pcFile) and (endsWith(path, ".c"))) and (not startsWith(path, ".")):
     add(CFILES, path)
 
 if(paramCount() == 1):
@@ -59,7 +60,7 @@ if(paramCount() == 1):
     var dep = file
     dep[^1] = 'd'
     echo(fmt"compile {file} to {obj}")
-    exec(fmt"{CC} {CFLAGS} -I{INC} -c {file} -o {obj} -MD -MF {dep}")
+    exec(fmt"{CC} {CFLAGS} -I{INC} -I{SRC_TYPE} -c {file} -o {obj} -MD -MF {dep}")
     add(OFILES, obj)
   echo(fmt"compile {LIBSHARED}")
   var objects = join(OFILES, " ")

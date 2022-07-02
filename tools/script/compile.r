@@ -8,9 +8,8 @@ PRO <- "cgraph"
 DIR <- "."
 INC <- file.path(DIR, "include", fsep=.Platform$file.sep)
 SRC <- file.path(DIR, "src", fsep=.Platform$file.sep)
-SRC_FUNC  <- file.path(SRC, "func", fsep=.Platform$file.sep)
-SRC_TYPE  <- file.path(SRC, "type", fsep=.Platform$file.sep)
-TST <- file.path(DIR, "test", fsep=.Platform$file.sep)
+SRC_TYPE <- file.path(SRC, "type", fsep=.Platform$file.sep)
+TST <- file.path(DIR, "tests", fsep=.Platform$file.sep)
 LIB <- file.path(DIR, "lib", fsep=.Platform$file.sep)
 
 CC <- "cc"

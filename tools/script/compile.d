@@ -18,7 +18,7 @@ int main(string[] args) {
   string INC = buildPath(DIR, "include");
   string SRC = buildPath(DIR, "src");
   string SRC_TYPE = buildPath(SRC, "type");
-  string TST = buildPath(DIR, "test");
+  string TST = buildPath(DIR, "tests");
   string LIB = buildPath(DIR, "lib");
 
   string CC = "cc";

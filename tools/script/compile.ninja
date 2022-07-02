@@ -18,12 +18,13 @@ PRO = "cgraph"
 DIR = "."
 INC = join_path(DIR, "include")
 SRC = join_path(DIR, "src")
-TST = join_path(DIR, "test")
+SRC_TYPE = join_path(SRC, "type")
+TST = join_path(DIR, "tests")
 LIB = join_path(DIR, "lib")
 
 rule compile
   depfile = $out.d
-  command = $CC $CFLAGS $CSFLAGS -c $in -o $out -MD -MF $out.d
+  command = $CC $CFLAGS -I$INC -I$SRC_TYPE -c $in -o $out -MD -MF $out.d
   description = compile $in to $out
 
 rule link_static

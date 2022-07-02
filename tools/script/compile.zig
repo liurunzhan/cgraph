@@ -10,7 +10,7 @@ pub fn main() void {
   const SRC = std.fs.path.join(DIR, "src");
   const SRC_TYPE = std.fs.path.join(SRC, "type");
   const INC = std.fs.path.join(DIR, "include");
-  const TST = std.fs.path.join(DIR, "test");
+  const TST = std.fs.path.join(DIR, "tests");
   const LIB = std.fs.path.join(DIR, "lib");
 
   const CC = "cc";

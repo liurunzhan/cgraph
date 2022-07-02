@@ -11,7 +11,7 @@ fn main() {
   let INC = DIR.join("include");
   let SRC = DIR.join("src");
   let SRC_TYPE = SRC.join("type");
-  let TST = DIR.join("test");
+  let TST = DIR.join("tests");
   let LIB = DIR.join("lib");
 
   let CC = "cc";

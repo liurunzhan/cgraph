@@ -36,7 +36,7 @@ func main() {
   var INC string = path.Join(DIR, "include")
   var SRC string = path.Join(DIR, "src")
   var SRC_TYPE string = os.path.join(SRC, "type")
-  var TST string = path.Join(DIR, "test")
+  var TST string = path.Join(DIR, "tests")
   var LIB string = path.Join(DIR, "lib")
 
   var CC string = "cc"

@@ -9,7 +9,7 @@ DIR = "."
 INC = File.join(DIR, "include")
 SRC = File.join(DIR, "src")
 SRC_TYPE = File.join(SRC, "type")
-TST = File.join(DIR, "test")
+TST = File.join(DIR, "tests")
 LIB = File.join(DIR, "lib")
 
 CC = "cc"

@@ -1,5 +1,9 @@
 #!/usr/bin/ksh
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 # project
 PRO=cgraph
 
@@ -7,7 +11,8 @@ PRO=cgraph
 DIR=`pwd`
 INC=${DIR}/include
 SRC=${DIR}/src
-TST=${DIR}/test
+SRC_TYPE=${SRC}/type
+TST=${DIR}/tests
 LIB=${DIR}/lib
 
 # compiler configuration
@@ -40,7 +45,7 @@ AR=ar
 ARFLAGS="-rcs"
 
 # source files
-CFILES=`ls ${SRC}/*.c`
+CFILES=`find ${SRC} -regex "^[^\.]*\.c$"`
 # target files
 LIBSHARED=${LIB}/lib${PRO}.so
 LIBSTATIC=${LIB}/lib${PRO}.a
@@ -54,7 +59,7 @@ if [ -z $1 ]; then
     obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     dep=`echo ${file} | sed "s/\.c$/\.d/g"`
     echo "compile ${file} to ${obj}"
-    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}
+    ${CC} ${CFLAGS} -I${INC} -I${SRC_TYPE} -c ${file} -o ${obj} -MD -MF ${dep}
   done
   echo "compile ${LIBSHARED}"
   ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o

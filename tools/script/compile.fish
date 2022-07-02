@@ -1,5 +1,9 @@
 #!/usr/bin/fish
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 # project
 set PRO cgraph
 
@@ -7,7 +11,8 @@ set PRO cgraph
 set DIR `pwd`
 set INC ${DIR}/include
 set SRC ${DIR}/src
-set TST ${DIR}/test
+set SRC_TYPE ${SRC}/type
+set TST ${DIR}/tests
 set LIB ${DIR}/lib
 
 # compiler configuration
@@ -40,7 +45,7 @@ set AR ar
 set ARFLAGS "-rcs"
 
 # source files
-set CFILES `ls ${SRC}/*.c`
+set CFILES `find ${SRC} -regex "^[^\.]*\.c$"`
 # target files
 set LIBSHARED ${LIB}/lib${PRO}.so
 set LIBSTATIC ${LIB}/lib${PRO}.a
@@ -57,7 +62,7 @@ if -z $1
     obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     dep=`echo ${file} | sed "s/\.c$/\.d/g"`
     echo "compile ${file} to ${obj}"
-    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}
+    ${CC} ${CFLAGS} -I${INC} -I${SRC_TYPE} -c ${file} -o ${obj} -MD -MF ${dep}
   end
   echo "compile ${LIBSHARED}"
   ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o

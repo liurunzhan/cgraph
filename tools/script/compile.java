@@ -26,7 +26,7 @@ public class Compile {
     String DIR = new String(".");
     String INC = new String(DIR + File.separator + "include");
     String SRC = new String(DIR + File.separator + "src");
-    String TST = new String(DIR + File.separator + "test");
+    String TST = new String(DIR + File.separator + "tests");
     String LIB = new String(DIR + File.separator + "lib");
 
     String CC = new String("cc");

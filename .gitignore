@@ -73,8 +73,8 @@ include/cgraph_stdint.h
 include/cgraph_stdchk.h
 src/.deps/
 src/.libs/
-test/.deps/
-test/.libs/
+tests/.deps/
+tests/.libs/
 *.log
 aclocal.m4
 confdefs.*
@@ -128,10 +128,10 @@ tools/script/compile.hi
 *.ll
 
 # Test Cases
-test/*
-!test/*.c
-!test/*.ct
-!test/cgraph.r
-!test/cgraph.py
-!test/cgraph.sql
-!test/elements.csv
+tests/*
+!tests/*.c
+!tests/*.ct
+!tests/cgraph.r
+!tests/cgraph.py
+!tests/cgraph.sql
+!tests/elements.csv

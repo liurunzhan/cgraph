@@ -26,14 +26,12 @@ m4_include([m4/m4_ax_c_var_func.m4])
 m4_include([m4/m4_ax_printf_size_t.m4])
 m4_include([m4/m4_ax_prog_cc_for_build.m4])
 m4_include([m4/m4_ax_prog_cxx_for_build.m4])
+ACLOCAL_AMFLAGS=-I m4
 
 # Checks for programs.
-AC_DEFINE([cgraph_test], ["Hello, World\n"],
-  [Greetings string.])
+AC_DEFINE([cgraph_test], ["Hello, World\n"], [Greetings string.])
 AC_LANG(C)
-AC_LANG_CONFTEST(
-[AC_LANG_PROGRAM([[const char hw[] = "Hello, World\n";]],
-                 [[fputs (hw, stdout);]])])
+AC_LANG_CONFTEST([AC_LANG_PROGRAM([[const char hw[] = "Hello, World\n";]], [[fputs (hw, stdout);]])])
 AC_LANG(C++)
 AC_PROG_CXX
 AC_PROG_CC
@@ -41,8 +39,7 @@ AC_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AM_PROG_AR
-AC_PROG_LIBTOOL
-AC_LIBTOOL_WIN32_DLL
+# AC_LIBTOOL_WIN32_DLL
 LT_PREREQ([2.4.0])
 LT_INIT
 AX_VALGRIND_DFLT([memcheck], [on])
@@ -122,6 +119,6 @@ AC_CONFIG_FILES([Makefile
 								 src/type/data/Makefile
 								 src/type/object/Makefile
 								 src/type/structure/Makefile
-                 test/Makefile
+                 tests/Makefile
 								 tools/cgraph.json])
 AC_OUTPUT

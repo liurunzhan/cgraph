@@ -15,7 +15,7 @@ object Compile {
     val INC : String = DIR + File.separator + "include"
     val SRC : String = DIR + File.separator + "src"
     val SRC_TYPE : String = SRC + File.separator + "type"
-    val TST : String = DIR + File.separator + "test"
+    val TST : String = DIR + File.separator + "tests"
     val LIB : String = DIR + File.separator + "lib"
 
     val CC : String = "cc"

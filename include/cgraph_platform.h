@@ -491,7 +491,7 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 #ifndef SCNd64
 /** if used in VC/VC++ Compilers or GCC/Clang in Windows Platform */
 #if defined(_MSC_VER) ||                                                       \
-    (__PLAT_WINDOWS && (defined(__GNUC__) || defined(__clang__)))
+    (defined(__PLAT_WINDOWS) && (defined(__GNUC__) || defined(__clang__)))
 #define SCNd64 "I64d"
 #define PRId64 "I64d"
 #define SCNu64 "I64u"

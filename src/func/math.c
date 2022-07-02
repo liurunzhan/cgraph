@@ -595,7 +595,7 @@ cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
   cgraph_size_t counter = 0;
   cgraph_size_t j;
   if ((NULL == primes) || (NULL == isprime) || (0 >= data)) {
-    goto ERROR;
+    goto CERROR;
   }
   CGRAPH_LOOP(i, 0, data)
   primes[i] = 0;
@@ -614,7 +614,7 @@ cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
   CGRAPH_LOOP_END
 
   return counter;
-ERROR:
+CERROR:
   return 0;
 }
 

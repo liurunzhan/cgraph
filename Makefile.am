@@ -1,4 +1,4 @@
-SUBDIRS = src test doc
+SUBDIRS = src tests doc
 
 PROJECT = cgraph
 export PROJECT
@@ -6,14 +6,14 @@ export PROJECT
 # project directories
 src_dir     = $(top_srcdir)/src
 include_dir = $(top_srcdir)/include
-test_dir    = $(top_srcdir)/test
+tests_dir   = $(top_srcdir)/tests
 tools_dir   = $(top_srcdir)/tools
 doc_dir     = $(top_srcdir)/doc
 
 # install directories
 includedir = $(prefix)/include
 libdir     = $(prefix)/lib
-testdir    = $(prefix)/test
+testsdir   = $(prefix)/tests
 docdir     = $(prefix)/doc
 
 COMPILE_FLAGS = -Wall -pedantic -pedantic-errors
@@ -68,7 +68,7 @@ cloc:
 	cloc $(include_dir) $(src_dir) --force-lang=C,ct --force-lang="C/C++ Header",ht --include-ext=c,ct,h,ht
 
 cloc-all: clean
-	cloc $(include_dir) $(src_dir) $(test_dir) $(tools_dir) --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=in,md --not-match-f="Makefile$$"
+	cloc $(include_dir) $(src_dir) $(tests_dir) $(tools_dir) --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=in,md --not-match-f="Makefile$$"
 
 update:
 	git clean -xf

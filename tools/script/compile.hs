@@ -11,7 +11,7 @@ main = do
   let dir = "."
   let inc = joinPath [dir, "include"]
   let src = joinPath [dir, "src"]
-  let tst = joinPath [dir, "test"]
+  let tst = joinPath [dir, "tests"]
   let lib = joinPath [dir, "lib"]
 
   let cc = "cc"

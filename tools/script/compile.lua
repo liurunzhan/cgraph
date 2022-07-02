@@ -17,7 +17,7 @@ DIR = "."
 INC = DIR .. PSEP .. "include"
 SRC = DIR .. PSEP .. "src"
 SRC_TYPE = SRC .. PSEP .. "type"
-TST = DIR .. PSEP .. "test"
+TST = DIR .. PSEP .. "tests"
 LIB = DIR .. PSEP .. "lib"
 
 CC = "cc"

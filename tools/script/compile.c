@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, "compile cgraph in windows platform!\n");
     sprintf(INC, "%s\\%s", _DIR, "include");
     sprintf(SRC, "%s\\%s", _DIR, "src");
-    sprintf(TST, "%s\\%s", _DIR, "test");
+    sprintf(TST, "%s\\%s", _DIR, "tests");
     sprintf(LIB, "%s\\%s", _DIR, "lib");
     sprintf(LIBSHARED, "%s\\lib%s.dll", LIB, PRO);
     sprintf(LIBSTATIC, "%s\\lib%s.lib", LIB, PRO);
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, "compile cgraph in unix-like platform!\n");
     sprintf(INC, "%s/%s", _DIR, "include");
     sprintf(SRC, "%s/%s", _DIR, "src");
-    sprintf(TST, "%s/%s", _DIR, "test");
+    sprintf(TST, "%s/%s", _DIR, "tests");
     sprintf(LIB, "%s/%s", _DIR, "lib");
     sprintf(LIBSHARED, "%s/lib%s.so", LIB, PRO);
     sprintf(LIBSTATIC, "%s/lib%s.a", LIB, PRO);

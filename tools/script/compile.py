@@ -24,7 +24,7 @@ DIR = "."
 INC = os.path.join(DIR, "include")
 SRC = os.path.join(DIR, "src")
 SRC_TYPE = os.path.join(SRC, "type")
-TST = os.path.join(DIR, "test")
+TST = os.path.join(DIR, "tests")
 LIB = os.path.join(DIR, "lib")
 
 CC = "cc"

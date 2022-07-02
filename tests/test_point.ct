@@ -1,0 +1,7 @@
+#include "cgraph_file.h"
+
+int main(int argc, char *argv[]) {
+  cgraph_file_fprintfln(stdout, "ID = %d", ID);
+
+  return 0;
+}

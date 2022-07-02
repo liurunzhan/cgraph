@@ -5,7 +5,7 @@ let _DIR = ".";;
 let _SEP = if Sys.win32 then "\\" else "/";;
 let _INC = String.concat _SEP [ _DIR; "include" ];;
 let _SRC = String.concat _SEP [ _DIR; "src" ];;
-let _TST = String.concat _SEP [ _DIR; "test" ];;
+let _TST = String.concat _SEP [ _DIR; "tests" ];;
 let _LIB = String.concat _SEP [ _DIR; "lib" ];;
 
 let _CC = "cc";;

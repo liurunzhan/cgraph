@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 # project
 PRO=cgraph
 
@@ -7,7 +11,7 @@ PRO=cgraph
 DIR=`pwd`
 INC=${DIR}/include
 SRC=${DIR}/src
-TST=${DIR}/test
+TST=${DIR}/tests
 LIB=${DIR}/lib
 
 # compiler configuration
@@ -40,7 +44,7 @@ AR=ar
 ARFLAGS="-rcs"
 
 # source files
-CFILES=`ls ${SRC}/*.c`
+CFILES=`find ${SRC} -regex "^[^\.]*\.c$"`
 # target files
 LIBSHARED=${LIB}/lib${PRO}.so
 LIBSTATIC=${LIB}/lib${PRO}.a

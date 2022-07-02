@@ -9,7 +9,7 @@ DIR = "."
 INC = joinpath(DIR, "include")
 SRC = joinpath(DIR, "src")
 SRC_TYPE = joinpath(SRC, "type")
-TST = joinpath(DIR, "test")
+TST = joinpath(DIR, "tests")
 LIB = joinpath(DIR, "lib")
 
 CC = "cc"

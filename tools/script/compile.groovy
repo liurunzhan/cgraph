@@ -7,7 +7,8 @@ def PRO = "cgraph"
 def DIR = "."
 def INC = DIR + File.separator + "include"
 def SRC = DIR + File.separator + "src"
-def TST = DIR + File.separator + "test"
+def SRC_TYPE = SRC + File.separator + "type"
+def TST = DIR + File.separator + "tests"
 def LIB = DIR + File.separator + "lib"
 
 def CC = "cc"
@@ -59,7 +60,7 @@ if (args.size() == 0) {
   for (file in CFILES) {
     def obj = file.getPath().replace(".c", ".o")
     def dep = file.getPath().replace(".c", ".d")
-    def cmd = sprintf("%s %s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, file, obj, dep)
+    def cmd = sprintf("%s %s -I%s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, SRC_TYPE, file, obj, dep)
     println(sprintf("compile %s to %s", file, obj))
     cmd.execute()
     OFILES.add(obj)
