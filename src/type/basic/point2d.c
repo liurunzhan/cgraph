@@ -24,7 +24,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 __INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return DATA_GR(0.0, POINT2D_X(x)) + DATA_GR(0.0, POINT2D_Y(x)) + 1;
+  return DATA_GT(0.0, POINT2D_X(x)) + DATA_GT(0.0, POINT2D_Y(x)) + 1;
 }
 
 cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis) {
@@ -63,11 +63,11 @@ DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x) {
 }
 
 DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x) {
-  return DATA_LS(POINT2D_X(x), POINT2D_Y(x)) ? POINT2D_X(x) : POINT2D_Y(x);
+  return DATA_LT(POINT2D_X(x), POINT2D_Y(x)) ? POINT2D_X(x) : POINT2D_Y(x);
 }
 
 DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x) {
-  return DATA_GR(POINT2D_X(x), POINT2D_Y(x)) ? POINT2D_X(x) : POINT2D_Y(x);
+  return DATA_GT(POINT2D_X(x), POINT2D_Y(x)) ? POINT2D_X(x) : POINT2D_Y(x);
 }
 
 DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x) {

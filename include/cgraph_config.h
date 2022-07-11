@@ -18,13 +18,12 @@ extern "C" {
 #endif
 
 /**
- * @brief
- * basic c-type definitions:
+ * @brief basic c-type definitions:
+ * support for C89/C90 and higher
  * integer number types : char int long int8_t int16_t int32_t int64_t
  * float number types   : float double
  * c-type string type   : char *
  */
-
 #include <float.h>
 #include <limits.h>
 #include <stdarg.h>
@@ -906,9 +905,9 @@ size, excludes data pointer size */
   void (*const mod)(void *x, void *y, void *z);
   void (*const eq)(void *x, void *y, void *z);
   void (*const ne)(void *x, void *y, void *z);
-  void (*const gr)(void *x, void *y, void *z);
+  void (*const gt)(void *x, void *y, void *z);
   void (*const ge)(void *x, void *y, void *z);
-  void (*const ls)(void *x, void *y, void *z);
+  void (*const lt)(void *x, void *y, void *z);
   void (*const le)(void *x, void *y, void *z);
   void (*const sin)(void *x, void *y);
   void (*const cos)(void *x, void *y);

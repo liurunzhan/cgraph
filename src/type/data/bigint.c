@@ -575,7 +575,7 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y) {
+cgraph_bool_t FUNCTION(NAME, gt)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y)) {
     if (x->postive == y->postive) {

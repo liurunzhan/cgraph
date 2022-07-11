@@ -344,8 +344,8 @@ __INLINE__ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
-__INLINE__ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
-  return GR(x, y);
+__INLINE__ cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y) {
+  return GT(x, y);
 }
 
 __INLINE__ TYPE FUNCTION(NAME, opp)(const TYPE x) {
@@ -441,12 +441,12 @@ __INLINE__ TYPE FUNCTION(NAME, pow3)(const TYPE x) {
 }
 
 DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x) {
-  return DATA_LS(FRACTION_NUM(x), FRACTION_DEN(x)) ? FRACTION_NUM(x)
+  return DATA_LT(FRACTION_NUM(x), FRACTION_DEN(x)) ? FRACTION_NUM(x)
                                                    : FRACTION_DEN(x);
 }
 
 DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x) {
-  return DATA_GR(FRACTION_NUM(x), FRACTION_DEN(x)) ? FRACTION_NUM(x)
+  return DATA_GT(FRACTION_NUM(x), FRACTION_DEN(x)) ? FRACTION_NUM(x)
                                                    : FRACTION_DEN(x);
 }
 

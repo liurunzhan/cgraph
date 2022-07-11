@@ -43,14 +43,14 @@
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
 #define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
-#define GR(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((a), (b))
-#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
-#define LS(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((b), (a)))
+#define LT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((b), (a))
-#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -74,9 +74,9 @@
 #elif defined(TYPE_COMPLEX)
 #define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
 #define DATA_NE(a, b) (fabs((a) - (b)) >= DATA_EPSILON)
-#define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
-#define DATA_GE(a, b) (DATA_GR(a, b) || DATA_EQ(a, b))
-#define DATA_LS(a, b) DATA_GR(b, a)
+#define DATA_GT(a, b) (((a) - (b)) > DATA_EPSILON)
+#define DATA_GE(a, b) (DATA_GT(a, b) || DATA_EQ(a, b))
+#define DATA_LT(a, b) DATA_GT(b, a)
 #define DATA_LE(a, b) DATA_GE(b, a)
 
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
@@ -102,9 +102,9 @@
   ((DATA_MIN > COMPLEX_REAL(a)) || (DATA_MIN > COMPLEX_IMAG(a)))
 #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
 #define DATA_ISPOS(a)                                                          \
-  (DATA_GR(COMPLEX_REAL(a), 0.0) && DATA_GR(COMPLEX_IMAG(a), 0.0))
+  (DATA_GT(COMPLEX_REAL(a), 0.0) && DATA_GT(COMPLEX_IMAG(a), 0.0))
 #define DATA_ISNEG(a)                                                          \
-  (DATA_LS(COMPLEX_REAL(a), 0.0) || DATA_LS(COMPLEX_IMAG(a), 0.0))
+  (DATA_LT(COMPLEX_REAL(a), 0.0) || DATA_LT(COMPLEX_IMAG(a), 0.0))
 #endif
 
 #define ADD(a, b)                                                              \
@@ -135,18 +135,18 @@
 #define NE(a, b)                                                               \
   (DATA_NE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
    DATA_NE(COMPLEX_IMAG(a), COMPLEX_IMAG(b)))
-#define GR(a, b)                                                               \
-  (DATA_GR(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
+#define GT(a, b)                                                               \
+  (DATA_GT(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
    (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
-    DATA_GR(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
+    DATA_GT(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
 #define GE(a, b)                                                               \
   (DATA_GE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
    (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
     DATA_GE(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
-#define LS(a, b)                                                               \
-  (DATA_LS(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
+#define LT(a, b)                                                               \
+  (DATA_LT(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
    (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
-    DATA_LS(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
+    DATA_LT(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
 #define LE(a, b)                                                               \
   (DATA_LE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
    (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
@@ -175,9 +175,9 @@
 #elif defined(TYPE_FRACTION)
 #define DATA_EQ(a, b) ((a) == (b))
 #define DATA_NE(a, b) ((a) != (b))
-#define DATA_GR(a, b) ((a) > (b))
+#define DATA_GT(a, b) ((a) > (b))
 #define DATA_GE(a, b) ((a) >= (b))
-#define DATA_LS(a, b) ((a) < (b))
+#define DATA_LT(a, b) ((a) < (b))
 #define DATA_LE(a, b) ((a) <= (b))
 
 #define DATA_TEST(a) ((0 != FRACTION_DEN(a)))
@@ -218,11 +218,11 @@
   ((FRACTION_NUM(a) == FRACTION_NUM(b)) && (FRACTION_DEN(a) == FRACTION_DEN(b)))
 #define NE(a, b)                                                               \
   ((FRACTION_NUM(a) != FRACTION_NUM(b)) || (FRACTION_DEN(a) != FRACTION_DEN(b)))
-#define GR(a, b)                                                               \
+#define GT(a, b)                                                               \
   ((FRACTION_NUM(a) * FRACTION_DEN(b)) > (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define GE(a, b)                                                               \
   ((FRACTION_NUM(a) * FRACTION_DEN(b)) >= (FRACTION_NUM(b) * FRACTION_DEN(a)))
-#define LS(a, b)                                                               \
+#define LT(a, b)                                                               \
   ((FRACTION_NUM(a) * FRACTION_DEN(b)) < (FRACTION_NUM(b) * FRACTION_DEN(a)))
 #define LE(a, b)                                                               \
   ((FRACTION_NUM(a) * FRACTION_DEN(b)) <= (FRACTION_NUM(b) * FRACTION_DEN(a)))
@@ -250,9 +250,9 @@
 #elif defined(TYPE_POINT2D)
 #define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
 #define DATA_NE(a, b) (fabs((a) - (b)) >= DATA_EPSILON)
-#define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
-#define DATA_GE(a, b) (DATA_EQ(a, b) || DATA_GR(a, b))
-#define DATA_LS(a, b) DATA_GR(b, a)
+#define DATA_GT(a, b) (((a) - (b)) > DATA_EPSILON)
+#define DATA_GE(a, b) (DATA_EQ(a, b) || DATA_GT(a, b))
+#define DATA_LT(a, b) DATA_GT(b, a)
 #define DATA_LE(a, b) DATA_GE(b, a)
 
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
@@ -272,8 +272,8 @@
 #define DATA_ISPINF(a) ((DATA_MAX < POINT2D_X(a)) || (DATA_MAX < POINT2D_Y(a)))
 #define DATA_ISNINF(a) ((DATA_MIN > POINT2D_X(a)) || (DATA_MIN > POINT2D_Y(a)))
 #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
-#define DATA_ISPOS(a) (DATA_GR(POINT2D_X(a), 0.0) && DATA_GR(POINT2D_Y(a), 0.0))
-#define DATA_ISNEG(a) (DATA_LS(POINT2D_X(a), 0.0) || DATA_LS(POINT2D_Y(a), 0.0))
+#define DATA_ISPOS(a) (DATA_GT(POINT2D_X(a), 0.0) && DATA_GT(POINT2D_Y(a), 0.0))
+#define DATA_ISNEG(a) (DATA_LT(POINT2D_X(a), 0.0) || DATA_LT(POINT2D_Y(a), 0.0))
 #endif
 
 #define ADD(a, b)                                                              \
@@ -302,18 +302,18 @@
   (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) && DATA_EQ(POINT2D_Y(a), POINT2D_Y(b)))
 #define NE(a, b)                                                               \
   (DATA_NE(POINT2D_X(a), POINT2D_X(b)) || DATA_NE(POINT2D_Y(a), POINT2D_Y(b)))
-#define GR(a, b)                                                               \
-  (DATA_GR(POINT2D_X(a), POINT2D_X(b)) ||                                      \
+#define GT(a, b)                                                               \
+  (DATA_GT(POINT2D_X(a), POINT2D_X(b)) ||                                      \
    (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
-    DATA_GR(POINT2D_Y(a), POINT2D_Y(b))))
+    DATA_GT(POINT2D_Y(a), POINT2D_Y(b))))
 #define GE(a, b)                                                               \
   (DATA_GE(POINT2D_X(a), POINT2D_X(b)) ||                                      \
    (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
     DATA_GE(POINT2D_Y(a), POINT2D_Y(b))))
-#define LS(a, b)                                                               \
-  (DATA_LS(POINT2D_X(a), POINT2D_X(b)) ||                                      \
+#define LT(a, b)                                                               \
+  (DATA_LT(POINT2D_X(a), POINT2D_X(b)) ||                                      \
    (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
-    DATA_LS(POINT2D_Y(a), POINT2D_Y(b))))
+    DATA_LT(POINT2D_Y(a), POINT2D_Y(b))))
 #define LE(a, b)                                                               \
   (DATA_LE(POINT2D_X(a), POINT2D_X(b)) ||                                      \
    (DATA_EQ(POINT2D_X(a), POINT2D_X(b)) &&                                     \
@@ -342,9 +342,9 @@
 #elif defined(TYPE_POINT3D)
 #define DATA_EQ(a, b) (fabs((a) - (b)) < DATA_EPSILON)
 #define DATA_NE(a, b) (fabs((a) - (b)) >= DATA_EPSILON)
-#define DATA_GR(a, b) (((a) - (b)) > DATA_EPSILON)
-#define DATA_GE(a, b) (DATA_EQ(a, b) || DATA_GR(a, b))
-#define DATA_LS(a, b) DATA_GR(b, a)
+#define DATA_GT(a, b) (((a) - (b)) > DATA_EPSILON)
+#define DATA_GE(a, b) (DATA_EQ(a, b) || DATA_GT(a, b))
+#define DATA_LT(a, b) DATA_GT(b, a)
 #define DATA_LE(a, b) DATA_GE(b, a)
 
 #if (__STDC_VERSION__ >= 199901L) && defined(_MATH_H__)
@@ -382,11 +382,11 @@
    (DATA_MIN > POINT3D_Z(a)))
 #define DATA_ISINF(a) (DATA_ISPINF(a) || DATA_ISNINF(a))
 #define DATA_ISPOS(a)                                                          \
-  (DATA_GR(POINT3D_X(a), 0.0) && DATA_GR(POINT3D_Y(a), 0.0) &&                 \
-   DATA_GR(POINT3D_Z(a), 0.0))
+  (DATA_GT(POINT3D_X(a), 0.0) && DATA_GT(POINT3D_Y(a), 0.0) &&                 \
+   DATA_GT(POINT3D_Z(a), 0.0))
 #define DATA_ISNEG(a)                                                          \
-  (DATA_LS(POINT3D_X(a), 0.0) || DATA_LS(POINT3D_Y(a), 0.0) ||                 \
-   DATA_LS(POINT3D_Z(a), 0.0))
+  (DATA_LT(POINT3D_X(a), 0.0) || DATA_LT(POINT3D_Y(a), 0.0) ||                 \
+   DATA_LT(POINT3D_Z(a), 0.0))
 #endif
 
 #define ADD(a, b)                                                              \
@@ -416,18 +416,18 @@
    DATA_EQ(POINT3D_Y(a), POINT3D_Y(b)) && DATA_EQ(POINT3D_Z(a), POINT3D_Z(b)))
 #define NE(a, b)                                                               \
   (DATA_NE(POINT3D_X(a), POINT3D_X(b)) || DATA_NE(POINT3D_Y(a), POINT3D_Y(b)))
-#define GR(a, b)                                                               \
-  (DATA_GR(POINT3D_X(a), POINT3D_X(b)) ||                                      \
+#define GT(a, b)                                                               \
+  (DATA_GT(POINT3D_X(a), POINT3D_X(b)) ||                                      \
    (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
-    DATA_GR(POINT3D_Y(a), POINT3D_Y(b))))
+    DATA_GT(POINT3D_Y(a), POINT3D_Y(b))))
 #define GE(a, b)                                                               \
   (DATA_GE(POINT3D_X(a), POINT3D_X(b)) ||                                      \
    (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
     DATA_GE(POINT3D_Y(a), POINT3D_Y(b))))
-#define LS(a, b)                                                               \
-  (DATA_LS(POINT3D_X(a), POINT3D_X(b)) ||                                      \
+#define LT(a, b)                                                               \
+  (DATA_LT(POINT3D_X(a), POINT3D_X(b)) ||                                      \
    (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
-    DATA_LS(POINT3D_Y(a), POINT3D_Y(b))))
+    DATA_LT(POINT3D_Y(a), POINT3D_Y(b))))
 #define LE(a, b)                                                               \
   (DATA_LE(POINT3D_X(a), POINT3D_X(b)) ||                                      \
    (DATA_EQ(POINT3D_X(a), POINT3D_X(b)) &&                                     \
@@ -475,14 +475,14 @@
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
 #define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
-#define GR(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((a), (b))
-#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
-#define LS(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((b), (a)))
+#define LT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((b), (a))
-#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -526,14 +526,14 @@
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
 #define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
-#define GR(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((a), (b))
-#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
-#define LS(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((b), (a)))
+#define LT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((b), (a))
-#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -577,14 +577,14 @@
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
 #define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
-#define GR(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((a), (b))
-#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
-#define LS(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((b), (a)))
+#define LT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((b), (a))
-#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -628,14 +628,14 @@
   FUNCTION(NAME, eq)                                                           \
   ((a), (b))
 #define NE(a, b) CGRAPH_NTEST(FUNCTION(NAME, eq)((a), (b)))
-#define GR(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((a), (b))
-#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((b), (a)))
-#define LS(a, b)                                                               \
-  FUNCTION(NAME, gr)                                                           \
+#define GE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((b), (a)))
+#define LT(a, b)                                                               \
+  FUNCTION(NAME, gt)                                                           \
   ((b), (a))
-#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gr)((a), (b)))
+#define LE(a, b) CGRAPH_NTEST(FUNCTION(NAME, gt)((a), (b)))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))
@@ -684,9 +684,9 @@
 
 #define EQ(a, b) FUNCTION(NAME, eq)((a), (b))
 #define NE(a, b) FUNCTION(NAME, ne)((a), (b))
-#define GR(a, b) FUNCTION(NAME, gr)((a), (b))
+#define GT(a, b) FUNCTION(NAME, gt)((a), (b))
 #define GE(a, b) FUNCTION(NAME, ge)((a), (b))
-#define LS(a, b) FUNCTION(NAME, ls)((a), (b))
+#define LT(a, b) FUNCTION(NAME, lt)((a), (b))
 #define LE(a, b) FUNCTION(NAME, le)((a), (b))
 #endif
 

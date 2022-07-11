@@ -102,7 +102,7 @@ TYPE FUNCTION(NAME, abs)(const TYPE x) { return ABS(x); }
  */
 TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
   TYPE _x, _y = MATH_ERROR;
-  if (GR(x, ZERO)) {
+  if (GT(x, ZERO)) {
     _y = 0.5 * x;
     do {
       _x = _y;
@@ -131,7 +131,7 @@ TYPE FUNCTION(NAME, cube)(const TYPE x) {
 TYPE FUNCTION(NAME, exp)(const TYPE x) {
   TYPE res = 0.0, each = 1.0;
   cgraph_int_t i = 1;
-  for (i = 1; GR(ABS(each), 0.0); i++) {
+  for (i = 1; GT(ABS(each), 0.0); i++) {
     res += each;
     each = x / i * each;
   }
@@ -142,7 +142,7 @@ TYPE FUNCTION(NAME, exp)(const TYPE x) {
 TYPE FUNCTION(NAME, pi)(void) {
   TYPE res = 0.0, num1 = 3.2, num2 = -4.0 / 239, each = 1.0;
   cgraph_int_t i = 1;
-  for (i = 1; GR(ABS(each), 0.0); i += 2) {
+  for (i = 1; GT(ABS(each), 0.0); i += 2) {
     each = (num1 + num2) / i;
     res += each;
     num1 /= -25;
@@ -153,7 +153,7 @@ TYPE FUNCTION(NAME, pi)(void) {
 }
 
 __INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return LS(0.0, x) ? 1 : 0;
+  return LT(0.0, x) ? 1 : 0;
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
@@ -165,11 +165,11 @@ __INLINE__ cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x) {
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
-  return CGRAPH_TEST(LS(0.0, x));
+  return CGRAPH_TEST(LT(0.0, x));
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
-  return CGRAPH_TEST(GR(0.0, x));
+  return CGRAPH_TEST(GT(0.0, x));
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
@@ -208,8 +208,8 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
-cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
-  return GR(x, y);
+cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y) {
+  return GT(x, y);
 }
 
 cgraph_size_t FUNCTION(NAME, digits)(const cgraph_bool_t ispos) {
@@ -320,7 +320,7 @@ __INLINE__ TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
 TYPE FUNCTION(NAME, rmin)(const TYPE start, const TYPE end,
                           TYPE func(const TYPE x)) {
   TYPE x_min = start, y_min = func(x_min), x = start, y = y_min;
-  while (LS(x, end)) {
+  while (LT(x, end)) {
   }
 
   return x_min;
@@ -491,7 +491,7 @@ TYPE FUNCTION(NAME,
     _x += _step_2;
     k4 = func(_x, _y + _step_2 * k3);
     _y += (_step_6 * (k1 + k4) + _step_3 * (k2 + k3));
-  } while (LS(_x, x_end));
+  } while (LT(_x, x_end));
 
   return _y;
 }
@@ -510,7 +510,7 @@ TYPE FUNCTION(NAME, rdiff_kutta_s4)(const TYPE x_start, const TYPE x_end,
     _x += _step_3;
     k4 = func(_x, _y + step * (k1 - k2 + k3));
     _y += (_step_8 * (k1 + k4) + _step3_8 * (k2 + k3));
-  } while (LS(_x, x_end));
+  } while (LT(_x, x_end));
 
   return _y;
 }
@@ -537,15 +537,15 @@ TYPE FUNCTION(NAME, rint_trapezoidal)(const TYPE start, const TYPE end,
     _res = 0.0;
   } else {
     TYPE _start = start, _end = end;
-    if (GR(start, end)) {
+    if (GT(start, end)) {
       _start = end;
       _end = start;
     }
     do {
       _res += _step * (func(_start) + func(_start + step));
       _start += step;
-    } while (LS(_start, _end));
-    if (GR(start, end)) {
+    } while (LT(_start, _end));
+    if (GT(start, end)) {
       _res = -1.0 * _res;
     }
   }
@@ -569,7 +569,7 @@ TYPE FUNCTION(NAME, rint_simpson)(const TYPE start, const TYPE end,
     _res = 0.0;
   } else {
     TYPE _start = start, _end = end;
-    if (GR(start, end)) {
+    if (GT(start, end)) {
       _start = end;
       _end = start;
     }
@@ -577,8 +577,8 @@ TYPE FUNCTION(NAME, rint_simpson)(const TYPE start, const TYPE end,
       _res += _step * (func(_start) + 4.0 * func(_start + 0.5 * step) +
                        func(_start + step));
       _start += step;
-    } while (LS(_start, _end));
-    if (GR(start, end)) {
+    } while (LT(_start, _end));
+    if (GT(start, end)) {
       _res = -1.0 * _res;
     }
   }
@@ -602,7 +602,7 @@ TYPE FUNCTION(NAME, rint_simpson38)(const TYPE start, const TYPE end,
     _res = 0.0;
   } else {
     TYPE _start = start, _end = end;
-    if (GR(start, end)) {
+    if (GT(start, end)) {
       _start = end;
       _end = start;
     }
@@ -613,8 +613,8 @@ TYPE FUNCTION(NAME, rint_simpson38)(const TYPE start, const TYPE end,
            3.0 * (func(_start + step / 3.0) + func(_start + 2.0 / 3.0 * step)) +
            func(_start + step));
       _start += step;
-    } while (LS(_start, _end));
-    if (GR(start, end)) {
+    } while (LT(_start, _end));
+    if (GT(start, end)) {
       _res = -1.0 * _res;
     }
   }
@@ -639,11 +639,11 @@ TYPE FUNCTION(NAME, rint_cotes)(const TYPE start, const TYPE end,
   } else {
     cgraph_size_t i = 0;
     TYPE _start = start, _end = end;
-    if (GR(start, end)) {
+    if (GT(start, end)) {
       _start = end;
       _end = start;
     }
-    for (i = 0; LS(_start, _end); i++) {
+    for (i = 0; LT(_start, _end); i++) {
       _res +=
           _step *
           (7.0 * (func(_start) + func(_start + step)) +
@@ -651,7 +651,7 @@ TYPE FUNCTION(NAME, rint_cotes)(const TYPE start, const TYPE end,
            12.0 * func(_start + 0.5 * step));
       _start += step;
     }
-    if (GR(start, end)) {
+    if (GT(start, end)) {
       _res = -1.0 * _res;
     }
   }

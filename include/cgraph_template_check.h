@@ -31,7 +31,7 @@
 /*******************************************************************************
  * MACRO GROUP : DATA TYPE MATHEMATICAL FUNCTIONS
  * ASSIGN ADD SUB MUL DIV DIVF INT
- * MODF MOD EQ NE GR GE LS LE CEIL FLOOR POW ABS
+ * MODF MOD EQ NE GT GE LT LE CEIL FLOOR POW ABS
  * SIN COS TAN ASIN ACOS ATAN
  * SINH COSH TANH
  * LOG LOG2 LOG10
@@ -53,9 +53,9 @@
   #define MOD
   #define EQ
   #define NE
-  #define GR
+  #define GT
   #define GE
-  #define LS
+  #define LT
   #define LE
   #define CEIL
   #define FLOOR
@@ -128,16 +128,16 @@
 #error undefined needed macro NE
 #endif
 
-#ifndef GR
-#error undefined needed macro GR
+#ifndef GT
+#error undefined needed macro GT
 #endif
 
 #ifndef GE
 #error undefined needed macro GE
 #endif
 
-#ifndef LS
-#error undefined needed macro LS
+#ifndef LT
+#error undefined needed macro LT
 #endif
 
 #ifndef LE

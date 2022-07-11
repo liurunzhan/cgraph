@@ -3,7 +3,6 @@
 # Date : 2022-07-01
 # A script to compile Library cgraph in Unix-like and Windows Platforms
 # gets source files iteratively from Directory src
-# needs Python-2.7, Python3.4 or higher
 # TODO: A multiple definition issue while compiling shared library
 
 import os

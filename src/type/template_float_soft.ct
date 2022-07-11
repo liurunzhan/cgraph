@@ -79,8 +79,8 @@ TYPE FUNCTION(NAME, inv)(const TYPE x) {
   return res;
 }
 
-cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, gr_s)(x, y);
+cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, gt_s)(x, y);
 }
 
 cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x) {
@@ -96,7 +96,7 @@ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
 }
 
 cgraph_bool_t FUNCTION(NAME, test)(const TYPE x) {
-  return FUNCTION(NAME, ls)(x, MAX) && FUNCTION(NAME, gr)(x, MIN);
+  return FUNCTION(NAME, lt)(x, MAX) && FUNCTION(NAME, gt)(x, MIN);
 }
 
 cgraph_bool_t FUNCTION(NAME, isnan)(const TYPE x) {
@@ -356,7 +356,7 @@ cgraph_bool_t FUNCTION(NAME, ne_s)(const TYPE x, const TYPE y) {
   return CGRAPH_NTEST(FUNCTION(NAME, eq_s)(x, y));
 }
 
-cgraph_bool_t FUNCTION(NAME, gr_s)(const TYPE x, const TYPE y) {
+cgraph_bool_t FUNCTION(NAME, gt_s)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   DATA_TYPE x_sig = FLOAT_SOFT_SIG(x), x_exp = FLOAT_SOFT_EXP(x),
             x_frac = FLOAT_SOFT_FRAC(x);
@@ -373,15 +373,15 @@ cgraph_bool_t FUNCTION(NAME, gr_s)(const TYPE x, const TYPE y) {
 }
 
 cgraph_bool_t FUNCTION(NAME, ge_s)(const TYPE x, const TYPE y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, gr_s)(y, x));
+  return CGRAPH_NTEST(FUNCTION(NAME, gt_s)(y, x));
 }
 
-cgraph_bool_t FUNCTION(NAME, ls_s)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, gr)(y, x);
+cgraph_bool_t FUNCTION(NAME, lt_s)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, gt)(y, x);
 }
 
 cgraph_bool_t FUNCTION(NAME, le_s)(const TYPE x, const TYPE y) {
-  return CGRAPH_NTEST(FUNCTION(NAME, gr_s)(x, y));
+  return CGRAPH_NTEST(FUNCTION(NAME, gt_s)(x, y));
 }
 
 TYPE FUNCTION(NAME, tofrac)(const cgraph_int_t x) {

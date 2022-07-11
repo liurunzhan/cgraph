@@ -524,15 +524,15 @@ cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y) {
 #else
 cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y) {
 #endif
-  return GR(x, y);
+  return GE(x, y);
 }
 
 #ifdef TYPE_WITH_DATA
-cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y) {
+cgraph_bool_t FUNCTION(NAME, lt)(const TYPE *x, const TYPE *y) {
 #else
-cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y) {
+cgraph_bool_t FUNCTION(NAME, lt)(const TYPE x, const TYPE y) {
 #endif
-  return LS(x, y);
+  return LT(x, y);
 }
 
 #ifdef TYPE_WITH_DATA

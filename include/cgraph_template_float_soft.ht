@@ -54,9 +54,9 @@
 
 #define EQ(a, b) FUNCTION(NAME, eq_s)((a), (b))
 #define NE(a, b) FUNCTION(NAME, ne_s)((a), (b))
-#define GR(a, b) FUNCTION(NAME, gr_s)((a), (b))
+#define GT(a, b) FUNCTION(NAME, gt_s)((a), (b))
 #define GE(a, b) FUNCTION(NAME, ge_s)((a), (b))
-#define LS(a, b) FUNCTION(NAME, ls_s)((a), (b))
+#define LT(a, b) FUNCTION(NAME, lt_s)((a), (b))
 #define LE(a, b) FUNCTION(NAME, le_s)((a), (b))
 
 #define CEIL(a) FUNCTION(NAME, ceil)((a))
@@ -119,9 +119,9 @@ extern TYPE FUNCTION(NAME, fabs)(const TYPE x);
 
 extern cgraph_bool_t FUNCTION(NAME, eq_s)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ne_s)(const TYPE x, const TYPE y);
-extern cgraph_bool_t FUNCTION(NAME, gr_s)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, gt_s)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ge_s)(const TYPE x, const TYPE y);
-extern cgraph_bool_t FUNCTION(NAME, ls_s)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, lt_s)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, le_s)(const TYPE x, const TYPE y);
 
 extern cgraph_bool_t FUNCTION(NAME, isone)(const TYPE x);

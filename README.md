@@ -119,68 +119,74 @@ __________________
 
 #### Script List
 ________________
-All the involved compilation scripts in this library are listed as below. User can use [Configure.pl](./Configure.pl) to change their default configuration (ongoing...).
+All the involved compilation scripts in this library are listed as below. Users can run them individually, call them by [Makefile.mk](./Makefile.mk) with Option **TOOL** and use [Configure.pl](./Configure.pl) to change their default configurations (Ongoing...).
 
-* ***CMake*** [CMakeLists.txt](./tools/script/CMakeLists.txt)
-* ***DOS Batch*** [compile.bat](./tools/script/compile.bat)
-* ***C*** [compile.c](./tools/script/compile.c)
-* ***Ceylon*** [compile.ceylon](./tools/script/compile.ceylon)
-* ***Clojure*** [compile.clj](./tools/script/compile.clj)
-* ***Crystal*** [compile.cr](./tools/script/compile.cr)
-* ***C Shell*** [compile.csh](./tools/script/compile.csh)
-* ***D*** [compile.d](./tools/script/compile.d)
-* ***Erlang*** [compile.escript](./tools/script/compile.escript)
-* ***Elixir*** [compile.exs](./tools/script/compile.exs)
-* ***Fish Shell*** [compile.fish](./tools/script/compile.fish)
-* ***Go*** [compile.go](./tools/script/compile.go)
-* ***Groovy*** [compile.groovy](./tools/script/compile.groovy)
-* ***Haskell*** [compile.hs](./tools/script/compile.hs)
-* ***IO*** [compile.io](./tools/script/compile.io)
-* ***Java*** [compile.java](./tools/script/compile.java)
-* ***Julia*** [compile.jl](./tools/script/compile.jl)
-* ***K Shell*** [compile.ksh](./tools/script/compile.ksh)
-* ***Kotlin*** [compile.kts](./tools/script/compile.kts)
-* ***Lisp*** [compile.lisp](./tools/script/compile.lisp)
-* ***Lua*** [compile.lua](./tools/script/compile.lua)
-* ***Make*** [compile.mk](./tools/script/compile.mk)
-* ***Ocaml*** [compile.ml](./tools/script/compile.ml)
-* ***Nims*** [compile.nims](./tools/script/compile.nims)
-* ***Ninja*** [compile.ninja](./tools/script/compile.ninja)
-* ***Odin*** [compile.odin](./tools/script/compile.odin)
-* ***Perl*** [compile.pl](./tools/script/compile.pl)
-* ***Powershell*** [compile.ps1](./tools/script/compile.ps1)
-* ***Python*** [compile.py](./tools/script/compile.py)
-* ***R*** [compile.r](./tools/script/compile.r)
-* ***Raku*** [compile.raku](./tools/script/compile.raku)
-* ***Ruby*** [compile.rb](./tools/script/compile.rb)
-* ***Rebol*** [compile.rebol](./tools/script/compile.rebol)
-* ***Red*** [compile.red](./tools/script/compile.red)
-* ***Rust*** [compile.rs](./tools/script/compile.rs)
-* ***Scala*** [compile.scala](./tools/script/compile.scala)
-* ***Bourne Shell*** [compile.sh](./tools/script/compile.sh)
-* ***Swift*** [compile.swift](./tools/script/compile.swift)
-* ***Tcl/Tk*** [compile.tcl](./tools/script/compile.tcl)
-* ***Typescript*** [compile.ts](./tools/script/compile.ts)
-* ***V Shell*** [compile.vsh](./tools/script/compile.vsh)
-* ***Zig*** [compile.zig](./tools/script/compile.zig)
-* ***Z Shell*** [compile.zsh](./tools/script/compile.zsh)
-* ***Meson*** [meson.build](./tools/script/meson.build)
-* ***Premake*** [premake.lua](./tools/script/premake.lua)
-* ***XMake*** [xmake.lua](./tools/script/xmake.lua)
+- [ ] ***CMake*** [CMakeLists.txt](./tools/script/CMakeLists.txt)
+- [ ] ***DOS Batch*** [compile.bat](./tools/script/compile.bat)
+- [ ] ***C*** [compile.c](./tools/script/compile.c)
+- [ ] ***Ceylon*** [compile.ceylon](./tools/script/compile.ceylon)
+- [ ] ***Clojure*** [compile.clj](./tools/script/compile.clj)
+- [ ] ***Crystal*** [compile.cr](./tools/script/compile.cr)
+- [x] ***C Shell*** [compile.csh](./tools/script/compile.csh)
+- [x] ***D*** [compile.d](./tools/script/compile.d)
+- [ ] ***Erlang*** [compile.escript](./tools/script/compile.escript)
+- [ ] ***Elixir*** [compile.exs](./tools/script/compile.exs)
+- [x] ***Fish Shell*** [compile.fish](./tools/script/compile.fish)
+- [x] ***Go*** [compile.go](./tools/script/compile.go)
+- [ ] ***Groovy*** [compile.groovy](./tools/script/compile.groovy)
+- [ ] ***Haskell*** [compile.hs](./tools/script/compile.hs)
+- [ ] ***IO*** [compile.io](./tools/script/compile.io)
+- [x] ***Java*** [compile.java](./tools/script/compile.java)
+- [x] ***Julia*** [compile.jl](./tools/script/compile.jl)
+- [x] ***K Shell*** [compile.ksh](./tools/script/compile.ksh)
+- [ ] ***Kotlin*** [compile.kts](./tools/script/compile.kts)
+- [ ] ***Lisp*** [compile.lisp](./tools/script/compile.lisp)
+- [x] ***Lua*** [compile.lua](./tools/script/compile.lua) (Needs lua5.1 or higher and luafilesystem)
+- [x] ***Make*** [compile.mk](./tools/script/compile.mk)
+- [ ] ***Ocaml*** [compile.ml](./tools/script/compile.ml)
+- [ ] ***Nims*** [compile.nims](./tools/script/compile.nims)
+- [ ] ***Ninja*** [compile.ninja](./tools/script/compile.ninja)
+- [ ] ***Odin*** [compile.odin](./tools/script/compile.odin)
+- [x] ***Perl*** [compile.pl](./tools/script/compile.pl)
+- [x] ***Powershell*** [compile.ps1](./tools/script/compile.ps1)
+- [x] ***Python*** [compile.py](./tools/script/compile.py) (Needs Python2.7, Python3.4 or higher and pathlib)
+- [x] ***R*** [compile.r](./tools/script/compile.r)
+- [x] ***Raku*** [compile.raku](./tools/script/compile.raku)
+- [x] ***Ruby*** [compile.rb](./tools/script/compile.rb)
+- [ ] ***Rebol*** [compile.rebol](./tools/script/compile.rebol)
+- [ ] ***Red*** [compile.red](./tools/script/compile.red)
+- [ ] ***Rust*** [compile.rs](./tools/script/compile.rs)
+- [ ] ***Scala*** [compile.scala](./tools/script/compile.scala)
+- [x] ***Bourne Shell*** [compile.sh](./tools/script/compile.sh)
+- [ ] ***Swift*** [compile.swift](./tools/script/compile.swift)
+- [x] ***Tcl/Tk*** [compile.tcl](./tools/script/compile.tcl)
+- [ ] ***Typescript*** [compile.ts](./tools/script/compile.ts)
+- [x] ***V Shell*** [compile.vsh](./tools/script/compile.vsh)
+- [ ] ***Zig*** [compile.zig](./tools/script/compile.zig)
+- [x] ***Z Shell*** [compile.zsh](./tools/script/compile.zsh)
+- [ ] ***Meson*** [meson.build](./tools/script/meson.build)
+- [ ] ***Premake*** [premake.lua](./tools/script/premake.lua)
+- [ ] ***XMake*** [xmake.lua](./tools/script/xmake.lua)
 
 ## Overview
 ___________
 Do what you want to do, and be what you want to be!
 
-I used to use process-oriented programming thinking and languages to solve problems, like C and Perl, but now I want to use pointer and structural variables in C to realize some features in object-oriented programming, and macro in C to realize the features in generic programming and interface-oriented programming.
+I used to use process-oriented languages to think and solve problems, like C, Perl and Shell, but now I want to use concepts in C to do something different:
 
-A lot of repetitive work used to be done by object-oriented compilers, must be done by hand while programming with C. The process may be tough and boring, but the target is cool and interesting enough! And it is also meaningful for me to understand the mechanism behind object-oriented compilers. Writing a library by hand will be better than packaging the APIs of a known library, for the case that its stability and safety can be guaranteed. 
+* pointers and structures to realize some features in object-oriented programming
+* macros to realize the features in generic and interface-oriented programming
+* integers to implement float pointer numbers and their operators by software, instead of FPU 
+
+so that I can know more about computer knowledge and programming paradigms.
+
+A lot of repetitive work used to be done by object-oriented compilers, must be done by hand while programming with C. The process may be tough and boring, but the target is cool and interesting enough! And it is also meaningful for me to understand the mechanism behind computers and compilers. Writing a library by hand will be better than packaging the APIs of a known library, for the case that its stability and safety can be controlled and guaranteed. 
 
 ## Structure
 ____________
 
 
-## Extension
+## Branches
 ____________
 
 ### Dist

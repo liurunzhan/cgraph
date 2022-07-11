@@ -17,7 +17,9 @@
 extern "C" {
 #endif
 
+#ifdef HAVE_CONFIG_H
 #include "cgraph_stdchk.h"
+#endif
 
 #ifdef __HAVE_LIBM
 #define USE_XOPEN

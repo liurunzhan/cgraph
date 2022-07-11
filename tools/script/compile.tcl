@@ -1,9 +1,14 @@
 #!/usr/bin/tclsh
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 set PRO "cgraph"
 set DIR "."
 set INC [file join ${DIR} "include"]
 set SRC [file join ${DIR} "src"]
+set SRC_TYPE [file join ${SRC} "type"]
 set TST [file join ${DIR} "tests"]
 set LIB [file join ${DIR} "lib"]
 
@@ -34,53 +39,80 @@ set RMDIRFLAGS "-rf"
 set AR "ar"
 set ARFLAGS "-rcs"
 
+# source files
+proc getsubdirs {path} {
+  global SRCS
+  foreach dir [glob -nocomplain -type d [file join ${path} *]] {
+    set len [array size SRCS]
+    set SRCS(${len}) ${dir}
+    getsubdirs ${dir}
+  }
+}
+
+array set SRCS ""
+getsubdirs $SRC
+
+array set CFILES ""
+foreach index [ array names SRCS ] {
+  set dir $SRCS(${index})
+  foreach file [ glob -nocomplain ${dir}/*.c ] {
+    set basename [ glob -nocomplain -path $file -tails * ]
+    if { 0 == [string match "." $basename ] } {
+      set len [array size CFILES]
+      set CFILES($len) $file
+    }
+  }
+}
+
 # target files
-set LIBSHARED ${LIB}/lib${PRO}.so
-set LIBSTATIC ${LIB}/lib${PRO}.a
+set LIBSHARED [ file join ${LIB} "lib${PRO}.so" ]
+set LIBSTATIC [ file join ${LIB} lib${PRO}.a ]
 # test files
-set TSTFILE ${TST}/${PRO}.c
-set TSTTARGET ${TST}/${PRO}
+set TSTFILE [ file join ${TST} ${PRO}.c ]
+set TSTTARGET [ file join ${TST} ${PRO} ]
 
 if { $argc == 0 } {
   exec sh -c "mkdir -p ${LIB}"
-	set OFILES ""
-	foreach file [ glob -nocomplain ${SRC}/*.c ] {
-    regsub {.c$} ${file} .o obj
-		regsub {.c$} ${file} .d dep
+  set OFILES ""
+  foreach index [ array names CFILES ] {
+    set file $CFILES($index)
+    regsub {\.c$} ${file} .o obj
+    regsub {\.c$} ${file} .d dep
     puts "compile ${file} to ${obj}"
-		catch { exec sh -c "${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}" } message
-		if { [ string length $message ] != 0 } {
-			puts $message
-		}
-		append OFILES " " $obj
+    catch { exec sh -c "${CC} ${CFLAGS} -I${INC} -I${SRC_TYPE} -c ${file} -o ${obj} -MD -MF ${dep}" } message
+    if { [ string length $message ] != 0 } {
+      puts $message
+    }
+    append OFILES " " $obj
   }
-	puts "compile ${LIBSHARED}"
+  puts "compile ${LIBSHARED}"
   catch { exec sh -c "${CC} ${CSFLAGS} -o ${LIBSHARED} ${OFILES}" } message
-	if { [ string length $message ] != 0 } {
-		puts $message
-	}
+  if { [ string length $message ] != 0 } {
+    puts $message
+  }
   puts "compile ${LIBSTATIC}"
   catch { exec sh -c "${AR} ${ARFLAGS} ${LIBSTATIC} ${OFILES}" } message
-	if { [ string length $message ] != 0 } {
-		puts $message
-	}
+  if { [ string length $message ] != 0 } {
+    puts $message
+  }
 } elseif { [ lindex $argv 0 ] == "test" } {
   puts "compile ${TSTFILE} to ${TSTTARGET}"
   catch { exec sh -c "${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm" } message
-	if { [ string length $message ] != 0 } {
-		puts $message
-	}
+  if { [ string length $message ] != 0 } {
+    puts $message
+  }
   puts "test ${TSTTARGET} with ${TST}/elements.csv"
   catch { exec sh -c "${TSTTARGET} ${TST}/elements.csv" } message
-	if { [ string length $message ] != 0 } {
-		puts $message
-	}
+  if { [ string length $message ] != 0 } {
+    puts $message
+  }
 } elseif { [ lindex $argv 0 ] == "clean" } {
-	foreach file [ glob -nocomplain ${SRC}/*.c ] {
-    regsub {.c$} ${file} .o obj
+  foreach index [ array names CFILES ] {
+    set file $CFILES(${index})
+    regsub {\.c$} ${file} .o obj
     puts "clean ${obj}"
     catch { exec sh -c "${RM} ${RMFLAGS} ${obj}" }
-		regsub {.c$} ${file} .d dep
+    regsub {\.c$} ${file} .d dep
     puts "clean ${dep}"
     catch { exec sh -c "${RM} ${RMFLAGS} ${dep}" }
   }
@@ -91,11 +123,12 @@ if { $argc == 0 } {
   puts "clean ${TSTTARGET}"
   catch { exec sh -c "${RM} ${RMFLAGS} ${TSTTARGET}" }
 } elseif { [ lindex $argv 0 ] == "distclean" } {
-	foreach file [ glob -nocomplain ${SRC}/*.c ] {
+  foreach index [ array names CFILES ] {
+    set file $CFILES(${index})
     regsub {.c$} ${file} .o obj
     puts "clean ${obj}"
     catch { exec sh -c "${RM} ${RMFLAGS} ${obj}" }
-		regsub {.c$} ${file} .d dep
+    regsub {.c$} ${file} .d dep
     puts "clean ${dep}"
     catch { exec sh -c "${RM} ${RMFLAGS} ${dep}" }
   }

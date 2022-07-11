@@ -1,7 +1,10 @@
-#!/usr/local/bin/nim
+#!/usr/bin/nim
 
-import os except paramCount, paramStr, dirExists, fileExists
-import strutils, strformat
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
+import os, strutils, strformat
 
 var PRO: string = "cgraph"
 var DIR: string = "."
@@ -46,8 +49,9 @@ else:
   TSTTARGET = joinPath(TST, PRO)
 
 var CFILES: seq[string]
-for kind, path in walkDir(SRC):
-  if((kind == pcFile) and (endsWith(path, ".c"))) and (not startsWith(path, ".")):
+for path in walkDirRec(SRC):
+  var file_name = extractFilename(path)
+  if(fileExists(path) and endsWith(file_name, ".c") and (not startsWith(file_name, "."))):
     add(CFILES, path)
 
 if(paramCount() == 1):
@@ -112,8 +116,8 @@ elif(paramStr(2) == "distclean"):
   if(fileExists(LIBSHARED)):
     rmFile(LIBSHARED)
   echo(fmt"clean {LIB}")
-	if(dirExists(LIB)):
-  	rmDir(LIB)
+  if(dirExists(LIB)):
+    rmDir(LIB)
   echo(fmt"clean {TSTTARGET}")
   if(fileExists(TSTTARGET)):
     rmFile(TSTTARGET)
@@ -127,4 +131,4 @@ elif(paramStr(2) == "help"):
   echo("          help      commands to this program")
 else:
   echo(fmt"{paramStr(2)} is an unsupported command")
-  echo(fmt"use \"{paramStr(1)} help\" to know all supported commands")
+  echo("""use "{paramStr(1)} help" to know all supported commands""")

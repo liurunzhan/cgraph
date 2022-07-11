@@ -79,9 +79,9 @@ extern TYPE *FUNCTION(NAME, hmean)(const TYPE *x, const TYPE *y, TYPE *z);
 
 extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE *x, const TYPE *y);
-extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, gt)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE *x, const TYPE *y);
-extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE *x, const TYPE *y);
+extern cgraph_bool_t FUNCTION(NAME, lt)(const TYPE *x, const TYPE *y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE *x, const TYPE *y);
 
 extern TYPE *FUNCTION(NAME, ceil)(const TYPE *x, TYPE *y);
@@ -259,9 +259,9 @@ extern TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y);
 
 extern cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ne)(const TYPE x, const TYPE y);
-extern cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, ge)(const TYPE x, const TYPE y);
-extern cgraph_bool_t FUNCTION(NAME, ls)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, lt)(const TYPE x, const TYPE y);
 extern cgraph_bool_t FUNCTION(NAME, le)(const TYPE x, const TYPE y);
 
 extern TYPE FUNCTION(NAME, ceil)(const TYPE x);

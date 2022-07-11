@@ -1,5 +1,9 @@
 #!/bin/powershell
 
+# Date : 2022-07-01
+# A script to compile Library cgraph in Unix-like and Windows Platforms
+# gets source files iteratively from Directory src
+
 # project
 $PRO="cgraph"
 

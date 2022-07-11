@@ -43,7 +43,7 @@ if(System platform == "windows") then(
   TSTTARGET := File clone setPath("#{TST}/#{PRO}" interpolate)
 )
 
-CFILES := SRC filesWithExtension(".c")
+CFILES := SRC recursiveFilesOfTypes(".c")
 
 args := System args
 if(args size == 1) then(

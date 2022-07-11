@@ -603,8 +603,8 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
-cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
-  return GR(x, y);
+cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y) {
+  return GT(x, y);
 }
 
 __INLINE__ TYPE FUNCTION(NAME, add)(const TYPE x, const TYPE y) {

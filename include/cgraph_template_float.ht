@@ -46,9 +46,9 @@
 
 #define EQ(a, b) (fabsf((a) - (b)) < EPSILON)
 #define NE(a, b) (fabsf((a) - (b)) >= EPSILON)
-#define GR(a, b) (((a) - (b)) > EPSILON)
-#define GE(a, b) (EQ(a, b) || GR(a, b))
-#define LS(a, b) GR(b, a)
+#define GT(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (EQ(a, b) || GT(a, b))
+#define LT(a, b) GT(b, a)
 #define LE(a, b) GE(b, a)
 
 #define CEIL(a) ceilf((a))
@@ -78,9 +78,9 @@
 
 #define EQ(a, b) (fabsl((a) - (b)) < EPSILON)
 #define NE(a, b) (fabsl((a) - (b)) >= EPSILON)
-#define GR(a, b) (((a) - (b)) > EPSILON)
-#define GE(a, b) (EQ(a, b) || GR(a, b))
-#define LS(a, b) GR(b, a)
+#define GT(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (EQ(a, b) || GT(a, b))
+#define LT(a, b) GT(b, a)
 #define LE(a, b) GE(b, a)
 
 #define CEIL(a) ceill((a))
@@ -110,9 +110,9 @@
 
 #define EQ(a, b) (fabs((a) - (b)) < EPSILON)
 #define NE(a, b) (fabs((a) - (b)) >= EPSILON)
-#define GR(a, b) (((a) - (b)) > EPSILON)
-#define GE(a, b) (EQ(a, b) || GR(a, b))
-#define LS(a, b) GR(b, a)
+#define GT(a, b) (((a) - (b)) > EPSILON)
+#define GE(a, b) (EQ(a, b) || GT(a, b))
+#define LT(a, b) GT(b, a)
 #define LE(a, b) GE(b, a)
 
 #define CEIL(a) ceil((a))

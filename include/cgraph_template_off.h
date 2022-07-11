@@ -59,7 +59,7 @@
  * DATA_MAX1 DATA_MIN1 DATA_BIAS1
  * DATA_NAN DATA_INF DATA_PINF DATA_NINF
  * DATA_LSB DATA_MSB DATA_MASK DATA_EPSILON DATA_EPSILON_LEN
- * DATA_EQ DATA_NE DATA_GR DATA_GE DATA_LS DATA_LE
+ * DATA_EQ DATA_NE DATA_GT DATA_GE DATA_LT DATA_LE
  * DATA_TEST DATA_FUNC DATA_CFUNC
  * DATA_TOBOOL DATA_TOLOGIC
  * DATA_ISBOOL DATA_ISLOGIC
@@ -110,10 +110,10 @@
  * CGRAPH_MATRIX3D_SIZE
  * MACRO GROUP : DATA TYPE MATHEMATICAL FUNCTIONS, CHECKED BY "template_check.h"
  * ASSIGN ADD SUB MUL DIV DIVF INT FEXP FREXP FMOD MODF MOD
- * BOOLEAN_EQ BOOLEAN_NE BOOLEAN_GR BOOLEAN_GE BOOLEAN_LS BOOLEAN_LE
+ * BOOLEAN_EQ BOOLEAN_NE BOOLEAN_GT BOOLEAN_GE BOOLEAN_LT BOOLEAN_LE
  * BOOLEAN_AND BOOLEAN_NAND BOOLEAN_ANDN BOOLEAN_OR BOOLEAN_NOR BOOLEAN_ORN
  * BOOLEAN_ABS BOOLEAN_NOT BOOLEAN_XOR BOOLEAN_XNOR
- * EQ NE GR GE LS LE
+ * EQ NE GT GE LT LE
  * AND NAND ANDN OR NOR ORN NOT XOR XNOR
  * CEIL FLOOR POW ABS SIN COS TAN ASIN ACOS ATAN SINH COSH TANH
  * LOG LOG2 LOG10 EXP SQRT CUBE
@@ -218,9 +218,9 @@
   #define DATA_EPSILON_LEN
   #define DATA_EQ
   #define DATA_NE
-  #define DATA_GR
+  #define DATA_GT
   #define DATA_GE
-  #define DATA_LS
+  #define DATA_LT
   #define DATA_LE
   #define DATA_TEST
   #define DATA_FUNC
@@ -361,9 +361,9 @@
   #define MOD
   #define BOOLEAN_EQ
   #define BOOLEAN_NE
-  #define BOOLEAN_GR
+  #define BOOLEAN_GT
   #define BOOLEAN_GE
-  #define BOOLEAN_LS
+  #define BOOLEAN_LT
   #define BOOLEAN_LE
   #define BOOLEAN_AND
   #define BOOLEAN_NAND
@@ -377,9 +377,9 @@
   #define BOOLEAN_XNOR
   #define EQ
   #define NE
-  #define GR
+  #define GT
   #define GE
-  #define LS
+  #define LT
   #define LE
   #define AND
   #define NAND
@@ -799,16 +799,16 @@
 #undef DATA_NE
 #endif
 
-#ifdef DATA_GR
-#undef DATA_GR
+#ifdef DATA_GT
+#undef DATA_GT
 #endif
 
 #ifdef DATA_GE
 #undef DATA_GE
 #endif
 
-#ifdef DATA_LS
-#undef DATA_LS
+#ifdef DATA_LT
+#undef DATA_LT
 #endif
 
 #ifdef DATA_LE
@@ -1378,16 +1378,16 @@
 #undef BOOLEAN_NE
 #endif
 
-#ifdef BOOLEAN_GR
-#undef BOOLEAN_GR
+#ifdef BOOLEAN_GT
+#undef BOOLEAN_GT
 #endif
 
 #ifdef BOOLEAN_GE
 #undef BOOLEAN_GE
 #endif
 
-#ifdef BOOLEAN_LS
-#undef BOOLEAN_LS
+#ifdef BOOLEAN_LT
+#undef BOOLEAN_LT
 #endif
 
 #ifdef BOOLEAN_LE
@@ -1442,16 +1442,16 @@
 #undef NE
 #endif
 
-#ifdef GR
-#undef GR
+#ifdef GT
+#undef GT
 #endif
 
 #ifdef GE
 #undef GE
 #endif
 
-#ifdef LS
-#undef LS
+#ifdef LT
+#undef LT
 #endif
 
 #ifdef LE

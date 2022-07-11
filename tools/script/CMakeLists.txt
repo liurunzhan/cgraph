@@ -14,11 +14,12 @@ set(CMAKE_BUILD_TYPE "Release")
 
 set(INC "${PROJECT_SOURCE_DIR}/include")
 set(SRC "${PROJECT_SOURCE_DIR}/src")
+set(SRC_TYPE "${SRC}/type")
 set(LIB "${PROJECT_SOURCE_DIR}/lib")
 set(TST "${PROJECT_SOURCE_DIR}/tests")
 set(DOC "${PROJECT_SOURCE_DIR}/doc")
 
-include_directories(${INC})
+include_directories(${INC} ${SRC_TYPE})
 file(GLOB SRC_LIST "${SRC}/*.c" "${SRC}/func/*.c" "${SRC}/type/basic/*.c" "${SRC}/type/*.c" "${SRC}/type/data/*.c" "${SRC}/type/object/*.c" "${SRC}/type/structure/*.c" "${SRC}/graph/*.c" "${SRC}/game/*.c")
 set(LIBRARY_OUTPUT_PATH ${LIB})
 set(EXECUTABLE_OUTPUT_PATH ${TST})

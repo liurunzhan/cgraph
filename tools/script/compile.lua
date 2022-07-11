@@ -8,7 +8,9 @@ require("package")
 require('string')
 require('os')
 require('table')
-require('lfs') -- luafilesystem, installed by "luarocks install luafilesystem"
+
+-- Needs a third party library---luafilesystem, installed by "luarocks install luafilesystem"
+require('lfs')
 
 PSEP = string.sub(package.config, 0, 1)
 

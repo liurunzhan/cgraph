@@ -45,6 +45,7 @@ ARFLAGS="-rcs"
 
 # source files
 CFILES=`find ${SRC} -regex "^[^\.]*\.c$"`
+
 # target files
 LIBSHARED=${LIB}/lib${PRO}.so
 LIBSTATIC=${LIB}/lib${PRO}.a

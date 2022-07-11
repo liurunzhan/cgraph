@@ -92,6 +92,7 @@ def arg_parse():
 	parser.add_argument("-s", "--source", required=True, type=str, help="input C-type source file")
 	parser.add_argument("-a", "--array", required=True, type=str, help="input C-type array name")
 	parser.add_argument("-o", "--output", default="", type=str, help="output C-type source file")
+	parser.add_argument("-d", "--debug", action="store_true", help="used to debug script")
 	def func(args):
 		header = read_source_by_file(args.header)
 		source = read_source_by_file(args.source)
@@ -103,7 +104,8 @@ def arg_parse():
 				variables.append(item=item, last=False)
 		for line in re.findall(array_mode, source):
 			line = "static const cgraph_char_t *%s%s;" % (args.array, line)
-			print(line)
+			if args.debug:
+				print(line)
 			source = source.replace(line, variables.to_source(array=args.array))
 		if args.output == "":
 			print(source, end="")

@@ -96,7 +96,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 __INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return DATA_GR(0.0, COMPLEX_REAL(x)) + DATA_GR(0.0, COMPLEX_IMAG(x)) + 1;
+  return DATA_GT(0.0, COMPLEX_REAL(x)) + DATA_GT(0.0, COMPLEX_IMAG(x)) + 1;
 }
 
 /** initial function */
@@ -292,12 +292,12 @@ DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y) {
 }
 
 DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x) {
-  return DATA_LS(COMPLEX_REAL(x), COMPLEX_IMAG(x)) ? COMPLEX_REAL(x)
+  return DATA_LT(COMPLEX_REAL(x), COMPLEX_IMAG(x)) ? COMPLEX_REAL(x)
                                                    : COMPLEX_IMAG(x);
 }
 
 DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x) {
-  return DATA_GR(COMPLEX_REAL(x), COMPLEX_IMAG(x)) ? COMPLEX_REAL(x)
+  return DATA_GT(COMPLEX_REAL(x), COMPLEX_IMAG(x)) ? COMPLEX_REAL(x)
                                                    : COMPLEX_IMAG(x);
 }
 
@@ -844,8 +844,8 @@ __INLINE__ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
-__INLINE__ cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
-  return GR(x, y);
+__INLINE__ cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y) {
+  return GT(x, y);
 }
 
 /**

@@ -26,7 +26,7 @@ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
 }
 
 __INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE x) {
-  return DATA_GR(0.0, POINT3D_X(x)) + DATA_GR(0.0, POINT3D_Y(x)) + 1;
+  return DATA_GT(0.0, POINT3D_X(x)) + DATA_GT(0.0, POINT3D_Y(x)) + 1;
 }
 
 cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE cthis) {
@@ -65,16 +65,16 @@ DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x) {
 
 DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x) {
   DATA_TYPE min =
-      DATA_LS(POINT3D_X(x), POINT3D_Y(x)) ? POINT3D_X(x) : POINT3D_Y(x);
+      DATA_LT(POINT3D_X(x), POINT3D_Y(x)) ? POINT3D_X(x) : POINT3D_Y(x);
 
-  return DATA_LS(min, POINT3D_Z(x)) ? min : POINT3D_Z(x);
+  return DATA_LT(min, POINT3D_Z(x)) ? min : POINT3D_Z(x);
 }
 
 DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x) {
   DATA_TYPE max =
-      DATA_GR(POINT3D_X(x), POINT3D_Y(x)) ? POINT3D_X(x) : POINT3D_Y(x);
+      DATA_GT(POINT3D_X(x), POINT3D_Y(x)) ? POINT3D_X(x) : POINT3D_Y(x);
 
-  return DATA_GR(max, POINT3D_Z(x)) ? max : POINT3D_Z(x);
+  return DATA_GT(max, POINT3D_Z(x)) ? max : POINT3D_Z(x);
 }
 
 DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x) {

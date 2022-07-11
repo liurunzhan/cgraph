@@ -106,7 +106,7 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return flag;
 }
 
-cgraph_bool_t FUNCTION(NAME, gr)(const TYPE x, const TYPE y) {
+cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if (TIME_TYPE(x) == TIME_TYPE(y)) {
     if (TIME_ISTYPE0(x)) {
