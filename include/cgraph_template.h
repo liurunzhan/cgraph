@@ -10,6 +10,27 @@
  * @url https://github.com/liurunzhan/cgraph
  */
 
+/*
+```mermaid
+    cgraph_template.h[cgraph_template] --data-based-->
+cgraph_template_data.ht(cgraph_template_data)
+    cgraph_template_data.ht(cgraph_template_data) --"object-based"-->
+cgraph_template_object.ht([cgraph_template_object])
+    cgraph_template_data.ht(cgraph_template_data) --int-based-->
+template_int.ht([cgraph_template_int])
+    cgraph_template_data.ht(cgraph_template_data) --float-based-->
+template_float.ht([cgraph_template_float])
+    cgraph_template_data.ct(cgraph_template_data) --point-based-->
+template_point.ht([cgraph_template_point])
+    template_base.ht[template_base] --structure based-->
+cgraph_template_struct.ht(cgraph_template_struct)
+    cgraph_template_struct.ht(template_struct) --matrix-based-->
+template_matrix.ht([cgraph_template_matrix])
+    cgraph_template_struct.ht(cgraph_template_struct)
+--3d-matrix-based--> cgraph_template_matrix3d.ht([cgraph_template_matrix3d])
+ ```
+ */
+
 #define CONCAT1V(a) #a
 #define CONCAT1(a) CONCAT1V(a)
 #define CONCAT2V(a, b) a##_##b

@@ -64,8 +64,8 @@ typedef unsigned char cgraph_uchar_t;
  * @typedef cgraph_bool_t
  * @brief 1-bit integer number data type
  */
-#define CGRAPH_FALSE (0)
-#define CGRAPH_TRUE (1)
+#define CGRAPH_FALSE INT_C(0)
+#define CGRAPH_TRUE INT_C(1)
 typedef signed int cgraph_bool_t;
 /** \defgroup group_bool cgraph_bool_t */
 /** @{ */
@@ -76,10 +76,11 @@ typedef signed int cgraph_bool_t;
 #define CGRAPH_BOOL_BITS (1)
 #define CGRAPH_BOOL_L2BITS (0)
 
-#define CGRAPH_BOOL_TRUE "true"
-#define CGRAPH_BOOL_TRUE_LEN (4)
-#define CGRAPH_BOOL_FALSE "false"
-#define CGRAPH_BOOL_FALSE_LEN (5)
+/* C-type string boolean definition */
+#define CGRAPH_BOOL_STRUE "true"
+#define CGRAPH_BOOL_STRUE_LEN (4)
+#define CGRAPH_BOOL_SFALSE "false"
+#define CGRAPH_BOOL_SFALSE_LEN (5)
 /** @} */
 
 /**

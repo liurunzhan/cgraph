@@ -1,4 +1,4 @@
-//!/usr/bin/java --source 11
+#!/usr/bin/java --source 11
 
 // Date : 2022-07-01
 // A script to compile Library cgraph in Unix-like and Windows Platforms

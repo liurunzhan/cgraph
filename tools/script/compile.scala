@@ -1,4 +1,6 @@
-#!/usr/bin/env scalac
+#!/bin/sh
+exec scala "$0" "$@"
+!#
 
 import java.io.File
 import scala.reflect.io.Directory

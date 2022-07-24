@@ -100,29 +100,36 @@ Any compiler who supports **STANDARD C89/ANSI C/C99/C11** can compile this libra
 ___________
 #### Platform List
 __________________
-* [mingw](http://www.mingw.org)
-* [msys](http://www.mingw.org)
-* [msys2](https://www.msys2.org)
-* [cygwin](https://cygwin.com)
-* [wsl](https://docs.microsoft.com/en-us/windows/wsl/)
-* [archwsl](https://github.com/yuk7/ArchWSL)
-* [linux](https://www.linux.org)
+
+Windows Platforms:
+- [x] [mingw/msys](http://www.mingw.org)
+- [x] [msys2](https://www.msys2.org)
+- [x] [cygwin](https://cygwin.com)
+
+Linux Platforms:
+- [x] [wsl](https://docs.microsoft.com/en-us/windows/wsl/)
+- [x] [archwsl](https://github.com/yuk7/ArchWSL)
+- [x] [linux](https://www.linux.org)
 
 #### Compiler List
 __________________
-* [mingw32-gcc](http://www.mingw.org)
-* [mingw-w64-i686-gcc/mingw-w64-x86_64-gcc](http://www.mingw-w64.org)
-* [MinGW Distro - nuwen.net](https://nuwen.net/mingw.html)
-* [tcc](https://bellard.org/tcc/)
-* [gcc](http://gcc.gnu.org)
-* [clang](https://clang.llvm.org)
+
+Windows Platforms Only:
+- [x] [mingw32-gcc](http://www.mingw.org)
+- [x] [mingw-w64-i686/x86_64-gcc](http://www.mingw-w64.org)
+- [x] [MinGW Distro - nuwen.net](https://nuwen.net/mingw.html)
+
+All Platforms:
+- [x] [tcc](https://bellard.org/tcc/)
+- [x] [gcc](http://gcc.gnu.org)
+- [x] [clang](https://clang.llvm.org)
 
 #### Script List
 ________________
 All the involved compilation scripts in this library are listed as below. Users can run them individually, call them by [Makefile.mk](./Makefile.mk) with Option **TOOL** and use [Configure.pl](./Configure.pl) to change their default configurations (Ongoing...).
 
 - [ ] ***CMake*** [CMakeLists.txt](./tools/script/CMakeLists.txt)
-- [ ] ***DOS Batch*** [compile.bat](./tools/script/compile.bat)
+- [x] ***DOS Batch*** [compile.bat](./tools/script/compile.bat)
 - [ ] ***C*** [compile.c](./tools/script/compile.c)
 - [ ] ***Ceylon*** [compile.ceylon](./tools/script/compile.ceylon)
 - [ ] ***Clojure*** [compile.clj](./tools/script/compile.clj)
@@ -136,13 +143,13 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [ ] ***Groovy*** [compile.groovy](./tools/script/compile.groovy)
 - [ ] ***Haskell*** [compile.hs](./tools/script/compile.hs)
 - [ ] ***IO*** [compile.io](./tools/script/compile.io)
-- [x] ***Java*** [compile.java](./tools/script/compile.java)
+- [x] ***Java*** [compile.java](./tools/script/compile.java) (Needs java11 or higher)
 - [x] ***Julia*** [compile.jl](./tools/script/compile.jl)
 - [x] ***K Shell*** [compile.ksh](./tools/script/compile.ksh)
 - [ ] ***Kotlin*** [compile.kts](./tools/script/compile.kts)
 - [ ] ***Lisp*** [compile.lisp](./tools/script/compile.lisp)
 - [x] ***Lua*** [compile.lua](./tools/script/compile.lua) (Needs lua5.1 or higher and luafilesystem)
-- [x] ***Make*** [compile.mk](./tools/script/compile.mk)
+- [x] ***Makefile*** [compile.mk](./tools/script/compile.mk)
 - [ ] ***Ocaml*** [compile.ml](./tools/script/compile.ml)
 - [ ] ***Nims*** [compile.nims](./tools/script/compile.nims)
 - [ ] ***Ninja*** [compile.ninja](./tools/script/compile.ninja)
@@ -151,7 +158,7 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [x] ***Powershell*** [compile.ps1](./tools/script/compile.ps1)
 - [x] ***Python*** [compile.py](./tools/script/compile.py) (Needs Python2.7, Python3.4 or higher and pathlib)
 - [x] ***R*** [compile.r](./tools/script/compile.r)
-- [x] ***Raku*** [compile.raku](./tools/script/compile.raku)
+- [x] ***Raku/Perl6*** [compile.raku](./tools/script/compile.raku)
 - [x] ***Ruby*** [compile.rb](./tools/script/compile.rb)
 - [ ] ***Rebol*** [compile.rebol](./tools/script/compile.rebol)
 - [ ] ***Red*** [compile.red](./tools/script/compile.red)
@@ -185,6 +192,17 @@ A lot of repetitive work used to be done by object-oriented compilers, must be d
 ## Structure
 ____________
 
+```mermaid
+graph LR;
+  template_base.ct[template_base] --data-based--> template_data.ct(template_data)
+  template_data.ct(template_data) --"object-based"--> template_object.ct([template_object])
+  template_data.ct(template_data) --int-based--> template_int.ct([template_int])
+  template_data.ct(template_data) --float-based--> template_float.ct([template_float])
+  template_data.ct(template_data) --point-based--> template_point.ct([template_point])
+  template_base.ct[template_base] --structure based--> template_struct.ct(template_struct)
+  template_struct.ct(template_struct) --matrix-based--> template_matrix.ct([template_matrix])
+  template_struct.ct(template_struct) --3d-matrix-based--> template_matrix3d.ct([template_matrix3d])
+```
 
 ## Branches
 ____________

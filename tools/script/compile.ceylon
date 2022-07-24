@@ -1,4 +1,6 @@
-#!/usr/bin/ceylon run
+#!/bin/sh
+exec ceylon run "$0" "$@"
+!#
 
 String PRO = "cgraph";
 String DIR = ".";

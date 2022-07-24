@@ -60,28 +60,28 @@ if (args.size() == 0) {
   for (file in CFILES) {
     def obj = file.getPath().replace(".c", ".o")
     def dep = file.getPath().replace(".c", ".d")
-    def cmd = sprintf("%s %s -I%s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, SRC_TYPE, file, obj, dep)
     println(sprintf("compile %s to %s", file, obj))
+    def cmd = sprintf("%s %s -I%s -I%s -c %s -o %s -MD -MF %s", CC, CFLAGS, INC, SRC_TYPE, file, obj, dep)
     cmd.execute()
     OFILES.add(obj)
   }
-  def cmd = sprintf("%s %s -o %s %s", CC, CSFLAGS, LIBSHARED, OFILES.join(" "))
   println(sprintf("compile %s", LIBSHARED))
+  def cmd = sprintf("%s %s -o %s %s", CC, CSFLAGS, LIBSHARED, OFILES.join(" "))
   cmd.execute()
-  cmd = sprintf("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, OFILES.join(" "))
   println(sprintf("compile %s", LIBSTATIC))
+  cmd = sprintf("%s %s %s %s", AR, ARFLAGS, LIBSTATIC, OFILES.join(" "))
   cmd.execute()
 } else if (args[0] == "test") {
-  def cmd = sprintf("%s %s -I%s -o %s %s -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO)
   println(sprintf("compile %s to %s", TSTFILE, TSTTARGET))
+  def cmd = sprintf("%s %s -I%s -o %s %s -L%s -static -l%s -lm", CC, CFLAGS, INC, TSTTARGET, TSTFILE, LIB, PRO)
   cmd.execute()
 } else if (args[0] == "clean") {
   for (file in CFILES) {
-    def obj = new File(file.getPath().replace(".c", ".o"))
     println(sprintf("clean %s", obj))
+    def obj = new File(file.getPath().replace(".c", ".o"))
     obj.delete()
-    def dep = new File(file.getPath().replace(".c", ".d"))
     println(sprintf("clean %s", dep))
+    def dep = new File(file.getPath().replace(".c", ".d"))
     dep.delete()
   }
   println(sprintf("clean %s", LIBSTATIC))
@@ -95,11 +95,11 @@ if (args.size() == 0) {
   tsttarget.delete()
 } else if (args[0] == "distclean") {
   for (file in CFILES) {
-    def obj = new File(file.getPath().replace(".c", ".o"))
     println(sprintf("clean %s", obj))
+    def obj = new File(file.getPath().replace(".c", ".o"))
     obj.delete()
-    def dep = new File(file.getPath().replace(".c", ".d"))
     println(sprintf("clean %s", dep))
+    def dep = new File(file.getPath().replace(".c", ".d"))
     dep.delete()
   }
   println(sprintf("clean %s", LIBSTATIC))

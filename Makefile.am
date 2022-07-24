@@ -17,7 +17,7 @@ testsdir   = $(prefix)/tests
 docdir     = $(prefix)/doc
 
 COMPILE_FLAGS = -Wall -pedantic -pedantic-errors
-if enable_debug
+if ENABLE_DEBUG
 COMPILE_FLAGS += -DDEBUG
 endif
 # if enable_stdc
@@ -32,7 +32,7 @@ EXTRA_DIST = autogen.sh $(PROJECT).pc Doxyfile README.md
 
 DISTCLEANFILES = aclocal.m4 ar-lib autoscan.log config.* configure $(PROJECT).pc Doxyfile depcomp gtk-doc.m4 gtk-doc.make install-sh libtool ltmain.sh Makefile.in Makefile missing test-driver
 
-if built_in_git_repo
+if BUILD_IN_GIT_REPO
 BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h $(include_dir)/cgraph_stdchk.h $(src_dir)/version.c
 
 $(include_dir)/cgraph_template_off.h: $(include_dir)/cgraph_template_off.h.in $(tools_dir)/template_off.macro
@@ -71,11 +71,21 @@ cloc-all: clean
 	cloc $(include_dir) $(src_dir) $(tests_dir) $(tools_dir) --force-lang=C,ct --force-lang="C/C++ Header",ht --force-lang=make,mk --exclude-ext=in,md --not-match-f="Makefile$$"
 
 update:
+if BUILD_IN_GIT_REPO
+	echo update source files to a latest version with a git repo
 	git clean -xf
 	git pull --quiet
+else
+	echo update nothing without a git repo
+endif
 	chmod +x $(top_srcdir)/autogen.sh
 
 upgrade:
+if BUILD_IN_GIT_REPO
+	echo update source files to a latest version with a git repo
 	git fetch --all
 	git reset --hard origin/master
 	git pull
+else
+	echo update nothing without a git repo
+endif

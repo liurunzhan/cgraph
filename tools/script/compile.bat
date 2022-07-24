@@ -1,5 +1,10 @@
 @echo off
+setlocal enableextensions
 setlocal enabledelayedexpansion
+
+rem Date : 2022-07-01
+rem A script to compile Library cgraph in Unix-like and Windows Platforms
+rem gets source files iteratively from Directory src
 
 rem project
 set PRO=cgraph
@@ -18,20 +23,20 @@ set CC=cc
 set CFLAGS=-std=c89 -Wall -pedantic
 set CSFLAGS=-shared
 
-if CC != tcc (
-  set CFLAGS+=" -pedantic-errors"
+if not CC == tcc (
+  set "CFLAGS=%CFLAGS% -pedantic-errors"
 )
 
-if CC != clang (
-  set CFLAGS+=" -fPIC"
+if not CC == clang (
+  set "CFLAGS=%CFLAGS% -fPIC"
 )
 
 rem debug or release mode
 set MODE=debug
 if MODE == "debug" (
-  set CFLAGS+=" -g -DDEBUG"
+  set "CFLAGS=%CFLAGS% -g -DDEBUG"
 ) else if MODE == "release" (
-  set CFLAGS+=" -static -O2"
+  set "CFLAGS=%CFLAGS% -static -O2"
 )
 
 rem build and clean directories and files
@@ -56,43 +61,46 @@ set PAR="%~1"
 
 if %PAR% == "" (
   %MKDIR% %LIB%
-  for /d %SRC% %%F in (*.c) do (
+  set OFILES=""
+  for /R %SRC% %%F in (*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
-		set dep=!file:.c=.d!
+    set dep=!file:.c=.d!
     echo compile !file! to !obj!
     %CC% %CFLAGS% -I%INC% -I%SRC_TYPE% -c !file! -o !obj! -MD -MF !dep!
+    set "OFILES=!OFILES!!obj! "
   )
+	set OFILES=!OFILES:~2,-1!
   echo compile %LIBSHARED%
-  %CC% %CSFLAGS% -o %LIBSHARED% %SRC%\*.o
+  %CC% %CSFLAGS% -o %LIBSHARED% !OFILES!
   echo compile %LIBSTATIC%
-  %AR% %ARFLAGS% %LIBSTATIC% %SRC%\*.o
+  %AR% %ARFLAGS% %LIBSTATIC% !OFILES!
 ) else if %PAR% == "test" (
   echo compile %TSTFILE% to %TSTTARGET%
   %CC% %CFLAGS% -I%INC% -o %TSTTARGET% %TSTFILE% -L%LIB% -static -l%PRO% -lm
   echo test %TSTTARGET% with %TST%\elements.csv
   %TSTTARGET% %TST%\elements.csv
 ) else if %PAR% == "clean" (
-  for /d %SRC% %%F in (*.c) do (
+  for /R %SRC% %%F in (*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
-		echo clean !obj!
+    echo clean !obj!
     %RM% %RMFLAGS% !obj!
-		set dep=!file:.c=.d!
-		echo clean !dep!
+    set dep=!file:.c=.d!
+    echo clean !dep!
     %RM% %RMFLAGS% !dep!
   )
   %RM% %RMFLAGS% %LIBSHARED%
   %RM% %RMFLAGS% %LIBSTATIC%
   %RM% %RMFLAGS% %TSTTARGET%
 ) else if %PAR% == "distclean" (
-  for /d %SRC% %%F in (*.c) do (
+  for /R %SRC% %%F in (*.c) do (
     set file=%%F
     set obj=!file:.c=.o!
-		echo clean !obj!
+    echo clean !obj!
     %RM% %RMFLAGS% !obj!
-		set dep=!file:.c=.d!
-		echo clean !dep!
+    set dep=!file:.c=.d!
+    echo clean !dep!
     %RM% %RMFLAGS% !dep!
   )
   %RM% %RMFLAGS% %LIBSHARED%
@@ -100,13 +108,13 @@ if %PAR% == "" (
   %RM% %RMFLAGS% %TSTTARGET%
   %RMDIR% %RMDIRFLAGS% %LIB%
 ) else if %PAR% == "help" (
-	echo "%0 <target>"
-	echo "<target>: "
-	echo "                    compile cgraph"
-	echo "          test      test cgraph"
-	echo "          clean     clean all the generated files"
-	echo "          distclean clean all the generated files and directories"
-	echo "          help      commands to this program"
+  echo "%0 <target>"
+  echo "<target>: "
+  echo "                    compile cgraph"
+  echo "          test      test cgraph"
+  echo "          clean     clean all the generated files"
+  echo "          distclean clean all the generated files and directories"
+  echo "          help      commands to this program"
 ) else (
   echo %1 is an unsupported command
   echo use "%0 help" to know all supported commands
