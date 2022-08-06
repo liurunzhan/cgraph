@@ -12,10 +12,8 @@ workspace "cgraph"
 		optimize "On"
 		targetdir { "build/release" }
 
-platforms { }
-
 project "cgraph"
 	kind "ConsoleApp"
 	language "C"
-	includedirs { "include" }
-	files { "src/func/*.c", "src/type/basic/*.c", "src/type/data/*.c", "src/type/object/*.c", "src/type/structure/*.c", "src/type/*.c", "src/graph/*.c", "src/game/*.c" }
+	includedirs { "include", "src/type" }
+	files { "src/**.c" }

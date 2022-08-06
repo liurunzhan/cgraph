@@ -8,6 +8,7 @@ let PRO : String = "cgraph"
 let DIR : String = "."
 let INC : String = DIR + "/include"
 let SRC : String = DIR + "/src"
+let SRC_TYPE : String = SRC + "/type"
 let TST : String = DIR + "/tests"
 let LIB : String = DIR + "/lib"
 
@@ -41,16 +42,25 @@ let LIBSTATIC : String = "\(LIB)/lib\(PRO).a"
 let TSTFILE : String = "\(TST)/\(PRO).c"
 let TSTTARGET : String = "\(TST)/\(PRO)"
 
+func runCommand(command: String, args: [String]) -> Void {
+  let task = Process()
+  task.executableURL = URL(fileURLWithPath: command)
+  task.arguments = args
+  print(args)
+  try! task.run()
+  task.waitUntilExit()
+}
+
 var args : [String] = CommandLine.arguments
 if CommandLine.argc == 1 {
   if !fileManager.fileExists(atPath: LIB) {
     try! fileManager.createDirectory(atPath: LIB, withIntermediateDirectories: true, attributes: nil)
   }
   for file in CFILES {
-    let OBJ : String = file.replacingOccurrences(of: ".c", with: ".o")
-		let DEP : String = file.replacingOccurrences(of: ".c", with: ".d")
-    print("compile \(file) to \(OBJ)")
-
+    let obj : String = file.replacingOccurrences(of: ".c", with: ".o")
+    let dep : String = file.replacingOccurrences(of: ".c", with: ".d")
+    print("compile \(file) to \(obj)")
+    runCommand(command: CC, args: [CFLAGS.components(separatedBy: " "), ["-I\(INC)", "-I\(SRC_TYPE)", "-c", file, "-o", obj, "-MD", "-MF", dep]].reduce([], +))
   }
   print("compile \(LIBSHARED)")
 

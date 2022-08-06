@@ -133,7 +133,7 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [ ] ***C*** [compile.c](./tools/script/compile.c)
 - [ ] ***Ceylon*** [compile.ceylon](./tools/script/compile.ceylon)
 - [ ] ***Clojure*** [compile.clj](./tools/script/compile.clj)
-- [ ] ***Crystal*** [compile.cr](./tools/script/compile.cr)
+- [x] ***Crystal*** [compile.cr](./tools/script/compile.cr)
 - [x] ***C Shell*** [compile.csh](./tools/script/compile.csh)
 - [x] ***D*** [compile.d](./tools/script/compile.d)
 - [ ] ***Erlang*** [compile.escript](./tools/script/compile.escript)
@@ -145,13 +145,14 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [ ] ***IO*** [compile.io](./tools/script/compile.io)
 - [x] ***Java*** [compile.java](./tools/script/compile.java) (Needs java11 or higher)
 - [x] ***Julia*** [compile.jl](./tools/script/compile.jl)
+- [ ] ***JavaScript*** [compile.js](./tools/script/compile.js)
 - [x] ***K Shell*** [compile.ksh](./tools/script/compile.ksh)
 - [ ] ***Kotlin*** [compile.kts](./tools/script/compile.kts)
 - [ ] ***Lisp*** [compile.lisp](./tools/script/compile.lisp)
 - [x] ***Lua*** [compile.lua](./tools/script/compile.lua) (Needs lua5.1 or higher and luafilesystem)
 - [x] ***Makefile*** [compile.mk](./tools/script/compile.mk)
 - [ ] ***Ocaml*** [compile.ml](./tools/script/compile.ml)
-- [ ] ***Nims*** [compile.nims](./tools/script/compile.nims)
+- [x] ***Nims*** [compile.nims](./tools/script/compile.nims)
 - [ ] ***Ninja*** [compile.ninja](./tools/script/compile.ninja)
 - [ ] ***Odin*** [compile.odin](./tools/script/compile.odin)
 - [x] ***Perl*** [compile.pl](./tools/script/compile.pl)
@@ -173,7 +174,7 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [x] ***Z Shell*** [compile.zsh](./tools/script/compile.zsh)
 - [ ] ***Meson*** [meson.build](./tools/script/meson.build)
 - [ ] ***Premake*** [premake.lua](./tools/script/premake.lua)
-- [ ] ***XMake*** [xmake.lua](./tools/script/xmake.lua)
+- [x] ***XMake*** [xmake.lua](./tools/script/xmake.lua)
 
 ## Overview
 ___________
@@ -192,6 +193,8 @@ A lot of repetitive work used to be done by object-oriented compilers, must be d
 ## Structure
 ____________
 
+### Template Hierarchy
+______________________
 ```mermaid
 graph LR;
   template_base.ct[template_base] --data-based--> template_data.ct(template_data)

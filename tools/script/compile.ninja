@@ -1,5 +1,7 @@
 ninja_required_version = 1.0
 
+builddir = 
+
 CC = cc
 CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
 CSFLAGS = "-shared"
@@ -38,6 +40,6 @@ rule link_shared
 build cgraph: 
 
 
-build all: 
+build all: build cgraph
 
 default all

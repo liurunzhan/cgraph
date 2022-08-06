@@ -18,8 +18,8 @@ def gen_enum_match_mode(enum_name):
 def gen_arrary_match_mode(array_name):
 	return re.compile(r"static const cgraph_char_t \*%s(.*?);"%(array_name), re.S)
 
-ITEM_FIRST_MODE = "\"{cname}\", /**< {dmode} {dtype} : {dname} */"
-ITEM_LAST_MODE = "\"{cname}\" /**< {dmode} {dtype} : {dname} */"
+ITEM_FIRST_MODE = "    \"{cname}\", /**< {dmode} {dtype} : {dname} */"
+ITEM_LAST_MODE = "    \"{cname}\" /**< {dmode} {dtype} : {dname} */"
 
 class Variable(object):
 	def __init__(self, item, last):

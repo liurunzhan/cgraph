@@ -99,6 +99,7 @@
 
 #define DATA_EQ(a, b) ((a) == (b))
 #define DATA_NE(a, b) ((a) != (b))
+
 #define EQ(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_EQ(a, b) : CGRAPH_LX)
 #define NE(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_NE(a, b) : CGRAPH_LX)
 #define GT(a, b) (DATA_ISBOOL2V(a, b) ? BOOLEAN_GT(a, b) : CGRAPH_LX)

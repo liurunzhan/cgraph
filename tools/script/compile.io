@@ -1,4 +1,4 @@
-#!/usr/local/bin/io
+#!/usr/bin/env io
 
 PRO := "cgraph"
 DIR := "."

@@ -1,25 +1,29 @@
+set_project("cgraph")
+set_version("0.0.0")
+
 add_includedirs("include", "src/type")
-add_files("src/func/*.c", "src/type/basic/*.c", "src/type/data/*.c", "src/type/object/*.c", "src/type/structure/*.c", "src/type/*.c", "src/graph/*.c", "src/game/*.c")
+add_files("src/**.c")
 add_cflags("-std=c89", "-Wall", "-pedantic", "-fPIC",  {force = true})
 
 if is_mode("debug") then
-	-- add_defines("DEBUG")
-	-- set_symbols("debug")
-	-- set_optimize("none")
+	set_symbols("debug")
+	set_optimize("none")
 	add_cflags("-g", "-DDEBUG", {force = true})
 end
 
 if is_mode("release") then
-	print("release mode")
-	-- set_symbols("hidden")
-	-- set_strip("all")
-	-- set_symbols("debug")
+	set_symbols("hidden")
+	set_strip("all")
 	add_cflags("-static", "-O2", {force = true})
 end
 
 -- if is_mode("profile") then
 -- 	set_symbols("debug")
 -- end
+
+if is_plat("linux", "macosx") then
+	add_links("m")
+end
 
 target("static")
 	set_kind("static")

@@ -29,26 +29,31 @@ fn main() {
   let AR = "ar";
   let ARFLAGS = "-rcs";
 
+	let mut LIBSHARED: _;
+	let mut LIBSTATIC: _;
+	let mut TSTFILE: _;
+	let mut TSTTARGET: _;
   if env::consts::OS == "windows" {
     //  target files
-    let LIBSHARED = LIB.join(format!("lib{}.dll", PRO));
-    let LIBSTATIC = LIB.join(format!("lib{}.lib", PRO));
+    LIBSHARED = LIB.join(format!("lib{}.dll", PRO));
+    LIBSTATIC = LIB.join(format!("lib{}.lib", PRO));
     //  test files
-    let TSTFILE = TST.join(format!("{}.c", PRO));
-    let TSTTARGET = TST.join(format!("{}.exe", PRO));
+    TSTFILE = TST.join(format!("{}.c", PRO));
+    TSTTARGET = TST.join(format!("{}.exe", PRO));
   } else {
     //  target files
-    let LIBSHARED = LIB.join(format!("lib{}.so", PRO));
-    let LIBSTATIC = LIB.join(format!("lib{}.a", PRO));
+    LIBSHARED = LIB.join(format!("lib{}.so", PRO));
+    LIBSTATIC = LIB.join(format!("lib{}.a", PRO));
     //  test files
-    let TSTFILE = TST.join(format!("{}.c", PRO));
-    let TSTTARGET = TST.join(format!("{}", PRO));
+    TSTFILE = TST.join(format!("{}.c", PRO));
+    TSTTARGET = TST.join(format!("{}", PRO));
   }
   
   let mut CFILES: Vec<path::PathBuf> = Vec::new();
   for file in SRC.read_dir().expect("read_dir call failed") {
     if let Ok(file) = file {
-      if file.path().extension() != None && "c" == file.path().extension().unwrap() {
+      let path = file.path();
+      if path.is_file() && "c" == path.extension().unwrap() && path.file_name().unwrap().to_str().unwrap().starts_with(".") {
         let path = file.path();
         CFILES.push(path);
       }
@@ -78,12 +83,48 @@ fn main() {
   } else if args[1] == "clean" {
     for file in CFILES {
       let obj = file.with_extension("o");
+      let dep = file.with_extension("d");
       println!("clean {}", obj.display());
+      if obj.exists() {
+        fs::remove_file(obj);
+      }
+      println!("clean {}", dep.display());
+      if dep.exists() {
+        fs::remove_file(dep);
+      }
+    }
+    println!("clean {}", LIBSHARED.display());
+    if LIBSHARED.exists() {
+      fs::remove_file(LIBSHARED);
+    }
+    println!("clean {}", LIBSTATIC.display());
+    if LIBSTATIC.exists() {
+      fs::remove_file(LIBSTATIC);
     }
   } else if args[1] == "distclean" {
     for file in CFILES {
       let obj = file.with_extension("o");
+      let dep = file.with_extension("d");
       println!("clean {}", obj.display());
+      if obj.exists() {
+        fs::remove_file(obj);
+      }
+      println!("clean {}", dep.display());
+      if dep.exists() {
+        fs::remove_file(dep);
+      }
+    }
+    println!("clean {}", LIBSHARED.display());
+    if LIBSHARED.exists() {
+      fs::remove_file(LIBSHARED);
+    }
+    println!("clean {}", LIBSTATIC.display());
+    if LIBSTATIC.exists() {
+      fs::remove_file(LIBSTATIC);
+    }
+    println!("clean {}", LIB.display());
+    if LIB.exists() {
+      fs::remove_file(LIB);
     }
   } else if args[1] == "help" {
     println!("{} <target>", file!());

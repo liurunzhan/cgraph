@@ -6,11 +6,13 @@ cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
   cgraph_size_t hash = 0;
   if (DATA_ISNAN(cthis)) {
     hash = CGRAPH_FLOAT_NAN_HASH;
-  } else if (DATA_ISPINF(cthis)) {
-    hash = CGRAPH_FLOAT_PINF_HASH;
-  } else if (DATA_ISNINF(cthis)) {
-    hash = CGRAPH_FLOAT_NINF_HASH;
-  } else {
+  } else if (DATA_ISINF(cthis)) {
+    if (LT(0.0, cthis)) {
+      hash = CGRAPH_FLOAT_PINF_HASH;
+    } else {
+      hash = CGRAPH_FLOAT_NINF_HASH;
+    }
+  } else if (NE(0.0, cthis)) {
     TYPE ipart = floor(cthis), fpart = cthis - ipart;
     cgraph_size_t hash_ipart = (cgraph_size_t)(ipart),
                   hash_fpart = (cgraph_size_t)(((TYPE)ABS(fpart - EPSILON)) *
