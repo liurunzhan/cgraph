@@ -23,217 +23,205 @@ CERROR:
   return NULL;
 }
 
-void *cgraph_realloc(void *memory, const cgraph_size_t old_size,
-                     const cgraph_size_t new_size, cgraph_bool_t *error) {
-  void *new_mem = memory;
-  cgraph_size_t delta_size = new_size - old_size;
-  if ((0 == delta_size) || (0 >= new_size) ||
-      (NULL == (new_mem = realloc(memory, new_size)))) {
+void *cgraph_realloc(void *mem, const cgraph_size_t size1,
+                     const cgraph_size_t size2, cgraph_bool_t *error) {
+  void *mem2 = mem;
+  cgraph_size_t dsize = size2 - size1;
+  if ((0 == dsize) || (0 >= size2) || (NULL == (mem2 = realloc(mem, size2)))) {
     goto CERROR;
   }
-  if (0 < delta_size) {
-    memset(CGRAPH_PTRADDR2V(new_mem, old_size), 0, delta_size);
+  if (0 < dsize) {
+    memset(CGRAPH_PTRADDR2V(mem2, size1), 0, dsize);
   }
 
   if (NULL != error) {
     *error = CGRAPH_FALSE;
   }
 #ifdef DEBUG
-  if (memory != new_mem) {
+  if (mem != mem2) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_INFO,
         "old address " CGRAPH_VARADDR_OUT_FMT
         " is not equal to the new one " CGRAPH_VARADDR_OUT_FMT __PLAT_LEND,
-        memory, new_mem);
-    cgraph_error_printfln(
-        CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_INFO,
-        "realloc a new memory block and notice to use the new "
-        "address " CGRAPH_VARADDR_OUT_FMT __PLAT_LEND,
-        new_mem);
+        mem, mem2);
+    cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_INFO,
+                          "realloc a new memory and notice to use the new "
+                          "address " CGRAPH_VARADDR_OUT_FMT __PLAT_LEND,
+                          mem2);
   }
 #endif
 
-  return new_mem;
+  return mem2;
   /* errors output for debugging */
 CERROR:
   if (NULL != error) {
     *error = CGRAPH_TRUE;
   }
 #ifdef DEBUG
-  if (0 == delta_size) {
+  if (0 == dsize) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "reallocated memory size %ld is equal to the previous", new_size);
+        "reallocated memory size %ld is equal to the previous", size2);
   }
-  if (0 >= new_size) {
+  if (0 >= size2) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
         "reallocated memory size %ld is an unsupported value, "
         "keep it as default address",
-        new_size);
+        size2);
   }
-  if (NULL == new_mem) {
+  if (NULL == mem2) {
   }
 #endif
 
-  return memory;
+  return mem;
 }
 
-void *cgraph_memset(void *memory, cgraph_uint_t data, cgraph_size_t len) {
-  if ((NULL == memory) || (0 == len)) {
+void *cgraph_memset(void *mem, cgraph_uint_t ch, cgraph_size_t n) {
+  if ((NULL == mem) || (0 == n)) {
     goto CERROR;
   }
-  if (0 < len) {
-    memset(memory, data, len);
+  if (0 < n) {
+    memset(mem, ch, n);
   } else {
-    cgraph_addr_t mem_ptr = (cgraph_addr_t)memory;
-    CGRAPH_RLOOP(i, 0, len)
-    *(mem_ptr--) = data;
+    cgraph_addr_t pmem = (cgraph_addr_t)mem;
+    CGRAPH_RLOOP(i, 0, n)
+    *(pmem--) = ch;
     CGRAPH_LOOP_END
   }
 
-  return memory;
+  return mem;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (NULL == memory) {
+  if (NULL == mem) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "source memory pointer is empty");
+                          "source memory is empty");
   }
-  if (0 == len) {
+  if (0 == n) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "copied memory size %ld is an unsupported value",
-                          len);
+                          "copied memory size %ld is an unsupported value", n);
   }
 #endif
 
-  return memory;
+  return mem;
 }
 
-void *cgraph_memcpy(void *trg_mem, const void *src_mem,
-                    const cgraph_size_t len) {
-  if ((NULL == trg_mem) || (NULL == src_mem) || (0 == len)) {
+void *cgraph_memcpy(void *dest, const void *src, const cgraph_size_t n) {
+  if ((NULL == dest) || (NULL == src) || (0 == n)) {
     goto CERROR;
   }
-  if (trg_mem != src_mem) {
-    if (0 < len) {
-      memcpy(trg_mem, src_mem, len);
+  if (dest != src) {
+    if (0 < n) {
+      memcpy(dest, src, n);
     } else {
-      cgraph_addr_t trg_mem_ptr = (cgraph_addr_t)trg_mem,
-                    src_mem_ptr = (cgraph_addr_t)src_mem;
-      CGRAPH_RLOOP(i, 0, len)
-      *(trg_mem_ptr--) = *(src_mem_ptr--);
+      cgraph_addr_t pdest = (cgraph_addr_t)dest, psrc = (cgraph_addr_t)src;
+      CGRAPH_RLOOP(i, 0, n)
+      *(pdest--) = *(psrc--);
       CGRAPH_LOOP_END
     }
   }
 
-  return trg_mem;
+  return dest;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (NULL == trg_mem) {
+  if (NULL == dest) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target memory pointer is empty");
+                          "destination memory is empty");
   }
-  if (NULL == src_mem) {
+  if (NULL == src) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "source memory pointer is empty");
+                          "source memory is empty");
   }
-  if (0 == len) {
+  if (0 == n) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "copied memory size %ld is an unsupported value",
-                          len);
+                          "copied memory size %ld is an unsupported value", n);
   }
 #endif
 
-  return trg_mem;
+  return dest;
 }
 
-void *cgraph_memscpy(void *trg_mem, const void *src_mem,
-                     const cgraph_size_t trg_size,
-                     const cgraph_size_t src_len) {
-  if ((NULL == trg_mem) || (NULL == src_mem) || (0 >= trg_size) ||
-      (0 == src_len)) {
+void *cgraph_memscpy(void *dest, const void *src, const cgraph_size_t dn,
+                     const cgraph_size_t sn) {
+  if ((NULL == dest) || (NULL == src) || (0 >= dn) || (0 == sn)) {
     goto CERROR;
   }
-  if (trg_mem != src_mem) {
-    cgraph_addr_t trg_mem_ptr = (cgraph_addr_t)trg_mem,
-                  src_mem_ptr = (cgraph_addr_t)src_mem;
-    if (0 < src_len) {
-      cgraph_size_t len = CGRAPH_MIN(trg_size, src_len);
-      CGRAPH_LOOP(i, 0, len)
-      *(trg_mem_ptr++) = *(src_mem_ptr++);
+  if (dest != src) {
+    cgraph_addr_t pdest = (cgraph_addr_t)dest, psrc = (cgraph_addr_t)src;
+    if (0 < sn) {
+      cgraph_size_t n = CGRAPH_MIN(dn, sn);
+      CGRAPH_LOOP(i, 0, n)
+      *(pdest++) = *(psrc++);
       CGRAPH_LOOP_END
     } else {
-      cgraph_size_t len = CGRAPH_MAX(-trg_size, src_len);
-      CGRAPH_RLOOP(i, 0, len)
-      *(trg_mem_ptr--) = *(src_mem_ptr--);
+      cgraph_size_t n = CGRAPH_MAX(-dn, sn);
+      CGRAPH_RLOOP(i, 0, n)
+      *(pdest--) = *(psrc--);
       CGRAPH_LOOP_END
     }
   }
 
-  return trg_mem;
+  return dest;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (NULL == trg_mem) {
+  if (NULL == dest) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target memory pointer is empty");
+                          "destination memory pointer is empty");
   }
-  if (NULL == src_mem) {
+  if (NULL == src) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source memory pointer is empty");
   }
-  if (0 >= trg_size) {
+  if (0 >= dn) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target memory size %ld is an unsupported value",
-                          trg_size);
+                          "destination memory size %ld is an unsupported value",
+                          dn);
   }
-  if (0 == src_len) {
+  if (0 == sn) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "copied memory size %ld is an unsupported value",
-                          src_len);
+                          "copied memory size %ld is an unsupported value", sn);
   }
 #endif
 
-  return trg_mem;
+  return dest;
 }
 
-cgraph_size_t cgraph_memlen(const void *memory, const cgraph_uint8_t end) {
-  cgraph_size_t len = 0;
-  if (NULL != memory) {
-    cgraph_addr_t ptr = (cgraph_addr_t)memory;
-    for (; end != *ptr; ptr++, len++) {
+cgraph_size_t cgraph_memlen(const void *mem, const cgraph_uint_t end) {
+  cgraph_size_t n = 0;
+  if (NULL != mem) {
+    cgraph_addr_t pmem = (cgraph_addr_t)mem;
+    for (; end != *pmem; pmem++, n++) {
     }
   }
 
-  return len;
+  return n;
 }
 
-void *cgraph_memend(const void *memory, const cgraph_uint8_t end) {
-  cgraph_addr_t ptr = (cgraph_addr_t)memory;
-  if (NULL != memory) {
-    for (; end != *ptr; ptr++) {
+void *cgraph_memend(const void *mem, const cgraph_uint_t end) {
+  cgraph_addr_t pmem = (cgraph_addr_t)mem;
+  if (NULL != pmem) {
+    for (; end != *pmem; pmem++) {
     }
-    ptr -= 1;
   }
 
-  return ptr;
+  return pmem;
 }
 
-cgraph_bool_t cgraph_memcmp(const void *x_mem, const void *y_mem,
-                            const cgraph_size_t len) {
+cgraph_bool_t cgraph_memcmp(const void *mem1, const void *mem2,
+                            const cgraph_size_t n) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if ((x_mem == y_mem) || (0 == len)) {
+  if ((mem1 == mem2) || (0 == n)) {
     flag = CGRAPH_TRUE;
-  } else if ((NULL != x_mem) && (NULL != y_mem)) {
-    if (0 < len) {
-      flag = CGRAPH_TEST(0 == memcmp(x_mem, y_mem, len));
+  } else if ((NULL != mem1) && (NULL != mem2)) {
+    if (0 < n) {
+      flag = CGRAPH_TEST(0 == memcmp(mem1, mem2, n));
     } else {
-      cgraph_addr_t mem_x_ptr = (cgraph_addr_t)x_mem,
-                    mem_y_ptr = (cgraph_addr_t)y_mem;
-      CGRAPH_RLOOP(i, 0, len)
-      *(mem_x_ptr--) = *(mem_y_ptr--);
+      cgraph_addr_t pmem1 = (cgraph_addr_t)mem1, pmem2 = (cgraph_addr_t)mem2;
+      CGRAPH_RLOOP(i, 0, n)
+      *(pmem1--) = *(pmem2--);
       CGRAPH_LOOP_END
     }
   }
@@ -241,393 +229,432 @@ cgraph_bool_t cgraph_memcmp(const void *x_mem, const void *y_mem,
   return flag;
 }
 
-void *cgraph_memrev(void *memory, cgraph_size_t len) {
+void *cgraph_memrev(void *mem, cgraph_size_t n) {
   cgraph_uint_t data;
-  cgraph_addr_t start_ptr = (cgraph_addr_t)memory,
-                end_ptr = ((cgraph_addr_t)memory) + len,
-                tmp_ptr = (cgraph_addr_t)&data;
-  if ((NULL == memory) || (0 >= len)) {
+  cgraph_addr_t pstart = (cgraph_addr_t)mem, pend = ((cgraph_addr_t)mem) + n,
+                ptmp = (cgraph_addr_t)&data;
+  if ((NULL == mem) || (0 >= n)) {
     goto CERROR;
   }
-  for (; start_ptr < end_ptr; start_ptr++, end_ptr--) {
-    *tmp_ptr = *start_ptr;
-    *start_ptr = *end_ptr;
-    *end_ptr = *tmp_ptr;
+  for (; pstart < pend; pstart++, pend--) {
+    *ptmp = *pstart;
+    *pstart = *pend;
+    *pend = *ptmp;
   }
 
-  return memory;
+  return mem;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (NULL == memory) {
+  if (NULL == mem) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "memory pointer is empty");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "memory length %ld is equal to zero error", len);
+                          "mem length %ld is equal to zero error", n);
   }
 #endif
 
-  return memory;
+  return mem;
 }
 
-void *cgraph_memchr(const void *memory, cgraph_int_t ch,
-                    const cgraph_size_t len) {
-  if ((NULL == memory) || (0 >= len)) {
+void *cgraph_memchr(const void *mem, cgraph_int_t ch, const cgraph_size_t n) {
+  if ((NULL == mem) || (0 >= n)) {
     goto CERROR;
   }
 
-  return memchr(memory, ch, len);
+  return memchr(mem, ch, n);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (NULL == memory) {
+  if (NULL == mem) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "memory pointer is empty");
   }
-  if (0 == len) {
+  if (0 == n) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "memory length %ld is equal to zero error", len);
+                          "memory length %ld is equal to zero error", n);
   }
 #endif
 
   return NULL;
 }
 
-void *cgraph_memrchr(const void *memory, cgraph_int_t ch,
-                     const cgraph_size_t len) {
-  cgraph_addr_t mem_ptr = ((cgraph_addr_t)memory) + len;
+void *cgraph_memrchr(const void *mem, cgraph_int_t ch, const cgraph_size_t n) {
+  cgraph_addr_t pmem = ((cgraph_addr_t)mem) + n;
   cgraph_size_t i = 0;
-  void *ptr = NULL;
-  if ((NULL == memory) || (0 >= len)) {
+  if ((NULL == mem) || (0 >= n)) {
     goto CERROR;
   }
-  while ((ch != *(mem_ptr--)) && (len > (i++))) {
-  }
-  if (i < len) {
-    ptr = mem_ptr;
+  for (; (ch != *pmem) && (n > i); pmem--, i++) {
   }
 
-  return ptr;
+  return (n > i) ? pmem : NULL;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (NULL == memory) {
+  if (NULL == mem) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "memory pointer is empty");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "memory length %ld is equal to zero error", len);
+                          "mem length %ld is equal to zero error", n);
   }
 #endif
 
   return NULL;
 }
 
-void cgraph_free(void *memory) {
-  if (NULL != memory) {
-    free(memory);
-    memory = NULL;
+void cgraph_free(void *mem) {
+  if (NULL != mem) {
+    free(mem);
+    mem = NULL;
   }
 }
 
-cgraph_size_t cgraph_abitlen(const void *memory, const cgraph_size_t len) {
+cgraph_size_t cgraph_abitlen(const void *mem, const cgraph_size_t n) {
   cgraph_size_t bits = 0;
-  if ((NULL != memory) && (0 < len)) {
-    cgraph_addr_t ptr = (cgraph_addr_t)memory;
+  if ((NULL != mem) && (0 < n)) {
+    cgraph_addr_t pmem = (cgraph_addr_t)mem;
     cgraph_size_t i = 0;
-    for (; (0 == *ptr) && (i < len); i++, ptr++) {
+    for (; (0 == *pmem) && (n > i); i++, pmem++) {
     }
-    bits = ((len - i) << 3) + cgraph_math_abitlen(*ptr);
+    bits = ((n - i) << 3) + cgraph_math_abitlen(*pmem);
   }
 
   return bits;
 }
 
-cgraph_size_t cgraph_adatlen(const void *memory, const cgraph_size_t len,
+cgraph_size_t cgraph_adatlen(const void *mem, const cgraph_size_t n,
                              const cgraph_size_t datsize,
                              cgraph_bool_t (*func)(const void *data)) {
-  cgraph_size_t datlen = len;
-  if ((NULL != memory) && (0 < len)) {
-    cgraph_addr_t ptr = (cgraph_addr_t)memory;
-    for (; func(ptr) && (0 < datlen); ptr += datsize, datlen--) {
+  cgraph_size_t datlen = n;
+  if ((NULL != mem) && (0 < n)) {
+    cgraph_addr_t pmem = (cgraph_addr_t)mem;
+    for (; (CGRAPH_TRUE == func(pmem)) && (0 < datlen);
+         pmem += datsize, datlen--) {
     }
   }
 
   return datlen;
 }
 
-cgraph_bool_t
-cgraph_datcmp(const void *trg_mem, const void *src_mem, const cgraph_size_t len,
-              const cgraph_size_t datsize,
-              cgraph_bool_t (*func)(const void *x, const void *y)) {
+cgraph_bool_t cgraph_datcmp(const void *dest, const void *src,
+                            const cgraph_size_t n, const cgraph_size_t datsize,
+                            cgraph_bool_t (*func)(const void *x,
+                                                  const void *y)) {
   cgraph_bool_t res = CGRAPH_FALSE;
-  if ((NULL != trg_mem) && (NULL != src_mem) && (0 < len)) {
-    cgraph_addr_t trg_ptr = (cgraph_addr_t)trg_mem,
-                  src_ptr = (cgraph_addr_t)src_mem;
+  if ((NULL != dest) && (NULL != src) && (0 < n)) {
+    cgraph_addr_t pdest = (cgraph_addr_t)dest, psrc = (cgraph_addr_t)src;
     res = CGRAPH_TRUE;
-    CGRAPH_LOOP(i, 0, len)
-    if (!func(trg_ptr, src_ptr)) {
+    CGRAPH_LOOP(i, 0, n)
+    if (CGRAPH_FALSE == func(pdest, psrc)) {
       res = CGRAPH_FALSE;
       break;
     }
-    trg_ptr += datsize;
-    src_ptr += datsize;
+    pdest += datsize;
+    psrc += datsize;
     CGRAPH_LOOP_END
   }
 
   return res;
 }
 
-cgraph_size_t cgraph_strlen(const cgraph_char_t *string) {
-  return CGRAPH_ISSTR(string) ? strlen(string) : 0;
+cgraph_size_t cgraph_strlen(const cgraph_char_t *str) {
+  return CGRAPH_ISSTR(str) ? strlen(str) : 0;
 }
 
-cgraph_char_t *cgraph_strend(const cgraph_char_t *string) {
-  cgraph_char_t *ptr = (cgraph_char_t *)string;
-  if (CGRAPH_ISSTR(string)) {
-    while ('\0' != *(++ptr)) {
+cgraph_char_t *cgraph_strend(const cgraph_char_t *str) {
+  cgraph_char_t *pstr = (cgraph_char_t *)str;
+  if (CGRAPH_ISSTR(pstr)) {
+    while ('\0' != *(++pstr)) {
     }
-    ptr -= 1;
   }
 
-  return ptr;
+  return pstr;
 }
 
-cgraph_char_t *cgraph_strcpy(cgraph_char_t *trg_str,
-                             const cgraph_char_t *src_str) {
-  if (CGRAPH_ISNSTR2V(trg_str, src_str)) {
+cgraph_char_t *cgraph_strcpy(cgraph_char_t *dest, const cgraph_char_t *src) {
+  if (CGRAPH_ISNSTR2V(dest, src)) {
     goto CERROR;
   }
 
-  return strcpy(trg_str, src_str);
+  return strcpy(dest, src);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "source string pointer is equal to target string pointer");
+        "source string pointer is equal to destination string pointer");
   }
 #endif
 
-  return trg_str;
+  return dest;
 }
 
-cgraph_char_t *cgraph_strncpy(cgraph_char_t *trg_str,
-                              const cgraph_char_t *src_str,
-                              const cgraph_size_t len) {
-  if (CGRAPH_ISNSTR2V(trg_str, src_str) || (0 >= len)) {
+cgraph_char_t *cgraph_strncpy(cgraph_char_t *dest, const cgraph_char_t *src,
+                              const cgraph_size_t n) {
+  if (CGRAPH_ISNSTR2V(dest, src) || (0 >= n)) {
     goto CERROR;
   }
-  return strncpy(trg_str, src_str, len);
+  return strncpy(dest, src, n);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "source string pointer is equal to target string pointer");
+        "source string pointer is equal to destination string pointer");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "string size %ld is smaller than or equal to zero error", len);
+        "string size %ld is smaller than or equal to zero error", n);
   }
 #endif
 
-  return trg_str;
+  return dest;
 }
 
-cgraph_char_t *cgraph_strscpy(cgraph_char_t *trg_str,
-                              const cgraph_char_t *src_str,
-                              const cgraph_size_t trg_size) {
-  cgraph_size_t size = trg_size - 1;
-  cgraph_char_t *trg_str_ptr = trg_str, *src_str_ptr = (cgraph_char_t *)src_str;
-  if (CGRAPH_ISNSTR2V(trg_str, src_str) || (0 >= trg_size)) {
+cgraph_char_t *cgraph_strscpy(cgraph_char_t *dest, const cgraph_char_t *src,
+                              const cgraph_size_t n) {
+  cgraph_size_t size = n - 1;
+  cgraph_char_t *pdest = dest, *psrc = (cgraph_char_t *)src;
+  if (CGRAPH_ISNSTR2V(dest, src) || (0 >= size)) {
     goto CERROR;
   }
-  for (; (0 < size) && ('\0' != *src_str_ptr); size--) {
-    *(trg_str_ptr++) = *(src_str_ptr++);
+  for (; (0 < size) && ('\0' != *psrc); size--) {
+    *(pdest++) = *(psrc++);
   }
-  *trg_str_ptr = '\0';
+  *pdest = '\0';
 
-  return trg_str;
+  return dest;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (NULL == trg_str) {
+  if (NULL == dest) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string pointer is empty");
+                          "destination string pointer is empty");
   }
-  if (0 >= trg_size) {
-    cgraph_error_printfln(
-        CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "buffer size %ld is smaller than or equal to zero error", trg_size);
+  if (0 >= n) {
+    cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
+                          "buffer n %ld is smaller than or equal to zero error",
+                          n);
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "source string pointer is equal to target string pointer");
+        "source string pointer is equal to destination string pointer");
   }
 #endif
 
-  return trg_str;
+  return dest;
 }
 
-cgraph_char_t *cgraph_strcat(cgraph_char_t *trg_str,
-                             const cgraph_char_t *src_str) {
-  if (CGRAPH_ISNSTR2V(trg_str, src_str)) {
+cgraph_char_t *cgraph_strcat(cgraph_char_t *dest, const cgraph_char_t *src) {
+  if (CGRAPH_ISNSTR2V(dest, src)) {
     goto CERROR;
   }
 
-  return strcat(trg_str, src_str);
+  return strcat(dest, src);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "source pointer is equal to target pointer");
+                          "source pointer is equal to destination pointer");
   }
 #endif
 
-  return trg_str;
+  return dest;
 }
 
-cgraph_char_t *cgraph_strncat(cgraph_char_t *trg_str,
-                              const cgraph_char_t *src_str,
-                              const cgraph_size_t len) {
-  if (CGRAPH_ISNSTR2V(trg_str, src_str) || (0 >= len)) {
+cgraph_char_t *cgraph_strncat(cgraph_char_t *dest, const cgraph_char_t *src,
+                              const cgraph_size_t n) {
+  if (CGRAPH_ISNSTR2V(dest, src) || (0 >= n)) {
     goto CERROR;
   }
 
-  return strncat(trg_str, src_str, len);
+  return strncat(dest, src, n);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "source pointer is equal to target pointer");
+                          "source pointer is equal to destination pointer");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "string length %ld is smaller than or equal to zero error", len);
+        "string length %ld is smaller than or equal to zero error", n);
   }
 #endif
 
-  return trg_str;
+  return dest;
 }
 
-cgraph_char_t *cgraph_strscat(cgraph_char_t *trg_str,
-                              const cgraph_char_t *src_str,
-                              const cgraph_size_t trg_size) {
-  cgraph_size_t size = trg_size - 1;
-  cgraph_char_t *trg_str_ptr = trg_str, *src_str_ptr = (cgraph_char_t *)src_str;
-  if (CGRAPH_ISNSTR2V(trg_str, src_str) || (0 >= trg_size)) {
+cgraph_char_t *cgraph_strscat(cgraph_char_t *dest, const cgraph_char_t *src,
+                              const cgraph_size_t n) {
+  cgraph_size_t size = n - 1;
+  cgraph_char_t *pdest = dest, *psrc = (cgraph_char_t *)src;
+  if (CGRAPH_ISNSTR2V(dest, src) || (0 >= size)) {
     goto CERROR;
   }
-  while ((0 < (size--)) && ('\0' != *(trg_str_ptr++))) {
+  for (; (0 < size) && ('\0' != *pdest); size--, pdest++) {
   }
-  for (; (0 < size) && ('\0' != *src_str_ptr); size--) {
-    *(trg_str_ptr++) = *(src_str_ptr++);
+  for (; (0 < size) && ('\0' != *psrc); size--) {
+    *(pdest++) = *(psrc++);
   }
-  *trg_str_ptr = '\0';
+  *pdest = '\0';
 
-  return trg_str;
+  return dest;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "source pointer is equal to target pointer");
+                          "source pointer is equal to destination pointer");
   }
-  if (0 >= trg_size) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "string length %ld is smaller than or equal to zero error", trg_size);
+        "string length %ld is smaller than or equal to zero error", n);
   }
 #endif
 
-  return trg_str;
+  return dest;
 }
 
-cgraph_bool_t cgraph_strcmp(const cgraph_char_t *x_str,
-                            const cgraph_char_t *y_str) {
+cgraph_bool_t cgraph_strcmp(const cgraph_char_t *str1,
+                            const cgraph_char_t *str2) {
   cgraph_bool_t flag = CGRAPH_FALSE;
-  if (x_str == y_str) {
+  if (str1 == str2) {
     flag = CGRAPH_TRUE;
-  } else if ((NULL != x_str) && (NULL != y_str)) {
-    if (('\0' == *x_str) && ('\0' == *y_str)) {
+  } else if ((NULL != str1) && (NULL != str2)) {
+    if (('\0' == *str1) && ('\0' == *str2)) {
       flag = CGRAPH_TRUE;
-    } else {
-      flag = CGRAPH_TEST(0 == strcmp(x_str, y_str));
+    } else if (('\0' != *str1) && ('\0' != *str2)) {
+      flag = CGRAPH_TEST(0 == strcmp(str1, str2));
     }
   }
 
   return flag;
 }
 
-cgraph_char_t *cgraph_strrev(cgraph_char_t *string) {
-  cgraph_char_t *start_ptr = string, *end_ptr = string;
-  if (CGRAPH_ISNSTR(string)) {
-    goto CERROR;
-  }
-  for (; '\0' != *end_ptr; end_ptr++) {
-  }
-  for (end_ptr--; start_ptr < end_ptr; start_ptr++, end_ptr--) {
-    cgraph_char_t data = *start_ptr;
-    *start_ptr = *end_ptr;
-    *end_ptr = data;
+cgraph_bool_t cgraph_strcasecmp(const cgraph_char_t *str1,
+                                const cgraph_char_t *str2) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (str1 == str2) {
+    flag = CGRAPH_TRUE;
+  } else if ((NULL != str1) && (NULL != str2)) {
+    if (('\0' == *str1) && ('\0' == *str2)) {
+      flag = CGRAPH_TRUE;
+    } else if (('\0' != *str1) && ('\0' != *str2)) {
+      flag = CGRAPH_TRUE;
+      cgraph_char_t *pstr1 = (cgraph_char_t *)str1,
+                    *pstr2 = (cgraph_char_t *)str2;
+    }
   }
 
-  return string;
+  return flag;
+}
+
+cgraph_bool_t cgraph_strncmp(const cgraph_char_t *str1,
+                             const cgraph_char_t *str2, const cgraph_size_t n) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (str1 == str2) {
+    flag = CGRAPH_TRUE;
+  } else if ((NULL != str1) && (NULL != str2)) {
+    if (('\0' == *str1) && ('\0' == *str2)) {
+      flag = CGRAPH_TRUE;
+    } else if (('\0' != *str1) && ('\0' != *str2)) {
+      flag = CGRAPH_TEST(0 == strncmp(str1, str2, n));
+    }
+  }
+
+  return flag;
+}
+
+cgraph_bool_t cgraph_strncasecmp(const cgraph_char_t *str1,
+                                 const cgraph_char_t *str2,
+                                 const cgraph_size_t n) {
+  cgraph_bool_t flag = CGRAPH_FALSE;
+  if (str1 == str2) {
+    flag = CGRAPH_TRUE;
+  } else if ((NULL != str1) && (NULL != str2)) {
+    if (('\0' == *str1) && ('\0' == *str2)) {
+      flag = CGRAPH_TRUE;
+    } else if (('\0' != *str1) && ('\0' != *str2)) {
+      flag = CGRAPH_TRUE;
+      cgraph_char_t *pstr1 = (cgraph_char_t *)str1,
+                    *pstr2 = (cgraph_char_t *)str2;
+    }
+  }
+
+  return flag;
+}
+
+cgraph_char_t *cgraph_strrev(cgraph_char_t *str) {
+  cgraph_char_t *pstart = str, *pend = str;
+  if (CGRAPH_ISNSTR(str)) {
+    goto CERROR;
+  }
+  for (; '\0' != *pend; pend++) {
+  }
+  for (pend--; pstart < pend; pstart++, pend--) {
+    cgraph_char_t data = *pstart;
+    *pstart = *pend;
+    *pend = data;
+  }
+
+  return str;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
@@ -635,48 +662,48 @@ CERROR:
                         "source string is empty");
 #endif
 
-  return string;
+  return str;
 }
 
-cgraph_char_t *cgraph_strnrev(cgraph_char_t *string, const cgraph_size_t len) {
-  cgraph_char_t *start_ptr = string, *end_ptr = string + len - 1;
-  if (CGRAPH_ISNSTR(string) || (0 >= len)) {
+cgraph_char_t *cgraph_strnrev(cgraph_char_t *str, const cgraph_size_t n) {
+  cgraph_char_t *pstart = str, *pend = str + n;
+  if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; start_ptr < end_ptr; start_ptr++, end_ptr--) {
-    cgraph_char_t data = *start_ptr;
-    *start_ptr = *end_ptr;
-    *end_ptr = data;
+  for (; pstart < pend; pstart++, pend--) {
+    cgraph_char_t data = *pstart;
+    *pstart = *pend;
+    *pend = data;
   }
 
-  return string;
+  return str;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "seperator string is empty");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "string length %ld is smaller than or equal to zero error", len);
+        "string length %ld is smaller than or equal to zero error", n);
   }
 #endif
 
-  return string;
+  return str;
 }
 
-cgraph_char_t *cgraph_strtok(cgraph_char_t *string, const cgraph_char_t *sep) {
-  if (CGRAPH_ISNSTR2V(string, sep)) {
+cgraph_char_t *cgraph_strtok(cgraph_char_t *str, const cgraph_char_t *sep) {
+  if (CGRAPH_ISNSTR2V(str, sep)) {
     goto CERROR;
   }
 
-  return strtok(string, sep);
+  return strtok(str, sep);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
@@ -684,18 +711,18 @@ CERROR:
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "seperator string is empty");
   }
-  if (string == sep) {
+  if (str == sep) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is equal to seperator string");
   }
 #endif
 
-  return string;
+  return str;
 }
 
-cgraph_char_t *cgraph_strntok(cgraph_char_t *string, const cgraph_char_t *sep,
-                              const cgraph_size_t len) {
-  if (CGRAPH_ISNSTR2V(string, sep) || (0 >= len)) {
+cgraph_char_t *cgraph_strntok(cgraph_char_t *str, const cgraph_char_t *sep,
+                              const cgraph_size_t n) {
+  if (CGRAPH_ISNSTR2V(str, sep) || (0 >= n)) {
     goto CERROR;
   }
 
@@ -703,7 +730,7 @@ cgraph_char_t *cgraph_strntok(cgraph_char_t *string, const cgraph_char_t *sep,
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
@@ -711,18 +738,18 @@ CERROR:
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "seperator string is empty");
   }
-  if (string == sep) {
+  if (str == sep) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is equal to seperator string");
   }
 #endif
 
-  return string;
+  return str;
 }
 
-cgraph_char_t *cgraph_strstok(cgraph_char_t *string, const cgraph_char_t *sep,
+cgraph_char_t *cgraph_strstok(cgraph_char_t *str, const cgraph_char_t *sep,
                               cgraph_char_t **cbuf) {
-  if (CGRAPH_ISNSTR2V(string, sep)) {
+  if (CGRAPH_ISNSTR2V(str, sep)) {
     goto CERROR;
   }
 
@@ -730,7 +757,7 @@ cgraph_char_t *cgraph_strstok(cgraph_char_t *string, const cgraph_char_t *sep,
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
@@ -738,106 +765,104 @@ CERROR:
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "seperator string is empty");
   }
-  if (string == sep) {
+  if (str == sep) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is equal to seperator string");
   }
 #endif
 
-  return string;
+  return str;
 }
 
-cgraph_char_t *cgraph_strchr(const cgraph_char_t *string, cgraph_int_t ch) {
-  if (CGRAPH_ISNSTR(string)) {
+cgraph_char_t *cgraph_strchr(const cgraph_char_t *str, cgraph_int_t ch) {
+  if (CGRAPH_ISNSTR(str)) {
     goto CERROR;
   }
 
-  return strchr(string, ch);
+  return strchr(str, ch);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
   cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                         "source string is empty");
-
 #endif
 
   return NULL;
 }
 
-cgraph_char_t *cgraph_strnchr(const cgraph_char_t *string, cgraph_int_t ch,
-                              const cgraph_size_t len) {
-  cgraph_char_t *ptr = NULL, *str_ptr = (cgraph_char_t *)string;
+cgraph_char_t *cgraph_strnchr(const cgraph_char_t *str, cgraph_int_t ch,
+                              const cgraph_size_t n) {
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t i = 0;
-  if (CGRAPH_ISNSTR(string) || (0 >= len)) {
+  if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; ('\0' != *str_ptr) && (i < len); i++, str_ptr++) {
-    if (ch == *str_ptr) {
-      ptr = str_ptr;
+  for (; ('\0' != *pstr) && (n > i); i++, pstr++) {
+    if (ch == *pstr) {
+      ptmp = pstr;
       break;
     }
   }
 
-  return ptr;
+  return ptmp;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "string length %ld is smaller than or equal to zero error", len);
+        "string length %ld is smaller than or equal to zero error", n);
   }
 #endif
 
   return NULL;
 }
 
-cgraph_char_t *cgraph_strchrn(const cgraph_char_t *string, cgraph_int_t ch,
-                              const cgraph_size_t num) {
-  cgraph_char_t *ptr = NULL, *str_ptr = (cgraph_char_t *)string;
+cgraph_char_t *cgraph_strchrn(const cgraph_char_t *str, cgraph_int_t ch,
+                              const cgraph_size_t n) {
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t cnt = 0;
-  if (CGRAPH_ISNSTR(string) || (0 >= num)) {
+  if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; '\0' != *str_ptr; str_ptr++) {
-    if (ch == *str_ptr) {
+  for (; '\0' != *pstr; pstr++) {
+    if (ch == *pstr) {
       cnt += 1;
-      if (cnt >= num) {
-        ptr = str_ptr;
+      if (cnt >= n) {
+        ptmp = pstr;
         break;
       }
     }
   }
 
-  return ptr;
+  return ptmp;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (0 >= num) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "given character number %ld is smaller than or equal to zero error",
-        num);
+        "given character number %ld is smaller than or equal to zero error", n);
   }
 #endif
 
   return NULL;
 }
 
-cgraph_char_t *cgraph_strrchr(const cgraph_char_t *string, cgraph_int_t ch) {
-  if (CGRAPH_ISNSTR(string)) {
+cgraph_char_t *cgraph_strrchr(const cgraph_char_t *str, cgraph_int_t ch) {
+  if (CGRAPH_ISNSTR(str)) {
     goto CERROR;
   }
 
-  return strrchr(string, ch);
+  return strrchr(str, ch);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
@@ -848,177 +873,175 @@ CERROR:
   return NULL;
 }
 
-cgraph_char_t *cgraph_strnrchr(const cgraph_char_t *string, cgraph_int_t ch,
-                               const cgraph_size_t len) {
-  cgraph_char_t *ptr = NULL, *str_ptr = (cgraph_char_t *)string;
+cgraph_char_t *cgraph_strnrchr(const cgraph_char_t *str, cgraph_int_t ch,
+                               const cgraph_size_t n) {
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t i = 0;
-  if (CGRAPH_ISNSTR(string) || (0 >= len)) {
+  if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; ('\0' != *str_ptr) && (i < len); str_ptr++, i++) {
-    if (ch == *str_ptr) {
-      ptr = str_ptr;
+  for (; ('\0' != *pstr) && (n > i); pstr++, i++) {
+    if (ch == *pstr) {
+      ptmp = pstr;
     }
   }
 
-  return ptr;
+  return ptmp;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "string length %ld is smaller than or equal to zero error", len);
+        "string length %ld is smaller than or equal to zero error", n);
   }
 #endif
 
   return NULL;
 }
 
-cgraph_char_t *cgraph_strrchrn(const cgraph_char_t *string, cgraph_int_t ch,
-                               const cgraph_size_t num) {
-  cgraph_char_t *ptr = NULL, *str_ptr = (cgraph_char_t *)string;
+cgraph_char_t *cgraph_strrchrn(const cgraph_char_t *str, cgraph_int_t ch,
+                               const cgraph_size_t n) {
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t cnt = 0;
-  if (CGRAPH_ISNSTR(string) || (0 >= num)) {
+  if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; '\0' != *str_ptr; str_ptr++) {
-    if (ch == *str_ptr) {
-      ptr = str_ptr;
+  for (; '\0' != *pstr; pstr++) {
+    if (ch == *pstr) {
+      ptmp = pstr;
       cnt += 1;
     }
   }
-  if ((NULL == ptr) || (num > cnt)) {
+  if ((NULL == ptmp) || (n > cnt)) {
     goto CERROR;
   }
-  for (str_ptr = ptr, cnt = 0; string != str_ptr; str_ptr--) {
-    if (ch == *str_ptr) {
+  for (pstr = ptmp, cnt = 0; str != pstr; pstr--) {
+    if (ch == *pstr) {
       cnt += 1;
-      if (cnt >= num) {
-        ptr = str_ptr;
+      if (cnt >= n) {
+        ptmp = pstr;
         break;
       }
     }
   }
 
-  return ptr;
+  return ptmp;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(string)) {
+  if (CGRAPH_ISNSTR(str)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (0 >= num) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
         "the number of given character %c is %ld, smaller than "
         "or equal to zero error",
-        ch, num);
+        ch, n);
   }
-  if (NULL == ptr) {
+  if (NULL == ptmp) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "given character %c is not in input string", ch);
   }
-  if (num > cnt) {
+  if (n > cnt) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
         "the number of given character %c is %ld, greater than real one %ld",
-        ch, num, cnt);
+        ch, n, cnt);
   }
 #endif
 
   return NULL;
 }
 
-cgraph_char_t *cgraph_strstr(const cgraph_char_t *src_str,
-                             cgraph_char_t *trg_str) {
-  if (CGRAPH_ISNSTR2V(src_str, trg_str)) {
+cgraph_char_t *cgraph_strstr(const cgraph_char_t *src, cgraph_char_t *dest) {
+  if (CGRAPH_ISNSTR2V(src, dest)) {
     goto CERROR;
   }
 
-  return strstr(src_str, trg_str);
+  return strstr(src, dest);
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "source string is equal to target string");
+                          "source string is equal to destination string");
   }
 #endif
 
   return NULL;
 }
 
-cgraph_char_t *cgraph_strnstr(const cgraph_char_t *src_str,
-                              cgraph_char_t *trg_str, const cgraph_size_t len) {
-  cgraph_char_t *ptr = NULL;
-  if (CGRAPH_ISNSTR2V(src_str, trg_str) || (0 >= len)) {
+cgraph_char_t *cgraph_strnstr(const cgraph_char_t *src, cgraph_char_t *dest,
+                              const cgraph_size_t n) {
+  cgraph_char_t *ptmp = NULL;
+  if (CGRAPH_ISNSTR2V(src, dest) || (0 >= n)) {
     goto CERROR;
   }
 
-  return ptr;
+  return ptmp;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (trg_str == src_str) {
+  if (dest == src) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "source string is equal to target string");
+                          "source string is equal to destination string");
   }
-  if (0 >= len) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "string length %ld is smaller than or equal to zero error", len);
+        "string length %ld is smaller than or equal to zero error", n);
   }
 #endif
 
   return NULL;
 }
 
-cgraph_char_t *cgraph_strstrn(const cgraph_char_t *src_str,
-                              cgraph_char_t *trg_str, const cgraph_size_t num) {
-  cgraph_char_t *ptr = NULL;
-  if (CGRAPH_ISNSTR2V(src_str, trg_str) || (0 >= num)) {
+cgraph_char_t *cgraph_strstrn(const cgraph_char_t *src, cgraph_char_t *dest,
+                              const cgraph_size_t n) {
+  cgraph_char_t *ptmp = NULL;
+  if (CGRAPH_ISNSTR2V(src, dest) || (0 >= n)) {
     goto CERROR;
   }
 
-  return ptr;
+  return ptmp;
   /* errors output for debugging */
 CERROR:
 #ifdef DEBUG
-  if (CGRAPH_ISNSTR(trg_str)) {
+  if (CGRAPH_ISNSTR(dest)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-                          "target string is empty");
+                          "destination string is empty");
   }
-  if (CGRAPH_ISNSTR(src_str)) {
+  if (CGRAPH_ISNSTR(src)) {
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
                           "source string is empty");
   }
-  if (0 >= num) {
+  if (0 >= n) {
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_ERROR,
-        "given character number %ld is smaller than or equal to zero error",
-        num);
+        "given character number %ld is smaller than or equal to zero error", n);
   }
 #endif
 

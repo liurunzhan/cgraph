@@ -476,7 +476,7 @@ TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, fmt)(res);
 }
 
-TYPE FUNCTION(NAME, absub)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, abssub)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, abs)(FUNCTION(NAME, sub)(x, y));
 }
 

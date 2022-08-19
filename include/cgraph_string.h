@@ -25,6 +25,7 @@ extern "C" {
 #define TYPE_STRING
 #include "cgraph_template.h"
 
+/** data details: if needs another data memory, define Macro TYPE_WITH_DATA */
 #define TYPE_WITH_DATA
 #define DATA_NAME char
 #define DATA_UNAME uchar
@@ -41,6 +42,7 @@ extern "C" {
 #define DATA_MIN (' ')
 #define DATA_MAX ('~')
 
+/** type details: */
 #define NAME string
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(STRING)

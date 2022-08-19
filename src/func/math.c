@@ -852,3 +852,104 @@ cgraph_float64_t cgraph_math_swish(const cgraph_float64_t x) {
 cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x) {
   return log(1.0 + exp(x));
 }
+
+/* 0xFFFFFF = 16581375 */
+#define CGRAPH_MATH_RGB_MASK UINT32_C(0xFFFFFF)
+#define CGRAPH_MATH_RGB_IMASK UINT32_C(0xFF)
+#define CGRAPH_MATH_RGB_MIN UINT32_C(0)
+#define CGRAPH_MATH_RGB_MAX CGRAPH_MATH_RGB_MASK
+#define CGRAPH_MATH_RGB_DECLEN (8)
+#define CGRAPH_MATH_RGB_HEXLEN (6)
+__INLINE__ cgraph_bool_t cgraph_math_colchk(const cgraph_uint32_t color) {
+  return CGRAPH_TEST((~CGRAPH_MATH_RGB_MASK) & color);
+}
+
+__INLINE__ cgraph_uint32_t cgraph_math_colfmt(const cgraph_uint32_t color) {
+  return (CGRAPH_MATH_RGB_MASK & color);
+}
+
+__INLINE__ cgraph_uint32_t cgraph_math_col2r(const cgraph_uint32_t color) {
+  return (CGRAPH_MATH_RGB_IMASK & (color));
+}
+
+__INLINE__ cgraph_uint32_t cgraph_math_col2g(const cgraph_uint32_t color) {
+  return (CGRAPH_MATH_RGB_IMASK & (color >> 8));
+}
+
+__INLINE__ cgraph_uint32_t cgraph_math_col2b(const cgraph_uint32_t color) {
+  return (CGRAPH_MATH_RGB_IMASK & (color >> 16));
+}
+
+cgraph_char_t *cgraph_math_col2dec(const cgraph_uint32_t color,
+                                   cgraph_char_t *cstr) {
+  if (NULL != cstr) {
+    cgraph_uint32_t res = color;
+    cgraph_char_t *c = cstr + CGRAPH_MATH_RGB_DECLEN;
+    *c = '\0';
+    CGRAPH_LOOP(i, 0, CGRAPH_MATH_RGB_DECLEN)
+    *(--c) = cgraph_math_dec2hex(color % 10);
+    res /= 10;
+    CGRAPH_LOOP_END
+  }
+
+  return cstr;
+}
+
+cgraph_char_t *cgraph_math_col2hex(const cgraph_uint32_t color,
+                                   cgraph_char_t *cstr) {
+  if (NULL != cstr) {
+    cgraph_uint32_t res = color;
+    cgraph_char_t *c = cstr + CGRAPH_MATH_RGB_HEXLEN;
+    *c = '\0';
+    CGRAPH_LOOP(i, 0, CGRAPH_MATH_RGB_HEXLEN)
+    *(--c) = cgraph_math_dec2hex(color & UINT32_C(0xF));
+    res >>= 4;
+    CGRAPH_LOOP_END
+  }
+
+  return cstr;
+}
+
+cgraph_uint32_t cgraph_math_dec2col(const cgraph_char_t *color) {
+  cgraph_uint32_t res = CGRAPH_MATH_RGB_MIN;
+  if (CGRAPH_ISSTR(color)) {
+    cgraph_size_t i = 0;
+    cgraph_char_t *c = (cgraph_char_t *)color;
+    if ('#' == *c) {
+      c += 1;
+    }
+    for (; i < CGRAPH_MATH_RGB_DECLEN; i++) {
+      if (CGRAPH_FALSE == cgraph_math_isdec(c[i])) {
+        break;
+      }
+      res = (res * 10) + cgraph_math_dec2dec(c[i]);
+    }
+    if ((CGRAPH_MATH_RGB_MAX < res) || ('\0' != c[i])) {
+      res = CGRAPH_MATH_RGB_MIN;
+    }
+  }
+
+  return res;
+}
+
+cgraph_uint32_t cgraph_math_hex2col(const cgraph_char_t *color) {
+  cgraph_uint32_t res = CGRAPH_MATH_RGB_MIN;
+  if (CGRAPH_ISSTR(color)) {
+    cgraph_size_t i = 0;
+    cgraph_char_t *c = (cgraph_char_t *)color;
+    if ('#' == *c) {
+      c += 1;
+    }
+    for (; i < CGRAPH_MATH_RGB_HEXLEN; i++) {
+      if (CGRAPH_FALSE == cgraph_math_ishex(c[i])) {
+        break;
+      }
+      res = (res << 4) + cgraph_math_hex2dec(c[i]);
+    }
+    if ((CGRAPH_MATH_RGB_HEXLEN < i) || ('\0' != c[i])) {
+      res = CGRAPH_MATH_RGB_MIN;
+    }
+  }
+
+  return res;
+}

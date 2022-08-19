@@ -75,23 +75,23 @@ cgraph_bool_t cgraph_file_issuffix(const cgraph_char_t *path,
                                    const cgraph_char_t *suffix) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path) && CGRAPH_ISSTR(suffix)) {
-    cgraph_char_t *path_ptr = (cgraph_char_t *)path,
-                  *suffix_ptr = (cgraph_char_t *)suffix;
-    for (; '\0' != *path_ptr; path_ptr++) {
-      if ('.' == *path_ptr) {
-        cgraph_char_t *ptr = ++path_ptr, *point_ptr = NULL;
-        for (; (*ptr == *suffix_ptr) && ('\0' != *ptr) && ('\0' != *suffix_ptr);
-             ptr++, suffix_ptr++) {
-          if (('.' == *ptr) && (NULL == point_ptr)) {
-            point_ptr = ptr;
+    cgraph_char_t *ppath = (cgraph_char_t *)path,
+                  *psuffix = (cgraph_char_t *)suffix;
+    for (; '\0' != *ppath; ppath++) {
+      if ('.' == *ppath) {
+        cgraph_char_t *ptmp = ++ppath, *ppoint = NULL;
+        for (; (*ptmp == *psuffix) && ('\0' != *ptmp) && ('\0' != *psuffix);
+             ptmp++, psuffix++) {
+          if (('.' == *ptmp) && (NULL == ppoint)) {
+            ppoint = ptmp;
           }
         }
-        if (('\0' == *ptr) && (*ptr == *suffix_ptr)) {
+        if (('\0' == *ptmp) && (*ptmp == *psuffix)) {
           res = CGRAPH_TRUE;
           break;
         } else {
-          suffix_ptr = (cgraph_char_t *)suffix;
-          path_ptr = (NULL != point_ptr) ? point_ptr - 1 : ptr;
+          psuffix = (cgraph_char_t *)suffix;
+          ppath = (NULL != ppoint) ? ppoint - 1 : ptmp;
         }
       }
     }
@@ -104,16 +104,16 @@ cgraph_bool_t cgraph_file_startswith(const cgraph_char_t *path,
                                      const cgraph_char_t *prefix) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path) && CGRAPH_ISSTR(prefix)) {
-    cgraph_char_t *path_ptr = (cgraph_char_t *)path,
-                  *prefix_ptr = (cgraph_char_t *)prefix;
-    for (res = CGRAPH_TRUE; ('\0' != *path_ptr) && ('\0' != *prefix_ptr);
-         path_ptr++, prefix_ptr++) {
-      if (*path_ptr != *prefix_ptr) {
+    cgraph_char_t *ppath = (cgraph_char_t *)path,
+                  *pprefix = (cgraph_char_t *)prefix;
+    for (res = CGRAPH_TRUE; ('\0' != *ppath) && ('\0' != *pprefix);
+         ppath++, pprefix++) {
+      if (*ppath != *pprefix) {
         res = CGRAPH_FALSE;
         break;
       }
     }
-    if ((CGRAPH_TRUE == res) && ('\0' == *path_ptr)) {
+    if ((CGRAPH_TRUE == res) && ('\0' == *ppath)) {
       res = CGRAPH_FALSE;
     }
   }
@@ -125,17 +125,17 @@ cgraph_bool_t cgraph_file_endswith(const cgraph_char_t *path,
                                    const cgraph_char_t *suffix) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if (CGRAPH_ISSTR(path) && CGRAPH_ISSTR(suffix)) {
-    cgraph_char_t *path_ptr = (cgraph_char_t *)path,
-                  *suffix_ptr = (cgraph_char_t *)suffix;
+    cgraph_char_t *ppath = (cgraph_char_t *)path,
+                  *psuffix = (cgraph_char_t *)suffix;
     cgraph_size_t path_len = 0, suffix_len = 0;
-    for (; '\0' != path_ptr[path_len]; path_len++) {
+    for (; '\0' != ppath[path_len]; path_len++) {
     }
-    for (; '\0' != suffix_ptr[suffix_len]; suffix_len++) {
+    for (; '\0' != psuffix[suffix_len]; suffix_len++) {
     }
     if (path_len >= suffix_len) {
-      path_ptr += (path_len - suffix_len);
+      ppath += (path_len - suffix_len);
       for (res = CGRAPH_TRUE, path_len = 0; path_len < suffix_len; path_len++) {
-        if (path_ptr[path_len] != suffix_ptr[path_len]) {
+        if (ppath[path_len] != psuffix[path_len]) {
           res = CGRAPH_FALSE;
           break;
         }
@@ -184,11 +184,11 @@ cgraph_char_t *cgraph_file_name(cgraph_char_t *buffer, const cgraph_size_t size,
       }
     }
     if (0 <= split_pos) {
-      cgraph_char_t *path_ptr = (cgraph_char_t *)&(path[split_pos]);
-      for (i = 0; ('\0' != path_ptr[i]) && (i < _size); i++) {
-        buffer[i] = path_ptr[i];
+      cgraph_char_t *ppath = (cgraph_char_t *)&(path[split_pos]);
+      for (i = 0; ('\0' != ppath[i]) && (i < _size); i++) {
+        buffer[i] = ppath[i];
       }
-      if ('\0' == path_ptr[i]) {
+      if ('\0' == ppath[i]) {
         buffer[i] = '\0';
       } else {
         buffer[0] = '\0';
@@ -211,11 +211,11 @@ cgraph_char_t *cgraph_file_suffix(cgraph_char_t *buffer,
       }
     }
     if (0 < split_pos) {
-      cgraph_char_t *path_ptr = (cgraph_char_t *)&(path[split_pos]);
-      for (i = 0; ('\0' != path_ptr[i]) && (i < _size); i++) {
-        buffer[i] = path_ptr[i];
+      cgraph_char_t *ppath = (cgraph_char_t *)&(path[split_pos]);
+      for (i = 0; ('\0' != ppath[i]) && (i < _size); i++) {
+        buffer[i] = ppath[i];
       }
-      if ('\0' == path_ptr[i]) {
+      if ('\0' == ppath[i]) {
         buffer[i] = '\0';
       } else {
         buffer[0] = '\0';

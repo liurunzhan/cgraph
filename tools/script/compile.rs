@@ -53,7 +53,7 @@ fn main() {
   for file in SRC.read_dir().expect("read_dir call failed") {
     if let Ok(file) = file {
       let path = file.path();
-      if path.is_file() && "c" == path.extension().unwrap() && path.file_name().unwrap().to_str().unwrap().starts_with(".") {
+      if path.is_file() && path.extension() != None && "c" == path.extension().unwrap() && path.file_name().unwrap().to_str().unwrap().starts_with(".") {
         let path = file.path();
         CFILES.push(path);
       }

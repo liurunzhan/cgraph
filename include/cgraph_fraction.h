@@ -36,6 +36,7 @@ extern "C" {
 #define DATA_EPSILON CGRAPH_INT_EPSILON
 #define DATA_LSB CGRAPH_INT_LSB
 #define DATA_MSB CGRAPH_INT_MSB
+#define ITEM_LEN (2)
 
 #define NAME fraction
 #define TYPE TYPE_T(NAME)
@@ -75,8 +76,12 @@ extern "C" {
  * @brief the object of fraction number
  */
 typedef struct {
-  DATA_TYPE data[2];
+  DATA_TYPE data[ITEM_LEN];
 } cgraph_fraction_t;
+
+#if ITEM_LEN != 2
+#error ITEM_LEN must be defined as 2, or will throw a compilation error
+#endif
 
 #define FRACTION_NUM(x) ((x).data[0])
 #define FRACTION_DEN(x) ((x).data[1])

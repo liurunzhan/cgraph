@@ -236,6 +236,42 @@ TYPE FUNCTION(NAME, std)(const TYPE x) {
   return res;
 }
 
+TYPE FUNCTION(NAME, pow2)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) * POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) * POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, pow3)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x) * POINT3D_X(x) * POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x) * POINT3D_Y(x) * POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x) * POINT3D_Z(x) * POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, sqrt)(POINT3D_X(x));
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, sqrt)(POINT3D_Y(x));
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, sqrt)(POINT3D_Z(x));
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, cube)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = FUNCTION(DATA_NAME, cube)(POINT3D_X(x));
+  POINT3D_Y(res) = FUNCTION(DATA_NAME, cube)(POINT3D_Y(x));
+  POINT3D_Z(res) = FUNCTION(DATA_NAME, cube)(POINT3D_Z(x));
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t len) {
   TYPE res = x;
   if (1 == len) {
@@ -262,10 +298,6 @@ TYPE FUNCTION(NAME, shl)(const TYPE x, const cgraph_size_t len) {
   return res;
 }
 
-TYPE FUNCTION(NAME, shr)(const TYPE x, const cgraph_size_t len) {
-  return FUNCTION(NAME, shl)(x, -len);
-}
-
 TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t len) {
   cgraph_size_t len_mod = cgraph_math_mod3(len);
   TYPE res = x;
@@ -288,23 +320,6 @@ TYPE FUNCTION(NAME, rol)(const TYPE x, const cgraph_size_t len) {
   }
 
   return res;
-}
-
-TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t len) {
-  return FUNCTION(NAME, rol)(x, -len);
-}
-
-DATA_TYPE FUNCTION(NAME, mahadist)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, dsum)(FUNCTION(NAME, absub)(x, y));
-}
-
-DATA_TYPE FUNCTION(NAME, chebdist)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, dmax)(FUNCTION(NAME, absub)(x, y));
-}
-
-DATA_TYPE FUNCTION(NAME, cosidist)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, fdot)(x, y) / FUNCTION(NAME, mag)(x) /
-         FUNCTION(NAME, mag)(y);
 }
 
 /**
@@ -334,15 +349,6 @@ TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
   POINT3D_X(res) = POINT3D_X(x) - POINT3D_X(y);
   POINT3D_Y(res) = POINT3D_Y(x) - POINT3D_Y(y);
   POINT3D_Z(res) = POINT3D_Z(x) - POINT3D_Z(y);
-
-  return res;
-}
-
-TYPE FUNCTION(NAME, absub)(const TYPE x, const TYPE y) {
-  TYPE res;
-  POINT3D_X(res) = FUNCTION(DATA_NAME, abs)(POINT3D_X(x) - POINT3D_X(y));
-  POINT3D_Y(res) = FUNCTION(DATA_NAME, abs)(POINT3D_Y(x) - POINT3D_Y(y));
-  POINT3D_Z(res) = FUNCTION(DATA_NAME, abs)(POINT3D_Z(x) - POINT3D_Z(y));
 
   return res;
 }

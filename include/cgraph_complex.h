@@ -38,6 +38,7 @@ extern "C" {
 #define DATA_NINF CGRAPH_FLOAT64_NINF
 #define DATA_EPSILON CGRAPH_FLOAT64_EPSILON
 #define DATA_EPSILON_LEN CGRAPH_FLOAT64_BITS
+#define ITEM_LEN (2)
 
 #define NAME complex
 #define TYPE TYPE_T(NAME)
@@ -75,8 +76,12 @@ extern "C" {
  * @brief the object of complex number
  */
 typedef struct {
-  DATA_TYPE data[2];
+  DATA_TYPE data[ITEM_LEN];
 } cgraph_complex_t;
+
+#if ITEM_LEN != 2
+#error ITEM_LEN must be defined as 2, or will throw a compilation error
+#endif
 
 #define COMPLEX_REAL(x) ((x).data[0])
 #define COMPLEX_IMAG(x) ((x).data[1])

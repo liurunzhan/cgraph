@@ -20,7 +20,7 @@
     BITSET_BITPOS(x) = (pos)&0x07U;                                            \
     BITSET_BITNUM(x) = BITSET_POS2NUM(BITSET_BITPOS(x));                       \
     BITSET_HALF(x) = (BITSET_BITNUM(x) - 4);                                   \
-    BITSET_GRHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
+    BITSET_GTHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
     (x)->data[(x)->len - 1] &= BITSET_GET_RMASK1(x);                           \
   } while (0)
 #define BITSET_BITNUM_UPDATE(x, num)                                           \
@@ -28,7 +28,7 @@
     BITSET_BITPOS(x) = (num)&0x07U;                                            \
     BITSET_BITNUM(x) = (num);                                                  \
     BITSET_HALF(x) = (BITSET_BITNUM(x) - 4);                                   \
-    BITSET_GRHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
+    BITSET_GTHALF(x) = (4 < BITSET_BITNUM(x)) ? CGRAPH_TRUE : CGRAPH_FALSE;    \
     (x)->data[(x)->len - 1] &= BITSET_GET_RMASK1(x);                           \
   } while (0)
 
@@ -55,9 +55,9 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     len = 2 + BITSET_BITS_NUM(cthis);
 #ifdef DEBUG
-    cgraph_file_fprintfln(stdout, "pos %d num %d grhalf %d bits num %ld",
+    cgraph_file_fprintfln(stdout, "pos %d num %d gthalf %d bits num %ld",
                           BITSET_BITPOS(cthis), BITSET_BITNUM(cthis),
-                          BITSET_GRHALF(cthis), BITSET_BITS_NUM(cthis));
+                          BITSET_GTHALF(cthis), BITSET_BITS_NUM(cthis));
 #endif
     fputs("0b", fp);
     for (j = BITSET_BITNUM(cthis); j > 0; j--) {
@@ -80,7 +80,7 @@ cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     len = 2 + cthis->len * 2;
     fputs("0x", fp);
-    if (BITSET_GRHALF(cthis)) {
+    if (BITSET_GTHALF(cthis)) {
       fputc(cgraph_math_dec2hex((*data >> 4) & BITSET_GET_RHALFMASK1(cthis)),
             fp);
       fputc(cgraph_math_dec2hex((*(data)) & 0xFU), fp);
@@ -134,7 +134,7 @@ cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuf,
     DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
     cbuf[len++] = '0';
     cbuf[len++] = 'x';
-    if (BITSET_GRHALF(cthis)) {
+    if (BITSET_GTHALF(cthis)) {
       cbuf[len++] =
           cgraph_math_dec2hex((*data >> 4) & BITSET_GET_RHALFMASK1(cthis));
       cbuf[len++] = cgraph_math_dec2hex((*(data) >> 4) & 0xFU);

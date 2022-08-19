@@ -23,6 +23,7 @@ extern "C" {
 #define TYPE_POINT3D
 #include "cgraph_template.h"
 
+/** data details: if needs another data memory, define Macro TYPE_WITH_DATA */
 #define DATA_NAME float64
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(FLOAT64)
@@ -38,7 +39,9 @@ extern "C" {
 #define DATA_NINF CGRAPH_FLOAT64_NINF
 #define DATA_EPSILON CGRAPH_FLOAT64_EPSILON
 #define DATA_EPSILON_LEN CGRAPH_FLOAT64_BITS
+#define ITEM_LEN (3)
 
+/** type details: */
 #define NAME point3d
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(POINT3D)
@@ -72,8 +75,12 @@ extern "C" {
  * @brief the object of 3-d point
  */
 typedef struct {
-  DATA_TYPE data[3];
+  DATA_TYPE data[ITEM_LEN];
 } cgraph_point3d_t;
+
+#if ITEM_LEN != 3
+#error ITEM_LEN must be defined as 3, or will throw a compilation error
+#endif
 
 #define POINT3D_X(x) ((x).data[0])
 #define POINT3D_Y(x) ((x).data[1])

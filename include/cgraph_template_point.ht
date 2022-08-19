@@ -26,6 +26,9 @@ extern DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dmean)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dvarsub)(const TYPE x);
+extern DATA_TYPE FUNCTION(NAME, dstdsub)(const TYPE x);
 
 extern DATA_TYPE FUNCTION(NAME, fmul)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
@@ -154,6 +157,6 @@ extern DATA_TYPE FUNCTION(NAME, circle_radius)(const TYPE x, const TYPE y,
 extern DATA_TYPE FUNCTION(NAME, circle_size)(const DATA_TYPE radian);
 extern DATA_TYPE FUNCTION(NAME, circle_circumference)(const DATA_TYPE radian);
 
-extern DATA_TYPE FUNCTION(NAME, mahadist)(const TYPE x, const TYPE y);
-extern DATA_TYPE FUNCTION(NAME, chebdist)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, manhatdist)(const TYPE x, const TYPE y);
+extern DATA_TYPE FUNCTION(NAME, chebydist)(const TYPE x, const TYPE y);
 extern DATA_TYPE FUNCTION(NAME, cosidist)(const TYPE x, const TYPE y);

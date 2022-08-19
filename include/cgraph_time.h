@@ -23,6 +23,7 @@ extern "C" {
 #define TYPE_TIME
 #include "cgraph_template.h"
 
+/** data details: if needs another data memory, define Macro TYPE_WITH_DATA */
 #define DATA_NAME int32
 #define DATA_UNAME uint32
 #define DATA_TYPE TYPE_T(DATA_UNAME)
@@ -41,6 +42,7 @@ extern "C" {
 #define DATA_LSB CGRAPH_UINT32_LSB
 #define DATA_MSB CGRAPH_UINT32_MSB
 
+/** type details: */
 #define NAME time
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(TIME)

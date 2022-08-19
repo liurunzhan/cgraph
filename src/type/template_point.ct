@@ -1,5 +1,55 @@
 #include "template_data.ct"
 
+DATA_TYPE FUNCTION(NAME, dmean)(const TYPE x) {
+  return 1.0 / ITEM_LEN * FUNCTION(NAME, dsum)(x);
+}
+
+DATA_TYPE FUNCTION(NAME, dvarsub)(const TYPE x) {
+  DATA_TYPE mean = FUNCTION(NAME, dmean)(x);
+  TYPE res = FUNCTION(NAME, subf)(x, mean);
+
+  return 1.0 / ITEM_LEN * FUNCTION(NAME, mag2)(res);
+}
+
+DATA_TYPE FUNCTION(NAME, dstdsub)(const TYPE x) {
+  return FUNCTION(DATA_NAME, sqrt)(FUNCTION(NAME, dvarsub)(x));
+}
+
+TYPE FUNCTION(NAME, shr)(const TYPE x, const cgraph_size_t len) {
+  return FUNCTION(NAME, shl)(x, -len);
+}
+
+TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t len) {
+  return FUNCTION(NAME, rol)(x, -len);
+}
+
+TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mulf)(FUNCTION(NAME, add)(x, y), 1.0 / ITEM_LEN);
+}
+
+TYPE FUNCTION(NAME, abssub)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, abs)(FUNCTION(NAME, sub)(x, y));
+}
+
+TYPE FUNCTION(NAME, sub2)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, pow2)(FUNCTION(NAME, sub)(x, y));
+}
+
+TYPE FUNCTION(NAME, sub2mean)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mulf)(FUNCTION(NAME, sub2)(x, y), 1.0 / ITEM_LEN);
+}
+
+TYPE FUNCTION(NAME, varsub)(const TYPE x, const TYPE y) {
+  TYPE mean = FUNCTION(NAME, mean)(x, y), x_mean = FUNCTION(NAME, sub)(x, mean),
+       y_mean = FUNCTION(NAME, sub)(y, mean);
+
+  return FUNCTION(NAME, sub2mean)(x_mean, y_mean);
+}
+
+TYPE FUNCTION(NAME, stdsub)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, sqrt)(FUNCTION(NAME, varsub)(x, y));
+}
+
 /** \f$ fabs(x) = ||x|| \f$ */
 DATA_TYPE FUNCTION(NAME, fabs)(const TYPE x) { return FUNCTION(NAME, mag)(x); }
 
@@ -33,4 +83,27 @@ TYPE FUNCTION(NAME, proj)(const TYPE x, const TYPE y) {
 /** dist(x, y) = ||x - y|| */
 DATA_TYPE FUNCTION(NAME, dist)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mag)(FUNCTION(NAME, sub)(x, y));
+}
+
+/** stddist(x, y) = ||x - y|| */
+DATA_TYPE FUNCTION(NAME, stddist)(const TYPE x, const TYPE y) {
+  TYPE mean = FUNCTION(NAME, mean)(x, y);
+
+  return FUNCTION(NAME, mag)(FUNCTION(NAME, sub)(x, y));
+}
+
+/** manhatdist(x, y) = sum(|xi - yi|) */
+DATA_TYPE FUNCTION(NAME, manhatdist)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, dsum)(FUNCTION(NAME, abssub)(x, y));
+}
+
+/** chebydist(x, y) = min(|xi - yi|) */
+DATA_TYPE FUNCTION(NAME, chebydist)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, dmax)(FUNCTION(NAME, abssub)(x, y));
+}
+
+/** cosidist(x, y) = (x <x> y) / (|x| * |y|) */
+DATA_TYPE FUNCTION(NAME, cosidist)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, fdot)(x, y) / FUNCTION(NAME, mag)(x) /
+         FUNCTION(NAME, mag)(y);
 }

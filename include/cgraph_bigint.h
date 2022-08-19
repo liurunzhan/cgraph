@@ -23,6 +23,7 @@ extern "C" {
 #define TYPE_BIGINT
 #include "cgraph_template.h"
 
+/** data details: if needs another data memory, define Macro TYPE_WITH_DATA */
 #define TYPE_WITH_DATA
 #define DATA_NAME int8
 #define DATA_UNAME uint8
@@ -43,6 +44,7 @@ extern "C" {
 #define DATA_LSB CGRAPH_UINT8_LSB
 #define DATA_MSB CGRAPH_UINT8_MSB
 
+/** type details: */
 #define NAME bigint
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGINT)

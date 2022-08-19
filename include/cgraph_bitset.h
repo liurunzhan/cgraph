@@ -23,6 +23,7 @@ extern "C" {
 #define TYPE_BITSET
 #include "cgraph_template.h"
 
+/** data details: if needs another data memory, define Macro TYPE_WITH_DATA */
 #define TYPE_WITH_DATA
 #define DATA_NAME int8
 #define DATA_UNAME uint8
@@ -43,6 +44,7 @@ extern "C" {
 #define DATA_LSB CGRAPH_UINT8_LSB
 #define DATA_MSB CGRAPH_UINT8_MSB
 
+/** type details: */
 #define NAME bitset
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BITSET)
@@ -68,7 +70,7 @@ typedef struct {
     cgraph_uint32_t half : 4;
     cgraph_uint32_t : 4;
     cgraph_uint32_t : 7;
-    cgraph_uint32_t grhalf : 1;
+    cgraph_uint32_t gthalf : 1;
   } firstbyte;
   CGRAPH_DATA_ROOT
 } cgraph_bitset_t;
@@ -77,10 +79,10 @@ typedef struct {
 #define BITSET_BITNUM(x) (BITSET_BIT(x).num)
 #define BITSET_BITPOS(x) (BITSET_BIT(x).pos)
 #define BITSET_HALF(x) (BITSET_BIT(x).half)
-#define BITSET_GRHALF(x) (BITSET_BIT(x).grhalf)
+#define BITSET_GTHALF(x) (BITSET_BIT(x).gthalf)
 #define BITSET_BITS_NUM(x)                                                     \
   ((((x)->len - 1) << DATA_L2BITS) + BITSET_BITNUM((x)))
-#define BITSET_BITNUM_GRHALF(x) BITSET_GRHALF(x)
+#define BITSET_BITNUM_GRHALF(x) BITSET_GTHALF(x)
 #define BITSET_BYTE_POSTION(postion) FUNCTION(DATA_NAME, bitfloor)((postion))
 #define BITSET_BIT_POSTION(postion) FUNCTION(DATA_NAME, bitmod)((postion))
 #define BITSET_POS2POS(x, bits) CGRAPH_POS((x), (bits))

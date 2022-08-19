@@ -25,6 +25,7 @@ extern "C" {
 #define TYPE_BIGNUM
 #include "cgraph_template.h"
 
+/** data details: if needs another data memory, define Macro TYPE_WITH_DATA */
 #define TYPE_WITH_DATA
 #define DATA_NAME int8
 #define DATA_UNAME uint8
@@ -41,6 +42,7 @@ extern "C" {
 #define DATA_MIN (0)
 #define DATA_MAX (9)
 
+/** type details: */
 #define NAME bignum
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(BIGNUM)

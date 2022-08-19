@@ -434,12 +434,10 @@ TYPE FUNCTION(NAME, sub)(const TYPE x, const TYPE y) {
   return res;
 }
 
-TYPE FUNCTION(NAME, absub)(const TYPE x, const TYPE y) {
-  TYPE res;
-  COMPLEX_REAL(res) =
-      FUNCTION(DATA_NAME, abs)(COMPLEX_REAL(x) - COMPLEX_REAL(y));
-  COMPLEX_IMAG(res) =
-      FUNCTION(DATA_NAME, abs)(COMPLEX_IMAG(x) - COMPLEX_IMAG(y));
+TYPE FUNCTION(NAME, abssub)(const TYPE x, const TYPE y) {
+  TYPE res = FUNCTION(NAME, sub)(x, y);
+  COMPLEX_REAL(res) = FUNCTION(DATA_NAME, abs)(COMPLEX_REAL(res));
+  COMPLEX_IMAG(res) = FUNCTION(DATA_NAME, abs)(COMPLEX_IMAG(res));
 
   return res;
 }

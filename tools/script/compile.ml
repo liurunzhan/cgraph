@@ -13,12 +13,9 @@ let _CFLAGS = "-std=c89 -Wall -pedantic -fPIC";;
 let _CSFLAGS = "-shared";;
 
 let _MODE = "debug";;
-let _CFLAGS = if String.equal _MODE "debug" then
-    _CFLAGS ^ " -g -DDEBUG"
-  else begin 
-    if String.equal _MODE "release" then
-      _CFLAGS ^ " -static -O2"
-  end
+let _CFLAGS = match _MODE with
+  | Some "debug" -> _CFLAGS ^ " -g -DDEBUG"
+  | Some "release" -> _CFLAGS ^ " -static -O2"
 
 (* package shared library *)
 let _AR = "ar";;
@@ -29,7 +26,7 @@ if Sys.win32 then
   _LIBSTATIC = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".lib" ];;
   _TSTFILE   = String.concat _SEP [ _TST; PRO ^ ".c" ];;
   _TSTTARGET = String.concat _SEP [ _TST; PRO ^ ".exe" ];;
-else
+else begin
   _LIBSHARED = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".so" ];;
   _LIBSTATIC = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".a" ];;
   _TSTFILE   = String.concat _SEP [ _TST; PRO ^ ".c" ];;
@@ -38,36 +35,26 @@ end
 
 let args = Sys.argv;;
 
-if Array.length args == 0 then begin
-  Format.print_string "hello";
-end
-else begin
-  if String.equal args.(1) "test" then begin
-
+match args.(1) with
+  | None -> begin
+    Format.print_string "hello";
   end
-  else begin
-    if String.equal args.(1) "clean" then begin
-
-    end
-    else begin
-      if String.equal args.(1) "distclean" then begin
-
-      end
-      else begin
-        if String.equal args.(1) "help" then begin
-          Format.print_string args.(0); Format.print_string "    <target>"; Format.print_newline ();
-          Format.print_string "<target>: "; Format.print_newline ();
-          Format.print_string "                    compile cgraph"; Format.print_newline ();
-          Format.print_string "          test      test cgraph"; Format.print_newline ();
-          Format.print_string "          clean     clean all the generated files"; Format.print_newline ();
-          Format.print_string "          distclean clean all the generated files and directories"; Format.print_newline ();
-          Format.print_string "          help      commands to this program"; Format.print_newline ();
-        end
-        else begin
-          Format.print_string args.(1); Format.print_string " is an unsupported command"; Format.print_newline ();
-          Format.print_string "use \""; Format.print_string args.(0); Format.print_string " help\" to know all supported commands"; Format.print_newline ();
-        end
-      end
-    end
+  | Some "test" -> begin
   end
-end
+  | Some "clean" -> begin
+  end
+  | Some "distclean" -> begin
+  end
+  | Some "help" -> begin
+    Format.print_string args.(0); Format.print_string "    <target>"; Format.print_newline ();
+    Format.print_string "<target>: "; Format.print_newline ();
+    Format.print_string "                    compile cgraph"; Format.print_newline ();
+    Format.print_string "          test      test cgraph"; Format.print_newline ();
+    Format.print_string "          clean     clean all the generated files"; Format.print_newline ();
+    Format.print_string "          distclean clean all the generated files and directories"; Format.print_newline ();
+    Format.print_string "          help      commands to this program"; Format.print_newline ();
+  end
+  | _ -> begin
+    Format.print_string args.(1); Format.print_string " is an unsupported command"; Format.print_newline ();
+    Format.print_string "use \""; Format.print_string args.(0); Format.print_string " help\" to know all supported commands"; Format.print_newline ();
+  end

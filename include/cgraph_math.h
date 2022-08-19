@@ -296,6 +296,19 @@ extern cgraph_float64_t cgraph_math_swish(const cgraph_float64_t x);
 /** Function 8 : Softplus */
 extern cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x);
 
+/** RGB Color Generator */
+extern cgraph_bool_t cgraph_math_colchk(const cgraph_uint32_t color);
+extern cgraph_uint32_t cgraph_math_colfmt(const cgraph_uint32_t color);
+extern cgraph_uint32_t cgraph_math_col2r(const cgraph_uint32_t color);
+extern cgraph_uint32_t cgraph_math_col2g(const cgraph_uint32_t color);
+extern cgraph_uint32_t cgraph_math_col2b(const cgraph_uint32_t color);
+extern cgraph_char_t *cgraph_math_col2dec(const cgraph_uint32_t color,
+                                          cgraph_char_t *cstr);
+extern cgraph_char_t *cgraph_math_col2hex(const cgraph_uint32_t color,
+                                          cgraph_char_t *cstr);
+extern cgraph_uint32_t cgraph_math_dec2col(const cgraph_char_t *color);
+extern cgraph_uint32_t cgraph_math_hex2col(const cgraph_char_t *color);
+
 #ifdef __cplusplus
 }
 #endif

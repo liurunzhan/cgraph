@@ -9,7 +9,7 @@
 #include "template_cbuf.ct"
 
 /** functions that users should keep  */
-static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
+static cgraph_bool_t FUNCTION(NAME, _datgt)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
 static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
@@ -21,7 +21,7 @@ static TYPE *FUNCTION(NAME, _datsub)(TYPE *x, TYPE *y, TYPE *z);
 static TYPE *FUNCTION(NAME, _datadd1)(TYPE *cthis);
 static TYPE *FUNCTION(NAME, _datsub1)(TYPE *cthis);
 
-static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
+static cgraph_bool_t FUNCTION(NAME, _datgt)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   cgraph_size_t i = 0;
@@ -36,7 +36,7 @@ static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
 
 static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len) {
-  return CGRAPH_NTEST(FUNCTION(NAME, _datgr)(yd, xd, len));
+  return CGRAPH_NTEST(FUNCTION(NAME, _datgt)(yd, xd, len));
 }
 
 static DATA_TYPE *FUNCTION(NAME, _datmul)(DATA_TYPE *xd, DATA_TYPE y,
@@ -91,7 +91,7 @@ static TYPE *FUNCTION(NAME, _datsub)(TYPE *x, TYPE *y, TYPE *z) {
   cgraph_int_t sum;
   DATA_TYPE *_xd = xd, *_yd = yd;
   if ((x->len < y->len) ||
-      ((x->len == y->len) && FUNCTION(NAME, _datgr)(yd, xd, x->len))) {
+      ((x->len == y->len) && FUNCTION(NAME, _datgt)(yd, xd, x->len))) {
     _xd = yd;
     _yd = xd;
     z->postive = y->postive;
@@ -493,7 +493,7 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
   if ((NULL != x) && (NULL != y)) {
     if ((x->len < y->len) ||
         ((x->len == y->len) &&
-         FUNCTION(NAME, _datgr)(&y->data[y->len - 1], &x->data[x->len - 1],
+         FUNCTION(NAME, _datgt)(&y->data[y->len - 1], &x->data[x->len - 1],
                                 x->len))) {
       cgraph_bool_t error = CGRAPH_FALSE;
       z = FUNCTION(NAME, realloc)(z, DATA_ID, CGRAPH_SIZE(z), 1, &error);
@@ -532,7 +532,7 @@ TYPE *FUNCTION(NAME, mod)(const TYPE *x, const TYPE *y, TYPE *z) {
       z->len = x->len;
       if ((x->len > y->len) ||
           ((x->len == y->len) &&
-           FUNCTION(NAME, _datgr)(&x->data[x->len - 1], &y->data[y->len - 1],
+           FUNCTION(NAME, _datgt)(&x->data[x->len - 1], &y->data[y->len - 1],
                                   x->len))) {
       }
     }
@@ -912,13 +912,13 @@ TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) {
 TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4) {
   TYPE *res = NULL;
   if (CGRAPH_ISSTR(ipv4) && CGRAPH_DATA_BITS_CHECKER(cthis, 32)) {
-    cgraph_char_t *ipv4_ptr = (cgraph_char_t *)ipv4;
+    cgraph_char_t *pipv4 = (cgraph_char_t *)ipv4;
     cgraph_uint_t split_cnt = 0, byte = 0;
     cthis->len = 0;
     cthis->postive = CGRAPH_TRUE;
-    for (; '\0' != *ipv4_ptr; ipv4_ptr++) {
-      if ('.' != *ipv4_ptr) {
-        byte = byte * 10 + (*ipv4_ptr - '0');
+    for (; '\0' != *pipv4; pipv4++) {
+      if ('.' != *pipv4) {
+        byte = byte * 10 + (*pipv4 - '0');
       } else {
         cthis->data[cthis->len++] = (byte & DATA_MASK);
         split_cnt += 1;
@@ -939,13 +939,13 @@ TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4) {
 TYPE *FUNCTION(NAME, ipv6)(TYPE *cthis, const cgraph_char_t *ipv6) {
   TYPE *res = NULL;
   if (CGRAPH_ISSTR(ipv6) && CGRAPH_DATA_BITS_CHECKER(cthis, 128)) {
-    cgraph_char_t *ipv6_ptr = (cgraph_char_t *)ipv6;
+    cgraph_char_t *pipv6 = (cgraph_char_t *)ipv6;
     cgraph_uint_t split_cnt = 0, byte = 0;
     cthis->len = 0;
     cthis->postive = CGRAPH_TRUE;
-    for (; '\0' != *ipv6_ptr; ipv6_ptr++) {
-      if (':' != *ipv6_ptr) {
-        byte = byte * 16 + cgraph_math_hex2dec(*ipv6_ptr);
+    for (; '\0' != *pipv6; pipv6++) {
+      if (':' != *pipv6) {
+        byte = byte * 16 + cgraph_math_hex2dec(*pipv6);
       } else {
         cgraph_size_t bits = 16 - DATA_BITS;
         for (; bits >= 0; bits -= DATA_BITS) {

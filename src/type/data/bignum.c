@@ -12,7 +12,7 @@
 #define CGRAPH_CBUF_PTR cgraph_cbuf_ptr
 #include "template_cbuf.ct"
 
-static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
+static cgraph_bool_t FUNCTION(NAME, _datgt)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
 static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len);
@@ -20,7 +20,7 @@ static DATA_TYPE *FUNCTION(NAME, _datmul)(DATA_TYPE *xd, DATA_TYPE y,
                                           DATA_TYPE *zd,
                                           const cgraph_size_t len);
 
-static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
+static cgraph_bool_t FUNCTION(NAME, _datgt)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   cgraph_size_t i = 0;
@@ -35,7 +35,7 @@ static cgraph_bool_t FUNCTION(NAME, _datgr)(DATA_TYPE *xd, DATA_TYPE *yd,
 
 static cgraph_bool_t FUNCTION(NAME, _datge)(DATA_TYPE *xd, DATA_TYPE *yd,
                                             const cgraph_size_t len) {
-  return CGRAPH_NTEST(FUNCTION(NAME, _datgr)(yd, xd, len));
+  return CGRAPH_NTEST(FUNCTION(NAME, _datgt)(yd, xd, len));
 }
 
 static DATA_TYPE *FUNCTION(NAME, _datmul)(DATA_TYPE *xd, DATA_TYPE y,
@@ -475,7 +475,7 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
       z->postive = x->postive;
       if ((intx_len < inty_len) ||
           ((intx_len == inty_len) &&
-           FUNCTION(NAME, _datgr)(_inty, _intx, intx_len + float_min))) {
+           FUNCTION(NAME, _datgt)(_inty, _intx, intx_len + float_min))) {
         _intx = inty;
         _intx_len = inty_len;
         _floatx = floaty;
@@ -598,7 +598,7 @@ TYPE *FUNCTION(NAME, div)(const TYPE *x, const TYPE *y, TYPE *z) {
     z->postive = x->postive;
     if ((intx_len > inty_len) ||
         ((intx_len == inty_len) &&
-         FUNCTION(NAME, _datgr)(inty, intx, intx_len + float_min))) {
+         FUNCTION(NAME, _datgt)(inty, intx, intx_len + float_min))) {
     }
   }
 
