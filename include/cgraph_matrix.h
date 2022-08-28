@@ -41,6 +41,9 @@ typedef struct {
   CGRAPH_STRUCTURE_ROOT
 } cgraph_matrix_t;
 
+#define MATRIX_INDEX(cthis, i, j)                                              \
+  (CGRAPH_DATA(cthis)[MATRIX_ROW(cthis) * (i) + (j)])
+
 /** template module */
 #include "cgraph_template_matrix.ht"
 

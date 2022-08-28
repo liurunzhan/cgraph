@@ -87,7 +87,7 @@ if ($#args == -1) {
     my $obj = ($file =~ s/\.c$/\.o/r);
     my $dep = ($file =~ s/\.c$/\.d/r);
     printf("compile %s to %s\n", $file, $obj);
-    system(sprintf("$CC $CFLAGS -I$INC -I$SRC_TYPE -c %s -o %s -MD -MF %s", $file, $obj, $dep));
+    system("$CC $CFLAGS -I$INC -I$SRC_TYPE -c $file -o $obj -MD -MF $dep");
     push(@OFILES, $obj);
   }
   print("compile $LIBSHARED\n");

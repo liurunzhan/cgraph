@@ -4,19 +4,18 @@
 // A script to compile Library cgraph in Unix-like and Windows Platforms
 // gets source files iteratively from Directory src
 
-let path = require("path");
-let fs = require("fs");
+const syspath = require("path");
+const fs = require("fs");
 const os = require("os");
-
-const sep: string = path.sep;
+const child_process = require("child_process");
 
 let PRO: string = "cgraph";
 let DIR: string = ".";
-let INC: string = DIR + sep + "include";
-let SRC: string = DIR + sep + "src";
-let SRC_TYPE: string = SRC + sep + "type";
-let TST: string = DIR + sep + "tests";
-let LIB: string = DIR + sep + "lib";
+let INC: string = syspath.join(DIR, "include");
+let SRC: string = syspath.join(DIR, "src");
+let SRC_TYPE: string = syspath.join(SRC, "type");
+let TST: string = syspath.join(DIR, "tests");
+let LIB: string = syspath.join(DIR, "lib");
 
 let CC: string = "cc";
 let CFLAGS: string = "-std=c89 -Wall -pedantic -fPIC";
@@ -38,7 +37,7 @@ let ARFLAGS: string = "-rcs";
 function getsubdirs(path: string, dirs: string[]) {
   const files: string[] = fs.readdirSync(path);
   for (let i: number = 0; i < files.length; i++) {
-    let subpath: string  = path + sep + files[i];
+    let subpath: string  = syspath.join(path, files[i]);
     let stats: any = fs.lstatSync(subpath);
     if (stats.isDirectory() && !files[i].startsWith(".")) {
       dirs.push(subpath);
@@ -55,7 +54,7 @@ let CFILES: string[] = [];
 for (let i: number = 0; i < SRCS.length; i++) {
   const files: string[] = fs.readdirSync(SRCS[i]);
   for (let j: number = 0; j < files.length; j++) {
-    let file: string = SRCS[i] + sep + files[j];
+    let file: string = syspath.join(SRCS[i], files[j]);
     let stats: any = fs.lstatSync(file);
     if (stats.isFile() && /^((?!\.).)*\.c$/.test(files[j])) {
       CFILES.push(file);
@@ -68,14 +67,14 @@ let LIBSTATIC: string;
 let TSTSUFFIX: string;
 if ("Windows_NT" == os.type()) {
   // target files
-  LIBSHARED = `${LIB}${sep}lib${PRO}.dll`;
-  LIBSTATIC = `${LIB}${sep}lib${PRO}.lib`;
+  LIBSHARED = syspath.join(LIB, `lib${PRO}.dll`);
+  LIBSTATIC = syspath.join(LIB, `lib${PRO}.lib`);
   // test files
   TSTSUFFIX = ".exe";
 } else {
   // target files
-  LIBSHARED = `${LIB}${sep}lib${PRO}.so`;
-  LIBSTATIC = `${LIB}${sep}lib${PRO}.a`;
+  LIBSHARED = syspath.join(LIB, `lib${PRO}.so`);
+  LIBSTATIC = syspath.join(LIB, `lib${PRO}.a`);
   // test files
   TSTSUFFIX = "";
 }
@@ -89,10 +88,26 @@ if (process.argv.length == 2) {
     let obj: string = CFILES[i].replace(/\.c$/, ".o");
     let dep: string = CFILES[i].replace(/\.c$/, ".d");
     console.log(`compile ${CFILES[i]} to ${obj}`);
+    child_process.exec(`${CC} ${CFLAGS} -I${INC} -I${SRC_TYPE} -c ${CFILES[i]} -o ${obj} -MD -MF ${dep}`);
     OFILES.push(obj);
   }
+  console.log(`compile ${LIBSHARED}`);
+  child_process.exec(`${CC} ${CSFLAGS} -o ${LIBSHARED} ${OFILES.join(" ")}`);
+  console.log(`compile ${LIBSTATIC}`);
+  child_process.exec(`${AR} ${ARFLAGS} ${LIBSTATIC} ${OFILES.join(" ")}`);
 } else if (process.argv[2] == "test") {
-
+  const files: string[] = fs.readdirSync(TST);
+  for (let i: number = 0; i < files.length; i++) {
+    let file: string = syspath.join(TST, files[i]);
+    let stats: any = fs.lstatSync(file);
+    if (stats.isFile() && /^((?!\.).)*\.c$/.test(files[i])) {
+      let target: string = file.replace(/\.c$/, TSTSUFFIX);
+      console.log(`compile ${file} to ${target}`);
+      child_process.exec(`${CC} ${CFLAGS} -I${INC} -o ${target} ${file} -L${LIB} -static -l${PRO} -lm`);
+      console.log(`test ${target}`);
+      child_process.exec(target);
+    }
+  }
 } else if (process.argv[2] == "clean") {
   for (let i: number = 0; i < CFILES.length; i++) {
     let obj: string = CFILES[i].replace(/\.c$/, ".o");

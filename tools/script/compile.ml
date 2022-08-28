@@ -14,38 +14,38 @@ let _CSFLAGS = "-shared";;
 
 let _MODE = "debug";;
 let _CFLAGS = match _MODE with
-  | Some "debug" -> _CFLAGS ^ " -g -DDEBUG"
-  | Some "release" -> _CFLAGS ^ " -static -O2"
+  | "debug" -> _CFLAGS ^ " -g -DDEBUG"
+  | "release" -> _CFLAGS ^ " -static -O2"
+	| _ -> assert false;;
 
 (* package shared library *)
 let _AR = "ar";;
 let _ARFLAGS = "-rcs";;
 
-if Sys.win32 then
-  _LIBSHARED = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".dll" ];;
-  _LIBSTATIC = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".lib" ];;
-  _TSTFILE   = String.concat _SEP [ _TST; PRO ^ ".c" ];;
-  _TSTTARGET = String.concat _SEP [ _TST; PRO ^ ".exe" ];;
-else begin
-  _LIBSHARED = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".so" ];;
-  _LIBSTATIC = String.concat _SEP [ _LIB; "lib" ^ PRO ^ ".a" ];;
-  _TSTFILE   = String.concat _SEP [ _TST; PRO ^ ".c" ];;
-  _TSTTARGET = String.concat _SEP [ _TST; PRO ];;
-end
+(* target files *)
+let _LIBSHARED = if Sys.win32 then String.concat _SEP [ _LIB; "lib" ^ _PRO ^ ".dll" ] else String.concat _SEP [ _LIB; "lib" ^ _PRO ^ ".so" ];;
+let _LIBSTATIC = if Sys.win32 then String.concat _SEP [ _LIB; "lib" ^ _PRO ^ ".lib" ] else String.concat _SEP [ _LIB; "lib" ^ _PRO ^ ".a" ];;
+(* test files *)
+let _TSTFILE   = if Sys.win32 then String.concat _SEP [ _TST; _PRO ^ ".c" ] else String.concat _SEP [ _TST; _PRO ^ ".c" ];;
+let _TSTTARGET = if Sys.win32 then String.concat _SEP [ _TST; _PRO ^ ".exe" ] else String.concat _SEP [ _TST; _PRO ];;
+
+(* source files *)
+(* get all subdirectories *)
+
 
 let args = Sys.argv;;
 
 match args.(1) with
-  | None -> begin
+  | exception index_out_of_bounds -> begin
     Format.print_string "hello";
   end
-  | Some "test" -> begin
+  | "test" -> begin
   end
-  | Some "clean" -> begin
+  | "clean" -> begin
   end
-  | Some "distclean" -> begin
+  | "distclean" -> begin
   end
-  | Some "help" -> begin
+  | "help" -> begin
     Format.print_string args.(0); Format.print_string "    <target>"; Format.print_newline ();
     Format.print_string "<target>: "; Format.print_newline ();
     Format.print_string "                    compile cgraph"; Format.print_newline ();

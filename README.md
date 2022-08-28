@@ -72,7 +72,7 @@ This library supports ***mingw32-make*** ([compile.mk](./tools/script/compile.mk
 
 This library also provides ***bash shell script*** [compile.sh](./tools/script/compile.sh), ***z shell script*** [compile.zsh](./tools/script/compile.zsh), ***fish shell script*** [compile.fish](./tools/script/compile.fish), ***c shell script*** [compile.csh](./tools/script/compile.csh) and ***v shell script*** [compile.vsh](./tools/script/compile.vsh) in ***msys***, ***msys2***, ***cygwin***, ***wsl*** and ***linux***, ***batch script*** [compile.bat](./tools/script/compile.bat) and ***powershell script*** [compile.ps1](./tools/script/compile.ps1) in ***mingw*** to directly compile this library by C compiler without make tools in special platforms(notice that incremental compilation is unsupported). All the compile scripts provide the same command-line arguments, without any argument or with the arguments of ***test***, ***clean***, ***distclean*** and ***help***.
 
-What's more, this library provides ***perl script*** [compile.pl](./tools/script/compile.pl), ***perl6/raku*** script [compile.raku](./tools/script/compile.raku), ***ruby script*** [compile.rb](./tools/script/compile.rb), ***crystal script*** [compile.cr](./tools/script/compile.cr), ***python script*** [compile.py](./tools/script/compile.py), ***lua script*** [compile.lua](./tools/script/compile.lua), ***r script*** [compile.r](./tools/script/compile.r), ***julia script*** [compile.jl](./tools/script/compile.jl), ***tcl script*** [compile.tcl](./tools/script/compile.tcl), ***ocaml script*** [compile.ml](./tools/script/compile.ml), ***lisp script*** [compile.lisp](./tools/script/compile.lisp) in ***clisp***, ***elixir script*** [compile.exs](./tools/script/compile.exs) and ***io script*** [compile.io](./tools/script/compile.io) to compile this library(where incremental compilation is also unsupported here). Make tools and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
+What's more, this library provides ***perl script*** [compile.pl](./tools/script/compile.pl), ***raku/perl6*** script [compile.raku](./tools/script/compile.raku), ***ruby script*** [compile.rb](./tools/script/compile.rb), ***crystal script*** [compile.cr](./tools/script/compile.cr), ***python script*** [compile.py](./tools/script/compile.py), ***lua script*** [compile.lua](./tools/script/compile.lua), ***r script*** [compile.r](./tools/script/compile.r), ***julia script*** [compile.jl](./tools/script/compile.jl), ***tcl script*** [compile.tcl](./tools/script/compile.tcl), ***ocaml script*** [compile.ml](./tools/script/compile.ml), ***lisp script*** [compile.lisp](./tools/script/compile.lisp) in ***clisp***, ***elixir script*** [compile.exs](./tools/script/compile.exs) and ***io script*** [compile.io](./tools/script/compile.io) to compile this library(where incremental compilation is also unsupported here). Make tools and shells are good enough to do above things well, but the script languages can do the same as well, especially much easily cross-platform.
 
 In addtion, this library provides some other language scripts, based on jvm, to do the same work, such as ***java script*** [compile.java](./tools/script/compile.java) in ***openjdk11***, ***scala script*** [compile.scala](./tools/script/compile.scala), ***kotlin script*** [compile.kts](./tools/script/compile.kts), ***clojure script*** [compile.clj](./tools/script/compile.clj) and ***groovy script*** [compile.groovy](./tools/script/compile.groovy).
 
@@ -145,7 +145,7 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [ ] ***IO*** [compile.io](./tools/script/compile.io)
 - [x] ***Java*** [compile.java](./tools/script/compile.java) (Needs java11 or higher)
 - [x] ***Julia*** [compile.jl](./tools/script/compile.jl)
-- [ ] ***JavaScript*** [compile.js](./tools/script/compile.js)
+- [x] ***JavaScript*** [compile.js](./tools/script/compile.js)
 - [x] ***K Shell*** [compile.ksh](./tools/script/compile.ksh)
 - [ ] ***Kotlin*** [compile.kts](./tools/script/compile.kts)
 - [ ] ***Lisp*** [compile.lisp](./tools/script/compile.lisp)
@@ -155,6 +155,7 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [x] ***Nims*** [compile.nims](./tools/script/compile.nims)
 - [ ] ***Ninja*** [compile.ninja](./tools/script/compile.ninja)
 - [ ] ***Odin*** [compile.odin](./tools/script/compile.odin)
+- [x] ***PHP*** [compile.php](./tools/script/compile.php) (Needs PHP7.0 or higher)
 - [x] ***Perl*** [compile.pl](./tools/script/compile.pl)
 - [x] ***Powershell*** [compile.ps1](./tools/script/compile.ps1)
 - [x] ***Python*** [compile.py](./tools/script/compile.py) (Needs Python2.7, Python3.4 or higher and pathlib)
@@ -168,7 +169,7 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [x] ***Bourne Shell*** [compile.sh](./tools/script/compile.sh)
 - [ ] ***Swift*** [compile.swift](./tools/script/compile.swift)
 - [x] ***Tcl/Tk*** [compile.tcl](./tools/script/compile.tcl)
-- [ ] ***Typescript*** [compile.ts](./tools/script/compile.ts)
+- [x] ***Typescript*** [compile.ts](./tools/script/compile.ts)
 - [x] ***V Shell*** [compile.vsh](./tools/script/compile.vsh)
 - [ ] ***Zig*** [compile.zig](./tools/script/compile.zig)
 - [x] ***Z Shell*** [compile.zsh](./tools/script/compile.zsh)

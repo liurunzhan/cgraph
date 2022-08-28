@@ -619,11 +619,11 @@ CERROR:
 }
 
 __INLINE__ cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle) {
-  return angle * M_PI / 180.0;
+  return M_PI / 180.0 * angle;
 }
 
 __INLINE__ cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian) {
-  return radian * M_1_PI * 180.0;
+  return 180.0 * M_1_PI * radian;
 }
 
 __INLINE__ cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x) {
@@ -634,13 +634,23 @@ __INLINE__ cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x) {
   return floor(x);
 }
 
-cgraph_float64_t cgraph_math_log2(const cgraph_float64_t x) {
-  return log(x) / M_LN2;
+__INLINE__ cgraph_float64_t cgraph_math_log2(const cgraph_float64_t x) {
+  return M_INVLN2 * log(x);
 }
 
 cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                   const cgraph_float64_t x) {
   return log(x) / log(n);
+}
+
+cgraph_float64_t cgraph_math_atan2(const cgraph_float64_t x,
+                                   const cgraph_float64_t y) {
+  return atan2(x, y);
+}
+
+cgraph_float64_t cgraph_math_2_pi_atan2(const cgraph_float64_t x,
+                                        const cgraph_float64_t y) {
+  return M_2_PI * atan2(x, y);
 }
 
 cgraph_size_t cgraph_math_deccnt(const cgraph_int_t x, const cgraph_int_t n) {

@@ -93,7 +93,7 @@
  * CGRAPH_OBJECT_DATA_START
  * MACRO GROUP : BASIC FUNCTIONS
  * CGRAPH_BASE CGRAPH_SIZE CGRAPH_LEN
- * CGRAPH_DATA_START CGRAPH_DATA_END CGRAPH_DATA_ROOT
+ * CGRAPH_DATA CGRAPH_DATA_START CGRAPH_DATA_END CGRAPH_DATA_ROOT
  * CGRAPH_ISNULL CGRAPH_HASMEM CGRAPH_ISEMPTY CGRAPH_HASDATA
  * CGRAPH_DATA_BITS_CHECKER CGRAPH_DATA_BYTES_CHECKER
  * MACRO GROUP : STRUCTURE TYPE ELEMENT
@@ -101,10 +101,11 @@
  * CGRAPH_STRUCTURE_PTR1 CGRAPH_STRUCTURE_PTR2
  * CGRAPH_STRUCTURE_ROOT
  * MACRO GROUP : 2D AND 3D MATRIX
- * CGRAPH_MATRIX_INDEXES MATRIX_ROW MATRIX_COLUMN MATRIX_SIZE
+ * CGRAPH_MATRIX_INDEXES MATRIX_ROW MATRIX_COLUMN MATRIX_SIZE MATRIX_INDEX
  * CGRAPH_MATRIX_ROW CGRAPH_MATRIX_COLUMN CGRAPH_MATRIX_SIZE
  * CGRAPH_MATRIX3D_INDEXES MATRIX3D_INDEX_I MATRIX3D_INDEX_J MATRIX3D_INDEX_K
  * MATRIX3D_SIZE_IJ MATRIX3D_SIZE_IK MATRIX3D_SIZE_JK MATRIX3D_SIZE
+ * MATRIX3D_INDEX
  * CGRAPH_MATRIX3D_INDEX_I CGRAPH_MATRIX3D_INDEX_J CGRAPH_MATRIX3D_INDEX_K
  * CGRAPH_MATRIX3D_SIZE_IJ CGRAPH_MATRIX3D_SIZE_IK MATRIX3D_SIZE_JK
  * CGRAPH_MATRIX3D_SIZE
@@ -121,304 +122,6 @@
  * DATA_SWAP MACRO GROUP : DEFINED C-TYPE BUFFER
  * CGRAPH_CBUF_SIZE CGRAPH_CBUF_PTR CGRAPH_CBUF_LEN
  ******************************************************************************/
-
-/*
-  defined macro variables:
-  #define CONCAT1V
-  #define CONCAT1
-  #define CONCAT2V
-  #define CONCAT2
-  #define CONCAT3V
-  #define CONCAT3
-  #define CONCAT4V
-  #define CONCAT4
-  #define TYPE_T
-  #define ID_T
-  #define STRUCT
-  #define STRING
-  #define FUNCTION
-  #define TYPE_OBJECT
-  #define TYPE_HOBJECT
-  #define TYPE_GOBJECT
-  #define TYPE_MOBJECT
-  #define TYPE_M3OBJECT
-  #define TYPE_POBJECT
-  #define TYPE_FLOAT8
-  #define TYPE_FLOAT16
-  #define TYPE_FLOAT32
-  #define TYPE_FLOAT64
-  #define TYPE_FLOAT128
-  #define TYPE_FLOAT128_SIZE64
-  #define TYPE_FLOAT128_SIZE80
-  #define TYPE_FLOAT128_SIZE128
-  #define TYPE_BOOL
-  #define TYPE_LOGIC
-  #define TYPE_INT
-  #define TYPE_LONG
-  #define TYPE_LONG_SIZE32
-  #define TYPE_LONG_SIZE64
-  #define TYPE_INT8
-  #define TYPE_INT16
-  #define TYPE_INT32
-  #define TYPE_INT64
-  #define TYPE_INT128
-  #define TYPE_INT128_SIZE64
-  #define TYPE_INT128_SIZE128
-  #define TYPE_TIME
-  #define TYPE_COMPLEX
-  #define TYPE_FRACTION
-  #define TYPE_POINT2D
-  #define TYPE_POINT3D
-  #define TYPE_BIGINT
-  #define TYPE_BIGNUM
-  #define TYPE_STRING
-  #define TYPE_BITSET
-  #define TYPE_VECTOR
-  #define TYPE_MATRIX
-  #define TYPE_BIGMAT
-  #define TYPE_SPAMAT
-  #define TYPE_MATRIX3D
-  #define TYPE_BIGMAT3D
-  #define TYPE_SPAMAT3D
-  #define TYPE_DFRAME
-  #define TYPE_LIST
-  #define TYPE_TREE
-  #define TYPE_SET
-  #define TYPE_DICT
-  #define TYPE_QUEUE
-  #define TYPE_WITH_DATA
-  #define DATA_TYPE
-  #define DATA_ID
-  #define DATA_NAME
-  #define DATA_UNAME
-  #define DATA_INAME
-  #define DATA_BITS
-  #define DATA_BYTES
-  #define DATA_L2BITS
-  #define DATA_L2BITS_EPSILON
-  #define DATA_UTYPE
-  #define DATA_END
-  #define DATA_ZERO
-  #define DATA_ONE
-  #define DATA_ONES
-  #define DATA_MAX
-  #define DATA_MIN
-  #define DATA_BIAS
-  #define DATA_MAX1
-  #define DATA_MIN1
-  #define DATA_BIAS1
-  #define DATA_NAN
-  #define DATA_INF
-  #define DATA_PINF
-  #define DATA_NINF
-  #define DATA_LSB
-  #define DATA_MSB
-  #define DATA_MASK
-  #define DATA_EPSILON
-  #define DATA_EPSILON_LEN
-  #define DATA_EQ
-  #define DATA_NE
-  #define DATA_GT
-  #define DATA_GE
-  #define DATA_LT
-  #define DATA_LE
-  #define DATA_TEST
-  #define DATA_FUNC
-  #define DATA_CFUNC
-  #define DATA_TOBOOL
-  #define DATA_TOLOGIC
-  #define DATA_ISBOOL
-  #define DATA_ISLOGIC
-  #define DATA_ISNAN
-  #define DATA_ISPINF
-  #define DATA_ISNINF
-  #define DATA_ISINF
-  #define DATA_ISPOS
-  #define DATA_ISNEG
-  #define ARG
-  #define TYPE
-  #define TYPE_PTR
-  #define NAME
-  #define ID
-  #define BITS
-  #define L2BITS
-  #define UNAME
-  #define UTYPE
-  #define UID
-  #define IN_FMT
-  #define IN_FMT_IMAG
-  #define OUT_FMT
-  #define OUT_FMT_REAL
-  #define OUT_FMT_IMAG
-  #define OUT_FMT_NUM
-  #define ZERO0
-  #define ONE0
-  #define ONES0
-  #define ZERO1
-  #define ONE1
-  #define ONES1
-  #define ZERO
-  #define ONE
-  #define ONES
-  #define MIN
-  #define MAX
-  #define NAN
-  #define INF
-  #define PINF
-  #define NINF
-  #define LSB
-  #define MSB
-  #define SIGNBIT
-  #define MASK
-  #define EPSILON
-  #define EPSILON_LEN
-  #define ITEM_LEN
-  #define HASH_OFFSET
-  #define FRAC_BITS
-  #define FRAC_MASK
-  #define FRAC_OFFSET
-  #define FLOAT_SOFT_TOFRAC
-  #define FLOAT_SOFT_FRAC_FMT
-  #define FLOAT_SOFT_FRAC
-  #define FLOAT_SOFT_FRAC_CLR
-  #define FLOAT_SOFT_FRAC_SET
-  #define EXP_BITS
-  #define EXP_MASK
-  #define EXP_OFFSET
-  #define EXP_BIAS
-  #define FLOAT_SOFT
-  #define FLOAT_SOFT_TOEXP
-  #define FLOAT_SOFT_EXP
-  #define FLOAT_SOFT_EXP_CLR
-  #define FLOAT_SOFT_EXP_SET
-  #define SIG_BITS
-  #define SIG_MASK
-  #define SIG_OFFSET
-  #define FLOAT_SOFT_TOSIG
-  #define FLOAT_SOFT_SIG
-  #define FLOAT_SOFT_SIG_CLR
-  #define FLOAT_SOFT_SIG_SET
-  #define MASK1
-  #define MASK2
-  #define MASK4
-  #define MASK8
-  #define MASK16
-  #define MASK32
-  #define MASK64
-  #define COPY_SIZE
-  #define OBJECT
-  #define CGRAPH_OBJECT_BASE
-  #define CGRAPH_OBJECT_ROOT
-  #define CGRAPH_OBJECT_DATA_START
-  #define CGRAPH_BASE
-  #define CGRAPH_SIZE
-  #define CGRAPH_LEN
-  #define CGRAPH_DATA_START
-  #define CGRAPH_DATA_END
-  #define CGRAPH_DATA_ROOT
-  #define CGRAPH_ISNULL
-  #define CGRAPH_HASMEM
-  #define CGRAPH_ISEMPTY
-  #define CGRAPH_HASDATA
-  #define CGRAPH_DATA_BITS_CHECKER
-  #define CGRAPH_DATA_BYTES_CHECKER
-  #define CGRAPH_STRUCTURE_BASE
-  #define CGRAPH_STRUCTURE_PTR1
-  #define CGRAPH_STRUCTURE_PTR2
-  #define CGRAPH_STRUCTURE_ROOT
-  #define CGRAPH_MATRIX_INDEXES
-  #define MATRIX_ROW
-  #define MATRIX_COLUMN
-  #define MATRIX_SIZE
-  #define CGRAPH_MATRIX_ROW
-  #define CGRAPH_MATRIX_COLUMN
-  #define CGRAPH_MATRIX_SIZE
-  #define CGRAPH_MATRIX3D_INDEXES
-  #define MATRIX3D_INDEX_I
-  #define MATRIX3D_INDEX_J
-  #define MATRIX3D_INDEX_K
-  #define MATRIX3D_SIZE_IJ
-  #define MATRIX3D_SIZE_IK
-  #define MATRIX3D_SIZE_JK
-  #define MATRIX3D_SIZE
-  #define CGRAPH_MATRIX3D_INDEX_I
-  #define CGRAPH_MATRIX3D_INDEX_J
-  #define CGRAPH_MATRIX3D_INDEX_K
-  #define CGRAPH_MATRIX3D_SIZE_IJ
-  #define CGRAPH_MATRIX3D_SIZE_IK
-  #define MATRIX3D_SIZE_JK
-  #define CGRAPH_MATRIX3D_SIZE
-  #define ASSIGN
-  #define ADD
-  #define SUB
-  #define MUL
-  #define DIV
-  #define DIVF
-  #define INT
-  #define FEXP
-  #define FREXP
-  #define FMOD
-  #define MODF
-  #define MOD
-  #define BOOLEAN_EQ
-  #define BOOLEAN_NE
-  #define BOOLEAN_GT
-  #define BOOLEAN_GE
-  #define BOOLEAN_LT
-  #define BOOLEAN_LE
-  #define BOOLEAN_AND
-  #define BOOLEAN_NAND
-  #define BOOLEAN_ANDN
-  #define BOOLEAN_OR
-  #define BOOLEAN_NOR
-  #define BOOLEAN_ORN
-  #define BOOLEAN_ABS
-  #define BOOLEAN_NOT
-  #define BOOLEAN_XOR
-  #define BOOLEAN_XNOR
-  #define EQ
-  #define NE
-  #define GT
-  #define GE
-  #define LT
-  #define LE
-  #define AND
-  #define NAND
-  #define ANDN
-  #define OR
-  #define NOR
-  #define ORN
-  #define NOT
-  #define XOR
-  #define XNOR
-  #define CEIL
-  #define FLOOR
-  #define POW
-  #define ABS
-  #define SIN
-  #define COS
-  #define TAN
-  #define ASIN
-  #define ACOS
-  #define ATAN
-  #define SINH
-  #define COSH
-  #define TANH
-  #define LOG
-  #define LOG2
-  #define LOG10
-  #define EXP
-  #define SQRT
-  #define CUBE
-  #define SWAP
-  #define ROL3
-  #define ROR3
-  #define ROL4
-  #define ROR4
-  #define CGRAPH_CBUF_SIZE
-  #define CGRAPH_CBUF_PTR
-  #define CGRAPH_CBUF_LEN
-*/
 
 /** BASE */
 #ifdef CONCAT1V
@@ -1184,6 +887,10 @@
 #undef CGRAPH_LEN
 #endif
 
+#ifdef CGRAPH_DATA
+#undef CGRAPH_DATA
+#endif
+
 #ifdef CGRAPH_DATA_START
 #undef CGRAPH_DATA_START
 #endif
@@ -1254,6 +961,10 @@
 #undef MATRIX_SIZE
 #endif
 
+#ifdef MATRIX_INDEX
+#undef MATRIX_INDEX
+#endif
+
 #ifdef CGRAPH_MATRIX_ROW
 #undef CGRAPH_MATRIX_ROW
 #endif
@@ -1296,6 +1007,10 @@
 
 #ifdef MATRIX3D_SIZE
 #undef MATRIX3D_SIZE
+#endif
+
+#ifdef MATRIX3D_INDEX
+#undef MATRIX3D_INDEX
 #endif
 
 #ifdef CGRAPH_MATRIX3D_INDEX_I

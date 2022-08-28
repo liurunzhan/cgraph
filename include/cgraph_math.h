@@ -17,16 +17,26 @@
 extern "C" {
 #endif
 
+/** if vc++ is used, define _USE_MATH_DEFINES to use const numbers */
+#ifdef _MSC_VER
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+#endif
 #include <math.h>
 
 #include "cgraph_config.h"
 
-/**                const numbers defined and used in this library */
+/** const numbers defined and used in this library */
 #define MATH_ERROR (-1) /**MATH ERROR */
 
 #ifndef M_E
 #define M_E (2.7182818284590452354)
 #endif /** M_E : e */
+
+#ifndef M_EE
+#define M_EE (7.38905609893065022723)
+#endif /** M_EE : e * e */
 
 #ifndef M_1_E
 #define M_1_E (0.367879441171442321596)
@@ -34,41 +44,53 @@ extern "C" {
 
 #ifndef M_LOG2E
 #define M_LOG2E (1.4426950408889634074)
-#endif /** M_LOG2E : log_2(e) */
+#endif /** M_LOG2E : log2(e) */
+
+#ifndef M_LOG2T
+#define M_LOG2T (3.3219280948873623479)
+#endif /** M_LOG2_10 : log2(10) */
 
 #ifndef M_LOG10E
 #define M_LOG10E (0.43429448190325182765)
-#endif /** M_LOG10E : log_10(e) */
+#endif /** M_LOG10E : log10(e) */
 
 #ifndef M_LN2
 #define M_LN2 (0.693147180559945309417)
-#endif /** M_LN2 : log_e(2) */
+#endif /** M_LN2 : ln(2) */
 
-#ifndef M_1_LN2
-#define M_1_LN2 (1.44269504088896340736)
-#endif /** M_LN2 : 1/log_e(2) */
+#ifndef M_INVLN2
+#define M_INVLN2 (1.4426950408889633870E0)
+#endif /** M_INVLN2 : 1/ln(2) */
 
 #ifndef M_LN10
 #define M_LN10 (2.30258509299404568402)
-#endif /** M_LN10 : log_e(10) */
+#endif /** M_LN10 : ln(10) */
 
-#ifndef M_1_LN10
-#define M_1_LN10 (0.43429448190325182765)
-#endif /** M_1_LN10 : 1/log_e(10) */
+#ifndef M_IVLN10
+#define M_IVLN10 (0.43429448190325182765)
+#endif /** M_IVLN10 : 1/ln(10) */
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
-#endif /** M_PI pi */
+#endif /** M_PI : pi */
 
-#ifndef M_2PI
-#define M_2PI (6.28318530717958647693)
-#endif /** M_2PI : 2*pi */
+#ifndef M_PIPI
+#define M_PIPI (9.86960440108935861883)
+#endif /** M_PI_PI : pi * pi */
+
+#ifndef M_TWOPI
+#define M_TWOPI (6.28318530717958647693)
+#endif /** M_TWOPI : 2 * pi */
+
+#ifndef M_3PI_4
+#define M_3PI_4 (2.3561944901923448370E0)
+#endif /** M_3PI_4 : 3 * pi / 4 */
 
 #ifndef M_PI_2
 #define M_PI_2 (1.57079632679489661923)
 #endif /** M_PI_2 : pi/2 */
 
-#ifndef M_PI_2
+#ifndef M_PI_4
 #define M_PI_4 (0.78539816339744830962)
 #endif /** M_PI_4 : pi/4 */
 
@@ -80,9 +102,25 @@ extern "C" {
 #define M_2_PI (0.63661977236758134308)
 #endif /** M_2_PI : 2/pi */
 
+#ifndef M_4_PI
+#define M_4_PI (1.27323954473516268615)
+#endif /** M_4_PI : 4/pi */
+
+#ifndef M_SQRTPI
+#define M_SQRTPI (1.77245385090551602792981)
+#endif /** M_SQRTPI : sqrt(pi) */
+
 #ifndef M_2_SQRTPI
 #define M_2_SQRTPI (1.12837916709551257390)
 #endif /** M_2_SQRTPI : 2/sqrt(pi) */
+
+#ifndef M_LNPI
+#define M_LNPI (1.14472988584940017414)
+#endif /** M_LNPI : ln(pi) */
+
+#ifndef M_LOG10PI
+#define M_LOG10PI (0.497149872694133854351)
+#endif /** M_LOG10PI : log10(pi) */
 
 #ifndef M_SQRT2
 #define M_SQRT2 (1.41421356237309504880)
@@ -93,15 +131,15 @@ extern "C" {
 #endif /** M_SQRT1_2 : sqrt(1/2) */
 
 #ifndef M_SQRT3
-#define M_SQRT3 (1.73205080756887729353)
+#define M_SQRT3 (1.73205080756887719000)
 #endif /** M_SQRT3 : sqrt(3) */
 
 #ifndef M_SQRT1_3
-#define M_SQRT1_3 (0.57735026918962576451)
+#define M_SQRT1_3 (0.577350269189625764509)
 #endif /** M_SQRT1_3 : sqrt(1/3) */
 
 #ifndef M_PHI
-#define M_PHI (0.61803398874989484820)
+#define M_PHI (0.618033988749894848205)
 #endif /** M_PHI : (sqrt(5)-1)/2 */
 
 #ifndef M_1_PHI
@@ -131,7 +169,7 @@ cgraph_math_kmpsub(const cgraph_char_t *x, cgraph_char_t *z,
                    const cgraph_size_t size, const cgraph_char_t *y,
                    const cgraph_size_t *next, const cgraph_size_t len);
 
-/* package of functions in <ctype.h> */
+/* packaged functions in <ctype.h> */
 extern cgraph_bool_t cgraph_math_isnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalnum(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isalpha(const cgraph_char_t data);
@@ -246,6 +284,10 @@ extern cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_log2(const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                          const cgraph_float64_t x);
+extern cgraph_float64_t cgraph_math_atan2(const cgraph_float64_t x,
+                                          const cgraph_float64_t y);
+extern cgraph_float64_t cgraph_math_2_pi_atan2(const cgraph_float64_t x,
+                                               const cgraph_float64_t y);
 
 extern cgraph_size_t cgraph_math_deccnt(const cgraph_int_t x,
                                         const cgraph_int_t n);

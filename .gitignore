@@ -99,6 +99,7 @@ ar-lib
 *.tar.gz
 /cgraph-*
 build.log
+rand_seed.csv
 
 # Doc/Markdown Files
 *.orig

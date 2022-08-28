@@ -41,6 +41,10 @@ typedef struct {
   CGRAPH_STRUCTURE_ROOT
 } cgraph_matrix3d_t;
 
+#define MATRIX3D_INDEX(cthis, i, j, k)                                         \
+  (CGRAPH_DATA(                                                                \
+      cthis)[MATRIX_INDEX_I(cthis) * (i) + MATRIX_INDEX_J(cthis) * (j) + (k)])
+
 /** template module */
 #include "cgraph_template_matrix3d.ht"
 

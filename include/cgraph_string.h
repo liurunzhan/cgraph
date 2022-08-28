@@ -91,14 +91,21 @@ extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, lower)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, upper)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, title)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, capitalized)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, flower)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, fupper)(TYPE *cthis);
 
-extern TYPE *FUNCTION(NAME, subc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
+extern TYPE *FUNCTION(NAME, subc)(const TYPE *x, const DATA_TYPE ch, TYPE *z);
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,
                                   TYPE *z);
-extern TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
-extern TYPE *FUNCTION(NAME, modc)(const TYPE *x, const DATA_TYPE y, TYPE *z);
+extern TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE ch, TYPE *z);
+extern TYPE *FUNCTION(NAME, modc)(const TYPE *x, const DATA_TYPE ch, TYPE *z);
+
+extern TYPE *FUNCTION(NAME, replace)(TYPE *cthis, const TYPE *ch1,
+                                     const TYPE *ch2);
+extern TYPE *FUNCTION(NAME, replacec)(TYPE *cthis, const DATA_TYPE ch1,
+                                      const DATA_TYPE ch2);
 
 extern TYPE *FUNCTION(NAME, chomp)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, strip)(TYPE *cthis, const cgraph_char_t *data);

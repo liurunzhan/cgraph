@@ -118,7 +118,8 @@ int main(int argc, char *argv[]) {
   cgraph_size_t i, j, k;
   cgraph_int_t num = 987, weight = 1, cnt = 0;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
-  FILE *fp = cgraph_file_fopen("rand_seed.csv", "w");
+  FILE *fp = cgraph_file_fopen(
+      "." __PLAT_PSPLIT "test" __PLAT_PSPLIT "rand_seed.csv", "w");
   cgraph_cmdarg_fprintln(stdout, cmdarg);
   cgraph_file_fprintfln(stdout, "hello world");
   cgraph_file_fprintfln(stdout, "%s %ld", name,

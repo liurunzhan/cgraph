@@ -4,19 +4,18 @@
 // A script to compile Library cgraph in Unix-like and Windows Platforms
 // gets source files iteratively from Directory src
 
-const path = require("path");
+const syspath = require("path");
 const fs = require("fs");
 const os = require("os");
-
-const sep = String(path.sep);
+const child_process = require("child_process");
 
 var PRO = "cgraph";
 var DIR = ".";
-var INC = DIR + sep + "include";
-var SRC = DIR + sep + "src";
-var SRC_TYPE = SRC + sep + "type";
-var TST = DIR + sep + "tests";
-var LIB = DIR + sep + "lib";
+var INC = syspath.join(DIR, "include");
+var SRC = syspath.join(DIR, "src");
+var SRC_TYPE = syspath.join(SRC, "type");
+var TST = syspath.join(DIR, "tests");
+var LIB = syspath.join(DIR, "lib");
 
 var CC = "cc";
 var CFLAGS = "-std=c89 -Wall -pedantic -fPIC";
@@ -38,7 +37,7 @@ var ARFLAGS = "-rcs";
 function getsubdirs(path, dirs) {
   const files = fs.readdirSync(path);
   for (var i = 0; i < files.length; i++) {
-    var subpath = path + sep + files[i];
+    var subpath = syspath.join(path, files[i]);
     var stats = fs.lstatSync(subpath);
     if (stats.isDirectory() && !files[i].startsWith(".")) {
       dirs.push(subpath);
@@ -55,7 +54,7 @@ var CFILES = [];
 for (var i = 0; i < SRCS.length; i++) {
   const files = fs.readdirSync(SRCS[i]);
   for (var j = 0; j < files.length; j++) {
-    var file = SRCS[i] + sep + files[j];
+    var file = syspath.join(SRCS[i], files[j]);
     var stats = fs.lstatSync(file);
     if (stats.isFile() && /^((?!\.).)*\.c$/.test(files[j])) {
       CFILES.push(file);
@@ -68,14 +67,14 @@ var LIBSTATIC;
 var TSTSUFFIX;
 if ("Windows_NT" == os.type()) {
   // target files
-  LIBSHARED = `${LIB}${sep}lib${PRO}.dll`;
-  LIBSTATIC = `${LIB}${sep}lib${PRO}.lib`;
+  LIBSHARED = syspath.join(LIB, `lib${PRO}.dll`);
+  LIBSTATIC = syspath.join(LIB, `lib${PRO}.lib`);
   // test files
   TSTSUFFIX = ".exe";
 } else {
   // target files
-  LIBSHARED = `${LIB}${sep}lib${PRO}.so`;
-  LIBSTATIC = `${LIB}${sep}lib${PRO}.a`;
+  LIBSHARED = syspath.join(LIB, `lib${PRO}.so`);
+  LIBSTATIC = syspath.join(LIB, `lib${PRO}.a`);
   // test files
   TSTSUFFIX = "";
 }
@@ -89,10 +88,26 @@ if (process.argv.length == 2) {
     var obj = CFILES[i].replace(/\.c$/, ".o");
     var dep = CFILES[i].replace(/\.c$/, ".d");
     console.log(`compile ${CFILES[i]} to ${obj}`);
+    child_process.exec(`${CC} ${CFLAGS} -I${INC} -I${SRC_TYPE} -c ${CFILES[i]} -o ${obj} -MD -MF ${dep}`);
     OFILES.push(obj);
   }
+  console.log(`compile ${LIBSHARED}`);
+  child_process.exec(`${CC} ${CSFLAGS} -o ${LIBSHARED} ${OFILES.join(" ")}`);
+  console.log(`compile ${LIBSTATIC}`);
+  child_process.exec(`${AR} ${ARFLAGS} ${LIBSTATIC} ${OFILES.join(" ")}`);
 } else if (process.argv[2] == "test") {
-
+  const files = fs.readdirSync(TST);
+  for (var i = 0; i < files.length; i++) {
+    var file = syspath.join(TST, files[i]);
+    var stats = fs.lstatSync(file);
+    if (stats.isFile() && /^((?!\.).)*\.c$/.test(files[i])) {
+      var target = file.replace(/\.c$/, TSTSUFFIX);
+      console.log(`compile ${file} to ${target}`);
+      child_process.exec(`${CC} ${CFLAGS} -I${INC} -o ${target} ${file} -L${LIB} -static -l${PRO} -lm`);
+      console.log(`test ${target}`);
+      child_process.exec(target);
+    }
+  }
 } else if (process.argv[2] == "clean") {
   for (var i = 0; i < CFILES.length; i++) {
     var obj = CFILES[i].replace(/\.c$/, ".o");

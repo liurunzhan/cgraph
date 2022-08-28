@@ -5,7 +5,7 @@ TYPE *FUNCTION(NAME, create)(const cgraph_type_t type, const cgraph_size_t row,
   cgraph_size_t size = row * column;
   TYPE *cthis = FUNCTION(NAME, calloc)(type, size);
   if (NULL != cthis) {
-    MATRIX_INDEX_SET(cthis, row, column);
+    MATRIX_SET_INDEX(cthis, row, column);
     cthis->len = size;
   }
 
@@ -25,7 +25,7 @@ TYPE *FUNCTION(NAME, resize)(TYPE *cthis, const cgraph_type_t type,
   cgraph_bool_t error = CGRAPH_FALSE;
   cthis = FUNCTION(NAME, realloc)(cthis, type, old_size, new_size, &error);
   if (CGRAPH_FALSE == error) {
-    MATRIX_INDEX_SET(cthis, row, column);
+    MATRIX_SET_INDEX(cthis, row, column);
     cthis->len = new_size;
   }
 

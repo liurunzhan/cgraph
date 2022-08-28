@@ -239,7 +239,7 @@ TYPE FUNCTION(NAME, initi)(const DATA_TYPE imag) {
 }
 
 TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i) {
-  const DATA_TYPE angle = DATA_ONE * M_2PI * i / n;
+  const DATA_TYPE angle = DATA_ONE * M_TWOPI * i / n;
   TYPE res;
   COMPLEX_REAL(res) = cos(angle);
   COMPLEX_IMAG(res) = sin(angle);
@@ -248,7 +248,7 @@ TYPE FUNCTION(NAME, unit)(const cgraph_int_t n, const cgraph_int_t i) {
 }
 
 TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i) {
-  const DATA_TYPE angle = DATA_ONE * M_2PI * i / n;
+  const DATA_TYPE angle = DATA_ONE * M_TWOPI * i / n;
   TYPE res;
   COMPLEX_REAL(res) = cos(angle);
   COMPLEX_IMAG(res) = -sin(angle);
@@ -605,8 +605,8 @@ TYPE FUNCTION(NAME, log2)(const TYPE x) {
 
 TYPE FUNCTION(NAME, log10)(const TYPE x) {
   TYPE res = FUNCTION(NAME, log)(x);
-  COMPLEX_REAL(res) = M_1_LN10 * COMPLEX_REAL(res);
-  COMPLEX_IMAG(res) = M_1_LN10 * COMPLEX_IMAG(res);
+  COMPLEX_REAL(res) = M_IVLN10 * COMPLEX_REAL(res);
+  COMPLEX_IMAG(res) = M_IVLN10 * COMPLEX_IMAG(res);
 
   return res;
 }

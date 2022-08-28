@@ -36,10 +36,10 @@ if BUILD_IN_GIT_REPO
 BUILT_SOURCES = $(include_dir)/cgraph_template_off.h $(include_dir)/cgraph_template_check.h $(include_dir)/cgraph_stdchk.h $(src_dir)/version.c
 
 $(include_dir)/cgraph_template_off.h: $(include_dir)/cgraph_template_off.h.in $(tools_dir)/template_off.macro
-	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_off.macro -c "end of cgraph_template_off"
+	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_off.macro -c "end of cgraph_template_off" --nodoc
 
 $(include_dir)/cgraph_template_check.h: $(include_dir)/cgraph_template_check.h.in $(tools_dir)/template_check.macro
-	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_check.macro -c "end of cgraph_template_check"
+	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/template_check.macro -c "end of cgraph_template_check" --nodoc
 
 $(include_dir)/cgraph_stdchk.h: $(include_dir)/cgraph_stdchk.h.in $(tools_dir)/stdchk.macro
 	-python3 $(tools_dir)/macro.py $< -o $@ -t $(tools_dir)/stdchk.macro -c "" --nodoc

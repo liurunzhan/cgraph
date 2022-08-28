@@ -41,10 +41,10 @@ ifeq ($(PREDEPS_FILES), $(PREDEPS_EXIST_FILES))
 PREDEPS = $(INC)$(PSEP)cgraph_template_off.h $(INC)$(PSEP)cgraph_template_check.h $(INC)$(PSEP)cgraph_stdchk.h $(SRC)$(PSEP)version.c
 
 $(INC)$(PSEP)cgraph_template_off.h: $(INC)$(PSEP)cgraph_template_off.h.in $(TOL)$(PSEP)template_off.macro
-	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_off.macro -c "end of cgraph_template_off"
+	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_off.macro -c "end of cgraph_template_off" --nodoc
 
 $(INC)$(PSEP)cgraph_template_check.h: $(INC)$(PSEP)cgraph_template_check.h.in $(TOL)$(PSEP)template_check.macro
-	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_check.macro -c "end of cgraph_template_check"
+	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)template_check.macro -c "end of cgraph_template_check" --nodoc
 
 $(INC)$(PSEP)cgraph_stdchk.h: $(INC)$(PSEP)cgraph_stdchk.h.in $(TOL)$(PSEP)stdchk.macro
 	-python3 $(TOL)$(PSEP)macro.py $< -o $@ -t $(TOL)$(PSEP)stdchk.macro -c "" --nodoc

@@ -217,7 +217,7 @@ typedef enum {
 #endif
 
 #ifndef __INLINE__
-#error __INLINE__ must be defined in this library even if empty
+#error __INLINE__ must be defined in this library even if it is empty
 #endif
 /** @} */
 
