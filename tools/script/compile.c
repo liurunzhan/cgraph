@@ -1,74 +1,84 @@
 //!/usr/bin/env -S tcc -run
 
-#if defined(__linux__) || defined(__unix__)
+#if defined(__linux__) || defined(__unix__) || defined(__CYGWIN__)
 #include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#else
+#elif (defined(_WIN32) || defined(_WIN64))
 #include <io.h>
 #include <windows.h>
+#else
+#error Unsupported Platform
 #endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define STRING_MAX 1024
-#define CMD_MAX 81960
-#define FILE_NUM 100
-#define STRING_END '\0'
+#define STRING_MAX (1024)
+#define CMD_MAX (81960)
+#define FILE_NUM (100)
+#define CSTR_END '\0'
+#define TRUE (1)
+#define FALSE (0)
 
 extern char **environ;
 
-int main(int argc, char *argv[]) {
+int judge_platform_is_windows(void);
+
+int judge_platform_is_windows(void) {
   char **env = environ;
-  char *path = "PATH";
-  int is_windows = 0;
+  const char *path = "PATH";
+  int is_windows = FALSE;
   for (; NULL != *env; env++) {
-    char *senv = *env, *tpath = path;
-    for (; STRING_END != *tpath; tpath++, senv++) {
+    char *senv = *env, *tpath = (char *)path;
+    for (; CSTR_END != *tpath; tpath++, senv++) {
       if (*tpath != *senv) {
         break;
       }
     }
-    if (STRING_END == *tpath) {
-      fprintf(stdout, "%s\n", *env);
+    if (CSTR_END == *tpath) {
       char *senv = *env;
-      for (; STRING_END != *senv; senv++) {
+      for (; CSTR_END != *senv; senv++) {
         if ('\\' == *senv) {
-          is_windows = 1;
+          is_windows = TRUE;
+          break;
+        } else if ('/' == *senv) {
+          is_windows = FALSE;
           break;
         }
       }
     }
   }
 
-  char *PRO = "cgraph";
-  char *_DIR = ".";
-  char INC[STRING_MAX], SRC[STRING_MAX], TST[STRING_MAX], LIB[STRING_MAX];
+  return is_windows;
+}
+
+int main(int argc, char *argv[]) {
+  const int is_windows = judge_platform_is_windows();
+  const char *PRO = "cgraph";
+  const char *_DIR = ".";
+  char INC[STRING_MAX], SRC[STRING_MAX], SRC_TYPE[STRING_MAX], TST[STRING_MAX],
+      LIB[STRING_MAX];
   char LIBSHARED[STRING_MAX], LIBSTATIC[STRING_MAX], TSTFILE[STRING_MAX],
       TSTTARGET[STRING_MAX];
 
-  if (is_windows) {
-    fprintf(stdout, "compile cgraph in windows platform!\n");
-    sprintf(INC, "%s\\%s", _DIR, "include");
-    sprintf(SRC, "%s\\%s", _DIR, "src");
-    sprintf(TST, "%s\\%s", _DIR, "tests");
-    sprintf(LIB, "%s\\%s", _DIR, "lib");
-    sprintf(LIBSHARED, "%s\\lib%s.dll", LIB, PRO);
-    sprintf(LIBSTATIC, "%s\\lib%s.lib", LIB, PRO);
-    sprintf(TSTFILE, "%s\\%s.c", TST, PRO);
-    sprintf(TSTTARGET, "%s\\%s.exe", TST, PRO);
+  char PATH_SEP = '\0';
+  if (TRUE == is_windows) {
+    fprintf(stdout, "compile %s in windows platform!\n", PRO);
+    PATH_SEP = '\\';
   } else {
-    fprintf(stdout, "compile cgraph in unix-like platform!\n");
-    sprintf(INC, "%s/%s", _DIR, "include");
-    sprintf(SRC, "%s/%s", _DIR, "src");
-    sprintf(TST, "%s/%s", _DIR, "tests");
-    sprintf(LIB, "%s/%s", _DIR, "lib");
-    sprintf(LIBSHARED, "%s/lib%s.so", LIB, PRO);
-    sprintf(LIBSTATIC, "%s/lib%s.a", LIB, PRO);
-    sprintf(TSTFILE, "%s/%s.c", TST, PRO);
-    sprintf(TSTTARGET, "%s/%s", TST, PRO);
+    fprintf(stdout, "compile %s in unix-like platform!\n", PRO);
+    PATH_SEP = '/';
   }
+  sprintf(INC, "%s%c%s", _DIR, PATH_SEP, "include");
+  sprintf(SRC, "%s%c%s", _DIR, PATH_SEP, "src");
+  sprintf(SRC_TYPE, "%s%c%s", SRC, PATH_SEP, "type");
+  sprintf(TST, "%s%c%s", _DIR, PATH_SEP, "tests");
+  sprintf(LIB, "%s%c%s", _DIR, PATH_SEP, "lib");
+  sprintf(LIBSHARED, "%s%clib%s.so", LIB, PATH_SEP, PRO);
+  sprintf(LIBSTATIC, "%s%clib%s.a", LIB, PATH_SEP, PRO);
+  sprintf(TSTFILE, "%s%c%s.c", TST, PATH_SEP, PRO);
+  sprintf(TSTTARGET, "%s%c%s", TST, PATH_SEP, PRO);
 
   char CFLAGS[STRING_MAX];
   char *CC = "cc";
@@ -95,7 +105,7 @@ int main(int argc, char *argv[]) {
   }
   while (NULL != (eptr = readdir(dptr))) {
     char *file = eptr->d_name;
-    for (; STRING_END != *file; file++) {
+    for (; CSTR_END != *file; file++) {
     }
     if (('c' == *(--file)) && ('.' == *(--file))) {
       sprintf(CFILES[i++], "%s/%s", SRC, eptr->d_name);
@@ -109,10 +119,10 @@ int main(int argc, char *argv[]) {
     sprintf(BUFFER, "%s %s -I%s", CC, CFLAGS, INC);
     for (j = 0; j < i; j++) {
       char *tCFILE = CFILES[j], *tOBJ = OBJ;
-      for (; STRING_END != *tCFILE; tCFILE++, tOBJ++) {
+      for (; CSTR_END != *tCFILE; tCFILE++, tOBJ++) {
         *tOBJ = *tCFILE;
       }
-      *tOBJ = STRING_END;
+      *tOBJ = CSTR_END;
       *(--tOBJ) = 'o';
       sprintf(CMD, "%s -c %s -o %s\n", BUFFER, CFILES[j], OBJ);
       fprintf(stdout, CMD);
@@ -128,10 +138,10 @@ int main(int argc, char *argv[]) {
     // sprintf(BUFFER, "%s %s", RM, RMFLAGS);
     for (j = 0; j < i; j++) {
       char *tCFILE = CFILES[j], *tOBJ = OBJ;
-      for (; STRING_END != *tCFILE; tCFILE++, tOBJ++) {
+      for (; CSTR_END != *tCFILE; tCFILE++, tOBJ++) {
         *tOBJ = *tCFILE;
       }
-      *tOBJ = STRING_END;
+      *tOBJ = CSTR_END;
       *(--tOBJ) = 'o';
       fprintf(stdout, "clean %s\n", OBJ);
       remove(OBJ);
@@ -146,10 +156,10 @@ int main(int argc, char *argv[]) {
     // sprintf(BUFFER, "%s %s", RMDIR, RMDIRFLAGS);
     for (j = 0; j < i; j++) {
       char *tCFILE = CFILES[j], *tOBJ = OBJ;
-      for (; STRING_END != *tCFILE; tCFILE++, tOBJ++) {
+      for (; CSTR_END != *tCFILE; tCFILE++, tOBJ++) {
         *tOBJ = *tCFILE;
       }
-      *tOBJ = STRING_END;
+      *tOBJ = CSTR_END;
       *(--tOBJ) = 'o';
       fprintf(stdout, "clean %s\n", OBJ);
       remove(OBJ);

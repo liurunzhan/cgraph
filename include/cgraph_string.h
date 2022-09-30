@@ -97,6 +97,7 @@ extern TYPE *FUNCTION(NAME, flower)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, fupper)(TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, subc)(const TYPE *x, const DATA_TYPE ch, TYPE *z);
+extern TYPE *FUNCTION(NAME, subnam)(const TYPE *x, TYPE *z);
 extern TYPE *FUNCTION(NAME, muli)(const TYPE *x, const cgraph_size_t y,
                                   TYPE *z);
 extern TYPE *FUNCTION(NAME, divc)(const TYPE *x, const DATA_TYPE ch, TYPE *z);

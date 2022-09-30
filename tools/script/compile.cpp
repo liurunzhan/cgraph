@@ -4,13 +4,16 @@
 int main(int argc, char *argv[]) {
   std::string PRO = "cgraph";
   std::string DIR = ".";
+  std::string INC = DIR + "inc";
+  std::string SRC = DIR + "src";
+  std::string SRC_TYPE = SRC + "type";
 
   if (1 == argc) {
   } else if (0 == std::string(argv[1]).compare("test")) {
   } else if (0 == std::string(argv[1]).compare("clean")) {
   } else if (0 == std::string(argv[1]).compare("distclean")) {
   } else if (0 == std::string(argv[1]).compare("help")) {
-    std::cout << argv[1] << " <target>" << std::endl;
+    std::cout << argv[0] << " <target>" << std::endl;
     std::cout << "<target>: " << std::endl;
     std::cout << "                    compile cgraph" << std::endl;
     std::cout << "          test      test cgraph" << std::endl;

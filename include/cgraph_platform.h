@@ -56,7 +56,7 @@ typedef enum {
 #define __PLAT_LEND_SIZE (1)
 #define __PLAT_LEND_C __PLAT_LEND_TYPE0
 #define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
-#elif (defined(_WIN32) || defined(_WIN64))
+#elif (defined(_WIN32) || defined(_WIN64)) || defined(WINVER)
 #define __PLAT_NAME "windows"
 #define __PLAT_MODE CGRAPH_PLAT_WINDOWS
 #define __PLAT_PSPLIT "\\"
@@ -77,11 +77,14 @@ typedef enum {
 #define __PLAT_LEND_C __PLAT_LEND_TYPE1
 #define __PLAT_LEND_TYPE __PLAT_LEND_MACOS
 #else
-#if defined(__linux__)
+#if defined(__linux) || defined(__linux__)
 #define __PLAT_NAME "linux"
 #define __PLAT_MODE CGRAPH_PLAT_LINUX
-#elif defined(Unix__)
+#elif defined(__unix) || defined(__unix__) || defined(unix)
 #define __PLAT_NAME "unix"
+#define __PLAT_MODE CGRAPH_PLAT_UNIX
+#elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#define __PLAT_NAME "bsd"
 #define __PLAT_MODE CGRAPH_PLAT_UNIX
 #else
 #define __PLAT_NAME "none"
@@ -118,12 +121,13 @@ typedef enum {
 #endif
 
 #ifndef __WORDSIZE
-#if defined(_WIN64) || defined(_M_X64) || defined(_M_AMD64) ||                 \
-    defined(_M_IA64) || defined(_M_IX64) || defined(__x86_64__) ||             \
-    defined(__x86_64) || defined(__aarch64__) || defined(__ARM_64BIT_STATE)
+#if defined(_WIN64) || defined(__CYGWIN64__) || defined(_M_X64) ||             \
+    defined(_M_AMD64) || defined(_M_IA64) || defined(_M_IX64) ||               \
+    defined(__x86_64__) || defined(__x86_64) || defined(__aarch64__) ||        \
+    defined(__ARM_64BIT_STATE)
 #define __WORDSIZE (64)
-#elif defined(_WIN32) || defined(_M_IX86) || defined(I386) ||                  \
-    defined(I386__) || defined(I486__) || defined(I686__) ||                   \
+#elif defined(_WIN32) || defined(__CYGWIN32__) || defined(_M_IX86) ||          \
+    defined(I386) || defined(I386__) || defined(I486__) || defined(I686__) ||  \
     defined(__ARM_32BIT_STATE)
 #define __WORDSIZE (32)
 #else

@@ -502,6 +502,54 @@ TYPE *FUNCTION(NAME, subc)(const TYPE *x, const DATA_TYPE ch, TYPE *z) {
   return z;
 }
 
+TYPE *FUNCTION(NAME, subnam)(const TYPE *x, TYPE *z) {
+#define STRING_START (0x01)
+#define STRING_MIDDLE (0x02)
+#define STRING_END (0x00)
+  if (CGRAPH_HASDATA(x)) {
+    cgraph_int_t state = STRING_END;
+    cgraph_size_t j = 0;
+    CGRAPH_LOOP(i, 0, x->len)
+    if (j >= z->size) {
+      break;
+    }
+    switch (state) {
+    case STRING_END: {
+      if (cgraph_math_isnamst(x->data[i])) {
+        state = STRING_START;
+      } else {
+        z->data[j++] = x->data[i];
+      }
+      break;
+    }
+    case STRING_START: {
+      if (cgraph_math_isnammd(x->data[i])) {
+        state = STRING_MIDDLE;
+      }
+      break;
+    }
+    case STRING_MIDDLE: {
+      if (!cgraph_math_isnamed(x->data[i])) {
+        z->data[j++] = x->data[i];
+        state = STRING_END;
+      }
+      break;
+    }
+    default: {
+      z->data[j++] = x->data[i];
+      break;
+    }
+    }
+    CGRAPH_LOOP_END
+    z->len = j;
+  }
+
+  return z;
+#undef STRING_START
+#undef STRING_MIDDLE
+#undef STRING_END
+}
+
 TYPE *FUNCTION(NAME, mul)(const TYPE *x, const TYPE *y, TYPE *z) {
   if (CGRAPH_HASDATA(x) && CGRAPH_HASDATA(y)) {
     cgraph_size_t len = x->len + y->len;
