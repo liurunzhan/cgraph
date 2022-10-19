@@ -193,28 +193,30 @@ typedef enum {
 #define __INLINE__ inline
 #elif defined(__GNUC__) || defined(__clang__)
 /** GNU C Compiler or Clang C Compiler */
-#define __INLINE__ __extension__ __inline__
+#define __INLINE__ __EXTENSION__ __inline__
 #elif defined(_MSC_VER)
 /** Microsoft C Compiler */
 #define __INLINE__ _inline
-#elif defined(INTEL_COMPILER)
-/** Intel C Compiler */
-#define __INLINE__ inline
-#elif defined(__DMC__)
-/** Digital Mars C Compiler */
-#define __INLINE__ inline
-#elif defined(__WATCOMC__)
-/** Watcom C Compiler */
+#elif defined(INTEL_COMPILER) || defined(__DMC__) || defined(__WATCOMC__) ||   \
+    defined(ICCARM__) || defined(__TASKING__)
+/**
+ * Macro value defined in different compilers:
+ * | Compiler | Macro | keyword |
+ * | :-: | :-: | :-: |
+ * | Intel C | INTEL_COMPILER | inline |
+ * | Digital Mars C | __DMC__ | inline |
+ * | Watcom C | __WATCOMC__ | inline |
+ * | IAR C | ICCARM__ | inline |
+ * | TASKING C | __TASKING__ | inline |
+ */
 #define __INLINE__ inline
 #elif defined(__CC_ARM)
 /** ARM C Compiler */
 #define __INLINE__ Inline
-#elif defined(ICCARM__)
-/** IAR C Compiler */
-#define __INLINE__ inline
-#elif defined(__TASKING__)
-/** TASKING C Compiler */
-#define __INLINE__ inline
+#elif defined(__inline)
+#define __INLINE__ __inline
+#elif defined(__inline__)
+#define __INLINE__ __inline__
 #else
 #define __INLINE__
 #endif
@@ -432,8 +434,9 @@ typedef unsigned long uint64_t;
 #define INT64_C(x) (x##L)
 #define UINT64_C(x) (x##UL)
 #endif
-/** for VC/VC++ Compiler */
-#elif defined(_MSC_VER)
+#elif defined(_MSC_VER) || defined(__int64) ||                                 \
+    (defined(__PLAT_WINDOWS) && (defined(__GNUC__) || defined(__clang__)))
+/** if used in VC/VC++ Compilers or GCC/Clang in Windows Platform */
 typedef signed __int64 int64_t;
 typedef unsigned __int64 uint64_t;
 
@@ -495,21 +498,21 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 /** integer type input and output style */
 /** @{ */
 #ifndef SCNd64
-/** if used in VC/VC++ Compilers or GCC/Clang in Windows Platform */
-#if defined(_MSC_VER) ||                                                       \
+#if defined(_MSC_VER) || defined(__int64) ||                                   \
     (defined(__PLAT_WINDOWS) && (defined(__GNUC__) || defined(__clang__)))
+/** if used in VC/VC++ Compilers or GCC/Clang in Windows Platform */
 #define SCNd64 "I64d"
 #define PRId64 "I64d"
 #define SCNu64 "I64u"
 #define PRIu64 "I64u"
-/** if TYPE long supports 64-bit or bigger */
 #elif defined(ULONG_MAX) && ((ULONG_MAX >> 31 >> 31) >= 3)
+/** if TYPE long supports 64-bit or bigger */
 #define SCNd64 "ld"
 #define PRId64 "ld"
 #define SCNu64 "lu"
 #define PRIu64 "lu"
-/** TYPE long long int is defined as int64_t */
 #else
+/** TYPE long long int is defined as int64_t */
 #define SCNd64 "lld"
 #define PRId64 "lld"
 #define SCNu64 "llu"

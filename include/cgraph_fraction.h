@@ -23,6 +23,7 @@ extern "C" {
 #define TYPE_FRACTION
 #include "cgraph_template.h"
 
+#define DATA_INUM (2)
 #define DATA_NAME int
 #define DATA_TYPE TYPE_T(DATA_NAME)
 #define DATA_ID ID_T(INT)
@@ -36,7 +37,6 @@ extern "C" {
 #define DATA_EPSILON CGRAPH_INT_EPSILON
 #define DATA_LSB CGRAPH_INT_LSB
 #define DATA_MSB CGRAPH_INT_MSB
-#define ITEM_LEN (2)
 
 #define NAME fraction
 #define TYPE TYPE_T(NAME)
@@ -76,11 +76,11 @@ extern "C" {
  * @brief the object of fraction number
  */
 typedef struct {
-  DATA_TYPE data[ITEM_LEN];
+  DATA_TYPE data[DATA_INUM];
 } cgraph_fraction_t;
 
-#if ITEM_LEN != 2
-#error ITEM_LEN must be defined as 2, or will throw a compilation error
+#if DATA_INUM != 2
+#error DATA_INUM must be defined as 2, or will throw a compilation error
 #endif
 
 #define FRACTION_NUM(x) ((x).data[0])

@@ -43,6 +43,7 @@ extern "C" {
 #include "cgraph_long.h"
 #include "cgraph_point2d.h"
 #include "cgraph_point3d.h"
+#include "cgraph_quat.h"
 #include "cgraph_string.h"
 #include "cgraph_time.h"
 

@@ -44,6 +44,7 @@
 	"cgraph_platform.h" : "the configuration in different platforms and compilers",
 	"cgraph_point2d.h" : "the apis of DATA TYPE cgraph_point2d_t",
 	"cgraph_point3d.h" : "the apis of DATA TYPE cgraph_pont3d_t",
+	"cgraph_quat.h" : "the apis of DATA TYPE cgraph_quat_t",
 	"cgraph_queue.h" : "the apis of STRUCTURE TYPE cgraph_queue_t",
 	"cgraph_rand.h" : "the 32-bit and 64-bit random number generator functions",
 	"cgraph_set.h" : "the apis of STRUCTURE TYPE cgraph_set_t",

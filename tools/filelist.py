@@ -82,6 +82,7 @@ def arg_parse():
 	parser.add_argument("-o", "--output", default="", type=str, help="output filelist")
 	parser.add_argument("-t", "--output_type", default="filelist", choices=["filelist", "csv", "md"], type=str, help="output filelist type")
 	parser.add_argument("-c", "--combine", action="store_true", help="output filelist in a line of the given file")
+	parser.add_argument("-p", "--prefix", default="", type=str, help="prefix of each file path")
 	def func(args):
 		print("find Files with Suffixes (%s) and without Names (%s) in Directories (%s)" % (" ".join(args.suffixes), " ".join(args.ignore_files), " ".join(args.dirs)))
 		filelist = FileList(paths=args.dirs, suffixes=args.suffixes, ignore_files=args.ignore_files, ignore_dirs=args.ignore_dirs, ignore_paths=args.ignore_paths)

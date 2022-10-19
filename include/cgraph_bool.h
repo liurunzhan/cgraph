@@ -53,6 +53,9 @@ extern "C" {
 /** template module */
 #include "cgraph_template_int.ht"
 
+TYPE FUNCTION(NAME, decodenc)(const cgraph_char_t *cstr,
+                              const cgraph_size_t len, cgraph_bool_t *error);
+
 /** used to clear common-defined macro variables, except included only */
 #if defined(__CGRAPH_MACRO_CFLAG__)
 #include "cgraph_template_off.h"

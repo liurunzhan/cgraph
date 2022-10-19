@@ -7,7 +7,7 @@ INT_SOURCES = bool.c logic.c int.c long.c int8.c int16.c int32.c int64.c int128.
 
 FLOAT_SOURCES = float8.c float16.c float32.c float64.c float128.c fraction.c
 
-COMPLEX_SOURCES = complex.c
+COMPLEX_SOURCES = complex.c quat.c
 
 TIME_SOURCES = time.c
 

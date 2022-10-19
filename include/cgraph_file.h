@@ -97,6 +97,11 @@ extern cgraph_size_t cgraph_file_size(FILE *fp);
 extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
                            cgraph_char_t **line_end,
                            cgraph_bool_t *isbigendian);
+extern cgraph_bool_t cgraph_file_iswin(void);
+extern cgraph_bool_t cgraph_file_isuxowin(void);
+extern cgraph_bool_t cgraph_file_isunix(void);
+extern const cgraph_char_t *cgraph_file_psplit(void);
+extern const cgraph_char_t *cgraph_file_lend(void);
 
 #ifdef __cplusplus
 }

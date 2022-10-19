@@ -18,9 +18,9 @@ pub fn main() void {
   const CSFLAGS = "-shared";
 
   const MODE = "debug";
-  if (MODE == "debug") {
+  if (std.mem.eql(u8, MODE, "debug")) {
     CFLAGS += " -g -DDEBUG";
-  } else if (MODE == "release") {
+  } else if (std.mem.eql(u8, MODE, "release")) {
     CFLAGS += " -static -O2";
   }
 
@@ -53,13 +53,13 @@ pub fn main() void {
     if (std.os.exists(LIB)) {
       std.os.mkdir(LIB);
     }
-  } else if (args[1] == "test") {
+  } else if (std.mem.eql(u8, args[1], "test")) {
     std.debug.print("hello world");
-  } else if (args[1] == "clean") {
+  } else if (std.mem.eql(u8, args[1], "clean")) {
     std.debug.print("hello world");
-  } else if (args[1] == "distclean") {
+  } else if (std.mem.eql(u8, args[1], "distclean")) {
     std.debug.print("hello world");
-  } else if (args[1] == "help") {
+  } else if (std.mem.eql(u8, args[1], "help")) {
     std.debug.print("{}    <target>", .{args[0]});
     std.debug.print("<target>: ");
     std.debug.print("                    compile cgraph");

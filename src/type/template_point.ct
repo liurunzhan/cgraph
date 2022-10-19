@@ -1,14 +1,14 @@
 #include "template_data.ct"
 
 DATA_TYPE FUNCTION(NAME, dmean)(const TYPE x) {
-  return 1.0 / ITEM_LEN * FUNCTION(NAME, dsum)(x);
+  return 1.0 / DATA_INUM * FUNCTION(NAME, dsum)(x);
 }
 
 DATA_TYPE FUNCTION(NAME, dvarsub)(const TYPE x) {
   DATA_TYPE mean = FUNCTION(NAME, dmean)(x);
   TYPE res = FUNCTION(NAME, subf)(x, mean);
 
-  return 1.0 / ITEM_LEN * FUNCTION(NAME, mag2)(res);
+  return 1.0 / DATA_INUM * FUNCTION(NAME, mag2)(res);
 }
 
 DATA_TYPE FUNCTION(NAME, dstdsub)(const TYPE x) {
@@ -24,7 +24,7 @@ TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t len) {
 }
 
 TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, mulf)(FUNCTION(NAME, add)(x, y), 1.0 / ITEM_LEN);
+  return FUNCTION(NAME, mulf)(FUNCTION(NAME, add)(x, y), 1.0 / DATA_INUM);
 }
 
 TYPE FUNCTION(NAME, abssub)(const TYPE x, const TYPE y) {
@@ -36,7 +36,7 @@ TYPE FUNCTION(NAME, sub2)(const TYPE x, const TYPE y) {
 }
 
 TYPE FUNCTION(NAME, sub2mean)(const TYPE x, const TYPE y) {
-  return FUNCTION(NAME, mulf)(FUNCTION(NAME, sub2)(x, y), 1.0 / ITEM_LEN);
+  return FUNCTION(NAME, mulf)(FUNCTION(NAME, sub2)(x, y), 1.0 / DATA_INUM);
 }
 
 TYPE FUNCTION(NAME, varsub)(const TYPE x, const TYPE y) {

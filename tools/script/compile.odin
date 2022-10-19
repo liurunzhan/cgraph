@@ -11,21 +11,21 @@ import          "core:strings"
 main :: proc() {
   PRO : string = "cgraph";
   DIR : string = ".";
-  INC : string = filepath.join(DIR, "include");
-  SRC : string = filepath.join(DIR, "src");
-  SRC_TYPE : string = filepath.join(SRC, "type");
-  TST : string = filepath.join(DIR, "tests");
-  LIB : string = filepath.join(DIR, "lib");
+  INC : string = filepath.join([]string{DIR, "include"});
+  SRC : string = filepath.join([]string{DIR, "src"});
+  SRC_TYPE : string = filepath.join([]string{SRC, "type"});
+  TST : string = filepath.join([]string{DIR, "tests"});
+  LIB : string = filepath.join([]string{DIR, "lib"});
 
   CC : string = "cc";
-  CFLAGS : string[] = "-std=c89 -Wall -pedantic -fPIC";
+  CFLAGS : string = "-std=c89 -Wall -pedantic -fPIC";
   CSFLAGS : string = "-shared";
 
   MODE : string = "debug";
   if MODE == "debug" {
-    CFLAGS = strings.join(CFLAGS, " -g -DDEBUG");
+    CFLAGS = strings.join([]string{CFLAGS}, " -g -DDEBUG");
   } else if MODE == "release" {
-    CFLAGS = strings.join(CFLAGS, " -static -O2");
+    CFLAGS = strings.join([]string{CFLAGS}, " -static -O2");
   }
 
   //package shared library
@@ -36,7 +36,7 @@ main :: proc() {
   LIBSTATIC : string;
   TSTFILE : string;
   TSTTARGET : string;
-  when ODIN_OS == "windows" {
+  when ODIN_OS == .Windows {
     // target files
     LIBSHARED = filepath.join(LIB, fmt.aprintf("lib%s.dll", PRO));
     LIBSTATIC = filepath.join(LIB, fmt.aprintf("lib%s.lib", PRO));
@@ -45,17 +45,17 @@ main :: proc() {
     TSTTARGET = filepath.join(TST, fmt.aprintf("%s.exe", PRO));
   } else {
     // target files
-    LIBSHARED = filepath.join(LIB, fmt.aprintf("lib%s.so", PRO));
-    LIBSTATIC = filepath.join(LIB, fmt.aprintf("lib%s.a", PRO));
+    LIBSHARED = filepath.join([]string{LIB, fmt.aprintf("lib%s.so", PRO)});
+    LIBSTATIC = filepath.join([]string{LIB, fmt.aprintf("lib%s.a", PRO)});
     // test files
-    TSTFILE = filepath.join(TST, fmt.aprintf("%s.c", PRO));
-    TSTTARGET = filepath.join(TST, PRO);
+    TSTFILE = filepath.join([]string{TST, fmt.aprintf("%s.c", PRO)});
+    TSTTARGET = filepath.join([]string{TST, PRO});
   }
 
   CFILES := make([dynamic]string);
   for file in filepath.walk(SRC) {
     if strings.has_suffix(file, ".c") {
-      append(&CFILES, filepath.join(SRC, file));
+      append(&CFILES, filepath.join([]string{SRC, file}));
     }
   }
 
@@ -66,27 +66,27 @@ main :: proc() {
     }
     OFILES := make([dynamic]string);
     for file in CFILES {
-      obj : string = strings.replace(file, ".c", ".o");
-      dep : string = strings.replace(file, ".c", ".d");
+      obj : string = strings.replace(file, ".c", ".o", 1);
+      dep : string = strings.replace(file, ".c", ".d", 1);
+	    fmt.println("compile ", file, " to ", obj);
+      // exec(fmt"{CC} {CFLAGS} -I{INC} -I{SRC_TYPE} -c {file} -o {obj} -MD -MF {dep}");
       append(&OFILES, obj);
     }
-    fmt.println("compile ", file, " to ", obj);
-    // exec(fmt"{CC} {CFLAGS} -I{INC} -I{SRC_TYPE} -c {file} -o {obj} -MD -MF {dep}");
     delete(OFILES);
   } else if args[1] == "test" {
     fmt.println("compile ", TSTFILE, " to ", TSTTARGET);
     // exec(fmt"{CC} {CFLAGS} -I{INC} -o {TSTTARGET} {TSTFILE} -L{LIB} -static -l{PRO} -lm");
-    tst_path : string = filepath.join(TST, "elements.csv");
+    tst_path : string = filepath.join([]string{TST, "elements.csv"});
     fmt.println("test ", TSTTARGET, " with ", tst_path);
     // exec(fmt"{TSTTARGET} {tst_path}");
   } else if args[1] == "clean" {
     for file in CFILES {
-      obj : string = strings.replace(file, ".c", ".o");
+      obj : string = strings.replace(file, ".c", ".o", 1);
       fmt.println("clean ", obj);
       if os2.exists(obj) {
         os2.remove_all(obj);
       }
-      dep : string = strings.replace(file, ".c", ".d");
+      dep : string = strings.replace(file, ".c", ".d", 1);
       fmt.println("clean ", dep);
       if os2.exists(dep) {
         os2.remove_all(dep);
@@ -106,12 +106,12 @@ main :: proc() {
     }
   } else if args[1] == "distclean" {
     for file in CFILES {
-      obj : string = strings.replace(file, ".c", ".o");
+      obj : string = strings.replace(file, ".c", ".o", 1);
       fmt.println("clean ", obj);
       if os2.exists(obj) {
         os2.remove_all(obj);
       }
-      dep : string = strings.replace(file, ".c", ".d");
+      dep : string = strings.replace(file, ".c", ".d", 1);
       fmt.println("clean ", dep);
       if os2.exists(dep) {
         os2.remove_all(dep);

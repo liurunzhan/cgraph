@@ -296,10 +296,10 @@ cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
 #else
 #define __NO_VSNPRINTF
 #if defined(__GNUC__) || defined(__clang__)
-#define fprintf __extension__ fprintf
-#define vfprintf __extension__ vfprintf
-#define vsprintf __extension__ vsprintf
-#define vsnprintf __extension__ vsprintf
+#define fprintf __EXTENSION__ fprintf
+#define vfprintf __EXTENSION__ vfprintf
+#define vsprintf __EXTENSION__ vsprintf
+#define vsnprintf __EXTENSION__ vsprintf
 #elif defined(_MSC_VER)
 #undef __NO_VSNPRINTF
 #define fprintf fprintf
@@ -852,6 +852,22 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
 #endif
   }
 }
+
+cgraph_bool_t cgraph_file_iswin(void) {
+  return CGRAPH_TEST(__PLAT_MODE == CGRAPH_PLAT_WINDOWS);
+}
+
+cgraph_bool_t cgraph_file_isuxowin(void) {
+  return CGRAPH_TEST(__PLAT_MODE == CGRAPH_PLAT_CYGWIN);
+}
+
+cgraph_bool_t cgraph_file_isunix(void) {
+  return CGRAPH_TEST(__PLAT_MODE == CGRAPH_PLAT_UNIX);
+}
+
+const cgraph_char_t *cgraph_file_psplit(void) { return _path_split; }
+
+const cgraph_char_t *cgraph_file_lend(void) { return _line_end; }
 
 #ifdef __NO_VSNPRINTF
 #undef __NO_VSNPRINTF
