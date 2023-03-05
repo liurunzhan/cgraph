@@ -198,6 +198,24 @@ cgraph_bigint_t *cgraph_string_sha1(const cgraph_string_t *cthis) {
 #undef SHA1_F_60_79
 }
 
+/**
+ * guess x = a + ib, conj(x) = a - ib
+ * x = (a + ib) = (res.x + ires.y) / (1 - res.z)
+ * res.x = (x + conj(x)) / (|z|^2 + 1) = 2real(x) / (|z|^2 + 1)
+ * res.y = (x - conj(x)) / i(|z|^2 + 1) = -2imag(x) / (|z|^2 + 1)
+ * res.z = (|z|^2 - 1) / (|z|^2 + 1)
+ */
+cgraph_point3d_t cgraph_complex_to_point3d(const cgraph_complex_t x) {
+  const cgraph_float64_t mag2 = cgraph_complex_mag2(x),
+                         mag21_1 = 1.0 / (mag2 + 1.0);
+  cgraph_point3d_t res;
+  POINT3D_X(res) = 2.0 * mag21_1 * COMPLEX_REAL(x);
+  POINT3D_Y(res) = -2.0 * mag21_1 * COMPLEX_IMAG(x);
+  POINT3D_Z(res) = mag21_1 * (mag2 - 1);
+
+  return res;
+}
+
 cgraph_float16_t cgraph_float8_to_float16(const cgraph_float8_t x) {
   cgraph_float16_t res;
 

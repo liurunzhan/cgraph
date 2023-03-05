@@ -33,8 +33,9 @@ fi
 
 # build and clean directories and files
 MKDIR=mkdir
+MKDIRFLAGS="-p"
 RM=rm
-RMFLAGS="-rf"
+RMFLAGS="-f"
 
 RMDIR=rm
 RMDIRFLAGS="-rf"
@@ -54,7 +55,7 @@ TSTFILE=${TST}/${PRO}.c
 TSTTARGET=${TST}/${PRO}
 
 if [ -z $1 ]; then
-  ${MKDIR} ${LIB} 
+  ${MKDIR} ${MKDIRFLAGS} ${LIB} 
   for file in ${CFILES}; do
     obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     dep=`echo ${file} | sed "s/\.c$/\.d/g"`

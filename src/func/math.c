@@ -167,6 +167,15 @@ __INLINE__ cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
 #endif
 }
 
+__INLINE__ cgraph_bool_t cgraph_math_chmatch(const cgraph_char_t datax,
+                                             const cgraph_char_t datay) {
+  cgraph_int_t delta = datax - datay;
+
+  return CGRAPH_TEST(
+      0 == delta || (cgraph_math_isalpha(datax) && cgraph_math_isalpha(datay) &&
+                     (('a' - 'A') == delta || ('A' - 'a') == delta)));
+}
+
 __INLINE__ cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data) {
   return CGRAPH_TEST(('0' == data) || ('1' == data));
 }
@@ -551,21 +560,44 @@ cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
   return (0 == gcd) ? 0 : ((1 == gcd) ? (x * y) : (x / gcd * y));
 }
 
-cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
-                                const cgraph_uint64_t data,
-                                const cgraph_uint64_t poly) {
-  cgraph_uint64_t res = predata, temp = (data & res);
-  CGRAPH_LOOP(i, 0, CGRAPH_UINT64_BITS)
-  cgraph_uint64_t msb = (((res ^ temp) >> (CGRAPH_UINT64_BITS - 1)) & 0x01U);
-  if (msb == 1) {
-    res = (((res << 1) ^ CGRAPH_UINT64_MAX) & poly);
-  } else {
-    res = (res << 1);
-  }
-  temp = (temp << 1);
+cgraph_uint32_t cgraph_math_crc32(const cgraph_uint32_t init,
+                                  const cgraph_uint32_t data,
+                                  const cgraph_uint32_t poly) {
+#define CRC_BITS CGRAPH_UINT32_BITS
+#define CRC_MSB CGRAPH_UINT32_MSB
+#define CRC_MASK CGRAPH_UINT32_MASK
+#define CRC_ZERO UINT32_C(0x00)
+  cgraph_uint32_t res = init, temp = (data & res);
+  CGRAPH_LOOP(i, 0, CRC_BITS)
+  res = ((res << 1) & CRC_MASK) ^ (((res ^ temp) & CRC_MSB) ? poly : CRC_ZERO);
+  temp <<= 1;
   CGRAPH_LOOP_END
 
   return res;
+#undef CRC_BITS
+#undef CRC_MSB
+#undef CRC_MASK
+#undef CRC_ZERO
+}
+
+cgraph_uint64_t cgraph_math_crc64(const cgraph_uint64_t init,
+                                  const cgraph_uint64_t data,
+                                  const cgraph_uint64_t poly) {
+#define CRC_BITS CGRAPH_UINT64_BITS
+#define CRC_MSB CGRAPH_UINT64_MSB
+#define CRC_MASK CGRAPH_UINT64_MASK
+#define CRC_ZERO UINT64_C(0x00)
+  cgraph_uint64_t res = init, temp = (data & res);
+  CGRAPH_LOOP(i, 0, CRC_BITS)
+  res = ((res << 1) & CRC_MASK) ^ (((res ^ temp) & CRC_MSB) ? poly : CRC_ZERO);
+  temp <<= 1;
+  CGRAPH_LOOP_END
+
+  return res;
+#undef CRC_BITS
+#undef CRC_MSB
+#undef CRC_MASK
+#undef CRC_ZERO
 }
 
 cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data) {
@@ -791,6 +823,23 @@ cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x, const cgraph_int_t y,
   return res % mod;
 }
 
+void cgraph_math_addnan(const cgraph_char_t *str) {}
+
+void cgraph_math_delnan(void) {}
+
+cgraph_bool_t cgraph_math_isnan(const cgraph_char_t *str) {
+
+  return CGRAPH_FALSE;
+}
+
+void cgraph_math_addinf(const cgraph_char_t *str) {}
+
+void cgraph_math_delinf(void) {}
+
+cgraph_bool_t cgraph_math_isinf(const cgraph_char_t *str) {
+  return CGRAPH_FALSE;
+}
+
 /**
  * Function : sigmoid
  * Express  : f(x) = 1.0 / (1.0 + exp(-x))
@@ -863,40 +912,250 @@ cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x) {
   return log(1.0 + exp(x));
 }
 
-/* 0xFFFFFF = 16581375 */
-#define CGRAPH_MATH_RGB_MASK UINT32_C(0xFFFFFF)
-#define CGRAPH_MATH_RGB_IMASK UINT32_C(0xFF)
-#define CGRAPH_MATH_RGB_MIN UINT32_C(0)
-#define CGRAPH_MATH_RGB_MAX CGRAPH_MATH_RGB_MASK
-#define CGRAPH_MATH_RGB_DECLEN (8)
-#define CGRAPH_MATH_RGB_HEXLEN (6)
-__INLINE__ cgraph_bool_t cgraph_math_colchk(const cgraph_uint32_t color) {
-  return CGRAPH_TEST((~CGRAPH_MATH_RGB_MASK) & color);
+/**
+ * | type | A bits | R bits | G bits | B bits | mask | maximum |
+ * | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+ * | RGB555 | 0 | 5 | 5 | 5 | 0x7FFF | 32767 |
+ * | RGB565 | 0 | 5 | 6 | 5 | 0xFFFF | 65535 |
+ * | RGB24 | 0 | 8 | 8 | 8 | 0xFFFFFF | 16581375 |
+ * | RGB32 | 8 | 8 | 8 | 8 | 0xFFFFFFFF | 4294967295 |
+ * | RGB2101010 | 2 | 10 | 10 | 10 | 0xFFFFFFFF | 4294967295 |
+ **/
+
+#define RGB_MASK UINT32_C(0xFFFFFF)
+#define RGB_IMASK UINT32_C(0xFF)
+#define RGB_MIN UINT32_C(0x00)
+#define RGB_MAX RGB_MASK
+#define RGB_DECLEN (8)
+#define RGB_HEXLEN (6)
+
+#define RGB555_MASK UINT32_C(0x7FFF)
+#define RGB565_MASK UINT32_C(0xFFFF)
+#define RGB24_MASK UINT32_C(0xFFFFFF)
+#define RGB32_MASK UINT32_C(0xFFFFFFFF)
+#define RGB2TTT_MASK UINT32_C(0xFFFFFFFF)
+
+typedef union {
+  cgraph_color_t data;
+  struct {
+    cgraph_color_t b : 8;
+    cgraph_color_t g : 8;
+    cgraph_color_t r : 8;
+    cgraph_color_t a : 8;
+  } rgb32;
+  struct {
+    cgraph_color_t b : 10;
+    cgraph_color_t g : 10;
+    cgraph_color_t r : 10;
+    cgraph_color_t a : 2;
+  } rgb2ttt;
+  struct {
+    cgraph_color_t b : 5;
+    cgraph_color_t g : 6;
+    cgraph_color_t r : 5;
+  } rgb565;
+  struct {
+    cgraph_color_t b : 4;
+    cgraph_color_t g : 4;
+    cgraph_color_t r : 4;
+    cgraph_color_t a : 4;
+  } rgb4444;
+  struct {
+    cgraph_color_t b : 5;
+    cgraph_color_t g : 5;
+    cgraph_color_t r : 5;
+    cgraph_color_t a : 1;
+  } rgb1555;
+} cgraph_rgb_t;
+
+#define UINT2RGB(x) (*(cgraph_rgb_t *)&(x))
+#define RGB2UINT(x) (x).data
+
+#define RGB32(x) UINT2RGB(x).rgb32
+#define RGB32_B(x) RGB32(x).b
+#define RGB32_G(x) RGB32(x).g
+#define RGB32_R(x) RGB32(x).r
+#define RGB32_A(x) RGB32(x).a
+
+#define RGB24(x) RGB32(x)
+#define RGB24_B(x) RGB24(x).b
+#define RGB24_G(x) RGB24(x).g
+#define RGB24_R(x) RGB24(x).r
+
+#define RGB2TTT(x) UINT2RGB(x).rgb2ttt
+#define RGB2TTT_B(x) RGB2TTT(x).b
+#define RGB2TTT_G(x) RGB2TTT(x).g
+#define RGB2TTT_R(x) RGB2TTT(x).r
+#define RGB2TTT_A(x) RGB2TTT(x).a
+
+#define RGB4444(x) UINT2RGB(x).rgb4444
+#define RGB4444_B(x) RGB4444(x).b
+#define RGB4444_G(x) RGB4444(x).g
+#define RGB4444_R(x) RGB4444(x).r
+#define RGB4444_A(x) RGB4444(x).a
+
+#define RGB565(x) UINT2RGB(x).rgb565
+#define RGB565_B(x) RGB565(x).b
+#define RGB565_G(x) RGB565(x).g
+#define RGB565_R(x) RGB565(x).r
+
+#define RGB1555(x) UINT2RGB(x).rgb1555
+#define RGB1555_B(x) RGB1555(x).b
+#define RGB1555_G(x) RGB1555(x).g
+#define RGB1555_R(x) RGB1555(x).r
+#define RGB1555_A(x) RGB1555(x).a
+
+#define RGB555(x) RGB1555(x)
+#define RGB555_B(x) RGB555(x).b
+#define RGB555_G(x) RGB555(x).g
+#define RGB555_R(x) RGB555(x).r
+
+#ifdef RGB_R2A
+#define RGB2A(rgb, a)                                                          \
+  ((RGB_R2A * RGB32_R((rgb)) + RGB_G2A * RGB32_G((rgb)) +                      \
+    RGB_B2A * RGB32_B((rgb)) + RGB_HAW) /                                      \
+   RGB_AW)
+#else
+#define RGB2A(rgb, a) (a)
+#endif
+
+#define RGB2RGB32(rgb, a, r, g, b)                                             \
+  do {                                                                         \
+    RGB32_B((rgb)) = (b);                                                      \
+    RGB32_G((rgb)) = (g);                                                      \
+    RGB32_R((rgb)) = (r);                                                      \
+    RGB32_R((rgb)) = RGB2A((rgb), (a));                                        \
+  } while (0)
+
+typedef struct {
+  cgraph_char_t b[2];
+  cgraph_char_t g[2];
+  cgraph_char_t r[2];
+  cgraph_char_t a[2];
+} cgraph_hrgb32_t;
+
+__INLINE__ cgraph_bool_t cgraph_math_colchk(const cgraph_color_t color,
+                                            const cgraph_int_t rgb_type) {
+  return CGRAPH_TEST((~RGB_MASK) & color);
 }
 
-__INLINE__ cgraph_uint32_t cgraph_math_colfmt(const cgraph_uint32_t color) {
-  return (CGRAPH_MATH_RGB_MASK & color);
+__INLINE__ cgraph_color_t cgraph_math_colfmt(const cgraph_color_t color,
+                                             const cgraph_int_t rgb_type) {
+  return (RGB_MASK & color);
 }
 
-__INLINE__ cgraph_uint32_t cgraph_math_col2r(const cgraph_uint32_t color) {
-  return (CGRAPH_MATH_RGB_IMASK & (color));
+__INLINE__ cgraph_color_t cgraph_math_rgb2col(const cgraph_color_t r,
+                                              const cgraph_color_t g,
+                                              const cgraph_color_t b) {
+  cgraph_rgb_t rgb;
+  RGB2RGB32(rgb, RGB_MIN, r, g, b);
+
+  return rgb.data;
 }
 
-__INLINE__ cgraph_uint32_t cgraph_math_col2g(const cgraph_uint32_t color) {
-  return (CGRAPH_MATH_RGB_IMASK & (color >> 8));
+__INLINE__ cgraph_color_t cgraph_math_argb2col(const cgraph_color_t a,
+                                               const cgraph_color_t r,
+                                               const cgraph_color_t g,
+                                               const cgraph_color_t b) {
+  cgraph_rgb_t rgb;
+  RGB2RGB32(rgb, a, r, g, b);
+
+  return RGB2UINT(rgb);
 }
 
-__INLINE__ cgraph_uint32_t cgraph_math_col2b(const cgraph_uint32_t color) {
-  return (CGRAPH_MATH_RGB_IMASK & (color >> 16));
+__INLINE__ cgraph_color_t cgraph_math_rgb2argb(const cgraph_color_t r,
+                                               const cgraph_color_t g,
+                                               const cgraph_color_t b) {
+  const cgraph_color_t a = (r + g + b) / 3;
+  cgraph_rgb_t rgb;
+  RGB2RGB32(rgb, a, r, g, b);
+
+  return RGB2UINT(rgb);
 }
 
-cgraph_char_t *cgraph_math_col2dec(const cgraph_uint32_t color,
+__INLINE__ cgraph_color_t cgraph_math_rgb2argb_min(const cgraph_color_t r,
+                                                   const cgraph_color_t g,
+                                                   const cgraph_color_t b) {
+  const cgraph_color_t a = CGRAPH_MIN3V(r, g, b);
+  cgraph_rgb_t rgb;
+  RGB2RGB32(rgb, a, r, g, b);
+
+  return RGB2UINT(rgb);
+}
+
+__INLINE__ cgraph_color_t cgraph_math_rgb2argb_max(const cgraph_color_t r,
+                                                   const cgraph_color_t g,
+                                                   const cgraph_color_t b) {
+  const cgraph_color_t a = CGRAPH_MAX3V(r, g, b);
+  cgraph_rgb_t rgb;
+  RGB2RGB32(rgb, a, r, g, b);
+
+  return RGB2UINT(rgb);
+}
+
+/** alpha = 0.299r + 0.587g + 0.114b */
+__INLINE__ cgraph_color_t cgraph_math_rgb2argb_gray(const cgraph_color_t r,
+                                                    const cgraph_color_t g,
+                                                    const cgraph_color_t b) {
+#define RGB_R2A 299
+#define RGB_G2A 587
+#define RGB_B2A 114
+#define RGB_AW 1000
+#define RGB_HAW (RGB_AW >> 1)
+  cgraph_rgb_t rgb;
+  RGB2RGB32(rgb, RGB_MIN, r, g, b);
+
+  return RGB2UINT(rgb);
+#undef RGB_R2A
+#undef RGB_G2A
+#undef RGB_B2A
+#undef RGB_AW
+#undef RGB_HAW
+}
+
+/** alpha = 0.3r + 0.59g + 0.11b */
+__INLINE__ cgraph_color_t cgraph_math_rgb2argb_y(const cgraph_color_t r,
+                                                 const cgraph_color_t g,
+                                                 const cgraph_color_t b) {
+#define RGB_R2A 30
+#define RGB_G2A 59
+#define RGB_B2A 11
+#define RGB_AW 100
+#define RGB_HAW (RGB_AW >> 1)
+  cgraph_rgb_t rgb;
+  RGB2RGB32(rgb, RGB_MIN, r, g, b);
+
+  return RGB2UINT(rgb);
+#undef RGB_R2A
+#undef RGB_G2A
+#undef RGB_B2A
+#undef RGB_AW
+#undef RGB_HAW
+}
+
+__INLINE__ cgraph_color_t cgraph_math_col2a(const cgraph_color_t color) {
+  return RGB32_A(color);
+}
+
+__INLINE__ cgraph_color_t cgraph_math_col2r(const cgraph_color_t color) {
+  return RGB32_R(color);
+}
+
+__INLINE__ cgraph_color_t cgraph_math_col2g(const cgraph_color_t color) {
+  return RGB32_G(color);
+}
+
+__INLINE__ cgraph_color_t cgraph_math_col2b(const cgraph_color_t color) {
+  return RGB32_B(color);
+}
+
+cgraph_char_t *cgraph_math_col2dec(const cgraph_color_t color,
                                    cgraph_char_t *cstr) {
   if (NULL != cstr) {
-    cgraph_uint32_t res = color;
-    cgraph_char_t *c = cstr + CGRAPH_MATH_RGB_DECLEN;
+    cgraph_color_t res = color;
+    cgraph_char_t *c = cstr + RGB_DECLEN;
     *c = '\0';
-    CGRAPH_LOOP(i, 0, CGRAPH_MATH_RGB_DECLEN)
+    CGRAPH_LOOP(i, 0, RGB_DECLEN)
     *(--c) = cgraph_math_dec2hex(color % 10);
     res /= 10;
     CGRAPH_LOOP_END
@@ -905,13 +1164,13 @@ cgraph_char_t *cgraph_math_col2dec(const cgraph_uint32_t color,
   return cstr;
 }
 
-cgraph_char_t *cgraph_math_col2hex(const cgraph_uint32_t color,
+cgraph_char_t *cgraph_math_col2hex(const cgraph_color_t color,
                                    cgraph_char_t *cstr) {
   if (NULL != cstr) {
-    cgraph_uint32_t res = color;
-    cgraph_char_t *c = cstr + CGRAPH_MATH_RGB_HEXLEN;
+    cgraph_color_t res = color;
+    cgraph_char_t *c = cstr + RGB_HEXLEN;
     *c = '\0';
-    CGRAPH_LOOP(i, 0, CGRAPH_MATH_RGB_HEXLEN)
+    CGRAPH_LOOP(i, 0, RGB_HEXLEN)
     *(--c) = cgraph_math_dec2hex(color & UINT32_C(0xF));
     res >>= 4;
     CGRAPH_LOOP_END
@@ -920,44 +1179,44 @@ cgraph_char_t *cgraph_math_col2hex(const cgraph_uint32_t color,
   return cstr;
 }
 
-cgraph_uint32_t cgraph_math_dec2col(const cgraph_char_t *color) {
-  cgraph_uint32_t res = CGRAPH_MATH_RGB_MIN;
+cgraph_color_t cgraph_math_dec2col(const cgraph_char_t *color) {
+  cgraph_color_t res = RGB_MIN;
   if (CGRAPH_ISSTR(color)) {
     cgraph_size_t i = 0;
     cgraph_char_t *c = (cgraph_char_t *)color;
     if ('#' == *c) {
       c += 1;
     }
-    for (; i < CGRAPH_MATH_RGB_DECLEN; i++) {
+    for (; i < RGB_DECLEN; i++) {
       if (CGRAPH_FALSE == cgraph_math_isdec(c[i])) {
         break;
       }
       res = (res * 10) + cgraph_math_dec2dec(c[i]);
     }
-    if ((CGRAPH_MATH_RGB_MAX < res) || ('\0' != c[i])) {
-      res = CGRAPH_MATH_RGB_MIN;
+    if ((RGB_MAX < res) || ('\0' != c[i])) {
+      res = RGB_MIN;
     }
   }
 
   return res;
 }
 
-cgraph_uint32_t cgraph_math_hex2col(const cgraph_char_t *color) {
-  cgraph_uint32_t res = CGRAPH_MATH_RGB_MIN;
+cgraph_color_t cgraph_math_hex2col(const cgraph_char_t *color) {
+  cgraph_color_t res = RGB_MIN;
   if (CGRAPH_ISSTR(color)) {
     cgraph_size_t i = 0;
     cgraph_char_t *c = (cgraph_char_t *)color;
     if ('#' == *c) {
       c += 1;
     }
-    for (; i < CGRAPH_MATH_RGB_HEXLEN; i++) {
+    for (; i < RGB_HEXLEN; i++) {
       if (CGRAPH_FALSE == cgraph_math_ishex(c[i])) {
         break;
       }
       res = (res << 4) + cgraph_math_hex2dec(c[i]);
     }
-    if ((CGRAPH_MATH_RGB_HEXLEN < i) || ('\0' != c[i])) {
-      res = CGRAPH_MATH_RGB_MIN;
+    if ((RGB_HEXLEN < i) || ('\0' != c[i])) {
+      res = RGB_MIN;
     }
   }
 

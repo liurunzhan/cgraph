@@ -160,6 +160,13 @@ typedef enum {
 #error __STDC_VERSION__ must be defined in this library
 #endif
 
+#if defined(__GNUC__) || defined(__clang__)
+/** a macro value defined to judge the features of gnuc more than stdc */
+#ifndef __GNUC_MTSTDC
+#define __GNUC_MTSTDC
+#endif
+#endif
+
 /** Self-defined features in different compilers */
 /** @{ */
 /**
@@ -173,7 +180,7 @@ typedef enum {
 #elif defined(__MINGW_EXTENSION)
 /** for mingw gcc/clang compilers */
 #define __EXTENSION__ __MINGW_EXTENSION
-#elif defined(__GNUC__) || defined(__clang__)
+#elif defined(__GNUC_MTSTDC)
 /** for gcc/clang Compilers */
 #define __EXTENSION__ __extension__
 #else
@@ -191,7 +198,7 @@ typedef enum {
 #ifndef __INLINE__
 #if __STDC_VERSION__ >= 199901L
 #define __INLINE__ inline
-#elif defined(__GNUC__) || defined(__clang__)
+#elif defined(__GNUC_MTSTDC)
 /** GNU C Compiler or Clang C Compiler */
 #define __INLINE__ __EXTENSION__ __inline__
 #elif defined(_MSC_VER)
@@ -435,7 +442,7 @@ typedef unsigned long uint64_t;
 #define UINT64_C(x) (x##UL)
 #endif
 #elif defined(_MSC_VER) || defined(__int64) ||                                 \
-    (defined(__PLAT_WINDOWS) && (defined(__GNUC__) || defined(__clang__)))
+    (defined(__PLAT_WINDOWS) && defined(__GNUC_MTSTDC))
 /** if used in VC/VC++ Compilers or GCC/Clang in Windows Platform */
 typedef signed __int64 int64_t;
 typedef unsigned __int64 uint64_t;
@@ -499,7 +506,7 @@ __EXTENSION__ typedef unsigned long long uint64_t;
 /** @{ */
 #ifndef SCNd64
 #if defined(_MSC_VER) || defined(__int64) ||                                   \
-    (defined(__PLAT_WINDOWS) && (defined(__GNUC__) || defined(__clang__)))
+    (defined(__PLAT_WINDOWS) && defined(__GNUC_MTSTDC))
 /** if used in VC/VC++ Compilers or GCC/Clang in Windows Platform */
 #define SCNd64 "I64d"
 #define PRId64 "I64d"
@@ -671,19 +678,14 @@ typedef uint64_t uint128_t;
  * value(sign, exp, bias, fra) = sign * fra * 2^(exp + bias)
  */
 /** @{ */
-#define FLT8_MIN UINT16_C(0xEF)
-#define FLT8_MAX UINT16_C(0x6F)
-#define FLT8_NAN UINT16_C(0x7F)
-#define FLT8_INF UINT16_C(0x70)
-#define FLT8_PINF FLT8_INF
-#define FLT8_NINF UINT16_C(0xF0)
-#define FLT8_EPSILON UINT16_C(0x10)
+#define FLT8_BITS (8)
+#define FLT8_EPSILON UINT8_C(0x10)
 #define FLT8_DIG UINT8_EPSILON
 #define FLT8_MASK UINT8_MASK
 #define FLT8_EXP_DIG (3)
 #define FLT8_EXP_BIAS (0)
 #define FLT8_EXP_BITS FLT8_EXP_DIG
-#define FLT8_EXP_MASK UINT16_C(0x07)
+#define FLT8_EXP_MASK UINT8_C(0x07)
 #define FLT8_EXP_OFFSET (0)
 #define FLT8_FRAC_DIG (4)
 #define FLT8_FRAC_BIAS FLT8_EXP_BITS
@@ -691,7 +693,24 @@ typedef uint64_t uint128_t;
 #define FLT8_FRAC_MASK UINT8_C(0x0F)
 #define FLT8_FRAC_OFFSET (0)
 #define FLT8_SIG_DIG (0)
+#define FLT8_SIG_BITS (1)
 #define FLT8_SIG_MASK (0)
+
+typedef union {
+  struct {
+    uint32_t sig : FLT8_SIG_BITS;
+    uint32_t exp : FLT8_EXP_BITS;
+    uint32_t frac : FLT8_FRAC_BITS;
+  } sfloat;
+  uint32_t data : FLT8_BITS;
+} cgraph_sfloat8_t;
+
+#define FLT8_MIN UINT8_C(0xEF)
+#define FLT8_MAX UINT8_C(0x6F)
+#define FLT8_NAN UINT8_C(0x7F)
+#define FLT8_INF UINT8_C(0x70)
+#define FLT8_PINF FLT8_INF
+#define FLT8_NINF UINT8_C(0xF0)
 /** @} */
 
 /**
@@ -702,12 +721,7 @@ typedef uint64_t uint128_t;
  * value(sign, exp, bias, fra) = sign * fra * 2^(exp + bias)
  */
 /** @{ */
-#define FLT16_MIN UINT16_C(0xFEFF)
-#define FLT16_MAX UINT16_C(0x7EFF)
-#define FLT16_NAN UINT16_C(0x7FFF)
-#define FLT16_INF UINT16_C(0x7C00)
-#define FLT16_PINF FLT16_INF
-#define FLT16_NINF UINT16_C(0xFC00)
+#define FLT16_BITS (16)
 #define FLT16_EPSILON UINT16_C(0x0100)
 #define FLT16_DIG (0)
 #define FLT16_MASK UINT16_MASK
@@ -722,7 +736,24 @@ typedef uint64_t uint128_t;
 #define FLT16_FRAC_MASK UINT16_C(0x3FF)
 #define FLT16_FRAC_OFFSET (0)
 #define FLT16_SIG_DIG (0)
+#define FLT16_SIG_BITS (1)
 #define FLT16_SIG_MASK UINT16_C(0)
+
+typedef union {
+  struct {
+    uint32_t sig : FLT16_SIG_BITS;
+    uint32_t exp : FLT16_EXP_BITS;
+    uint32_t frac : FLT16_FRAC_BITS;
+  } sfloat;
+  uint32_t data : FLT16_BITS;
+} cgraph_sfloat16_t;
+
+#define FLT16_MIN UINT16_C(0xFEFF)
+#define FLT16_MAX UINT16_C(0x7EFF)
+#define FLT16_NAN UINT16_C(0x7FFF)
+#define FLT16_INF UINT16_C(0x7C00)
+#define FLT16_PINF FLT16_INF
+#define FLT16_NINF UINT16_C(0xFC00)
 /** @} */
 
 /** 32-bit float point number */
@@ -794,7 +825,7 @@ typedef uint64_t uint128_t;
 #define FLT128_NINF (-FLT128_ONE / FLT128_ZERO)
 /** @} */
 
-#if (__STDC_VERSION__ >= 201112L)
+#if (__STDC_VERSION__ >= 201112L) || defined(__GNUC_MTSTDC)
 #define __TYPE_BEGIN(name)
 #define __TYPE_END(name)
 #define __TYPE_ELEMENT(type, element) ((type))

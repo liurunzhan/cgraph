@@ -64,8 +64,8 @@ DATA_TYPE FUNCTION(NAME, cosiangle)(const TYPE x, const TYPE y) {
          (FUNCTION(NAME, mag)(x) * FUNCTION(NAME, mag)(y));
 }
 
-/** iangle(x, y) = acos((x * y) / (|x| * |y|)) */
-DATA_TYPE FUNCTION(NAME, iangle)(const TYPE x, const TYPE y) {
+/** inagl(x, y) = acos((x * y) / (|x| * |y|)) */
+DATA_TYPE FUNCTION(NAME, inagl)(const TYPE x, const TYPE y) {
   return acos(FUNCTION(NAME, cosiangle)(x, y));
 }
 

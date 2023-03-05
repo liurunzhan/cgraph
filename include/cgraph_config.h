@@ -681,6 +681,10 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 #define CGRAPH_NTEST(x) ((x) ? CGRAPH_FALSE : CGRAPH_TRUE)
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define CGRAPH_MIN3V(x, y, z)                                                  \
+  (((x) > (y)) ? CGRAPH_MAX(x, z) : CGRAPH_MAX(y, z))
+#define CGRAPH_MAX3V(x, y, z)                                                  \
+  (((x) < (y)) ? CGRAPH_MIN(x, z) : CGRAPH_MIN(y, z))
 #define CGRAPH_ABS(x) ((0 > (x)) ? (-(x)) : (x))
 #define CGRAPH_POS(x, bits) ((0 <= (x)) ? (x) : ((x) + (bits)))
 #define CGRAPH_AND(x, y) ((x) & (y))
@@ -730,6 +734,7 @@ typedef cgraph_uint8_t *cgraph_addr_t;
 /** @defgroup group_type cgraph_type_t */
 /** @{ */
 typedef enum {
+  CGRAPH_MIN_T = 0,       /**< TYPE MN : CGRAPH_MIN_T */
   CGRAPH_OBJECT_T = 0,    /**< TYPE  0 : CGRAPH_OBJECT_T */
   CGRAPH_HOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_HOBJECT_T */
   CGRAPH_GOBJECT_T = 0,   /**< TYPE  0 : CGRAPH_GOBJECT_T */

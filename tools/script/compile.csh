@@ -27,8 +27,17 @@ else if ( $MODE == "release" ) then
   set CFLAGS="${CFLAGS} -static -O2"
 endif
 
+# build and clean directories and files
+set MKDIR=mkdir
+set MKDIRFLAGS="-p"
+set RM=rm
+set RMFLAGS="-f"
+
+set RMDIR=rm
+set RMDIRFLAGS="-rf"
+
 # package shared library
-set AR="ar"
+set AR=ar
 set ARFLAGS="-rcs"
 
 # source files
@@ -43,6 +52,7 @@ set TSTFILE="${TST}/${PRO}.c"
 set TSTTARGET="${TST}/${PRO}"
 
 if ( $#argv == 0 ) then
+  ${MKDIR} ${MKDIRFLAGS} ${MKDIR} 
   foreach file ($CFILES)
     regsub {.c$} $file .o obj
     regsub {.c$} $file .d dep

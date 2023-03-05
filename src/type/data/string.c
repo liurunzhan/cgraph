@@ -712,12 +712,14 @@ TYPE *FUNCTION(NAME, fmt)(TYPE *cthis) {
 cgraph_bool_t FUNCTION(NAME, match)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y) && (x->len == y->len)) {
+    DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
     flag = CGRAPH_TRUE;
     CGRAPH_LOOP(i, 0, x->len)
-    if (cgraph_math_toupper(x->data[i]) != cgraph_math_toupper(y->data[i])) {
+    if (cgraph_math_chmatch(*xd, *yd)) {
       flag = CGRAPH_FALSE;
       break;
     }
+    xd--, yd--;
     CGRAPH_LOOP_END
   } else if ((NULL == x) && (NULL == y)) {
     flag = CGRAPH_TRUE;

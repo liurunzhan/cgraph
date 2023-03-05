@@ -83,8 +83,6 @@ extern cgraph_float64_t cgraph_rand64_normal(const cgraph_float64_t mu,
 
 extern cgraph_bool_t cgraph_rand_bool(void);
 extern cgraph_logic_t cgraph_rand_logic(void);
-
-/** random size */
 extern cgraph_size_t cgraph_rand_size(const cgraph_size_t size);
 
 #ifdef __cplusplus

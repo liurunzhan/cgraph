@@ -135,22 +135,10 @@
 #define NE(a, b)                                                               \
   (DATA_NE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
    DATA_NE(COMPLEX_IMAG(a), COMPLEX_IMAG(b)))
-#define GT(a, b)                                                               \
-  (DATA_GT(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
-   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
-    DATA_GT(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
-#define GE(a, b)                                                               \
-  (DATA_GE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
-   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
-    DATA_GE(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
-#define LT(a, b)                                                               \
-  (DATA_LT(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
-   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
-    DATA_LT(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
-#define LE(a, b)                                                               \
-  (DATA_LE(COMPLEX_REAL(a), COMPLEX_REAL(b)) ||                                \
-   (DATA_EQ(COMPLEX_REAL(a), COMPLEX_REAL(b)) &&                               \
-    DATA_LE(COMPLEX_IMAG(a), COMPLEX_IMAG(b))))
+#define GT(a, b) FUNCTION(NAME, mgt)((a), (b))
+#define GE(a, b) FUNCTION(NAME, mge)((a), (b))
+#define LT(a, b) FUNCTION(NAME, mlt)((a), (b))
+#define LE(a, b) FUNCTION(NAME, mle)((a), (b))
 
 #define ABS(a) FUNCTION(NAME, abs)((a))
 #define CEIL(a, b) FUNCTION(NAME, ceil)((a), (b))

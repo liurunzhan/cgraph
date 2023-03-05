@@ -34,8 +34,9 @@ end
 
 # build and clean directories and files
 set MKDIR mkdir
+set MKDIRFLAGS "-p"
 set RM rm
-set RMFLAGS "-rf"
+set RMFLAGS "-f"
 
 set RMDIR rm
 set RMDIRFLAGS "-rf"
@@ -57,7 +58,7 @@ set TSTTARGET ${TST}/${PRO}
 set OPT $1
 
 if -z $1
-  ${MKDIR} ${LIB} 
+  ${MKDIR} ${MKDIRFLAGS} ${LIB} 
   for file in ${CFILES}
     obj=`echo ${file} | sed "s/\.c$/\.o/g"`
     dep=`echo ${file} | sed "s/\.c$/\.d/g"`

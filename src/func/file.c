@@ -295,7 +295,7 @@ cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
 #define vsnprintf vsnprintf
 #else
 #define __NO_VSNPRINTF
-#if defined(__GNUC__) || defined(__clang__)
+#if defined(__GNUC_MTSTDC)
 #define fprintf __EXTENSION__ fprintf
 #define vfprintf __EXTENSION__ vfprintf
 #define vsprintf __EXTENSION__ vsprintf
@@ -811,14 +811,6 @@ CERROR:
   return 0;
 }
 
-cgraph_size_t cgraph_file_size(FILE *fp) {
-#if __WORDSIZE == 64
-  return cgraph_file_size64(fp);
-#else
-  return cgraph_file_size32(fp);
-#endif
-}
-
 static const cgraph_char_t *_platform = __PLAT_NAME;
 static const cgraph_char_t *_path_split = __PLAT_PSPLIT;
 static const cgraph_char_t *_line_end = __PLAT_LEND;
@@ -826,7 +818,7 @@ static const cgraph_char_t *_line_end = __PLAT_LEND;
 /** judge platform information */
 #if __PLAT_ENDIAN == __PLAT_ENDIAN_NONE
 const static union cgraph_endian_t {
-  cgraph_int32_t num;
+  cgraph_uint32_t num;
   cgraph_uint8_t byte[4];
 } cgraph_file_endian = {1};
 #endif

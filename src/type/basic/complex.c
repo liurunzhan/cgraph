@@ -256,6 +256,30 @@ TYPE FUNCTION(NAME, unit_inv)(const cgraph_int_t n, const cgraph_int_t i) {
   return res;
 }
 
+TYPE FUNCTION(NAME, initcri)(const TYPE x) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initcr)(const TYPE x) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = DATA_ZERO;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initci)(const TYPE x) {
+  TYPE res;
+  COMPLEX_REAL(res) = DATA_ZERO;
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
+
+  return res;
+}
+
 /**            functions of complex numbers with one complex number */
 DATA_TYPE FUNCTION(NAME, real)(const TYPE x) { return COMPLEX_REAL(x); }
 
@@ -283,7 +307,7 @@ DATA_TYPE FUNCTION(NAME, angle)(const TYPE x) {
   return atan2(COMPLEX_IMAG(x), COMPLEX_REAL(x));
 }
 
-DATA_TYPE FUNCTION(NAME, iangle)(const TYPE x, const TYPE y) {
+DATA_TYPE FUNCTION(NAME, inagl)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, angle)(FUNCTION(NAME, div)(x, y));
 }
 
@@ -361,6 +385,14 @@ TYPE FUNCTION(NAME, conj)(const TYPE x) {
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_REAL(x);
   COMPLEX_IMAG(res) = -COMPLEX_IMAG(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, iconj)(const TYPE x) {
+  TYPE res;
+  COMPLEX_REAL(res) = -COMPLEX_REAL(x);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(x);
 
   return res;
 }
@@ -467,8 +499,18 @@ TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mul)(x, FUNCTION(NAME, conj)(y));
 }
 
-TYPE FUNCTION(NAME, dot_conj)(const TYPE x, const TYPE y) {
+TYPE FUNCTION(NAME, dotconj)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mul)(FUNCTION(NAME, conj)(x), y);
+}
+
+TYPE FUNCTION(NAME, 1xads)(const TYPE x) {
+  return FUNCTION(NAME, div)(FUNCTION(NAME, rxadd)(DATA_ONE, x),
+                             FUNCTION(NAME, rxsub)(DATA_ONE, x));
+}
+
+TYPE FUNCTION(NAME, adsx1)(const TYPE x) {
+  return FUNCTION(NAME, div)(FUNCTION(NAME, addr)(x, DATA_ONE),
+                             FUNCTION(NAME, subr)(x, DATA_ONE));
 }
 
 TYPE FUNCTION(NAME, rdadd)(const TYPE x, const TYPE y) {
@@ -632,9 +674,8 @@ TYPE FUNCTION(NAME, sqrt)(const TYPE x) {
 
 TYPE FUNCTION(NAME, pow)(const TYPE x, const TYPE y) {
   TYPE res = FUNCTION(NAME, log)(x);
-  res = FUNCTION(NAME, mul)(y, res);
 
-  return FUNCTION(NAME, exp)(res);
+  return FUNCTION(NAME, exp)(FUNCTION(NAME, mul)(y, res));
 }
 
 TYPE FUNCTION(NAME, int)(const TYPE x) {
@@ -690,27 +731,19 @@ TYPE FUNCTION(NAME, cos)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, tan)(const TYPE x) {
-  TYPE sinx = FUNCTION(NAME, sin)(x), cosx = FUNCTION(NAME, cos)(x);
-
-  return FUNCTION(NAME, div)(sinx, cosx);
+  return FUNCTION(NAME, div)(FUNCTION(NAME, sin)(x), FUNCTION(NAME, cos)(x));
 }
 
 TYPE FUNCTION(NAME, cot)(const TYPE x) {
-  TYPE sinx = FUNCTION(NAME, sin)(x), cosx = FUNCTION(NAME, cos)(x);
-
-  return FUNCTION(NAME, div)(cosx, sinx);
+  return FUNCTION(NAME, div)(FUNCTION(NAME, cos)(x), FUNCTION(NAME, sin)(x));
 }
 
 TYPE FUNCTION(NAME, sec)(const TYPE x) {
-  TYPE cosx = FUNCTION(NAME, cos)(x);
-
-  return FUNCTION(NAME, inv)(cosx);
+  return FUNCTION(NAME, inv)(FUNCTION(NAME, cos)(x));
 }
 
 TYPE FUNCTION(NAME, csc)(const TYPE x) {
-  TYPE sinx = FUNCTION(NAME, sin)(x);
-
-  return FUNCTION(NAME, inv)(sinx);
+  return FUNCTION(NAME, inv)(FUNCTION(NAME, sin)(x));
 }
 
 TYPE FUNCTION(NAME, sinh)(const TYPE x) {
@@ -734,27 +767,19 @@ TYPE FUNCTION(NAME, cosh)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, tanh)(const TYPE x) {
-  TYPE sinhx = FUNCTION(NAME, sinh)(x), coshx = FUNCTION(NAME, cosh)(x);
-
-  return FUNCTION(NAME, div)(sinhx, coshx);
+  return FUNCTION(NAME, div)(FUNCTION(NAME, sinh)(x), FUNCTION(NAME, cosh)(x));
 }
 
 TYPE FUNCTION(NAME, coth)(const TYPE x) {
-  TYPE sinhx = FUNCTION(NAME, sinh)(x), coshx = FUNCTION(NAME, cosh)(x);
-
-  return FUNCTION(NAME, div)(coshx, sinhx);
+  return FUNCTION(NAME, div)(FUNCTION(NAME, cosh)(x), FUNCTION(NAME, sinh)(x));
 }
 
 TYPE FUNCTION(NAME, sech)(const TYPE x) {
-  TYPE coshx = FUNCTION(NAME, cosh)(x);
-
-  return FUNCTION(NAME, inv)(coshx);
+  return FUNCTION(NAME, inv)(FUNCTION(NAME, cosh)(x));
 }
 
 TYPE FUNCTION(NAME, csch)(const TYPE x) {
-  TYPE sinhx = FUNCTION(NAME, sinh)(x);
-
-  return FUNCTION(NAME, inv)(sinhx);
+  return FUNCTION(NAME, inv)(FUNCTION(NAME, sinh)(x));
 }
 
 TYPE FUNCTION(NAME, asin)(const TYPE x) {
@@ -792,6 +817,28 @@ TYPE FUNCTION(NAME, atan)(const TYPE x) {
   COMPLEX_IMAG(res) = -0.5 * COMPLEX_REAL(log_log);
 
   return res;
+}
+
+TYPE FUNCTION(NAME, asinh)(const TYPE x) {
+  return FUNCTION(NAME, log)(
+      FUNCTION(NAME, add)(x, FUNCTION(NAME, sqrt)(FUNCTION(NAME, addr)(
+                                 FUNCTION(NAME, pow2)(x), DATA_ONE))));
+}
+
+TYPE FUNCTION(NAME, acosh)(const TYPE x) {
+  return FUNCTION(NAME, log)(
+      FUNCTION(NAME, add)(x, FUNCTION(NAME, sqrt)(FUNCTION(NAME, subr)(
+                                 FUNCTION(NAME, pow2)(x), DATA_ONE))));
+}
+
+TYPE FUNCTION(NAME, atanh)(const TYPE x) {
+  return FUNCTION(NAME, mulr)(FUNCTION(NAME, log)(FUNCTION(NAME, 1xads)(x)),
+                              0.5);
+}
+
+TYPE FUNCTION(NAME, acoth)(const TYPE x) {
+  return FUNCTION(NAME, mulr)(FUNCTION(NAME, log)(FUNCTION(NAME, adsx1)(x)),
+                              0.5);
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, isreal)(const TYPE x) {
@@ -842,6 +889,60 @@ __INLINE__ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE x, const TYPE y) {
   return EQ(x, y);
 }
 
+__INLINE__ cgraph_bool_t FUNCTION(NAME, mgt)(const TYPE x, const TYPE y) {
+  DATA_TYPE mag_x = FUNCTION(NAME, mag)(x), mag_y = FUNCTION(NAME, mag)(y);
+
+  if (DATA_GT(mag_x, mag_y) ||
+      (DATA_EQ(mag_x, mag_y) &&
+       (DATA_GT(COMPLEX_REAL(x), COMPLEX_REAL(y)) ||
+        (DATA_EQ(COMPLEX_REAL(x), COMPLEX_REAL(y)) &&
+         DATA_GT(COMPLEX_IMAG(x), COMPLEX_IMAG(y)))))) {
+    return CGRAPH_TRUE;
+  }
+
+  return CGRAPH_FALSE;
+}
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, mge)(const TYPE x, const TYPE y) {
+  DATA_TYPE mag_x = FUNCTION(NAME, mag)(x), mag_y = FUNCTION(NAME, mag)(y);
+
+  if (DATA_GT(mag_x, mag_y) ||
+      (DATA_EQ(mag_x, mag_y) &&
+       (DATA_GT(COMPLEX_REAL(x), COMPLEX_REAL(y)) ||
+        (DATA_EQ(COMPLEX_REAL(x), COMPLEX_REAL(y)) &&
+         DATA_GE(COMPLEX_IMAG(x), COMPLEX_IMAG(y)))))) {
+    return CGRAPH_TRUE;
+  }
+
+  return CGRAPH_FALSE;
+}
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, mlt)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mgt)(y, x);
+}
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, mle)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, mge)(y, x);
+}
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, dgt)(const TYPE x, const TYPE y) {
+  return CGRAPH_TEST(DATA_GT(COMPLEX_REAL(x), COMPLEX_IMAG(x)) ||
+                     (DATA_GT(COMPLEX_IMAG(x), COMPLEX_IMAG(y))));
+}
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, dge)(const TYPE x, const TYPE y) {
+  return CGRAPH_TEST(DATA_GE(COMPLEX_REAL(x), COMPLEX_IMAG(x)) ||
+                     (DATA_GE(COMPLEX_IMAG(x), COMPLEX_IMAG(y))));
+}
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, dlt)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, dgt)(y, x);
+}
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, dle)(const TYPE x, const TYPE y) {
+  return FUNCTION(NAME, dge)(y, x);
+}
+
 __INLINE__ cgraph_bool_t FUNCTION(NAME, gt)(const TYPE x, const TYPE y) {
   return GT(x, y);
 }
@@ -875,7 +976,7 @@ TYPE FUNCTION(NAME, mulr)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divr)(const TYPE x, const DATA_TYPE y) {
-  const DATA_TYPE y_inv = 1.0 / y;
+  const DATA_TYPE y_inv = DATA_ONE / y;
   TYPE res;
   COMPLEX_REAL(res) = COMPLEX_REAL(x) * y_inv;
   COMPLEX_IMAG(res) = COMPLEX_IMAG(x) * y_inv;
@@ -889,6 +990,51 @@ TYPE FUNCTION(NAME, powr)(const TYPE x, const DATA_TYPE y) {
   TYPE res;
   COMPLEX_REAL(res) = mag * cos(angle);
   COMPLEX_IMAG(res) = mag * sin(angle);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rxadd)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = x + COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rxsub)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = x - COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = -COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rxmul)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = x * COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = x * COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rxdiv)(const DATA_TYPE x, const TYPE y) {
+  const DATA_TYPE x_inv = DATA_ONE / x;
+  TYPE res;
+  COMPLEX_REAL(res) = x_inv * COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = x_inv * COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rxmod)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, rxpow)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
 
   return res;
 }
@@ -919,7 +1065,7 @@ TYPE FUNCTION(NAME, muli)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y) {
-  const DATA_TYPE y_inv = 1.0 / y;
+  const DATA_TYPE y_inv = DATA_ONE / y;
   TYPE res;
   COMPLEX_REAL(res) = y_inv * COMPLEX_IMAG(x);
   COMPLEX_IMAG(res) = -y_inv * COMPLEX_REAL(x);
@@ -928,9 +1074,52 @@ TYPE FUNCTION(NAME, divi)(const TYPE x, const DATA_TYPE y) {
 }
 
 TYPE FUNCTION(NAME, powi)(const TYPE x, const DATA_TYPE y) {
-  TYPE res = FUNCTION(NAME, log)(x);
+  return FUNCTION(NAME, exp)(FUNCTION(NAME, muli)(FUNCTION(NAME, log)(x), y));
+}
 
-  return FUNCTION(NAME, exp)(FUNCTION(NAME, muli)(res, y));
+TYPE FUNCTION(NAME, ixadd)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = x + COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ixsub)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = -COMPLEX_REAL(y);
+  COMPLEX_IMAG(res) = x - COMPLEX_IMAG(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ixmul)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+  COMPLEX_REAL(res) = -x * COMPLEX_IMAG(y);
+  COMPLEX_IMAG(res) = x * COMPLEX_REAL(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ixdiv)(const DATA_TYPE x, const TYPE y) {
+  const DATA_TYPE x_inv = DATA_ONE / x;
+  TYPE res;
+  COMPLEX_REAL(res) = x_inv * COMPLEX_IMAG(y);
+  COMPLEX_IMAG(res) = -x_inv * COMPLEX_REAL(y);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ixmod)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, ixpow)(const DATA_TYPE x, const TYPE y) {
+  TYPE res;
+
+  return res;
 }
 
 /** @brief Fast Fourier Transform (fft) */

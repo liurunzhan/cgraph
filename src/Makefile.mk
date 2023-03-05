@@ -55,9 +55,9 @@ $(SRC)$(PSEP)version.c: $(INC)$(PSEP)cgraph_config.h
 else
 PREDEPS = 
 
-$(warning one or more of $(PREDEPS_FILES) don't exist in current work space)
-$(warning expecting PREDEPS is $(PREDEPS_FILES))
-$(warning existing  PREDEPS is $(PREDEPS_EXIST_FILES))
+$(info one or more of $(PREDEPS_FILES) don't exist in current work space)
+$(info expecting PREDEPS is $(PREDEPS_FILES))
+$(info existing  PREDEPS is $(PREDEPS_EXIST_FILES))
 endif
 
 %.o: %.c

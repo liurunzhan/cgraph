@@ -185,6 +185,8 @@ extern cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
                                         const cgraph_char_t datay);
 extern cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
                                          const cgraph_char_t datay);
+extern cgraph_bool_t cgraph_math_chmatch(const cgraph_char_t datax,
+                                         const cgraph_char_t datay);
 
 /** used to parse C-style codes to C-style objects */
 extern cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data);
@@ -267,9 +269,18 @@ extern cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
                                        const cgraph_uint64_t y);
 extern cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
                                        const cgraph_uint64_t y);
-extern cgraph_uint64_t cgraph_math_crc(const cgraph_uint64_t predata,
-                                       const cgraph_uint64_t data,
-                                       const cgraph_uint64_t poly);
+extern cgraph_uint32_t cgraph_math_crc32(const cgraph_uint32_t init,
+                                         const cgraph_uint32_t data,
+                                         const cgraph_uint32_t poly);
+extern cgraph_uint64_t cgraph_math_crc64(const cgraph_uint64_t init,
+                                         const cgraph_uint64_t data,
+                                         const cgraph_uint64_t poly);
+#ifndef cgraph_math_crc
+#define cgraph_math_crc(init, data, poly)                                      \
+  ((sizeof(poly) == sizeof(cgraph_uint32_t))                                   \
+       ? cgraph_math_crc32(init, data, poly)                                   \
+       : cgraph_math_crc64(init, data, poly))
+#endif
 
 extern cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data);
 extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
@@ -317,6 +328,14 @@ extern cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x,
                                          const cgraph_int_t y,
                                          const cgraph_int_t mod);
 
+/**  function to add and delete nan-type strings */
+extern void cgraph_math_addnan(const cgraph_char_t *str);
+extern void cgraph_math_delnan(void);
+extern cgraph_bool_t cgraph_math_isnan(const cgraph_char_t *str);
+extern void cgraph_math_addinf(const cgraph_char_t *str);
+extern void cgraph_math_delinf(void);
+extern cgraph_bool_t cgraph_math_isinf(const cgraph_char_t *str);
+
 /** Activation Functions defined in Neural Networks */
 /** Function 1 : sigmoid */
 extern cgraph_float64_t cgraph_math_sigmoid(const cgraph_float64_t x);
@@ -339,17 +358,44 @@ extern cgraph_float64_t cgraph_math_swish(const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x);
 
 /** RGB Color Generator */
-extern cgraph_bool_t cgraph_math_colchk(const cgraph_uint32_t color);
-extern cgraph_uint32_t cgraph_math_colfmt(const cgraph_uint32_t color);
-extern cgraph_uint32_t cgraph_math_col2r(const cgraph_uint32_t color);
-extern cgraph_uint32_t cgraph_math_col2g(const cgraph_uint32_t color);
-extern cgraph_uint32_t cgraph_math_col2b(const cgraph_uint32_t color);
-extern cgraph_char_t *cgraph_math_col2dec(const cgraph_uint32_t color,
+typedef cgraph_uint32_t cgraph_color_t;
+extern cgraph_bool_t cgraph_math_colchk(const cgraph_color_t color,
+                                        const cgraph_int_t rgb_type);
+extern cgraph_color_t cgraph_math_colfmt(const cgraph_color_t color,
+                                         const cgraph_int_t rgb_type);
+extern cgraph_color_t cgraph_math_rgb2gbr(const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_rgb2col(const cgraph_color_t r,
+                                          const cgraph_color_t g,
+                                          const cgraph_color_t b);
+extern cgraph_color_t cgraph_math_argb2col(const cgraph_color_t a,
+                                           const cgraph_color_t r,
+                                           const cgraph_color_t g,
+                                           const cgraph_color_t b);
+extern cgraph_color_t cgraph_math_rgb2argb(const cgraph_color_t r,
+                                           const cgraph_color_t g,
+                                           const cgraph_color_t b);
+extern cgraph_color_t cgraph_math_rgb2argb_min(const cgraph_color_t r,
+                                               const cgraph_color_t g,
+                                               const cgraph_color_t b);
+extern cgraph_color_t cgraph_math_rgb2argb_max(const cgraph_color_t r,
+                                               const cgraph_color_t g,
+                                               const cgraph_color_t b);
+extern cgraph_color_t cgraph_math_rgb2argb_gray(const cgraph_color_t r,
+                                                const cgraph_color_t g,
+                                                const cgraph_color_t b);
+extern cgraph_color_t cgraph_math_rgb2argb_y(const cgraph_color_t r,
+                                             const cgraph_color_t g,
+                                             const cgraph_color_t b);
+extern cgraph_color_t cgraph_math_col2a(const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_col2r(const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_col2g(const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_col2b(const cgraph_color_t color);
+extern cgraph_char_t *cgraph_math_col2dec(const cgraph_color_t color,
                                           cgraph_char_t *cstr);
-extern cgraph_char_t *cgraph_math_col2hex(const cgraph_uint32_t color,
+extern cgraph_char_t *cgraph_math_col2hex(const cgraph_color_t color,
                                           cgraph_char_t *cstr);
-extern cgraph_uint32_t cgraph_math_dec2col(const cgraph_char_t *color);
-extern cgraph_uint32_t cgraph_math_hex2col(const cgraph_char_t *color);
+extern cgraph_color_t cgraph_math_dec2col(const cgraph_char_t *color);
+extern cgraph_color_t cgraph_math_hex2col(const cgraph_char_t *color);
 
 #ifdef __cplusplus
 }

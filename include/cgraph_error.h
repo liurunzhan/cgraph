@@ -43,6 +43,7 @@ typedef enum {
   CGRAPH_ERROR_OBJECT_HANDLE_ERROR = 11   /** OBJECT HANDLE ERROR */
 } cgraph_error_t;
 
+#define CGRAPH_ERROR_DEFAULT CGRAPH_ERROR_ERROR
 #define CGRAPH_ERROR_SIZE (12)
 
 cgraph_size_t cgraph_error_print(cgraph_error_t reason,
@@ -109,7 +110,7 @@ extern cgraph_size_t cgraph_error_fsnprintfln(
 #define cgraph_error_log(level, format, ...) ((void)0)
 #endif
 
-#elif defined(__GNUC__) || defined(__clang__)
+#elif defined(__GNUC_MTSTDC)
 
 #if 0
 #ifdef DEBUG
@@ -124,8 +125,10 @@ cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, format, ##args)
 
 #ifdef DEBUG
 #define cgraph_error_log(level, format, args)                                  \
-  (cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, ""),        \
-   cgraph_error_printfln(NULL, NULL, NULL, level, format, args))
+  do {                                                                         \
+    cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, level, "");       \
+    cgraph_error_printfln(NULL, NULL, NULL, level, format, args);              \
+  } while (0)
 #else
 #define cgraph_error_log(level, format, args) ((void)0)
 #endif

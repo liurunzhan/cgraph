@@ -92,7 +92,15 @@ extern cgraph_size_t cgraph_file_columns(cgraph_char_t *cbuf,
                                          cgraph_char_t *sep, FILE *fp);
 extern cgraph_int32_t cgraph_file_size32(FILE *fp);
 extern cgraph_int64_t cgraph_file_size64(FILE *fp);
-extern cgraph_size_t cgraph_file_size(FILE *fp);
+#ifndef cgraph_file_size
+/** for 64-bits cpu and os */
+#if __WORDSIZE == 64
+#define cgraph_file_size(fp) cgraph_file_size64(fp)
+/** for 32-bits cpu and os */
+#else
+#define cgraph_file_size(fp) cgraph_file_size32(fp)
+#endif
+#endif
 
 extern void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
                            cgraph_char_t **line_end,

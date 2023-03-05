@@ -34,8 +34,9 @@ if [[ ${MODE} == "debug" ]] {
 
 # build and clean directories and files
 MKDIR=mkdir
+MKDIRFLAGS=(-p)
 RM=rm
-RMFLAGS=(-rf)
+RMFLAGS=(-f)
 
 RMDIR=rm
 RMDIRFLAGS=(-rf)
@@ -54,7 +55,7 @@ TSTFILE=$TST/$PRO.c
 TSTTARGET=$TST/$PRO
 
 if (( $# == 0 )) {
-  $MKDIR $LIB
+  $MKDIR $MKDIRFLAGS $LIB
   for file ($CFILES) {
     obj=`echo $file | sed "s/\.c$/\.o/g"`
     dep=`echo $file | sed "s/\.c$/\.d/g"`

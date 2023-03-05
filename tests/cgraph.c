@@ -120,6 +120,8 @@ int main(int argc, char *argv[]) {
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
   FILE *fp = cgraph_file_fopen(
       "." __PLAT_PSPLIT "test" __PLAT_PSPLIT "rand_seed.csv", "w");
+  cgraph_uint32_t crc_pre = 0xFFFFFFFF, crc_data = 0x55AA00FF, crc_poly = 0x07;
+  fprintf(stdout, "crc : %0x\n", cgraph_math_crc(crc_pre, crc_data, crc_poly));
   cgraph_cmdarg_fprintln(stdout, cmdarg);
   cgraph_file_fprintfln(stdout, "hello world");
   cgraph_file_fprintfln(stdout, "%s %ld", name,

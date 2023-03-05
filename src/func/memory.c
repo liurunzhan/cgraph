@@ -597,9 +597,9 @@ cgraph_bool_t cgraph_strcasecmp(const cgraph_char_t *str1,
     if (('\0' == *str1) && ('\0' == *str2)) {
       flag = CGRAPH_TRUE;
     } else if (('\0' != *str1) && ('\0' != *str2)) {
-      flag = CGRAPH_TRUE;
       cgraph_char_t *pstr1 = (cgraph_char_t *)str1,
                     *pstr2 = (cgraph_char_t *)str2;
+      flag = CGRAPH_TRUE;
     }
   }
 
@@ -632,9 +632,9 @@ cgraph_bool_t cgraph_strncasecmp(const cgraph_char_t *str1,
     if (('\0' == *str1) && ('\0' == *str2)) {
       flag = CGRAPH_TRUE;
     } else if (('\0' != *str1) && ('\0' != *str2)) {
-      flag = CGRAPH_TRUE;
       cgraph_char_t *pstr1 = (cgraph_char_t *)str1,
                     *pstr2 = (cgraph_char_t *)str2;
+      flag = CGRAPH_TRUE;
     }
   }
 

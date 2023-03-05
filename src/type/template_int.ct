@@ -689,19 +689,13 @@ UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly) {
   return result;
 }
 
-UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
+UTYPE FUNCTION(NAME, crc)(const UTYPE init, const UTYPE data,
                           const UTYPE poly) {
-  UTYPE res = (predata & MASK), temp = (data & res & MASK), msb = 0;
-  cgraph_size_t i = 0;
-  for (i = 0; i < BITS; i++) {
-    msb = (((res ^ temp) >> (BITS - 1)) & 1);
-    if (msb == 1) {
-      res = (((res << 1) ^ MASK) & poly);
-    } else {
-      res = (res << 1);
-    }
-    temp = (temp << 1);
-  }
+  UTYPE res = init, temp = (data & res);
+  CGRAPH_LOOP(i, 0, BITS)
+  res = ((res << 1) & MASK) ^ (((res ^ temp) & MSB) ? poly : ZERO);
+  temp <<= 1;
+  CGRAPH_LOOP_END
 
   return res;
 }

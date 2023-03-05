@@ -41,6 +41,7 @@ if MODE == "debug" (
 
 rem build and clean directories and files
 set MKDIR=mkdir
+set MKDIRFLAGS=
 set RM=del
 set RMFLAGS=/Q /F
 set RMDIR=rd
@@ -60,7 +61,7 @@ set TSTTARGET=%TST%\%PRO%.exe
 set PAR="%~1"
 
 if %PAR% == "" (
-  %MKDIR% %LIB%
+  %MKDIR% %MKDIRFLAGS% %LIB%
   set OFILES=""
   for /R %SRC% %%F in (*.c) do (
     set file=%%F

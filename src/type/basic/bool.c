@@ -59,7 +59,7 @@ TYPE FUNCTION(NAME, decodenc)(const cgraph_char_t *cstr,
   }
   CGRAPH_LOOP(i, 0, len)
   cstr_ic[i] = cgraph_math_tolower(cstr[i]);
-  CGRAPH_END
+  CGRAPH_LOOP_END
 
   return FUNCTION(NAME, decode)(cstr_ic, len, error);
 }

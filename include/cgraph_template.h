@@ -42,7 +42,8 @@ template_matrix.ht([cgraph_template_matrix])
 
 #define TYPE_T(a) CONCAT3(cgraph, a, t)
 #define ID_T(a) CONCAT3(CGRAPH, a, T)
-#define STRUCT(a) CONCAT3(_cgraph, a, struct_)
+#define STRUCT(a) CONCAT3(__cgraph, a, vfptr)
+#define SFLOAT(a) CONCAT3(__cgraph, a, t)
 #define STRING(a) CONCAT1(a)
 #define FUNCTION(a, b) CONCAT3(cgraph, a, b)
 
@@ -50,6 +51,8 @@ template_matrix.ht([cgraph_template_matrix])
 #define CGRAPH_BASE cgraph_size_t size, len;
 #define CGRAPH_SIZE(x) ((NULL != (x)) ? (x)->size : SIZE_C(0))
 #define CGRAPH_LEN(x) ((NULL != (x)) ? (x)->len : SIZE_C(0))
+#define CGRAPH_LENEQ2V(x, y)                                                   \
+  ((NULL != (x)) && (NULL != (y)) && ((x)->len == (y)->len))
 #define CGRAPH_ISNULL(x) ((NULL == (x)) || (SIZE_C(0) >= (x)->size))
 #define CGRAPH_HASMEM(x) ((NULL != (x)) && (SIZE_C(0) < (x)->size))
 #define CGRAPH_ISEMPTY(x) ((NULL == (x)) || (SIZE_C(0) >= (x)->len))

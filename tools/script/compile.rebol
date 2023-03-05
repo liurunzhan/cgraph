@@ -1,4 +1,4 @@
-!#/usr/bin/rebol
+#!/usr/bin/rebol
 
 REBOL [
 	Title: "compile.rebol"

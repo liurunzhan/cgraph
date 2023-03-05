@@ -17,6 +17,11 @@
 extern "C" {
 #endif
 
+/**
+ * when you want to add more macro variables in File cgraph_stdchk.h, modify 
+ * File cgraph_stdchk.h.in, instead of File cgraph_stdchk.h directly
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

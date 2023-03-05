@@ -267,7 +267,7 @@ extern cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const UTYPE x);
 
 extern UTYPE FUNCTION(NAME, lsfr)(const UTYPE data, const UTYPE poly);
-extern UTYPE FUNCTION(NAME, crc)(const UTYPE predata, const UTYPE data,
+extern UTYPE FUNCTION(NAME, crc)(const UTYPE init, const UTYPE data,
                                  const UTYPE poly);
 
 #include "cgraph_template_int_soft.ht"

@@ -29,8 +29,9 @@ if { [ string compare $MODE "debug" ] } {
 
 # build and clean directories and files
 set MKDIR "mkdir"
+set MKDIRFLAGS "-p"
 set RM "rm"
-set RMFLAGS "-rf"
+set RMFLAGS "-f"
 
 set RMDIR "rm"
 set RMDIRFLAGS "-rf"
@@ -72,7 +73,7 @@ set TSTFILE [ file join ${TST} ${PRO}.c ]
 set TSTTARGET [ file join ${TST} ${PRO} ]
 
 if { $argc == 0 } {
-  exec sh -c "mkdir -p ${LIB}"
+  exec sh -c "${MKDIR} ${MKDIRFLAGS} ${LIB}"
   set OFILES ""
   foreach index [ array names CFILES ] {
     set file $CFILES($index)
