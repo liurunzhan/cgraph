@@ -74,6 +74,22 @@ DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x) {
   return POINT2D_X(x) + POINT2D_Y(x);
 }
 
+TYPE FUNCTION(NAME, initpx)(const TYPE x) {
+  TYPE res;
+  POINT2D_X(res) = POINT2D_X(x);
+  POINT2D_Y(res) = DATA_ZERO;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initpy)(const TYPE x) {
+  TYPE res;
+  POINT2D_X(res) = DATA_ZERO;
+  POINT2D_Y(res) = POINT2D_Y(x);
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;
   POINT2D_X(res) = DATA_ZERO;

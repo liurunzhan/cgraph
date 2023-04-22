@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
   TYPE *string1 = FUNCTION(NAME, calloc)(ID, 10000);
   TYPE *string2 = FUNCTION(NAME, calloc)(ID, 10000);
   char *cstr = "hello world world wORLD !world !hello_Wor2lD", *str1 = "world";
-  char *cstr2 = "hello world!" __PLAT_LEND;
+  char *cstr2 = "hello world!" __PLAT_ENDL;
   cgraph_size_t i = 2;
   cgraph_file_fprintfln(stdout, "test %s", STRING(NAME));
   if (NULL != string) {

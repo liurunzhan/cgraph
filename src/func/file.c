@@ -14,7 +14,7 @@
 
 #if (defined(__HAVE_DIRENT_H) && defined(__HAVE_SYS_STAT_H) &&                 \
      defined(__HAVE_UNISTD_H)) ||                                              \
-    (__PLAT_LEND_TYPE == __PLAT_LEND_UNIX)
+    (__PLAT_ENDL_TYPE == __PLAT_ENDL_UNIX)
 #include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -153,7 +153,7 @@ cgraph_char_t *cgraph_file_path(cgraph_char_t *buffer, const cgraph_size_t size,
     cgraph_size_t i = 0, split_pos = 0;
     for (; ('\0' != path[i]) && (i < _size); i++) {
       buffer[i] = path[i];
-      if (cgraph_math_isnline(path[i], path[i + 1])) {
+      if (cgraph_math_isendl(path[i], path[i + 1])) {
         split_pos = i;
       }
     }
@@ -173,7 +173,7 @@ cgraph_char_t *cgraph_file_name(cgraph_char_t *buffer, const cgraph_size_t size,
   if (CGRAPH_ISSTR(path) && CGRAPH_ISBUF(buffer, _size)) {
     cgraph_size_t i = 0, split_pos = 0;
     for (; '\0' != path[i]; i++) {
-      cgraph_int_t num = cgraph_math_isnline(path[i], path[i + 1]);
+      cgraph_int_t num = cgraph_math_isendl(path[i], path[i + 1]);
       if (num > 0) {
         num -= 1;
         if ('\0' != path[i + num]) {
@@ -238,7 +238,7 @@ cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *root,
 cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
   cgraph_char_t **ext = NULL;
 #ifdef access
-#if __PLAT_LEND_TYPE == __PLAT_LEND_UNIX
+#if __PLAT_ENDL_TYPE == __PLAT_ENDL_UNIX
   DIR *dptr;
   struct dirent *eptr;
   if (NULL == (dptr = opendir(path))) {
@@ -367,21 +367,21 @@ CERROR:
 __INLINE__ cgraph_size_t cgraph_file_sprintln(cgraph_char_t *cbuf,
                                               const cgraph_size_t size,
                                               const cgraph_size_t pos) {
-  if ((NULL != cbuf) && ((pos + __PLAT_LEND_SIZE) < size)) {
+  if ((NULL != cbuf) && ((pos + __PLAT_ENDL_SIZE) < size)) {
     cbuf += pos;
-#if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
-    *(cbuf++) = __PLAT_LEND_C0;
-    *(cbuf++) = __PLAT_LEND_C1;
+#if __PLAT_ENDL_TYPE == __PLAT_ENDL_WIN
+    *(cbuf++) = __PLAT_ENDL_C0;
+    *(cbuf++) = __PLAT_ENDL_C1;
 #else
-    *(cbuf++) = __PLAT_LEND_C;
+    *(cbuf++) = __PLAT_ENDL_C;
 #endif
   }
 
-  return __PLAT_LEND_SIZE;
+  return __PLAT_ENDL_SIZE;
 }
 
 __INLINE__ cgraph_size_t cgraph_file_fprintln(FILE *fp) {
-  return fputs(__PLAT_LEND, fp);
+  return fputs(__PLAT_ENDL, fp);
 }
 
 cgraph_size_t cgraph_file_println(void) { return cgraph_file_fprintln(stdout); }
@@ -587,16 +587,16 @@ cgraph_size_t cgraph_file_fgets(cgraph_char_t *cbuf, const cgraph_size_t size,
   if (CGRAPH_ISBUF(cbuf, _size)) {
     cgraph_char_t ch;
     for (; (len < _size) && 0 != feof(fp); len++, cbuf++) {
-#if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
-      if (__PLAT_LEND_C0 == (ch = fgetc(fp))) {
-        if (__PLAT_LEND_C1 == (ch = fgetc(fp))) {
+#if __PLAT_ENDL_TYPE == __PLAT_ENDL_WIN
+      if (__PLAT_ENDL_C0 == (ch = fgetc(fp))) {
+        if (__PLAT_ENDL_C1 == (ch = fgetc(fp))) {
           break;
         }
-        *cbuf = __PLAT_LEND_C0;
+        *cbuf = __PLAT_ENDL_C0;
         continue;
       }
 #else
-      if (__PLAT_LEND_C == (ch = fgetc(fp))) {
+      if (__PLAT_ENDL_C == (ch = fgetc(fp))) {
         break;
       }
 #endif
@@ -716,10 +716,10 @@ cgraph_size_t cgraph_file_rows(FILE *fp) {
   }
   fgetpos(fp, &fp_init);
   while (0 != feof(fp)) {
-#if __PLAT_LEND_TYPE == __PLAT_LEND_WIN
+#if __PLAT_ENDL_TYPE == __PLAT_ENDL_WIN
     if (('\r' == (ch = fgetc(fp))) && ('\n' == (ch = fgetc(fp)))) {
 #else
-    if (__PLAT_LEND_C == (ch = fgetc(fp))) {
+    if (__PLAT_ENDL_C == (ch = fgetc(fp))) {
 #endif
       rows += 1;
     }
@@ -813,7 +813,7 @@ CERROR:
 
 static const cgraph_char_t *_platform = __PLAT_NAME;
 static const cgraph_char_t *_path_split = __PLAT_PSPLIT;
-static const cgraph_char_t *_line_end = __PLAT_LEND;
+static const cgraph_char_t *_line_end = __PLAT_ENDL;
 
 /** judge platform information */
 #if __PLAT_ENDIAN == __PLAT_ENDIAN_NONE

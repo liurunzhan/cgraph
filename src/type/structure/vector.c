@@ -146,7 +146,7 @@ TYPE *FUNCTION(NAME, primes)(const cgraph_int_t data) {
   TYPE *isprime = FUNCTION(NAME, calloc)(CGRAPH_BOOL_T, data);
   if (NULL != isprime) {
     if (NULL != primes) {
-      primes->len = cgraph_math_primes(primes->data, isprime->data, data);
+      primes->len = cgraph_math_primes(data, primes->data, isprime->data);
     }
     cgraph_vector_free(isprime);
   }

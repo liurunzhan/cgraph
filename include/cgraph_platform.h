@@ -37,14 +37,14 @@ typedef enum {
 } cgraph_plat_t;
 
 /**< TYPE 0 : '\n' */
-#define __PLAT_LEND_UNIX (0)
+#define __PLAT_ENDL_UNIX (0)
 /**< TYPE 1 : '\r' */
-#define __PLAT_LEND_MACOS (1)
+#define __PLAT_ENDL_MACOS (1)
 /**< TYPE 2 : '\r\n' */
-#define __PLAT_LEND_WIN (2)
+#define __PLAT_ENDL_WIN (2)
 
-#define __PLAT_LEND_TYPE0 '\n'
-#define __PLAT_LEND_TYPE1 '\r'
+#define __PLAT_ENDL_TYPE0 '\n'
+#define __PLAT_ENDL_TYPE1 '\r'
 
 /** Self-defined features in different platforms */
 #if defined(__CYGWIN__)
@@ -52,50 +52,57 @@ typedef enum {
 #define __PLAT_MODE CGRAPH_PLAT_CYGWIN
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_LEND "\n"
-#define __PLAT_LEND_SIZE (1)
-#define __PLAT_LEND_C __PLAT_LEND_TYPE0
-#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
+#define __PLAT_ENDL "\n"
+#define __PLAT_ENDL_SIZE (1)
+#define __PLAT_ENDL_C __PLAT_ENDL_TYPE0
+#define __PLAT_ENDL_TYPE __PLAT_ENDL_UNIX
+#pragma message "Compile in Cygwin/MSYS1/MSYS2 Platform"
 #elif (defined(_WIN32) || defined(_WIN64)) || defined(WINVER)
 #define __PLAT_NAME "windows"
 #define __PLAT_MODE CGRAPH_PLAT_WINDOWS
 #define __PLAT_PSPLIT "\\"
 #define __PLAT_PSPLIT_C '\\'
-#define __PLAT_LEND "\r\n"
-#define __PLAT_LEND_SIZE (2)
-#define __PLAT_LEND_C __PLAT_LEND_TYPE0
-#define __PLAT_LEND_C0 __PLAT_LEND_TYPE1
-#define __PLAT_LEND_C1 __PLAT_LEND_TYPE0
+#define __PLAT_ENDL "\r\n"
+#define __PLAT_ENDL_SIZE (2)
+#define __PLAT_ENDL_C __PLAT_ENDL_TYPE0
+#define __PLAT_ENDL_C0 __PLAT_ENDL_TYPE1
+#define __PLAT_ENDL_C1 __PLAT_ENDL_TYPE0
 #define __PLAT_WINDOWS
-#define __PLAT_LEND_TYPE __PLAT_LEND_WIN
+#define __PLAT_ENDL_TYPE __PLAT_ENDL_WIN
+#pragma message "Compile in Windows Platform"
 #elif defined(__APPLE__)
 #define __PLAT_NAME "macos"
 #define __PLAT_MODE CGRAPH_PLAT_MACOS
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_LEND "\r"
-#define __PLAT_LEND_C __PLAT_LEND_TYPE1
-#define __PLAT_LEND_TYPE __PLAT_LEND_MACOS
+#define __PLAT_ENDL "\r"
+#define __PLAT_ENDL_C __PLAT_ENDL_TYPE1
+#define __PLAT_ENDL_TYPE __PLAT_ENDL_MACOS
+#pragma message "Compile in MacOS Platform"
 #else
 #if defined(__linux) || defined(__linux__)
 #define __PLAT_NAME "linux"
 #define __PLAT_MODE CGRAPH_PLAT_LINUX
+#pragma message "Compile in Linux Platform"
 #elif defined(__unix) || defined(__unix__) || defined(unix)
 #define __PLAT_NAME "unix"
 #define __PLAT_MODE CGRAPH_PLAT_UNIX
+#pragma message "Compile in Unix Platform"
 #elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 #define __PLAT_NAME "bsd"
 #define __PLAT_MODE CGRAPH_PLAT_UNIX
+#pragma message "Compile in BSD Platform"
 #else
 #define __PLAT_NAME "none"
 #define __PLAT_MODE CGRAPH_PLAT_STDC
+#pragma message "Compile in Unix-like Platform"
 #endif
 #define __PLAT_PSPLIT "/"
 #define __PLAT_PSPLIT_C '/'
-#define __PLAT_LEND_SIZE (1)
-#define __PLAT_LEND "\n"
-#define __PLAT_LEND_C __PLAT_LEND_TYPE0
-#define __PLAT_LEND_TYPE __PLAT_LEND_UNIX
+#define __PLAT_ENDL_SIZE (1)
+#define __PLAT_ENDL "\n"
+#define __PLAT_ENDL_C __PLAT_ENDL_TYPE0
+#define __PLAT_ENDL_TYPE __PLAT_ENDL_UNIX
 #endif
 
 /** Self-defined features in different structures */
@@ -106,13 +113,16 @@ typedef enum {
     defined(__WORDS_LITTLEENDIAN)
 /** Little-endian architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
+#pragma message "Compile in Little-End CPU Arch"
 #elif defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                      \
     defined(__WORDS_BIGENDIAN)
 /** Big-Endian architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_BIG
+#pragma message "Compile in Big-End CPU Arch"
 #else
 /** Undefined architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_NONE
+#pragma message "Compile in Undefined CPU Arch"
 #endif
 
 #if (__PLAT_ENDIAN < __PLAT_ENDIAN_LITTLE) ||                                  \
@@ -126,12 +136,15 @@ typedef enum {
     defined(__x86_64__) || defined(__x86_64) || defined(__aarch64__) ||        \
     defined(__ARM_64BIT_STATE)
 #define __WORDSIZE (64)
+#pragma message "Compile in 64-bit CPU Arch"
 #elif defined(_WIN32) || defined(__CYGWIN32__) || defined(_M_IX86) ||          \
     defined(I386) || defined(I386__) || defined(I486__) || defined(I686__) ||  \
     defined(__ARM_32BIT_STATE)
 #define __WORDSIZE (32)
+#pragma message "Compile in 32-bit CPU Arch"
 #else
 #define __WORDSIZE (32)
+#pragma message "Compile in 32-bit CPU Arch"
 #endif
 #endif
 
@@ -696,21 +709,37 @@ typedef uint64_t uint128_t;
 #define FLT8_SIG_BITS (1)
 #define FLT8_SIG_MASK (0)
 
-typedef union {
-  struct {
-    uint32_t sig : FLT8_SIG_BITS;
-    uint32_t exp : FLT8_EXP_BITS;
-    uint32_t frac : FLT8_FRAC_BITS;
-  } sfloat;
-  uint32_t data : FLT8_BITS;
-} cgraph_sfloat8_t;
+#pragma pack(1)
+typedef struct {
+  uint32_t sig : FLT8_SIG_BITS;
+  uint32_t exp : FLT8_EXP_BITS;
+  uint32_t frac : FLT8_FRAC_BITS;
+} sfloat8_t;
+#pragma pack()
 
-#define FLT8_MIN UINT8_C(0xEF)
-#define FLT8_MAX UINT8_C(0x6F)
-#define FLT8_NAN UINT8_C(0x7F)
-#define FLT8_INF UINT8_C(0x70)
+#if 0
+typedef union {
+  uint32_t data : FLT8_BITS;
+  sfloat8_t sfloat;
+} float8_t;
+
+#define FLT8_C(x) (*(float8_t *)&(x))
+#define FLT8_D(x) FLT8_C(x).data
+#define FLT8_S(x) FLT8_C(x).sfloat
+#else
+typedef uint8_t float8_t;
+
+#define FLT8_C(x) UINT8_C(x)
+#define FLT8_D(x) FLT8_C(x)
+#define FLT8_S(x) FLT8_C(x)
+#endif
+
+#define FLT8_MIN FLT8_C(0xEF)
+#define FLT8_MAX FLT8_C(0x6F)
+#define FLT8_NAN FLT8_C(0x7F)
+#define FLT8_INF FLT8_C(0x70)
 #define FLT8_PINF FLT8_INF
-#define FLT8_NINF UINT8_C(0xF0)
+#define FLT8_NINF FLT8_C(0xF0)
 /** @} */
 
 /**
@@ -739,21 +768,37 @@ typedef union {
 #define FLT16_SIG_BITS (1)
 #define FLT16_SIG_MASK UINT16_C(0)
 
-typedef union {
-  struct {
-    uint32_t sig : FLT16_SIG_BITS;
-    uint32_t exp : FLT16_EXP_BITS;
-    uint32_t frac : FLT16_FRAC_BITS;
-  } sfloat;
-  uint32_t data : FLT16_BITS;
-} cgraph_sfloat16_t;
+#pragma pack(1)
+typedef struct {
+  uint32_t sig : FLT16_SIG_BITS;
+  uint32_t exp : FLT16_EXP_BITS;
+  uint32_t frac : FLT16_FRAC_BITS;
+} sfloat16_t;
+#pragma pack()
 
-#define FLT16_MIN UINT16_C(0xFEFF)
-#define FLT16_MAX UINT16_C(0x7EFF)
-#define FLT16_NAN UINT16_C(0x7FFF)
-#define FLT16_INF UINT16_C(0x7C00)
+#if 0
+typedef union {
+  uint32_t data : FLT16_BITS;
+  sfloat16_t sfloat;
+} float16_t;
+
+#define FLT16_C(x) (*(float16_t *)&(x))
+#define FLT16_D(x) FLT16_C(x).data
+#define FLT16_S(x) FLT16_C(x).sfloat
+#else
+typedef uint16_t float16_t;
+
+#define FLT16_C(x) UINT16_C(x)
+#define FLT16_D(x) FLT16_C(x)
+#define FLT16_S(x) FLT16_C(x)
+#endif
+
+#define FLT16_MIN FLT16_C(0xFEFF)
+#define FLT16_MAX FLT16_C(0x7EFF)
+#define FLT16_NAN FLT16_C(0x7FFF)
+#define FLT16_INF FLT16_C(0x7C00)
 #define FLT16_PINF FLT16_INF
-#define FLT16_NINF UINT16_C(0xFC00)
+#define FLT16_NINF FLT16_C(0xFC00)
 /** @} */
 
 /** 32-bit float point number */
@@ -870,10 +915,10 @@ typedef union {
 #define CGRAPH_BEGIN {
 #define CGRAPH_END }
 
-#define CGRAPH_LOOP(itr, start, end)                                           \
-  for (cgraph_size_t itr = (start); (itr) < (end); (itr)++) {
-#define CGRAPH_RLOOP(itr, start, end)                                          \
-  for (cgraph_size_t itr = (start); (itr) > (end); (itr)--) {
+#define CGRAPH_LOOP(idx, start, end)                                           \
+  for (cgraph_size_t idx = (start); (idx) < (end); (idx)++) {
+#define CGRAPH_RLOOP(idx, start, end)                                          \
+  for (cgraph_size_t idx = (start); (idx) > (end); (idx)--) {
 #define CGRAPH_LOOP_END }
 #else
 #define CGRAPH_BEGIN do {
@@ -882,15 +927,15 @@ typedef union {
   while (0)                                                                    \
     ;
 
-#define CGRAPH_LOOP(itr, start, end)                                           \
+#define CGRAPH_LOOP(idx, start, end)                                           \
   do {                                                                         \
-    cgraph_size_t itr;                                                         \
-    for ((itr) = (start); (itr) < (end); (itr)++) {
+    cgraph_size_t idx;                                                         \
+    for ((idx) = (start); (idx) < (end); (idx)++) {
 
-#define CGRAPH_RLOOP(itr, start, end)                                          \
+#define CGRAPH_RLOOP(idx, start, end)                                          \
   do {                                                                         \
-    cgraph_size_t itr;                                                         \
-    for ((itr) = (start); (itr) > (end); (itr)--) {
+    cgraph_size_t idx;                                                         \
+    for ((idx) = (start); (idx) > (end); (idx)--) {
 
 #define CGRAPH_LOOP_END                                                        \
   }                                                                            \

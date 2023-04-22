@@ -3,22 +3,27 @@
 #include "cgraph_rand.h"
 
 /** 32-bit integer random functions  */
-static cgraph_uint32_t (*cgraph_rand32_intgen)(void) = cgraph_rand32_miller;
+#define CGRAPH_RAND32_DEFAULT cgraph_rand32_miller
+static volatile cgraph_uint32_t (*cgraph_rand32_intgen)(void) =
+    CGRAPH_RAND32_DEFAULT;
 
 void cgraph_rand32_init(cgraph_uint32_t (*func)(void)) {
-  if (NULL != func) {
-    cgraph_rand32_intgen = func;
+  if (NULL == func) {
+    goto CERROR;
   }
+  cgraph_rand32_intgen = func;
+
+CERROR:
 #ifdef DEBUG
-  else {
-    cgraph_error_printfln(
-        CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_WARN,
-        "rand32 init handle is empty, use previous as default");
-  }
+  cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
+                        CGRAPH_LEVEL_WARN,
+                        "rand32 init handle is empty, use previous as default");
 #endif
+  cgraph_rand32_intgen = (NULL == cgraph_rand32_intgen) ? CGRAPH_RAND32_DEFAULT
+                                                        : cgraph_rand32_intgen;
 }
 
-static cgraph_uint32_t rand32_seed = UINT32_C(1);
+static volatile cgraph_uint32_t rand32_seed = UINT32_C(1);
 
 void cgraph_rand32_srand(const cgraph_uint32_t seed) { rand32_seed = seed; }
 
@@ -66,7 +71,7 @@ cgraph_uint32_t cgraph_rand32_xorshift(void) {
   v ^= (v >> XORSHIFT_B);
   v ^= (v << XORSHIFT_C);
 
-  return rand32_seed = v;
+  return (rand32_seed = v);
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
@@ -263,14 +268,17 @@ cgraph_uint32_t cgraph_rand32_mt19937(void) {
 cgraph_uint32_t cgraph_rand32_pcg(void) {
 #define PCG_BITS (32)
 #define PCG_ROTR(x, k) (((x) >> (k)) | ((x) << (PCG_BITS - (k))))
+#define PCG_MUL UINT64_C(6364136223846793005)
+#define PCG_INC UINT64_C(1442695040888963407)
   const cgraph_uint64_t seed = cgraph_rand64_seed();
   const cgraph_uint32_t data = (seed ^ (seed >> 18)) >> 27, bits = seed >> 59;
-  cgraph_rand64_srand(seed * UINT64_C(6364136223846793005) +
-                      UINT64_C(1442695040888963407));
+  cgraph_rand64_srand(seed * PCG_MUL + PCG_INC);
 
   return PCG_ROTR(data, bits);
 #undef PCG_BITS
 #undef PCG_ROTR
+#undef PCG_MUL
+#undef PCG_INC
 }
 
 cgraph_uint32_t cgraph_rand32_uniform(const cgraph_uint32_t min,
@@ -303,22 +311,26 @@ cgraph_float32_t cgraph_rand32_normal(const cgraph_float32_t mu,
 }
 
 /** 64-bit integer random functions  */
-static cgraph_uint64_t (*cgraph_rand64_intgen)(void) = cgraph_rand64_mmix;
+#define CGRAPH_RAND64_DEFAULT cgraph_rand64_mmix
+static cgraph_uint64_t (*cgraph_rand64_intgen)(void) = CGRAPH_RAND64_DEFAULT;
 
 void cgraph_rand64_init(cgraph_uint64_t (*func)(void)) {
-  if (NULL != func) {
-    cgraph_rand64_intgen = func;
+  if (NULL == func) {
+    goto CERROR;
   }
+  cgraph_rand64_intgen = func;
+
+CERROR:
 #ifdef DEBUG
-  else {
-    cgraph_error_printfln(
-        CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_WARN,
-        "rand64 init handle is empty, use previous as default");
-  }
+  cgraph_error_printfln(CGRAPH_ERROR_TIME_FUNCTION_STYLE_ENTRY,
+                        CGRAPH_LEVEL_WARN,
+                        "rand64 init handle is empty, use previous as default");
 #endif
+  cgraph_rand64_intgen = (NULL == cgraph_rand64_intgen) ? CGRAPH_RAND64_DEFAULT
+                                                        : cgraph_rand64_intgen;
 }
 
-static cgraph_uint64_t rand64_seed = UINT64_C(1);
+static volatile cgraph_uint64_t rand64_seed = UINT64_C(1);
 
 void cgraph_rand64_srand(const cgraph_uint64_t seed) { rand64_seed = seed; }
 
@@ -362,7 +374,7 @@ cgraph_uint64_t cgraph_rand64_xorshift(void) {
   v ^= (v >> XORSHIFT_B);
   v ^= (v << XORSHIFT_C);
 
-  return rand64_seed = v;
+  return (rand64_seed = v);
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
@@ -377,9 +389,8 @@ cgraph_uint64_t cgraph_rand64_xorshift64s(void) {
   v ^= v >> XORSHIFT_A;
   v ^= v << XORSHIFT_B;
   v ^= v >> XORSHIFT_C;
-  rand64_seed = v;
 
-  return v * UINT64_C(0x2545F4914F6CDD1D);
+  return (rand64_seed = v) * UINT64_C(0x2545F4914F6CDD1D);
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
@@ -397,9 +408,8 @@ cgraph_uint64_t cgraph_rand64_xorshift128p(void) {
   t ^= t << XORSHIFT_A;
   t ^= t >> XORSHIFT_B;
   t ^= s ^ (s >> XORSHIFT_C);
-  rand64_seed2 = t;
 
-  return t + s;
+  return (rand64_seed2 = t) + s;
 #undef XORSHIFT_A
 #undef XORSHIFT_B
 #undef XORSHIFT_C
@@ -590,9 +600,23 @@ cgraph_uint64_t cgraph_rand64_mt19937(void) {
 #undef MT19937_A_OR
 
 cgraph_uint64_t cgraph_rand64_pcg(void) {
-  cgraph_uint64_t seed;
+#define PCG_BITS (64)
+#define PCG_ROTR(x, k) (((x) >> (k)) | ((x) << (PCG_BITS - (k))))
+#define PCG_MUL0 UINT64_C(2549297995355413924)
+#define PCG_MUL1 UINT64_C(4865540595714422341)
+#define PCG_INC0 UINT64_C(6364136223846793005)
+#define PCG_INC1 UINT64_C(1442695040888963407)
+  const cgraph_uint64_t seed = cgraph_rand64_seed();
+  const cgraph_uint32_t data = (seed ^ (seed >> 18)) >> 27, bits = seed >> 59;
+  cgraph_rand64_srand(seed * PCG_MUL0 + PCG_INC0);
 
-  return seed;
+  return PCG_ROTR(data, bits);
+#undef PCG_BITS
+#undef PCG_ROTR
+#undef PCG_MUL0
+#undef PCG_MUL1
+#undef PCG_INC0
+#undef PCG_INC1
 }
 
 cgraph_uint64_t cgraph_rand64_uniform(const cgraph_uint64_t min,
@@ -634,8 +658,10 @@ cgraph_logic_t cgraph_rand_logic(void) {
 /** random size */
 cgraph_size_t cgraph_rand_size(const cgraph_size_t size) {
 #if __WORDSIZE == 64
-  return cgraph_rand64_intgen() % size;
+#define cgraph_rand_intgen() cgraph_rand64_intgen()
 #else
-  return cgraph_rand32_intgen() % size;
+#define cgraph_rand_intgen() cgraph_rand32_intgen()
 #endif
+  return cgraph_rand_intgen() % size;
+#undef cgraph_rand_intgen
 }

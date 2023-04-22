@@ -503,12 +503,12 @@ TYPE FUNCTION(NAME, dotconj)(const TYPE x, const TYPE y) {
   return FUNCTION(NAME, mul)(FUNCTION(NAME, conj)(x), y);
 }
 
-TYPE FUNCTION(NAME, 1xads)(const TYPE x) {
+TYPE FUNCTION(NAME, oxads)(const TYPE x) {
   return FUNCTION(NAME, div)(FUNCTION(NAME, rxadd)(DATA_ONE, x),
                              FUNCTION(NAME, rxsub)(DATA_ONE, x));
 }
 
-TYPE FUNCTION(NAME, adsx1)(const TYPE x) {
+TYPE FUNCTION(NAME, adsxo)(const TYPE x) {
   return FUNCTION(NAME, div)(FUNCTION(NAME, addr)(x, DATA_ONE),
                              FUNCTION(NAME, subr)(x, DATA_ONE));
 }
@@ -832,12 +832,12 @@ TYPE FUNCTION(NAME, acosh)(const TYPE x) {
 }
 
 TYPE FUNCTION(NAME, atanh)(const TYPE x) {
-  return FUNCTION(NAME, mulr)(FUNCTION(NAME, log)(FUNCTION(NAME, 1xads)(x)),
+  return FUNCTION(NAME, mulr)(FUNCTION(NAME, log)(FUNCTION(NAME, oxads)(x)),
                               0.5);
 }
 
 TYPE FUNCTION(NAME, acoth)(const TYPE x) {
-  return FUNCTION(NAME, mulr)(FUNCTION(NAME, log)(FUNCTION(NAME, adsx1)(x)),
+  return FUNCTION(NAME, mulr)(FUNCTION(NAME, log)(FUNCTION(NAME, adsxo)(x)),
                               0.5);
 }
 

@@ -42,11 +42,11 @@ void *cgraph_realloc(void *mem, const cgraph_size_t size1,
     cgraph_error_printfln(
         CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_INFO,
         "old address " CGRAPH_VARADDR_OUT_FMT
-        " is not equal to the new one " CGRAPH_VARADDR_OUT_FMT __PLAT_LEND,
+        " is not equal to the new one " CGRAPH_VARADDR_OUT_FMT __PLAT_ENDL,
         mem, mem2);
     cgraph_error_printfln(CGRAPH_ERROR_FUNCTION_STYLE_ENTRY, CGRAPH_LEVEL_INFO,
                           "realloc a new memory and notice to use the new "
-                          "address " CGRAPH_VARADDR_OUT_FMT __PLAT_LEND,
+                          "address " CGRAPH_VARADDR_OUT_FMT __PLAT_ENDL,
                           mem2);
   }
 #endif

@@ -87,7 +87,7 @@ extern cgraph_bool_t FUNCTION(NAME, isspace)(const TYPE *cthis);
 extern cgraph_bool_t FUNCTION(NAME, isupper)(const TYPE *cthis);
 
 extern cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis);
-extern cgraph_bool_t FUNCTION(NAME, isnline)(const TYPE *cthis);
+extern cgraph_bool_t FUNCTION(NAME, isendl)(const TYPE *cthis);
 
 extern TYPE *FUNCTION(NAME, lower)(TYPE *cthis);
 extern TYPE *FUNCTION(NAME, upper)(TYPE *cthis);

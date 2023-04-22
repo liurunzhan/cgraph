@@ -204,6 +204,13 @@
 
 #include "cgraph_template_data.ht"
 
+extern cgraph_bool_t FUNCTION(NAME, addovlf)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, subovlf)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, mulovlf)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, addudf)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, subudf)(const TYPE x, const TYPE y);
+extern cgraph_bool_t FUNCTION(NAME, muludf)(const TYPE x, const TYPE y);
+
 extern UTYPE FUNCTION(NAME, urand)(void);
 
 extern TYPE *FUNCTION(NAME, initargs)(TYPE *cthis, const cgraph_size_t size,

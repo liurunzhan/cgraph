@@ -176,6 +176,7 @@ All the involved compilation scripts in this library are listed as below. Users 
 - [ ] ***Meson*** [meson.build](./tools/script/meson.build)
 - [ ] ***Premake*** [premake.lua](./tools/script/premake.lua)
 - [x] ***XMake*** [xmake.lua](./tools/script/xmake.lua)
+- [ ] ***Xonsh*** [compile.xsh](./tools/script/compile.xsh)
 
 ## Overview
 ___________

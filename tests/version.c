@@ -7,9 +7,9 @@ int main(int argc, char *argv[]) {
   cgraph_version_fprintln(stdout);
   cgraph_version_parse(&version, &major, &minor, &subminor);
   cgraph_file_fprintfln(stdout,
-                        "CGRAPH : %s" __PLAT_LEND
-                        "Major version : %d" __PLAT_LEND
-                        "Minor version : %d" __PLAT_LEND "Subminor "
+                        "CGRAPH : %s" __PLAT_ENDL
+                        "Major version : %d" __PLAT_ENDL
+                        "Minor version : %d" __PLAT_ENDL "Subminor "
                         "version : %d",
                         version, major, minor, subminor);
 

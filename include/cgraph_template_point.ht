@@ -23,6 +23,15 @@ extern DATA_TYPE FUNCTION(NAME, yangle)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, zangle)(const TYPE x);
 #endif
 
+extern TYPE FUNCTION(NAME, initpx)(const TYPE x);
+extern TYPE FUNCTION(NAME, initpy)(const TYPE x);
+#if defined(TYPE_POINT3D)
+extern TYPE FUNCTION(NAME, initpz)(const TYPE x);
+extern TYPE FUNCTION(NAME, initpxy)(const TYPE x);
+extern TYPE FUNCTION(NAME, initpxz)(const TYPE x);
+extern TYPE FUNCTION(NAME, initpyz)(const TYPE x);
+#endif
+
 extern DATA_TYPE FUNCTION(NAME, dmin)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dmax)(const TYPE x);
 extern DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x);

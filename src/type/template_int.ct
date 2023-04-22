@@ -640,6 +640,31 @@ __INLINE__ TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
   return (x * y) / (x + y);
 }
 
+cgraph_bool_t FUNCTION(NAME, addovfl)(const TYPE x, const TYPE y) {
+  return (ZERO < x) ? (y > (MAX - x)) : CGRAPH_FALSE;
+}
+
+cgraph_bool_t FUNCTION(NAME, subovfl)(const TYPE x, const TYPE y) {
+  return (ZERO > x) ? (y > (MAX + x)) : CGRAPH_FALSE;
+}
+
+cgraph_bool_t FUNCTION(NAME, mulovfl)(const TYPE x, const TYPE y) {
+  return ((-ONE == x) && (MIN == y)) || ((MIN == x) && (-ONE == y)) ||
+         (y > (MAX / x));
+}
+
+cgraph_bool_t FUNCTION(NAME, addudf)(const TYPE x, const TYPE y) {
+  return (ZERO > x) ? (y < (MIN - x)) : CGRAPH_FALSE;
+}
+
+cgraph_bool_t FUNCTION(NAME, subudf)(const TYPE x, const TYPE y) {
+  return (ZERO < x) ? (y < (MIN + x)) : CGRAPH_FALSE;
+}
+
+cgraph_bool_t FUNCTION(NAME, muludf)(const TYPE x, const TYPE y) {
+  return (y < (MIN / x));
+}
+
 cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return CGRAPH_TEST(x);

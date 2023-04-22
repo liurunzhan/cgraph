@@ -496,7 +496,7 @@ typedef uint128_t cgraph_uint128_t;
  * @typedef cgraph_float8_t
  * @brief 8-bit floating point number data type
  */
-typedef cgraph_uint8_t cgraph_float8_t;
+typedef float8_t cgraph_float8_t;
 /** \defgroup group_float8 cgraph_float8_t */
 /** @{ */
 #define CGRAPH_FLOAT8_MAX FLT8_MAX
@@ -527,7 +527,7 @@ typedef cgraph_uint8_t cgraph_float8_t;
  * @typedef cgraph_float16_t
  * @brief 16-bit floating point number data type
  */
-typedef cgraph_uint16_t cgraph_float16_t;
+typedef float16_t cgraph_float16_t;
 /** \defgroup group_float16 cgraph_float16_t */
 /** @{ */
 #define CGRAPH_FLOAT16_MAX FLT16_MAX
@@ -810,6 +810,7 @@ typedef enum {
  */
 /** \defgroup group_element cgraph_element_t */
 /** @{ */
+#pragma pack(1)
 typedef struct {
   /**  key data type */
   cgraph_uint_t k_type : 6;
@@ -832,6 +833,7 @@ typedef struct {
   cgraph_uint_t g_dynamic : 1;
   cgraph_uint_t : 2;
 } cgraph_element_t;
+#pragma pack()
 
 #define CGRAPH_DTYPE_KTYPE(a) ((a)->element.k_type)
 #define CGRAPH_DTYPE_KACCESS(a) ((a)->element.k_access)

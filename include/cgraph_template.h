@@ -73,10 +73,14 @@ template_matrix.ht([cgraph_template_matrix])
 #define CGRAPH_DATA_ROOT DATA_TYPE *data, *root;
 #endif /** __STDC_VERSION__ */
 
-#define CGRAPH_DATA(x) (x)->data
-#define CGRAPH_DATA_START(x) (&(CGRAPH_DATA(x)[0]))
-#define CGRAPH_DATA_END(x) (&(CGRAPH_DATA(x)[(x)->len - 1]))
-#define CGRAPH_OBJECT_DATA_START(x) (&(CGRAPH_DATA(x)[0]))
+/** get the value of given index in data of an object */
+#define CGRAPH_DATA(x, idx) ((x)->data[(idx)])
+/** get the address of given index in data of an object */
+#define CGRAPH_DATA_ADDR(x, idx) (&CGRAPH_DATA(x, idx))
+/** get the header address in data of an object */
+#define CGRAPH_DATA_HADDR(x) CGRAPH_DATA_ADDR(x, 0)
+/** get the tail address in data of an object */
+#define CGRAPH_DATA_TADDR(x) CGRAPH_DATA_ADDR(x, (x)->len - 1)
 
 #define CGRAPH_STRUCTURE_BASE                                                  \
   CGRAPH_BASE                                                                  \

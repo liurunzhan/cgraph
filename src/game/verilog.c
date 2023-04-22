@@ -2,7 +2,7 @@
 #include "cgraph_verilog.h"
 
 #ifndef LEND
-#define LEND __PLAT_LEND
+#define LEND __PLAT_ENDL
 #endif
 
 cgraph_size_t

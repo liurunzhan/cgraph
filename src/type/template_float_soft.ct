@@ -48,7 +48,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
 
 cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) { return ""; }
 
-TYPE FUNCTION(NAME, initsef)(const cgraph_bool_t signbit, const DATA_TYPE exp,
+TYPE FUNCTION(NAME, initsef)(const cgraph_bool_t sig, const DATA_TYPE exp,
                              const DATA_UTYPE frac) {
   TYPE res;
 

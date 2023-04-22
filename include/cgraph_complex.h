@@ -149,8 +149,8 @@ extern TYPE FUNCTION(NAME, mul3i)(const TYPE x);
 extern TYPE FUNCTION(NAME, mul4i)(const TYPE x);
 extern TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, dotconj)(const TYPE x, const TYPE y);
-extern TYPE FUNCTION(NAME, 1xads)(const TYPE x);
-extern TYPE FUNCTION(NAME, adsx1)(const TYPE x);
+extern TYPE FUNCTION(NAME, oxads)(const TYPE x);
+extern TYPE FUNCTION(NAME, adsxo)(const TYPE x);
 
 extern TYPE FUNCTION(NAME, rdadd)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, rdsub)(const TYPE x, const TYPE y);

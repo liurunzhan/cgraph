@@ -81,6 +81,60 @@ DATA_TYPE FUNCTION(NAME, dsum)(const TYPE x) {
   return POINT3D_X(x) + POINT3D_Y(x) + POINT3D_Z(x);
 }
 
+TYPE FUNCTION(NAME, initpx)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = DATA_ZERO;
+  POINT3D_Z(res) = DATA_ZERO;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initpy)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = DATA_ZERO;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = DATA_ZERO;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initpz)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = DATA_ZERO;
+  POINT3D_Y(res) = DATA_ZERO;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initpxy)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = DATA_ZERO;
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initpxz)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = POINT3D_X(x);
+  POINT3D_Y(res) = DATA_ZERO;
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
+TYPE FUNCTION(NAME, initpyz)(const TYPE x) {
+  TYPE res;
+  POINT3D_X(res) = DATA_ZERO;
+  POINT3D_Y(res) = POINT3D_Y(x);
+  POINT3D_Z(res) = POINT3D_Z(x);
+
+  return res;
+}
+
 TYPE FUNCTION(NAME, zero)(void) {
   TYPE res;
   POINT3D_X(res) = DATA_ZERO;

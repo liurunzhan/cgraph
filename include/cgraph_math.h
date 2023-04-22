@@ -181,14 +181,16 @@ extern cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_toupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
-extern cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
+extern cgraph_int_t cgraph_math_isendlx(const cgraph_char_t datax,
                                         const cgraph_char_t datay);
-extern cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
-                                         const cgraph_char_t datay);
-extern cgraph_bool_t cgraph_math_chmatch(const cgraph_char_t datax,
-                                         const cgraph_char_t datay);
+extern cgraph_int_t cgraph_math_isendly(const cgraph_char_t datax,
+                                        const cgraph_char_t datay);
+#define cgraph_math_isendl(datax, datay) cgraph_math_isendlx(datax, datay)
+extern cgraph_bool_t cgraph_math_casematch(const cgraph_char_t datax,
+                                           const cgraph_char_t datay);
 
 /** used to parse C-style codes to C-style objects */
+extern cgraph_bool_t cgraph_math_islogic(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isoct(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isdec(const cgraph_char_t data);
@@ -269,23 +271,28 @@ extern cgraph_uint64_t cgraph_math_gcd(const cgraph_uint64_t x,
                                        const cgraph_uint64_t y);
 extern cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
                                        const cgraph_uint64_t y);
-extern cgraph_uint32_t cgraph_math_crc32(const cgraph_uint32_t init,
-                                         const cgraph_uint32_t data,
-                                         const cgraph_uint32_t poly);
-extern cgraph_uint64_t cgraph_math_crc64(const cgraph_uint64_t init,
-                                         const cgraph_uint64_t data,
-                                         const cgraph_uint64_t poly);
-#ifndef cgraph_math_crc
-#define cgraph_math_crc(init, data, poly)                                      \
-  ((sizeof(poly) == sizeof(cgraph_uint32_t))                                   \
-       ? cgraph_math_crc32(init, data, poly)                                   \
-       : cgraph_math_crc64(init, data, poly))
-#endif
+extern cgraph_uint64_t cgraph_math_crc(const cgraph_int_t bits,
+                                       const cgraph_uint64_t init,
+                                       const cgraph_uint64_t data,
+                                       const cgraph_uint64_t poly);
+#define cgraph_math_crc8(init, data, poly) cgraph_math_crc(8, init, data, poly)
+#define cgraph_math_crc16(init, data, poly)                                    \
+  cgraph_math_crc(16, init, data, poly)
+#define cgraph_math_crc32(init, data, poly)                                    \
+  cgraph_math_crc(32, init, data, poly)
+#define cgraph_math_crc64(init, data, poly)                                    \
+  cgraph_math_crc(64, init, data, poly)
 
 extern cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data);
-extern cgraph_size_t cgraph_math_primes(cgraph_int_t *primes,
-                                        cgraph_int_t *isprime,
-                                        const cgraph_int_t data);
+extern cgraph_size_t cgraph_math_primes(const cgraph_int_t data,
+                                        cgraph_int_t *primes,
+                                        cgraph_int_t *isprime);
+#define CGRAPH_MATH_COLLATZ_MAX SIZE_C(10000)
+extern cgraph_bool_t cgraph_math_iscollatz(const cgraph_uint64_t data,
+                                           const cgraph_size_t iter);
+extern cgraph_uint64_t *cgraph_math_collatz(const cgraph_uint64_t data,
+                                            cgraph_uint64_t *buffer,
+                                            const cgraph_size_t bsize);
 
 extern cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle);
 extern cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian);
@@ -297,14 +304,15 @@ extern cgraph_float64_t cgraph_math_logn(const cgraph_float64_t n,
                                          const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_atan2(const cgraph_float64_t x,
                                           const cgraph_float64_t y);
-extern cgraph_float64_t cgraph_math_2_pi_atan2(const cgraph_float64_t x,
-                                               const cgraph_float64_t y);
+extern cgraph_float64_t cgraph_math_2pixatan2(const cgraph_float64_t x,
+                                              const cgraph_float64_t y);
 
 extern cgraph_size_t cgraph_math_deccnt(const cgraph_int_t x,
                                         const cgraph_int_t n);
 extern cgraph_size_t cgraph_math_rdeccnt(const cgraph_int_t x,
                                          const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_abitlen(const cgraph_uint_t data);
+extern cgraph_bool_t cgraph_math_ispow2i(const cgraph_int_t x);
 extern cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_log2i(const cgraph_int_t n);
 extern cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x);
@@ -313,6 +321,7 @@ extern cgraph_int_t cgraph_math_rmod2i(const cgraph_int_t x,
 extern cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data);
 extern cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data);
 
+extern cgraph_int_t cgraph_math_ceili_pow2(const cgraph_int_t x);
 extern cgraph_int_t cgraph_math_ceili(const cgraph_int_t x,
                                       const cgraph_int_t y);
 extern cgraph_int_t cgraph_math_floori(const cgraph_int_t x,

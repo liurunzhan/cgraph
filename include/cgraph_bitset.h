@@ -60,6 +60,7 @@ extern "C" {
  * @struct cgraph_bitset_t
  * @brief the object of bit set
  */
+#pragma pack(1)
 typedef struct {
   CGRAPH_BASE
   struct {
@@ -74,6 +75,7 @@ typedef struct {
   } firstbyte;
   CGRAPH_DATA_ROOT
 } cgraph_bitset_t;
+#pragma pack()
 
 #define BITSET_BIT(x) ((x)->firstbyte)
 #define BITSET_BITNUM(x) (BITSET_BIT(x).num)

@@ -5,6 +5,15 @@
 #include "cgraph_bitset.h"
 
 /** private apis  */
+static const DATA_TYPE __bitset_bit_mask1__[DATA_BITS] = {
+    0x80U, 0x01U, 0x02U, 0x04U, 0x08U, 0x10U, 0x20U, 0x40U};
+static const DATA_TYPE __bitset_bit_mask0__[DATA_BITS] = {
+    0x7FU, 0xFEU, 0xFDU, 0xFBU, 0xF7U, 0xEFU, 0xDFU, 0xBFU};
+static const DATA_TYPE __bitset_bit_rmask1__[DATA_BITS] = {
+    0xFFU, 0x01U, 0x03U, 0x07U, 0x0FU, 0x1FU, 0x3FU, 0x7FU};
+static const DATA_TYPE __bitset_bit_lmask1__[DATA_BITS] = {
+    0x00U, 0xFEU, 0xFCU, 0xF8U, 0xF0U, 0xE0U, 0xC0U, 0x80U};
+
 #define BITSET_BIT_MASK1(pos) (__bitset_bit_mask1__[BITSET_BIT_POSTION(pos)])
 #define BITSET_BIT_MASK0(pos) (__bitset_bit_mask0__[BITSET_BIT_POSTION(pos)])
 #define BITSET_BIT_RMASK1(pos) (__bitset_bit_rmask1__[BITSET_BIT_POSTION(pos)])
@@ -32,15 +41,6 @@
     (x)->data[(x)->len - 1] &= BITSET_GET_RMASK1(x);                           \
   } while (0)
 
-static const DATA_TYPE __bitset_bit_mask1__[DATA_BITS] = {
-    0x80U, 0x01U, 0x02U, 0x04U, 0x08U, 0x10U, 0x20U, 0x40U};
-static const DATA_TYPE __bitset_bit_mask0__[DATA_BITS] = {
-    0x7FU, 0xFEU, 0xFDU, 0xFBU, 0xF7U, 0xEFU, 0xDFU, 0xBFU};
-static const DATA_TYPE __bitset_bit_rmask1__[DATA_BITS] = {
-    0xFFU, 0x01U, 0x03U, 0x07U, 0x0FU, 0x1FU, 0x3FU, 0x7FU};
-static const DATA_TYPE __bitset_bit_lmask1__[DATA_BITS] = {
-    0x00U, 0xFEU, 0xFCU, 0xF8U, 0xF0U, 0xE0U, 0xC0U, 0x80U};
-
 /** template module */
 #include "template_data.ct"
 
@@ -52,7 +52,7 @@ cgraph_size_t FUNCTION(NAME, fprintb)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t i, j;
-    DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
+    DATA_TYPE *data = CGRAPH_DATA_TADDR(cthis);
     len = 2 + BITSET_BITS_NUM(cthis);
 #ifdef DEBUG
     cgraph_file_fprintfln(stdout, "pos %d num %d gthalf %d bits num %ld",
@@ -77,7 +77,7 @@ cgraph_size_t FUNCTION(NAME, fprinth)(FILE *fp, const TYPE *cthis) {
   cgraph_size_t len = 0;
   if (NULL != cthis) {
     cgraph_size_t i = 0;
-    DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
+    DATA_TYPE *data = CGRAPH_DATA_TADDR(cthis);
     len = 2 + cthis->len * 2;
     fputs("0x", fp);
     if (BITSET_GTHALF(cthis)) {
@@ -108,7 +108,7 @@ cgraph_size_t FUNCTION(NAME, snprintb)(cgraph_char_t *cbuf,
   cgraph_size_t len = 0;
   if ((NULL != cbuf) && (2 < size) && (NULL != cthis)) {
     cgraph_size_t i, j, _size = size - 1;
-    DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
+    DATA_TYPE *data = CGRAPH_DATA_TADDR(cthis);
     cbuf[len++] = '0';
     cbuf[len++] = 'b';
     for (j = BITSET_BITNUM(cthis); j > DATA_BITS; j--) {
@@ -131,7 +131,7 @@ cgraph_size_t FUNCTION(NAME, snprinth)(cgraph_char_t *cbuf,
   cgraph_size_t len = 0;
   if ((NULL != cbuf) && (2 < size) && (NULL != cthis)) {
     cgraph_size_t i = 0, _size = size - 1;
-    DATA_TYPE *data = &(cthis->data[cthis->len - 1]);
+    DATA_TYPE *data = CGRAPH_DATA_TADDR(cthis);
     cbuf[len++] = '0';
     cbuf[len++] = 'x';
     if (BITSET_GTHALF(cthis)) {
@@ -368,7 +368,7 @@ TYPE *FUNCTION(NAME, shl)(TYPE *cthis, const cgraph_size_t len) {
             (cthis->data[j] << byte) | (cthis->data[j - 1] >> byte_right);
       }
       cthis->data[i] = cthis->data[j] << byte;
-      cgraph_memset(&cthis->data[0], DATA_ZERO, i);
+      cgraph_memset(CGRAPH_DATA_HADDR(cthis), DATA_ZERO, i);
       cthis->len += bytes;
     }
   }
@@ -395,7 +395,7 @@ TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t len) {
     cthis->len -= bytes;
     if (0 >= cthis->len) {
       cthis->len = 1;
-      cthis->data[0] = 0;
+      CGRAPH_DATA(cthis, 0) = 0;
     }
   }
 
@@ -473,8 +473,9 @@ cgraph_size_t FUNCTION(NAME, abitlen)(const TYPE *cthis) {
   if (NULL != cthis) {
     len = (2 < cthis->len)
               ? (((cthis->len - 1) * DATA_BITS) +
-                 cgraph_math_abitlen(cthis->data[cthis->len - 1]))
-              : ((1 == cthis->len) ? cgraph_math_abitlen(cthis->data[0]) : 0);
+                 cgraph_math_abitlen(CGRAPH_DATA(cthis, cthis->len - 1)))
+              : ((1 == cthis->len) ? cgraph_math_abitlen(CGRAPH_DATA(cthis, 0))
+                                   : 0);
   }
 
   return len;
@@ -511,7 +512,8 @@ TYPE *FUNCTION(NAME, add)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, 0, max_len, &error);
     if (CGRAPH_FALSE == error) {
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+      DATA_TYPE *xd = CGRAPH_DATA_HADDR(x), *yd = CGRAPH_DATA_HADDR(y),
+                *zd = CGRAPH_DATA_HADDR(z);
       cgraph_size_t i = 0, min_len = CGRAPH_MIN(x->len, y->len);
       z->len = max_len;
       for (; i < min_len; i++, xd++, yd++, zd++) {
@@ -545,7 +547,7 @@ cgraph_bool_t FUNCTION(NAME, eq)(const TYPE *x, const TYPE *y) {
   cgraph_bool_t flag = CGRAPH_FALSE;
   if ((NULL != x) && (NULL != y) && (x->len == y->len) &&
       (BITSET_BITNUM(x) == BITSET_BITNUM(y))) {
-    DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
+    DATA_TYPE *xd = CGRAPH_DATA_TADDR(x), *yd = CGRAPH_DATA_TADDR(y);
     DATA_TYPE xd_bits = *xd & BITSET_GET_RMASK1(x),
               yd_bits = *yd & BITSET_GET_RMASK1(y);
     if (xd_bits == yd_bits) {
@@ -569,7 +571,7 @@ cgraph_bool_t FUNCTION(NAME, gt)(const TYPE *x, const TYPE *y) {
   if ((NULL != x) && (NULL != y)) {
     if (x->len == y->len) {
       if (BITSET_BITNUM(x) == BITSET_BITNUM(y)) {
-        DATA_TYPE *xd = &(x->data[x->len - 1]), *yd = &(y->data[y->len - 1]);
+        DATA_TYPE *xd = CGRAPH_DATA_TADDR(x), *yd = CGRAPH_DATA_TADDR(y);
         DATA_TYPE xd_bits = *xd & BITSET_GET_RMASK1(x),
                   yd_bits = *yd & BITSET_GET_RMASK1(y);
         if (xd_bits == yd_bits) {
@@ -610,7 +612,8 @@ TYPE *FUNCTION(NAME, and)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, 0, max_len, &error);
     if (CGRAPH_FALSE == error) {
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+      DATA_TYPE *xd = CGRAPH_DATA_HADDR(x), *yd = CGRAPH_DATA_HADDR(y),
+                *zd = CGRAPH_DATA_HADDR(z);
       cgraph_size_t i = 0, min_len = CGRAPH_MIN(x->len, y->len);
       z->len = max_len;
       for (; i < min_len; i++, xd++, yd++, zd++) {
@@ -629,7 +632,8 @@ TYPE *FUNCTION(NAME, or)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, 0, max_len, &error);
     if (CGRAPH_FALSE == error) {
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+      DATA_TYPE *xd = CGRAPH_DATA_HADDR(x), *yd = CGRAPH_DATA_HADDR(y),
+                *zd = CGRAPH_DATA_HADDR(z);
       cgraph_size_t i = 0, min_len = CGRAPH_MIN(x->len, y->len);
       z->len = max_len;
       for (; i < min_len; i++, xd++, yd++, zd++) {
@@ -648,7 +652,8 @@ TYPE *FUNCTION(NAME, xor)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, 0, max_len, &error);
     if (CGRAPH_FALSE == error) {
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+      DATA_TYPE *xd = CGRAPH_DATA_HADDR(x), *yd = CGRAPH_DATA_HADDR(y),
+                *zd = CGRAPH_DATA_HADDR(z);
       cgraph_size_t i = 0, min_len = CGRAPH_MIN(x->len, y->len);
       z->len = max_len;
       for (i = 0; i < min_len; i++, xd++, yd++, zd++) {
@@ -667,7 +672,8 @@ TYPE *FUNCTION(NAME, xnor)(const TYPE *x, const TYPE *y, TYPE *z) {
     cgraph_bool_t error = CGRAPH_FALSE;
     z = FUNCTION(NAME, realloc)(z, DATA_ID, 0, max_len, &error);
     if (CGRAPH_FALSE == error) {
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]), *zd = &(z->data[0]);
+      DATA_TYPE *xd = CGRAPH_DATA_HADDR(x), *yd = CGRAPH_DATA_HADDR(y),
+                *zd = CGRAPH_DATA_HADDR(z);
       cgraph_size_t i = 0, min_len = CGRAPH_MIN(x->len, y->len);
       z->len = max_len;
       for (i = 0; i < min_len; i++, xd++, yd++, zd++) {
@@ -691,7 +697,7 @@ TYPE *FUNCTION(NAME, not )(const TYPE *x, TYPE *y) {
     cgraph_bool_t error = CGRAPH_FALSE;
     y = FUNCTION(NAME, realloc)(y, DATA_ID, 0, len, &error);
     if (CGRAPH_FALSE == error) {
-      DATA_TYPE *xd = &(x->data[0]), *yd = &(y->data[0]);
+      DATA_TYPE *xd = CGRAPH_DATA_HADDR(x), *yd = CGRAPH_DATA_HADDR(y);
       cgraph_size_t i = 0;
       for (; i < len; i++, xd++, yd++) {
         *yd = CGRAPH_NOT(*xd);
@@ -707,7 +713,7 @@ TYPE *FUNCTION(NAME, abs)(TYPE *cthis) { return cthis; }
 TYPE *FUNCTION(NAME, opp)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i;
-    DATA_TYPE *data = &(cthis->data[0]);
+    DATA_TYPE *data = CGRAPH_DATA_HADDR(cthis);
     for (i = 0; i < cthis->len; i++, data++) {
       *data = CGRAPH_NOT(*data);
     }
@@ -719,7 +725,7 @@ TYPE *FUNCTION(NAME, opp)(TYPE *cthis) {
 TYPE *FUNCTION(NAME, unit)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_memset(cthis->data, DATA_MAX, cthis->len);
-    cthis->data[cthis->len - 1] &= BITSET_GET_RMASK1(cthis);
+    CGRAPH_DATA(cthis, cthis->len - 1) &= BITSET_GET_RMASK1(cthis);
   }
 
   return cthis;
@@ -728,7 +734,7 @@ TYPE *FUNCTION(NAME, unit)(TYPE *cthis) {
 TYPE *FUNCTION(NAME, unit_inv)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_memset(cthis->data, DATA_MIN, cthis->len);
-    cthis->data[cthis->len - 1] &= BITSET_GET_RMASK1(cthis);
+    CGRAPH_DATA(cthis, cthis->len - 1) &= BITSET_GET_RMASK1(cthis);
   }
 
   return cthis;

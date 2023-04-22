@@ -273,7 +273,7 @@ __INLINE__ cgraph_size_t FUNCTION(NAME, minoflen)(const TYPE cthis,
 #ifdef TYPE_WITH_DATA
 TYPE *FUNCTION(NAME, zero)(TYPE *cthis) {
   if (NULL != cthis) {
-    cthis->data[0] = DATA_ZERO;
+    CGRAPH_DATA(cthis, 0) = DATA_ZERO;
     cthis->len = 1;
 #if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_TRUE;
@@ -290,7 +290,7 @@ TYPE *FUNCTION(NAME, zero)(TYPE *cthis) {
 
 TYPE *FUNCTION(NAME, one)(TYPE *cthis) {
   if (NULL != cthis) {
-    cthis->data[0] = DATA_ONE;
+    CGRAPH_DATA(cthis, 0) = DATA_ONE;
     cthis->len = 1;
 #if defined(TYPE_BIGINT) || defined(TYPE_BIGNUM)
     cthis->postive = CGRAPH_TRUE;
@@ -442,9 +442,9 @@ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE *cthis) {
 cgraph_bool_t FUNCTION(NAME, isone)(const TYPE *cthis) {
   cgraph_bool_t flag = CGRAPH_FALSE;
 #ifdef TYPE_STRING
-  if ((NULL != cthis) && (DATA_ONE == cthis->data[cthis->len - 1])) {
+  if ((NULL != cthis) && (DATA_ONE == CGRAPH_DATA(cthis, cthis->len - 1))) {
 #else
-  if ((NULL != cthis) && (DATA_ONE == cthis->data[0])) {
+  if ((NULL != cthis) && (DATA_ONE == CGRAPH_DATA(cthis, 0))) {
 #endif
     cgraph_size_t i;
 #ifdef TYPE_STRING
@@ -578,12 +578,12 @@ cgraph_size_t FUNCTION(NAME, datfprintln)(FILE *fp, const TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i;
 #ifdef TYPE_STRING
-    DATA_TYPE *xd = &(cthis->data[0]);
+    DATA_TYPE *xd = CGRAPH_DATA_HADDR(cthis);
     for (i = cthis->len; i > 0; i--, xd++) {
       fprintf(fp, "%x", *xd);
     }
 #else
-    DATA_TYPE *xd = &(cthis->data[cthis->len - 1]);
+    DATA_TYPE *xd = CGRAPH_DATA_TADDR(cthis);
     for (i = cthis->len; i > 0; i--, xd--) {
       fprintf(fp, "%x", *xd);
     }

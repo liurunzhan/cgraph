@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "%s\n", string->data);
   printf_char(pre);
   fprintf(stdout, "%x\n", cgraph_int8_ones(pre));
-  cgraph_math_primes(primes, numbers, 10000);
+  cgraph_math_primes(10000, primes, numbers);
   */
   /*
   if(argc == 2)
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "%d %x\n", 127, cgraph_integer_clrs(127, 0, 3));
   fprintf(stdout, "%d %ld\n", 128, cgraph_integer_zeros(128));
   fprintf(stdout, "%d %ld\n", integer, cgraph_integer_hash(&integer));
-  fprintf(stdout, "crc32 : %02x\n",  cgraph_math_crc(pre, data, poly));
+  fprintf(stdout, "crc32 : %02x\n",  cgraph_math_crc(32, pre, data, poly));
   for(i = 0; i<6; i++)
   {
   cgraph_float32_t data = real + number;
@@ -120,8 +120,10 @@ int main(int argc, char *argv[]) {
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
   FILE *fp = cgraph_file_fopen(
       "." __PLAT_PSPLIT "test" __PLAT_PSPLIT "rand_seed.csv", "w");
-  cgraph_uint32_t crc_pre = 0xFFFFFFFF, crc_data = 0x55AA00FF, crc_poly = 0x07;
-  fprintf(stdout, "crc : %0x\n", cgraph_math_crc(crc_pre, crc_data, crc_poly));
+  cgraph_uint64_t crc_init = 0xFF, crc_data = 0x55, crc_poly = 0x07;
+  fprintf(stdout, "CRC-%d: init=%0x, data=%0x, poly=%0x, res=%0x" __PLAT_ENDL,
+          8, crc_init, crc_data, crc_poly,
+          cgraph_math_crc(8, crc_init, crc_data, crc_poly));
   cgraph_cmdarg_fprintln(stdout, cmdarg);
   cgraph_file_fprintfln(stdout, "hello world");
   cgraph_file_fprintfln(stdout, "%s %ld", name,

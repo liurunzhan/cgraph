@@ -149,31 +149,38 @@ __INLINE__ cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
   return CGRAPH_TEST(__PLAT_PSPLIT_C == data);
 }
 
-__INLINE__ cgraph_int_t cgraph_math_isnline(const cgraph_char_t datax,
+__INLINE__ cgraph_int_t cgraph_math_isendlx(const cgraph_char_t datax,
                                             const cgraph_char_t datay) {
 #ifdef __CGRAPH_PLAT_WINDOWS
-  return ((__PLAT_LEND_C0 == datax) && (__PLAT_LEND_C1 == datay)) ? 2 : 0;
+  return ((__PLAT_ENDL_C0 == datax) && (__PLAT_ENDL_C1 == datay)) ? 2 : 0;
 #else
-  return __PLAT_LEND_C == datax;
+  return __PLAT_ENDL_C == datax;
 #endif
 }
 
-__INLINE__ cgraph_int_t cgraph_math_isnliney(const cgraph_char_t datax,
-                                             const cgraph_char_t datay) {
+__INLINE__ cgraph_int_t cgraph_math_isendly(const cgraph_char_t datax,
+                                            const cgraph_char_t datay) {
 #ifdef __CGRAPH_PLAT_WINDOWS
-  return ((__PLAT_LEND_C0 == datax) && (__PLAT_LEND_C1 == datay)) ? 2 : 0;
+  return ((__PLAT_ENDL_C0 == datax) && (__PLAT_ENDL_C1 == datay))
+             ? 2
+             : ((__PLAT_ENDL_C1 == datay) ? 1 : 0);
 #else
-  return __PLAT_LEND_C == datay;
+  return __PLAT_ENDL_C == datay;
 #endif
 }
 
-__INLINE__ cgraph_bool_t cgraph_math_chmatch(const cgraph_char_t datax,
-                                             const cgraph_char_t datay) {
+__INLINE__ cgraph_bool_t cgraph_math_casematch(const cgraph_char_t datax,
+                                               const cgraph_char_t datay) {
   cgraph_int_t delta = datax - datay;
 
   return CGRAPH_TEST(
       0 == delta || (cgraph_math_isalpha(datax) && cgraph_math_isalpha(datay) &&
                      (('a' - 'A') == delta || ('A' - 'a') == delta)));
+}
+
+__INLINE__ cgraph_bool_t cgraph_math_islogic(const cgraph_char_t data) {
+  return CGRAPH_TEST(('0' == data) || ('1' == data) || ('x' == data) ||
+                     ('X' == data) || ('z' == data) || ('Z' == data));
 }
 
 __INLINE__ cgraph_bool_t cgraph_math_isbin(const cgraph_char_t data) {
@@ -560,44 +567,19 @@ cgraph_uint64_t cgraph_math_lcm(const cgraph_uint64_t x,
   return (0 == gcd) ? 0 : ((1 == gcd) ? (x * y) : (x / gcd * y));
 }
 
-cgraph_uint32_t cgraph_math_crc32(const cgraph_uint32_t init,
-                                  const cgraph_uint32_t data,
-                                  const cgraph_uint32_t poly) {
-#define CRC_BITS CGRAPH_UINT32_BITS
-#define CRC_MSB CGRAPH_UINT32_MSB
-#define CRC_MASK CGRAPH_UINT32_MASK
-#define CRC_ZERO UINT32_C(0x00)
-  cgraph_uint32_t res = init, temp = (data & res);
-  CGRAPH_LOOP(i, 0, CRC_BITS)
-  res = ((res << 1) & CRC_MASK) ^ (((res ^ temp) & CRC_MSB) ? poly : CRC_ZERO);
-  temp <<= 1;
-  CGRAPH_LOOP_END
-
-  return res;
-#undef CRC_BITS
-#undef CRC_MSB
-#undef CRC_MASK
-#undef CRC_ZERO
-}
-
-cgraph_uint64_t cgraph_math_crc64(const cgraph_uint64_t init,
-                                  const cgraph_uint64_t data,
-                                  const cgraph_uint64_t poly) {
-#define CRC_BITS CGRAPH_UINT64_BITS
-#define CRC_MSB CGRAPH_UINT64_MSB
-#define CRC_MASK CGRAPH_UINT64_MASK
-#define CRC_ZERO UINT64_C(0x00)
+cgraph_uint64_t cgraph_math_crc(const cgraph_int_t bits,
+                                const cgraph_uint64_t init,
+                                const cgraph_uint64_t data,
+                                const cgraph_uint64_t poly) {
+  const cgraph_uint64_t mask = ~(UINT64_MASK << bits), msb = 1 << (bits - 1);
   cgraph_uint64_t res = init, temp = (data & res);
-  CGRAPH_LOOP(i, 0, CRC_BITS)
-  res = ((res << 1) & CRC_MASK) ^ (((res ^ temp) & CRC_MSB) ? poly : CRC_ZERO);
+
+  CGRAPH_LOOP(i, 0, bits)
+  res = ((res << 1) & mask) ^ (((res ^ temp) & msb) ? poly : UINT64_C(0));
   temp <<= 1;
   CGRAPH_LOOP_END
 
-  return res;
-#undef CRC_BITS
-#undef CRC_MSB
-#undef CRC_MASK
-#undef CRC_ZERO
+  return res & mask;
 }
 
 cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data) {
@@ -622,8 +604,8 @@ cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data) {
   return flag;
 }
 
-cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
-                                 const cgraph_int_t data) {
+cgraph_size_t cgraph_math_primes(const cgraph_int_t data, cgraph_int_t *primes,
+                                 cgraph_int_t *isprime) {
   cgraph_size_t counter = 0;
   cgraph_size_t j;
   if ((NULL == primes) || (NULL == isprime) || (0 >= data)) {
@@ -647,8 +629,46 @@ cgraph_size_t cgraph_math_primes(cgraph_int_t *primes, cgraph_int_t *isprime,
 
   return counter;
 CERROR:
+
   return 0;
 }
+
+/**
+ * Collatz Conjecture:
+ * x[i+1] = x[i] / 2, if x[i] % 2 == 0
+ *          3 * x[i] + 1, if x[i] % 2 == 1
+ */
+#define CGRAPH_MATH_COLLATZ(x)                                                 \
+  ((x)&UINT64_C(1) ? (UINT64_C(3) * (x) + UINT64_C(1)) : ((x) >> 1))
+
+cgraph_bool_t cgraph_math_iscollatz(const cgraph_uint64_t data,
+                                    const cgraph_size_t iter) {
+  const cgraph_size_t _iter =
+      (SIZE_C(0) < iter) ? iter : CGRAPH_MATH_COLLATZ_MAX;
+  cgraph_uint64_t _data = data;
+  cgraph_size_t i = 0;
+  for (; (1 < _data) && (i < _iter); i++) {
+    _data = CGRAPH_MATH_COLLATZ(_data);
+  }
+
+  return (UINT64_C(1) == _data);
+}
+
+cgraph_uint64_t *cgraph_math_collatz(const cgraph_uint64_t data,
+                                     cgraph_uint64_t *buffer,
+                                     const cgraph_size_t bsize) {
+  cgraph_size_t i = 0;
+  if (NULL != buffer && (SIZE_C(0) < bsize)) {
+    cgraph_uint64_t _data = data;
+    for (*buffer = _data; (1 < _data) && (i < bsize); i++) {
+      _data = CGRAPH_MATH_COLLATZ(_data);
+      *(++buffer) = _data;
+    }
+  }
+
+  return buffer;
+}
+#undef CGRAPH_MATH_COLLATZ
 
 __INLINE__ cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle) {
   return M_PI / 180.0 * angle;
@@ -680,8 +700,8 @@ cgraph_float64_t cgraph_math_atan2(const cgraph_float64_t x,
   return atan2(x, y);
 }
 
-cgraph_float64_t cgraph_math_2_pi_atan2(const cgraph_float64_t x,
-                                        const cgraph_float64_t y) {
+cgraph_float64_t cgraph_math_2pixatan2(const cgraph_float64_t x,
+                                       const cgraph_float64_t y) {
   return M_2_PI * atan2(x, y);
 }
 
@@ -719,23 +739,27 @@ cgraph_size_t cgraph_math_rdeccnt(const cgraph_int_t x, const cgraph_int_t n) {
 }
 
 cgraph_int_t cgraph_math_abitlen(const cgraph_uint_t data) {
-  cgraph_int_t res = 0, num = data;
-  while (0 != num) {
-    num = num >> 1;
+  cgraph_int_t res = 0, _data = data;
+  while (_data) {
+    _data >>= 1;
     res++;
   }
 
   return (0 == res) ? 1 : res;
 }
 
+__INLINE__ cgraph_bool_t cgraph_math_ispow2i(const cgraph_int_t x) {
+  return CGRAPH_TEST(x & (x - 1));
+}
+
 __INLINE__ cgraph_int_t cgraph_math_pow2i(const cgraph_int_t n) {
-  return (n >= 0) ? (1 << n) : 0;
+  return (0 <= n) ? (1 << n) : 0;
 }
 
 cgraph_int_t cgraph_math_log2i(const cgraph_int_t x) {
-  cgraph_int_t res = 0, num = x;
-  while (num > 1) {
-    num = num >> 1;
+  cgraph_int_t res = 0, _x = x;
+  while (1 < _x) {
+    _x >>= 1;
     res++;
   }
 
@@ -748,7 +772,7 @@ __INLINE__ cgraph_int_t cgraph_math_mod2i(const cgraph_int_t x) {
 
 __INLINE__ cgraph_int_t cgraph_math_rmod2i(const cgraph_int_t x,
                                            const cgraph_int_t n) {
-  return (x & (~(CGRAPH_INT_MIN << n)));
+  return (x & (~(CGRAPH_INT_MASK << n)));
 }
 
 __INLINE__ cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data) {
@@ -757,6 +781,15 @@ __INLINE__ cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data) {
 
 __INLINE__ cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data) {
   return (data ^ (data << 1));
+}
+
+cgraph_int_t cgraph_math_ceili_pow2(const cgraph_int_t x) {
+  cgraph_int_t temp, res = x;
+  while (temp = (res & (res - 1))) {
+    res = temp;
+  }
+
+  return res << 1;
 }
 
 __INLINE__ cgraph_int_t cgraph_math_ceili(const cgraph_int_t x,
@@ -771,8 +804,8 @@ __INLINE__ cgraph_int_t cgraph_math_floori(const cgraph_int_t x,
 
 cgraph_int_t cgraph_math_powi(const cgraph_int_t x, const cgraph_int_t n) {
   cgraph_int_t res = 1, _x = x, _n = n;
-  while (_n > 0) {
-    if (_n & 1) {
+  while (0 < _n) {
+    if (1 & _n) {
       res *= _x;
     }
     _n >>= 1;
@@ -785,8 +818,8 @@ cgraph_int_t cgraph_math_powi(const cgraph_int_t x, const cgraph_int_t n) {
 cgraph_int_t cgraph_math_powi_mod(const cgraph_int_t x, const cgraph_int_t n,
                                   const cgraph_int_t mod) {
   cgraph_int_t res = 1, _x = x, _n = n;
-  while (_n > 0) {
-    if (_n & 1) {
+  while (0 < _n) {
+    if (1 & _n) {
       res = (res * _x) % mod;
     }
     _n >>= 1;
@@ -798,8 +831,8 @@ cgraph_int_t cgraph_math_powi_mod(const cgraph_int_t x, const cgraph_int_t n,
 
 cgraph_int_t cgraph_math_muli(const cgraph_int_t x, const cgraph_int_t y) {
   cgraph_int_t res = 0, _x = x, _y = y;
-  while (_y > 0) {
-    if (_y & 1) {
+  while (0 < _y) {
+    if (1 & _y) {
       res += _x;
     }
     _x <<= 1;
@@ -812,8 +845,8 @@ cgraph_int_t cgraph_math_muli(const cgraph_int_t x, const cgraph_int_t y) {
 cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x, const cgraph_int_t y,
                                   const cgraph_int_t mod) {
   cgraph_int_t res = 0, _x = x, _y = y;
-  while (_y > 0) {
-    if (_y & 1) {
+  while (0 < _y) {
+    if (1 & _y) {
       res = (res + _x) % mod;
     }
     _x = (_x << 1) % mod;
@@ -1032,6 +1065,7 @@ typedef struct {
   cgraph_char_t g[2];
   cgraph_char_t r[2];
   cgraph_char_t a[2];
+  cgraph_char_t _[1];
 } cgraph_hrgb32_t;
 
 __INLINE__ cgraph_bool_t cgraph_math_colchk(const cgraph_color_t color,
