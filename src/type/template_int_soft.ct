@@ -51,7 +51,7 @@ UTYPE FUNCTION(NAME, uabs_s)(const UTYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return ABS(x);
 #else
-  return x;
+  return x & (~MSB);
 #endif
 }
 
@@ -111,6 +111,30 @@ UTYPE FUNCTION(NAME, umul_s)(const UTYPE x, const UTYPE y) {
   }
 
   return res;
+#endif
+}
+
+UTYPE FUNCTION(NAME, umul_mod_s)(const UTYPE x, const UTYPE y,
+                                 const UTYPE mod) {
+#if defined(TYPE_BOOL)
+  return CGRAPH_FALSE == mod ? CGRAPH_FALSE : CGRAPH_AND(x, y);
+#elif defined(TYPE_LOGIC)
+  return ((FUNCTION(NAME, isnan)(x) || FUNCTION(NAME, isnan)(y) ||
+           FUNCTION(NAME, isnan)(mod)) ||
+          (CGRAPH_FALSE == mod))
+             ? CGRAPH_LX
+             : CGRAPH_AND(x, y);
+#else
+  UTYPE res = 0, _x = x, _y = y;
+  while (_y > 0) {
+    if (_y & 1) {
+      res = (res + _x) % mod;
+    }
+    _x = (_x << 1) % mod;
+    _y >>= 1;
+  }
+
+  return res % mod;
 #endif
 }
 

@@ -2,6 +2,21 @@
 
 import argparse
 import os
+try:
+	from collections.abc import Iterable
+except ImportError:
+  from collections import Iterable
+
+def flatten(items):
+  for item in items:
+    if isinstance(item, Iterable) and not isinstance(item, str):
+      for subitem in flatten(item):
+        yield subitem
+    else:
+      yield item
+
+def extend(items):
+  return [item for item in flatten(items=items)]
 
 def get_filelist_from_dir(path, suffixes, ignore_files, ignore_dirs, ignore_paths, filelist):
   for item in os.scandir(path):
@@ -10,7 +25,7 @@ def get_filelist_from_dir(path, suffixes, ignore_files, ignore_dirs, ignore_path
         continue
       filelist.append(item.path)
     elif item.is_dir():
-      if item.name.startswith(".") or item.name in ignore_dirs or item.path not in ignore_paths:
+      if item.name.startswith(".") or item.name in ignore_dirs or item.path in ignore_paths:
         continue
       get_filelist_from_dir(path=item.path, suffixes=suffixes, ignore_files=ignore_files, ignore_dirs=ignore_dirs, ignore_paths=ignore_paths, filelist=filelist)
 
@@ -68,17 +83,22 @@ class FileList(object):
 def arg_parse():
   parser = argparse.ArgumentParser(description="update C-type macro definitions", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
   parser.add_argument("dirs", nargs="+", type=str, help="input directories")
-  parser.add_argument("-s", "--suffix", nargs="+", required=True, dest="suffixes", type=str, help="input suffixes")
-  parser.add_argument("-if", "--ignore_files", nargs="+", default=[], dest="ignore_files", type=str, help="ignore file names")
-  parser.add_argument("-id", "--ignore_dirs", nargs="+", default=[], dest="ignore_dirs", type=str, help="ignore directory names")
-  parser.add_argument("-ip", "--ignore_paths", nargs="+", default=[], dest="ignore_paths", type=str, help="ignore path names")
+  parser.add_argument("-s", "--suffix", nargs="+", required=True, dest="suffixes", type=str, action="append", help="input suffixes")
+  parser.add_argument("-if", "--ignore_files", nargs="+", default=[], dest="ignore_files", type=str, action="append", help="ignore file names")
+  parser.add_argument("-id", "--ignore_dirs", nargs="+", default=[], dest="ignore_dirs", type=str, action="append", help="ignore directory names")
+  parser.add_argument("-ip", "--ignore_paths", nargs="+", default=[], dest="ignore_paths", type=str, action="append", help="ignore path names")
   parser.add_argument("-o", "--output", default="", type=str, help="output filelist")
   parser.add_argument("-t", "--output_type", default="filelist", choices=["filelist", "csv", "md"], type=str, help="output filelist type")
   parser.add_argument("-c", "--combine", action="store_true", help="output filelist in a line of the given file")
   parser.add_argument("-p", "--prefix", default="", type=str, help="prefix of each file path")
   def func(args):
-    print("find Files with Suffixes (%s) and without Names (%s) in Directories (%s)" % (" ".join(args.suffixes), " ".join(args.ignore_files), " ".join(args.dirs)))
-    filelist = FileList(paths=args.dirs, suffixes=args.suffixes, ignore_files=args.ignore_files, ignore_dirs=args.ignore_dirs, ignore_paths=args.ignore_paths)
+    suffixes = extend(args.suffixes)
+    ignore_files = extend(args.ignore_files)
+    ignore_dirs = extend(args.ignore_dirs)
+    ignore_paths = extend(args.ignore_paths)
+    dirs = extend(args.dirs)
+    print("find Files with Suffixes (%s) and without Names (%s) in Directories (%s)" % (" ".join(suffixes), " ".join(ignore_files), " ".join(dirs)))
+    filelist = FileList(paths=dirs, suffixes=suffixes, ignore_files=ignore_files, ignore_dirs=ignore_dirs, ignore_paths=ignore_paths)
     filelist.to_file(file=args.output, combine=args.combine, type=args.output_type)
   parser.set_defaults(func=func)
   return parser.parse_args()

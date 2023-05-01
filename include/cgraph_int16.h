@@ -26,6 +26,7 @@ extern "C" {
 #define ARG cgraph_long_t
 #define NAME int16
 #define TYPE TYPE_T(NAME)
+#define TYPE_C(x) INT16_C(x)
 #define ID ID_T(INT16)
 #define BITS CGRAPH_INT16_BITS
 #define L2BITS CGRAPH_INT16_L2BITS
@@ -33,9 +34,10 @@ extern "C" {
 #define OUT_FMT CGRAPH_INT16_OUT_FMT
 #define UNAME uint16
 #define UTYPE TYPE_T(UNAME)
+#define UTYPE_C(x) UINT16_C(x)
 #define UID ID_T(UINT16)
-#define ZERO INT16_C(0)
-#define ONE INT16_C(1)
+#define ZERO TYPE_C(0)
+#define ONE TYPE_C(1)
 #define ONES CGRAPH_INT16_MAX
 #define MIN CGRAPH_INT16_MIN
 #define MAX CGRAPH_INT16_MAX

@@ -16,13 +16,12 @@ libdir     = $(prefix)/lib
 testsdir   = $(prefix)/tests
 docdir     = $(prefix)/doc
 
-COMPILE_FLAGS = -Wall -pedantic -pedantic-errors
 if ENABLE_DEBUG
-COMPILE_FLAGS += -DDEBUG
+COMPILE_FLAGS = -DDEBUG -g
+else
+COMPILE_FLAGS =
 endif
-# if enable_stdc
-# COMPILE_FLAGS += -std=$(stdc)
-# endif
+COMPILE_FLAGS += $(STDC) -Wall -pedantic -pedantic-errors
 export COMPILE_FLAGS
 
 pkgconfigdir = @libdir@/pkgconfig

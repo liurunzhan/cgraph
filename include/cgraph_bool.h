@@ -32,12 +32,14 @@ extern "C" {
 #define ARG cgraph_long_t
 #define NAME bool
 #define TYPE TYPE_T(NAME)
+#define TYPE_C(x) ((x)&CGRAPH_BOOL_MASK)
 #define ID ID_T(BOOL)
 #define BITS CGRAPH_BOOL_BITS
 #define L2BITS CGRAPH_BOOL_L2BITS
 #define IN_FMT "%s"
 #define OUT_FMT "%s"
 #define UTYPE TYPE_T(NAME)
+#define UTYPE_C(x) TYPE_C(x)
 #define UID ID_T(BOOL)
 #define ZERO CGRAPH_FALSE
 #define ONE CGRAPH_TRUE

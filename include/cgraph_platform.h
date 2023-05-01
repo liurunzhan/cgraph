@@ -49,9 +49,9 @@ typedef enum {
 /** Self-defined features in different platforms */
 #if defined(__CYGWIN__)
 #define __PLAT_NAME "cygwin"
-#define __PLAT_MODE CGRAPH_PLAT_CYGWIN
-#define __PLAT_PSPLIT "/"
-#define __PLAT_PSPLIT_C '/'
+#define __PLAT_TYPE CGRAPH_PLAT_CYGWIN
+#define __PLAT_PSEP "/"
+#define __PLAT_PSEP_C '/'
 #define __PLAT_ENDL "\n"
 #define __PLAT_ENDL_SIZE (1)
 #define __PLAT_ENDL_C __PLAT_ENDL_TYPE0
@@ -59,9 +59,9 @@ typedef enum {
 #pragma message "Compile in Cygwin/MSYS1/MSYS2 Platform"
 #elif (defined(_WIN32) || defined(_WIN64)) || defined(WINVER)
 #define __PLAT_NAME "windows"
-#define __PLAT_MODE CGRAPH_PLAT_WINDOWS
-#define __PLAT_PSPLIT "\\"
-#define __PLAT_PSPLIT_C '\\'
+#define __PLAT_TYPE CGRAPH_PLAT_WINDOWS
+#define __PLAT_PSEP "\\"
+#define __PLAT_PSEP_C '\\'
 #define __PLAT_ENDL "\r\n"
 #define __PLAT_ENDL_SIZE (2)
 #define __PLAT_ENDL_C __PLAT_ENDL_TYPE0
@@ -72,9 +72,9 @@ typedef enum {
 #pragma message "Compile in Windows Platform"
 #elif defined(__APPLE__)
 #define __PLAT_NAME "macos"
-#define __PLAT_MODE CGRAPH_PLAT_MACOS
-#define __PLAT_PSPLIT "/"
-#define __PLAT_PSPLIT_C '/'
+#define __PLAT_TYPE CGRAPH_PLAT_MACOS
+#define __PLAT_PSEP "/"
+#define __PLAT_PSEP_C '/'
 #define __PLAT_ENDL "\r"
 #define __PLAT_ENDL_C __PLAT_ENDL_TYPE1
 #define __PLAT_ENDL_TYPE __PLAT_ENDL_MACOS
@@ -82,23 +82,23 @@ typedef enum {
 #else
 #if defined(__linux) || defined(__linux__)
 #define __PLAT_NAME "linux"
-#define __PLAT_MODE CGRAPH_PLAT_LINUX
+#define __PLAT_TYPE CGRAPH_PLAT_LINUX
 #pragma message "Compile in Linux Platform"
 #elif defined(__unix) || defined(__unix__) || defined(unix)
 #define __PLAT_NAME "unix"
-#define __PLAT_MODE CGRAPH_PLAT_UNIX
+#define __PLAT_TYPE CGRAPH_PLAT_UNIX
 #pragma message "Compile in Unix Platform"
 #elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 #define __PLAT_NAME "bsd"
-#define __PLAT_MODE CGRAPH_PLAT_UNIX
+#define __PLAT_TYPE CGRAPH_PLAT_UNIX
 #pragma message "Compile in BSD Platform"
 #else
 #define __PLAT_NAME "none"
-#define __PLAT_MODE CGRAPH_PLAT_STDC
+#define __PLAT_TYPE CGRAPH_PLAT_STDC
 #pragma message "Compile in Unix-like Platform"
 #endif
-#define __PLAT_PSPLIT "/"
-#define __PLAT_PSPLIT_C '/'
+#define __PLAT_PSEP "/"
+#define __PLAT_PSEP_C '/'
 #define __PLAT_ENDL_SIZE (1)
 #define __PLAT_ENDL "\n"
 #define __PLAT_ENDL_C __PLAT_ENDL_TYPE0
@@ -106,28 +106,34 @@ typedef enum {
 #endif
 
 /** Self-defined features in different structures */
-#define __PLAT_ENDIAN_LITTLE (0)
-#define __PLAT_ENDIAN_BIG (1)
-#define __PLAT_ENDIAN_NONE (2)
+#define __PLAT_ENDIAN_LE (0)
+#define __PLAT_ENDIAN_BE (1)
+#define __PLAT_ENDIAN_UE (2)
+
+typedef enum {
+  CGRAPH_PLAT_LITTLE = __PLAT_ENDIAN_LE, /**< TYPE 0 : Little Endian, h -> h */
+  CGRAPH_PLAT_BIG = __PLAT_ENDIAN_BE,    /**< TYPE 1 : Big Endian, h -> l */
+  CGRAPH_PLAT_UNKNOWN = __PLAT_ENDIAN_UE /**< TYPE 2 : Unknown Endian */
+} cgraph_endian_t;
+
 #if defined(__LITTLE_ENDIAN__) || defined(__LITTLE_ENDIAN) ||                  \
     defined(__WORDS_LITTLEENDIAN)
 /** Little-endian architecture */
-#define __PLAT_ENDIAN __PLAT_ENDIAN_LITTLE
+#define __PLAT_ENDIAN __PLAT_ENDIAN_LE
 #pragma message "Compile in Little-End CPU Arch"
 #elif defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                      \
     defined(__WORDS_BIGENDIAN)
 /** Big-Endian architecture */
-#define __PLAT_ENDIAN __PLAT_ENDIAN_BIG
+#define __PLAT_ENDIAN __PLAT_ENDIAN_BE
 #pragma message "Compile in Big-End CPU Arch"
 #else
 /** Undefined architecture */
-#define __PLAT_ENDIAN __PLAT_ENDIAN_NONE
+#define __PLAT_ENDIAN __PLAT_ENDIAN_UE
 #pragma message "Compile in Undefined CPU Arch"
 #endif
 
-#if (__PLAT_ENDIAN < __PLAT_ENDIAN_LITTLE) ||                                  \
-    (__PLAT_ENDIAN > __PLAT_ENDIAN_NONE)
-#error __PLAT_ENDIAN must be defined as one of <__PLAT_ENDIAN_LITTLE(0), __PLAT_ENDIAN_BIG(1) or __PLAT_ENDIAN_NONE(2)>
+#if (__PLAT_ENDIAN < __PLAT_ENDIAN_LE) || (__PLAT_ENDIAN > __PLAT_ENDIAN_UE)
+#error __PLAT_ENDIAN must be defined as one of <__PLAT_ENDIAN_LE(0), __PLAT_ENDIAN_BE(1) or __PLAT_ENDIAN_UE(2)>
 #endif
 
 #ifndef __WORDSIZE
@@ -259,6 +265,33 @@ typedef enum {
 #endif
 
 /** */
+
+#ifndef BOOL_C
+typedef signed int cgraph_bool_t;
+#define BOOL_BITS (1)
+#define BOOL_L2BITS (0)
+#define BOOL_MASK UINT_C(0x01)
+#define BOOL_C(x) ((x)&BOOL_MASK)
+#endif
+
+#ifndef BOOL_MAX
+#define BOOL_MAX BOOL_C(1)
+#define BOOL_MIN BOOL_C(1)
+#endif
+
+#ifndef LOGIC_C
+typedef signed int cgraph_logic_t;
+#define LOGIC_BITS (2)
+#define LOGIC_L2BITS (1)
+#define LOGIC_MASK UINT_C(0x03)
+#define LOGIC_C(x) ((x)&LOGIC_MASK)
+#endif
+
+#ifndef LOGIC_MAX
+#define LOGIC_MAX LOGIC_C(3)
+#define LOGIC_MIN LOGIC_C(0)
+#endif
+
 /** @{ */
 #ifndef INT8_C
 #define INT8_C(x) (x)
@@ -870,7 +903,7 @@ typedef uint16_t float16_t;
 #define FLT128_NINF (-FLT128_ONE / FLT128_ZERO)
 /** @} */
 
-#if (__STDC_VERSION__ >= 201112L) || defined(__GNUC_MTSTDC)
+#if (__STDC_VERSION__ >= 201112L)
 #define __TYPE_BEGIN(name)
 #define __TYPE_END(name)
 #define __TYPE_ELEMENT(type, element) ((type))

@@ -13,32 +13,26 @@ int main(int argc, char *argv[]) {
   TYPE matrix2[4] = {1.0, 2.0, 1.0, 2.0};
   TYPE tmp = ZERO;
 
+  FUNCTION(NAME, seteps)(0.00001);
+  cgraph_file_fprintfln(stdout, OUT_FMT " is epsilon", 0.00001);
   cgraph_file_fprintfln(stdout, OUT_FMT, FUNCTION(NAME, sqrt)(2));
   cgraph_file_fprintfln(stdout, OUT_FMT, FUNCTION(NAME, cube)(2));
   cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_trapezoidal)(0.1, 0.2, 0.00001, &function_x));
+      stdout, OUT_FMT, FUNCTION(NAME, rint_trapezoidal)(0.1, 0.2, &function_x));
   cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_trapezoidal)(0.2, 0.1, 0.00001, &function_x));
-  cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_simpson)(0.1, 0.2, 0.00001, &function_x));
-  cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_simpson)(0.2, 0.1, 0.00001, &function_x));
-  cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_simpson38)(0.1, 0.2, 0.00001, &function_x));
-  cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_simpson38)(0.2, 0.1, 0.00001, &function_x));
-  cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_cotes)(0.1, 0.2, 0.00001, &function_x));
-  cgraph_file_fprintfln(
-      stdout, OUT_FMT,
-      FUNCTION(NAME, rint_cotes)(0.2, 0.1, 0.00001, &function_x));
+      stdout, OUT_FMT, FUNCTION(NAME, rint_trapezoidal)(0.2, 0.1, &function_x));
+  cgraph_file_fprintfln(stdout, OUT_FMT,
+                        FUNCTION(NAME, rint_simpson)(0.1, 0.2, &function_x));
+  cgraph_file_fprintfln(stdout, OUT_FMT,
+                        FUNCTION(NAME, rint_simpson)(0.2, 0.1, &function_x));
+  cgraph_file_fprintfln(stdout, OUT_FMT,
+                        FUNCTION(NAME, rint_simpson38)(0.1, 0.2, &function_x));
+  cgraph_file_fprintfln(stdout, OUT_FMT,
+                        FUNCTION(NAME, rint_simpson38)(0.2, 0.1, &function_x));
+  cgraph_file_fprintfln(stdout, OUT_FMT,
+                        FUNCTION(NAME, rint_cotes)(0.1, 0.2, &function_x));
+  cgraph_file_fprintfln(stdout, OUT_FMT,
+                        FUNCTION(NAME, rint_cotes)(0.2, 0.1, &function_x));
 
   FUNCTION(NAME, rtrans)(data, 2, 2);
   FUNCTION(NAME, rtrans)(data, 1, 2);
@@ -69,10 +63,10 @@ int main(int argc, char *argv[]) {
   }
   cgraph_file_fprintfln(
       stdout, OUT_FMT,
-      FUNCTION(NAME, rdiff_runge_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
+      FUNCTION(NAME, rdiff_runge_kutta_s4)(0.0, 5.0, 2.0, function_xy));
   cgraph_file_fprintfln(
       stdout, OUT_FMT,
-      FUNCTION(NAME, rdiff_kutta_s4)(0.0, 5.0, 2.0, 0.25, function_xy));
+      FUNCTION(NAME, rdiff_kutta_s4)(0.0, 5.0, 2.0, function_xy));
   cgraph_file_fprintfln(stdout, OUT_FMT,
                         FUNCTION(NAME, reqt_bsearch)(1.0, 2.0, function_x2));
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, issubsym)(matrix1, 2, 2));

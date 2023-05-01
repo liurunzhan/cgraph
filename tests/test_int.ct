@@ -1,6 +1,7 @@
 #include <math.h>
 
 int main(int argc, char *argv[]) {
+  TYPE old_value = 0x01, new_value;
   fprintf(stdout, "name : %s", STRING(TYPE));
   cgraph_file_fprintfln(stdout, "size : %ld", sizeof(TYPE));
 #if !(defined(TYPE_BOOL) || defined(TYPE_LOGIC))
@@ -8,7 +9,16 @@ int main(int argc, char *argv[]) {
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, isodd)(i));
   cgraph_file_fprintfln(stdout, "%d", FUNCTION(NAME, iseven)(i));
   CGRAPH_LOOP_END
-  cgraph_file_fprintfln(stdout, "%d : " OUT_FMT, 4, FUNCTION(NAME, usqrt_s)(4));
+  if (TYPE_C(0) < new_value) {
+    cgraph_file_fprintfln(stderr, "error bit swap function");
+  }
+  CGRAPH_LOOP(i, 0, BITS - 1)
+  new_value = FUNCTION(NAME, bitswap)(old_value, i, i + 1);
+  cgraph_file_fprintfln(stdout, "old value=" OUT_FMT " new value=" OUT_FMT,
+                        old_value, new_value);
+  old_value = new_value;
+  CGRAPH_LOOP_END cgraph_file_fprintfln(stdout, "%d : " OUT_FMT, 4,
+                                        FUNCTION(NAME, usqrt_s)(4));
   cgraph_file_fprintfln(stdout, OUT_FMT " : " OUT_FMT, MAX,
                         FUNCTION(NAME, usqrt_s)(MAX));
   cgraph_file_fprintfln(stdout, OUT_FMT " " OUT_FMT " " OUT_FMT, -64, 64,

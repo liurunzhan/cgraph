@@ -437,6 +437,15 @@ TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
   return res;
 }
 
+TYPE FUNCTION(NAME, saxpy)(const TYPE x, const TYPE y, const DATA_TYPE a) {
+  TYPE res;
+  POINT3D_X(res) = a * POINT3D_X(x) + POINT3D_X(y);
+  POINT3D_Y(res) = a * POINT3D_Y(x) + POINT3D_Y(y);
+  POINT3D_Z(res) = a * POINT3D_Z(x) + POINT3D_Z(y);
+
+  return res;
+}
+
 __INLINE__ DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y) {
   return (POINT3D_X(x) * POINT3D_X(y)) + (POINT3D_Y(x) * POINT3D_Y(y)) +
          (POINT3D_Z(x) * POINT3D_Z(y));

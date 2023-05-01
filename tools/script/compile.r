@@ -6,11 +6,11 @@
 
 PRO <- "cgraph"
 DIR <- "."
-INC <- file.path(DIR, "include", fsep=.Platform$file.sep)
-SRC <- file.path(DIR, "src", fsep=.Platform$file.sep)
-SRC_TYPE <- file.path(SRC, "type", fsep=.Platform$file.sep)
-TST <- file.path(DIR, "tests", fsep=.Platform$file.sep)
-LIB <- file.path(DIR, "lib", fsep=.Platform$file.sep)
+INC <- file.path(DIR, "include")
+SRC <- file.path(DIR, "src")
+SRC_TYPE <- file.path(SRC, "type")
+TST <- file.path(DIR, "tests")
+LIB <- file.path(DIR, "lib")
 
 CC <- "cc"
 CFLAGS <- "-std=c89 -Wall -pedantic -fPIC"
@@ -28,20 +28,20 @@ AR <- "ar"
 ARFLAGS <- "-rcs"
 
 # get all source files from subdirectories
-CFILES <- lapply(list.files(SRC, pattern="^[^\\.].*?\\.c$", recursive=TRUE), function(x) { file.path(SRC, x, fsep=.Platform$file.sep)})
+CFILES <- lapply(list.files(SRC, pattern="^[^\\.].*?\\.c$", recursive=TRUE, no..=TRUE), function(x) { file.path(SRC, x) })
 
-TEST_FILES <- lapply(list.files(TST, pattern="*\\.c$"), function(x) { file.path(TST, x, fsep=.Platform$file.sep)})
+TEST_FILES <- lapply(list.files(TST, pattern="*\\.c$", no..=TRUE), function(x) { file.path(TST, x) })
 
 if (.Platform$OS.type == "windows") {
   # target files
-  LIBSHARED <- file.path(LIB, paste("lib", PRO, ".dll", sep=""), fsep=.Platform$file.sep)
-  LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".lib", sep=""), fsep=.Platform$file.sep)
+  LIBSHARED <- file.path(LIB, paste("lib", PRO, ".dll", sep=""))
+  LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".lib", sep=""))
   # test files
   TSTSUFFIX <- ".exe"
 } else {
   # target files
-  LIBSHARED <- file.path(LIB, paste("lib", PRO, ".so", sep=""), fsep=.Platform$file.sep)
-  LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".a", sep=""), fsep=.Platform$file.sep)
+  LIBSHARED <- file.path(LIB, paste("lib", PRO, ".so", sep=""))
+  LIBSTATIC <- file.path(LIB, paste("lib", PRO, ".a", sep=""))
   # test files
   TSTSUFFIX <- ""
 }
@@ -77,10 +77,10 @@ if (length(args) == 0) {
   for (file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
-    unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
+    unlink(file.path(SRC, obj), force=TRUE)
     dep <- gsub("\\.c$", ".d", file)
     print(sprintf("clean %s", dep))
-    unlink(file.path(SRC, dep, fsep=.Platform$file.sep), force=TRUE)
+    unlink(file.path(SRC, dep), force=TRUE)
   }
   print(sprintf("clean %s", LIBSTATIC))
   unlink(LIBSTATIC, force=TRUE)
@@ -96,10 +96,10 @@ if (length(args) == 0) {
   for (file in CFILES) {
     obj <- gsub("\\.c$", ".o", file)
     print(sprintf("clean %s", obj))
-    unlink(file.path(SRC, obj, fsep=.Platform$file.sep), force=TRUE)
+    unlink(file.path(SRC, obj), force=TRUE)
     dep <- gsub("\\.c$", ".d", file)
     print(sprintf("clean %s", dep))
-    unlink(file.path(SRC, dep, fsep=.Platform$file.sep), force=TRUE)
+    unlink(file.path(SRC, dep), force=TRUE)
   }
   print(sprintf("clean %s", LIBSTATIC))
   unlink(LIBSTATIC, force=TRUE)

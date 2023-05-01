@@ -1,0 +1,31 @@
+#if !defined(INT8_ASIZE) || (0 >= INT8_ASIZE)
+#error INT8_ASIZE must be defined and greater than 0
+#endif
+
+#ifndef FUNCTION
+#define CONCAT3V(a, b, c) a##_##b##_##c
+#define CONCAT3(a, b, c) CONCAT3V(a, b, c)
+#define FUNCTION(a, b) CONCAT3(cgraph, a, b)
+#endif
+
+#define SINT_NAME sint##INT8_ASIZE
+#define sint_t SINT_NAME##_t
+typedef uint8_t[INT8_ASIZE] sint_t;
+
+static sint_t FUNCTION(SINT_NAME, and)(sint_t x, sint_t y);
+static sint_t FUNCTION(SINT_NAME, or)(sint_t x, sint_t y);
+static sint_t FUNCTION(SINT_NAME, not )(sint_t x);
+static sint_t FUNCTION(SINT_NAME, xor)(sint_t x, sint_t y);
+
+static sint_t FUNCTION(SINT_NAME, shl)(sint_t x, usize_t bits);
+static sint_t FUNCTION(SINT_NAME, shr)(sint_t x, usize_t bits);
+static sint_t FUNCTION(SINT_NAME, rol)(sint_t x, usize_t bits);
+static sint_t FUNCTION(SINT_NAME, ror)(sint_t x, usize_t bits);
+
+#ifdef SINT_NAME
+#undef SINT_NAME
+#endif
+
+#ifdef sint_t
+#undef sint_t
+#endif

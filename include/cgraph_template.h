@@ -57,10 +57,10 @@ template_matrix.ht([cgraph_template_matrix])
 #define CGRAPH_HASMEM(x) ((NULL != (x)) && (SIZE_C(0) < (x)->size))
 #define CGRAPH_ISEMPTY(x) ((NULL == (x)) || (SIZE_C(0) >= (x)->len))
 #define CGRAPH_HASDATA(x) ((NULL != (x)) && (SIZE_C(0) < (x)->len))
-#define CGRAPH_DATA_BITS_CHECKER(x, bits)                                      \
-  ((NULL != (x)) && ((bits / DATA_BITS) <= (x)->len))
-#define CGRAPH_DATA_BYTES_CHECKER(x, bits)                                     \
-  ((NULL != (x)) && ((bits / DATA_BYTES) <= (x)->len))
+#define CGRAPH_DATA_BITCHK(x, bits)                                            \
+  ((NULL != (x)) && ((bits >> DATA_L2BITS) <= (x)->len))
+#define CGRAPH_DATA_BYTECHK(x, bits)                                           \
+  ((NULL != (x)) && ((bits >> (3 * DATA_L2BITS)) <= (x)->len))
 
 /** property inheritance of object types */
 #define CGRAPH_OBJECT_BASE cgraph_element_t element;

@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     cgraph_file_fprintln(stdout);
     FUNCTION(NAME, fprintb)(stdout, bitset1);
     cgraph_file_fprintln(stdout);
-    bitset1 = FUNCTION(NAME, swapbit)(bitset1);
+    bitset1 = FUNCTION(NAME, swapbit1)(bitset1);
   }
 
   FUNCTION(NAME, free)(bitset1);

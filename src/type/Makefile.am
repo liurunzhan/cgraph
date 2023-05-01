@@ -33,11 +33,11 @@ MATRIX_BASE_SOURCES = template_matrix.ct template_matrix3d.ct
 
 SOURCES = $(BASE_SOURCES) $(DATA_BASE_SOURCES) $(INT_BASE_SOURCES) $(FLOAT_BASE_SOURCES) $(POINT_BASE_SOURCES) $(OBJECT_BASE_SOURCES) $(STRUCTURE_BASE_SOURCES) $(MATRIX_BASE_SOURCES) data.c
 
-noinst_LTLIBRARIES    = libtype.la
-libtype_la_CFLAGS     = -I$(include_dir) $(COMPILE_FLAGS)
-libtype_la_LDFLAGS    = -lm -no-undefined
-libtype_la_SOURCES    = $(SOURCES)
-libtype_la_LIBADD     = $(libbasic_la) $(libdata_la) $(libobject_la) $(libstructure_la)
+noinst_LTLIBRARIES = libtype.la
+libtype_la_CFLAGS  = -I$(include_dir) $(COMPILE_FLAGS)
+libtype_la_LDFLAGS = -lm -no-undefined
+libtype_la_SOURCES = $(SOURCES)
+libtype_la_LIBADD  = $(libbasic_la) $(libdata_la) $(libobject_la) $(libstructure_la)
 
 DISTCLEANFILES        = Makefile.in Makefile
 

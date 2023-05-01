@@ -1,9 +1,9 @@
-SOURCES = error.c file.c memory.c math.c rand.c
+SOURCES = error.c file.c hash.c memory.c math.c rand.c
 
-noinst_LTLIBRARIES    = libfunc.la
-libfunc_la_CFLAGS     = -I$(top_srcdir)/include $(COMPILE_FLAGS)
-libfunc_la_LDFLAGS    = -lm -no-undefined
-libfunc_la_SOURCES    = $(SOURCES)
+noinst_LTLIBRARIES = libfunc.la
+libfunc_la_CFLAGS  = -I$(top_srcdir)/include $(COMPILE_FLAGS)
+libfunc_la_LDFLAGS = -lm -no-undefined
+libfunc_la_SOURCES = $(SOURCES)
 
 DISTCLEANFILES        = Makefile.in Makefile
 

@@ -58,65 +58,33 @@ __INLINE__ cgraph_int_t FUNCTION(NAME, signbit)(const TYPE *cthis) {
 
 /**                          string hash functions                            */
 cgraph_size_t FUNCTION(NAME, jshash)(const TYPE *cthis) {
-  cgraph_size_t hash = 1315423911L;
-  if (CGRAPH_HASDATA(cthis)) {
-    CGRAPH_LOOP(i, 0, cthis->len)
-    hash ^= ((hash << 5) + (hash >> 2) + cthis->data[i]);
-    CGRAPH_LOOP_END
-  }
-
-  return hash;
+  return CGRAPH_HASDATA(cthis)
+             ? cgraph_hash_js((cgraph_uint8_t *)cthis->data, cthis->len)
+             : SIZE_C(1315423911);
 }
 
 cgraph_size_t FUNCTION(NAME, sdbmhash)(const TYPE *cthis) {
-  cgraph_size_t hash = 0;
-  if (CGRAPH_HASDATA(cthis)) {
-    CGRAPH_LOOP(i, 0, cthis->len)
-    hash = ((hash << 6) - hash + (hash << 16) + cthis->data[i]);
-    CGRAPH_LOOP_END
-  }
-
-  return hash;
+  return CGRAPH_HASDATA(cthis)
+             ? cgraph_hash_sdbm((cgraph_uint8_t *)cthis->data, cthis->len)
+             : SIZE_C(0);
 }
 
 cgraph_size_t FUNCTION(NAME, rshash)(const TYPE *cthis) {
-  cgraph_size_t hash = 0;
-  if (CGRAPH_HASDATA(cthis)) {
-    cgraph_size_t a = 63689;
-    CGRAPH_LOOP(i, 0, cthis->len)
-    hash = hash * a + cthis->data[i];
-    a *= 378551;
-    CGRAPH_LOOP_END
-  }
-
-  return hash;
+  return CGRAPH_HASDATA(cthis)
+             ? cgraph_hash_rs((cgraph_uint8_t *)cthis->data, cthis->len)
+             : SIZE_C(0);
 }
 
 cgraph_size_t FUNCTION(NAME, elfhash)(const TYPE *cthis) {
-  cgraph_size_t hash = 0;
-  if (CGRAPH_HASDATA(cthis)) {
-    cgraph_size_t hbyte = 0;
-    CGRAPH_LOOP(i, 0, cthis->len)
-    hash = (hash << (CGRAPH_SIZE_BITS / 8)) + cthis->data[i];
-    if (0 != (hbyte = hash & (0xFUL << (7 * CGRAPH_SIZE_BITS / 8)))) {
-      hash ^= (hbyte >> (3 * CGRAPH_SIZE_BITS / 4));
-      hash &= ~hbyte;
-    }
-    CGRAPH_LOOP_END
-  }
-
-  return hash;
+  return CGRAPH_HASDATA(cthis)
+             ? cgraph_hash_elf((cgraph_uint8_t *)cthis->data, cthis->len)
+             : SIZE_C(0);
 }
 
 cgraph_size_t FUNCTION(NAME, bkdrhash)(const TYPE *cthis) {
-  cgraph_size_t hash = 0;
-  if (CGRAPH_HASDATA(cthis)) {
-    CGRAPH_LOOP(i, 0, cthis->len)
-    hash = hash * 131 + cthis->data[i];
-    CGRAPH_LOOP_END
-  }
-
-  return CGRAPH_ABS(hash);
+  return CGRAPH_HASDATA(cthis)
+             ? cgraph_hash_bkdr((cgraph_uint8_t *)cthis->data, cthis->len)
+             : SIZE_C(0);
 }
 
 /** package of <ctype.h> */
@@ -245,7 +213,7 @@ cgraph_bool_t FUNCTION(NAME, ispsplit)(const TYPE *cthis) {
   if (CGRAPH_HASDATA(cthis)) {
     flag = CGRAPH_TRUE;
     CGRAPH_LOOP(i, 0, cthis->len)
-    if (!cgraph_math_ispsplit(cthis->data[i])) {
+    if (!cgraph_math_ispsep(cthis->data[i])) {
       flag = CGRAPH_FALSE;
       break;
     }
@@ -1224,6 +1192,17 @@ cgraph_size_t FUNCTION(NAME, len_big5)(const TYPE *cthis) {
   return len;
 }
 
+/**
+ * UTF-8 encoding:
+ * | bits | start | end | bytes | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+ * | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+ * |  7 | U+0000    | U+007F     | 1 | 0x0XXXXXXX |            | | | | | |
+ * | 11 | U+0090    | U+07FF     | 2 | 0x110XXXXX | 0x10XXXXXX | | | | | |
+ * | 16 | U+0800    | U+FFFF     | 3 | 0x1110XXXX | 0x10XXXXXX |.|.| | | |
+ * | 21 | U+10000   | U+1FFFFF   | 4 | 0x11110XXX | 0x10XXXXXX |.|.|.| | |
+ * | 26 | U+200000  | U+3FFFFFF  | 5 | 0x111110XX | 0x10XXXXXX |.|.|.|.| |
+ * | 31 | U+4000000 | U+7FFFFFFF | 6 | 0x1111110X | 0x10XXXXXX |.|.|.|.|.|
+ */
 cgraph_bool_t FUNCTION(NAME, isutf8)(const TYPE *cthis) {
   cgraph_bool_t res = CGRAPH_TRUE;
   if ((NULL != cthis) && (0 < cthis->len)) {
@@ -1251,7 +1230,7 @@ cgraph_size_t FUNCTION(NAME, len_utf8)(const TYPE *cthis) {
     if (1 < msb_one_num && 7 > msb_one_num) {
       i += (msb_one_num - 1);
       len += 1;
-    } else {
+    } else if (0 != msb_one_num) {
       break;
     }
     CGRAPH_LOOP_END

@@ -402,18 +402,18 @@ TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t len) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit1)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     DATA_TYPE byte;
     if (DATA_BITS == BITSET_BITNUM(cthis)) {
       for (i = 0, j = cthis->len - 1; i < j; i++, j--) {
         byte = cthis->data[i];
-        cthis->data[i] = FUNCTION(DATA_NAME, swapbit)(cthis->data[j]);
-        cthis->data[j] = FUNCTION(DATA_NAME, swapbit)(byte);
+        cthis->data[i] = FUNCTION(DATA_NAME, swapbit1)(cthis->data[j]);
+        cthis->data[j] = FUNCTION(DATA_NAME, swapbit1)(byte);
       }
       if (i == j) {
-        cthis->data[i] = FUNCTION(DATA_NAME, swapbit)(cthis->data[i]);
+        cthis->data[i] = FUNCTION(DATA_NAME, swapbit1)(cthis->data[i]);
       }
     } else {
     }
@@ -422,7 +422,7 @@ TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit8)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     if (DATA_BITS == BITSET_BITNUM(cthis)) {
@@ -436,7 +436,7 @@ TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit16)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     if (DATA_BITS == BITSET_BITNUM(cthis)) {
@@ -451,7 +451,7 @@ TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swapword)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit32)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     if (DATA_BITS == BITSET_BITNUM(cthis)) {

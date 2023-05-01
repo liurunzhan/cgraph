@@ -119,10 +119,11 @@ int main(int argc, char *argv[]) {
   cgraph_int_t num = 987, weight = 1, cnt = 0;
   cgraph_cmdarg_t *cmdarg = cgraph_cmdarg_calloc(argc, argv);
   FILE *fp = cgraph_file_fopen(
-      "." __PLAT_PSPLIT "test" __PLAT_PSPLIT "rand_seed.csv", "w");
+      "." __PLAT_PSEP "test" __PLAT_PSEP "rand_seed.csv", "w");
   cgraph_uint64_t crc_init = 0xFF, crc_data = 0x55, crc_poly = 0x07;
-  fprintf(stdout, "CRC-%d: init=%0x, data=%0x, poly=%0x, res=%0x" __PLAT_ENDL,
-          8, crc_init, crc_data, crc_poly,
+  fprintf(stdout,
+          "CRC-%d: init=%0lx, data=%0lx, poly=%0lx, res=%0lx" __PLAT_ENDL, 8,
+          crc_init, crc_data, crc_poly,
           cgraph_math_crc(8, crc_init, crc_data, crc_poly));
   cgraph_cmdarg_fprintln(stdout, cmdarg);
   cgraph_file_fprintfln(stdout, "hello world");
@@ -149,9 +150,10 @@ int main(int argc, char *argv[]) {
                         cgraph_bool_encode(isbigendian));
   cgraph_file_fprintfln(stdout, "num : %d weight : %d cnt : %d", num, weight,
                         cgraph_math_rdeccnt(num, weight));
-  for (i = 0, cnt = 0; i <= num; i++) {
-    cnt += cgraph_math_deccnt(i, weight);
-  }
+  cnt = 0;
+  CGRAPH_LOOP(i, 0, num + 1)
+  cnt += cgraph_math_deccnt(i, weight);
+  CGRAPH_LOOP_END
   cgraph_file_fprintfln(stdout, "num : %d weight : %d cnt : %d", num, weight,
                         cnt);
   cgraph_file_fprintfln(stdout, "gcd(%lu, %lu) = %lu", 31, 256,

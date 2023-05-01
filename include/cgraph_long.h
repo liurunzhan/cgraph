@@ -32,6 +32,7 @@ extern "C" {
 #define ARG cgraph_long_t
 #define NAME long
 #define TYPE TYPE_T(NAME)
+#define TYPE_C(x) LONG_C(x)
 #define ID ID_T(LONG)
 #define BITS CGRAPH_LONG_BITS
 #define L2BITS CGRAPH_LONG_L2BITS
@@ -39,6 +40,7 @@ extern "C" {
 #define OUT_FMT "%ld"
 #define UNAME ulong
 #define UTYPE TYPE_T(UNAME)
+#define UTYPE_C(x) ULONG_C(x)
 #define UID ID_T(ULONG)
 #define ZERO (0)
 #define ONE (1)

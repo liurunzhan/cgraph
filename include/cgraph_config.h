@@ -64,17 +64,16 @@ typedef unsigned char cgraph_uchar_t;
  * @typedef cgraph_bool_t
  * @brief 1-bit integer number data type
  */
-#define CGRAPH_FALSE INT_C(0)
-#define CGRAPH_TRUE INT_C(1)
-typedef signed int cgraph_bool_t;
+#define CGRAPH_FALSE BOOL_C(0)
+#define CGRAPH_TRUE BOOL_C(1)
 /** \defgroup group_bool cgraph_bool_t */
 /** @{ */
 #define CGRAPH_BOOL_MAX CGRAPH_TRUE
 #define CGRAPH_BOOL_MIN CGRAPH_FALSE
-#define CGRAPH_BOOL_MASK UINT_C(0x01)
-#define CGRAPH_BOOL_EPSILON INT_C(0x01)
-#define CGRAPH_BOOL_BITS (1)
-#define CGRAPH_BOOL_L2BITS (0)
+#define CGRAPH_BOOL_MASK BOOL_MASK
+#define CGRAPH_BOOL_EPSILON BOOL_EPSILON
+#define CGRAPH_BOOL_BITS BOOL_BITS
+#define CGRAPH_BOOL_L2BITS BOOL_L2BITS
 
 /* C-type string boolean definition */
 #define CGRAPH_BOOL_STRUE "true"
@@ -88,19 +87,18 @@ typedef signed int cgraph_bool_t;
  * @brief 2-bit integer number data type, equals to logic in system verilog with
  * 4 states---0, 1, Z and X
  */
-#define CGRAPH_L0 (0)
-#define CGRAPH_L1 (1)
-#define CGRAPH_LZ (2)
-#define CGRAPH_LX (3)
-typedef signed int cgraph_logic_t;
+#define CGRAPH_L0 LOGIC_C(0)
+#define CGRAPH_L1 LOGIC_C(1)
+#define CGRAPH_LZ LOGIC_C(2)
+#define CGRAPH_LX LOGIC_C(3)
 /** \defgroup group_logic cgraph_logic_t */
 /** @{ */
 #define CGRAPH_LOGIC_MAX CGRAPH_LX
 #define CGRAPH_LOGIC_MIN CGRAPH_L0
-#define CGRAPH_LOGIC_MASK UINT_C(0x03)
-#define CGRAPH_LOGIC_EPSILON INT_C(0x01)
-#define CGRAPH_LOGIC_BITS (2)
-#define CGRAPH_LOGIC_L2BITS (1)
+#define CGRAPH_LOGIC_MASK LOGIC_MASK
+#define CGRAPH_LOGIC_EPSILON LOGIC_EPSILON
+#define CGRAPH_LOGIC_BITS LOGIC_BITS
+#define CGRAPH_LOGIC_L2BITS LOGIC_L2BITS
 
 #define CGRAPH_LOGIC_L0 "0"
 #define CGRAPH_LOGIC_L0_LEN (1)
@@ -131,7 +129,7 @@ typedef signed int cgraph_int_t;
 #define CGRAPH_INT_MSB INT_MSB
 #define CGRAPH_INT_EPSILON UINT_C(0x01)
 #define CGRAPH_INT_BITS INT_BITS
-#define CGRAPH_INT_L2BITS INT_BITS
+#define CGRAPH_INT_L2BITS INT_L2BITS
 /** @} */
 
 /**
@@ -152,8 +150,8 @@ typedef unsigned int cgraph_uint_t;
 #define CGRAPH_UINT_LSB UINT_LSB
 #define CGRAPH_UINT_MSB UINT_MSB
 #define CGRAPH_UINT_EPSILON UINT_C(0x01)
-#define CGRAPH_UINT_BITS (32)
-#define CGRAPH_UINT_L2BITS (5)
+#define CGRAPH_UINT_BITS UINT_BITS
+#define CGRAPH_UINT_L2BITS UINT_L2BITS
 /** @} */
 
 /**
@@ -835,27 +833,28 @@ typedef struct {
 } cgraph_element_t;
 #pragma pack()
 
-#define CGRAPH_DTYPE_KTYPE(a) ((a)->element.k_type)
-#define CGRAPH_DTYPE_KACCESS(a) ((a)->element.k_access)
-#define CGRAPH_DTYPE_KCONST(a) ((a)->element.k_const)
-#define CGRAPH_DTYPE_KHASH(a) ((a)->element.k_hash)
+#define CGRAPH_DTYPE(a) (a)->element
+#define CGRAPH_DTYPE_KTYPE(a) (CGRAPH_DTYPE(a).k_type)
+#define CGRAPH_DTYPE_KACCESS(a) (CGRAPH_DTYPE(a).k_access)
+#define CGRAPH_DTYPE_KCONST(a) (CGRAPH_DTYPE(a).k_const)
+#define CGRAPH_DTYPE_KHASH(a) (CGRAPH_DTYPE(a).k_hash)
 
-#define CGRAPH_DTYPE_VTYPE(a) ((a)->element.v_type)
-#define CGRAPH_DTYPE_VACCESS(a) ((a)->element.v_access)
-#define CGRAPH_DTYPE_VCONST(a) ((a)->element.v_const)
-#define CGRAPH_DTYPE_VHASH(a) ((a)->element.v_hash)
+#define CGRAPH_DTYPE_VTYPE(a) (CGRAPH_DTYPE(a).v_type)
+#define CGRAPH_DTYPE_VACCESS(a) (CGRAPH_DTYPE(a).v_access)
+#define CGRAPH_DTYPE_VCONST(a) (CGRAPH_DTYPE(a).v_const)
+#define CGRAPH_DTYPE_VHASH(a) (CGRAPH_DTYPE(a).v_hash)
 
 #define CGRAPH_DTYPE_TYPE(a) CGRAPH_DTYPE_KTYPE(a)
 #define CGRAPH_DTYPE_ACCESS(a) CGRAPH_DTYPE_KACCESS(a)
 #define CGRAPH_DTYPE_CONST(a) CGRAPH_DTYPE_KCONST(a)
 #define CGRAPH_DTYPE_HASH(a) CGRAPH_DTYPE_KHASH(a)
 
-#define CGRAPH_GTYPE_GKEYISID(a) ((a)->element.g_keyisid)
-#define CGRAPH_GTYPE_GDIRECTED(a) ((a)->element.g_directed)
-#define CGRAPH_GTYPE_GWEIGHTED(a) ((a)->element.g_weighted)
-#define CGRAPH_GTYPE_GMULTIPLE(a) ((a)->element.g_multiple)
-#define CGRAPH_GTYPE_GHYPER(a) ((a)->element.g_hyper)
-#define CGRAPH_GTYPE_GDYNAMIC(a) ((a)->element.g_dynamic)
+#define CGRAPH_GTYPE_GKEYISID(a) (CGRAPH_DTYPE(a).g_keyisid)
+#define CGRAPH_GTYPE_GDIRECTED(a) (CGRAPH_DTYPE(a).g_directed)
+#define CGRAPH_GTYPE_GWEIGHTED(a) (CGRAPH_DTYPE(a).g_weighted)
+#define CGRAPH_GTYPE_GMULTIPLE(a) (CGRAPH_DTYPE(a).g_multiple)
+#define CGRAPH_GTYPE_GHYPER(a) (CGRAPH_DTYPE(a).g_hyper)
+#define CGRAPH_GTYPE_GDYNAMIC(a) (CGRAPH_DTYPE(a).g_dynamic)
 /** @} */
 
 /**

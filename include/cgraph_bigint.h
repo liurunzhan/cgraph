@@ -83,10 +83,10 @@ extern TYPE *FUNCTION(NAME, initc)(TYPE *cthis, cgraph_char_t *cbuf,
                                    const cgraph_size_t len);
 extern TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data);
 
-extern TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis);
-extern TYPE *FUNCTION(NAME, swapword)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, swapbit1)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, swapbit8)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, swapbit16)(TYPE *cthis);
+extern TYPE *FUNCTION(NAME, swapbit32)(TYPE *cthis);
 extern cgraph_size_t FUNCTION(NAME, abitlen)(const TYPE *cthis);
 
 extern cgraph_size_t FUNCTION(NAME, cntones)(const TYPE *cthis);

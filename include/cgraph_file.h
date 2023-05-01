@@ -42,9 +42,9 @@ extern cgraph_char_t *cgraph_file_suffix(cgraph_char_t *buffer,
                                          const cgraph_size_t size,
                                          const cgraph_char_t *path);
 
+/** callers should end the arguments with an empty string "" or NULL */
 extern cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *root,
-                                           const cgraph_size_t size,
-                                           const cgraph_char_t *path);
+                                           const cgraph_size_t size, ...);
 
 extern cgraph_size_t cgraph_file_fputs(const cgraph_char_t *cbuf,
                                        const cgraph_size_t size, FILE *fp);

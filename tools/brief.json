@@ -23,6 +23,7 @@
 	"cgraph_game.h" : "the apis of self-used mathematical games",
 	"cgraph_gobject.h" : "the apis of DATA TYPE cgraph_gobject_t",
 	"cgraph_graph.h" : "the apis of STRUCTURE TYPE cgraph_graph_t",
+	"cgraph_hash.h" : "commonly-used hash functions",
 	"cgraph_hobject.h" : "the apis of DATA TYPE cgraph_hobject_t",
 	"cgraph_int.h" : "the apis of DATA TYPE cgraph_int_t",
 	"cgraph_int128.h" : "the apis of DATA TYPE cgraph_int128_t",

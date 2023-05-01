@@ -319,7 +319,7 @@ TYPE FUNCTION(NAME, mul)(const TYPE x, const TYPE y) {
   return res;
 }
 
-/* |x (x) y| = |[x1, y1] x [x2, y2]|= x1*y2 - x2*y1 */
+/* |x <x> y| = |[x1, y1] x [x2, y2]|= x1*y2 - x2*y1 */
 DATA_TYPE FUNCTION(NAME, fmul)(const TYPE x, const TYPE y) {
   return (POINT2D_X(x) * POINT2D_Y(y)) - (POINT2D_X(y) * POINT2D_Y(x));
 }
@@ -332,13 +332,21 @@ TYPE FUNCTION(NAME, dot)(const TYPE x, const TYPE y) {
   return res;
 }
 
+TYPE FUNCTION(NAME, saxpy)(const TYPE x, const TYPE y, const DATA_TYPE a) {
+  TYPE res;
+  POINT2D_X(res) = a * POINT2D_X(x) + POINT2D_X(y);
+  POINT2D_Y(res) = a * POINT2D_Y(x) + POINT2D_Y(y);
+
+  return res;
+}
+
 /* x * y = [x1, y1] * [x2, y2] = x1*y1 + x2*y2 */
 __INLINE__ DATA_TYPE FUNCTION(NAME, fdot)(const TYPE x, const TYPE y) {
   return (POINT2D_X(x) * POINT2D_X(y)) + (POINT2D_Y(x) * POINT2D_Y(y));
 }
 
 /*
- * res = x / y = x (x) y / (y (x) y) =
+ * res = x / y = x <x> y / (y <x> y) =
  * [(x1*x2+y1*y2)/(x2*x2+y2*y2), (x2*y1-x1*y2)/(x2*x2+y2*y2)]
  */
 TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {

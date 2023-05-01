@@ -1,6 +1,6 @@
 /**
- * @file cgraph_mem.h
- * @brief the apis of mem management
+ * @file cgraph_memory.h
+ * @brief the apis of memory management
  * @author liurunzhan
  * @email liurunzhan@sina.com
  * @package cgraph

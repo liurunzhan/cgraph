@@ -99,8 +99,8 @@ AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [turn on debugging]),
 esac], [debug=false])
 AM_CONDITIONAL(ENABLE_DEBUG, test x$debug = xtrue)
 
-AC_ARG_WITH(stdc, AS_HELP_STRING([--with-stdc], [set C standard with given compiler]), AC_SUBST(enable_stdc, true), AC_SUBST(enable_stdc, false))
-AC_SUBST(stdc, $stdc)
+AC_ARG_WITH(stdc, AS_HELP_STRING([--with-stdc=STDC], [set C standard with given compiler]), stdc=-std=$withval, stdc=)
+AC_SUBST(STDC, $stdc)
 
 # Checks for building in a git repo or not
 AC_CHECK_FILES([include/cgraph_template_off.h.in tools/template_off.macro include/cgraph_template_check.h.in tools/template_check.macro include/cgraph_stdchk.h.in tools/stdchk.macro tools/macro.py tools/enum2array.py], AC_SUBST(in_git_repo, true), AC_SUBST(in_git_repo, false))

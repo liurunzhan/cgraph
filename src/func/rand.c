@@ -4,8 +4,7 @@
 
 /** 32-bit integer random functions  */
 #define CGRAPH_RAND32_DEFAULT cgraph_rand32_miller
-static volatile cgraph_uint32_t (*cgraph_rand32_intgen)(void) =
-    CGRAPH_RAND32_DEFAULT;
+static cgraph_uint32_t (*cgraph_rand32_intgen)(void) = CGRAPH_RAND32_DEFAULT;
 
 void cgraph_rand32_init(cgraph_uint32_t (*func)(void)) {
   if (NULL == func) {

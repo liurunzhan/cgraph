@@ -7,11 +7,10 @@ OBJECT_SOURCES = gobject.c hobject.c m3object.c mobject.c object.c snode.c
 
 SOURCES = $(OBJECT_SOURCES)
 
-FLAGS                 = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)
-noinst_LTLIBRARIES    = libobject.la
-libobject_la_CFLAGS   = $(FLAGS)
-libobject_la_LDFLAGS  = -lm -no-undefined
-libobject_la_SOURCES  = $(SOURCES)
+noinst_LTLIBRARIES   = libobject.la
+libobject_la_CFLAGS  = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)
+libobject_la_LDFLAGS = -lm -no-undefined
+libobject_la_SOURCES = $(SOURCES)
 
 DISTCLEANFILES        = Makefile.in Makefile
 

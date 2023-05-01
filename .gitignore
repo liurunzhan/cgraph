@@ -136,3 +136,5 @@ tests/*
 !tests/cgraph.py
 !tests/cgraph.sql
 !tests/elements.csv
+!tests/Makefile.am
+!tests/Makefile.mk

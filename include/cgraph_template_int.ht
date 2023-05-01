@@ -30,8 +30,8 @@
 
 #if defined(TYPE_BOOL)
 #define DATA_TEST(a) (!((~EPSILON) & (a)))
-#define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_MASK)
-#define DATA_TOLOGIC(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_TOBOOL(a) TYPE_C(a)
+#define DATA_TOLOGIC(a) TYPE_C(a)
 #define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_ISLOGIC(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_ISBOOL2V(a, b) (DATA_ISBOOL(a) && DATA_ISBOOL(b))
@@ -89,9 +89,9 @@
 #define DATA_ISNAN(a) (!((~CGRAPH_BOOL_MASK) & (a)))
 #define DATA_TEST(a) (!((~MASK) & (a)))
 #define DATA_TOBOOL(a) ((a)&CGRAPH_BOOL_MASK)
-#define DATA_TOLOGIC(a) ((a)&CGRAPH_BOOL_MASK)
+#define DATA_TOLOGIC(a) TYPE_C(a)
 #define DATA_ISBOOL(a) (!((~CGRAPH_BOOL_MASK) & (a)))
-#define DATA_ISLOGIC(a) (!((~CGRAPH_BOOL_MASK) & (a)))
+#define DATA_ISLOGIC(a) (!((~CGRAPH_LOGIC_MASK) & (a)))
 #define DATA_ISBOOL2V(a, b) (DATA_ISBOOL(a) && DATA_ISBOOL(b))
 #define DATA_ISLOGIC2V(a, b) (DATA_ISLOGIC(a) && DATA_ISLOGIC(b))
 #define DATA_FUNC(a) (DATA_ISBOOL(a) ? (a) : CGRAPH_LX)
@@ -180,7 +180,7 @@
 #define INT(a, b) ((a) / (b))
 #define MOD(a, b) ((a) % (b))
 
-#define SIGNBIT(a) ((((UTYPE)(a)) >> (BITS - 1)) & MSB)
+#define SIGNBIT(a) ((((UTYPE)(a)) & MSB) >> (BITS - 1))
 #define CEIL(a) CGRAPH_ABS(a)
 #define FLOOR(a) CGRAPH_ABS(a)
 #define POW(a, b) pow((a), (b))
@@ -221,6 +221,8 @@ extern TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, mod2)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, ceil2x)(const TYPE x, const TYPE y);
 extern TYPE FUNCTION(NAME, floor2x)(const TYPE x, const TYPE y);
+extern TYPE FUNCTION(NAME, bitswap)(const TYPE x, const cgraph_size_t bit0,
+                                    const cgraph_size_t bit1);
 extern cgraph_size_t FUNCTION(NAME, bitlen)(const cgraph_size_t bits);
 extern cgraph_size_t FUNCTION(NAME, bitceil)(const cgraph_size_t bits);
 extern cgraph_size_t FUNCTION(NAME, bitfloor)(const cgraph_size_t bits);
@@ -266,10 +268,10 @@ extern UTYPE FUNCTION(NAME, sets)(const UTYPE x, const cgraph_size_t from,
                                   const cgraph_size_t to);
 extern UTYPE FUNCTION(NAME, clrs)(const UTYPE x, const cgraph_size_t from,
                                   const cgraph_size_t to);
-extern UTYPE FUNCTION(NAME, swapbit)(const UTYPE x);
-extern UTYPE FUNCTION(NAME, swapbyte)(const UTYPE x);
-extern UTYPE FUNCTION(NAME, swaphfwd)(const UTYPE x);
-extern UTYPE FUNCTION(NAME, swapword)(const UTYPE x);
+extern UTYPE FUNCTION(NAME, swapbit1)(const UTYPE x);
+extern UTYPE FUNCTION(NAME, swapbit8)(const UTYPE x);
+extern UTYPE FUNCTION(NAME, swapbit16)(const UTYPE x);
+extern UTYPE FUNCTION(NAME, swapbit32)(const UTYPE x);
 extern cgraph_size_t FUNCTION(NAME, cntones)(const UTYPE x);
 extern cgraph_size_t FUNCTION(NAME, cntzeros)(const UTYPE x);
 

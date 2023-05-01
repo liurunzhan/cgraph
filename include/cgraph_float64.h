@@ -32,6 +32,7 @@ extern "C" {
 #define ARG cgraph_float64_t
 #define NAME float64
 #define TYPE TYPE_T(NAME)
+#define TYPE_C(x) DBL_C(x)
 #define ID ID_T(FLOAT64)
 #define BITS CGRAPH_FLOAT64_BITS
 #define IN_FMT "%g"

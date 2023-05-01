@@ -40,49 +40,6 @@
  * DATA_SWAP
  ******************************************************************************/
 
-/*
-  defined macro variables:
-  #define ASSIGN
-  #define ADD
-  #define SUB
-  #define MUL
-  #define DIV
-  #define DIVF
-  #define INT
-  #define MODF
-  #define MOD
-  #define EQ
-  #define NE
-  #define GT
-  #define GE
-  #define LT
-  #define LE
-  #define CEIL
-  #define FLOOR
-  #define POW
-  #define ABS
-  #define SIN
-  #define COS
-  #define TAN
-  #define ASIN
-  #define ACOS
-  #define ATAN
-  #define SINH
-  #define COSH
-  #define TANH
-  #define LOG
-  #define LOG2
-  #define LOG10
-  #define EXP
-  #define SQRT
-  #define SWAP
-  #define ROL3
-  #define ROR3
-  #define ROL4
-  #define ROR4
-  #define DATA_SWAP
-*/
-
 /** DATA TYPE MATHEMATICAL FUNCTIONS */
 #ifndef ASSIGN
 #error undefined needed macro ASSIGN

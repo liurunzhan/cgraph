@@ -698,24 +698,24 @@ TYPE *FUNCTION(NAME, shr)(TYPE *cthis, const cgraph_size_t len) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swapbit)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit1)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     DATA_TYPE byte;
     for (i = 0, j = cthis->len - 1; i < j; i++, j--) {
       byte = cthis->data[i];
-      cthis->data[i] = cgraph_int8_swapbit(cthis->data[j]);
-      cthis->data[j] = cgraph_int8_swapbit(byte);
+      cthis->data[i] = cgraph_int8_swapbit1(cthis->data[j]);
+      cthis->data[j] = cgraph_int8_swapbit1(byte);
     }
     if (i == j) {
-      cthis->data[i] = cgraph_int8_swapbit(cthis->data[i]);
+      cthis->data[i] = cgraph_int8_swapbit1(cthis->data[i]);
     }
   }
 
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit8)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     for (i = 0, j = cthis->len - 1; i < j; i++, j--) {
@@ -726,7 +726,7 @@ TYPE *FUNCTION(NAME, swapbyte)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit16)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     for (i = 0, j = cthis->len - 1; i < j; i += 2, j -= 2) {
@@ -738,7 +738,7 @@ TYPE *FUNCTION(NAME, swaphfwd)(TYPE *cthis) {
   return cthis;
 }
 
-TYPE *FUNCTION(NAME, swapword)(TYPE *cthis) {
+TYPE *FUNCTION(NAME, swapbit32)(TYPE *cthis) {
   if (NULL != cthis) {
     cgraph_size_t i, j;
     for (i = 0, j = cthis->len - 1; i < j; i += 4, j -= 4) {
@@ -912,25 +912,26 @@ TYPE *FUNCTION(NAME, sqrt)(const TYPE *x, TYPE *y) {
 
 TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4) {
   TYPE *res = NULL;
-  if (CGRAPH_ISSTR(ipv4) && CGRAPH_DATA_BITS_CHECKER(cthis, 32)) {
-    cgraph_char_t *pipv4 = (cgraph_char_t *)ipv4;
-    cgraph_uint_t split_cnt = 0, byte = 0;
-    cthis->len = 0;
+  if (CGRAPH_ISSTR(ipv4) && CGRAPH_DATA_BITCHK(cthis, 32)) {
+    cgraph_char_t *_ipv4 = (cgraph_char_t *)ipv4;
+    cgraph_uint_t split_cnt = 4, byte = 0;
+    cthis->len = 32 / DATA_BITS;
     cthis->postive = CGRAPH_TRUE;
-    for (; '\0' != *pipv4; pipv4++) {
-      if ('.' != *pipv4) {
-        byte = byte * 10 + (*pipv4 - '0');
-      } else {
-        cthis->data[cthis->len++] = (byte & DATA_MASK);
-        split_cnt += 1;
+    CGRAPH_LOOP(i, 0, 4)
+    CGRAPH_DATA(cthis, i) = DATA_ZERO;
+    CGRAPH_LOOP_END
+    for (; '\0' != *_ipv4; _ipv4++) {
+      if ('.' == *_ipv4) {
+        cthis->data[split_cnt--] = (byte & DATA_MASK);
         byte = 0;
+        continue;
       }
+      byte = byte * 10 + (*_ipv4 - '0');
     }
-    if (split_cnt != 3) {
+    cthis->data[split_cnt--] = (byte & DATA_MASK);
+    if (0 != split_cnt) {
       cthis->len = 1;
-      CGRAPH_DATA(cthis, 0) = 0;
-    } else {
-      cgraph_memrev(cthis->data, cthis->len);
+      CGRAPH_DATA(cthis, 0) = DATA_ZERO;
     }
   }
 
@@ -939,28 +940,55 @@ TYPE *FUNCTION(NAME, ipv4)(TYPE *cthis, const cgraph_char_t *ipv4) {
 
 TYPE *FUNCTION(NAME, ipv6)(TYPE *cthis, const cgraph_char_t *ipv6) {
   TYPE *res = NULL;
-  if (CGRAPH_ISSTR(ipv6) && CGRAPH_DATA_BITS_CHECKER(cthis, 128)) {
-    cgraph_char_t *pipv6 = (cgraph_char_t *)ipv6;
-    cgraph_uint_t split_cnt = 0, byte = 0;
-    cthis->len = 0;
+  if (CGRAPH_ISSTR(ipv6) && CGRAPH_DATA_BITCHK(cthis, 128)) {
+    cgraph_char_t *_ipv6 = (cgraph_char_t *)ipv6;
+    cgraph_uint_t split_cnt = 0, byte = 0, len = 128 / DATA_BITS;
+    cthis->len = len;
     cthis->postive = CGRAPH_TRUE;
-    for (; '\0' != *pipv6; pipv6++) {
-      if (':' != *pipv6) {
-        byte = byte * 16 + cgraph_math_hex2dec(*pipv6);
-      } else {
-        cgraph_size_t bits = 16 - DATA_BITS;
-        for (; bits >= 0; bits -= DATA_BITS) {
-          cthis->data[cthis->len++] = ((byte >> bits) & DATA_MASK);
+    for (; '\0' != *_ipv6; _ipv6++) {
+      if (':' == *_ipv6) {
+        if (':' == *(_ipv6 + 1)) {
+          _ipv6 += 1;
+          break;
         }
+#if DATA_BITS == 8
+        cthis->data[--len] = ((byte >> DATA_BITS) & DATA_MASK);
+#endif
+        cthis->data[--len] = (byte & DATA_MASK);
         byte = 0;
         split_cnt += 1;
+        continue;
+      }
+      byte = byte * 16 + cgraph_math_hex2dec(*_ipv6);
+    }
+    if ('\0' != *_ipv6) {
+      cgraph_char_t *_ipv6_end = cgraph_strend(_ipv6);
+      cgraph_uint_t _byte = 1;
+      len = 0;
+      for (; _ipv6 != _ipv6_end; _ipv6_end--) {
+        if (':' == *_ipv6_end) {
+          if (':' == *(_ipv6_end - 1)) {
+            break;
+          }
+          cthis->data[len++] = (byte & DATA_MASK);
+#if DATA_BITS == 8
+          cthis->data[len++] = ((byte >> DATA_BITS) & DATA_MASK);
+#endif
+          byte = 0;
+          _byte = 1;
+          split_cnt += 1;
+          continue;
+        }
+        byte = byte + cgraph_math_hex2dec(*_ipv6) * _byte;
+        _byte *= 16;
+      }
+      if (_ipv6_end != _ipv6) {
+        split_cnt = 0;
       }
     }
     if ((split_cnt < 2) && (split_cnt > 7)) {
       cthis->len = 1;
       CGRAPH_DATA(cthis, 0) = 0;
-    } else {
-      cgraph_memrev(cthis->data, cthis->len);
     }
   }
 

@@ -262,7 +262,7 @@ TYPE FUNCTION(NAME, ror)(const TYPE x, const cgraph_size_t len) {
 }
 
 __INLINE__ TYPE FUNCTION(NAME, int)(const TYPE x) {
-#if __STDC_VERSION__ < 199901L
+#if (__STDC_VERSION__ < 199901L)
   cgraph_float64_t res;
 #else
   TYPE res = ZERO;
@@ -289,7 +289,7 @@ __INLINE__ TYPE FUNCTION(NAME, div)(const TYPE x, const TYPE y) {
 }
 
 __INLINE__ TYPE FUNCTION(NAME, idiv)(const TYPE x, const TYPE y) {
-#if __STDC_VERSION__ < 199901L
+#if (__STDC_VERSION__ < 199901L)
   cgraph_float64_t res;
 #else
   TYPE res = 0.0;
@@ -314,6 +314,20 @@ __INLINE__ TYPE FUNCTION(NAME, mean)(const TYPE x, const TYPE y) {
 /** hmean(x, y) = 1/(1/x+1/y) = (xy)/(x+y) */
 __INLINE__ TYPE FUNCTION(NAME, hmean)(const TYPE x, const TYPE y) {
   return (x * y) / (x + y);
+}
+
+static TYPE _epsilon = EPSILON;
+
+__INLINE__ void FUNCTION(NAME, seteps)(const TYPE eps) {
+  _epsilon = LT(0.0, eps) ? eps : EPSILON;
+}
+
+__INLINE__ TYPE FUNCTION(NAME, geteps)(void) { return _epsilon; }
+
+__INLINE__ void FUNCTION(NAME, unseteps)(void) { _epsilon = EPSILON; }
+
+__INLINE__ cgraph_bool_t FUNCTION(NAME, iseps)(const TYPE data) {
+  return EQ(_epsilon, data);
 }
 
 /**
@@ -341,12 +355,13 @@ TYPE FUNCTION(NAME, rmin_gradient_descent)(const TYPE start, const TYPE end,
 }
 
 /**
- * @brief get the minimum value in given range [start, end]
+ * @brief get the maximu value in given range [start, end]
  */
 TYPE FUNCTION(NAME, rmax)(const TYPE start, const TYPE end,
                           TYPE func(const TYPE x)) {
   TYPE x_max = start, y_max = func(x_max), x, y;
-  while (1) {
+  while (LT(x, end)) {
+    break;
   }
 
   return x_max;
@@ -463,9 +478,8 @@ TYPE FUNCTION(NAME, reqt_fixed_point_lambda)(const TYPE x, const TYPE lambda,
  * @brief
  *
  */
-TYPE FUNCTION(NAME, sdiff)(const TYPE x, const TYPE step,
-                           TYPE func(const TYPE x)) {
-  return (func(x + step) - func(x)) / x;
+TYPE FUNCTION(NAME, sdiff)(const TYPE x, TYPE func(const TYPE x)) {
+  return (func(x + _epsilon) - func(x)) / x;
 }
 
 /**
@@ -481,9 +495,10 @@ TYPE FUNCTION(NAME, sdiff)(const TYPE x, const TYPE step,
  */
 TYPE FUNCTION(NAME,
               rdiff_runge_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                    const TYPE y_start, const TYPE step,
+                                    const TYPE y_start,
                                     TYPE func(const TYPE x, const TYPE y)) {
-  TYPE _step_2 = 0.5 * step, _step_6 = step / 6.0, _step_3 = step / 3.0;
+  const TYPE _step_6 = _epsilon, _step_2 = 3.0 * _step_6,
+             _step_3 = 2.0 * _step_6;
   TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
   do {
     k1 = func(_x, _y);
@@ -499,18 +514,19 @@ TYPE FUNCTION(NAME,
 }
 
 TYPE FUNCTION(NAME, rdiff_kutta_s4)(const TYPE x_start, const TYPE x_end,
-                                    const TYPE y_start, const TYPE step,
+                                    const TYPE y_start,
                                     TYPE func(const TYPE x, const TYPE y)) {
-  TYPE _step_3 = step / 3.0, _step_8 = 0.125 * step, _step3_8 = 0.375 * step;
+  const TYPE _step_8 = _epsilon, _step3_8 = 3.0 * _step_8,
+             _step_3 = 8.0 / 3.0 * _step_8, _step = 8.0 * _step_8;
   TYPE _x = x_start, _y = y_start, k1 = 0.0, k2 = 0.0, k3 = 0.0, k4 = 0.0;
   do {
     k1 = func(_x, _y);
     _x += _step_3;
     k2 = func(_x, _y + _step_3 * k1);
     _x += _step_3;
-    k3 = func(_x, _y - _step_3 * k1 + step * k2);
+    k3 = func(_x, _y - _step_3 * k1 + _step * k2);
     _x += _step_3;
-    k4 = func(_x, _y + step * (k1 - k2 + k3));
+    k4 = func(_x, _y + _step * (k1 - k2 + k3));
     _y += (_step_8 * (k1 + k4) + _step3_8 * (k2 + k3));
   } while (LT(_x, x_end));
 
@@ -521,20 +537,19 @@ TYPE FUNCTION(NAME, rdiff_kutta_s4)(const TYPE x_start, const TYPE x_end,
  * @brief
  *
  */
-TYPE FUNCTION(NAME, sint)(const TYPE x, const TYPE step,
-                          TYPE func(const TYPE x)) {
-  return 0.5 * x * (func(x) + func(x + step));
+TYPE FUNCTION(NAME, sint)(const TYPE x, TYPE func(const TYPE x)) {
+  return 0.5 * x * (func(x) + func(x + _epsilon));
 }
 
 /**
  * @brief trapezoidal sint operation
  *        delta = x(n+1) - x(n)
- *        df = 0.5 * delta * (f(x(n)) + f(x(n+1)))
+ *        df = 0.5 * delta * (f(x(n)) + f(x(n) + delta))
  */
 TYPE FUNCTION(NAME, rint_trapezoidal)(const TYPE start, const TYPE end,
-                                      const TYPE step,
                                       TYPE func(const TYPE x)) {
-  TYPE _step = 0.5 * step, _res = 0.0;
+  const TYPE _step_2 = _epsilon, _step = 2.0 * _step_2;
+  TYPE _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
   } else {
@@ -544,8 +559,7 @@ TYPE FUNCTION(NAME, rint_trapezoidal)(const TYPE start, const TYPE end,
       _end = start;
     }
     do {
-      _res += _step * (func(_start) + func(_start + step));
-      _start += step;
+      _res += _step_2 * (func(_start) + func(_start += _step));
     } while (LT(_start, _end));
     if (GT(start, end)) {
       _res = -1.0 * _res;
@@ -557,16 +571,18 @@ TYPE FUNCTION(NAME, rint_trapezoidal)(const TYPE start, const TYPE end,
 
 /**
  * @brief simpson integral operation
- *        delta = x(n+1) - x(n)
- *        df = (delta / 6.0 * (
- *             f(x(n)) +
- *             4.0 * f(x(n) + 0.5 * delta) +
- *             f(x(n+1))
- *             )
+ * delta = x(n+1) - x(n)
+ * df = (delta / 6.0 * (
+ *   f(x(n)) +
+ *   4.0 * f(x(n) + 0.5 * delta) +
+ *   f(x(n) + delta)
+ * )
+ *
  */
 TYPE FUNCTION(NAME, rint_simpson)(const TYPE start, const TYPE end,
-                                  const TYPE step, TYPE func(const TYPE x)) {
-  TYPE _step = step / 6.0, _res = 0.0;
+                                  TYPE func(const TYPE x)) {
+  const TYPE _step_6 = _epsilon, _step_2 = 3.0 * _step_6, _step = 2.0 * _step_2;
+  TYPE _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
   } else {
@@ -576,9 +592,8 @@ TYPE FUNCTION(NAME, rint_simpson)(const TYPE start, const TYPE end,
       _end = start;
     }
     do {
-      _res += _step * (func(_start) + 4.0 * func(_start + 0.5 * step) +
-                       func(_start + step));
-      _start += step;
+      _res += _step_6 * (func(_start) + 4.0 * func(_start + _step_2) +
+                         func(_start += _step));
     } while (LT(_start, _end));
     if (GT(start, end)) {
       _res = -1.0 * _res;
@@ -598,8 +613,10 @@ TYPE FUNCTION(NAME, rint_simpson)(const TYPE start, const TYPE end,
  *             )
  */
 TYPE FUNCTION(NAME, rint_simpson38)(const TYPE start, const TYPE end,
-                                    const TYPE step, TYPE func(const TYPE x)) {
-  TYPE _step = 0.125 * step, _res = 0.0;
+                                    TYPE func(const TYPE x)) {
+  const TYPE _step_8 = _epsilon, _step_3 = 8.0 / 3.0 * _step_8,
+             _step2_3 = 2.0 * _step_3, _step = 8.0 * _step_8;
+  TYPE _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
   } else {
@@ -610,11 +627,9 @@ TYPE FUNCTION(NAME, rint_simpson38)(const TYPE start, const TYPE end,
     }
     do {
       _res +=
-          _step *
-          (func(_start) +
-           3.0 * (func(_start + step / 3.0) + func(_start + 2.0 / 3.0 * step)) +
-           func(_start + step));
-      _start += step;
+          _step_8 * (func(_start) +
+                     3.0 * (func(_start + _step_3) + func(_start + _step2_3)) +
+                     func(_start += _step));
     } while (LT(_start, _end));
     if (GT(start, end)) {
       _res = -1.0 * _res;
@@ -634,8 +649,11 @@ TYPE FUNCTION(NAME, rint_simpson38)(const TYPE start, const TYPE end,
  *             )
  */
 TYPE FUNCTION(NAME, rint_cotes)(const TYPE start, const TYPE end,
-                                const TYPE step, TYPE func(const TYPE x)) {
-  TYPE _step = step / 90.0, _res = 0.0;
+                                TYPE func(const TYPE x)) {
+  const TYPE _step_90 = _epsilon, _step = 90.0 * _step_90,
+             _step_2 = 0.5 * _step, _step_4 = 0.5 * _step_2,
+             _step3_4 = 3.0 * _step_4;
+  TYPE _res = 0.0;
   if (EQ(start, end)) {
     _res = 0.0;
   } else {
@@ -645,13 +663,11 @@ TYPE FUNCTION(NAME, rint_cotes)(const TYPE start, const TYPE end,
       _start = end;
       _end = start;
     }
-    for (i = 0; LT(_start, _end); i++) {
-      _res +=
-          _step *
-          (7.0 * (func(_start) + func(_start + step)) +
-           32.0 * (func(_start + 0.25 * step) + func(_start + 0.75 * step)) +
-           12.0 * func(_start + 0.5 * step));
-      _start += step;
+    for (i = 0; LT(_start, _end); i++, _start += _step) {
+      _res += _step_90 *
+              (7.0 * (func(_start) + func(_start + _step)) +
+               32.0 * (func(_start + _step_4) + func(_start + _step3_4)) +
+               12.0 * func(_start + _step_2));
     }
     if (GT(start, end)) {
       _res = -1.0 * _res;
@@ -669,13 +685,13 @@ TYPE FUNCTION(NAME, logistic)(const TYPE x) {
   return 1.0 / (1.0 + exp(-1.0 * x));
 }
 
-TYPE FUNCTION(NAME, gamma)(const TYPE x, const TYPE step) {
+TYPE FUNCTION(NAME, gamma)(const TYPE x) {
   TYPE res = 0.0;
 
   return res;
 }
 
-TYPE FUNCTION(NAME, beta)(const TYPE x, const TYPE step) {
+TYPE FUNCTION(NAME, beta)(const TYPE x) {
   TYPE res = 0.0;
 
   return res;

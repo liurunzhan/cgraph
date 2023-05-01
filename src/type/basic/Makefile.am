@@ -15,10 +15,10 @@ POINT_SOURCES = point2d.c point3d.c
 
 SOURCES = $(INT_SOURCES) $(FLOAT_SOURCES) $(COMPLEX_SOURCES) $(TIME_SOURCES) $(POINT_SOURCES)
 
-noinst_LTLIBRARIES    = libbasic.la
-libbasic_la_CFLAGS    = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)
-libbasic_la_LDFLAGS   = -lm -no-undefined
-libbasic_la_SOURCES   = $(SOURCES)
+noinst_LTLIBRARIES  = libbasic.la
+libbasic_la_CFLAGS  = -I$(include_dir) -I$(type_dir) $(COMPILE_FLAGS)
+libbasic_la_LDFLAGS = -lm -no-undefined
+libbasic_la_SOURCES = $(SOURCES)
 
 DISTCLEANFILES        = Makefile.in Makefile
 

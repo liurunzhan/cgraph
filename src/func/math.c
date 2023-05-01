@@ -145,8 +145,8 @@ __INLINE__ cgraph_char_t cgraph_math_tolower(const cgraph_char_t data) {
   return tolower(data);
 }
 
-__INLINE__ cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data) {
-  return CGRAPH_TEST(__PLAT_PSPLIT_C == data);
+__INLINE__ cgraph_bool_t cgraph_math_ispsep(const cgraph_char_t data) {
+  return CGRAPH_TEST(__PLAT_PSEP_C == data);
 }
 
 __INLINE__ cgraph_int_t cgraph_math_isendlx(const cgraph_char_t datax,
@@ -536,8 +536,14 @@ cgraph_int_t cgraph_math_chbase(cgraph_int_t *old, const cgraph_size_t old_len,
   return len;
 }
 
+/**
+ * number = number,      number >= 0
+ *          -number + 1, number < 0
+ * for example, 1 = 0b00000001
+ *             -1 = ~(0b00000001) + 1 = 0b11111111
+ */
 __INLINE__ cgraph_size_t cgraph_math_mod2(const cgraph_size_t x) {
-  return (0 <= x) ? (x & USIZE_C(1)) : (-(x & USIZE_C(1)));
+  return ((cgraph_usize_t)x) & USIZE_C(1);
 }
 
 __INLINE__ cgraph_size_t cgraph_math_mod3(const cgraph_size_t x) {
@@ -580,6 +586,36 @@ cgraph_uint64_t cgraph_math_crc(const cgraph_int_t bits,
   CGRAPH_LOOP_END
 
   return res & mask;
+}
+
+__INLINE__ cgraph_uint64_t cgraph_math_rotr(const cgraph_int_t bits,
+                                            const cgraph_uint64_t data) {
+  return (data >> bits) | (data << (UINT64_BITS - bits));
+}
+
+__INLINE__ cgraph_uint64_t cgraph_math_rotl(const cgraph_int_t bits,
+                                            const cgraph_uint64_t data) {
+  return (data << bits) | (data >> (UINT64_BITS - bits));
+}
+
+__INLINE__ cgraph_uint64_t cgraph_math_roundr(const cgraph_int_t bits,
+                                              const cgraph_uint64_t data) {
+  return (~(UINT64_MASK << bits)) & ((data >> 1) | ((~data) << (bits - 1)));
+}
+
+__INLINE__ cgraph_uint64_t cgraph_math_roundl(const cgraph_int_t bits,
+                                              const cgraph_uint64_t data) {
+  return (~(UINT64_MASK << bits)) & ((data << 1) | ((~data) >> (bits - 1)));
+}
+
+cgraph_uint64_t cgraph_math_lsfrr(const cgraph_int_t bits,
+                                  const cgraph_uint64_t data) {
+  return UINT64_C(0);
+}
+
+cgraph_uint64_t cgraph_math_lsfrl(const cgraph_int_t bits,
+                                  const cgraph_uint64_t data) {
+  return UINT64_C(0);
 }
 
 cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data) {
@@ -670,11 +706,11 @@ cgraph_uint64_t *cgraph_math_collatz(const cgraph_uint64_t data,
 }
 #undef CGRAPH_MATH_COLLATZ
 
-__INLINE__ cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle) {
+__INLINE__ cgraph_float64_t cgraph_math_agl2rad(const cgraph_float64_t angle) {
   return M_PI / 180.0 * angle;
 }
 
-__INLINE__ cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian) {
+__INLINE__ cgraph_float64_t cgraph_math_rad2agl(const cgraph_float64_t radian) {
   return 180.0 * M_1_PI * radian;
 }
 
@@ -815,8 +851,8 @@ cgraph_int_t cgraph_math_powi(const cgraph_int_t x, const cgraph_int_t n) {
   return res;
 }
 
-cgraph_int_t cgraph_math_powi_mod(const cgraph_int_t x, const cgraph_int_t n,
-                                  const cgraph_int_t mod) {
+cgraph_int_t cgraph_math_powi_modi(const cgraph_int_t x, const cgraph_int_t n,
+                                   const cgraph_int_t mod) {
   cgraph_int_t res = 1, _x = x, _n = n;
   while (0 < _n) {
     if (1 & _n) {
@@ -842,8 +878,8 @@ cgraph_int_t cgraph_math_muli(const cgraph_int_t x, const cgraph_int_t y) {
   return res;
 }
 
-cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x, const cgraph_int_t y,
-                                  const cgraph_int_t mod) {
+cgraph_int_t cgraph_math_muli_modi(const cgraph_int_t x, const cgraph_int_t y,
+                                   const cgraph_int_t mod) {
   cgraph_int_t res = 0, _x = x, _y = y;
   while (0 < _y) {
     if (1 & _y) {
@@ -1060,13 +1096,20 @@ typedef union {
     RGB32_R((rgb)) = RGB2A((rgb), (a));                                        \
   } while (0)
 
-typedef struct {
-  cgraph_char_t b[2];
-  cgraph_char_t g[2];
-  cgraph_char_t r[2];
+static struct {
+  cgraph_char_t _s[1];
   cgraph_char_t a[2];
-  cgraph_char_t _[1];
-} cgraph_hrgb32_t;
+  cgraph_char_t r[4];
+  cgraph_char_t g[4];
+  cgraph_char_t b[4];
+  cgraph_char_t _t[1];
+} cgraph_rgb_hex = {{'#'},
+                    {'0', '0'},
+                    {'0', '0', '0', '0'},
+                    {'0', '0', '0', '0'},
+                    {'0', '0', '0', '0'},
+                    {'\0'}};
+#define CGRAPH_RGB_BUFFER ((cgraph_char_t *)&cgraph_rgb_hex)
 
 __INLINE__ cgraph_bool_t cgraph_math_colchk(const cgraph_color_t color,
                                             const cgraph_int_t rgb_type) {
@@ -1131,10 +1174,10 @@ __INLINE__ cgraph_color_t cgraph_math_rgb2argb_max(const cgraph_color_t r,
 __INLINE__ cgraph_color_t cgraph_math_rgb2argb_gray(const cgraph_color_t r,
                                                     const cgraph_color_t g,
                                                     const cgraph_color_t b) {
-#define RGB_R2A 299
-#define RGB_G2A 587
-#define RGB_B2A 114
-#define RGB_AW 1000
+#define RGB_R2A (299)
+#define RGB_G2A (587)
+#define RGB_B2A (114)
+#define RGB_AW (1000)
 #define RGB_HAW (RGB_AW >> 1)
   cgraph_rgb_t rgb;
   RGB2RGB32(rgb, RGB_MIN, r, g, b);
@@ -1151,10 +1194,10 @@ __INLINE__ cgraph_color_t cgraph_math_rgb2argb_gray(const cgraph_color_t r,
 __INLINE__ cgraph_color_t cgraph_math_rgb2argb_y(const cgraph_color_t r,
                                                  const cgraph_color_t g,
                                                  const cgraph_color_t b) {
-#define RGB_R2A 30
-#define RGB_G2A 59
-#define RGB_B2A 11
-#define RGB_AW 100
+#define RGB_R2A (30)
+#define RGB_G2A (59)
+#define RGB_B2A (11)
+#define RGB_AW (100)
 #define RGB_HAW (RGB_AW >> 1)
   cgraph_rgb_t rgb;
   RGB2RGB32(rgb, RGB_MIN, r, g, b);
@@ -1183,34 +1226,30 @@ __INLINE__ cgraph_color_t cgraph_math_col2b(const cgraph_color_t color) {
   return RGB32_B(color);
 }
 
-cgraph_char_t *cgraph_math_col2dec(const cgraph_color_t color,
-                                   cgraph_char_t *cstr) {
-  if (NULL != cstr) {
-    cgraph_color_t res = color;
-    cgraph_char_t *c = cstr + RGB_DECLEN;
-    *c = '\0';
-    CGRAPH_LOOP(i, 0, RGB_DECLEN)
-    *(--c) = cgraph_math_dec2hex(color % 10);
-    res /= 10;
-    CGRAPH_LOOP_END
-  }
+const cgraph_char_t *cgraph_math_col2dec(const cgraph_color_t color) {
+  cgraph_char_t *cstr = CGRAPH_RGB_BUFFER;
+  cgraph_color_t res = color;
+  cgraph_char_t *c = cstr + RGB_DECLEN;
+  *c = '\0';
+  CGRAPH_LOOP(i, 0, RGB_DECLEN)
+  *(--c) = cgraph_math_dec2hex(color % 10);
+  res /= 10;
+  CGRAPH_LOOP_END
 
-  return cstr;
+  return CGRAPH_RGB_BUFFER;
 }
 
-cgraph_char_t *cgraph_math_col2hex(const cgraph_color_t color,
-                                   cgraph_char_t *cstr) {
-  if (NULL != cstr) {
-    cgraph_color_t res = color;
-    cgraph_char_t *c = cstr + RGB_HEXLEN;
-    *c = '\0';
-    CGRAPH_LOOP(i, 0, RGB_HEXLEN)
-    *(--c) = cgraph_math_dec2hex(color & UINT32_C(0xF));
-    res >>= 4;
-    CGRAPH_LOOP_END
-  }
+const cgraph_char_t *cgraph_math_col2hex(const cgraph_color_t color) {
+  cgraph_char_t *cstr = CGRAPH_RGB_BUFFER;
+  cgraph_color_t res = color;
+  cgraph_char_t *c = cstr + RGB_HEXLEN;
+  *c = '\0';
+  CGRAPH_LOOP(i, 0, RGB_HEXLEN)
+  *(--c) = cgraph_math_dec2hex(color & UINT32_C(0xF));
+  res >>= 4;
+  CGRAPH_LOOP_END
 
-  return cstr;
+  return CGRAPH_RGB_BUFFER;
 }
 
 cgraph_color_t cgraph_math_dec2col(const cgraph_char_t *color) {

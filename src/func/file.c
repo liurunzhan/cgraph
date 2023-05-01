@@ -227,10 +227,32 @@ cgraph_char_t *cgraph_file_suffix(cgraph_char_t *buffer,
 }
 
 cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *root,
-                                    const cgraph_size_t size,
-                                    const cgraph_char_t *path) {
-  cgraph_strncat(root, __PLAT_PSPLIT, size);
-  cgraph_strncat(root, path, size);
+                                    const cgraph_size_t size, ...) {
+  va_list args;
+  cgraph_char_t *path = NULL, *proot = root;
+  const cgraph_size_t size_1 = size - 1;
+  cgraph_size_t i = 0;
+  for (; ('\0' != *proot) && (i < size_1); proot++, i++) {
+  }
+  if (i >= size_1) {
+    goto CERROR;
+  }
+  for (proot--, i--; __PLAT_PSEP_C == *proot; proot--, i--) {
+  }
+  proot += 1;
+  i += 1;
+  va_start(args, size);
+  while ((NULL != (path = va_arg(args, cgraph_char_t *))) && ('\0' != *path)) {
+    for (*(proot++) = __PLAT_PSEP_C, i++; ('\0' != *path) && (i < size_1);
+         proot++, path++, i++) {
+      *proot = *path;
+    }
+  }
+  *proot = '\0';
+  va_end(args);
+
+  return root;
+CERROR:
 
   return root;
 }
@@ -252,7 +274,7 @@ cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
 #else
   if (strcmp(path, "/") == 0 || strcmp(path, "\\") == 0) {
     DWORD dwSize = MAX_PATH;
-    char szLogicalDrives[MAX_PATH] = {0};
+    char szLogicalDrives[MAX_PATH] = {'\0'};
     DWORD dwResult = GetLogicalDriveStringsA(dwSize, szLogicalDrives);
     if (dwResult > 0 && dwResult <= MAX_PATH) {
       char *szSingleDrive = szLogicalDrives;
@@ -317,17 +339,11 @@ cgraph_char_t **cgraph_file_walk(const cgraph_char_t *path) {
 /** output functions */
 cgraph_size_t cgraph_file_fputs(const cgraph_char_t *cbuf,
                                 const cgraph_size_t size, FILE *fp) {
-  cgraph_size_t _size = 0;
   if (CGRAPH_ISNFILE(fp) || (NULL == cbuf)) {
     goto CERROR;
   }
-  if (0 < size) {
-    _size = fwrite(cbuf, size, 1, fp);
-  } else {
-    _size = fputs(cbuf, fp);
-  }
 
-  return _size;
+  return (0 < size) ? fwrite(cbuf, size, 1, fp) : fputs(cbuf, fp);
 CERROR:
 #ifdef DEBUG
   if (NULL == cbuf) {
@@ -431,9 +447,7 @@ cgraph_size_t cgraph_file_fprintfln(FILE *fp, const cgraph_char_t *format,
   va_start(args, format);
   _size = vfprintf(fp, format, args);
   va_end(args);
-  if (_size > 0) {
-    _size += cgraph_file_fprintln(fp);
-  }
+  _size += cgraph_file_fprintln(fp);
 
   return _size;
 CERROR:
@@ -451,9 +465,7 @@ cgraph_size_t cgraph_file_printfln(const cgraph_char_t *format, ...) {
   va_start(args, format);
   _size = vfprintf(stdout, format, args);
   va_end(args);
-  if (_size > 0) {
-    _size += cgraph_file_fprintln(stdout);
-  }
+  _size += cgraph_file_fprintln(stdout);
 
   return _size;
 }
@@ -812,11 +824,11 @@ CERROR:
 }
 
 static const cgraph_char_t *_platform = __PLAT_NAME;
-static const cgraph_char_t *_path_split = __PLAT_PSPLIT;
+static const cgraph_char_t *_path_split = __PLAT_PSEP;
 static const cgraph_char_t *_line_end = __PLAT_ENDL;
 
 /** judge platform information */
-#if __PLAT_ENDIAN == __PLAT_ENDIAN_NONE
+#if __PLAT_ENDIAN == __PLAT_ENDIAN_UE
 const static union cgraph_endian_t {
   cgraph_uint32_t num;
   cgraph_uint8_t byte[4];
@@ -824,7 +836,7 @@ const static union cgraph_endian_t {
 #endif
 
 void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
-                    cgraph_char_t **line_end, cgraph_bool_t *isbigendian) {
+                    cgraph_char_t **line_end, cgraph_bool_t *cpu_isle) {
   if (NULL != os) {
     *os = (cgraph_char_t *)_platform;
   }
@@ -834,27 +846,27 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
   if (NULL != line_end) {
     *line_end = (cgraph_char_t *)_line_end;
   }
-  if (NULL != isbigendian) {
-#if __PLAT_ENDIAN == __PLAT_ENDIAN_LITTLE
-    *isbigendian = CGRAPH_FALSE;
-#elif __PLAT_ENDIAN == __PLAT_ENDIAN_BIG
-    *isbigendian = CGRAPH_TRUE;
+  if (NULL != cpu_isle) {
+#if __PLAT_ENDIAN == __PLAT_ENDIAN_LE
+    *cpu_isle = CGRAPH_FALSE;
+#elif __PLAT_ENDIAN == __PLAT_ENDIAN_BE
+    *cpu_isle = CGRAPH_TRUE;
 #else
-    *isbigendian = (cgraph_file_endian.byte[3] ? CGRAPH_TRUE : CGRAPH_FALSE);
+    *cpu_isle = (cgraph_file_endian.byte[0] ? CGRAPH_TRUE : CGRAPH_FALSE);
 #endif
   }
 }
 
 cgraph_bool_t cgraph_file_iswin(void) {
-  return CGRAPH_TEST(__PLAT_MODE == CGRAPH_PLAT_WINDOWS);
+  return CGRAPH_TEST(__PLAT_TYPE == CGRAPH_PLAT_WINDOWS);
 }
 
 cgraph_bool_t cgraph_file_isuxowin(void) {
-  return CGRAPH_TEST(__PLAT_MODE == CGRAPH_PLAT_CYGWIN);
+  return CGRAPH_TEST(__PLAT_TYPE == CGRAPH_PLAT_CYGWIN);
 }
 
 cgraph_bool_t cgraph_file_isunix(void) {
-  return CGRAPH_TEST(__PLAT_MODE == CGRAPH_PLAT_UNIX);
+  return CGRAPH_TEST(__PLAT_TYPE == CGRAPH_PLAT_UNIX);
 }
 
 const cgraph_char_t *cgraph_file_psplit(void) { return _path_split; }

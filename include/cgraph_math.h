@@ -180,7 +180,7 @@ extern cgraph_bool_t cgraph_math_isspace(const cgraph_char_t data);
 extern cgraph_bool_t cgraph_math_isupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_toupper(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_tolower(const cgraph_char_t data);
-extern cgraph_bool_t cgraph_math_ispsplit(const cgraph_char_t data);
+extern cgraph_bool_t cgraph_math_ispsep(const cgraph_char_t data);
 extern cgraph_int_t cgraph_math_isendlx(const cgraph_char_t datax,
                                         const cgraph_char_t datay);
 extern cgraph_int_t cgraph_math_isendly(const cgraph_char_t datax,
@@ -236,11 +236,11 @@ extern cgraph_bool_t cgraph_math_iscpair(const cgraph_char_t data);
 extern cgraph_int_t cgraph_math_bin2dec(const cgraph_char_t data);
 extern cgraph_char_t cgraph_math_dec2bin(const cgraph_int_t data);
 extern cgraph_int_t cgraph_math_hex2dec(const cgraph_char_t data);
+extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data);
+extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data);
 #ifndef cgraph_math_dec2hex
 #define cgraph_math_dec2hex(data) cgraph_math_dec2uhex((data))
 #endif
-extern cgraph_char_t cgraph_math_dec2uhex(const cgraph_int_t data);
-extern cgraph_char_t cgraph_math_dec2lhex(const cgraph_int_t data);
 extern cgraph_size_t cgraph_math_binlen(const cgraph_char_t *data,
                                         const cgraph_size_t len,
                                         cgraph_char_t **start);
@@ -275,13 +275,27 @@ extern cgraph_uint64_t cgraph_math_crc(const cgraph_int_t bits,
                                        const cgraph_uint64_t init,
                                        const cgraph_uint64_t data,
                                        const cgraph_uint64_t poly);
-#define cgraph_math_crc8(init, data, poly) cgraph_math_crc(8, init, data, poly)
+extern cgraph_uint64_t cgraph_math_rotr(const cgraph_int_t bits,
+                                        const cgraph_uint64_t data);
+extern cgraph_uint64_t cgraph_math_rotl(const cgraph_int_t bits,
+                                        const cgraph_uint64_t data);
+extern cgraph_uint64_t cgraph_math_roundr(const cgraph_int_t bits,
+                                          const cgraph_uint64_t data);
+extern cgraph_uint64_t cgraph_math_roundl(const cgraph_int_t bits,
+                                          const cgraph_uint64_t data);
+extern cgraph_uint64_t cgraph_math_lsfrr(const cgraph_int_t bits,
+                                         const cgraph_uint64_t data);
+extern cgraph_uint64_t cgraph_math_lsfrl(const cgraph_int_t bits,
+                                         const cgraph_uint64_t data);
+
+#define cgraph_math_crc8(init, data, poly)                                     \
+  cgraph_math_crc(8, (init), (data), (poly))
 #define cgraph_math_crc16(init, data, poly)                                    \
-  cgraph_math_crc(16, init, data, poly)
+  cgraph_math_crc(16, (init), (data), (poly))
 #define cgraph_math_crc32(init, data, poly)                                    \
-  cgraph_math_crc(32, init, data, poly)
+  cgraph_math_crc(32, (init), (data), (poly))
 #define cgraph_math_crc64(init, data, poly)                                    \
-  cgraph_math_crc(64, init, data, poly)
+  cgraph_math_crc(64, (init), (data), (poly))
 
 extern cgraph_bool_t cgraph_math_isprime(const cgraph_int_t data);
 extern cgraph_size_t cgraph_math_primes(const cgraph_int_t data,
@@ -294,8 +308,8 @@ extern cgraph_uint64_t *cgraph_math_collatz(const cgraph_uint64_t data,
                                             cgraph_uint64_t *buffer,
                                             const cgraph_size_t bsize);
 
-extern cgraph_float64_t cgraph_math_ang2rad(const cgraph_float64_t angle);
-extern cgraph_float64_t cgraph_math_rad2ang(const cgraph_float64_t radian);
+extern cgraph_float64_t cgraph_math_agl2rad(const cgraph_float64_t angle);
+extern cgraph_float64_t cgraph_math_rad2agl(const cgraph_float64_t radian);
 
 extern cgraph_float64_t cgraph_math_ceil(const cgraph_float64_t x);
 extern cgraph_float64_t cgraph_math_floor(const cgraph_float64_t x);
@@ -328,14 +342,14 @@ extern cgraph_int_t cgraph_math_floori(const cgraph_int_t x,
                                        const cgraph_int_t y);
 extern cgraph_int_t cgraph_math_powi(const cgraph_int_t x,
                                      const cgraph_int_t n);
-extern cgraph_int_t cgraph_math_powi_mod(const cgraph_int_t x,
-                                         const cgraph_int_t n,
-                                         const cgraph_int_t mod);
+extern cgraph_int_t cgraph_math_powi_modi(const cgraph_int_t x,
+                                          const cgraph_int_t n,
+                                          const cgraph_int_t mod);
 extern cgraph_int_t cgraph_math_muli(const cgraph_int_t x,
                                      const cgraph_int_t y);
-extern cgraph_int_t cgraph_math_muli_mod(const cgraph_int_t x,
-                                         const cgraph_int_t y,
-                                         const cgraph_int_t mod);
+extern cgraph_int_t cgraph_math_muli_modi(const cgraph_int_t x,
+                                          const cgraph_int_t y,
+                                          const cgraph_int_t mod);
 
 /**  function to add and delete nan-type strings */
 extern void cgraph_math_addnan(const cgraph_char_t *str);
@@ -399,10 +413,8 @@ extern cgraph_color_t cgraph_math_col2a(const cgraph_color_t color);
 extern cgraph_color_t cgraph_math_col2r(const cgraph_color_t color);
 extern cgraph_color_t cgraph_math_col2g(const cgraph_color_t color);
 extern cgraph_color_t cgraph_math_col2b(const cgraph_color_t color);
-extern cgraph_char_t *cgraph_math_col2dec(const cgraph_color_t color,
-                                          cgraph_char_t *cstr);
-extern cgraph_char_t *cgraph_math_col2hex(const cgraph_color_t color,
-                                          cgraph_char_t *cstr);
+extern const cgraph_char_t *cgraph_math_col2dec(const cgraph_color_t color);
+extern const cgraph_char_t *cgraph_math_col2hex(const cgraph_color_t color);
 extern cgraph_color_t cgraph_math_dec2col(const cgraph_char_t *color);
 extern cgraph_color_t cgraph_math_hex2col(const cgraph_char_t *color);
 

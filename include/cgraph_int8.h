@@ -26,6 +26,7 @@ extern "C" {
 #define ARG cgraph_long_t
 #define NAME int8
 #define TYPE TYPE_T(NAME)
+#define TYPE_C(x) INT8_C(x)
 #define ID ID_T(INT8)
 #define BITS CGRAPH_INT8_BITS
 #define L2BITS CGRAPH_INT8_L2BITS
@@ -33,9 +34,10 @@ extern "C" {
 #define OUT_FMT CGRAPH_INT8_OUT_FMT
 #define UNAME uint8
 #define UTYPE TYPE_T(UNAME)
+#define UTYPE_C(x) UINT8_C(x)
 #define UID ID_T(UINT8)
-#define ZERO INT8_C(0)
-#define ONE INT8_C(1)
+#define ZERO TYPE_C(0)
+#define ONE TYPE_C(1)
 #define ONES CGRAPH_INT8_MAX
 #define MIN CGRAPH_INT8_MIN
 #define MAX CGRAPH_INT8_MAX

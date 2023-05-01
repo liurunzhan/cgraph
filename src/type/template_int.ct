@@ -165,11 +165,13 @@ TYPE FUNCTION(NAME, lcm)(const TYPE x, const TYPE y) {
   return ((0 == gcd) ? 0 : ((1 == gcd) ? (x * y) : (x / gcd * y)));
 }
 
+#define IN_BRANGE(x) ((BITS > (x)) && (0 <= (x)))
+
 __INLINE__ TYPE FUNCTION(NAME, mod2)(const TYPE x, const TYPE y) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
   return (CGRAPH_FALSE != y) ? x : CGRAPH_FALSE;
 #else
-  return ((y < BITS) && (y >= 0)) ? (x & (~(MIN << y))) : x;
+  return IN_BRANGE(y) ? (x & (~(MIN << y))) : x;
 #endif
 }
 
@@ -185,8 +187,16 @@ __INLINE__ TYPE FUNCTION(NAME, floor2x)(const TYPE x, const TYPE y) {
   return x / y;
 }
 
+__INLINE__ TYPE FUNCTION(NAME, bitswap)(const TYPE x, const cgraph_size_t bit0,
+                                        const cgraph_size_t bit1) {
+  return ((bit0 != bit1) && IN_BRANGE(bit0) && IN_BRANGE(bit1))
+             ? ((x & (~((LSB << bit0) | (LSB << bit1)))) |
+                (((x >> bit0) & LSB) << bit1) | (((x >> bit1) & LSB) << bit0))
+             : x;
+}
+
 __INLINE__ cgraph_size_t FUNCTION(NAME, bitceil)(const cgraph_size_t bits) {
-  return (bits + BITS - 1) & (~(BITS - 1));
+  return (0 < bits) ? ((bits + BITS - 1) & (~(BITS - 1))) : SIZE_C(0);
 }
 
 __INLINE__ cgraph_size_t FUNCTION(NAME, ubitceil)(const cgraph_size_t bits) {
@@ -194,7 +204,7 @@ __INLINE__ cgraph_size_t FUNCTION(NAME, ubitceil)(const cgraph_size_t bits) {
 }
 
 __INLINE__ cgraph_size_t FUNCTION(NAME, bitfloor)(const cgraph_size_t bits) {
-  return bits >> L2BITS;
+  return (0 < bits) ? (bits >> L2BITS) : SIZE_C(0);
 }
 
 __INLINE__ cgraph_size_t FUNCTION(NAME, ubitfloor)(const cgraph_size_t bits) {
@@ -208,6 +218,8 @@ __INLINE__ cgraph_size_t FUNCTION(NAME, bitmod)(const cgraph_size_t bits) {
 __INLINE__ cgraph_size_t FUNCTION(NAME, ubitmod)(const cgraph_size_t bits) {
   return bits & (BITS - 1);
 }
+
+#undef IN_BRANGE
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, inrange)(const TYPE start,
                                                  const TYPE end,
@@ -237,7 +249,7 @@ __INLINE__ cgraph_bool_t FUNCTION(NAME,
 cgraph_size_t FUNCTION(NAME, startswith0)(const TYPE x) {
   cgraph_size_t cnt = 0;
   UTYPE mask = MSB;
-  for (; mask && (!(mask & x)); mask >>= 1, cnt++) {
+  for (; !(mask & x); mask >>= 1, cnt++) {
   }
 
   return cnt;
@@ -246,7 +258,7 @@ cgraph_size_t FUNCTION(NAME, startswith0)(const TYPE x) {
 cgraph_size_t FUNCTION(NAME, startswith1)(const TYPE x) {
   cgraph_size_t cnt = 0;
   UTYPE mask = MSB;
-  for (; mask && (mask & x); mask >>= 1, cnt++) {
+  for (; mask & x; mask >>= 1, cnt++) {
   }
 
   return cnt;
@@ -255,7 +267,7 @@ cgraph_size_t FUNCTION(NAME, startswith1)(const TYPE x) {
 cgraph_size_t FUNCTION(NAME, endswith0)(const TYPE x) {
   cgraph_size_t cnt = 0;
   UTYPE mask = LSB;
-  for (; mask && (!(mask & x)); mask <<= 1, cnt++) {
+  for (; !(mask & x); mask <<= 1, cnt++) {
   }
 
   return cnt;
@@ -264,7 +276,7 @@ cgraph_size_t FUNCTION(NAME, endswith0)(const TYPE x) {
 cgraph_size_t FUNCTION(NAME, endswith1)(const TYPE x) {
   cgraph_size_t cnt = 0;
   UTYPE mask = LSB;
-  for (; mask && (!(mask & x)); mask <<= 1, cnt++) {
+  for (; (mask & x); mask <<= 1, cnt++) {
   }
 
   return cnt;
@@ -447,77 +459,66 @@ __INLINE__ UTYPE FUNCTION(NAME, clrs)(const UTYPE x, const cgraph_size_t from,
                                         : (x & (~(ONE << from))));
 }
 
-__INLINE__ UTYPE FUNCTION(NAME, swapbit)(const UTYPE x) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
+#define RANGE_ROTR(x, mask, bits)                                              \
+  (((x) & (mask)) >> (bits)) | (((x) & ~(mask)) << (bits))
+
+__INLINE__ UTYPE FUNCTION(NAME, swapbit1)(const UTYPE x) {
   UTYPE res = x;
-  res = ((res & MASK1) >> 1) | ((res & ~MASK1) << 1);
-  res = ((res & MASK2) >> 2) | ((res & ~MASK2) << 2);
-  res = ((res & MASK4) >> 4) | ((res & ~MASK4) << 4);
-#if defined(TYPE_INT16)
-  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
-#elif defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
-  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
-  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
-#elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
-  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
-  res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
+#if BITS >= 8
+  res = RANGE_ROTR(res, MASK1, 1);
+  res = RANGE_ROTR(res, MASK2, 2);
+  res = RANGE_ROTR(res, MASK4, 4);
+#endif
+#if BITS >= 16
+  res = RANGE_ROTR(res, MASK8, 8);
+#endif
+#if BITS >= 32
+  res = RANGE_ROTR(res, MASK16, 16);
+#if BITS >= 64
+  res = RANGE_ROTR(res, MASK32, 32);
 #endif
 
   return res;
 #endif
 }
 
-__INLINE__ UTYPE FUNCTION(NAME, swapbyte)(const UTYPE x) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
+__INLINE__ UTYPE FUNCTION(NAME, swapbit8)(const UTYPE x) {
   UTYPE res = x;
-#if defined(TYPE_INT16)
-  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
-#elif defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
-  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
+#if BITS >= 16
+  res = RANGE_ROTR(res, MASK8, 8);
+#endif
+#if BITS >= 32
+  res = RANGE_ROTR(res, MASK16, 16);
+#endif
+#if BITS >= 64
+  res = RANGE_ROTR(res, MASK32, 32);
+#endif
+
+  return res;
+}
+
+__INLINE__ UTYPE FUNCTION(NAME, swapbit16)(const UTYPE x) {
+  UTYPE res = x;
+#if BITS >= 32
   res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
-#elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & MASK8) >> 8) | ((res & ~MASK8) << 8);
-  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
+#endif
+#if BITS >= 64
   res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
 #endif
 
   return res;
-#endif
 }
 
-__INLINE__ UTYPE FUNCTION(NAME, swaphfwd)(const UTYPE x) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
+__INLINE__ UTYPE FUNCTION(NAME, swapbit32)(const UTYPE x) {
   UTYPE res = x;
-#if defined(TYPE_INT32) || defined(TYPE_INT) || defined(TYPE_LONG_SIZE32)
-  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
-#elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & MASK16) >> 16) | ((res & ~MASK16) << 16);
+#if BITS >= 64
   res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
 #endif
 
   return res;
-#endif
 }
 
-__INLINE__ UTYPE FUNCTION(NAME, swapword)(const UTYPE x) {
-#if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
-  return x;
-#else
-  UTYPE res = x;
-#if defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  res = ((res & MASK32) >> 32) | ((res & ~MASK32) << 32);
-#endif
-
-  return res;
-#endif
-}
+#undef RANGE_ROTR
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, iszero)(const TYPE x) {
 #if defined(TYPE_BOOL) || defined(TYPE_LOGIC)
@@ -548,11 +549,11 @@ __INLINE__ cgraph_bool_t FUNCTION(NAME, ispow2)(const TYPE x) {
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, ispos)(const TYPE x) {
-  return CGRAPH_TEST((~x) >> (BITS - 1));
+  return CGRAPH_TEST((~x) & MSB);
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, isneg)(const TYPE x) {
-  return CGRAPH_TEST(x >> (BITS - 1));
+  return CGRAPH_TEST(x & MSB);
 }
 
 __INLINE__ cgraph_bool_t FUNCTION(NAME, ismin)(const TYPE x) {
