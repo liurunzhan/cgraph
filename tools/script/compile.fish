@@ -27,9 +27,9 @@ end
 # debug or release mode
 set MODE "debug"
 if $MODE = "debug"
-  set CFLAGS "${CFLAGS} -g -DDEBUG"
+  set CFLAGS "${CFLAGS} -g -DDEBUG -O0"
 else if $MODE = "release"
-  set CFLAGS "${CFLAGS} -static -O2"
+  set CFLAGS "${CFLAGS} -O2"
 end
 
 # build and clean directories and files
@@ -46,7 +46,7 @@ set AR ar
 set ARFLAGS "-rcs"
 
 # source files
-set CFILES `find ${SRC} -regex "^[^\.]*\.c$"`
+set CFILES `find ${SRC} -type f -name '*.c' -not -name '.*'`
 # target files
 set LIBSHARED ${LIB}/lib${PRO}.so
 set LIBSTATIC ${LIB}/lib${PRO}.a
@@ -58,17 +58,19 @@ set TSTTARGET ${TST}/${PRO}
 set OPT $1
 
 if -z $1
-  ${MKDIR} ${MKDIRFLAGS} ${LIB} 
+  ${MKDIR} ${MKDIRFLAGS} ${LIB}
+  set OFILES ""
   for file in ${CFILES}
-    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
-    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    set obj `echo ${file} | sed 's/\.c$/\.o/g'`
+    set dep `echo ${file} | sed 's/\.c$/\.d/g'`
+    set OFILES "${OFILES} ${obj}"
     echo "compile ${file} to ${obj}"
     ${CC} ${CFLAGS} -I${INC} -I${SRC_TYPE} -c ${file} -o ${obj} -MD -MF ${dep}
   end
   echo "compile ${LIBSHARED}"
-  ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o
+  ${CC} ${CSFLAGS} -o ${LIBSHARED} ${OFILES}
   echo "compile ${LIBSTATIC}"
-  ${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o
+  ${AR} ${ARFLAGS} ${LIBSTATIC} ${OFILES}
 else if $1 = "test"
   echo "compile ${TSTFILE} to ${TSTTARGET}"
   ${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm
@@ -76,10 +78,10 @@ else if $1 = "test"
   ${TSTTARGET} ${TST}/elements.csv
 else if $1 = "clean"
   for file in ${CFILES}
-    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
+    obj=`echo ${file} | sed 's/\.c$/\.o/g'`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
-    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    dep=`echo ${file} | sed 's/\.c$/\.d/g'`
     echo "clean ${dep}"
     ${RM} ${RMFLAGS} ${dep}
   end
@@ -91,10 +93,10 @@ else if $1 = "clean"
   ${RM} ${RMFLAGS} ${TSTTARGET}
 else if $1 = "distclean"
   for file in ${CFILES}
-    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
+    obj=`echo ${file} | sed 's/\.c$/\.o/g'`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
-    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    dep=`echo ${file} | sed 's/\.c$/\.d/g'`
     echo "clean ${dep}"
     ${RM} ${RMFLAGS} ${dep}
   end

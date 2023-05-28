@@ -675,8 +675,13 @@ typedef cgraph_uint8_t *cgraph_addr_t;
   (CGRAPH_ISNSTR(x) || CGRAPH_ISNSTR(y) || ((x) == (y)))
 #define CGRAPH_ISBUF(x, len) ((NULL != (x)) && (0 < (len)))
 #define CGRAPH_ISNBUF(x, len) ((NULL == (x)) || (0 >= (len)))
+#ifdef CGRAPH_XTEST_NO_BOOL
+#define CGRAPH_TEST(x) (x)
+#define CGRAPH_NTEST(x) (!(x))
+#else
 #define CGRAPH_TEST(x) ((x) ? CGRAPH_TRUE : CGRAPH_FALSE)
 #define CGRAPH_NTEST(x) ((x) ? CGRAPH_FALSE : CGRAPH_TRUE)
+#endif
 #define CGRAPH_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define CGRAPH_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define CGRAPH_MIN3V(x, y, z)                                                  \

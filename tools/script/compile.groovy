@@ -17,9 +17,9 @@ def CSFLAGS = "-shared"
 
 def MODE = "debug"
 if (MODE == "debug") {
-  CFLAGS = CFLAGS + " -g -DDEBUG"
+  CFLAGS = CFLAGS + " -g -DDEBUG -O0"
 } else if (MODE == "release") {
-  CFLAGS = CFLAGS + " -static -O2"
+  CFLAGS = CFLAGS + " -O2"
 }
 
 def AR = "ar"

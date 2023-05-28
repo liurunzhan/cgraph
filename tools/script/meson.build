@@ -21,9 +21,9 @@ CFLAGS = '-std=c89 -Wall -pedantic -fPIC'
 CSFLAGS = '-shared'
 
 if get_option('debug').enabled()
-CFLAGS += ' -g -DDEBUG'
+CFLAGS += ' -g -DDEBUG -O0'
 elif get_option('release').enabled()
-CFLAGS += ' -static -O2'
+CFLAGS += ' -O2'
 endif
 
 AR = 'ar'

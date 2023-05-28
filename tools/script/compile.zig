@@ -19,9 +19,9 @@ pub fn main() void {
 
   const MODE = "debug";
   if (std.mem.eql(u8, MODE, "debug")) {
-    CFLAGS += " -g -DDEBUG";
+    CFLAGS += " -g -DDEBUG -O0";
   } else if (std.mem.eql(u8, MODE, "release")) {
-    CFLAGS += " -static -O2";
+    CFLAGS += " -O2";
   }
 
   // package shared library

@@ -29,7 +29,7 @@ MODE="debug"
 if [[ ${MODE} == "debug" ]] {
   CFLAGS+=(-g -DDEBUG)
 } elif [[ ${MODE} == "release" ]] {
-  CFLAGS+=(-static -O2)
+  CFLAGS+=(-O2)
 }
 
 # build and clean directories and files
@@ -46,7 +46,7 @@ AR=ar
 ARFLAGS=(-rcs)
 
 # source files
-CFILES=(`find $SRC -regex "^[^\.]*\.c$"`)
+CFILES=(`find $SRC -type f -name '*.c' -not -name '.*'`)
 # target files
 LIBSHARED=$LIB/lib$PRO.so
 LIBSTATIC=$LIB/lib$PRO.a
@@ -56,16 +56,18 @@ TSTTARGET=$TST/$PRO
 
 if (( $# == 0 )) {
   $MKDIR $MKDIRFLAGS $LIB
+  OFILES=""
   for file ($CFILES) {
-    obj=`echo $file | sed "s/\.c$/\.o/g"`
-    dep=`echo $file | sed "s/\.c$/\.d/g"`
+    obj=`echo $file | sed 's/\.c$/\.o/g'`
+    dep=`echo $file | sed 's/\.c$/\.d/g'`
     echo "compile $file to $obj"
+    OFILES="$OFILES $obj"
     $CC $CFLAGS -I$INC -I$SRC_TYPE -c $file -o $obj -MD -MF $dep
   }
   echo "compile $LIBSHARED"
-  $CC $CSFLAGS -o $LIBSHARED $SRC/*.o
+  $CC $CSFLAGS -o $LIBSHARED $OFILES
   echo "compile $LIBSTATIC"
-  $AR $ARFLAGS $LIBSTATIC $SRC/*.o
+  $AR $ARFLAGS $LIBSTATIC $OFILES
 } elif [[ $1 == "test" ]] {
   echo "compile $TSTFILE to $TSTTARGET"
   $CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm
@@ -73,10 +75,10 @@ if (( $# == 0 )) {
   $TSTTARGET $TST/elements.csv
 } elif [[ $1 == "clean" ]] {
   for file ($CFILES) {
-    obj=`echo $file | sed "s/\.c$/\.o/g"`
+    obj=`echo $file | sed 's/\.c$/\.o/g'`
     echo "clean $obj"
     $RM $RMFLAGS $obj
-    dep=`echo $file | sed "s/\.c$/\.d/g"`
+    dep=`echo $file | sed 's/\.c$/\.d/g'`
     echo "clean $dep"
     $RM $RMFLAGS $dep
   }
@@ -88,10 +90,10 @@ if (( $# == 0 )) {
   $RM $RMFLAGS $TSTTARGET
 } elif [[ $1 == "distclean" ]] {
   for file ($CFILES) {
-    obj=`echo $file | sed "s/\.c$/\.o/g"`
+    obj=`echo $file | sed 's/\.c$/\.o/g'`
     echo "clean $obj"
     $RM $RMFLAGS $obj
-    dep=`echo $file | sed "s/\.c$/\.d/g"`
+    dep=`echo $file | sed 's/\.c$/\.d/g'`
     echo "clean $dep"
     $RM $RMFLAGS $dep
   }

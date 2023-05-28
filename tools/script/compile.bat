@@ -21,7 +21,19 @@ set LIB=%DIR%\lib
 rem compiler configuration
 set CC=cc
 set CFLAGS=-std=c89 -Wall -pedantic
+
+set TARBITS=32
+if TARBITS == "32" (
+  set "CFLAGS=%CFLAGS% -m32"
+) else if TARBITS == "64" (
+  set "CFLAGS=%CFLAGS% -m64"
+)
+
+set SHARED=true
 set CSFLAGS=-shared
+if SHARED == "false" (
+	set CSFLAGS=-static
+)
 
 if not CC == tcc (
   set "CFLAGS=%CFLAGS% -pedantic-errors"
@@ -34,9 +46,9 @@ if not CC == clang (
 rem debug or release mode
 set MODE=debug
 if MODE == "debug" (
-  set "CFLAGS=%CFLAGS% -g -DDEBUG"
+  set "CFLAGS=%CFLAGS% -g -DDEBUG -O0"
 ) else if MODE == "release" (
-  set "CFLAGS=%CFLAGS% -static -O2"
+  set "CFLAGS=%CFLAGS% -O2"
 )
 
 rem build and clean directories and files
@@ -50,6 +62,14 @@ set RMDIRFLAGS=/Q
 rem package shared library
 set AR=ar
 set ARFLAGS=-rcs
+
+if TARBITS == "32" (
+  set "ARFLAGS=%ARFLAGS% -X32"
+) else if TARBITS == "64" (
+  set "ARFLAGS=%ARFLAGS% -X64"
+) else if TARBITS == "32_64" (
+  set "ARFLAGS=%ARFLAGS% -X32_64"
+)
 
 rem target files
 set LIBSHARED=%LIB%\lib%PRO%.dll
@@ -71,14 +91,14 @@ if %PAR% == "" (
     %CC% %CFLAGS% -I%INC% -I%SRC_TYPE% -c !file! -o !obj! -MD -MF !dep!
     set "OFILES=!OFILES!!obj! "
   )
-	set OFILES=!OFILES:~2,-1!
+  set OFILES=!OFILES:~2,-1!
   echo compile %LIBSHARED%
   %CC% %CSFLAGS% -o %LIBSHARED% !OFILES!
   echo compile %LIBSTATIC%
   %AR% %ARFLAGS% %LIBSTATIC% !OFILES!
 ) else if %PAR% == "test" (
   echo compile %TSTFILE% to %TSTTARGET%
-  %CC% %CFLAGS% -I%INC% -o %TSTTARGET% %TSTFILE% -L%LIB% -static -l%PRO% -lm
+  %CC% %CFLAGS% -I%INC% -o %TSTTARGET% %TSTFILE% -L%LIB% %CSFLAGS% -l%PRO% -lm
   echo test %TSTTARGET% with %TST%\elements.csv
   %TSTTARGET% %TST%\elements.csv
 ) else if %PAR% == "clean" (

@@ -21,9 +21,9 @@ $CSFLAGS = "-shared";
 
 $MODE = "debug";
 if ($MODE == "debug") {
-  $CFLAGS .= " -g -DDEBUG";
+  $CFLAGS .= " -g -DDEBUG -O0";
 } elseif ($MODE == "release") {
-  $CFLAGS .= " -static -O2";
+  $CFLAGS .= " -O2";
 }
 
 # package shared library

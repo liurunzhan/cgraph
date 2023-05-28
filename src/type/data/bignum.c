@@ -200,7 +200,7 @@ cgraph_size_t FUNCTION(NAME, snprinte)(cgraph_char_t *cbuf,
   hash = (hash * 31) + (cthis->data[i] - DATA_MIN)
 */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
   if (NULL != cthis) {
     cgraph_size_t i = cthis->len - 1;
     hash = (cthis->postive ? cthis->point : -cthis->point);

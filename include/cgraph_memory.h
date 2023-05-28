@@ -61,21 +61,23 @@ cgraph_datcmp(const void *dest, const void *src, const cgraph_size_t n,
  */
 extern cgraph_size_t cgraph_strlen(const cgraph_char_t *str);
 extern cgraph_char_t *cgraph_strend(const cgraph_char_t *str);
+extern cgraph_char_t *cgraph_strnend(const cgraph_char_t *str,
+                                     const cgraph_size_t n);
 extern cgraph_char_t *cgraph_strcpy(cgraph_char_t *dest,
-                                    const cgraph_char_t *str);
+                                    const cgraph_char_t *src);
 extern cgraph_char_t *cgraph_strncpy(cgraph_char_t *dest,
-                                     const cgraph_char_t *str,
+                                     const cgraph_char_t *src,
                                      const cgraph_size_t n);
 extern cgraph_char_t *cgraph_strscpy(cgraph_char_t *dest,
-                                     const cgraph_char_t *str,
+                                     const cgraph_char_t *src,
                                      const cgraph_size_t n);
 extern cgraph_char_t *cgraph_strcat(cgraph_char_t *dest,
-                                    const cgraph_char_t *str);
+                                    const cgraph_char_t *src);
 extern cgraph_char_t *cgraph_strncat(cgraph_char_t *dest,
-                                     const cgraph_char_t *str,
+                                     const cgraph_char_t *src,
                                      const cgraph_size_t n);
 extern cgraph_char_t *cgraph_strscat(cgraph_char_t *dest,
-                                     const cgraph_char_t *str,
+                                     const cgraph_char_t *src,
                                      const cgraph_size_t n);
 extern cgraph_bool_t cgraph_strcmp(const cgraph_char_t *str1,
                                    const cgraph_char_t *str2);
@@ -107,14 +109,23 @@ extern cgraph_char_t *cgraph_strnrchr(const cgraph_char_t *str, cgraph_int_t ch,
                                       const cgraph_size_t n);
 extern cgraph_char_t *cgraph_strrchrn(const cgraph_char_t *str, cgraph_int_t ch,
                                       const cgraph_size_t n);
-extern cgraph_char_t *cgraph_strstr(const cgraph_char_t *str,
+extern cgraph_char_t *cgraph_strstr(const cgraph_char_t *src,
                                     cgraph_char_t *dest);
-extern cgraph_char_t *cgraph_strnstr(const cgraph_char_t *str,
+extern cgraph_char_t *cgraph_strnstr(const cgraph_char_t *src,
                                      cgraph_char_t *dest,
                                      const cgraph_size_t n);
-extern cgraph_char_t *cgraph_strstrn(const cgraph_char_t *str,
+extern cgraph_char_t *cgraph_strstrn(const cgraph_char_t *src,
                                      cgraph_char_t *dest,
                                      const cgraph_size_t n);
+
+extern cgraph_char_t *cgraph_bufend(const cgraph_char_t *buf,
+                                    const cgraph_char_t ch,
+                                    const cgraph_size_t size,
+                                    cgraph_size_t *pos);
+extern cgraph_char_t *cgraph_bufendswith(const cgraph_char_t *buf,
+                                         const cgraph_char_t ch,
+                                         const cgraph_size_t pos,
+                                         cgraph_size_t *npos);
 
 #ifdef __cplusplus
 }

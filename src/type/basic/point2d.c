@@ -12,7 +12,7 @@ cgraph_size_t FUNCTION(NAME, fprint)(FILE *fp, const TYPE cthis) {
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
-  cgraph_size_t hash = 58979323UL;
+  cgraph_size_t hash = USIZE_C(58979323);
   hash *= POINT2D_X(cthis);
   hash += hash * POINT2D_Y(cthis);
 

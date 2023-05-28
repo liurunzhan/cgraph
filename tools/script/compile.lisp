@@ -13,7 +13,7 @@
 (setq CSFLAGS "-shared")
 
 (setq MODE "debug")
-(if (equal MODE "debug") (setq CFLAGS (concatenate 'string CFLAGS " -g -DDEBUG")) (if (equal MODE "release") (setq CFLAGS (concatenate 'string CFLAGS " -static -O2"))))
+(if (equal MODE "debug") (setq CFLAGS (concatenate 'string CFLAGS " -g -DDEBUG -O0")) (if (equal MODE "release") (setq CFLAGS (concatenate 'string CFLAGS " -O2"))))
 
 (setq AR "ar")
 (setq ARFLAGS "-rcs")

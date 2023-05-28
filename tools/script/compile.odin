@@ -23,9 +23,9 @@ main :: proc() {
 
   MODE : string = "debug";
   if MODE == "debug" {
-    CFLAGS = strings.join([]string{CFLAGS}, " -g -DDEBUG");
+    CFLAGS = strings.join([]string{CFLAGS}, " -g -DDEBUG -O0");
   } else if MODE == "release" {
-    CFLAGS = strings.join([]string{CFLAGS}, " -static -O2");
+    CFLAGS = strings.join([]string{CFLAGS}, " -O2");
   }
 
   //package shared library

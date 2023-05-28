@@ -44,11 +44,12 @@ extern "C" {
 #define TYPE TYPE_T(NAME)
 #define ID ID_T(COMPLEX)
 #define BITS (sizeof(TYPE))
-#define IN_FMT "%lf+i%lf"
+#define IN_FMT_REAL "%lf"
 #define IN_FMT_IMAG "i%lf"
-#define OUT_FMT "%g+i%g"
+#define IN_FMT IN_FMT_REAL "+" IN_FMT_IMAG
 #define OUT_FMT_REAL "%g"
 #define OUT_FMT_IMAG "i%g"
+#define OUT_FMT OUT_FMT_REAL "+" OUT_FMT_IMAG
 #if __STDC_VERSION__ >= 199901L
 #define ZERO ((TYPE){{DATA_ZERO, DATA_ZERO}})
 #define ONE ((TYPE){{DATA_ONE, DATA_ZERO}})

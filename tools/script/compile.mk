@@ -20,9 +20,9 @@ CFLAGS += -pedantic-errors
 endif
 
 ifeq ($(MODE), debug)
-CFLAGS += -g -DDEBUG
+CFLAGS += -g -DDEBUG -O0
 else ifeq ($(MODE), release)
-CFLAGS += -static -O2
+CFLAGS += -O2
 endif
 
 # cross platforms

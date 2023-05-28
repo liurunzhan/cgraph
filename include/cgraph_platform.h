@@ -120,16 +120,16 @@ typedef enum {
     defined(__WORDS_LITTLEENDIAN)
 /** Little-endian architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_LE
-#pragma message "Compile in Little-End CPU Arch"
+#pragma message "Compile in Little-Endian CPU Arch"
 #elif defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) ||                      \
     defined(__WORDS_BIGENDIAN)
 /** Big-Endian architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_BE
-#pragma message "Compile in Big-End CPU Arch"
+#pragma message "Compile in Big-Endian CPU Arch"
 #else
 /** Undefined architecture */
 #define __PLAT_ENDIAN __PLAT_ENDIAN_UE
-#pragma message "Compile in Undefined CPU Arch"
+#pragma message "Compile in CPU Arch without endian macro definitions"
 #endif
 
 #if (__PLAT_ENDIAN < __PLAT_ENDIAN_LE) || (__PLAT_ENDIAN > __PLAT_ENDIAN_UE)

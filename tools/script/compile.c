@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
       LIB[STRING_MAX];
   char LIBSHARED[STRING_MAX], LIBSTATIC[STRING_MAX], TSTFILE[STRING_MAX],
       TSTTARGET[STRING_MAX];
-
+  const char *TARBITS = "32";
   char PATH_SEP = '\0';
   if (TRUE == is_windows) {
     fprintf(stdout, "compile %s in windows platform!\n", PRO);
@@ -87,9 +87,9 @@ int main(int argc, char *argv[]) {
 
   char *mode = "debug";
   if (mode == "debug") {
-    strcat(CFLAGS, " -g -DDEBUG");
+    strcat(CFLAGS, " -g -DDEBUG -O0");
   } else if (mode == "release") {
-    strcat(CFLAGS, " -static -O2");
+    strcat(CFLAGS, " -O2");
   }
 
   char *AR = "ar";

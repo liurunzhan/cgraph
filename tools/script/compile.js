@@ -23,9 +23,9 @@ var CSFLAGS = "-shared";
 
 var MODE = "debug";
 if (MODE == "debug") {
-  CFLAGS.concat(" -g -DDEBUG");
+  CFLAGS.concat(" -g -DDEBUG -O0");
 } else if (MODE == "release") {
-  CFLAGS.concat(" -static -O2");
+  CFLAGS.concat(" -O2");
 }
 
 // package shared library

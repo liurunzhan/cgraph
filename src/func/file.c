@@ -229,27 +229,22 @@ cgraph_char_t *cgraph_file_suffix(cgraph_char_t *buffer,
 cgraph_char_t *cgraph_file_joinpath(cgraph_char_t *root,
                                     const cgraph_size_t size, ...) {
   va_list args;
-  cgraph_char_t *path = NULL, *proot = root;
   const cgraph_size_t size_1 = size - 1;
   cgraph_size_t i = 0;
-  for (; ('\0' != *proot) && (i < size_1); proot++, i++) {
-  }
-  if (i >= size_1) {
+  cgraph_char_t *path = NULL, *proot = cgraph_bufend(root, '\0', size, &i);
+  if (size_1 <= i) {
     goto CERROR;
   }
-  for (proot--, i--; __PLAT_PSEP_C == *proot; proot--, i--) {
-  }
-  proot += 1;
-  i += 1;
+  proot = cgraph_bufendswith(root, __PLAT_PSEP_C, i, &i);
   va_start(args, size);
   while ((NULL != (path = va_arg(args, cgraph_char_t *))) && ('\0' != *path)) {
-    for (*(proot++) = __PLAT_PSEP_C, i++; ('\0' != *path) && (i < size_1);
+    for (*(proot++) = __PLAT_PSEP_C, i++; ('\0' != *path) && (size_1 > i);
          proot++, path++, i++) {
       *proot = *path;
     }
   }
-  *proot = '\0';
   va_end(args);
+  *proot = '\0';
 
   return root;
 CERROR:
@@ -832,7 +827,7 @@ static const cgraph_char_t *_line_end = __PLAT_ENDL;
 const static union cgraph_endian_t {
   cgraph_uint32_t num;
   cgraph_uint8_t byte[4];
-} cgraph_file_endian = {1};
+} cgraph_file_endian = {0x01};
 #endif
 
 void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
@@ -852,43 +847,47 @@ void cgraph_file_os(cgraph_char_t **os, cgraph_char_t **path_sep,
 #elif __PLAT_ENDIAN == __PLAT_ENDIAN_BE
     *cpu_isle = CGRAPH_TRUE;
 #else
-    *cpu_isle = (cgraph_file_endian.byte[0] ? CGRAPH_TRUE : CGRAPH_FALSE);
+    *cpu_isle = cgraph_file_cpu_isle();
 #endif
   }
 }
 
-cgraph_bool_t cgraph_file_iswin(void) {
+__INLINE__ cgraph_bool_t cgraph_file_iswin(void) {
   return CGRAPH_TEST(__PLAT_TYPE == CGRAPH_PLAT_WINDOWS);
 }
 
-cgraph_bool_t cgraph_file_isuxowin(void) {
+__INLINE__ cgraph_bool_t cgraph_file_iscygwin(void) {
   return CGRAPH_TEST(__PLAT_TYPE == CGRAPH_PLAT_CYGWIN);
 }
 
-cgraph_bool_t cgraph_file_isunix(void) {
+__INLINE__ cgraph_bool_t cgraph_file_isunix(void) {
   return CGRAPH_TEST(__PLAT_TYPE == CGRAPH_PLAT_UNIX);
 }
 
-const cgraph_char_t *cgraph_file_psplit(void) { return _path_split; }
+__INLINE__ const cgraph_char_t *cgraph_file_psplit(void) { return _path_split; }
 
-const cgraph_char_t *cgraph_file_lend(void) { return _line_end; }
+__INLINE__ const cgraph_char_t *cgraph_file_lend(void) { return _line_end; }
+
+__INLINE__ const cgraph_bool_t cgraph_file_cpu_isle(void) {
+  return (cgraph_file_endian.byte[0] ? CGRAPH_TRUE : CGRAPH_FALSE);
+}
 
 #ifdef __NO_VSNPRINTF
 #undef __NO_VSNPRINTF
 #endif
 
-#if defined(fprintf)
+#ifdef fprintf
 #undef fprintf
 #endif
 
-#if defined(vfprintf)
+#ifdef vfprintf
 #undef vfprintf
 #endif
 
-#if defined(vsprintf)
+#ifdef vsprintf
 #undef vsprintf
 #endif
 
-#if defined(vsnprintf)
+#ifdef vsnprintf
 #undef vsnprintf
 #endif

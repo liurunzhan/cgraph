@@ -8,8 +8,8 @@ set(VERSION "0.0.0")
 # set project configuration
 set(CMAKE_C_COMPILER "cc")
 set(CMAKE_C_FLAGS "-std=c89 -Wall -pedantic -fPIC")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g -DDEBUG")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -static -O2")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g -DDEBUG -O0")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O2")
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(INC "${PROJECT_SOURCE_DIR}/include")

@@ -20,7 +20,7 @@ MODE <- "debug"
 if (MODE == "debug") {
   CFLAGS <- paste(CFLAGS, "-g -DDEBUG", sep=" ")
 } else if (MODE == "release") {
-  CFLAGS <- paste(CFLAGS, "-static -O2", sep=" ")
+  CFLAGS <- paste(CFLAGS, "-O2", sep=" ")
 }
 
 # package shared library

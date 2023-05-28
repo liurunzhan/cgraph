@@ -1,4 +1,4 @@
-#!/usr/bin/tcsh -f
+#!/usr/bin/env -S tcsh -f
 
 # Date : 2022-07-01
 # A script to compile Library cgraph in Unix-like and Windows Platforms
@@ -22,9 +22,9 @@ endif
 
 set MODE="debug"
 if ( $MODE == "debug" ) then
-  set CFLAGS="$CFLAGS -g -DDEBUG"
+  set CFLAGS="$CFLAGS -g -DDEBUG -O0"
 else if ( $MODE == "release" ) then
-  set CFLAGS="$CFLAGS -static -O2"
+  set CFLAGS="$CFLAGS -O2"
 endif
 
 # build and clean directories and files
@@ -41,10 +41,7 @@ set AR=ar
 set ARFLAGS="-rcs"
 
 # source files
-@ CFILES=()
-foreach file (`find $SRC -regex "^[^\.]*\.c$"`)
-  @ CFLIES=$file
-end
+set CFILES=`find $SRC -type f -name '*.c' -not -name '.*'`
 echo $CFILES
 
 # target files
@@ -56,62 +53,72 @@ set TSTTARGET="$TST/$PRO"
 
 if ( $#argv == 0 ) then
   $MKDIR $MKDIRFLAGS $LIB
+  set OFILES=""
   foreach file ($CFILES)
-    regsub {.c$} $file .o obj
-    regsub {.c$} $file .d dep
+    set obj=`echo $file | sed 's/\.c$/\.o/g'`
+    set dep=`echo $file | sed 's/\.c$/\.d/g'`
+    set OFILES="$OFILES $obj"
     echo "compile $file to $obj"
     $CC $CFLAGS -I$INC -I$SRC_TYPE -c $file -o $obj -MD -MF $dep
   end
   echo "compile $LIBSHARED"
-  $CC $CSFLAGS -o $LIBSHARED $SRC/*.o
+  $CC $CSFLAGS -o $LIBSHARED $OFILES
   echo "compile $LIBSTATIC"
-  $AR $ARFLAGS $LIBSTATIC $SRC/*.o
-else if ( $argv[1] == "test" ) then
-  echo "compile $TSTFILE to $TSTTARGET"
-  $CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm
-  echo "test $TSTTARGET with $TST/elements.csv"
-  $TSTTARGET $TST/elements.csv
-else if ( $argv[1] == "clean" ) then
-  foreach file ($CFILES)
-    regsub .c$ $file .o obj
-    echo "clean $obj"
-    $RM $RMFLAGS $obj
-    regsub .c$ $file .d dep
-    echo "clean $dep"
-    $RM $RMFLAGS $dep
-  end
-  echo "clean $LIBSHARED"
-  $RM $RMFLAGS $LIBSHARED
-  echo "clean $LIBSTATIC"
-  $RM $RMFLAGS $LIBSTATIC
-  echo "clean $TSTTARGET"
-  $RM $RMFLAGS $TSTTARGET
-else if ( $argv[1] == "distclean" ) then
-  foreach file ($CFILES)
-    regsub .c$ $file .o obj
-    echo "clean $obj"
-    $RM $RMFLAGS $obj
-    regsub .c$ $file .d dep
-    echo "clean $dep"
-    $RM $RMFLAGS $dep
-  end
-  echo "clean $LIBSHARED"
-  $RM $RMFLAGS $LIBSHARED
-  echo "clean $LIBSTATIC"
-  $RM $RMFLAGS $LIBSTATIC
-  echo "clean $LIB"
-  $RMDIR $RMDIRFLAGS $LIB
-  echo "clean $TSTTARGET"
-  $RM $RMFLAGS $TSTTARGET
-else if ( $argv[1] == "help" ) then
-  echo "$argv[0] <target>"
-  echo "<target>: "
-  echo "                    compile cgraph"
-  echo "          test      test cgraph"
-  echo "          clean     clean all the generated files"
-  echo "          distclean clean all the generated files and directories"
-  echo "          help      commands to this program"
+  $AR $ARFLAGS $LIBSTATIC $OFILES
 else
-  echo "$argv[1] is an unsupported command"
-  echo "use \"$argv[0] help\" to know all supported commands"
+  switch ($argv[1])
+    case test:
+      echo "compile $TSTFILE to $TSTTARGET"
+      $CC $CFLAGS -I$INC -o $TSTTARGET $TSTFILE -L$LIB -static -l$PRO -lm
+      echo "test $TSTTARGET with $TST/elements.csv"
+      $TSTTARGET $TST/elements.csv
+    breaksw
+    case clean:
+      foreach file ($CFILES)
+        set obj=`echo $file | sed 's/\.c$/\.o/g'`
+        echo "clean $obj"
+        $RM $RMFLAGS $obj
+        set dep=`echo $file | sed 's/\.c$/\.d/g'`
+        echo "clean $dep"
+        $RM $RMFLAGS $dep
+      end
+      echo "clean $LIBSHARED"
+      $RM $RMFLAGS $LIBSHARED
+      echo "clean $LIBSTATIC"
+      $RM $RMFLAGS $LIBSTATIC
+      echo "clean $TSTTARGET"
+      $RM $RMFLAGS $TSTTARGET
+    breaksw
+    case distclean:
+      foreach file ($CFILES)
+        set obj=`echo $file | sed 's/\.c$/\.o/g'`
+        echo "clean $obj"
+        $RM $RMFLAGS $obj
+        set dep=`echo $file | sed 's/\.c$/\.d/g'`
+        echo "clean $dep"
+        $RM $RMFLAGS $dep
+      end
+      echo "clean $LIBSHARED"
+      $RM $RMFLAGS $LIBSHARED
+      echo "clean $LIBSTATIC"
+      $RM $RMFLAGS $LIBSTATIC
+      echo "clean $LIB"
+      $RMDIR $RMDIRFLAGS $LIB
+      echo "clean $TSTTARGET"
+      $RM $RMFLAGS $TSTTARGET
+    breaksw
+    case help:
+      echo "$argv[0] <target>"
+      echo "<target>: "
+      echo "                    compile cgraph"
+      echo "          test      test cgraph"
+      echo "          clean     clean all the generated files"
+      echo "          distclean clean all the generated files and directories"
+      echo "          help      commands to this program"
+    breaksw
+    default:
+      echo "$argv[1] is an unsupported command"
+      echo "use \"$argv[0] help\" to know all supported commands"
+    breaksw
+  endsw
 endif

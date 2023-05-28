@@ -115,9 +115,9 @@ void *cgraph_memcpy(void *dest, const void *src, const cgraph_size_t n) {
     if (0 < n) {
       memcpy(dest, src, n);
     } else {
-      cgraph_addr_t _dest = (cgraph_addr_t)dest, _src = (cgraph_addr_t)src;
+      cgraph_addr_t pdest = (cgraph_addr_t)dest, psrc = (cgraph_addr_t)src;
       CGRAPH_RLOOP(i, 0, n)
-      *(_dest--) = *(_src--);
+      *(pdest--) = *(psrc--);
       CGRAPH_LOOP_END
     }
   }
@@ -149,16 +149,16 @@ void *cgraph_memscpy(void *dest, const void *src, const cgraph_size_t dn,
     goto CERROR;
   }
   if (dest != src) {
-    cgraph_addr_t _dest = (cgraph_addr_t)dest, _src = (cgraph_addr_t)src;
+    cgraph_addr_t pdest = (cgraph_addr_t)dest, psrc = (cgraph_addr_t)src;
     if (0 < sn) {
       cgraph_size_t n = CGRAPH_MIN(dn, sn);
       CGRAPH_LOOP(i, 0, n)
-      *(_dest++) = *(_src++);
+      *(pdest++) = *(psrc++);
       CGRAPH_LOOP_END
     } else {
       cgraph_size_t n = CGRAPH_MAX(-dn, sn);
       CGRAPH_RLOOP(i, 0, n)
-      *(_dest--) = *(_src--);
+      *(pdest--) = *(psrc--);
       CGRAPH_LOOP_END
     }
   }
@@ -347,15 +347,15 @@ cgraph_bool_t cgraph_datcmp(const void *dest, const void *src,
                                                   const void *y)) {
   cgraph_bool_t res = CGRAPH_FALSE;
   if ((NULL != dest) && (NULL != src) && (0 < n)) {
-    cgraph_addr_t _dest = (cgraph_addr_t)dest, _src = (cgraph_addr_t)src;
+    cgraph_addr_t pdest = (cgraph_addr_t)dest, psrc = (cgraph_addr_t)src;
     res = CGRAPH_TRUE;
     CGRAPH_LOOP(i, 0, n)
-    if (CGRAPH_FALSE == func(_dest, _src)) {
+    if (CGRAPH_FALSE == func(pdest, psrc)) {
       res = CGRAPH_FALSE;
       break;
     }
-    _dest += datsize;
-    _src += datsize;
+    pdest += datsize;
+    psrc += datsize;
     CGRAPH_LOOP_END
   }
 
@@ -367,14 +367,19 @@ cgraph_size_t cgraph_strlen(const cgraph_char_t *str) {
 }
 
 cgraph_char_t *cgraph_strend(const cgraph_char_t *str) {
-  cgraph_char_t *_str = (cgraph_char_t *)str;
-  if (CGRAPH_ISSTR(_str)) {
-    while ('\0' != *(++_str)) {
+  cgraph_char_t *pstr = (cgraph_char_t *)str;
+  if (CGRAPH_ISSTR(pstr)) {
+    for (; '\0' != *pstr; pstr++) {
     }
-    _str--;
+    pstr--;
   }
 
-  return _str;
+  return pstr;
+}
+
+cgraph_char_t *cgraph_strnend(const cgraph_char_t *str, const cgraph_size_t n) {
+  return CGRAPH_ISSTR(str) ? cgraph_bufend(str, '\0', n, NULL)
+                           : (cgraph_char_t *)str;
 }
 
 cgraph_char_t *cgraph_strcpy(cgraph_char_t *dest, const cgraph_char_t *src) {
@@ -439,14 +444,14 @@ CERROR:
 cgraph_char_t *cgraph_strscpy(cgraph_char_t *dest, const cgraph_char_t *src,
                               const cgraph_size_t n) {
   cgraph_size_t size = n - 1;
-  cgraph_char_t *_dest = dest, *_src = (cgraph_char_t *)src;
+  cgraph_char_t *pdest = dest, *psrc = (cgraph_char_t *)src;
   if (CGRAPH_ISNSTR2V(dest, src) || (0 >= size)) {
     goto CERROR;
   }
-  for (; (0 < size) && ('\0' != *_src); size--) {
-    *(_dest++) = *(_src++);
+  for (; (0 < size) && ('\0' != *psrc); size--) {
+    *(pdest++) = *(psrc++);
   }
-  *_dest = '\0';
+  *pdest = '\0';
 
   return dest;
   /* errors output for debugging */
@@ -536,16 +541,16 @@ CERROR:
 cgraph_char_t *cgraph_strscat(cgraph_char_t *dest, const cgraph_char_t *src,
                               const cgraph_size_t n) {
   cgraph_size_t size = n - 1;
-  cgraph_char_t *_dest = dest, *_src = (cgraph_char_t *)src;
+  cgraph_char_t *pdest = dest, *psrc = (cgraph_char_t *)src;
   if (CGRAPH_ISNSTR2V(dest, src) || (0 >= size)) {
     goto CERROR;
   }
-  for (; (0 < size) && ('\0' != *_dest); size--, _dest++) {
+  for (; (0 < size) && ('\0' != *pdest); size--, pdest++) {
   }
-  for (; (0 < size) && ('\0' != *_src); size--) {
-    *(_dest++) = *(_src++);
+  for (; (0 < size) && ('\0' != *psrc); size--) {
+    *(pdest++) = *(psrc++);
   }
-  *_dest = '\0';
+  *pdest = '\0';
 
   return dest;
   /* errors output for debugging */
@@ -791,14 +796,14 @@ CERROR:
 
 cgraph_char_t *cgraph_strnchr(const cgraph_char_t *str, cgraph_int_t ch,
                               const cgraph_size_t n) {
-  cgraph_char_t *ptmp = NULL, *_str = (cgraph_char_t *)str;
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t i = 0;
   if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; ('\0' != *_str) && (n > i); i++, _str++) {
-    if (ch == *_str) {
-      ptmp = _str;
+  for (; ('\0' != *pstr) && (n > i); i++, pstr++) {
+    if (ch == *pstr) {
+      ptmp = pstr;
       break;
     }
   }
@@ -823,16 +828,16 @@ CERROR:
 
 cgraph_char_t *cgraph_strchrn(const cgraph_char_t *str, cgraph_int_t ch,
                               const cgraph_size_t n) {
-  cgraph_char_t *ptmp = NULL, *_str = (cgraph_char_t *)str;
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t cnt = 0;
   if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; '\0' != *_str; _str++) {
-    if (ch == *_str) {
+  for (; '\0' != *pstr; pstr++) {
+    if (ch == *pstr) {
       cnt += 1;
       if (cnt >= n) {
-        ptmp = _str;
+        ptmp = pstr;
         break;
       }
     }
@@ -874,14 +879,14 @@ CERROR:
 
 cgraph_char_t *cgraph_strnrchr(const cgraph_char_t *str, cgraph_int_t ch,
                                const cgraph_size_t n) {
-  cgraph_char_t *ptmp = NULL, *_str = (cgraph_char_t *)str;
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t i = 0;
   if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; ('\0' != *_str) && (n > i); _str++, i++) {
-    if (ch == *_str) {
-      ptmp = _str;
+  for (; ('\0' != *pstr) && (n > i); pstr++, i++) {
+    if (ch == *pstr) {
+      ptmp = pstr;
     }
   }
 
@@ -905,25 +910,25 @@ CERROR:
 
 cgraph_char_t *cgraph_strrchrn(const cgraph_char_t *str, cgraph_int_t ch,
                                const cgraph_size_t n) {
-  cgraph_char_t *ptmp = NULL, *_str = (cgraph_char_t *)str;
+  cgraph_char_t *ptmp = NULL, *pstr = (cgraph_char_t *)str;
   cgraph_size_t cnt = 0;
   if (CGRAPH_ISNSTR(str) || (0 >= n)) {
     goto CERROR;
   }
-  for (; '\0' != *_str; _str++) {
-    if (ch == *_str) {
-      ptmp = _str;
+  for (; '\0' != *pstr; pstr++) {
+    if (ch == *pstr) {
+      ptmp = pstr;
       cnt += 1;
     }
   }
   if ((NULL == ptmp) || (n > cnt)) {
     goto CERROR;
   }
-  for (_str = ptmp, cnt = 0; str != _str; _str--) {
-    if (ch == *_str) {
+  for (pstr = ptmp, cnt = 0; str != pstr; pstr--) {
+    if (ch == *pstr) {
       cnt += 1;
       if (cnt >= n) {
-        ptmp = _str;
+        ptmp = pstr;
         break;
       }
     }
@@ -1045,4 +1050,41 @@ CERROR:
 #endif
 
   return NULL;
+}
+
+cgraph_char_t *cgraph_bufend(const cgraph_char_t *buf, const cgraph_char_t ch,
+                             const cgraph_size_t size, cgraph_size_t *pos) {
+  const cgraph_size_t size_1 = size - 1;
+  cgraph_char_t *pbuf = (cgraph_char_t *)buf;
+  cgraph_size_t i = 0;
+  for (; (ch != *pbuf) && (size_1 > i); pbuf++, i++) {
+  }
+  if ((0 < i) && (ch == *pbuf)) {
+    pbuf -= 1;
+    i -= 1;
+  }
+  if (NULL != pos) {
+    *pos = i;
+  }
+
+  return pbuf;
+}
+
+cgraph_char_t *cgraph_bufendswith(const cgraph_char_t *buf,
+                                  const cgraph_char_t ch,
+                                  const cgraph_size_t pos,
+                                  cgraph_size_t *npos) {
+  cgraph_char_t *pbuf = (cgraph_char_t *)buf + pos;
+  cgraph_size_t cpos = pos;
+  for (; (ch == *pbuf) && (0 <= cpos); pbuf--, cpos--) {
+  }
+  if ((ch == *pbuf) && (0 < cpos)) {
+    pbuf += 1;
+    cpos += 1;
+  }
+  if (NULL != npos) {
+    *npos = cpos;
+  }
+
+  return pbuf;
 }

@@ -22,9 +22,9 @@ if { $CC != "tcc" } {
 
 set MODE "debug"
 if { [ string compare $MODE "debug" ] } {
-  append CFLAGS " -g -DDEBUG"
+  append CFLAGS " -g -DDEBUG -O0"
 } elseif { [ string compare $MODE "release" ] } {
-  append CFLAGS " -static -O2"
+  append CFLAGS " -O2"
 }
 
 # build and clean directories and files

@@ -40,9 +40,9 @@ fn main() {
 
   mode := "debug"
   if mode == "debug" {
-    cflags += " -g -DDEBUG"
+    cflags += " -g -DDEBUG -O0"
   } else if mode == "release" {
-    cflags += " -static -O2"
+    cflags += " -O2"
   }
 
   // package shared library

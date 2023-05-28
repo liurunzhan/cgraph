@@ -38,7 +38,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
   hash += hash << 5 + cthis->data[i]
 */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
   if (CGRAPH_HASDATA(cthis)) {
     CGRAPH_LOOP(i, 0, cthis->len)
     hash += (hash << 5) + cthis->data[i];

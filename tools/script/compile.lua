@@ -28,9 +28,9 @@ CSFLAGS = "-shared"
 
 MODE = "debug"
 if MODE == "debug" then
-  CFLAGS = CFLAGS .. " -g -DDEBUG"
+  CFLAGS = CFLAGS .. " -g -DDEBUG -O0"
 elseif MODE == "release" then
-  CFLAGS = CFLAGS .. " -static -O2"
+  CFLAGS = CFLAGS .. " -O2"
 end
 
 -- package shared library

@@ -18,9 +18,9 @@ fun main(args: Array<String>) {
 
   val MODE = "debug"
   if (MODE == "debug") {
-    CFLAGS = CFLAGS + " -g -DDEBUG"
+    CFLAGS = CFLAGS + " -g -DDEBUG -O0"
   } else if (MODE == "release") {
-    CFLAGS = CFLAGS + " -static -O2"
+    CFLAGS = CFLAGS + " -O2"
   }
 
   val AR = "ar"

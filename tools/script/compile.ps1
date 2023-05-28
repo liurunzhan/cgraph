@@ -21,9 +21,9 @@ $CSFLAGS="-shared".Split()
 
 $MODE="debug"
 if($MODE -ceq "debug") {
-  $CFLAGS="$CFLAGS -g -DDEBUG"
+  $CFLAGS="$CFLAGS -g -DDEBUG -O0"
 } elseif($MODE -ceq "release") {
-  $CFLAGS="$CFLAGS -static -O2"
+  $CFLAGS="$CFLAGS -O2"
 }
 $CFLAGS=$CFLAGS.Split()
 

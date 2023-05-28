@@ -79,7 +79,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
-  cgraph_size_t hash = 142857UL;
+  cgraph_size_t hash = USIZE_C(142857);
   hash *= COMPLEX_REAL(cthis);
   hash += hash * COMPLEX_IMAG(cthis);
 

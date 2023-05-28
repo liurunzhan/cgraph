@@ -334,6 +334,8 @@ extern cgraph_int_t cgraph_math_rmod2i(const cgraph_int_t x,
                                        const cgraph_int_t n);
 extern cgraph_uint_t cgraph_math_bin2gray(const cgraph_uint_t data);
 extern cgraph_uint_t cgraph_math_gray2bin(const cgraph_uint_t data);
+extern cgraph_uint_t cgraph_math_int2bcd(const cgraph_uint_t data);
+extern cgraph_uint_t cgraph_math_bcd2int(const cgraph_uint_t data);
 
 extern cgraph_int_t cgraph_math_ceili_pow2(const cgraph_int_t x);
 extern cgraph_int_t cgraph_math_ceili(const cgraph_int_t x,
@@ -382,41 +384,74 @@ extern cgraph_float64_t cgraph_math_softplus(const cgraph_float64_t x);
 
 /** RGB Color Generator */
 typedef cgraph_uint32_t cgraph_color_t;
-extern cgraph_bool_t cgraph_math_colchk(const cgraph_color_t color,
-                                        const cgraph_int_t rgb_type);
-extern cgraph_color_t cgraph_math_colfmt(const cgraph_color_t color,
-                                         const cgraph_int_t rgb_type);
-extern cgraph_color_t cgraph_math_rgb2gbr(const cgraph_color_t color);
-extern cgraph_color_t cgraph_math_rgb2col(const cgraph_color_t r,
-                                          const cgraph_color_t g,
-                                          const cgraph_color_t b);
-extern cgraph_color_t cgraph_math_argb2col(const cgraph_color_t a,
+typedef enum {
+  /* 15 bits */
+  CGRAPH_MATH_RGB555 = 0,
+  /* 16 bits */
+  CGRAPH_MATH_RGB565 = 1,
+  CGRAPH_MATH_RGB4444 = 2,
+  CGRAPH_MATH_RGB1555 = 3,
+  /* 24 bits */
+  CGRAPH_MATH_RGB24 = 4,
+  CGRAPH_MATH_RGB888 = 4,
+  /* 32 bits */
+  CGRAPH_MATH_RGB32 = 5,
+  CGRAPH_MATH_RGB8888 = 5,
+  CGRAPH_MATH_RGB2TTT = 6
+} cgraph_ctype_t;
+extern cgraph_color_t cgraph_math_rgbmask(cgraph_ctype_t ctype);
+extern cgraph_size_t cgraph_math_rgbbits(cgraph_ctype_t ctype);
+
+extern cgraph_bool_t cgraph_math_colchk(const cgraph_ctype_t ctype,
+                                        const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_colfmt(const cgraph_ctype_t ctype,
+                                         const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_rgb2a(const cgraph_ctype_t ctype,
+                                        const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_rgb2gbr(const cgraph_ctype_t ctype,
+                                          const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_argb2col(const cgraph_ctype_t ctype,
+                                           const cgraph_color_t a,
                                            const cgraph_color_t r,
                                            const cgraph_color_t g,
                                            const cgraph_color_t b);
-extern cgraph_color_t cgraph_math_rgb2argb(const cgraph_color_t r,
-                                           const cgraph_color_t g,
-                                           const cgraph_color_t b);
-extern cgraph_color_t cgraph_math_rgb2argb_min(const cgraph_color_t r,
-                                               const cgraph_color_t g,
-                                               const cgraph_color_t b);
-extern cgraph_color_t cgraph_math_rgb2argb_max(const cgraph_color_t r,
-                                               const cgraph_color_t g,
-                                               const cgraph_color_t b);
-extern cgraph_color_t cgraph_math_rgb2argb_gray(const cgraph_color_t r,
+#define cgraph_math_rgb2col(ctype, r, g, b)                                    \
+  cgraph_math_argb2col((ctype), UINT32_C(0), (r), (g), (b))
+#define cgraph_math_rgb2argb(ctype, r, g, b)                                   \
+  cgraph_math_argb2col((ctype), ((r) + (g) + (b)) / 3, (r), (g), (b))
+#define cgraph_math_rgb2argb_min(ctype, r, g, b)                               \
+  cgraph_math_argb2col((ctype), CGRAPH_MIN3V(r, g, b), (r), (g), (b))
+#define cgraph_math_rgb2argb_max(ctype, r, g, b)                               \
+  cgraph_math_argb2col((ctype), CGRAPH_MAX3V(r, g, b), (r), (g), (b))
+extern cgraph_color_t cgraph_math_rgb2argb_gray(const cgraph_ctype_t ctype,
+                                                const cgraph_color_t r,
                                                 const cgraph_color_t g,
                                                 const cgraph_color_t b);
-extern cgraph_color_t cgraph_math_rgb2argb_y(const cgraph_color_t r,
+extern cgraph_color_t cgraph_math_rgb2argb_y(const cgraph_ctype_t ctype,
+                                             const cgraph_color_t r,
                                              const cgraph_color_t g,
                                              const cgraph_color_t b);
-extern cgraph_color_t cgraph_math_col2a(const cgraph_color_t color);
-extern cgraph_color_t cgraph_math_col2r(const cgraph_color_t color);
-extern cgraph_color_t cgraph_math_col2g(const cgraph_color_t color);
-extern cgraph_color_t cgraph_math_col2b(const cgraph_color_t color);
-extern const cgraph_char_t *cgraph_math_col2dec(const cgraph_color_t color);
-extern const cgraph_char_t *cgraph_math_col2hex(const cgraph_color_t color);
-extern cgraph_color_t cgraph_math_dec2col(const cgraph_char_t *color);
-extern cgraph_color_t cgraph_math_hex2col(const cgraph_char_t *color);
+extern cgraph_color_t cgraph_math_col2a(const cgraph_ctype_t ctype,
+                                        const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_col2r(const cgraph_ctype_t ctype,
+                                        const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_col2g(const cgraph_ctype_t ctype,
+                                        const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_col2b(const cgraph_ctype_t ctype,
+                                        const cgraph_color_t color);
+extern const cgraph_char_t *cgraph_math_col2dec(const cgraph_ctype_t ctype,
+                                                const cgraph_color_t color);
+extern const cgraph_char_t *cgraph_math_col2hex(const cgraph_ctype_t ctype,
+                                                const cgraph_color_t color);
+extern cgraph_color_t cgraph_math_dec2col(const cgraph_ctype_t ctype,
+                                          const cgraph_char_t *color);
+extern cgraph_color_t cgraph_math_hex2col(const cgraph_ctype_t ctype,
+                                          const cgraph_char_t *color);
+extern cgraph_color_t cgraph_math_lerpcolor(const cgraph_ctype_t ctype,
+                                            const cgraph_color_t s,
+                                            const cgraph_color_t e,
+                                            const cgraph_int_t times,
+                                            const cgraph_int_t step);
 
 #ifdef __cplusplus
 }

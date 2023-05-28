@@ -20,9 +20,9 @@ fn main() {
   
   let MODE = "debug";
   if MODE == "debug" {
-    CFLAGS.push_str(" -g -DDEBUG");
+    CFLAGS.push_str(" -g -DDEBUG -O0");
   } else if MODE == "release" {
-    CFLAGS.push_str(" -static -O2");
+    CFLAGS.push_str(" -O2");
   }
   
   //  package shared library

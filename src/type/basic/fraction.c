@@ -78,9 +78,9 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
   1099511628211 = 2^40 + 2^8 + 0xb3
 */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
-  cgraph_size_t hash = 2166136261UL;
-  hash = (hash ^ FRACTION_NUM(cthis)) * 16777619UL;
-  hash = ((hash >> 8) ^ FRACTION_DEN(cthis)) * 16777619UL;
+  cgraph_size_t hash = USIZE_C(2166136261);
+  hash = (hash ^ FRACTION_NUM(cthis)) * USIZE_C(16777619);
+  hash = ((hash >> 8) ^ FRACTION_DEN(cthis)) * USIZE_C(16777619);
 
   return CGRAPH_ABS(hash);
 }

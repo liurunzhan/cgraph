@@ -31,7 +31,7 @@ cgraph_size_t FUNCTION(NAME, snprint)(cgraph_char_t *cbuf,
 }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
   if (TIME_ISTYPE0(cthis)) {
     hash = FUNCTION(NAME, hash0)(cthis);
   } else {

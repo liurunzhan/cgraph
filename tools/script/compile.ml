@@ -14,8 +14,8 @@ let _CSFLAGS = "-shared";;
 
 let _MODE = "debug";;
 let _CFLAGS = match _MODE with
-  | "debug" -> _CFLAGS ^ " -g -DDEBUG"
-  | "release" -> _CFLAGS ^ " -static -O2"
+  | "debug" -> _CFLAGS ^ " -g -DDEBUG -O0"
+  | "release" -> _CFLAGS ^ " -O2"
 	| _ -> assert false;;
 
 (* package shared library *)

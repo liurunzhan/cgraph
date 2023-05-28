@@ -3,7 +3,7 @@
 cgraph_char_t *FUNCTION(NAME, encode)(const TYPE x) { return ""; }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
   if (DATA_ISNAN(cthis)) {
     hash = CGRAPH_FLOAT_NAN_HASH;
   } else if (DATA_ISINF(cthis)) {

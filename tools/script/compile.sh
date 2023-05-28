@@ -11,6 +11,7 @@ PRO=cgraph
 DIR=`pwd`
 INC=${DIR}/include
 SRC=${DIR}/src
+SRC_TYPE=${SRC}/type
 TST=${DIR}/tests
 LIB=${DIR}/lib
 
@@ -26,9 +27,9 @@ fi
 # debug or release mode
 MODE="debug"
 if [ $MODE = "debug" ]; then
-CFLAGS="${CFLAGS} -g -DDEBUG"
+CFLAGS="${CFLAGS} -g -DDEBUG -O0"
 elif [ $MODE = "release"]; then
-CFLAGS="${CFLAGS} -static -O2"
+CFLAGS="${CFLAGS} -O2"
 fi
 
 # build and clean directories and files
@@ -45,7 +46,7 @@ AR=ar
 ARFLAGS="-rcs"
 
 # source files
-CFILES=`find ${SRC} -regex "^[^\.]*\.c$"`
+CFILES=`find ${SRC} -type f -name '*.c' -not -name '.*'`
 
 # target files
 LIBSHARED=${LIB}/lib${PRO}.so
@@ -54,18 +55,20 @@ LIBSTATIC=${LIB}/lib${PRO}.a
 TSTFILE=${TST}/${PRO}.c
 TSTTARGET=${TST}/${PRO}
 
-if [ -z $1 ]; then
-  ${MKDIR} ${MKDIRFLAGS} ${LIB} 
+if [ $# = 0 ]; then
+  ${MKDIR} ${MKDIRFLAGS} ${LIB}
+  OFILES=""
   for file in ${CFILES}; do
-    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
-    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    obj=`echo ${file} | sed 's/\.c$/\.o/g'`
+    dep=`echo ${file} | sed 's/\.c$/\.d/g'`
+    OFILES="${OFILES} ${obj}"
     echo "compile ${file} to ${obj}"
-    ${CC} ${CFLAGS} -I${INC} -c ${file} -o ${obj} -MD -MF ${dep}
+    ${CC} ${CFLAGS} -I${INC} -I${SRC_TYPE} -c ${file} -o ${obj} -MD -MF ${dep}
   done
   echo "compile ${LIBSHARED}"
-  ${CC} ${CSFLAGS} -o ${LIBSHARED} ${SRC}/*.o
+  ${CC} ${CSFLAGS} -o ${LIBSHARED} ${OFILES}
   echo "compile ${LIBSTATIC}"
-  ${AR} ${ARFLAGS} ${LIBSTATIC} ${SRC}/*.o
+  ${AR} ${ARFLAGS} ${LIBSTATIC} ${OFILES}
 elif [ $1 = "test" ]; then
   echo "compile ${TSTFILE} to ${TSTTARGET}"
   ${CC} ${CFLAGS} -I${INC} -o ${TSTTARGET} ${TSTFILE} -L${LIB} -static -l${PRO} -lm
@@ -73,10 +76,10 @@ elif [ $1 = "test" ]; then
   ${TSTTARGET} ${TST}/elements.csv
 elif [ $1 = "clean" ]; then
   for file in ${CFILES}; do
-    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
+    obj=`echo ${file} | sed 's/\.c$/\.o/g'`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
-    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    dep=`echo ${file} | sed 's/\.c$/\.d/g'`
     echo "clean ${dep}"
     ${RM} ${RMFLAGS} ${dep}
   done
@@ -88,10 +91,10 @@ elif [ $1 = "clean" ]; then
   ${RM} ${RMFLAGS} ${TSTTARGET}
 elif [ $1 = "distclean" ]; then
   for file in ${CFILES}; do
-    obj=`echo ${file} | sed "s/\.c$/\.o/g"`
+    obj=`echo ${file} | sed 's/\.c$/\.o/g'`
     echo "clean ${obj}"
     ${RM} ${RMFLAGS} ${obj}
-    dep=`echo ${file} | sed "s/\.c$/\.d/g"`
+    dep=`echo ${file} | sed 's/\.c$/\.d/g'`
     echo "clean ${dep}"
     ${RM} ${RMFLAGS} ${dep}
   done

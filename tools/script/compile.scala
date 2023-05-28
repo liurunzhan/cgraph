@@ -26,9 +26,9 @@ object Compile {
 
     val MODE : String = "debug"
     if (MODE.equals("debug")) {
-      CFLAGS += " -g -DDEBUG"
+      CFLAGS += " -g -DDEBUG -O0"
     } else if (MODE.equals("release")) {
-      CFLAGS += " -static -O2"
+      CFLAGS += " -O2"
     }
 
     val AR : String = "ar"

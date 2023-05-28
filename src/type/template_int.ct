@@ -27,21 +27,21 @@ __INLINE__ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) {
  */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
 #if defined(TYPE_INT)
-  cgraph_size_t hash = 2166136261UL;
+  cgraph_size_t hash = USIZE_C(2166136261);
   char *byte = (char *)&cthis;
   cgraph_size_t i;
   for (i = 0; i < sizeof(TYPE); i++) {
-    hash = (hash ^ byte[i]) * 16777619UL;
+    hash = (hash ^ byte[i]) * USIZE_C(16777619);
   }
 #elif defined(TYPE_INT32) || defined(TYPE_LONG_SIZE32)
-  cgraph_size_t hash = 0;
-  hash = ((cthis >> 16) ^ cthis) * 0x45d9f3b;
-  hash = ((hash >> 16) ^ hash) * 0x45d9f3b;
+  cgraph_size_t hash = USIZE_C(0);
+  hash = ((cthis >> 16) ^ cthis) * USIZE_C(0x45d9f3b);
+  hash = ((hash >> 16) ^ hash) * USIZE_C(0x45d9f3b);
   hash = (hash >> 16) ^ hash;
 #elif defined(TYPE_INT64) || defined(TYPE_LONG_SIZE64)
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
 #elif defined(TYPE_INT128)
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
 #else
   cgraph_size_t hash = cthis;
 #endif

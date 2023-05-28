@@ -349,7 +349,7 @@ TYPE *FUNCTION(NAME, atoi)(const cgraph_char_t *data) {
   @brief hash = (hash * 31) + cthis->data[i]
 */
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE *cthis) {
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
   if (NULL != cthis) {
     cgraph_size_t i = cthis->len - 1;
     hash = cthis->postive;

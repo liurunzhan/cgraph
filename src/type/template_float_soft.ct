@@ -24,7 +24,7 @@
 __INLINE__ cgraph_bool_t FUNCTION(NAME, check)(const TYPE cthis) { return 0; }
 
 cgraph_size_t FUNCTION(NAME, hash)(const TYPE cthis) {
-  cgraph_size_t hash = 0;
+  cgraph_size_t hash = USIZE_C(0);
   if (DATA_ISNAN(cthis)) {
     hash = CGRAPH_FLOAT_NAN_HASH;
   } else if (DATA_ISPINF(cthis)) {

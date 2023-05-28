@@ -17,7 +17,7 @@
 (def CFLAGS (if (not (compare CC "tcc")) (str CFLAGS " -pedantic-errors")))
 
 (def MODE "debug")
-(def CFLAGS (if (compare MODE "debug") (str CFLAGS " -g -DDEBUG") (if (compare MODE "release") (str CFLAGS " -static -O2"))))
+(def CFLAGS (if (compare MODE "debug") (str CFLAGS " -g -DDEBUG -O0") (if (compare MODE "release") (str CFLAGS " -O2"))))
 
 (def AR "ar")
 (def ARFLAGS "-rcs")

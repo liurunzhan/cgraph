@@ -20,9 +20,9 @@ var CSFLAGS: string = "-shared"
 
 var MODE: string = "debug"
 if(MODE == "debug"):
-  CFLAGS.add(" -g -DDEBUG")
+  CFLAGS.add(" -g -DDEBUG -O0")
 elif(MODE == "release"):
-  CFLAGS.add(" -static -O2")
+  CFLAGS.add(" -O2")
 
 # package shared library
 var AR: string = "ar"

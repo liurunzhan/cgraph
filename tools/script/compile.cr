@@ -14,18 +14,38 @@ LIB = File.join(DIR, "lib")
 
 CC = "cc"
 _CFLAGS = "-std=c89 -Wall -pedantic -fPIC"
+
+set TARBITS = "32"
+if TARBITS == "32"
+  _CFLAGS = "{_CFLAGS} -m32"
+elsif TARBITS == "64"
+  _CFLAGS = "{_CFLAGS} -m64"
+end
+
+SHARED="true"
 CSFLAGS = "-shared"
+if SHARED == "false"
+  CSFLAGS = "-static"
+end
 
 MODE = "debug"
 if MODE == "debug"
-  _CFLAGS = "#{_CFLAGS} -g -DDEBUG"
+  _CFLAGS = "#{_CFLAGS} -g -DDEBUG -O0"
 elsif MODE == "release"
-  _CFLAGS = "#{_CFLAGS} -static -O2"
+  _CFLAGS = "#{_CFLAGS} -O2"
 end
 
 # package shared library
 AR = "ar"
-ARFLAGS = "-rcs"
+_ARFLAGS = "-rcs"
+
+if TARBITS == "32"
+  set "_ARFLAGS=%_ARFLAGS% -X32"
+elsif TARBITS == "64"
+  set "_ARFLAGS=%_ARFLAGS% -X64"
+elsif TARBITS == "32_64"
+  set "_ARFLAGS=%_ARFLAGS% -X32_64"
+end
 
 # source files
 # get all subdirectories
@@ -76,10 +96,10 @@ if args.size == 0
   puts("compile #{LIBSHARED}")
   `#{CC} #{CSFLAGS} -o #{LIBSHARED} #{_OFILES.join(" ")}`
   puts("compile #{LIBSTATIC}")
-  `#{AR} #{ARFLAGS} #{LIBSTATIC} #{_OFILES.join(" ")}`
+  `#{AR} #{_ARFLAGS} #{LIBSTATIC} #{_OFILES.join(" ")}`
 elsif args[0] == "test"
   puts("compile #{_TSTFILE} to #{_TSTTARGET}")
-  `#{CC} #{_CFLAGS} -I#{INC} -o #{_TSTTARGET} #{_TSTFILE} -L#{LIB} -static -l#{PRO} -lm`
+  `#{CC} #{_CFLAGS} -I#{INC} -o #{_TSTTARGET} #{_TSTFILE} -L#{LIB} {CSFLAGS} -l#{PRO} -lm`
   puts("test #{_TSTTARGET} with #{File.join(TST, "elements.csv")}")
   `#{_TSTTARGET} #{File.join(TST, "elements.csv")}`
 elsif args[0] == "clean"

@@ -35,9 +35,9 @@ public class Compile {
 
     String MODE = new String("debug");
     if (MODE.equals("debug")) {
-      CFLAGS.append(" -g -DDEBUG");
+      CFLAGS.append(" -g -DDEBUG -O0");
     } else if (MODE.equals("release")) {
-      CFLAGS.append(" -static -O2");
+      CFLAGS.append(" -O2");
     }
 
     // package shared library

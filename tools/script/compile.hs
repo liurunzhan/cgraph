@@ -19,7 +19,7 @@ main = do
   let csflags = "-shared"
 
   let mode = "debug"
-  let cflags = if mode == "debug" then _cflags ++ " -g -DDEBUG" else (if mode == "release" then _cflags ++ " -static -O2" else _cflags)
+  let cflags = if mode == "debug" then _cflags ++ " -g -DDEBUG -O0" else (if mode == "release" then _cflags ++ " -O2" else _cflags)
   let ar = "ar"
   let arflags = "-rcs"
   print cflags
